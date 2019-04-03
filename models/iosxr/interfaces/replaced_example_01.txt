@@ -1,0 +1,14 @@
+# Using replaced
+
+- name: Configure following interfaces and replace their existing config
+  iosxr_interfaces:
+    config:
+      - name: GigabitEthernet0/0/0/2
+        description: Configured by Ansible
+        enabled: True
+        mtu: 2000
+      - name: GigabitEthernet0/0/0/3
+        description: 'Configured by Ansible Network'
+        enabled: False
+        duplex: half
+    operation: replaced
