@@ -1,0 +1,11 @@
+# Using deleted
+
+- name: Delete IOS interfaces as in given arguments
+  iosxr_interfaces:
+    config:
+      - name: GigabitEthernet0/0/0/2
+        description: 'Configured by Ansible'
+      - name: GigabitEthernet0/0/0/3
+        description: 'Configured by Ansible Network'
+        mtu: 2000
+    operation: deleted
