@@ -1,0 +1,13 @@
+# Using merged
+
+- name: Configure Ethernet interfaces
+  iosxr_interfaces:
+    config:
+      - name: GigabitEthernet0/0/0/2
+        description: 'Configured by Ansible'
+        enabled: True
+      - name: GigabitEthernet0/0/0/3
+        description: 'Configured by Ansible Network'
+        enabled: False
+        duplex: full
+    operation: merged
