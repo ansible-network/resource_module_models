@@ -1,0 +1,84 @@
+generator_version: 1.0
+metadata:
+  version: 1.1
+  status:
+  - preview
+  supported_by:
+  - 'Ansible Network'
+  copyright_str: Copyright 2019 Red Hat
+  license: gpl-3.0.txt
+info:
+  network_os: ios
+  resource: interfaces
+  version_added: 2.9
+  short_description: 'Manage Interface on Cisco IOS network devices.'
+  description:
+  - Manage Interface on Cisco IOS network devices.
+  authors:
+  - Sumit Jaiswal (@justjais)
+  extends_documentation_fragment: ios
+  notes:
+    - Tested against IOS Version 15.6(3)M2 on VIRL
+schema:
+  type: object
+  description: The schema used for the argspec and docstring
+  properties:
+    config:
+      type: array
+      description: The provided configuration
+      items:
+        $ref: '#/definitions/config_dict'
+    state:
+      $ref: '#/definitions/state'
+
+definitions:
+  config_dict:
+    description:
+    - The some_dict.
+    type: object
+    properties:
+      name:
+        description:
+        - Name of interface, i.e. GigabitEthernet0/2, loopback999.
+        type: str
+        required: true
+      description:
+        description:
+        - Description of Interface.
+        type: str
+      enabled:
+        description:
+        - Interface link status.
+        type: bool
+        default: true
+      speed:
+        description:
+        - Interface link speed. Applicable for ethernet interface only.
+        type: str
+      mtu:
+        description:
+        - Maximum size of transmit packet. Must be an number between 64 and 9600.
+          Applicable for Ethernet interface only.
+        type: str
+      duplex:
+        description:
+        - Interface link status. Applicable for ethernet interface only.
+        type: str
+        default: auto
+        choices: ['full', 'half', 'auto']
+
+  state:
+    description:
+    - The state the configuration should be left in
+    type: str
+    enum:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    default: merged
+examples:
+- merged_example_01.txt
+- replaced_example_01.txt
+- overridden_example_01.txt
+- deleted_example_01.txt
