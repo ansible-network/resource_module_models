@@ -1,0 +1,15 @@
+
+# Using replaced
+
+- name: Configure mentioned interfaces and replace existing config
+  nxos_interfaces:
+    config:
+      - name: Ethernet1/1
+        description: 'Configured by Ansible'
+        enable: True
+	mtu: 2000
+      - name: Ethernet1/2
+        description: 'Configured by Ansible Network'
+        enable: False
+	mode: layer2
+    state: replaced
