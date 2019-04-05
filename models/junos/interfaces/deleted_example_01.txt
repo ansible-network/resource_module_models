@@ -1,0 +1,36 @@
+# Using deleted
+
+# Before state:
+# -------------
+# user@junos01# show interfaces
+# ge-0/0/1 {
+#    description "Configured by Ansible-1";
+#    speed 1g;
+#    mtu 1800
+# }
+# ge-0/0/2 {
+#    description "Configured by Ansible-2";
+#    ether-options {
+#        auto-negotiation;
+#    }
+# }
+
+- name: Delete given options for the interface (Note: This won't delete the interface itself if any other values are configured for interface)
+  junos_interfaces:
+    config:
+      - name: ge-0/0/1
+        description: 'Configured by Ansible-1'
+        speed: 1g
+        mtu: 1800
+      - name: ge-0/0/2
+        description: 'Configured by Ansible -2'
+    operation: deleted
+
+# After state:
+# ------------
+# user@junos01# show interfaces
+# ge-0/0/2 {
+#    ether-options {
+#        auto-negotiation;
+#    }
+# }

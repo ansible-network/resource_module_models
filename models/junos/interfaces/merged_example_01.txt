@@ -1,0 +1,35 @@
+
+# Using merged
+
+# Before state:
+# -------------
+# user@junos01# show interfaces
+# ge-0/0/1 {
+#    description "test interface";
+#    speed 1g;
+# }
+
+- name: "Configure interface values (default operation is merge)"
+  junos_interfaces:
+    config:
+      - name: ge-0/0/1
+        description: 'Configured by Ansible-1'
+        enable: True
+	    mtu: 1800
+      - name: ge-0/0/2
+        description: 'Configured by Ansible-2'
+        enable: False
+    operation: merged
+
+# After state:
+# ------------
+# user@junos01# show interfaces
+# ge-0/0/1 {
+#    description "Configured by Ansible-1";
+#    speed 1g;
+#    mtu 1800
+# }
+# ge-0/0/2 {
+#    disable;
+#    description "Configured by Ansible-2";
+# }
