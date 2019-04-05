@@ -1,0 +1,44 @@
+
+# Using merged
+
+# Before state:
+# -------------
+#
+# veos#show running-config | section interface
+# interface Ethernet1
+#    description "Interface 1"
+# !
+# interface Ethernet2
+# !
+# interface Loopback1
+# !
+# interface Management1
+#    ip address dhcp
+# !
+
+- name: Configure interfaces
+  eos_interfaces:
+    config:
+      - name: Ethernet1
+        enable: True
+      - name: Ethernet2
+        description: 'Configured by Ansible'
+        enable: False
+    operation: merged
+
+# After state:
+# ------------
+#
+# veos#show running-config | section interface
+# interface Ethernet1
+#    description "Interface 1"
+# !
+# interface Ethernet2
+#    description "Configured by Ansible"
+#    shutdown
+# !
+# interface Loopback1
+# !
+# interface Management1
+#    ip address dhcp
+# !

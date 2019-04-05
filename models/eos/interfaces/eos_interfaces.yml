@@ -1,0 +1,83 @@
+generator_version: 1.0
+metadata:
+  vesion: 1.1
+  status:
+  - preview
+  supported_by:
+  - 'Ansible Network'
+  copyright_str: Copyright 2019 Red Hat
+  license: gpl-3.0.txt
+info:
+  network_os: eos
+  resource: interfaces
+  version_added: 2.9
+  short_description: 'Manages interface attributes of Arista EOS interfaces.'
+  description:
+  - Manages interface attributes of Arista EOS interfaces.
+  authors:
+  - Nathaniel Case (@qalthos)
+  extends_documentation_fragment: eos
+  notes:
+    - Tested against vEOS 4.20
+schema:
+  type: object
+  description: The schema used for the argspec and docstring
+  properties:
+    config:
+      type: array
+      description: The provided configuration
+      items:
+        $ref: '#/definitions/config_dict'
+    state:
+      $ref: '#/definitions/state'
+
+definitions:
+  config_dict:
+    description:
+    - A dictionary of interface options
+    type: object
+    properties:
+      name:
+        description:
+        - Full name of the interface, i.e. GigabitEthernet1
+        type: str
+        required: true
+      description:
+        description:
+        - Interface description
+        type: str
+      enable:
+        description: Administrative state of the interface.
+        type: bool
+        default: true
+      speed:
+        description:
+        - Interface link speed. Applicable for ethernet interface only.
+        type: str
+      mtu:
+        description:
+        - MTU for a specific interface. Must be an even number between 576 and 9216.
+          Applicable for Ethernet interface only.
+        type: str
+      duplex:
+        description:
+        - Interface link status. Applicable for ethernet interface only.
+        type: str
+        default: auto
+        choices: ['full', 'half', 'auto']
+  state:
+    description:
+    - The state the configuration should be left in
+    type: str
+    enum:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    default: merged
+
+examples:
+- merged_example_01.txt
+- replaced_example_01.txt
+- overridden_example_01.txt
+- deleted_example_01.txt
