@@ -10,13 +10,12 @@
 # !
 # interface Ethernet2
 # !
-# interface Loopback1
-# !
 # interface Management1
+#    description "Management interface"
 #    ip address dhcp
 # !
 
-- name: Configure interfaces
+- name: Merge provided configuration with device configuration
   eos_interfaces:
     config:
       - name: Ethernet1
@@ -37,8 +36,7 @@
 #    description "Configured by Ansible"
 #    shutdown
 # !
-# interface Loopback1
-# !
 # interface Management1
+#    description "Management interface"
 #    ip address dhcp
 # !
