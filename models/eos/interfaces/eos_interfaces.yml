@@ -13,7 +13,7 @@ info:
   version_added: 2.9
   short_description: 'Manages interface attributes of Arista EOS interfaces.'
   description:
-  - Manages interface attributes of Arista EOS interfaces.
+  - This module manages the interface attributes of Arista EOS interfaces.
   authors:
   - Nathaniel Case (@qalthos)
   extends_documentation_fragment: eos
@@ -39,7 +39,7 @@ definitions:
     properties:
       name:
         description:
-        - Full name of the interface, i.e. GigabitEthernet1
+        - Full name of the interface, e.g. GigabitEthernet1.
         type: str
         required: true
       description:
@@ -47,27 +47,27 @@ definitions:
         - Interface description
         type: str
       enable:
-        description: Administrative state of the interface.
+        description: Administrative state of the interface. Set the value to C(true) to administratively enable the interface or  C(false) to disable it.
         type: bool
         default: true
       speed:
         description:
-        - Interface link speed. Applicable for ethernet interface only.
+        - Interface link speed. Applicable for Ethernet interfaces only.
         type: str
       mtu:
         description:
         - MTU for a specific interface. Must be an even number between 576 and 9216.
-          Applicable for Ethernet interface only.
+          Applicable for Ethernet interfaces only.
         type: str
       duplex:
         description:
-        - Interface link status. Applicable for ethernet interface only.
+        - Interface link status. Applicable for Ethernet interfaces only.
         type: str
         default: auto
         choices: ['full', 'half', 'auto']
   state:
     description:
-    - The state the configuration should be left in
+    - The state the configuration should be left in.
     type: str
     enum:
     - merged
