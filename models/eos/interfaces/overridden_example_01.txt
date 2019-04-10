@@ -15,7 +15,7 @@
 #    ip address dhcp
 # !
 
-- name: Replaces device configuration of all interfaces with provided configuration
+- name: Overrides all device configuration with provided configuration
   eos_interfaces:
     config:
       - name: Ethernet1
@@ -23,7 +23,7 @@
       - name: Ethernet2
         description: 'Configured by Ansible'
         enable: False
-    operation: overridden
+    state: overridden
 
 # After state:
 # ------------

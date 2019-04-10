@@ -15,11 +15,11 @@
 #    ip address dhcp
 # !
 
-- name: Returns interfaces to default parameters
+- name: Delete or return interface parameters to default settings
   eos_interfaces:
     config:
       - name: Ethernet1
-    operation: deleted
+    state: deleted
 
 # After state:
 # ------------

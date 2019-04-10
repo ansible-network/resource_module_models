@@ -23,7 +23,7 @@
       - name: Ethernet2
         description: 'Configured by Ansible'
         enable: False
-    operation: replaced
+    state: replaced
 
 # After state:
 # ------------
