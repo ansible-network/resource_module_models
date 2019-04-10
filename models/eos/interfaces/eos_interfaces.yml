@@ -11,7 +11,7 @@ info:
   network_os: eos
   resource: interfaces
   version_added: 2.9
-  short_description: 'Manages interface attributes of Arista EOS interfaces.'
+  short_description: 'Manages interface attributes of Arista EOS interfaces'
   description:
   - This module manages the interface attributes of Arista EOS interfaces.
   authors:
@@ -47,7 +47,9 @@ definitions:
         - Interface description
         type: str
       enable:
-        description: Administrative state of the interface. Set the value to C(true) to administratively enable the interface or  C(false) to disable it.
+        description: 
+          - Administrative state of the interface. 
+          - Set the value to C(true) to administratively enable the interface or C(false) to disable it.
         type: bool
         default: true
       speed:
