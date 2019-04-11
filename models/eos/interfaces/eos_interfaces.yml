@@ -44,7 +44,7 @@ definitions:
         required: true
       description:
         description:
-        - Interface description
+        - Interface description. Must be 240 characters or less.
         type: str
       enable:
         description: 
