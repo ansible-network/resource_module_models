@@ -1,14 +1,61 @@
 # Using overridden
 
-- name: Override interfaces
+# Before state:
+# -------------
+#
+# viosxr#show running-config interface
+# interface GigabitEthernet0/0/0/1
+#  shutdown
+# !
+# interface GigabitEthernet0/0/0/2
+#  description Configured by Ansible
+#  vrf custB
+#  ipv4 address 178.18.169.23 255.255.255.0
+#  dot1q native vlan 30
+# !
+# interface GigabitEthernet0/0/0/3
+#  description Configured by Ansible
+#  mtu 2600
+#  vrf custB
+#  ipv4 address 10.10.0.2 255.255.255.0
+#  duplex full
+#  shutdown
+#  dot1q native vlan 1021
+# !
+
+- name: Override device configuration of all interfaces with provided configuration
   iosxr_interfaces:
     config:
       - name: GigabitEthernet0/0/0/2
-        description: 'Configured by Ansible'
-        enabled: True
-        duplex: half
-      - name: GigabitEthernet0/0/0/3
-        description: 'Configured by Ansible Network'
-        enabled: False
+        description: 'Configured and Overridden by Ansible Network'
         speed: 1000
+      - name: GigabitEthernet0/0/0/3
+        description: 'Configured and Overridden by Ansible Network'
+        enabled: False
+        duplex: full
+        mtu: 2000
     operation: overridden
+
+# After state:
+# -------------
+#
+# viosxr#show running-config interface
+# interface GigabitEthernet0/0/0/1
+#  shutdown
+# !
+# interface GigabitEthernet0/0/0/2
+#  description Configured and Overridden by Ansible Network
+#  vrf custB
+#  ipv4 address 178.18.169.23 255.255.255.0
+#  speed 1000
+#  dot1q native vlan 30
+# !
+# interface GigabitEthernet0/0/0/3
+#  description Configured and Overridden by Ansible Network
+#  mtu 2000
+#  vrf custB
+#  ipv4 address 10.10.0.2 255.255.255.0
+#  duplex full
+#  shutdown
+#  dot1q native vlan 1021
+# !
