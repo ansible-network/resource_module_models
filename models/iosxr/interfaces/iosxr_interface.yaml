@@ -11,9 +11,9 @@ info:
   network_os: iosxr
   resource: interfaces
   version_added: 2.9
-  short_description: 'Manage Interface on Cisco IOS network devices.'
+  short_description: 'Manage interface attributes on Cisco IOSXR network devices'
   description:
-  - Manage Interface on Cisco IOS-XR network devices.
+  - This module manages the interface attributes on Cisco IOS-XR network devices.
   authors:
   - Sumit Jaiswal (@justjais)
   extends_documentation_fragment: iosxr
@@ -34,22 +34,22 @@ schema:
 definitions:
   config_dict:
     description:
-    - The some_dict.
+    - A dictionary of interface options
     type: object
     properties:
       name:
         description:
-        - Name of the interface to configure in C(type + path) format. e.g. C(GigabitEthernet0/0/0/0)
+        - Full name of the interface to configure in C(type + path) format. e.g. C(GigabitEthernet0/0/0/0)
         type: str
         required: true
       description:
         description:
-        - Description of Interface being configured.
+        - Interface description.
         type: str
       enabled:
         description:
-        - Removes the shutdown configuration, which removes the forced administrative down on the interface,
-          enabling it to move to an up or down state.
+        - Administrative state of the interface.
+        - Set the value to C(true) to administratively enable the interface or C(false) to disable it.
         type: bool
         default: true
       active:
@@ -67,7 +67,7 @@ definitions:
         choices: ['10', '100', '1000']
       mtu:
         description:
-        - Sets the MTU value for the interface. Range is between 64 and 65535. Applicable for Ethernet interface only.
+        - Sets the MTU value for the interface. Range is between 64 and 65535. Applicable for Ethernet interfaces only.
         type: str
       duplex:
         description:
