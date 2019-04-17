@@ -1,0 +1,89 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+    }
+
+NETWORK_OS: junos
+RESOURCE: interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: junos_interfaces
+  version_added: 2.9
+  short_description: This module provides configuration management of Interfaces on Juniper JUNOS network devices.
+  description: Manage Interface on Juniper JUNOS network devices.
+  author: Ganesh Nalawade (@ganeshrn)
+  options:
+    config:
+      description: The provided configuration
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+          - The complete name of the interface to be managed, the interface name should
+            be in same format as seen in the running configurtion.
+          type: str
+          required: True
+        description:
+          description:
+          - This option represnets a text description of the interface.
+          type: str
+        duplex:
+          default: automatic
+          description:
+          - This option configures the link mode for given interface I(name), the link
+            can be configured either in half duplex, full duplex or in automatic state
+            which negotiates the duplex automatically.
+          type: str
+        enable:
+          default: True
+          description:
+          - This option takes a boolean value which controls state of the interface.
+            If value is C(True) the inerfaces is enabled, if value is C(False) interface
+            is disabled.
+          type: bool
+        hold_time:
+          description:
+          - This option configures the hold time for given interface name.
+          type: dict
+          suboptions:
+            down:
+              description:
+              - This options represents link down hold time in milliseconds.
+              type: int
+            up:
+              description:
+              - This options represents link up hold time in milliseconds.
+              type: int
+          required_together: [['down', 'up']]
+        mtu:
+          description:
+          - This option configures the maximum transmit package size for the given interface
+            I(name).
+          type: str
+        speed:
+          description:
+          - This option configures the link speed for the given interface I(name).
+          type: str
+    state:
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+      description:
+      - The state the configuration should be left in
+      type: str
+
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt

@@ -1,0 +1,53 @@
+# Using replaced
+
+# Before state:
+# -------------
+# user@junos01# show interfaces
+# ge-0/0/1 {
+#    description "Configured by Ansible-1";
+#    speed 1g;
+#    mtu 1800
+# }
+# ge-0/0/2 {
+#    disable;
+#    mtu 1800;
+#    speed 1g;
+#    description "Configured by Ansible-2";
+#    ether-options {
+#        auto-negotiation;
+#    }
+# }
+# ge-0/0/11 {
+#    description "Configured by Ansible-11";
+# }
+
+- name: Replace interfaces
+  junos_interfaces:
+    config:
+      - name: ge-0/0/2
+        description: 'Configured by Ansible-2'
+        enable: False
+        mtu: 2800
+      - name: ge-0/0/3
+        description: 'Configured by Ansible-3'
+    operation: replaced
+
+# After state:
+# ------------
+# user@junos01# show interfaces
+# ge-0/0/1 {
+#    description "Configured by Ansible-1";
+#    speed 1g;
+#    mtu 1800
+# }
+# ge-0/0/2 {
+#    disable;
+#    description "Configured by Ansible-2";
+#    mtu 2800
+# }
+# ge-0/0/3 {
+#    description "Configured by Ansible-3";
+# }
+# ge-0/0/11 {
+#    description "Configured by Ansible-11";
+# }
