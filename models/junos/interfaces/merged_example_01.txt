@@ -8,7 +8,7 @@
 #    speed 1g;
 # }
 
-- name: "Configure interface values (default operation is merge)"
+- name: "Merge provided configuration with device configuration (default operation is merge)"
   junos_interfaces:
     config:
       - name: ge-0/0/1

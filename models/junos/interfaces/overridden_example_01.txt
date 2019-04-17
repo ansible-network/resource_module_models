@@ -19,7 +19,7 @@
 #    description "Configured by Ansible-11";
 # }
 
-- name: Override interfaces
+- name: "Override device configuration of all interfaces with provided configuration"
   junos_interfaces:
     config:
       - name: ge-0/0/2

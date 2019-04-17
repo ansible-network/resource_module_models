@@ -21,7 +21,7 @@
 #    description "Configured by Ansible-11";
 # }
 
-- name: Replace interfaces
+- name: "Replaces device configuration of listed interfaces with provided configuration"
   junos_interfaces:
     config:
       - name: ge-0/0/2
