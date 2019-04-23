@@ -24,11 +24,11 @@
   iosxr_interfaces:
     config:
       - name: GigabitEthernet0/0/0/2
-        description: Configured by Ansible
+        description: Configured and Replaced by Ansible
         enabled: True
         mtu: 2000
       - name: GigabitEthernet0/0/0/3
-        description: 'Configured by Ansible Network'
+        description: Configured and Replaced by Ansible
         enabled: False
         duplex: half
     operation: replaced
