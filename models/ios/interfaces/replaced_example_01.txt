@@ -1,14 +1,53 @@
 # Using replaced
 
-- name: Configure following interfaces and replace their existing config
+# Before state:
+# -------------
+#
+# vios#show running-config | section ^interface
+# interface GigabitEthernet0/1
+#  no ip address
+#  duplex auto
+#  speed auto
+# interface GigabitEthernet0/2
+#  description Configured by Ansible Network
+#  no ip address
+#  duplex auto
+#  speed 1000
+# interface GigabitEthernet0/3
+#  mtu 2000
+#  no ip address
+#  shutdown
+#  duplex full
+#  speed 100
+
+- name: Replaces device configuration of listed interfaces with provided configuration
   ios_interfaces:
     config:
-      - name: GigabitEthernet0/2
-        description: Configured by Ansible
-        enabled: True
-	mtu: 2000
       - name: GigabitEthernet0/3
-        description: 'Configured by Ansible Network'
+        description: 'Configured and Replaced by Ansible Network'
         enabled: False
 	duplex: auto
+        mtu: 2500
+        speed: 1000
     operation: replaced
+
+# After state:
+# -------------
+#
+# vios#show running-config | section ^interface
+# interface GigabitEthernet0/1
+#  no ip address
+#  duplex auto
+#  speed auto
+# interface GigabitEthernet0/2
+#  description Configured by Ansible Network
+#  no ip address
+#  duplex auto
+#  speed 1000
+# interface GigabitEthernet0/3
+#  description Configured and Replaced by Ansible Network
+#  mtu 2500
+#  no ip address
+#  shutdown
+#  duplex full
+#  speed 1000
