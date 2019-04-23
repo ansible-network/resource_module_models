@@ -1,15 +1,57 @@
-
 # Using overridden
 
-- name: Override interfaces
+# Before state:
+# -------------
+#
+# vios#show running-config | section ^interface#
+# interface GigabitEthernet0/1
+#  description Configured by Ansible
+#  no ip address
+#  duplex auto
+#  speed auto
+# interface GigabitEthernet0/2
+#  description This is test
+#  no ip address
+#  duplex auto
+#  speed 1000
+# interface GigabitEthernet0/3
+#  description Configured by Ansible
+#  mtu 2800
+#  no ip address
+#  shutdown
+#  duplex full
+#  speed 100
+
+- name: Override device configuration of all interfaces with provided configuration
   ios_interfaces:
     config:
       - name: GigabitEthernet0/2
-        description: 'Configured by Ansible'
-        enabled: True
-        duplex: auto
-      - name: GigabitEthernet0/3
-        description: 'Configured by Ansible Network'
-        enabled: False
+        description: 'Configured and Overridden by Ansible Network'
         speed: 1000
+      - name: GigabitEthernet0/3
+        description: 'Configured and Overridden by Ansible Network'
+        enabled: False
+        duplex: full
+        mtu: 2000
     operation: overridden
+
+# After state:
+# -------------
+#
+# vios#show running-config | section ^interface
+# interface GigabitEthernet0/1
+#  no ip address
+#  duplex auto
+#  speed auto
+# interface GigabitEthernet0/2
+#  description Configured and Overridden by Ansible Network
+#  no ip address
+#  duplex auto
+#  speed 1000
+# interface GigabitEthernet0/3
+#  description Configured and Overridden by Ansible Network
+#  mtu 2000
+#  no ip address
+#  shutdown
+#  duplex full
+#  speed 100
