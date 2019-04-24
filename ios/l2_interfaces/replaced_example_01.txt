@@ -3,9 +3,6 @@
 # Before state:
 # -------------
 #
-# Before state:
-# -------------
-#
 # viosl2#show interfaces switchport
 # Name: Gi0/1
 # Switchport: Enabled
