@@ -21,7 +21,7 @@
 #  duplex full
 #  speed 1000
 
-- name: Delete IOS interfaces as in given arguments
+- name: Delete attributes of given interfaces (Note: This won't delete the interface itself)
   ios_interfaces:
     config:
       - name: GigabitEthernet0/2
