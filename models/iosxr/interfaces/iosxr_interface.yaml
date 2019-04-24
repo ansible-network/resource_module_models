@@ -33,10 +33,10 @@ DOCUMENTATION: |
           - Interface description.
           type: str
         enable:
-          default: true
+          default: True
           description:
           - Administrative state of the interface.
-          - Set the value to C(true) to administratively enable the interface or C(false) to disable it.
+          - Set the value to C(True) to administratively enable the interface or C(False) to disable it.
           type: bool
         active:
           default: active
