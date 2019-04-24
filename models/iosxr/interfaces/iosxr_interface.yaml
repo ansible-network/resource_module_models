@@ -1,93 +1,78 @@
-Igenerator_version: 1.0
-metadata:
-  version: 1.1
-  status:
-  - preview
-  supported_by:
-  - 'Ansible Network'
-  copyright_str: Copyright 2019 Red Hat
-  license: gpl-3.0.txt
-info:
-  network_os: iosxr
-  resource: interfaces
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+    }
+NETWORK_OS: iosxr
+RESOURCE: interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: iosxr_interfaces
   version_added: 2.9
-  short_description: 'Manage interface attributes on Cisco IOSXR network devices'
-  description:
-  - This module manages the interface attributes on Cisco IOS-XR network devices.
-  authors:
-  - Sumit Jaiswal (@justjais)
-  extends_documentation_fragment: iosxr
-  notes:
-    - Tested against IOS-XR Version 6.1.3 on VIRL
-schema:
-  type: object
-  description: The schema used for the argspec and docstring
-  properties:
+  short_description: Manage interface attributes on Cisco IOS-XR network devices
+  description: This module manages the interface attributes on Cisco IOS-XR network devices.
+  author: Sumit Jaiswal (@justjais)
+  options:
     config:
-      type: array
-      description: The provided configuration
-      items:
-        $ref: '#/definitions/config_dict'
+      description: A dictionary of interface options
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+          - Full name of the interface to configure in C(type + path) format. e.g. C(GigabitEthernet0/0/0/0)
+          type: str
+          required: True
+        description:
+          description:
+          - Interface description.
+          type: str
+        enable:
+          default: true
+          description:
+          - Administrative state of the interface.
+          - Set the value to C(true) to administratively enable the interface or C(false) to disable it.
+          type: bool
+        active:
+          default: active
+          description:
+          - Whether the interface is C(active) or C(preconfigured). Preconfiguration allows you to configure modular
+            services cards before they are inserted into the router. When the cards are inserted, they are instantly
+            configured. Active cards are the ones already inserted.
+          type: str
+          choices: ['active', 'preconfigure']
+        speed:
+          description:
+          - Configure the speed for an interface. Default is auto-negotiation when not configured.
+          type: str
+          choices: ['10', '100', '1000']
+        mtu:
+          description:
+          - Sets the MTU value for the interface. Range is between 64 and 65535. Applicable for Ethernet interfaces only.
+          type: str
+        duplex:
+          default: auto
+          description:
+          - Configures the interface duplex mode. Default is auto-negotiation when not configured.
+          type: str
+          choices: ['full', 'half']
     state:
-      $ref: '#/definitions/state'
-
-definitions:
-  config_dict:
-    description:
-    - A dictionary of interface options
-    type: object
-    properties:
-      name:
-        description:
-        - Full name of the interface to configure in C(type + path) format. e.g. C(GigabitEthernet0/0/0/0)
-        type: str
-        required: true
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
       description:
-        description:
-        - Interface description.
-        type: str
-      enabled:
-        description:
-        - Administrative state of the interface.
-        - Set the value to C(true) to administratively enable the interface or C(false) to disable it.
-        type: bool
-        default: true
-      active:
-        description:
-        - Whether the interface is C(active) or C(preconfigured). Preconfiguration allows you to configure modular
-          services cards before they are inserted into the router. When the cards are inserted, they are instantly
-          configured. Active cards are the ones already inserted.
-        type: str
-        choices: ['active', 'preconfigure']
-        default: active
-      speed:
-        description:
-        - Configure the speed for an interface. Default is auto-negotiation when not configured.
-        type: str
-        choices: ['10', '100', '1000']
-      mtu:
-        description:
-        - Sets the MTU value for the interface. Range is between 64 and 65535. Applicable for Ethernet interfaces only.
-        type: str
-      duplex:
-        description:
-        - Configures the interface duplex mode. Default is auto-negotiation when not configured.
-        type: str
-        default: auto
-        choices: ['full', 'half']
-
-  state:
-    description:
-    - The state the configuration should be left in
-    type: str
-    enum:
-    - merged
-    - replaced
-    - overridden
-    - deleted
-    default: merged
-examples:
-- merged_example_01.txt
-- replaced_example_01.txt
-- overridden_example_01.txt
-- deleted_example_01.txt
+      - The state the configuration should be left in
+      type: str
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
