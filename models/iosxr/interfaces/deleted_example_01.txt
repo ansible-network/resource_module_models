@@ -24,7 +24,7 @@
 #  dot1q native vlan 1021
 # !
 
-- name: Delete IOS interfaces as in given arguments
+- name: Delete attributes of given interfaces (Note: This won't delete the interface itself)
   iosxr_interfaces:
     config:
       - name: GigabitEthernet0/0/0/2
