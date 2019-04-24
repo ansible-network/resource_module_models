@@ -1,0 +1,116 @@
+# Using Deleted
+
+# Before state:
+# -------------
+#
+# viosl2#show interfaces switchport
+# Name: Gi0/1
+# Switchport: Enabled
+# Administrative Mode: static access
+# Operational Mode: static access
+# Administrative Trunking Encapsulation: negotiate
+# Operational Trunking Encapsulation: native
+# Negotiation of Trunking: Off
+# Access Mode VLAN: 20 (VLAN0020)
+# Trunking Native Mode VLAN: 1 (default)
+# Administrative Native VLAN tagging: enabled
+# Voice VLAN: none
+# Administrative private-vlan host-association: none
+# Administrative private-vlan mapping: none
+# Administrative private-vlan trunk native VLAN: none
+# Administrative private-vlan trunk Native VLAN tagging: enabled
+# Administrative private-vlan trunk encapsulation: dot1q
+# Administrative private-vlan trunk normal VLANs: none
+# Administrative private-vlan trunk associations: none
+# Administrative private-vlan trunk mappings: none
+# Operational private-vlan: none
+# Trunking VLANs Enabled: ALL
+# Pruning VLANs Enabled: 2-1001
+# Capture Mode Disabled
+# Capture VLANs Allowed: ALL
+#
+# Name: Gi0/2
+# Switchport: Enabled
+# Administrative Mode: trunk
+# Operational Mode: trunk
+# Administrative Trunking Encapsulation: dot1q
+# Operational Trunking Encapsulation: dot1q
+# Negotiation of Trunking: On
+# Access Mode VLAN: 10 (VLAN0010)
+# Trunking Native Mode VLAN: 20 (VLAN0020)
+# Administrative Native VLAN tagging: enabled
+# Voice VLAN: none
+# Administrative private-vlan host-association: none
+# Administrative private-vlan mapping: none
+# Administrative private-vlan trunk native VLAN: none
+# Administrative private-vlan trunk Native VLAN tagging: enabled
+# Administrative private-vlan trunk encapsulation: dot1q
+# Administrative private-vlan trunk normal VLANs: none
+# Administrative private-vlan trunk associations: none
+# Administrative private-vlan trunk mappings: none
+# Operational private-vlan: none
+# Trunking VLANs Enabled: ALL
+# Pruning VLANs Enabled: 2-1001
+# Capture Mode Disabled
+# Capture VLANs Allowed: ALL
+
+- name: Delete IOS L2 interfaces as in given arguments
+  ios_interfaces:
+    config:
+      - name: GigabitEthernet0/1
+      - name: GigabitEthernet0/2
+    operation: deleted
+
+# After state:
+# -------------
+#
+# viosl2#show interfaces switchport
+# Name: Gi0/1
+# Switchport: Enabled
+# Administrative Mode: dynamic auto
+# Operational Mode: static access
+# Administrative Trunking Encapsulation: negotiate
+# Operational Trunking Encapsulation: native
+# Negotiation of Trunking: Off
+# Access Mode VLAN: 1 (default)
+# Trunking Native Mode VLAN: 1 (default)
+# Administrative Native VLAN tagging: enabled
+# Voice VLAN: none
+# Administrative private-vlan host-association: none
+# Administrative private-vlan mapping: none
+# Administrative private-vlan trunk native VLAN: none
+# Administrative private-vlan trunk Native VLAN tagging: enabled
+# Administrative private-vlan trunk encapsulation: dot1q
+# Administrative private-vlan trunk normal VLANs: none
+# Administrative private-vlan trunk associations: none
+# Administrative private-vlan trunk mappings: none
+# Operational private-vlan: none
+# Trunking VLANs Enabled: ALL
+# Pruning VLANs Enabled: 2-1001
+# Capture Mode Disabled
+# Capture VLANs Allowed: ALL
+#
+# Name: Gi0/2
+# Switchport: Enabled
+# Administrative Mode: dynamic auto
+# Operational Mode: static access
+# Administrative Trunking Encapsulation: negotiate
+# Operational Trunking Encapsulation: native
+# Negotiation of Trunking: Off
+# Access Mode VLAN: 1 (default)
+# Trunking Native Mode VLAN: 1 (default)
+# Administrative Native VLAN tagging: enabled
+# Voice VLAN: none
+# Administrative private-vlan host-association: none 
+# Administrative private-vlan mapping: none 
+# Administrative private-vlan trunk native VLAN: none
+# Administrative private-vlan trunk Native VLAN tagging: enabled
+# Administrative private-vlan trunk encapsulation: dot1q
+# Administrative private-vlan trunk normal VLANs: none
+# Administrative private-vlan trunk associations: none
+# Administrative private-vlan trunk mappings: none
+# Operational private-vlan: none
+# Trunking VLANs Enabled: ALL
+# Pruning VLANs Enabled: 2-1001
+# Capture Mode Disabled
+# Capture VLANs Allowed: ALL#
