@@ -3,56 +3,21 @@
 # Before state:
 # -------------
 #
-# viosl2#show interfaces switchport
-# Name: Gi0/1
-# Switchport: Enabled
-# Administrative Mode: static access
-# Operational Mode: static access
-# Administrative Trunking Encapsulation: negotiate
-# Operational Trunking Encapsulation: native
-# Negotiation of Trunking: Off
-# Access Mode VLAN: 1 (default)
-# Trunking Native Mode VLAN: 1 (default)
-# Administrative Native VLAN tagging: enabled
-# Voice VLAN: none
-# Administrative private-vlan host-association: none 
-# Administrative private-vlan mapping: none 
-# Administrative private-vlan trunk native VLAN: none
-# Administrative private-vlan trunk Native VLAN tagging: enabled
-# Administrative private-vlan trunk encapsulation: dot1q
-# Administrative private-vlan trunk normal VLANs: none
-# Administrative private-vlan trunk associations: none
-# Administrative private-vlan trunk mappings: none
-# Operational private-vlan: none
-# Trunking VLANs Enabled: ALL
-# Pruning VLANs Enabled: 2-1001
-# Capture Mode Disabled
-# Capture VLANs Allowed: ALL
-#
-# Name: Gi0/2
-# Switchport: Enabled
-# Administrative Mode: static access
-# Operational Mode: static access
-# Administrative Trunking Encapsulation: dot1q
-# Operational Trunking Encapsulation: native
-# Negotiation of Trunking: Off
-# Access Mode VLAN: 10 (VLAN0010)
-# Trunking Native Mode VLAN: 1 (default)
-# Administrative Native VLAN tagging: enabled
-# Voice VLAN: none
-# Administrative private-vlan host-association: none 
-# Administrative private-vlan mapping: none 
-# Administrative private-vlan trunk native VLAN: none
-# Administrative private-vlan trunk Native VLAN tagging: enabled
-# Administrative private-vlan trunk encapsulation: dot1q
-# Administrative private-vlan trunk normal VLANs: none
-# Administrative private-vlan trunk associations: none
-# Administrative private-vlan trunk mappings: none
-# Operational private-vlan: none
-# Trunking VLANs Enabled: ALL
-# Pruning VLANs Enabled: 2-1001
-# Capture Mode Disabled
-# Capture VLANs Allowed: ALL
+# viosl2#show running-config | section ^interface
+# interface GigabitEthernet0/1
+#  description Configured by Ansible
+#  switchport trunk encapsulation dot1q
+#  switchport trunk native vlan 20
+#  switchport mode trunk
+#  negotiation auto
+# interface GigabitEthernet0/2
+#  description This is test
+#  switchport access vlan 20
+#  switchport trunk encapsulation dot1q
+#  switchport trunk native vlan 20
+#  switchport mode trunk
+#  media-type rj45
+#  negotiation auto
 
 - name: Override device configuration of all l2 interfaces with provided configuration
   ios_interfaces:
@@ -65,53 +30,13 @@
 # After state:
 # -------------
 #
-# viosl2#show interfaces switchport
-# Name: Gi0/1
-# Switchport: Enabled
-# Administrative Mode: static access
-# Operational Mode: static access
-# Administrative Trunking Encapsulation: negotiate
-# Operational Trunking Encapsulation: native
-# Negotiation of Trunking: Off
-# Access Mode VLAN: 1 (default)
-# Trunking Native Mode VLAN: 1 (default)
-# Administrative Native VLAN tagging: enabled
-# Voice VLAN: none
-# Administrative private-vlan host-association: none 
-# Administrative private-vlan mapping: none 
-# Administrative private-vlan trunk native VLAN: none
-# Administrative private-vlan trunk Native VLAN tagging: enabled
-# Administrative private-vlan trunk encapsulation: dot1q
-# Administrative private-vlan trunk normal VLANs: none
-# Administrative private-vlan trunk associations: none
-# Administrative private-vlan trunk mappings: none
-# Operational private-vlan: none
-# Trunking VLANs Enabled: ALL
-# Pruning VLANs Enabled: 2-1001
-# Capture Mode Disabled
-# Capture VLANs Allowed: ALL
-#
-# Name: Gi0/2
-# Switchport: Enabled
-# Administrative Mode: static access
-# Operational Mode: static access
-# Administrative Trunking Encapsulation: dot1q
-# Operational Trunking Encapsulation: native
-# Negotiation of Trunking: Off
-# Access Mode VLAN: 20 (VLAN0020)
-# Trunking Native Mode VLAN: 1 (default)
-# Administrative Native VLAN tagging: enabled
-# Voice VLAN: none
-# Administrative private-vlan host-association: none
-# Administrative private-vlan mapping: none
-# Administrative private-vlan trunk native VLAN: none
-# Administrative private-vlan trunk Native VLAN tagging: enabled
-# Administrative private-vlan trunk encapsulation: dot1q
-# Administrative private-vlan trunk normal VLANs: none
-# Administrative private-vlan trunk associations: none
-# Administrative private-vlan trunk mappings: none
-# Operational private-vlan: none
-# Trunking VLANs Enabled: ALL
-# Pruning VLANs Enabled: 2-1001
-# Capture Mode Disabled
-# Capture VLANs Allowed: ALL
+# viosl2#show running-config | section ^interface
+# interface GigabitEthernet0/1
+#  description Configured by Ansible
+#  negotiation auto
+# interface GigabitEthernet0/2
+#  description This is test
+#  switchport access vlan 20
+#  switchport mode access
+#  media-type rj45
+#  negotiation auto
