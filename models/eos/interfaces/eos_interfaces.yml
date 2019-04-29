@@ -52,18 +52,23 @@ definitions:
           - Set the value to C(true) to administratively enable the interface or C(false) to disable it.
         type: bool
         default: true
-      speed:
-        description:
-        - Interface link speed. Applicable for Ethernet interfaces only.
-        type: str
       mtu:
         description:
         - MTU for a specific interface. Must be an even number between 576 and 9216.
           Applicable for Ethernet interfaces only.
         type: str
+      speed:
+        description:
+        - Interface link speed. Applicable for Ethernet interfaces only.
+        - When I(speed) set to a value between I(10) and I(1000),
+          I(duplex) must also be set.
+        type: str
+        choices: ['10', '100', '1000', '10000', '25g', '40g', '50g', '100g']
       duplex:
         description:
         - Interface link status. Applicable for Ethernet interfaces only.
+        - Values other than C(auto) must also set I(speed).
+        - Ignored when I(speed) is set above C(1000), as the only valid value is C(full).
         type: str
         default: auto
         choices: ['full', 'half', 'auto']
