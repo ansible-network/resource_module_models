@@ -18,11 +18,11 @@
   ios_interfaces:
     config:
       - name: GigabitEthernet0/1
-        mode: access
-        access_vlan: 10
+        access:
+        - vlan: 10
       - name: GigabitEthernet0/2
-        mode: trunk
-        native_vlan: 20
+        trunk:
+        - native_vlan: 20
     operation: merged
 
 # After state:
