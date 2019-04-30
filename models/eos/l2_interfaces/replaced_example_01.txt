@@ -21,7 +21,7 @@
       - name: Ethernet1
         trunk:
 	  native_vlan: 20
-	  trunk_vlans: 5, 6, 7, 8, 9, 10
+	  trunk_vlans: 5-10, 15
     state: replaced
 
 # After state:
@@ -30,7 +30,7 @@
 # veos2#show running-config | s int
 # interface Ethernet1
 #    switchport trunk native vlan 20
-#    switchport trunk allowed vlan 5-10
+#    switchport trunk allowed vlan 5-10,15
 #    switchport mode trunk
 # !
 # interface Ethernet2
