@@ -18,25 +18,6 @@ DOCUMENTATION: |
   description: This module provides declarative management of Layer-2 interface on Arista EOS devices.
   author: Nathaniel Case (@qalthos)
   options:
-    access_vlan:
-      description:
-      - Configure given VLAN in access port. If C(mode=access), used as the access VLAN ID.
-      type: str
-    trunk_vlans:
-      description:
-      - List of VLANs to be configured in trunk port. If C(mode=trunk), used as the VLAN
-        range to ADD or REMOVE from the trunk.
-      type: list
-    native_vlan:
-      description:
-      - Native VLAN to be configured in trunk port. If C(mode=trunk), used as the trunk
-        native VLAN ID.
-      type: str
-    trunk_allowed_vlans:
-      description:
-      - List of allowed VLANs in a given trunk port. If C(mode=trunk), these are the only
-        VLANs that will be configured on the trunk, i.e. "2-10,15".
-      type: list
     config:
       description: A dictionary of Layer-2 interface options
       type: list
@@ -53,6 +34,25 @@ DOCUMENTATION: |
           - Mode in which interface needs to be configured
           type: str
           choices: ['access', 'trunk']
+        access_vlan:
+          description:
+          - Configure given VLAN in access port. If C(mode=access), used as the access VLAN ID.
+          type: str
+        trunk_vlans:
+          description:
+          - List of VLANs to be configured in trunk port. If C(mode=trunk), used as the VLAN
+            range to ADD or REMOVE from the trunk.
+          type: list
+        native_vlan:
+          description:
+          - Native VLAN to be configured in trunk port. If C(mode=trunk), used as the trunk
+            native VLAN ID.
+          type: str
+        trunk_allowed_vlans:
+          description:
+          - List of allowed VLANs in a given trunk port. If C(mode=trunk), these are the only
+            VLANs that will be configured on the trunk, i.e. "2-10,15".
+          type: list
     state:
       choices:
       - merged
