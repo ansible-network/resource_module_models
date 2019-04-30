@@ -12,8 +12,10 @@
 # interface GigabitEthernet0/2
 #  description This is test
 #  switchport access vlan 20
+#  switchport trunk allowed vlan 20,40,60,80
 #  switchport trunk encapsulation dot1q
 #  switchport trunk native vlan 10
+#  switchport trunk pruning vlan 10
 #  switchport mode trunk
 #  media-type rj45
 #  negotiation auto
@@ -23,7 +25,7 @@
     config:
       - name: GigabitEthernet0/1
       - name: GigabitEthernet0/2
-    operation: deleted
+    state: deleted
 
 # After state:
 # -------------
