@@ -5,7 +5,7 @@
 #
 # viosxr#show running-config interface
 # interface GigabitEthernet0/0/0/3
-#  description Replaced by Ansible Network
+#  description Ansible Network
 #  vrf custB
 #  ipv4 address 10.10.0.2 255.255.255.0
 #  duplex half
@@ -13,7 +13,7 @@
 #  dot1q native vlan 20
 # !
 # interface GigabitEthernet0/0/0/4
-#  description test description
+#  description Test description
 #  dot1q native vlan 10
 #  l2transport
 #   l2protocol stp tunnel
@@ -32,12 +32,12 @@
 #
 # viosxr#show running-config interface
 # interface GigabitEthernet0/0/0/3
-#  description Replaced by Ansible Network
+#  description Ansible Network
 #  vrf custB
 #  ipv4 address 10.10.0.2 255.255.255.0
 #  duplex half
 #  shutdown
 # !
 # interface GigabitEthernet0/0/0/4
-#  description test description
+#  description Test description
 # !
