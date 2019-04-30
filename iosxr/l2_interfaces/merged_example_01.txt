@@ -25,7 +25,7 @@
         l2transport:
           - l2protocol: 
               stp: tunnel
-    operation: merged
+    state: merged
 
 # After state:
 # ------------
