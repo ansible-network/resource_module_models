@@ -1,0 +1,37 @@
+# Using overridden
+
+# Before state:
+# -------------
+#
+# veos2#show running-config | s int
+# interface Ethernet1
+#    switchport access vlan 20
+# !
+# interface Ethernet2
+#    switchport trunk native vlan 20
+#    switchport mode trunk
+# !
+# interface Management1
+#    ip address dhcp
+#    ipv6 address auto-config
+
+- name: Override device configuration of all L2 interfaces on device with provided configuration.
+  eos_interfaces:
+    config:
+      - name: Ethernet2
+        access:
+	  vlan: 30
+    state: overridden
+
+# After state:
+# ------------
+#
+# veos2#show running-config | s int
+# interface Ethernet1
+# !
+# interface Ethernet2
+#    switchport access vlan 30
+# !
+# interface Management1
+#    ip address dhcp
+#    ipv6 address auto-config
