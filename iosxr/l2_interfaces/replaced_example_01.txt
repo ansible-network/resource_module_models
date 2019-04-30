@@ -28,7 +28,7 @@
         l2transport:
           - l2protocol:
               stp: forward
-    operation: overridden
+    state: overridden
 
 # After state:
 # -------------
