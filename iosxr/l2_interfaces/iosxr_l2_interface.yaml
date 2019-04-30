@@ -1,0 +1,93 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+    }
+NETWORK_OS: iosxr
+RESOURCE: l2_interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: iosxr_l2_interfaces
+  version_added: 2.9
+  short_description: Manage Layer-2 interface on Cisco IOS-XR devices.
+  description: This module provides declarative management of Layer-2 interface on Cisco IOS-XR devices.
+  author: Sumit Jaiswal (@justjais)
+  options:
+    config:
+      description: A dictionary of Layer-2 interface options
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+          - Full name of the interface excluding any logical unit number, i.e. GigabitEthernet0/0/0/1.
+          type: str
+          required: True
+        native_vlan:
+          description:
+          - Configure a native VLAN ID for the trunk
+          type: str
+        l2transport:
+          description:
+          - Switchport mode access command to configure the interface as a layer 2 access.
+          suboptions:
+            service_policy:
+              description:
+              - Configures L2VPN quality of service (QoS) in port mode and VLAN mode.
+              suboptions:
+                input:
+                  description:
+                  - Attaches a QoS policy to an input interface to be used as the service policy for that interface.
+                  type: str
+                output:
+                  description:
+                  - Attaches a QoS policy to an output interface to be used as the service policy for that interface.
+                  type: str
+            l2protocol:
+              description:
+              - Configures Layer 2 protocol tunneling and protocol data unit (PDU) filtering on an interface.
+              suboptions:
+                cdp:
+                  description:
+                  - Cisco Discovery Protocol (CDP) tunneling and data unit parameters.
+                  choices: ['drop','forward', 'tunnel']
+                  type: str
+                pvst:
+                  description:
+                  - Configures VLAN spanning tree protocol tunneling and data unit parameters.
+                  choices: ['drop','forward', 'tunnel']
+                  type: str
+                stp: 
+                  description:
+                  - Spanning tree protocol tunneling and data unit parameters.
+                  choices: ['drop','forward', 'tunnel']
+                  type: str
+                vtp:
+                  description:
+                  - VLAN trunk protocol tunneling and data unit parameters.
+                  choices: ['drop','forward', 'tunnel']
+                  type: str
+            propagate:
+              description:
+              - Propagate Layer 2 transport events.
+              type: bool
+    state:
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+      description:
+      - The state the configuration should be left in
+      type: str
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
