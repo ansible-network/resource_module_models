@@ -21,9 +21,14 @@
     config:
       - name: GigabitEthernet0/2
         trunk:
-	- native_vlan: 20
+	- vlans:
+          - 20
+          - 40
+          native_vlan: 20
           trunk_vlans: 5-10
-    operation: replaced
+          pruning_vlan: 10
+          encapsulation: isl
+    state: replaced
 
 # After state:
 # -------------
@@ -36,8 +41,10 @@
 #  negotiation auto
 # interface GigabitEthernet0/2
 #  description This is test
-#  switchport trunk encapsulation dot1q
+#  switchport trunk allowed vlan 20,40
+#  switchport trunk encapsulation isl
 #  switchport trunk native vlan 20
+#  switchport trunk pruning vlan 10
 #  switchport mode trunk
 #  media-type rj45
 #  negotiation auto
