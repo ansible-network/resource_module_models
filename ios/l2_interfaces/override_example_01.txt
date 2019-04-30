@@ -23,8 +23,8 @@
   ios_interfaces:
     config:
       - name: GigabitEthernet0/2
-        mode: access
-        access_vlan: 20
+        access:
+        - vlan: 20
     operation: overridden
 
 # After state:
