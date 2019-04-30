@@ -25,38 +25,36 @@ DOCUMENTATION: |
       suboptions:
         name:
           description:
-          - Full name of interface, e.g. ge-0/0/0.
+          - Full name of the interface excluding any logical unit number, i.e. GigabitEthernet0/1.
           type: str
           required: True
-        mode:
-          default: access
+        access:
           description:
-          - Mode in which interface needs to be configured
-          type: str
-          choices: ['access', 'trunk']
-        access_vlan:
+          - Switchport mode access command to configure the interface as a layer 2 access.
+          suboptions:
+            vlan:
+              description:
+              - Configure given VLAN in access port. It's used as the access VLAN ID.
+            type: str
+        trunk:
           description:
-          - Configure given VLAN in access port. If C(mode=access), used as the access VLAN ID.
-        type: str
-        trunk_vlans:
-          description:
-          - List of VLANs to be configured in trunk port. If C(mode=trunk), used as the VLAN
-            range to ADD or REMOVE from the trunk.
-          type: str
-        native_vlan:
-          description:
-          - Native VLAN to be configured in trunk port. If C(mode=trunk), used as the trunk
-            native VLAN ID.
-          type: str
-        trunk_allowed_vlans:
-          description:
-          - List of allowed VLANs in a given trunk port. If C(mode=trunk), these are the only
-            VLANs that will be configured on the trunk, i.e. "2-10,15".
-          type: str
-        aggregate:
-          description:
-          - List of Layer-2 interface definitions.
-          type: str
+          - Switchport mode trunk command to configure the interface as a Layer 2 trunk.
+            Note The encapsulation is always set to dot1q.
+          suboptions:
+            vlans:
+              description:
+              - List of VLANs to be configured in trunk port. It's used as the VLAN range to ADD
+                or REMOVE from the trunk.
+              type: list
+            native_vlan:
+              description:
+              - Native VLAN to be configured in trunk port. It's used as the trunk native VLAN ID.
+              type: str
+            trunk_allowed_vlans:
+              description:
+              - List of allowed VLANs in a given trunk port. These are the only VLANs that will be
+                configured on the trunk, i.e. "2-10,15".
+              type: str
     state:
       choices:
       - merged
