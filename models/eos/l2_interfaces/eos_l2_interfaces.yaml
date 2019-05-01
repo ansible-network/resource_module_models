@@ -42,8 +42,8 @@ DOCUMENTATION: |
           suboptions:
             vlans:
               description:
-              - List of VLANs to be configured in trunk port. It's used as the VLAN range to ADD
-              or REMOVE from the trunk.
+              - List of VLANs to be configured in trunk port. It's used as the VLAN range to ADD or
+                REMOVE from the trunk.
               type: list
             native_vlan:
               description:
@@ -51,7 +51,8 @@ DOCUMENTATION: |
               type: str
             trunk_allowed_vlans:
               description:
-              - List of allowed VLANs in a given trunk port. These are the only VLANs that will be configured on the trunk.
+              - List of allowed VLANs in a given trunk port. These are the only VLANs that will be
+                configured on the trunk.
               type: list
     state:
       choices:
