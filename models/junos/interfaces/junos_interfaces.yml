@@ -34,19 +34,16 @@ DOCUMENTATION: |
           - Interface description.
           type: str
         duplex:
-          default: automatic
           description:
           - Interface link status. Applicable for Ethernet interfaces only, either in half duplex,
             full duplex or in automatic state which negotiates the duplex automatically.
-        type: str
-        default: automatic
-        choices: ['automatic', 'full-duplex', 'half-duplex']
+          type: str
+          choices: ['automatic', 'full-duplex', 'half-duplex']
         enable:
           default: True
           description:
-          - This option takes a boolean value which controls state of the interface.
-            If value is C(True) the inerfaces is enabled, if value is C(False) interface
-            is disabled.
+          - Administrative state of the interface.
+          - Set the value to C(true) to administratively enable the interface or C(false) to disable it.
           type: bool
         hold_time:
           description:
@@ -66,7 +63,7 @@ DOCUMENTATION: |
           description:
           - MTU for a specific interface.
           - Applicable for Ethernet interfaces only.
-          type: str
+          type: int
         speed:
           description:
           - Interface link speed. Applicable for Ethernet interfaces only.
@@ -81,6 +78,13 @@ DOCUMENTATION: |
       description:
       - The state the configuration should be left in
       type: str
+  requirements:
+    - ncclient (>=v0.6.4)
+  notes:
+    - This module requires the netconf system service be enabled on
+      the remote device being managed.
+    - Tested against vSRX JUNOS version 15.1X49-D15.4.
+    - This module works with connection C(netconf). See L(the Junos OS Platform Options,../network/user_guide/platform_junos.html).
 
 EXAMPLES:
   - deleted_example_01.txt
