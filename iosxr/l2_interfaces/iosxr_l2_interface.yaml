@@ -25,7 +25,8 @@ DOCUMENTATION: |
       suboptions:
         name:
           description:
-          - Full name of the interface excluding any logical unit number, i.e. GigabitEthernet0/0/0/1.
+          - Full name of the interface/sub-interface excluding any logical unit number,
+            i.e. GigabitEthernet0/0/0/1 or GigabitEthernet0/0/0/1.100.
           type: str
           required: True
         native_vlan:
@@ -35,47 +36,41 @@ DOCUMENTATION: |
         l2transport:
           description:
           - Switchport mode access command to configure the interface as a layer 2 access.
+          type: bool
+        l2protocol:
+          description:
+          - Configures Layer 2 protocol tunneling and protocol data unit (PDU) filtering on an interface.
           suboptions:
-            service_policy:
+            cdp:
               description:
-              - Configures L2VPN quality of service (QoS) in port mode and VLAN mode.
-              suboptions:
-                input:
-                  description:
-                  - Attaches a QoS policy to an input interface to be used as the service policy for that interface.
-                  type: str
-                output:
-                  description:
-                  - Attaches a QoS policy to an output interface to be used as the service policy for that interface.
-                  type: str
-            l2protocol:
+              - Cisco Discovery Protocol (CDP) tunneling and data unit parameters.
+              choices: ['drop','forward', 'tunnel']
+              type: str
+            pvst:
               description:
-              - Configures Layer 2 protocol tunneling and protocol data unit (PDU) filtering on an interface.
-              suboptions:
-                cdp:
-                  description:
-                  - Cisco Discovery Protocol (CDP) tunneling and data unit parameters.
-                  choices: ['drop','forward', 'tunnel']
-                  type: str
-                pvst:
-                  description:
-                  - Configures VLAN spanning tree protocol tunneling and data unit parameters.
-                  choices: ['drop','forward', 'tunnel']
-                  type: str
-                stp: 
-                  description:
-                  - Spanning tree protocol tunneling and data unit parameters.
-                  choices: ['drop','forward', 'tunnel']
-                  type: str
-                vtp:
-                  description:
-                  - VLAN trunk protocol tunneling and data unit parameters.
-                  choices: ['drop','forward', 'tunnel']
-                  type: str
-            propagate:
+              - Configures VLAN spanning tree protocol tunneling and data unit parameters.
+              choices: ['drop','forward', 'tunnel']
+              type: str
+            stp:
               description:
-              - Propagate Layer 2 transport events.
-              type: bool
+              - Spanning tree protocol tunneling and data unit parameters.
+              choices: ['drop','forward', 'tunnel']
+              type: str
+            vtp:
+              description:
+              - VLAN trunk protocol tunneling and data unit parameters.
+              choices: ['drop','forward', 'tunnel']
+              type: str
+        q_vlan:
+          description:
+          - 802.1Q VLAN configuration. Note that it can accept either 2 VLAN IDs when configuring Q-in-Q vlan,
+            or it shall accept 1 VLAN ID and 'any' as input list when configuring Q-in-any vlan as input.
+          type: str
+        propagate:
+          description:
+          - Propagate Layer 2 transport events. Note that it will work only when l2tranport param is set
+            to True.
+          type: bool
     state:
       choices:
       - merged
