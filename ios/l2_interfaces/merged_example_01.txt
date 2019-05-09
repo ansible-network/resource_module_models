@@ -22,11 +22,12 @@
         - vlan: 10
       - name: GigabitEthernet0/2
         trunk:
-        - vlans:
+        - allowed_vlans:
           - 20
           - 40
           native_vlan: 20
-          pruning_vlan: 10
+          pruning_vlans:
+          - 10
           encapsulation: dot1q
     state: merged
 
