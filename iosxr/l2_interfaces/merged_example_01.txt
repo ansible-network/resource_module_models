@@ -22,9 +22,14 @@
         native_vlan: 20
       - name: GigabitEthernet0/0/0/4
         native_vlan: 40
-        l2transport:
-          - l2protocol: 
-              stp: tunnel
+        l2transport: True
+        l2protocol:
+        - stp: tunnel
+      - name: GigabitEthernet0/0/0/3.900
+        l2transport: True
+        q_vlan:
+        - 20
+        - 40
     state: merged
 
 # After state:
@@ -45,4 +50,7 @@
 #  l2transport
 #   l2protocol stp tunnel
 #  !
+# !
+# interface GigabitEthernet0/0/0/3.900 l2transport
+#  dot1q vlan 20 40
 # !
