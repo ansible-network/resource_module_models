@@ -41,10 +41,10 @@ DOCUMENTATION: |
           - Switchport mode trunk command to configure the interface as a Layer 2 trunk.
             Note The encapsulation is always set to dot1q.
           suboptions:
-            vlans:
+            allowed_vlans:
               description:
-              - List of VLANs to be configured in trunk port. It's used as the VLAN range to ADD
-                or REMOVE from the trunk.
+              - List of allowed VLANs in a given trunk port. These are the only VLANs that will be
+                configured on the trunk.
               type: list
             native_vlan:
               description:
@@ -55,15 +55,10 @@ DOCUMENTATION: |
               - Trunking encapsulation when interface is in trunking mode.
               choices: ['dot1q','isl', 'negotiate']
               type: str
-            pruning_vlan:
+            pruning_vlans:
               description:
               - Pruning VLAN to be configured in trunk port. It's used as the trunk pruning VLAN ID.
-              type: str
-            trunk_allowed_vlans:
-              description:
-              - List of allowed VLANs in a given trunk port. These are the only VLANs that will be
-                configured on the trunk, i.e. "2-10,15".
-              type: str
+              type: list
     state:
       choices:
       - merged
