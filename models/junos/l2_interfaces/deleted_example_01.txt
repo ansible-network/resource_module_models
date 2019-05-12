@@ -1,0 +1,49 @@
+# Using deleted
+
+# Before state:
+# -------------
+#
+# ansible@junos01# show interfaces
+# ge-0/0/1 {
+#    description "L2 interface";
+#    speed 1g;
+#    unit 0 {
+#        family ethernet-switching {
+#            interface-mode access;
+#            vlan {
+#                members vlan30;
+#            }
+#        }
+#    }
+#}
+#ge-0/0/2 {
+#    description "non L2 interface";
+#    unit 0 {
+#        family inet {
+#            address 192.168.56.14/24;
+#        }
+#    }
+
+- name: Delete JUNOS L2 interfaces as in given arguments.
+  junos_l2_interfaces:
+    config:
+      - name: ge-0/0/1
+      - name: ge-0/0/2
+    state: deleted
+
+# After state:
+# ------------
+#
+# ansible@junos01# show interfaces
+# ge-0/0/1 {
+#    description "L2 interface";
+#    speed 1g;
+#
+#ge-0/0/2 {
+#    description "non L2 interface";
+#    unit 0 {
+#        family inet {
+#            address 192.168.56.14/24;
+#        }
+#    }
+
