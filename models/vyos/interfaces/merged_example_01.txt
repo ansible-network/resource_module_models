@@ -1,0 +1,54 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+# vyos:~$ show configuration commands | grep -e eth[2,3]
+# set interfaces ethernet eth2 description 'Ethernet Interface #3'
+# set interfaces ethernet eth2 disable
+# set interfaces ethernet eth2 duplex 'full'
+# set interfaces ethernet eth2 hw-id '08:00:27:ab:4e:79'
+# set interfaces ethernet eth2 mtu '500'
+# set interfaces ethernet eth2 smp_affinity 'auto'
+# set interfaces ethernet eth2 speed '100'
+# set interfaces ethernet eth3 description 'Configured by Ansible'
+# set interfaces ethernet eth3 duplex 'full'
+# set interfaces ethernet eth3 hw-id '08:00:27:17:3c:85'
+# set interfaces ethernet eth3 mtu '1200'
+# set interfaces ethernet eth3 smp_affinity 'auto'
+# set interfaces ethernet eth3 speed '100'
+#
+
+- name: Merge provided configuration with device configuration
+  vyos_interfaces:
+    config:
+      - name: eth2
+        description: 'Configured by Ansible'
+        enable: True
+	vifs:
+	  - vlan_id: 200
+	    description: "VIF 200 - ETH2"
+        
+      - name: eth3
+        description: 'Configured by Ansible'
+        mtu: 1500
+    state: merged
+    
+# After state:
+# -------------
+#
+# vyos:~$ show configuration commands | grep -e eth[2,3]
+# set interfaces ethernet eth2 description 'Configured by Ansible'
+# set interfaces ethernet eth2 duplex 'full'
+# set interfaces ethernet eth2 hw-id '08:00:27:ab:4e:79'
+# set interfaces ethernet eth2 mtu '500'
+# set interfaces ethernet eth2 smp_affinity 'auto'
+# set interfaces ethernet eth2 speed '100'
+# set interfaces ethernet eth2 vif 200 description 'VIF 200 - ETH2'
+# set interfaces ethernet eth3 description 'Configured by Ansible'
+# set interfaces ethernet eth3 duplex 'full'
+# set interfaces ethernet eth3 hw-id '08:00:27:17:3c:85'
+# set interfaces ethernet eth3 mtu '1500'
+# set interfaces ethernet eth3 smp_affinity 'auto'
+# set interfaces ethernet eth3 speed '100'
+

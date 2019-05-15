@@ -1,0 +1,63 @@
+# Using replaced
+#
+# Before state:
+# -------------
+#
+# vyos:~$ show configuration commands | grep eth
+# set interfaces ethernet eth0 address 'dhcp'
+# set interfaces ethernet eth0 description 'Management Interface for the Appliance'
+# set interfaces ethernet eth0 duplex 'auto'
+# set interfaces ethernet eth0 hw-id '08:00:27:f3:6c:b5'
+# set interfaces ethernet eth0 smp_affinity 'auto'
+# set interfaces ethernet eth0 speed 'auto'
+# set interfaces ethernet eth1 description 'Configured by Ansible Eng Team'
+# set interfaces ethernet eth1 duplex 'full'
+# set interfaces ethernet eth1 hw-id '08:00:27:ad:ef:65'
+# set interfaces ethernet eth1 smp_affinity 'auto'
+# set interfaces ethernet eth1 speed '100'
+# set interfaces ethernet eth2 description 'Configured by Ansible'
+# set interfaces ethernet eth2 duplex 'full'
+# set interfaces ethernet eth2 hw-id '08:00:27:ab:4e:79'
+# set interfaces ethernet eth2 mtu '500'
+# set interfaces ethernet eth2 smp_affinity 'auto'
+# set interfaces ethernet eth2 speed '100'
+# set interfaces ethernet eth3 description 'Configured by Ansible'
+# set interfaces ethernet eth3 duplex 'full'
+# set interfaces ethernet eth3 hw-id '08:00:27:17:3c:85'
+# set interfaces ethernet eth3 mtu '1500'
+# set interfaces ethernet eth3 smp_affinity 'auto'
+# set interfaces ethernet eth3 speed '100'
+
+- name: Replace device configurations of listed interfaces with provided configurations
+  vyos_interfaces:
+    config:
+      - name: eth2
+        description: "Replaced by Ansible"
+
+      - name: eth3
+        description: "Replaced by Ansible"
+
+      - name: eth1
+        description: "Replaced by Ansible"
+    state: replaced
+
+# After state:
+# -------------
+#
+# vyos:~$ show configuration commands | grep eth
+# set interfaces ethernet eth0 address 'dhcp'
+# set interfaces ethernet eth0 description 'Management Interface for the Appliance'
+# set interfaces ethernet eth0 duplex 'auto'
+# set interfaces ethernet eth0 hw-id '08:00:27:f3:6c:b5'
+# set interfaces ethernet eth0 smp_affinity 'auto'
+# set interfaces ethernet eth0 speed 'auto'
+# set interfaces ethernet eth1 description 'Replaced by Ansible'
+# set interfaces ethernet eth1 hw-id '08:00:27:ad:ef:65'
+# set interfaces ethernet eth1 smp_affinity 'auto'
+# set interfaces ethernet eth2 description 'Replaced by Ansible'
+# set interfaces ethernet eth2 hw-id '08:00:27:ab:4e:79'
+# set interfaces ethernet eth2 smp_affinity 'auto'
+# set interfaces ethernet eth3 description 'Replaced by Ansible'
+# set interfaces ethernet eth3 hw-id '08:00:27:17:3c:85'
+# set interfaces ethernet eth3 smp_affinity 'auto'
+
