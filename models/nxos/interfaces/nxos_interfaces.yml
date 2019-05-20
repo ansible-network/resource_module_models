@@ -1,98 +1,88 @@
-generator_version: 1.0
-metadata:
-  vesion: 1.1
-  status:
-  - preview
-  supported_by:
-  - 'Ansible Network'
-  copyright_str: Copyright 2019 Red Hat
-  license: gpl-3.0.txt
-info:
-  network_os: nxos
-  resource: interfaces
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+    }
+NETWORK_OS: nxos
+RESOURCE: interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: nxos_interfaces
   version_added: 2.9
-  short_description: 'Manages Interfaces attributes of NX-OS Interfaces.'
-  description:
-  - Manages Interfaces attributes of NX-OS Interfaces.
-  authors:
-  - Trishna Guha (@trishnaguha)
-  extends_documentation_fragment: nxos
+  short_description: 'Manages interface attributes of NX-OS Interfaces'
+  description: This module manages the interface attributes of NX-OS interfaces.
+  authors: Trishna Guha (@trishnaguha)
   notes:
-    - Tested against <network_os> 7.3.(0)D1(1) on VIRL
-schema:
-  type: object
-  description: The schema used for the argspec and docstring
-  properties:
+    - Tested against NXOS 7.3.(0)D1(1) on VIRL
+  options:
     config:
-      type: array
-      description: The provided configuration
-      items:
-        $ref: '#/definitions/config_dict'
+      description: A dictionary of interface options
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - Full name of interface, e.g. Ethernet1/1, port-channel10.
+          type: str
+          required: true
+        description:
+          description:
+            - Interface description.
+          type: str
+        enabled:
+          description:
+            - Administrative state of the interface.
+              Set the value to C(true) to administratively enable the interface
+              or C(false) to disable it
+          type: bool
+          default: true
+        speed:
+          description:
+            - Interface link speed. Applicable for Ethernet interfaces only.
+          type: str
+        mode:
+          description:
+            - Manage Layer2 or Layer3 state of the interface.
+              Applicable for Ethernet and port channel interfaces only.
+          choices: ['layer2','layer3']
+          type: str
+        mtu:
+          description:
+            - MTU for a specific interface. Must be an even number between 576 and 9216.
+              Applicable for Ethernet interfaces only.
+          type: str
+        duplex:
+          description:
+            - Interface link status. Applicable for Ethernet interfaces only.
+          type: str
+          choices: ['full', 'half', 'auto']
+        ip_forward:
+          description:
+            - Enable or disable IP forward feature on SVIs.
+              Set the value to C(true) to enable  or C(false) to disable.
+          type: bool
+        fabric_forwarding_anycast_gateway:
+          description:
+            - Associate SVI with anycast gateway under VLAN configuration mode.
+              Applicable for SVI interfaces only.
+          type: bool
+
     state:
-      $ref: '#/definitions/state'
-
-definitions:
-  config_dict:
-    description:
-    - The some_dict.
-    type: object
-    properties:
-      name:
-        description:
-        - Full name of interface, i.e. Ethernet1/1, port-channel10.
-        type: str
-        required: true
       description:
-        description:
-        - Interface description.
-        type: str
-      enable:
-        description:
-        - Administrative State of interface.
-        type: bool
-        default: true
-      speed:
-        description:
-        - Interface link speed. Applicable for ethernet interface only.
-        type: str
-      mode:
-        description:
-        - Manage Layer2 or Layer3 state of the interface.
-          Applicable for Ethernet and portchannel interface only.
-        choices: ['layer2','layer3']
-        type: str
-      mtu:
-        description:
-        - MTU for a specific interface. Must be an even number between 576 and 9216.
-          Applicable for Ethernet interface only.
-        type: str
-      duplex:
-        description:
-        - Interface link status. Applicable for ethernet interface only.
-        type: str
-        default: auto
-        choices: ['full', 'half', 'auto']
-      ip_forward:
-        description:
-        - Enable/Disable ip forward feature on SVIs.
-        type: bool
-      fabric_forwarding_anycast_gateway:
-        description:
-        - Associate SVI with anycast gateway under VLAN configuration mode.
-          Applicable for SVI interface only.
-        type: bool
-
-  state:
-    description:
-    - The state the configuration should be left in
-    type: str
-    enum:
-    - merged
-    - replaced
-    - overridden
-    - deleted
-    default: merged
-examples:
+        - The state the configuration should be left in
+      type: str
+      choices:
+        - merged
+        - replaced
+        - overridden
+        - deleted
+      default: merged
+EXAMPLES:
 - merged_example_01.txt
 - replaced_example_01.txt
 - overridden_example_01.txt
