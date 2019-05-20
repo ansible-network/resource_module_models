@@ -31,6 +31,7 @@ DOCUMENTATION: |
         access:
           description:
           - Switchport mode access command to configure the interface as a layer 2 access.
+          type: dict
           suboptions:
             vlan:
               description:
@@ -39,12 +40,8 @@ DOCUMENTATION: |
         trunk:
           description:
           - Switchport mode trunk command to configure the interface as a Layer 2 trunk.
+          type: dict
           suboptions:
-            vlans:
-              description:
-              - List of VLANs to be configured in trunk port. It's used as the VLAN range to ADD or
-                REMOVE from the trunk.
-              type: list
             native_vlan:
               description:
               - Native VLAN to be configured in trunk port. It is used as the trunk native VLAN ID.
