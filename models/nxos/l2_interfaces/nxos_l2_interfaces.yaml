@@ -1,0 +1,86 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+    }
+NETWORK_OS: nxos
+RESOURCE: l2_interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: nxos_l2_interfaces
+  version_added: 2.9
+  short_description: 'Manages Layer-2 Interfaces attributes of NX-OS Interfaces'
+  description: This module manages Layer-2 interfaces attributes of NX-OS Interfaces.
+  authors: Trishna Guha (@trishnaguha)
+  notes:
+    - Tested against <network_os> 7.3.(0)D1(1) on VIRL
+  options:
+    config:
+      description: A dictionary of Layer-2 interface options
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - Full name of interface, i.e. Ethernet1/1.
+          type: str
+          required: true
+        mode:
+          description:
+            - Mode in which interface needs to be configured.
+          type: str
+          choices: ['access','trunk']
+        access:
+          description:
+            - Switchport mode access command to configure the interface as a
+              Layer-2 access.
+          type: dict
+          suboptions:
+            vlan:
+              description:
+              - Configure given VLAN in access port. It's used as the access
+                VLAN ID.
+              type: str
+        trunk:
+          description:
+            - Switchport mode trunk command to configure the interface as a 
+              Layer-2 trunk.
+          type: dict
+          suboptions:
+            vlans:
+              description:
+                - List of VLANs to be configured in trunk port.
+                  If C(mode=trunk), used as the VLAN range to ADD or REMOVE
+                  from the trunk.
+              type: list
+            native_vlan:
+              description:
+                - Native VLAN to be configured in trunk port. It is used as the
+                  trunk native VLAN ID.
+              type: str
+            allowed_vlans:
+              description:
+                - List of allowed VLANs in a given trunk port. These are the only
+                  VLANs that will be configured on the trunk.
+              type: list
+
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+        - merged
+        - replaced
+        - overridden
+        - deleted
+      default: merged
+EXAMPLES:
+- merged_example_01.txt
+- replaced_example_01.txt
+- overridden_example_01.txt
+- deleted_example_01.txt
