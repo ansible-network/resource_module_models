@@ -4,13 +4,12 @@
 # -------------
 #
 # interface Ethernet1/1
-#    switchport access vlan 20
+#   switchport access vlan 20
 # interface Ethernet1/2
-#    switchport trunk native vlan 20
-#    switchport mode trunk
+#   switchport trunk native vlan 20
 # interface mgmt0
-#    ip address dhcp
-#    ipv6 address auto-config
+#   ip address dhcp
+#   ipv6 address auto-config
 
 - name: Merge provided configuration with device configuration.
   nxos_l2_interfaces:
@@ -19,6 +18,7 @@
         mode: trunk
         trunk:  
 	  native_vlan: 10
+	  allowed_vlans: 2,4,15
       - name: Ethernet1/2
         access:
 	  vlan: 30
@@ -28,10 +28,10 @@
 # ------------
 #
 # interface Ethernet1/1
-#    switchport trunk native vlan 10
-#    switchport mode trunk
+#   switchport trunk native vlan 10
+#   switchport trunk allowed vlans 2,4,15
 # interface Ethernet1/2
-#    switchport access vlan 30
+#   switchport access vlan 30
 # interface mgmt0
-#    ip address dhcp
-#    ipv6 address auto-config
+#   ip address dhcp
+#   ipv6 address auto-config
