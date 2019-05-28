@@ -1,0 +1,58 @@
+# Using overridden
+#
+# Before state
+# --------------
+#
+# vyos@vyos:~$ show configuration commands | grep interfaces
+# set interfaces bonding bond0 hash-policy 'layer2'
+# set interfaces bonding bond0 mode '802.3ad'
+# set interfaces bonding bond1 hash-policy 'layer2+3'
+# set interfaces bonding bond1 mode 'xor-hash'
+# set interfaces ethernet eth0 address 'dhcp'
+# set interfaces ethernet eth0 address 'dhcpv6'
+# set interfaces ethernet eth0 hw-id '08:00:27:30:f0:22'
+# set interfaces ethernet eth0 smp-affinity 'auto'
+# set interfaces ethernet eth1 bond-group 'bond0'
+# set interfaces ethernet eth1 hw-id '08:00:27:ea:0f:b9'
+# set interfaces ethernet eth1 smp-affinity 'auto'
+# set interfaces ethernet eth2 hw-id '08:00:27:c2:98:23'
+# set interfaces ethernet eth2 smp-affinity 'auto'
+# set interfaces ethernet eth2 bond-group 'bond1'
+# set interfaces ethernet eth3 bond-group 'bond0'
+# set interfaces ethernet eth3 hw-id '08:00:27:43:70:8c'
+# set interfaces ethernet eth3 smp-affinity 'auto'
+# set interfaces loopback lo
+
+- name: Overrides all device configuration with provided configuration
+  vyos_lag:
+    config:
+      - name: bond3
+        mode: active-backup
+        hash-policy: layer2
+        members:
+          - eth1
+          - eth2
+          - eth3
+    state: overridden
+
+# After state
+# ------------
+#
+# vyos@vyos:~$ show configuration commands | grep interfaces
+# set interfaces bonding bond3 hash-policy 'layer2'
+# set interfaces bonding bond3 mode 'active-backup'
+# set interfaces ethernet eth0 address 'dhcp'
+# set interfaces ethernet eth0 address 'dhcpv6'
+# set interfaces ethernet eth0 hw-id '08:00:27:30:f0:22'
+# set interfaces ethernet eth0 smp-affinity 'auto'
+# set interfaces ethernet eth1 bond-group 'bond3'
+# set interfaces ethernet eth1 hw-id '08:00:27:ea:0f:b9'
+# set interfaces ethernet eth1 smp-affinity 'auto'
+# set interfaces ethernet eth2 hw-id '08:00:27:c2:98:23'
+# set interfaces ethernet eth2 smp-affinity 'auto'
+# set interfaces ethernet eth2 bond-group 'bond3'
+# set interfaces ethernet eth3 bond-group 'bond3'
+# set interfaces ethernet eth3 hw-id '08:00:27:43:70:8c'
+# set interfaces ethernet eth3 smp-affinity 'auto'
+# set interfaces loopback lo
+
