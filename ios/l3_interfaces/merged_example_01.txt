@@ -1,0 +1,47 @@
+# Using merged
+
+# Before state:
+# -------------
+#
+# vios#show running-config | section ^interface
+# interface GigabitEthernet0/1
+#  description Configured by Ansible
+#  no ip address
+#  duplex auto
+#  speed auto
+# interface GigabitEthernet0/2
+#  description This is test
+#  no ip address
+#  duplex auto
+#  speed 1000
+# interface GigabitEthernet0/3
+#  description Configured by Ansible Network
+#  no ip address
+
+- name: Merge provided configuration with device configuration
+  ios_interfaces:
+    config:
+      - name: GigabitEthernet0/2
+        ipv4: 192.168.0.1/24
+      - name: GigabitEthernet0/3
+        ipv6: fd5d:12c9:2201:1::1/64
+    operation: merged
+
+# After state:
+# ------------
+#
+# vios#show running-config | section ^interface
+# interface GigabitEthernet0/1
+#  description Configured by Ansible
+#  no ip address
+#  duplex auto
+#  speed auto
+# interface GigabitEthernet0/2
+#  description This is test
+#  ip address 192.168.0.1 255.255.255.0
+#  duplex auto
+#  speed 1000
+# interface GigabitEthernet0/3
+#  description Configured by Ansible Network
+#  ipv6 address FD5D:12C9:2201:1::1/64
+
