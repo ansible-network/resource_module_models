@@ -1,0 +1,49 @@
+I# Using merged
+
+# Before state:
+# -------------
+#
+# viosxr#show running-config interface
+# interface GigabitEthernet0/0/0/1
+#  shutdown
+# !
+# interface GigabitEthernet0/0/0/2
+#  shutdown
+# !
+# interface GigabitEthernet0/0/0/3
+#  ipv4 address 192.168.0.2 255.255.255.0
+#  shutdown
+# !
+# interface GigabitEthernet0/0/0/4
+#  ipv6 address fd5d:12c9:2201:1::1/64
+#  shutdown
+# !
+
+- name: Merge provided configuration with device configuration
+  iosxr_interfaces:
+    config:
+      - name: GigabitEthernet0/0/0/2
+        ipv4: 192.168.0.1/24
+      - name: GigabitEthernet0/0/0/3
+        ipv4: 192.168.1.0/24
+    operation: merged
+
+# After state:
+# ------------
+#
+# viosxr#show running-config interface
+# interface GigabitEthernet0/0/0/1
+#  shutdown
+# !
+# interface GigabitEthernet0/0/0/2
+#  ipv4 address 192.168.0.1 255.255.255.0
+#  shutdown
+# !
+# interface GigabitEthernet0/0/0/3
+#  ipv4 address 192.168.1.0 255.255.255.0
+#  shutdown
+# !
+# interface GigabitEthernet0/0/0/4
+#  ipv6 address fd5d:12c9:2201:1::1/64
+#  shutdown
+# !
