@@ -30,12 +30,12 @@ DOCUMENTATION: |
           required: True
         access:
           description:
-          - Switchport mode access command to configure the interface as a layer 2 access.
+          - Switchport mode access command to configure the interface as a Layer 2 access.
           type: dict
           suboptions:
             vlan:
               description:
-              - Configure given VLAN in access port. It's used as the access VLAN ID.
+              - Configure the access VLAN ID.
               type: int
         trunk:
           description:
@@ -46,10 +46,10 @@ DOCUMENTATION: |
               description:
               - Native VLAN to be configured in trunk port. It is used as the trunk native VLAN ID.
               type: int
-            trunk_allowed_vlans:
+            allowed_vlans:
               description:
               - List of allowed VLANs in a given trunk port. These are the only VLANs that will be
-                configured on the trunk.
+                allowed on the trunk.
               type: list
     state:
       choices:

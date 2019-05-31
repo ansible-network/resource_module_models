@@ -16,7 +16,7 @@
 #    ipv6 address auto-config
 
 - name: Delete EOS L2 interfaces as in given arguments.
-  eos_interfaces:
+  eos_l2_interfaces:
     config:
       - name: Ethernet1
       - name: Ethernet2

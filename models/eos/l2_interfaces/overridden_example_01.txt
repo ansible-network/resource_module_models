@@ -16,7 +16,7 @@
 #    ipv6 address auto-config
 
 - name: Override device configuration of all L2 interfaces on device with provided configuration.
-  eos_interfaces:
+  eos_l2_interfaces:
     config:
       - name: Ethernet2
         access:
