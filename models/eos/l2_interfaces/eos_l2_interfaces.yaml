@@ -14,12 +14,12 @@ COPYRIGHT: Copyright 2019 Red Hat
 DOCUMENTATION: |
   module: eos_l2_interfaces
   version_added: 2.9
-  short_description: Manage Layer-2 interface on Arista EOS devices.
-  description: This module provides declarative management of Layer-2 interface on Arista EOS devices.
+  short_description: Manage Layer 2 interface attributes on Arista EOS devices
+  description: This module provides declarative management of Layer 2 interfaces on Arista EOS devices.
   author: Nathaniel Case (@qalthos)
   options:
     config:
-      description: A dictionary of Layer-2 interface options
+      description: A dictionary of Layer 2 interface options
       type: list
       elements: dict
       suboptions:
@@ -42,15 +42,15 @@ DOCUMENTATION: |
           - Switchport mode trunk command to configure the interface as a Layer 2 trunk.
           type: dict
           suboptions:
-            native_vlan:
-              description:
-              - Native VLAN to be configured in trunk port. It is used as the trunk native VLAN ID.
-              type: int
             allowed_vlans:
               description:
               - List of allowed VLANs in a given trunk port. These are the only VLANs that will be
                 allowed on the trunk.
               type: list
+            native_vlan:
+              description:
+              - Native VLAN to be configured in trunk port. It is used as the trunk native VLAN ID.
+              type: int
     state:
       choices:
       - merged
