@@ -17,6 +17,7 @@
 # interface GigabitEthernet0/3
 #  description Configured by Ansible Network
 #  no ip address
+# interface GigabitEthernet0/3.100
 
 - name: Merge provided configuration with device configuration
   ios_interfaces:
@@ -25,6 +26,10 @@
         ipv4: 192.168.0.1/24
       - name: GigabitEthernet0/3
         ipv6: fd5d:12c9:2201:1::1/64
+      - name: GigabitEthernet0/3.100
+        ipv4: 192.168.0.2/24
+        vlan:
+        - dot1q: 20    
     operation: merged
 
 # After state:
@@ -44,4 +49,7 @@
 # interface GigabitEthernet0/3
 #  description Configured by Ansible Network
 #  ipv6 address FD5D:12C9:2201:1::1/64
+# interface GigabitEthernet0/3.100
+#  encapsulation dot1Q 20
+#  ip address 192.168.0.2 255.255.255.0
 
