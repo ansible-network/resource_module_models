@@ -17,6 +17,9 @@
 # interface GigabitEthernet0/3
 #  description Configured by Ansible Network
 #  ip address 192.168.2.0 255.255.255.0
+# interface GigabitEthernet0/3.100
+#  encapsulation dot1Q 20
+#  ip address 192.168.0.2 255.255.255.0
 
 - name: Replaces device configuration of listed interfaces with provided configuration
   ios_interfaces:
@@ -25,6 +28,9 @@
         ipv4: 192.168.2.0/24
       - name: GigabitEthernet0/3
         ipv4: dhcp
+      - name: GigabitEthernet0/3.100
+        vlan:
+        - isl: 20
     operation: replaced
 
 # After state:
@@ -44,3 +50,7 @@
 # interface GigabitEthernet0/3
 #  description Configured by Ansible Network
 #  ip address dhcp
+# interface GigabitEthernet0/3.100
+#  encapsulation isl 20
+#  ip address 192.168.0.2 255.255.255.0
+#  no ip redirects
