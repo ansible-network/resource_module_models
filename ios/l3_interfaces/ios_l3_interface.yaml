@@ -40,6 +40,24 @@ DOCUMENTATION: |
            The address format is <ipv6 address>/<mask>, the mask is number in range 0-128
            eg. fd5d:12c9:2201:1::1/64
          type: str
+       vlan:
+         description:
+         - Configuring IP routing on a LAN subinterface is only allowed if that subinterface is
+           already configured as part of an IEEE 802.10, IEEE 802.1Q, or ISL vLAN.
+         suboptions:
+           dot1q:
+             description:
+             - IEEE 802.1Q Virtual LAN ID, valid vlan range is between 1-4094.
+             type: str
+           isl:
+             description:
+             - Inter Switch Link - Virtual LAN encapsulation, valid vlan identifier range is
+               between 1-1000.
+             type: str
+           priority_tag:
+             description:
+             - Priority-tagged (VLAN 0).
+             type: str
     state:
       choices:
       - merged
