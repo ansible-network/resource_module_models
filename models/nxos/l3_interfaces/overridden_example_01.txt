@@ -1,0 +1,25 @@
+# Using overridden
+
+# Before state:
+# -------------
+#
+# interface Ethernet1/2
+#   ip address 192.168.22.1/24
+# interface Ethernet1/6
+#   ipv6 address "fd5d:12c9:2201:1::1/64"
+
+- name: Override device configuration of all L3 interfaces on device with provided configuration.
+  nxos_l3_interfaces:
+    config:
+      - name: Ethernet1/2
+        ipv4: 192.168.22.3/4
+    state: overridden
+
+# After state:
+# ------------
+#
+# interface Ethernet1/2
+#   no ip address
+#   ipv4 address 192.168.22.3/24
+# interface Ethernet1/6
+#   no ipv6 address
