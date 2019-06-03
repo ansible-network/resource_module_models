@@ -14,6 +14,9 @@
 #  ipv4 address 192.168.0.2 255.255.255.0
 #  shutdown
 # !
+# interface GigabitEthernet0/0/0/3.700
+#  ipv4 address 192.168.0.1 255.255.255.0
+# !
 # interface GigabitEthernet0/0/0/4
 #  ipv6 address fd5d:12c9:2201:1::1/64
 #  shutdown
@@ -22,8 +25,9 @@
 - name: Delete attributes of given interfaces (Note: This won't delete the interface itself)
   iosxr_interfaces:
     config:
-      - name: GigabitEthernet0/0/0/2
       - name: GigabitEthernet0/0/0/3
+      - name: GigabitEthernet0/0/0/4
+      - name: GigabitEthernet0/0/0/3.700
     operation: deleted
 
 # After state:
@@ -38,6 +42,8 @@
 # !
 # interface GigabitEthernet0/0/0/3
 #  shutdown
+# !
+# interface GigabitEthernet0/0/0/3.700
 # !
 # interface GigabitEthernet0/0/0/4
 #  shutdown
