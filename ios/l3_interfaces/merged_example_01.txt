@@ -6,7 +6,7 @@
 # vios#show running-config | section ^interface
 # interface GigabitEthernet0/1
 #  description Configured by Ansible
-#  no ip address
+#  ip address 10.1.1.1 255.255.255.0
 #  duplex auto
 #  speed auto
 # interface GigabitEthernet0/2
@@ -22,12 +22,19 @@
 - name: Merge provided configuration with device configuration
   ios_interfaces:
     config:
+      - name: GigabitEthernet0/1
+        ipv4: 
+        - address: 192.168.0.1/24
+          secondary: True
       - name: GigabitEthernet0/2
-        ipv4: 192.168.0.1/24
+        ipv4: 
+        - address: 192.168.0.2/24
       - name: GigabitEthernet0/3
-        ipv6: fd5d:12c9:2201:1::1/64
+        ipv6:
+        - address: fd5d:12c9:2201:1::1/64
       - name: GigabitEthernet0/3.100
-        ipv4: 192.168.0.2/24
+        ipv4:
+        - address: 192.168.0.3/24
         vlan:
         - dot1q: 20    
     operation: merged
@@ -38,12 +45,13 @@
 # vios#show running-config | section ^interface
 # interface GigabitEthernet0/1
 #  description Configured by Ansible
-#  no ip address
+#  ip address 10.1.1.1 255.255.255.0
+#  ip address 192.168.0.1 255.255.255.0 secondary
 #  duplex auto
 #  speed auto
 # interface GigabitEthernet0/2
 #  description This is test
-#  ip address 192.168.0.1 255.255.255.0
+#  ip address 192.168.0.2 255.255.255.0
 #  duplex auto
 #  speed 1000
 # interface GigabitEthernet0/3
@@ -51,5 +59,5 @@
 #  ipv6 address FD5D:12C9:2201:1::1/64
 # interface GigabitEthernet0/3.100
 #  encapsulation dot1Q 20
-#  ip address 192.168.0.2 255.255.255.0
+#  ip address 192.168.0.3 255.255.255.0
 
