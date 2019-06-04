@@ -1,5 +1,5 @@
 
-# Using deleted
+# Using overridden
 
 # Before state:
 # -------------
@@ -14,17 +14,21 @@
 #    ip address dhcp
 #    ipv6 address auto-config
 
-- name: Delete L3 attributes of given interfaces.
+- name: Override device configuration of all L2 interfaces on device with provided configuration.
   eos_l3_interfaces:
     config:
       - name: Ethernet1
-      - name: Ethernet2
-    state: deleted
+        ipv6: 2001:db8:feed::1/96
+      - name: Management1
+        ipv4: dhcp
+	ipv6: auto-config
+    state: overridden
 
 # After state:
 # ------------
 #
 # interface Ethernet1
+#    ipv6 address 2001:db8:feed::1/96
 # !
 # interface Ethernet2
 # !

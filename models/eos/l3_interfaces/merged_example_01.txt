@@ -1,5 +1,5 @@
 
-# Using deleted
+# Using merged
 
 # Before state:
 # -------------
@@ -14,19 +14,24 @@
 #    ip address dhcp
 #    ipv6 address auto-config
 
-- name: Delete L3 attributes of given interfaces.
+- name: Merge provided configuration with device configuration.
   eos_l3_interfaces:
     config:
       - name: Ethernet1
+        ipv4: 198.51.100.14/24
       - name: Ethernet2
-    state: deleted
+	ipv4: 203.0.113.27/24
+    state: merged
 
 # After state:
 # ------------
 #
 # interface Ethernet1
+#    ip address 198.51.100.14/24
 # !
 # interface Ethernet2
+#    ip address 203.0.113.27/24
+#    ipv6 address 2001:db8::1/64
 # !
 # interface Management1
 #    ip address dhcp
