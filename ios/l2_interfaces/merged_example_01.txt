@@ -29,6 +29,9 @@
           pruning_vlans:
           - 10
           encapsulation: dot1q
+      - name: GigabitEthernet0/3.100
+        encapsulation:
+        - dot1q: 20
     state: merged
 
 # After state:
@@ -49,3 +52,5 @@
 #  switchport mode trunk
 #  media-type rj45
 #  negotiation auto
+# interface GigabitEthernet0/3.100
+#  encapsulation dot1Q 20
