@@ -18,6 +18,7 @@
 #  description Configured by Ansible Network
 #  no ip address
 # interface GigabitEthernet0/3.100
+#  encapsulation dot1Q 20
 
 - name: Merge provided configuration with device configuration
   ios_interfaces:
@@ -35,8 +36,6 @@
       - name: GigabitEthernet0/3.100
         ipv4:
         - address: 192.168.0.3/24
-        vlan:
-        - dot1q: 20    
     operation: merged
 
 # After state:
