@@ -36,8 +36,6 @@
         ipv4:
         - address: 192.168.0.3/24
           secondary: True
-        vlan:
-        - isl: 20
     operation: replaced
 
 # After state:
@@ -58,6 +56,6 @@
 #  description Configured by Ansible Network
 #  ip address dhcp client-id GigabitEthernet0/2 hostname test.com
 # interface GigabitEthernet0/3.100
-#  encapsulation isl 20
+#  encapsulation dot1Q 20
 #  ip address 192.168.0.2 255.255.255.0
 #  ip address 192.168.0.3 255.255.255.0 secondary
