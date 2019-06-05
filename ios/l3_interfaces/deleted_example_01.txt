@@ -50,3 +50,4 @@
 #  duplex full
 #  speed 10
 # interface GigabitEthernet0/3.100
+#  encapsulation dot1Q 20
