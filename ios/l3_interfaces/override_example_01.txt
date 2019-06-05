@@ -49,4 +49,5 @@
 # interface GigabitEthernet0/3
 #  description Configured by Ansible Network
 # interface GigabitEthernet0/3.100
+#  encapsulation dot1Q 20
 #  ipv6 address autoconfig
