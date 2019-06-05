@@ -15,6 +15,8 @@
 #  switchport mode access
 #  media-type rj45
 #  negotiation auto
+# interface GigabitEthernet0/3.100
+#  encapsulation dot1Q 20
 
 - name: Replaces device configuration of listed l2 interfaces with provided configuration
   ios_interfaces:
@@ -28,7 +30,10 @@
           trunk_vlans: 5-10
           pruning_vlans:
           - 10
-          encapsulation: isl
+          encapsulation: dot1q
+      - name: GigabitEthernet0/3.100
+        encapsulation:
+        - isl: 10
     state: replaced
 
 # After state:
@@ -43,9 +48,11 @@
 # interface GigabitEthernet0/2
 #  description This is test
 #  switchport trunk allowed vlan 20,40
-#  switchport trunk encapsulation isl
+#  switchport trunk encapsulation dot1q
 #  switchport trunk native vlan 20
 #  switchport trunk pruning vlan 10
 #  switchport mode trunk
 #  media-type rj45
 #  negotiation auto
+# interface GigabitEthernet0/3.100
+#  encapsulation isl 10
