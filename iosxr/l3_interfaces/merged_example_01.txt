@@ -25,9 +25,12 @@ I# Using merged
   iosxr_interfaces:
     config:
       - name: GigabitEthernet0/0/0/2
-        ipv4: 192.168.0.1/24
+        ipv4:
+        - address: 192.168.0.1/24
       - name: GigabitEthernet0/0/0/3
-        ipv4: 192.168.1.0/24
+        ipv4:
+        - address: 192.168.2.1/24
+          secondary: True
     operation: merged
 
 # After state:
@@ -43,6 +46,7 @@ I# Using merged
 # !
 # interface GigabitEthernet0/0/0/3
 #  ipv4 address 192.168.1.0 255.255.255.0
+#  ipv4 address 192.168.2.1 255.255.255.0 secondary
 #  shutdown
 # !
 # interface GigabitEthernet0/0/0/3.700
