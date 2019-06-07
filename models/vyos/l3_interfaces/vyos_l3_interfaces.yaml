@@ -1,0 +1,97 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+
+NETWORK_OS: vyos
+RESOURCE: l3_interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: vyos_l3_interfaces
+  version_added: 2.9
+  short_description: Manages L3 interface attributes of VyOS network devices.
+  description: This module manages the L3 interface attributes on VyOS network devices.
+  author: Nilashish Chakraborty (@nilashishc)
+  options:
+    config:
+      description: The provided L3 interfaces configuration.
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - Full name of the interface, e.g. eth0, eth1.
+          type: str
+          required: True
+        ipv4:
+          description:
+            - List of IPv4 addresses of the interface.
+          type: list
+          elements: dict
+          suboptions:
+            address:
+              description:
+                - IPv4 address of the interface.
+              type: str
+        ipv6:
+          description:
+            - List of IPv6 addresses of the interface.
+          type: list
+          elements: dict
+          suboptions:
+            address:
+              description:
+                - IPv6 address of the interface.
+              type: str
+        vifs:
+          description: 
+            - Virtual sub-interfaces L3 configurations.
+          elements: dict
+          type: list
+          suboptions:
+            vlan_id:
+              description:
+                - Identifier for the virtual sub-interface.
+              type: str
+            ipv4:
+              description:
+                - List of IPv4 addresses of the virtual interface.
+              type: list
+              elements: dict
+              suboptions:
+                address:
+                  description:
+                    - IPv4 address of the virtual interface.
+                  type: str
+            ipv6:
+              description:
+                - List of IPv6 addresses of the virual interface.
+              type: list
+              elements: dict
+              suboptions:
+                address:
+                  description:
+                    - IPv6 address of the virtual interface.
+                  type: str
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+      
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
