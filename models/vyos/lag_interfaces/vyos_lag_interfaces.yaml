@@ -9,7 +9,7 @@ ANSIBLE_METADATA: |
     }
 
 NETWORK_OS: vyos
-RESOURCE: lag
+RESOURCE: lag_interfaces
 COPYRIGHT: Copyright 2019 Red Hat
 
 DOCUMENTATION: |
@@ -17,7 +17,7 @@ DOCUMENTATION: |
   version_added: 2.9
   short_description: Manages attributes of link aggregation groups on VyOS network devices.
   description: This module manages attributes of link aggregation groups on VyOS network devices.
-  author: Nilashish Chakraborty (@nilashishc)
+  author: Rohit Thakur (@rthakur)
   options:
     config:
       description: The provided link aggregation group configurations.
@@ -57,6 +57,19 @@ DOCUMENTATION: |
             - layer2
             - layer2+3
             - layer3+4
+        arp-monitor:
+          description:
+            - ARP Link monitoring parameters.
+          type: dict
+          suboptions:
+            interval:
+              description:
+                - ARP link monitoring frequency in milliseconds.
+              type: int
+            target:
+              description:
+                -  IP address to use for ARP monitoring.
+              type: str
     state:
       description:
         - The state the configuration should be left in.
