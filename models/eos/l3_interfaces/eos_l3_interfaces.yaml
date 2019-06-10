@@ -22,7 +22,7 @@ DOCUMENTATION: |
     - 'Tested against vEOS v4.20.x'
   options:
     config:
-      description: description: A dictionary of Layer 3 interface options
+      description: A dictionary of Layer 3 interface options
       type: list
       elements: dict
       suboptions:
@@ -37,12 +37,12 @@ DOCUMENTATION: |
             The address format is <ipv4 address>/<mask>, the mask is number in range 0-32
             eg. 192.0.2.1/24, or C(dhcp) to query DHCP for an IP address.
           type: str
-       ipv6:
-         description:
-         - IPv6 address to be set for the Layer 3 interface mentioned in I(name) option.
-           The address format is <ipv6 address>/<mask>, the mask is number in range 0-128
-           eg. 2001:db8:2201:1::1/64 or C(auto-config) to use SLAAC to chose an address.
-         type: str
+        ipv6:
+          description:
+          - IPv6 address to be set for the Layer 3 interface mentioned in I(name) option.
+            The address format is <ipv6 address>/<mask>, the mask is number in range 0-128
+            eg. 2001:db8:2201:1::1/64 or C(auto-config) to use SLAAC to chose an address.
+          type: str
     state:
       description:
       - The state the configuration should be left in
