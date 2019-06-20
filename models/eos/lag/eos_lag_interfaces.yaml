@@ -9,11 +9,11 @@ ANSIBLE_METADATA: |
     }
 
 NETWORK_OS: eos
-RESOURCE: lag
+RESOURCE: lag_interfaces
 COPYRIGHT: Copyright 2019 Red Hat
 
 DOCUMENTATION: |
-  module: eos_lag
+  module: eos_lag_interfaces
   version_added: 2.9
   short_description: Manages link aggregation groups on Arista EOS devices
   description: This module manages attributes of link aggregation groups on Arista EOS devices.
