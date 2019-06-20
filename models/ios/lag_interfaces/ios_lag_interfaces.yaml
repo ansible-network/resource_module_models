@@ -47,7 +47,6 @@ DOCUMENTATION: |
           description:
           - List of members of the link aggregation group.
           type: list
-          suboptions:
     state:
       description:
       - The state the configuration should be left in
