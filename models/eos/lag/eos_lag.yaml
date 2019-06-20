@@ -1,0 +1,61 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+
+NETWORK_OS: eos
+RESOURCE: lag
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: eos_lag
+  version_added: 2.9
+  short_description: Manages link aggregation groups on Arista EOS devices
+  description: This module manages attributes of link aggregation groups on Arista EOS devices.
+  author: Nathaniel Case (@Qalthos)
+  notes:
+    - 'Tested against vEOS v4.20.x' 
+  options:
+    config:
+      description: A list of link aggregation group configurations.
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - ID of the link aggregation group (LAG). Must be between 1-2000.
+          type: str
+          required: True
+        mode:
+          description:
+            - Link aggregation group (LAG).
+          type: str
+          choices:
+            - active
+            - on
+            - passive
+        members:
+          description:
+            - Ethernet Interfaces that are part of the group.
+          type: list
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+      
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
