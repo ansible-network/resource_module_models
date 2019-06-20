@@ -1,0 +1,71 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+    }
+NETWORK_OS: nxos
+RESOURCE: lag_interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: nxos_lag_interfaces
+  version_added: 2.9
+  short_description: Manages link aggregation groups of NX-OS Interfaces
+  description: This module manages attributes of link aggregation groups of NX-OS Interfaces.
+  author: Trishna Guha (@trishnaguha)
+  notes:
+    - Tested against <network_os> 7.3.(0)D1(1) on VIRL
+  options:
+    config:
+      description: A list of link aggregation group configurations.
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - ID of the link aggregation group (LAG).
+          type: int
+          required: true
+        members:
+          description:
+            - The list of Interfaces that are part of the group.
+          type: list
+          required: true
+          elements: dict
+          suboptions:
+            member:
+              description:
+                - The interface name.
+            type: str
+            mode:
+              description:
+                - Link aggregation group (LAG).
+              type: str
+              choices:
+                - active
+                - on
+                - passive
+            force:
+              description:
+                - When true it forces link aggregation group members to match what
+                  is declared in the members param. This can be used to remove members.
+              type: bool
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+        - merged
+        - replaced
+        - overridden
+        - deleted
+      default: merged
+EXAMPLES:
+- merged_example_01.txt
+- replaced_example_01.txt
+- overridden_example_01.txt
+- deleted_example_01.txt
