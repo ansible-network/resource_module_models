@@ -4,7 +4,6 @@
 # -------------
 #
 # vios#show running-config | section ^interface
-# vios#show running-config | section ^interface
 # interface Port-channel10
 #  flowcontrol receive on
 # interface Port-channel20
