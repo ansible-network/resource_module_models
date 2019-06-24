@@ -28,7 +28,7 @@ DOCUMENTATION: |
         name:
           description:
           - ID of Ethernet Channel of interfaces. Note, Port-channel group number must be in
-            between 1-64.
+            between 1-255.
           type: str
           required: True
         mode:
@@ -36,6 +36,9 @@ DOCUMENTATION: |
           - Etherchannel Mode of the interface for link aggregation.
           type: str
           choices:
+          - auto
+          - on
+          - desirable
           - active
           - passive
         link:
@@ -43,6 +46,17 @@ DOCUMENTATION: |
           - Assign a link identifier used for load-balancing. Channel group load-balancing link
             identifier with range between 1-4.
           type: int
+        flowcontrol:
+          description:
+          - To configure the flow control on a given interface, use the flow control Interface
+            (Ethernet, Port Channel) Configuration mode command. Flow control is a feature that
+            allows the receiving device to send a signal to the sending device that it is congested.
+            This tells the sending device to temporarily stop transmitting to help ease the congestion.
+          type: str
+          choices:
+          - auto
+          - on
+          - off
         members:
           description:
           - List of members of the link aggregation group.
