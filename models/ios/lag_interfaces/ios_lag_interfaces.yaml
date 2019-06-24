@@ -18,7 +18,7 @@ DOCUMENTATION: |
   description: This module manages properties of Link Aggregation Group on Cisco IOS devices.
   author: Sumit Jaiswal (@justjais)
   notes:
-  - Tested against IOSv XE Version 16.6.1 on VIRL
+  - Tested against Cisco IOSv Version 15.2 on VIRL
   options:
     config:
       description: A dictionary of Link Aggregation interface options
