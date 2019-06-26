@@ -1,0 +1,48 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+    }
+NETWORK_OS: ios
+RESOURCE: lacp
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: ios_lacp
+  version_added: 2.9
+  short_description: Manage Link Aggregation Control Protocol (LACP) on Cisco IOS devices.
+  description: This module provides declarative management of LACP on Cisco IOS network devices.
+  author: Sumit Jaiswal (@justjais)
+  notes:
+  - Tested against Cisco IOSv Version 15.2 on VIRL
+  options:
+    config:
+      description: A dictionary of LACP options
+      type: list
+      elements: dict
+      suboptions:
+        system_priority:
+          description:
+          - LACP priority for the system.
+          type: int
+          required: True
+    state:
+      description:
+      - The state the configuration should be left in
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
+
