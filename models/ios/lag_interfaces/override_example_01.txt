@@ -30,7 +30,7 @@
         mode: auto
         members:
         - GigabitEthernet0/2
-        - GigabitEthernet0/2
+        - GigabitEthernet0/3
         flowcontrol: off
     operation: overridden
 
