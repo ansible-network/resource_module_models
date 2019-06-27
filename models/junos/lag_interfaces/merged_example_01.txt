@@ -1,0 +1,40 @@
+# Using merged
+
+# Before state:
+# -------------
+# user@junos01# show interfaces
+# ge-0/0/1 {
+#    description "Ansible configured interface 1";
+# }
+# ge-0/0/2 {
+#    description "Ansible configured interface 2";
+# }
+
+- name: configure LAG interfaces - merged
+  junos_lag_interfaces:
+    config:
+      - name: ae0
+        members:
+          - ge-0/0/1
+          - ge-0/0/2
+        description: lag interface
+    state: merged
+
+# After state:
+# -------------
+# user@junos01# show interfaces
+# ge-0/0/1 {
+#    description "Ansible configured interface 1";
+#    ether-options {
+#        802.3ad ae0;
+#    }
+# }
+# ge-0/0/2 {
+#    description "Ansible configured interface 2";
+#    ether-options {
+#        802.3ad ae0;
+#    }
+# }
+# ae0 {
+#     description "lag interface";
+# }

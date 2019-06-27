@@ -1,0 +1,64 @@
+# Using merged
+
+# Before state:
+# -------------
+# user@junos01# show interfaces
+# ge-0/0/1 {
+#    description "Ansible configured interface 1";
+#    ether-options {
+#        802.3ad ae0;
+#    }
+# }
+# ge-0/0/2 {
+#    description "Ansible configured interface 2";
+#    ether-options {
+#        802.3ad ae0;
+#    }
+# }
+# ae0 {
+#     description "lag interface";
+# }
+# ae3 {
+#     description "lag interface 3";
+# }
+
+- name: configure LAG interfaces - overridden
+  junos_lag_interfaces:
+    config:
+      - name: ae0
+        members:
+          - ge-0/0/2
+        description: lag interface 1 overridden
+      - name: ae1
+        members:
+          - ge-0/0/1
+        description: lag interface 2 overridden
+        mode: passive
+    state: overridden
+
+# After state:
+# -------------
+# user@junos01# show interfaces
+# ge-0/0/1 {
+#    description "Ansible configured interface 1";
+#    ether-options {
+#        802.3ad ae1;
+#    }
+# }
+# ge-0/0/2 {
+#    description "Ansible configured interface 2";
+#    ether-options {
+#        802.3ad ae0;
+#    }
+# }
+# ae0 {
+#    description "lag lag interface 1 overridden";
+# }
+# ae1 {
+#    description "lag lag interface 2 overridden";
+#    aggregated-ether-options {
+#        lacp {
+#            active;
+#        }
+#    }
+# }
