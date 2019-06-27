@@ -1,0 +1,40 @@
+# Using merged
+
+# Before state:
+# -------------
+#
+# vios#show vlan brief
+# VLAN Name                             Status    Ports
+# ---- -------------------------------- --------- -------------------------------
+# 1    default                          active    Gi0/1, Gi0/2
+# 1002 fddi-default                     act/unsup 
+# 1003 token-ring-default               act/unsup 
+# 1004 fddinet-default                  act/unsup 
+# 1005 trnet-default                    act/unsup 
+
+- name: Merge provided configuration with device configuration
+  ios_interfaces:
+    config:
+      - name: Vlan_20
+        vlan_id: 20
+      - name: Vlan_30
+        vlan_id: 30
+      - name: Vlan_40
+        vlan_id: 40
+    operation: merged
+
+# After state:
+# ------------
+#
+# vios#show vlan brief
+# VLAN Name                             Status    Ports
+# ---- -------------------------------- --------- -------------------------------
+# 1    default                          active    Gi0/1, Gi0/2
+# 20   Vlan_20                          active
+# 30   Vlan_30                          active
+# 40   Vlan_40                          active
+# 1002 fddi-default                     act/unsup
+# 1003 token-ring-default               act/unsup
+# 1004 fddinet-default                  act/unsup
+# 1005 trnet-default                    act/unsup
+
