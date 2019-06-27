@@ -1,0 +1,39 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+# vios#show vlan brief
+# VLAN Name                             Status    Ports
+# ---- -------------------------------- --------- -------------------------------
+# 1    default                          active    Gi0/1, Gi0/2
+# 20   Vlan_20                          active
+# 30   Vlan_30                          active
+# 40   Vlan_40                          active
+# 1002 fddi-default                     act/unsup
+# 1003 token-ring-default               act/unsup
+# 1004 fddinet-default                  act/unsup
+# 1005 trnet-default                    act/unsup
+
+- name: Replaces device configuration of listed interfaces with provided configuration
+  ios_interfaces:
+    config:
+      - name: 20
+        vlan_id: Test_VLAN20
+    operation: replaced
+
+# After state:
+# ------------
+#
+# vios#show vlan brief
+# VLAN Name                             Status    Ports
+# ---- -------------------------------- --------- -------------------------------
+# 1    default                          active    Gi0/1, Gi0/2
+# 20   Test_VLAN20                      active
+# 30   Vlan_30                          active
+# 40   Vlan_40                          active
+# 1002 fddi-default                     act/unsup
+# 1003 token-ring-default               act/unsup
+# 1004 fddinet-default                  act/unsup
+# 1005 trnet-default                    act/unsup
+
