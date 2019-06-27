@@ -1,0 +1,60 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+    }
+NETWORK_OS: junos
+RESOURCE: lacp
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: ios_lacp
+  version_added: 2.9
+  short_description: Manage Global Link Aggregation Control Protocol (LACP) on Juniper JUNOS devices.
+  description: This module provides declarative management of global LACP on Juniper Junos network devices.
+  author: Ganesh Nalawade (@ganeshrn)
+  options:
+    config:
+      description: A dictionary of LACP global options
+      type: list
+      elements: dict
+      suboptions:
+        system_priority:
+          description:
+          - LACP priority for the system.
+          type: int
+        link_protection:
+          description:
+          - Enable LACP link-protection for the system. If the value is set to C(non-revertive)
+            it will not revert links when better priority link comes up by default the link will
+            be reverted.
+          type: str
+          choices: ['revertive', 'non-revertive']
+          default: 'revertive'
+    state:
+      description:
+      - The state the configuration should be left in
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+  requirements:
+    - ncclient (>=v0.6.4)
+  notes:
+    - This module requires the netconf system service be enabled on
+      the remote device being managed.
+    - Tested against vSRX JUNOS version 15.1X49-D15.4.
+    - This module works with connection C(netconf). See L(the Junos OS Platform Options,../network/user_guide/platform_junos.html).
+
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt

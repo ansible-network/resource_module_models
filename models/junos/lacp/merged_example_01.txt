@@ -1,0 +1,21 @@
+# Using merged
+
+# Before state:
+# -------------
+# user@junos01# show chassis aggregated-devices ethernet lacp
+#
+
+- name: "Configure Global LACP - merged"
+  junos_lacp:
+    config:
+      - system_priority: 63
+        link_protection: revertive
+    operation: merged
+
+# After state:
+# ------------
+# user@junos01# show chassis aggregated-devices ethernet lacp
+# system-priority 63;
+# link-protection {
+#    non-revertive;
+# }
