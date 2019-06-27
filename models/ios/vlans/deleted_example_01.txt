@@ -1,0 +1,36 @@
+# Using Deleted
+
+# Before state:
+# -------------
+#
+# vios#show vlan brief
+# VLAN Name                             Status    Ports
+# ---- -------------------------------- --------- -------------------------------
+# 1    default                          active    Gi0/1, Gi0/2
+# 20   Vlan_20                          active
+# 30   Vlan_30                          active
+# 40   Vlan_40                          active
+# 1002 fddi-default                     act/unsup
+# 1003 token-ring-default               act/unsup
+# 1004 fddinet-default                  act/unsup
+# 1005 trnet-default                    act/unsup
+
+- name: Delete attributes of given interfaces (Note: This won't delete the interface itself)
+  ios_interfaces:
+    config:
+      - vlan_id: 10
+      - vlan_id: 20
+      - vlan_id: 30
+    operation: deleted
+
+# After state:
+# -------------
+#
+# vios#show vlan brief
+# VLAN Name                             Status    Ports
+# ---- -------------------------------- --------- -------------------------------
+# 1    default                          active    Gi0/1, Gi0/2
+# 1002 fddi-default                     act/unsup
+# 1003 token-ring-default               act/unsup
+# 1004 fddinet-default                  act/unsup
+# 1005 trnet-default                    act/unsup
