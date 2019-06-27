@@ -1,9 +1,12 @@
 # Using replaced
 #
+# -------------
 # Before state:
 # -------------
 #
 # vyos:~$ show configuration commands | grep eth
+# set interfaces bonding bond1 description 'Bond - 1'
+# set interfaces bonding bond1 mtu '1400'
 # set interfaces ethernet eth0 address 'dhcp'
 # set interfaces ethernet eth0 description 'Management Interface for the Appliance'
 # set interfaces ethernet eth0 duplex 'auto'
@@ -21,13 +24,16 @@
 # set interfaces ethernet eth2 mtu '500'
 # set interfaces ethernet eth2 smp_affinity 'auto'
 # set interfaces ethernet eth2 speed '100'
+# set interfaces ethernet eth2 vif 200 description 'Configured by Ansible'
 # set interfaces ethernet eth3 description 'Configured by Ansible'
 # set interfaces ethernet eth3 duplex 'full'
 # set interfaces ethernet eth3 hw-id '08:00:27:17:3c:85'
 # set interfaces ethernet eth3 mtu '1500'
 # set interfaces ethernet eth3 smp_affinity 'auto'
 # set interfaces ethernet eth3 speed '100'
-
+# set interfaces loopback lo
+#
+#
 - name: Replace device configurations of listed interfaces with provided configurations
   vyos_interfaces:
     config:
@@ -40,24 +46,140 @@
       - name: eth1
         description: "Replaced by Ansible"
     state: replaced
-
+#
+#
+# -----------------------
+# Module Execution Result
+# -----------------------
+#
+# "before": [
+#        {
+#            "description": "Bond - 1",
+#            "enable": true,
+#            "mtu": 1400,
+#            "name": "bond1"
+#        },
+#        {
+#            "enable": true,
+#            "name": "lo"
+#        },
+#        {
+#            "description": "Configured by Ansible",
+#            "duplex": "full",
+#            "enable": true,
+#            "mtu": 1500,
+#            "name": "eth3",
+#            "speed": "100"
+#        },
+#        {
+#            "description": "Configured by Ansible",
+#            "duplex": "full",
+#            "enable": true,
+#            "mtu": 500,
+#            "name": "eth2",
+#            "speed": "100",
+#            "vifs": [
+#                {
+#                    "description": "VIF 200 - ETH2",
+#                    "enable": true,
+#                    "vlan_id": "200"
+#                }
+#            ]
+#        },
+#        {
+#            "description": "Configured by Ansible Eng Team",
+#            "duplex": "full",
+#            "enable": true,
+#            "name": "eth1",
+#            "speed": "100"
+#        },
+#        {
+#            "description": "Management Interface for the Appliance",
+#            "duplex": "auto",
+#            "enable": true,
+#            "name": "eth0",
+#            "speed": "auto"
+#        }
+#    ]
+#
+# "commands": [
+#        "delete interfaces ethernet eth2 speed",
+#        "delete interfaces ethernet eth2 duplex",
+#        "delete interfaces ethernet eth2 mtu",
+#        "delete interfaces ethernet eth2 vif 200 description",
+#        "set interfaces ethernet eth2 description 'Replaced by Ansible'",
+#        "delete interfaces ethernet eth3 speed",
+#        "delete interfaces ethernet eth3 duplex",
+#        "delete interfaces ethernet eth3 mtu",
+#        "set interfaces ethernet eth3 description 'Replaced by Ansible'",
+#        "delete interfaces ethernet eth1 speed",
+#        "delete interfaces ethernet eth1 duplex",
+#        "set interfaces ethernet eth1 description 'Replaced by Ansible'"
+#    ]
+#
+# "after": [
+#        {
+#            "description": "Bond - 1",
+#            "enable": true,
+#            "mtu": 1400,
+#            "name": "bond1"
+#        },
+#        {
+#            "enable": true,
+#            "name": "lo"
+#        },
+#        {
+#            "description": "Replaced by Ansible",
+#            "enable": true,
+#            "name": "eth3"
+#        },
+#        {
+#            "description": "Replaced by Ansible",
+#            "enable": true,
+#            "name": "eth2",
+#            "vifs": [
+#                {
+#                    "enable": true,
+#                    "vlan_id": "200"
+#                }
+#            ]
+#        },
+#        {
+#            "description": "Replaced by Ansible",
+#            "enable": true,
+#            "name": "eth1"
+#        },
+#        {
+#            "description": "Management Interface for the Appliance",
+#            "duplex": "auto",
+#            "enable": true,
+#            "name": "eth0",
+#            "speed": "auto"
+#        }
+#    ]
+#
+#
+# -------------
 # After state:
 # -------------
 #
-# vyos:~$ show configuration commands | grep eth
+# vyos@vyos:~$ show configuration commands | grep interfaces
+# set interfaces bonding bond1 description 'Bond - 1'
+# set interfaces bonding bond1 mtu '1400'
 # set interfaces ethernet eth0 address 'dhcp'
+# set interfaces ethernet eth0 address 'dhcpv6'
 # set interfaces ethernet eth0 description 'Management Interface for the Appliance'
 # set interfaces ethernet eth0 duplex 'auto'
-# set interfaces ethernet eth0 hw-id '08:00:27:f3:6c:b5'
-# set interfaces ethernet eth0 smp_affinity 'auto'
+# set interfaces ethernet eth0 hw-id '08:00:27:30:f0:22'
+# set interfaces ethernet eth0 smp-affinity 'auto'
 # set interfaces ethernet eth0 speed 'auto'
 # set interfaces ethernet eth1 description 'Replaced by Ansible'
-# set interfaces ethernet eth1 hw-id '08:00:27:ad:ef:65'
-# set interfaces ethernet eth1 smp_affinity 'auto'
+# set interfaces ethernet eth1 hw-id '08:00:27:ea:0f:b9'
+# set interfaces ethernet eth1 smp-affinity 'auto'
 # set interfaces ethernet eth2 description 'Replaced by Ansible'
-# set interfaces ethernet eth2 hw-id '08:00:27:ab:4e:79'
-# set interfaces ethernet eth2 smp_affinity 'auto'
+# set interfaces ethernet eth2 hw-id '08:00:27:c2:98:23'
+# set interfaces ethernet eth2 smp-affinity 'auto'
+# set interfaces ethernet eth2 vif 200
 # set interfaces ethernet eth3 description 'Replaced by Ansible'
-# set interfaces ethernet eth3 hw-id '08:00:27:17:3c:85'
-# set interfaces ethernet eth3 smp_affinity 'auto'
-
+# set interfaces ethernet eth3 hw-id '08:00:27:43:70:8c'
+# set interfaces loopback lo

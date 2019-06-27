@@ -1,40 +1,44 @@
 # Using overridden
 #
+#
+# --------------
 # Before state
 # --------------
 #
-# vyos@vyos-appliance:~$ show configuration commands | grep eth
+# vyos@vyos:~$ show configuration commands | grep interfaces
 # set interfaces ethernet eth0 address 'dhcp'
+# set interfaces ethernet eth0 address 'dhcpv6'
 # set interfaces ethernet eth0 description 'Ethernet Interface - 0'
 # set interfaces ethernet eth0 duplex 'auto'
-# set interfaces ethernet eth0 hw-id '08:00:27:f3:6c:b5'
-# set interfaces ethernet eth0 smp_affinity 'auto'
-# set interfaces ethernet eth0 speed 'auto'
+# set interfaces ethernet eth0 hw-id '08:00:27:30:f0:22'
 # set interfaces ethernet eth0 mtu '1200'
-# set interfaces ethernet eth1 address '192.168.1.120/24'
+# set interfaces ethernet eth0 smp-affinity 'auto'
+# set interfaces ethernet eth0 speed 'auto'
 # set interfaces ethernet eth1 description 'Configured by Ansible Eng Team'
-# set interfaces ethernet eth1 duplex 'full'
-# set interfaces ethernet eth1 hw-id '08:00:27:ad:ef:65'
+# set interfaces ethernet eth1 hw-id '08:00:27:ea:0f:b9'
 # set interfaces ethernet eth1 mtu '100'
-# set interfaces ethernet eth1 smp_affinity 'auto'
-# set interfaces ethernet eth1 speed '100'
+# set interfaces ethernet eth1 smp-affinity 'auto'
+# set interfaces ethernet eth1 vif 100 description 'VIF 100 - ETH1'
+# set interfaces ethernet eth1 vif 100 disable
 # set interfaces ethernet eth2 description 'Configured by Ansible Team (Admin Down)'
-# set interfaces ethernet eth2 duplex 'full'
-# set interfaces ethernet eth2 hw-id '08:00:27:ab:4e:79'
+# set interfaces ethernet eth2 disable
+# set interfaces ethernet eth2 hw-id '08:00:27:c2:98:23'
 # set interfaces ethernet eth2 mtu '600'
-# set interfaces ethernet eth2 smp_affinity 'auto'
-# set interfaces ethernet eth2 speed '100'
+# set interfaces ethernet eth2 smp-affinity 'auto'
 # set interfaces ethernet eth3 description 'Configured by Ansible Network'
-# set interfaces ethernet eth3 duplex 'full'
-# set interfaces ethernet eth3 hw-id '08:00:27:17:3c:85'
-# set interfaces ethernet eth3 smp_affinity 'auto'
-# set interfaces ethernet eth3 speed '100'
-
+# set interfaces ethernet eth3 hw-id '08:00:27:43:70:8c'
+# set interfaces loopback lo
+# set interfaces vti vti1 description 'Virtual Tunnel Interface - 1'
+# set interfaces vti vti1 mtu '68'
+#
+#
 - name: Overrides all device configuration with provided configuration
   vyos_interfaces:
     config:
-      - name: eth1
+      - name: eth0
         description: Outbound Interface For The Appliance
+        speed: auto
+        duplex: auto
 
       - name: eth2
         speed: auto
@@ -43,23 +47,137 @@
       - name: eth3
         mtu: 1200
     state: overridden
-
+#
+#
+# ------------------------
+# Module Execution Result
+# ------------------------
+# 
+# "before": [
+#        {
+#            "enable": true,
+#            "name": "lo"
+#        },
+#        {
+#            "description": "Virtual Tunnel Interface - 1",
+#            "enable": true,
+#            "mtu": 68,
+#            "name": "vti1"
+#        },
+#        {
+#            "description": "Configured by Ansible Network",
+#            "enable": true,
+#            "name": "eth3"
+#        },
+#        {
+#            "description": "Configured by Ansible Team (Admin Down)",
+#            "enable": false,
+#            "mtu": 600,
+#            "name": "eth2"
+#        },
+#        {
+#            "description": "Configured by Ansible Eng Team",
+#            "enable": true,
+#            "mtu": 100,
+#            "name": "eth1",
+#            "vifs": [
+#                {
+#                    "description": "VIF 100 - ETH1",
+#                    "enable": false,
+#                    "vlan_id": "100"
+#                }
+#            ]
+#        },
+#        {
+#            "description": "Ethernet Interface - 0",
+#            "duplex": "auto",
+#            "enable": true,
+#            "mtu": 1200,
+#            "name": "eth0",
+#            "speed": "auto"
+#        }
+#    ]
+#
+# "commands": [
+#        "delete interfaces vti vti1 description",
+#        "delete interfaces vti vti1 mtu",
+#        "delete interfaces ethernet eth1 description",
+#        "delete interfaces ethernet eth1 mtu",
+#        "delete interfaces ethernet eth1 vif 100 description",
+#        "delete interfaces ethernet eth1 vif 100 disable",
+#        "delete interfaces ethernet eth0 mtu",
+#        "set interfaces ethernet eth0 description 'Outbound Interface For The Appliance'",
+#        "delete interfaces ethernet eth2 description",
+#        "delete interfaces ethernet eth2 mtu",
+#        "set interfaces ethernet eth2 duplex 'auto'",
+#        "delete interfaces ethernet eth2 disable",
+#        "set interfaces ethernet eth2 speed 'auto'",
+#        "delete interfaces ethernet eth3 description",
+#        "set interfaces ethernet eth3 mtu '1200'"
+#    ],
+#
+# "after": [
+#        {
+#            "enable": true,
+#            "name": "lo"
+#        },
+#        {
+#            "enable": true,
+#            "name": "vti1"
+#        },
+#        {
+#            "enable": true,
+#            "mtu": 1200,
+#            "name": "eth3"
+#        },
+#        {
+#            "duplex": "auto",
+#            "enable": true,
+#            "name": "eth2",
+#            "speed": "auto"
+#        },
+#        {
+#            "enable": true,
+#            "name": "eth1",
+#            "vifs": [
+#                {
+#                    "enable": true,
+#                    "vlan_id": "100"
+#                }
+#            ]
+#        },
+#        {
+#            "description": "Outbound Interface For The Appliance",
+#            "duplex": "auto",
+#            "enable": true,
+#            "name": "eth0",
+#            "speed": "auto"
+#        }
+#    ]
+#
+# 
+# ------------
 # After state
 # ------------
 #
-# vyos@vyos-appliance:~$ show configuration commands | grep eth
+# vyos@vyos:~$ show configuration commands | grep interfaces
 # set interfaces ethernet eth0 address 'dhcp'
-# set interfaces ethernet eth0 hw-id '08:00:27:f3:6c:b5'
-# set interfaces ethernet eth0 smp_affinity 'auto'
-# set interfaces ethernet eth1 address '192.168.1.120/24'
-# set interfaces ethernet eth1 description 'Outbound Interface For The Appliance'
-# set interfaces ethernet eth1 hw-id '08:00:27:ad:ef:65'
-# set interfaces ethernet eth1 smp_affinity 'auto'
+# set interfaces ethernet eth0 address 'dhcpv6'
+# set interfaces ethernet eth0 description 'Outbound Interface For The Appliance'
+# set interfaces ethernet eth0 duplex 'auto'
+# set interfaces ethernet eth0 hw-id '08:00:27:30:f0:22'
+# set interfaces ethernet eth0 smp-affinity 'auto'
+# set interfaces ethernet eth0 speed 'auto'
+# set interfaces ethernet eth1 hw-id '08:00:27:ea:0f:b9'
+# set interfaces ethernet eth1 smp-affinity 'auto'
+# set interfaces ethernet eth1 vif 100
 # set interfaces ethernet eth2 duplex 'auto'
-# set interfaces ethernet eth2 hw-id '08:00:27:ab:4e:79'
-# set interfaces ethernet eth2 smp_affinity 'auto'
+# set interfaces ethernet eth2 hw-id '08:00:27:c2:98:23'
+# set interfaces ethernet eth2 smp-affinity 'auto'
 # set interfaces ethernet eth2 speed 'auto'
-# set interfaces ethernet eth3 hw-id '08:00:27:17:3c:85'
+# set interfaces ethernet eth3 hw-id '08:00:27:43:70:8c'
 # set interfaces ethernet eth3 mtu '1200'
-# set interfaces ethernet eth3 smp_affinity 'auto'
-
+# set interfaces loopback lo
+# set interfaces vti vti1
+#
+# 

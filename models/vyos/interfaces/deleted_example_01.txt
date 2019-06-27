@@ -1,54 +1,175 @@
 # Using deleted
 #
+#
+# -------------
 # Before state
 # -------------
-# vyos@vyos-appliance:~$ show configuration commands | grep eth
+#
+# vyos@vyos:~$ show configuration commands | grep interfaces
+# set interfaces bonding bond0 mtu '1300'
+# set interfaces bonding bond1 description 'LAG - 1'
 # set interfaces ethernet eth0 address 'dhcp'
+# set interfaces ethernet eth0 address 'dhcpv6'
 # set interfaces ethernet eth0 description 'Outbound Interface for this appliance'
 # set interfaces ethernet eth0 duplex 'auto'
-# set interfaces ethernet eth0 hw-id '08:00:27:f3:6c:b5'
-# set interfaces ethernet eth0 smp_affinity 'auto'
+# set interfaces ethernet eth0 hw-id '08:00:27:30:f0:22'
+# set interfaces ethernet eth0 smp-affinity 'auto'
 # set interfaces ethernet eth0 speed 'auto'
 # set interfaces ethernet eth1 description 'Configured by Ansible Network'
 # set interfaces ethernet eth1 duplex 'full'
-# set interfaces ethernet eth1 hw-id '08:00:27:ad:ef:65'
-# set interfaces ethernet eth1 smp_affinity 'auto'
+# set interfaces ethernet eth1 hw-id '08:00:27:ea:0f:b9'
+# set interfaces ethernet eth1 smp-affinity 'auto'
 # set interfaces ethernet eth1 speed '100'
 # set interfaces ethernet eth2 description 'Configured by Ansible'
+# set interfaces ethernet eth2 disable
 # set interfaces ethernet eth2 duplex 'full'
-# set interfaces ethernet eth2 hw-id '08:00:27:ab:4e:79'
+# set interfaces ethernet eth2 hw-id '08:00:27:c2:98:23'
 # set interfaces ethernet eth2 mtu '600'
-# set interfaces ethernet eth2 smp_affinity 'auto'
+# set interfaces ethernet eth2 smp-affinity 'auto'
 # set interfaces ethernet eth2 speed '100'
 # set interfaces ethernet eth3 description 'Configured by Ansible Network'
 # set interfaces ethernet eth3 duplex 'full'
-# set interfaces ethernet eth3 hw-id '08:00:27:17:3c:85'
-# set interfaces ethernet eth3 smp_affinity 'auto'
+# set interfaces ethernet eth3 hw-id '08:00:27:43:70:8c'
 # set interfaces ethernet eth3 speed '100'
-
-- name: Delete attributes of given interfaces (Note: This won't delete the interface itself)
+# set interfaces loopback lo
+#
+#
+- name: Delete attributes of given interfaces (Note: This won't delete the interfaces themselves)
   vyos_interfaces:
     config:
-      - name: "{{ item }}"
-    state: deleted
-    loop:
-      - eth1
-      - eth2
-      - eth3
+      - name: bond1
 
+      - name: eth1
+
+      - name: eth2
+
+      - name: eth3
+    state: deleted
+#
+#
+# ------------------------
+# Module Execution Results
+# ------------------------
+#
+# "before": [
+#        {
+#            "enable": true,
+#            "mtu": 1300,
+#            "name": "bond0"
+#        },
+#        {
+#            "description": "LAG - 1",
+#            "enable": true,
+#            "name": "bond1"
+#        },
+#        {
+#            "enable": true,
+#            "name": "lo"
+#        },
+#        {
+#            "description": "Configured by Ansible Network",
+#            "duplex": "full",
+#            "enable": true,
+#            "name": "eth3",
+#            "speed": "100"
+#        },
+#        {
+#            "description": "Configured by Ansible",
+#            "duplex": "full",
+#            "enable": false,
+#            "mtu": 600,
+#            "name": "eth2",
+#            "speed": "100"
+#        },
+#        {
+#            "description": "Configured by Ansible Network",
+#            "duplex": "full",
+#            "enable": true,
+#            "name": "eth1",
+#            "speed": "100"
+#        },
+#        {
+#            "description": "Outbound Interface for this appliance",
+#            "duplex": "auto",
+#            "enable": true,
+#            "name": "eth0",
+#            "speed": "auto"
+#        }
+#    ]
+#
+# "commands": [
+#        "delete interfaces bonding bond1 description",
+#        "delete interfaces ethernet eth1 speed",
+#        "delete interfaces ethernet eth1 duplex",
+#        "delete interfaces ethernet eth1 description",
+#        "delete interfaces ethernet eth2 speed",
+#        "delete interfaces ethernet eth2 disable",
+#        "delete interfaces ethernet eth2 duplex",
+#        "delete interfaces ethernet eth2 disable",
+#        "delete interfaces ethernet eth2 description",
+#        "delete interfaces ethernet eth2 disable",
+#        "delete interfaces ethernet eth2 mtu",
+#        "delete interfaces ethernet eth2 disable",
+#        "delete interfaces ethernet eth3 speed",
+#        "delete interfaces ethernet eth3 duplex",
+#        "delete interfaces ethernet eth3 description"
+#    ]
+#
+# "after": [
+#        {
+#            "enable": true,
+#            "mtu": 1300,
+#            "name": "bond0"
+#        },
+#        {
+#            "enable": true,
+#            "name": "bond1"
+#        },
+#        {
+#            "enable": true,
+#            "name": "lo"
+#        },
+#        {
+#            "enable": true,
+#            "name": "eth3"
+#        },
+#        {
+#            "enable": true,
+#            "name": "eth2"
+#        },
+#        {
+#            "enable": true,
+#            "name": "eth1"
+#        },
+#        {
+#            "description": "Outbound Interface for this appliance",
+#            "duplex": "auto",
+#            "enable": true,
+#            "name": "eth0",
+#            "speed": "auto"
+#        }
+#    ]
+#
+# 
+# ------------
 # After state
 # ------------
-# vyos@vyos-appliance:~$ show configuration commands | grep eth
+#
+# vyos@vyos:~$ show configuration commands | grep interfaces
+# set interfaces bonding bond0 mtu '1300'
+# set interfaces bonding bond1
 # set interfaces ethernet eth0 address 'dhcp'
+# set interfaces ethernet eth0 address 'dhcpv6'
 # set interfaces ethernet eth0 description 'Outbound Interface for this appliance'
 # set interfaces ethernet eth0 duplex 'auto'
-# set interfaces ethernet eth0 hw-id '08:00:27:f3:6c:b5'
-# set interfaces ethernet eth0 smp_affinity 'auto'
+# set interfaces ethernet eth0 hw-id '08:00:27:30:f0:22'
+# set interfaces ethernet eth0 smp-affinity 'auto'
 # set interfaces ethernet eth0 speed 'auto'
-# set interfaces ethernet eth1 address '192.168.1.120/24'
-# set interfaces ethernet eth1 hw-id '08:00:27:ad:ef:65'
-# set interfaces ethernet eth1 smp_affinity 'auto'
-# set interfaces ethernet eth2 hw-id '08:00:27:ab:4e:79'
-# set interfaces ethernet eth2 smp_affinity 'auto'
-# set interfaces ethernet eth3 hw-id '08:00:27:17:3c:85'
-# set interfaces ethernet eth3 smp_affinity 'auto'
+# set interfaces ethernet eth1 hw-id '08:00:27:ea:0f:b9'
+# set interfaces ethernet eth1 smp-affinity 'auto'
+# set interfaces ethernet eth2 hw-id '08:00:27:c2:98:23'
+# set interfaces ethernet eth2 smp-affinity 'auto'
+# set interfaces ethernet eth3 hw-id '08:00:27:43:70:8c'
+# set interfaces loopback lo
+#
+#
