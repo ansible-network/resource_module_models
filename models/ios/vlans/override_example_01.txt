@@ -1,0 +1,39 @@
+# Using overridden
+
+# Before state:
+# -------------
+#
+# vios#show vlan brief
+# VLAN Name                             Status    Ports
+# ---- -------------------------------- --------- -------------------------------
+# 1    default                          active    Gi0/1, Gi0/2
+# 20   Vlan_20                          active
+# 30   Vlan_30                          active
+# 1002 fddi-default                     act/unsup
+# 1003 token-ring-default               act/unsup
+# 1004 fddinet-default                  act/unsup
+# 1005 trnet-default                    act/unsup
+
+- name: Override device configuration of all interfaces with provided configuration
+  ios_interfaces:
+    config:
+      - name: Vlan_10
+        vlan_id: 10
+      - name: Test_VLAN20
+        vlan_id: 20
+    operation: overridden
+
+# After state:
+# ------------
+#
+# vios#show vlan brief
+# VLAN Name                             Status    Ports
+# ---- -------------------------------- --------- -------------------------------
+# 1    default                          active    Gi0/1, Gi0/2
+# 10   Vlan_10                          active
+# 20   Test_VLAN20                      active
+# 1002 fddi-default                     act/unsup
+# 1003 token-ring-default               act/unsup
+# 1004 fddinet-default                  act/unsup
+# 1005 trnet-default                    act/unsup
+
