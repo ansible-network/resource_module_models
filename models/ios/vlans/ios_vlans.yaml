@@ -34,10 +34,6 @@ DOCUMENTATION: |
           - ID of the VLAN. Range 1-4094
           type: int
           required: True
-        interfaces:
-          description:
-          - List of interfaces that should be associated to the VLAN.
-          required: True
     state:
       description:
       - The state the configuration should be left in
