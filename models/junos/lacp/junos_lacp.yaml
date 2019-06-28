@@ -12,7 +12,7 @@ RESOURCE: lacp
 COPYRIGHT: Copyright 2019 Red Hat
 
 DOCUMENTATION: |
-  module: ios_lacp
+  module: junos_lacp
   version_added: 2.9
   short_description: Manage Global Link Aggregation Control Protocol (LACP) on Juniper JUNOS devices.
   description: This module provides declarative management of global LACP on Juniper Junos network devices.
@@ -34,7 +34,6 @@ DOCUMENTATION: |
             be reverted.
           type: str
           choices: ['revertive', 'non-revertive']
-          default: 'revertive'
     state:
       description:
       - The state the configuration should be left in
