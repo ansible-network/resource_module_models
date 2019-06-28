@@ -34,6 +34,13 @@ DOCUMENTATION: |
           - ID of the VLAN. Range 1-4094
           type: int
           required: True
+        state:
+          description:
+          - Operational state of the VLAN
+          default: active
+          choices:
+          - active
+          - suspend
     state:
       description:
       - The state the configuration should be left in
