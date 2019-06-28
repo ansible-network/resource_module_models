@@ -4,53 +4,147 @@
 # -------------
 #
 # vyos:~$ show configuration commands | grep interfaces
+# set interfaces bonding 'bond2'
+# set interfaces bonding bond3 address '10.10.10.10/24'
 # set interfaces ethernet eth0 address 'dhcp'
-# set interfaces ethernet eth0 address 'dhcpv6'
-# set interfaces ethernet eth0 hw-id '08:00:27:30:f0:22'
-# set interfaces ethernet eth0 smp-affinity 'auto'
-# set interfaces ethernet eth1 hw-id '08:00:27:ea:0f:b9'
-# set interfaces ethernet eth1 smp-affinity 'auto'
-# set interfaces ethernet eth2 hw-id '08:00:27:c2:98:23'
-# set interfaces ethernet eth2 smp-affinity 'auto'
-# set interfaces ethernet eth3 hw-id '08:00:27:43:70:8c'
-# set interfaces ethernet eth3 smp-affinity 'auto'
-# set interfaces loopback lo
-
+# set interfaces ethernet eth0 duplex 'auto'
+# set interfaces ethernet eth0 hw-id '08:00:27:50:5e:19'
+# set interfaces ethernet eth0 smp_affinity 'auto'
+# set interfaces ethernet eth0 speed 'auto'
+# set interfaces ethernet eth1 description 'Ansible team'
+# set interfaces ethernet eth1 duplex 'auto'
+# set interfaces ethernet eth1 hw-id '08:00:27:9b:bc:e3'
+# set interfaces ethernet eth1 smp_affinity 'auto'
+# set interfaces ethernet eth1 speed 'auto'
+# set interfaces ethernet eth2 description 'Bundled in Bond0'
+# set interfaces ethernet eth2 duplex 'auto'
+# set interfaces ethernet eth2 hw-id '08:00:27:f8:31:70'
+# set interfaces ethernet eth2 mtu '1200'
+# set interfaces ethernet eth2 smp_affinity 'auto'
+# set interfaces ethernet eth2 speed 'auto'
+# set interfaces ethernet eth3 duplex 'auto'
+# set interfaces ethernet eth3 hw-id '08:00:27:96:20:55'
+# set interfaces ethernet eth3 smp_affinity 'auto'
+# set interfaces ethernet eth3 speed 'auto'
+# set interfaces ethernet eth3 vif 100 description 'Configured VIF 100'
+# set interfaces ethernet eth3 vif 100 mtu '200'
+# set interfaces ethernet eth3 vif 210 description 'Configured VIF 210'
+# set interfaces ethernet eth3 vif 210 mtu '200'
+# set interfaces ethernet eth3 vif 300 description 'Configured VIF 300'
+# set interfaces ethernet eth3 vif 300 'disable'
+# set interfaces loopback 'lo'
+#
 - name: Merge provided configuration with device configuration
-  vyos_lag:
+  vyos_lag_interfaces:
     config:
-      - name: bond0
-        mode: 802.3ad
-        members:
-	  - eth1
-	  - eth3
+      - name: bond2
+        mode: active-backup
+        members: 
+         - eth2
+         - eth1
         hash-policy: layer2
-
-      - name: bond1
-        mode: xor-hash
-	members: eth2
-        hash-policy: layer2+3
-    state: merged
-    
+        primary: eth2
+         
+      - name: 'bond3'
+        mode: 'active-backup'
+        hash-policy: 'layer2+3'
+        members: 
+         - eth3
+        primary: 'eth3'
+    state: mergedstate: merged
+#
+#
+# -------------------------
+# Module Execution Result
+# -------------------------
+#
+#     "before": [
+#        {
+#            "enable": true, 
+#            "members": [], 
+#            "name": "'bond2'"
+#        }, 
+#        {
+#            "enable": true, 
+#            "members": [], 
+#            "name": "bond3"
+#        }
+#    ]    
+#
+# "commands": [
+#        "set interfaces bonding bond2 hash-policy 'layer2'", 
+#        "set interfaces ethernet eth2 bond-group bond2", 
+#        "set interfaces ethernet eth1 bond-group bond2", 
+#        "set interfaces bonding bond2 mode 'active-backup'", 
+#        "set interfaces bonding bond2 primary 'eth2'", 
+#        "set interfaces bonding bond3 hash-policy 'layer2+3'", 
+#        "set interfaces bonding bond3 mode 'active-backup'", 
+#        "set interfaces ethernet eth3 bond-group bond3", 
+#       "set interfaces bonding bond3 primary 'eth3'"
+#    ]
+#
+#     "after": [
+#        {
+#            "enable": true, 
+#            "hash-policy": "layer2", 
+#            "members": [
+#                "eth1", 
+#                "eth2"
+#            ], 
+#            "mode": "active-backup", 
+#            "name": "bond2", 
+#            "primary": "eth2"
+#        }, 
+#        {
+#            "enable": true, 
+#            "hash-policy": "layer2+3", 
+#            "members": [
+#                "eth3"
+#            ], 
+#            "mode": "active-backup", 
+#            "name": "bond3", 
+#            "primary": "eth3"
+#        }
+#    ]
+#
 # After state:
 # -------------
 #
 # vyos@vyos:~$ show configuration commands | grep interfaces
-# set interfaces bonding bond0 hash-policy 'layer2'
-# set interfaces bonding bond0 mode '802.3ad'
-# set interfaces bonding bond1 hash-policy 'layer2+3'
-# set interfaces bonding bond1 mode 'xor-hash'
+# set interfaces bonding bond2 hash-policy 'layer2'
+# set interfaces bonding bond2 mode 'active-backup'
+# set interfaces bonding bond2 primary 'eth2'
+# set interfaces bonding bond3 address '10.10.10.10/24'
+# set interfaces bonding bond3 hash-policy 'layer2+3'
+# set interfaces bonding bond3 mode 'active-backup'
+# set interfaces bonding bond3 primary 'eth3'
 # set interfaces ethernet eth0 address 'dhcp'
-# set interfaces ethernet eth0 address 'dhcpv6'
-# set interfaces ethernet eth0 hw-id '08:00:27:30:f0:22'
-# set interfaces ethernet eth0 smp-affinity 'auto'
-# set interfaces ethernet eth1 bond-group 'bond0'
-# set interfaces ethernet eth1 hw-id '08:00:27:ea:0f:b9'
-# set interfaces ethernet eth1 smp-affinity 'auto'
-# set interfaces ethernet eth2 hw-id '08:00:27:c2:98:23'
-# set interfaces ethernet eth2 smp-affinity 'auto'
-# set interfaces ethernet eth2 bond-group 'bond1'
-# set interfaces ethernet eth3 bond-group 'bond0'
-# set interfaces ethernet eth3 hw-id '08:00:27:43:70:8c'
-# set interfaces ethernet eth3 smp-affinity 'auto'
-# set interfaces loopback lo
+# set interfaces ethernet eth0 duplex 'auto'
+# set interfaces ethernet eth0 hw-id '08:00:27:50:5e:19'
+# set interfaces ethernet eth0 smp_affinity 'auto'
+# set interfaces ethernet eth0 speed 'auto'
+# set interfaces ethernet eth1 bond-group 'bond2'
+# set interfaces ethernet eth1 description 'Ansible team'
+# set interfaces ethernet eth1 duplex 'auto'
+# set interfaces ethernet eth1 hw-id '08:00:27:9b:bc:e3'
+# set interfaces ethernet eth1 smp_affinity 'auto'
+# set interfaces ethernet eth1 speed 'auto'
+# set interfaces ethernet eth2 bond-group 'bond2'
+# set interfaces ethernet eth2 description 'Bundled in Bond0'
+# set interfaces ethernet eth2 duplex 'auto'
+# set interfaces ethernet eth2 hw-id '08:00:27:f8:31:70'
+# set interfaces ethernet eth2 mtu '1200'
+# set interfaces ethernet eth2 smp_affinity 'auto'
+# set interfaces ethernet eth2 speed 'auto'
+# set interfaces ethernet eth3 bond-group 'bond3'
+# set interfaces ethernet eth3 duplex 'auto'
+# set interfaces ethernet eth3 hw-id '08:00:27:96:20:55'
+# set interfaces ethernet eth3 smp_affinity 'auto'
+# set interfaces ethernet eth3 speed 'auto'
+# set interfaces ethernet eth3 vif 100 description 'Configured VIF 100'
+# set interfaces ethernet eth3 vif 100 mtu '200'
+# set interfaces ethernet eth3 vif 210 description 'Configured VIF 210'
+# set interfaces ethernet eth3 vif 210 mtu '200'
+# set interfaces ethernet eth3 vif 300 description 'Configured VIF 300'
+# set interfaces ethernet eth3 vif 300 'disable'
+# set interfaces loopback 'lo'

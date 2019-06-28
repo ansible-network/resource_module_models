@@ -69,7 +69,7 @@ DOCUMENTATION: |
             target:
               description:
                 -  IP address to use for ARP monitoring.
-              type: str
+              type: list
     state:
       description:
         - The state the configuration should be left in.
