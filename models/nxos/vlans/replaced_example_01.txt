@@ -1,0 +1,30 @@
+# Using merged
+
+# Before state:
+# -------------
+# vlan 1
+# vlan 5
+#   name test-vlan5
+# vlan 10
+#   shutdown
+
+- name: Replace device configuration of specified vlan with provided configuration.
+  nxos_vlans:
+    config:
+      - vlan_id: 5
+        name: test-vlan
+	admin_state: down
+      - vlan_id: 10
+        admin_state: down
+    state: replaced
+
+# After state:
+# ------------
+# vlan 1
+# vlan 5
+#   name test-vlan
+#   state active
+#   shutdown
+# vlan 10
+#   state active
+#   shutdown

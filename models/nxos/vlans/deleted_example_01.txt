@@ -1,0 +1,18 @@
+# Using merged
+
+# Before state:
+# -------------
+# vlan 1
+# vlan 5
+# vlan 10
+
+- name: Delete vlans.
+  nxos_vlans:
+    config:
+      - vlan_id: 5
+      - vlan_id: 10
+    state: deleted
+
+# After state:
+# ------------
+# vlan 1
