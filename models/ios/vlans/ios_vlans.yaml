@@ -34,13 +34,21 @@ DOCUMENTATION: |
           - ID of the VLAN. Range 1-4094
           type: int
           required: True
+        mtu:
+          description:
+          - VLAN Maximum Transmission Unit. Range 576-18190.
+          type: int
         state:
           description:
           - Operational state of the VLAN
-          default: active
+          type: str
           choices:
           - active
           - suspend
+        shutdown:
+          description:
+          - Shutdown VLAN switching.
+          type: bool
     state:
       description:
       - The state the configuration should be left in
