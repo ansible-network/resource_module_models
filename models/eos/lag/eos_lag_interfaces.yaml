@@ -33,7 +33,7 @@ DOCUMENTATION: |
           required: True
         mode:
           description:
-            - Link aggregation group (LAG).
+            - LAG mode.
           type: str
           choices:
             - active
@@ -41,7 +41,7 @@ DOCUMENTATION: |
             - passive
         members:
           description:
-            - Ethernet Interfaces that are part of the group.
+            - Ethernet interfaces that are part of the group.
           type: list
     state:
       description:
