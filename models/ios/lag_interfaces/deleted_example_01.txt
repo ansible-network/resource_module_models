@@ -23,8 +23,8 @@
 #  shutdown
 #  channel-group 30 mode active
 
-- name: Delete attributes of given interfaces (Note: This won't delete the interface itself)
-  ios_interfaces:
+- name: Delete LAG attributes of given interfaces (Note: This won't delete the interface itself)
+  ios_lag_interfaces:
     config:
       - name: 10
       - name: 20
