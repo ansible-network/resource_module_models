@@ -15,7 +15,7 @@
 #  shutdown
 
 - name: Merge provided configuration with device configuration
-  ios_interfaces:
+  ios_lag_interfaces:
     config:
       - name: 10
         mode: auto
