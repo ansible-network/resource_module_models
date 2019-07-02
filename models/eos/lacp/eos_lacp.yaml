@@ -1,0 +1,44 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+NETWORK_OS: eos
+RESOURCE: lacp
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: eos_lacp
+  version_added: 2.9
+  short_description: Manage Global Link Aggregation Control Protocol (LACP) on Arista EOS devices.
+  description: 
+    - This module manages Global Link Aggregation Control Protocol (LACP) on Arista EOS devices.
+  author: Nathaniel Case (@Qalthos)
+  options:
+    config:
+      description: LACP global options.
+      type: dict
+      suboptions:
+        system_priority:
+          description:
+            - The system priority to use in LACP negotiations.
+            - Lower value is higher priority.
+            - Refer to vendor documentation for valid values.
+          type: int
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - deleted
+      default: merged
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - deleted_example_01.txt

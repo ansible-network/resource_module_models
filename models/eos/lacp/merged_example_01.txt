@@ -1,0 +1,18 @@
+# Using merged
+
+# Before state:
+# -------------
+# veos# show running-config | include lacp
+# lacp system-priority 10
+
+- name: Merge provided global LACP attributes with device attributes
+  eos_lacp:
+    config:
+      system_priority: 20
+    operation: merged
+
+# After state:
+# ------------
+# veos# show running-config | include lacp
+# lacp system-priority 20
+#
