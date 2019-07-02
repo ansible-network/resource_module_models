@@ -1,0 +1,24 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+# interface Ethernet1
+#   channel group 5 mode on
+# interface Ethernet2
+
+- name: Replace all device configuration of specified LAGs with provided configuration
+  eos_lag_interfaces:
+    config:
+      - name: 5
+        members:
+	  - Ethernet2
+	mode: on
+    state: replaced
+
+# After state:
+# ------------
+#
+# interface Ethernet1
+# interface Ethernet2
+#   channel group 5 mode on

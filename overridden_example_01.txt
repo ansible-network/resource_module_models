@@ -1,0 +1,24 @@
+# Using overridden
+
+# Before state:
+# -------------
+#
+# interface Ethernet1
+#   channel group 5 mode on
+# interface Ethernet2
+
+- name: Override all device configuration of all LAG attributes with provided configuration
+  eos_lag_interfaces:
+    config:
+      - name: 10
+        members:
+	  - Ethernet2
+	mode: on
+    state: overridden
+
+# After state:
+# ------------
+#
+# interface Ethernet1
+# interface Ethernet2
+#   channel group 10 mode on
