@@ -21,7 +21,7 @@ DOCUMENTATION: |
   - Tested against Cisco IOSv Version 15.2 on VIRL
   options:
     config:
-      description: A dictionary of Link Aggregation interface options
+      description: A list of link aggregation group configurations.
       type: list
       elements: dict
       suboptions:
@@ -48,8 +48,8 @@ DOCUMENTATION: |
           type: int
         flowcontrol:
           description:
-          - To configure the flow control on a given interface, use the flow control Interface
-            (Ethernet, Port Channel) Configuration mode command. Flow control is a feature that
+          - To configure the flow control on a given interface, use the flow control interface
+            (Ethernet, Port Channel) configuration mode command. Flow control is a feature that
             allows the receiving device to send a signal to the sending device that it is congested.
             This tells the sending device to temporarily stop transmitting to help ease the congestion.
           type: str
