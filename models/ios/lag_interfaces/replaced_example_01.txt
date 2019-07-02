@@ -24,7 +24,7 @@
 #  channel-group 30 mode active
 
 - name: Replaces device configuration of listed interfaces with provided configuration
-  ios_interfaces:
+  ios_lag_interfaces:
     config:
       - name: 40
         mode: auto
