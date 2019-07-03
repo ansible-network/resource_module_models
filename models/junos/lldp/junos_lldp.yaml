@@ -1,0 +1,61 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+NETWORK_OS: junos
+RESOURCE: lldp
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: junos_lldp
+  version_added: 2.9
+  short_description: Manage link layer discovery protocol (LLDP) attributes on Juniper JUNOS devices.
+  description:
+    - This module manages link layer discovery protocol (LLDP) attributes on Juniper JUNOS devices.
+  author: Ganesh Nalawade (@ganeshrn)
+  options:
+    config:
+      description: The list of link layer discovery protocol attribute configurations
+      type: dict
+      suboptions:
+        disable:
+          description:
+            - This argument is a boolean value to enable or disable LLDP.
+          type: bool
+        interval:
+          description:
+            - Frequency at which LLDP advertisements are sent (in seconds).
+          type: int
+        address:
+          description:
+            - This argument sets the management address from LLDP.
+          type: str
+        transmit_delay:
+          description:
+            - Specify the number of seconds the device waits before sending
+              advertisements to neighbors after a change is made in local system.
+          type: int
+        hold_multiplier:
+          description:
+            - Specify the number of seconds that LLDP information is held before it is
+              discarded. The multiplier value is used in combination with the
+              C(interval) value.
+          type: int
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - deleted
+      default: merged
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - deleted_example_01.txt

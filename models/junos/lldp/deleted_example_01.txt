@@ -1,0 +1,15 @@
+# Using deleted
+# Before state:
+# -------------
+# user@junos01# show protocols lldp
+# management-address 20.2.2.2;
+# hold-multiplier 30;
+
+- name: Delete lldp configuration (this will by default remove all lldp configuration)
+  junos_lldp:
+    state: deleted
+
+# After state:
+# -------------
+# user@junos01# # show protocols lldp
+#
