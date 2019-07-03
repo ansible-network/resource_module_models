@@ -9,7 +9,7 @@
   eos_lacp:
     config:
       system_priority: 20
-    operation: merged
+    state: merged
 
 # After state:
 # ------------

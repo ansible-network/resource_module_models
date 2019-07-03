@@ -9,7 +9,7 @@
   eos_lacp:
     config:
       system_priority: 20
-    operation: replaced
+    state: replaced
 
 # After state:
 # ------------

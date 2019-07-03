@@ -7,7 +7,7 @@
 
 - name: Delete global LACP attributes
   eos_lacp:
-    operation: deleted
+    state: deleted
 
 # After state:
 # ------------
