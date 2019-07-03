@@ -1,0 +1,30 @@
+# Using replaced
+# Before state:
+# -------------
+# user@junos01# show protocols lldp
+# management-address 10.1.1.1;
+# advertisement-interval 10000;
+# interface ge-0/0/1;
+# interface ge-0/0/2 {
+#     disable;
+# }
+
+- name: Replace provided configuration with device configuration
+  junos_lldp:
+    config:
+      - name: ge-0/0/2
+        disable: False
+      - name: ge-0/0/3
+        disable: True
+    state: replaced
+
+# After state:
+# -------------
+# user@junos01# show protocols lldp
+# management-address 10.1.1.1;
+# advertisement-interval 10000;
+# interface ge-0/0/1;
+# interface ge-0/0/2;
+# interface ge-0/0/3 {
+#     disable;
+# }

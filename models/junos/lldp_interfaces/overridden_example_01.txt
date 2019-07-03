@@ -1,0 +1,26 @@
+# Using overridden
+# Before state:
+# -------------
+# user@junos01# show protocols lldp
+# management-address 10.1.1.1;
+# advertisement-interval 10000;
+# interface ge-0/0/1;
+# interface ge-0/0/2 {
+#     disable;
+# }
+
+- name: Override provided configuration with device configuration
+  junos_lldp_interfaces:
+    config:
+      - name: ge-0/0/2
+        disable: False
+    state: overridden
+
+# After state:
+# -------------
+# user@junos01# show protocols lldp
+# management-address 10.1.1.1;
+# advertisement-interval 10000;
+# interface ge-0/0/2 {
+#     disable;
+# }

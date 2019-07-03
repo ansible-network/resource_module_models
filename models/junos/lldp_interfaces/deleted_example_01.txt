@@ -1,0 +1,24 @@
+# Using deleted
+# Before state:
+# -------------
+# user@junos01# show protocols lldp
+# management-address 10.1.1.1;
+# advertisement-interval 10000;
+# interface ge-0/0/1;
+# interface ge-0/0/2;
+# interface ge-0/0/3 {
+#     disable;
+# }
+
+- name: Delete lldp interface configuration (this will not delete other lldp configuration)
+  junos_lldp:
+    - name: ge-0/0/1
+    - name: ge-0/0/3
+    state: deleted
+
+# After state:
+# -------------
+# user@junos01# show protocols lldp
+# management-address 10.1.1.1;
+# advertisement-interval 10000;
+# interface ge-0/0/2;
