@@ -3,44 +3,16 @@
 # Before state:
 # -------------
 #
-# vyosvyos:~$ show configuration commands | grep interfaces
+# vyos@vyos:~$ show configuration  commands | grep bond
 # set interfaces bonding bond2 hash-policy 'layer2'
 # set interfaces bonding bond2 mode 'active-backup'
 # set interfaces bonding bond2 primary 'eth2'
-# set interfaces bonding bond3 address '10.10.10.10/24'
 # set interfaces bonding bond3 hash-policy 'layer2+3'
 # set interfaces bonding bond3 mode 'active-backup'
 # set interfaces bonding bond3 primary 'eth3'
-# set interfaces ethernet eth0 address 'dhcp'
-# set interfaces ethernet eth0 duplex 'auto'
-# set interfaces ethernet eth0 hw-id '08:00:27:50:5e:19'
-# set interfaces ethernet eth0 smp_affinity 'auto'
-# set interfaces ethernet eth0 speed 'auto'
 # set interfaces ethernet eth1 bond-group 'bond2'
-# set interfaces ethernet eth1 description 'Ansible team'
-# set interfaces ethernet eth1 duplex 'auto'
-# set interfaces ethernet eth1 hw-id '08:00:27:9b:bc:e3'
-# set interfaces ethernet eth1 smp_affinity 'auto'
-# set interfaces ethernet eth1 speed 'auto'
 # set interfaces ethernet eth2 bond-group 'bond2'
-# set interfaces ethernet eth2 description 'Bundled in Bond0'
-# set interfaces ethernet eth2 duplex 'auto'
-# set interfaces ethernet eth2 hw-id '08:00:27:f8:31:70'
-# set interfaces ethernet eth2 mtu '1200'
-# set interfaces ethernet eth2 smp_affinity 'auto'
-# set interfaces ethernet eth2 speed 'auto'
 # set interfaces ethernet eth3 bond-group 'bond3'
-# set interfaces ethernet eth3 duplex 'auto'
-# set interfaces ethernet eth3 hw-id '08:00:27:96:20:55'
-# set interfaces ethernet eth3 smp_affinity 'auto'
-# set interfaces ethernet eth3 speed 'auto'
-# set interfaces ethernet eth3 vif 100 description 'Configured VIF 100'
-# set interfaces ethernet eth3 vif 100 mtu '200'
-# set interfaces ethernet eth3 vif 210 description 'Configured VIF 210'
-# set interfaces ethernet eth3 vif 210 mtu '200'
-# set interfaces ethernet eth3 vif 300 description 'Configured VIF 300'
-# set interfaces ethernet eth3 vif 300 'disable'
-# set interfaces loopback 'lo'
 #
 - name: Replace device configurations of listed LAGs with provided configurations
   vyos_lag_interfaces:
@@ -49,7 +21,7 @@
         mode: '802.3ad'
         hash-policy: 'layer2'
         members: 
-          - eth3
+         - member: eth3
     state: replaced
 #
 #
@@ -62,8 +34,12 @@
 #            "enable": true, 
 #            "hash-policy": "layer2", 
 #            "members": [
-#                "eth1", 
-#                "eth2"
+#                {
+#                    "member": "eth1"
+#                }, 
+#                {
+#                    "member": "eth2"
+#                }
 #            ], 
 #            "mode": "active-backup", 
 #            "name": "bond2", 
@@ -73,27 +49,33 @@
 #            "enable": true, 
 #            "hash-policy": "layer2+3", 
 #            "members": [
-#                "eth3"
+#                {
+#                    "member": "eth3"
+#                }
 #            ], 
 #            "mode": "active-backup", 
 #            "name": "bond3", 
 #            "primary": "eth3"
 #        }
-#    ]
+#    ],
 #
 # "commands": [
 #        "delete interfaces bonding bond3 primary", 
 #        "set interfaces bonding bond3 hash-policy 'layer2'", 
 #        "set interfaces bonding bond3 mode '802.3ad'"
-#    ]
+#    ],
 #
-#    "after": [
+# "after": [
 #        {
 #            "enable": true, 
 #            "hash-policy": "layer2", 
 #            "members": [
-#                "eth1", 
-#                "eth2"
+#                {
+#                    "member": "eth1"
+#                }, 
+#                {
+#                    "member": "eth2"
+#                }
 #            ], 
 #            "mode": "active-backup", 
 #            "name": "bond2", 
@@ -103,50 +85,24 @@
 #            "enable": true, 
 #            "hash-policy": "layer2", 
 #            "members": [
-#                "eth3"
+#                {
+#                    "member": "eth3"
+#                }
 #            ], 
 #            "mode": "802.3ad", 
 #            "name": "bond3"
 #        }
-#    ]
+#    ],
 #
 # After state:
 # -------------
 #
-# vyos:~$ show configuration commands | grep eth
+# vyos@vyos:~$ show configuration  commands | grep bond
 # set interfaces bonding bond2 hash-policy 'layer2'
 # set interfaces bonding bond2 mode 'active-backup'
 # set interfaces bonding bond2 primary 'eth2'
-# set interfaces bonding bond3 address '10.10.10.10/24'
 # set interfaces bonding bond3 hash-policy 'layer2'
 # set interfaces bonding bond3 mode '802.3ad'
-# set interfaces ethernet eth0 address 'dhcp'
-# set interfaces ethernet eth0 duplex 'auto'
-# set interfaces ethernet eth0 hw-id '08:00:27:50:5e:19'
-# set interfaces ethernet eth0 smp_affinity 'auto'
-# set interfaces ethernet eth0 speed 'auto'
 # set interfaces ethernet eth1 bond-group 'bond2'
-# set interfaces ethernet eth1 description 'Ansible team'
-# set interfaces ethernet eth1 duplex 'auto'
-# set interfaces ethernet eth1 hw-id '08:00:27:9b:bc:e3'
-# set interfaces ethernet eth1 smp_affinity 'auto'
-# set interfaces ethernet eth1 speed 'auto'
 # set interfaces ethernet eth2 bond-group 'bond2'
-# set interfaces ethernet eth2 description 'Bundled in Bond0'
-# set interfaces ethernet eth2 duplex 'auto'
-# set interfaces ethernet eth2 hw-id '08:00:27:f8:31:70'
-# set interfaces ethernet eth2 mtu '1200'
-# set interfaces ethernet eth2 smp_affinity 'auto'
-# set interfaces ethernet eth2 speed 'auto'
 # set interfaces ethernet eth3 bond-group 'bond3'
-# set interfaces ethernet eth3 duplex 'auto'
-# set interfaces ethernet eth3 hw-id '08:00:27:96:20:55'
-# set interfaces ethernet eth3 smp_affinity 'auto'
-# set interfaces ethernet eth3 speed 'auto'
-# set interfaces ethernet eth3 vif 100 description 'Configured VIF 100'
-# set interfaces ethernet eth3 vif 100 mtu '200'
-# set interfaces ethernet eth3 vif 210 description 'Configured VIF 210'
-# set interfaces ethernet eth3 vif 210 mtu '200'
-# set interfaces ethernet eth3 vif 300 description 'Configured VIF 300'
-# set interfaces ethernet eth3 vif 300 'disable'
-# set interfaces loopback 'lo'

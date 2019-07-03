@@ -17,10 +17,10 @@ DOCUMENTATION: |
   version_added: 2.9
   short_description: Manages attributes of link aggregation groups on VyOS network devices.
   description: This module manages attributes of link aggregation groups on VyOS network devices.
-  author: Rohit Thakur (@rthakur)
+  author: Rohit Thakur (@rohitthakur2590)
   options:
     config:
-      description: The provided link aggregation group configurations.
+      description: A list of link aggregation group configurations.
       type: list
       elements: dict
       suboptions:
@@ -31,7 +31,7 @@ DOCUMENTATION: |
           required: True
         mode:
           description:
-            - Link aggregation group (LAG) or bond mode.
+            - LAG or bond mode.
           type: str
           choices:
             - 802.3ad
@@ -40,17 +40,23 @@ DOCUMENTATION: |
             - round-robin
             - transmit-load-balance
             - adaptive-load-balance
-            - xor-hash 
+            - xor-hash
         members:
           description:
-            - Ethernet Interfaces that are part of the LAG (bond).
+            - List of member interfaces for the LAG (bond).
           type: list
+          elements: dict
+          suboptions:
+            member:
+              description:
+                - Name of the member interface.
+              type: str
         primary:
           description:
             - Primary device interfaces for the LAG (bond).
           type: str
         hash-policy:
-          description: 
+          description:
             - LAG or bonding transmit hash policy.
           type: str
           choices:
