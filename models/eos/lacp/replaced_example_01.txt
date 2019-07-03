@@ -8,7 +8,8 @@
 - name: Replace device global LACP attributes with provided attributes
   eos_lacp:
     config:
-      system_priority: 20
+      system:
+        priority: 20
     state: replaced
 
 # After state:

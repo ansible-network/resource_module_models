@@ -23,12 +23,16 @@ DOCUMENTATION: |
       description: LACP global options.
       type: dict
       suboptions:
-        system_priority:
-          description:
-            - The system priority to use in LACP negotiations.
-            - Lower value is higher priority.
-            - Refer to vendor documentation for valid values.
-          type: int
+        system:
+          description: LACP system options.
+          type: dict
+          suboptions:
+            priority:
+              description:
+                - The system priority to use in LACP negotiations.
+                - Lower value is higher priority.
+                - Refer to vendor documentation for valid values.
+              type: int
     state:
       description:
         - The state the configuration should be left in.

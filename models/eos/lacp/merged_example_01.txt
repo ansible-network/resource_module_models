@@ -8,7 +8,8 @@
 - name: Merge provided global LACP attributes with device attributes
   eos_lacp:
     config:
-      system_priority: 20
+      system:
+        priority: 20
     state: merged
 
 # After state:
