@@ -31,18 +31,24 @@ DOCUMENTATION: |
             - ID of the link aggregation group (LAG). Must be between 1-2000.
           type: str
           required: True
-        mode:
-          description:
-            - LAG mode.
-          type: str
-          choices:
-            - active
-            - on
-            - passive
         members:
           description:
             - Ethernet interfaces that are part of the group.
           type: list
+          elements: dict
+          suboptions:
+            member:
+              description:
+                - Name of ethernet interface that is a member of the LAG.
+              type: str
+            mode:
+              description:
+                - LAG mode for this interface.
+              type: str
+              choices:
+                - active
+                - on
+                - passive
     state:
       description:
         - The state the configuration should be left in.

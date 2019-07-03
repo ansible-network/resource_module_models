@@ -13,7 +13,7 @@
     config:
       - name: 5
         members:
-	  - Ethernet1
+	  - member: Ethernet1
     state: deleted
 
 # After state:

@@ -12,8 +12,8 @@
     config:
       - name: 5
         members:
-	  - Ethernet2
-	mode: on
+          - member: Ethernet2
+            mode: on
     state: replaced
 
 # After state:

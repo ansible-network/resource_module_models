@@ -12,8 +12,8 @@
     config:
       - name: 10
         members:
-	  - Ethernet2
-	mode: on
+          - member: Ethernet2
+            mode: on
     state: overridden
 
 # After state:
