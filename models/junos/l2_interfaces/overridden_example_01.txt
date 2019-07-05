@@ -1,4 +1,4 @@
-# Using replaced
+# Using overridden
 
 # Before state:
 # -------------
@@ -39,7 +39,7 @@
           vlan: v101
       - name: ge-0/0/4
         trunk:
-          vlan:
+          allowed_vlans:
             - vlan30
           native_vlan: 50
     state: overridden

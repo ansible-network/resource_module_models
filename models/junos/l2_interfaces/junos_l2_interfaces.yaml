@@ -14,8 +14,8 @@ COPYRIGHT: Copyright 2019 Red Hat
 DOCUMENTATION: |
   module: junos_l2_interfaces
   version_added: 2.9
-  short_description: Manage Layer-2 interface on Juniper JUNOS devices.
-  description: This module provides declarative management of Layer-2 interface on Juniper JUNOS devices.
+  short_description: Manage Layer-2 interface on Juniper JUNOS devices
+  description: This module provides declarative management of a Layer-2 interface on Juniper JUNOS devices.
   author: Ganesh Nalawade (@ganeshrn)
   options:
     config:
@@ -35,17 +35,17 @@ DOCUMENTATION: |
           default: 0
         access:
           description:
-          - Switchport mode access command to configure the interface as a layer 2 access.
+          - Configure the interface as a Layer 2 access mode.
           suboptions:
             vlan:
               description:
-              - Configure given VLAN in access port. It's used as the access VLAN ID.
+              - Configure the access VLAN ID.
               type: str
         trunk:
           description:
-          - Switchport mode trunk command to configure the interface as a Layer 2 trunk.
+          - Configure the interface as a Layer 2 trunk mode.
           suboptions:
-            vlans:
+            allowed_vlans:
               description:
               - List of VLANs to be configured in trunk port. It's used as the VLAN range to ADD or
                 REMOVE from the trunk.
@@ -54,16 +54,6 @@ DOCUMENTATION: |
               description:
               - Native VLAN to be configured in trunk port. It is used as the trunk native VLAN ID.
               type: str
-        filter:
-          description:
-          - Packet filtering applicable for ethernet-switching
-          suboptions:
-            input:
-              description:
-              - The name of input filter of ethernet-switching.
-            output:
-              description:
-              - The name of output filter of ethernet-switching.
     state:
       choices:
       - merged

@@ -24,7 +24,7 @@
 #        }
 #    }
 
-- name: Delete JUNOS L2 interfaces as in given arguments.
+- name: Delete L2 attributes of given interfaces (Note: This won't delete the interface itself).
   junos_l2_interfaces:
     config:
       - name: ge-0/0/1
@@ -38,7 +38,7 @@
 # ge-0/0/1 {
 #    description "L2 interface";
 #    speed 1g;
-#
+# }
 #ge-0/0/2 {
 #    description "non L2 interface";
 #    unit 0 {
