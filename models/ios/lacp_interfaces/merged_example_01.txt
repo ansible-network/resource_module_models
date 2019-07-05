@@ -1,0 +1,45 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+# vios#show running-config | section ^interface
+# interface Port-channel10
+# interface Port-channel20
+# interface Port-channel30
+# interface GigabitEthernet0/1
+#  shutdown
+# interface GigabitEthernet0/2
+#  shutdown
+# interface GigabitEthernet0/3
+#  shutdown
+
+- name: Merge provided configuration with device configuration
+  ios_lag_interfaces:
+    config:
+      - name: GigabitEthernet0/1
+        port_priority: 10
+      - name: GigabitEthernet0/2
+        port_priority: 20
+      - name: GigabitEthernet0/3
+        port_priority: 30
+    operation: merged
+
+# After state:
+# ------------
+#
+# vios#show running-config | section ^interface
+# interface Port-channel10
+#  flowcontrol receive on
+# interface Port-channel20
+# interface Port-channel30
+# interface GigabitEthernet0/1
+#  shutdown
+#  lacp port-priority 10
+# interface GigabitEthernet0/2
+#  shutdown
+#  lacp port-priority 20
+# interface GigabitEthernet0/3
+#  shutdown
+#  lacp port-priority 30
+
