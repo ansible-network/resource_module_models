@@ -25,15 +25,15 @@ DOCUMENTATION: |
       type: list
       elements: dict
       suboptions:
+        name:
+          description:
+          - Name of the Interface for configuring LACP.
+          type: str
+          required: True
         port_priority:
           description:
           - LACP priority on this interface. Range 0-65535.
           type: int
-          required: True
-        members:
-          description:
-          - List of members of the link aggregation control protocol.
-          type: list
           required: True
     state:
       description:
