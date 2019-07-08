@@ -47,13 +47,16 @@ DOCUMENTATION: |
                 - Mode 'on' does not run LACP over the port.
                 - Mode 'passive' runs LACP in passive mode over the port.
                 - Mode 'inherit' runs LACP as configured in the bundle.
+              choices: ['on', 'active', 'passive']
+              type: str
         mode:
           description:
             - LAG mode.
             - Mode 'active' runs LACP in active mode over the port.
             - Mode 'on' does not run LACP over the port.
             - Mode 'passive' runs LACP in passive mode over the port.
-          choices: ['on', 'active', 'passive', 'inherit']
+          choices: ['on', 'active', 'passive']
+          type: str
         links:
           description:
             - This dict contains configurable options related to LAG/Ether-Bundle links.
@@ -72,10 +75,10 @@ DOCUMENTATION: |
         load_balancing_hash:
           description:
             - Specifies the hash function used for traffic forwarded over the LAG/Ether-Bundle.
-            - Option 'dst_ip' uses the destination IP as the hash function.
-            - Option 'src_ip' uses the source IP as the hash function.
+            - Option 'dst-ip' uses the destination IP as the hash function.
+            - Option 'src-ip' uses the source IP as the hash function.
           type: str
-          choices: ['dst_ip', 'src_ip']
+          choices: ['dst-ip', 'src-ip']
     state:
       description:
         - The state the configuration should be left in.
