@@ -1,0 +1,29 @@
+# Using merged
+
+# Before state:
+# -------------
+#
+# veos(config-vlan-20)#show running-config | section vlan
+# vlan 10
+#    name ten
+# !
+# vlan 20
+#    name twenty
+
+- name: Merge given VLAN attributes with device configuration
+  ios_vlans:
+    config:
+      - vlan_id: 20
+        state: suspend
+    state: merged
+
+# After state:
+# ------------
+#
+# veos(config-vlan-20)#show running-config | section vlan
+# vlan 10
+#    name ten
+# !
+# vlan 20
+#    name twenty
+#    state suspend
