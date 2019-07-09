@@ -1,0 +1,62 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+
+NETWORK_OS: vyos
+RESOURCE: lldp
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: vyos_lldp
+  version_added: 2.9
+  short_description: Manage link layer discovery protocol (LLDP) attributes on VyOS devices..
+  description: This module manages link layer discovery protocol (LLDP) attributes on VyOS devices.
+  author:
+     - Rohit Thakur (@rohitthakur2590)
+  options:
+    config:
+      description: The provided link layer discovery protocol (LLDP) configuration.
+      type: list
+      elements: dict
+      suboptions:
+        enable:
+          description:
+            - This argument is a boolean value to enable or disable LLDP.
+          type: bool  
+        address:
+          description:
+            - This argument defines management-address.
+          type: str
+        snmp:
+          description:
+            - This argument is a boolean value to enable or disable SNMP.
+          type: bool  
+        legacy_protocols:
+          description:
+            - List of the supported legacy protocols.
+          type: list
+          choices:
+            - cdp
+            - edp 
+            - fdp
+            - sonmp
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - deleted
+      default: merged
+      
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - deleted_example_01.txt
