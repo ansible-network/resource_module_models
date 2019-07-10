@@ -13,7 +13,7 @@
 #    description "Ansible configured interface 3";
 # }
 
-- name: configure LAG interfaces - replaced
+- name: Replace device LAG configuration with provided configuration
   junos_lag_interfaces:
     config:
       - name: ae0

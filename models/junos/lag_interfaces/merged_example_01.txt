@@ -10,7 +10,7 @@
 #    description "Ansible configured interface 2";
 # }
 
-- name: configure LAG interfaces - merged
+- name: Merge provided configuration with device configuration
   junos_lag_interfaces:
     config:
       - name: ae0

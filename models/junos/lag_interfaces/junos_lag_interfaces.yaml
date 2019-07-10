@@ -19,28 +19,29 @@ DOCUMENTATION: |
   author: Ganesh Nalawade (@ganeshrn)
   options:
     config:
-      description: A dictionary of Link Aggregation interface options
+      description: A list of link aggregation group configurations.
       type: list
       elements: dict
       suboptions:
         name:
           description:
-          - Name of the link aggregation group.
+          - Name of the link aggregation group (LAG).
           type: str
           required: True
         mode:
           description:
-            - Mode of the link aggregation group. A value of C(passive) will enable LACP in C(passive) mode.
-              C(active) configures the link to actively information about the state of the link.
+            - LAG mode. A value of C(passive) will enable LACP in C(passive) mode that is it
+              will respond to LACP packets and C(active) configures the link to initiate
+              transmission of LACP packets.
           choices: ['active', 'passive']
         members:
           description:
-            - List of members interfaces of the link aggregation group. The value can be
+            - List of member interfaces of the link aggregation group. The value can be
               single interface or list of interfaces.
           type: list
         description:
           description:
-            - Description of the LAG Interface.
+            - Description of the LAG interface.
     state:
       description:
       - The state the configuration should be left in

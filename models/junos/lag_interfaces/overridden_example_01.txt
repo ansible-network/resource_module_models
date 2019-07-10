@@ -22,7 +22,7 @@
 #     description "lag interface 3";
 # }
 
-- name: configure LAG interfaces - overridden
+- name: Overrides all device LAG configuration with provided configuration
   junos_lag_interfaces:
     config:
       - name: ae0
