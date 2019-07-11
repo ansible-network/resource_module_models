@@ -27,6 +27,7 @@
         vlan_id: 10
         state: active
         shutdown: False
+        remote_span: 10
       - name: Vlan_20
         vlan_id: 20
         mtu: 610
@@ -63,3 +64,7 @@
 # 1003 tr    101003     1500  -      -      -        -    -        0      0
 # 1004 fdnet 101004     1500  -      -      -        ieee -        0      0
 # 1005 trnet 101005     1500  -      -      -        ibm  -        0      0
+#
+# Remote SPAN VLANs
+# ------------------------------------------------------------------------------
+# 10
