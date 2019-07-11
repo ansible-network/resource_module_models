@@ -25,6 +25,10 @@
 # 1003 tr    101003     1500  -      -      -        -    -        0      0
 # 1004 fdnet 101004     1500  -      -      -        ieee -        0      0
 # 1005 trnet 101005     1500  -      -      -        ibm  -        0      0
+#
+# Remote SPAN VLANs
+# ------------------------------------------------------------------------------
+# 10
 
 - name: Delete attributes of given VLANs
   ios_vlans:
