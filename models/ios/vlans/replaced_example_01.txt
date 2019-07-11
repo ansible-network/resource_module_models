@@ -26,8 +26,8 @@
 # 1004 fdnet 101004     1500  -      -      -        ieee -        0      0
 # 1005 trnet 101005     1500  -      -      -        ibm  -        0      0
 
-- name: Replaces device configuration of listed interfaces with provided configuration
-  ios_interfaces:
+- name: Replaces device configuration of listed VLANs with provided configuration
+  ios_vlans:
     config:
       - name: Test_VLAN20
         vlan_id: 20
@@ -36,7 +36,7 @@
       - vlan_id: 30
         name: Test_VLAN30
         mtu: 1000
-    operation: replaced
+    state: replaced
 
 # After state:
 # ------------
