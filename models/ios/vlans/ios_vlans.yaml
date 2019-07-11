@@ -45,6 +45,10 @@ DOCUMENTATION: |
           choices:
           - active
           - suspend
+        remote_span:
+          description:
+          - Configure as Remote SPAN VLAN
+          type: bool
         shutdown:
           description:
           - Shutdown VLAN switching.
