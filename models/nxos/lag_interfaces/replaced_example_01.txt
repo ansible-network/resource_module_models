@@ -6,12 +6,12 @@
 # interface Ethernet1/4
 #   channel-group 99 mode active
 
-- name: Replace device configuration of specified Lag attributes of given interfaces with provided configuration.
+- name: Replace device configuration of specified LAG attributes of given interfaces with provided configuration.
   nxos_lag_interfaces:
     config:
-      - name: 10
+      - id: 10
 	members:
-	  - Ethernet1/4
+	  - member: Ethernet1/4
     state: replaced
 
 # After state:

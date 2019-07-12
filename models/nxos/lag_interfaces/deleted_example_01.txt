@@ -6,12 +6,14 @@
 # interface Ethernet1/4
 #   channel-group 99 mode active
 
-- name: Delete Lag attributes of given interface (Note: This won't delete the port-channel itself).
+- name: Delete LAG attributes of given interface (Note: This won't delete the port-channel itself).
   nxos_lag_interfaces:
     config:
-      - name: 99
-	members:
-	  - Ethernet1/4
+      - id: 99
+    state: deleted
+
+- name: Delete LAG attributes of all the interfaces
+  nxos_lag_interfaces:
     state: deleted
 
 # After state:

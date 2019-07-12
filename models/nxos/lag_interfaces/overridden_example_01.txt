@@ -8,13 +8,13 @@
 # interface Ethernet1/2
 #   channel-group 99 mode passive
 
-- name: Override device configuration of all Lag attributes of given interfaces on device with provided configuration.
+- name: Override device configuration of all LAG attributes of given interfaces on device with provided configuration.
   nxos_lag_interfaces:
     config:
-      - name: 20
-	force: True
+      - id: 20
 	members:
-	  - Ethernet1/6
+	  - member: Ethernet1/6
+	    force: True
     state: overridden
 
 # After state:
@@ -22,4 +22,4 @@
 # interface Ethernet1/2
 # interface Ethernet1/4
 # interface Ethernet1/6
-#   channel-group 99 force
+#   channel-group 20 force

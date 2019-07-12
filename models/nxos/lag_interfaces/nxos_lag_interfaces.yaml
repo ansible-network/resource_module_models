@@ -25,14 +25,14 @@ DOCUMENTATION: |
       type: list
       elements: dict
       suboptions:
-        name:
+        id:
           description:
             - ID of the link aggregation group (LAG).
           type: int
           required: true
         members:
           description:
-            - The list of Interfaces that are part of the group.
+            - The list of interfaces that are part of the group.
           type: list
           required: true
           elements: dict

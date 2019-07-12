@@ -6,18 +6,15 @@
 # interface Ethernet1/4
 
 - name: Merge provided configuration with device configuration.
-  nxos_l3_interfaces:
+  nxos_lag_interfaces:
     config:
-      - name: 99
-        min_links: 3
-	mode: active
-	members:
-	  - Ethernet1/4
+      - id: 99
+        members:
+	  - member: Ethernet1/4
     state: merged
 
 # After state:
 # ------------
-# interface port-channel99
-#   lacp min-links 3
+#
 # interface Ethernet1/4
-#   channel-group 99 mode active
+#   channel-group 99
