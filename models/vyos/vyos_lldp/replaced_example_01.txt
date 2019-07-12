@@ -1,0 +1,76 @@
+# Using replaced
+#
+# Before state:
+# -------------
+#
+# vyos@vyos:~$ show configuration commands | grep lldp
+# set service lldp legacy-protocols cdp
+# set service lldp legacy-protocols fdp
+# set service lldp management-address '11.11.11.11'
+# set service lldp snmp enable
+#
+- name: Replace device configurations with provided configurations
+  vyos_lldp:
+    config:
+      legacy_protocols:
+        - 'edp'
+        - 'sonmp'
+        - 'cdp'
+      address: 172.16.113.104
+    state: replaced
+#
+#
+# ------------------------
+# Module Execution Results
+# ------------------------
+# 
+#
+# "before": [
+#        {
+#            "snmp": "enable"
+#        },
+#        {
+#            "address": "11.11.11.11"
+#        },
+#        {
+#            "legacy_protocols": [
+#                "cdp",
+#                "fdp"
+#            ]
+#        }
+#        {
+#            "enable": true
+#        }
+#    ]
+# "commands": [
+#        "delete service lldp snmp",
+#        "delete service lldp legacy-protocols fdp",
+#        "set service lldp management-address '172.16.113.104'",
+#        "set service lldp legacy-protocols edp",
+#        "set service lldp legacy-protocols sonmp"
+#    ]
+#
+# "after": [
+#        {
+#            "address": "172.16.113.104"
+#        },
+#        {
+#            "legacy_protocols": [
+#                "cdp",
+#                "edp",
+#                "sonmp"
+#            ]
+#        }
+#        {
+#            "enable": true
+#        }
+#    ]
+#
+# After state:
+# -------------
+#
+# vyos@vyos:~$ show configuration commands|grep lldp
+# set service lldp legacy-protocols cdp
+# set service lldp legacy-protocols edp
+# set service lldp legacy-protocols sonmp
+# set service lldp management-address '172.16.113.104'

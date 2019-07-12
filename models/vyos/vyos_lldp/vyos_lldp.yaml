@@ -22,8 +22,7 @@ DOCUMENTATION: |
   options:
     config:
       description: The provided link layer discovery protocol (LLDP) configuration.
-      type: list
-      elements: dict
+      type: dict
       suboptions:
         enable:
           description:
@@ -35,8 +34,8 @@ DOCUMENTATION: |
           type: str
         snmp:
           description:
-            - This argument is a boolean value to enable or disable SNMP.
-          type: bool  
+            - This argument enable the SNMP queries to LLDP database.
+          type: str
         legacy_protocols:
           description:
             - List of the supported legacy protocols.
