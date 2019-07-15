@@ -47,7 +47,7 @@ DOCUMENTATION: |
               type: str
               choices:
                 - active
-                - on
+                - "on"
                 - passive
     state:
       description:
