@@ -86,7 +86,7 @@ DOCUMENTATION: |
       - overridden
       - deleted
       default: merged
-      
+
 EXAMPLES:
   - merged_example_01.txt
   - replaced_example_01.txt

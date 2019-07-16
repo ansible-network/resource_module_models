@@ -33,7 +33,6 @@
 #
 #    "before": [
 #        {
-#            "enable": true, 
 #            "hash-policy": "layer2", 
 #            "members": [
 #                {
@@ -48,7 +47,6 @@
 #            "primary": "eth2"
 #        }, 
 #        {
-#            "enable": true, 
 #            "hash-policy": "layer2", 
 #            "members": [
 #                {
@@ -74,12 +72,9 @@
 #
 # "after": [
 #        {
-#            "enable": true, 
-#            "members": [], 
 #            "name": "bond2"
 #        }, 
 #        {
-#            "enable": true, 
 #            "hash-policy": "layer2", 
 #            "members": [
 #                {

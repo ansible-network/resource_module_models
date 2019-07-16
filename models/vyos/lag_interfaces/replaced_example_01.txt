@@ -31,7 +31,6 @@
 #
 #    "before": [
 #        {
-#            "enable": true, 
 #            "hash-policy": "layer2", 
 #            "members": [
 #                {
@@ -46,7 +45,6 @@
 #            "primary": "eth2"
 #        }, 
 #        {
-#            "enable": true, 
 #            "hash-policy": "layer2+3", 
 #            "members": [
 #                {
@@ -67,7 +65,6 @@
 #
 # "after": [
 #        {
-#            "enable": true, 
 #            "hash-policy": "layer2", 
 #            "members": [
 #                {
@@ -82,7 +79,6 @@
 #            "primary": "eth2"
 #        }, 
 #        {
-#            "enable": true, 
 #            "hash-policy": "layer2", 
 #            "members": [
 #                {
