@@ -1,0 +1,23 @@
+# Using replaced
+# Before state:
+# -------------
+#
+#feature lldp
+#lldp timer 35
+#lldp holdtime 100
+#lldp reinit 5
+
+- name: Replace device configuration of specific LLDP attributes with provided configuration
+  nxos_lldp:
+    config: 
+      enable: true
+      timer: 40
+    state: replaced
+
+# After state:
+# ------------
+#
+#feature lldp
+#lldp timer 40
+#lldp holdtime 120
+#lldp reinit 2
