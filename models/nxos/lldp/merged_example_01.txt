@@ -6,7 +6,7 @@
 #
 
 - name: Merge provided configuration with device configuration
-  nxos_lldp:
+  nxos_lldp_global:
     config:
       enable: true
       timer: 35

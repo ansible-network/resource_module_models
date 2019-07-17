@@ -8,7 +8,7 @@
 # lldp reinit 3
 
 - name: Delete LLDP configuration (this will by default remove all lldp configuration)
-  nxos_lldp:
+  nxos_lldp_global:
     state: deleted
 
 # After state:

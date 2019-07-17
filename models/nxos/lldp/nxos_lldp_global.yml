@@ -12,7 +12,7 @@ RESOURCE: lldp
 COPYRIGHT: Copyright 2019 Red Hat
 
 DOCUMENTATION: |
-  module: nxos_lldp
+  module: nxos_lldp_global
   version_added: 2.9
   short_description: Configure and manage Link Layer Discovery Protocol(LLDP) attributes on NX-OS platforms.
   description: This module configures and manages the Link Layer Discovery Protocol(LLDP) attributes on NX-OS platforms.
@@ -24,14 +24,16 @@ DOCUMENTATION: |
       type: list
       elements: dict
       suboptions:
-        enable:
-          description: 
-            - This attribute takes a boolean value to enable or disable LLDP in the device
-          type: bool
         holdtime:
           description:
             - Amount of time the receiving device should hold the information (in seconds)
           type: int
+        port-id: 
+          description:
+            - This attribute defines if the interface names should be advertised in the long(0) or short(1) form.
+          type: int
+          choice: [0,1]
+          default: 0
         reinit: 
           description:
             - Amount of time to delay the intialization of LLDP on any interface (in seconds)

@@ -9,7 +9,7 @@
 # lldp timer 35
 
 - name: Replace device configuration of specific LLDP attributes with provided configuration
-  nxos_lldp:
+  nxos_lldp_global:
     config: 
       enable: true
       timer: 40
