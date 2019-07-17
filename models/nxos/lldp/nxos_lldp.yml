@@ -40,9 +40,9 @@ DOCUMENTATION: |
           description:
             - Frequency at which LLDP updates need to be transmitted (in seconds)
           type: int
-        tlv:
+        tlv_remove:
           description:
-            - This attribute can be used to specify the TLVs to send and receive in the LLDP packets
+            - This attribute can be used to specify the TLVs that do not need to be sent and received in the LLDP packets. By default, all TLVs are advertised
           type: str
           choices: ['dcbxp','management-address','port-description','port-vlan','system-capabilities','system-description','system-name']
     state:

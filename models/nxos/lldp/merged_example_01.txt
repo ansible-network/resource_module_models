@@ -2,6 +2,7 @@
 # Before state:
 # -------------
 #
+# user(config)# show running-config | include lldp
 #
 
 - name: Merge provided configuration with device configuration
@@ -14,6 +15,8 @@
 
 # After state:
 # ------------
+#
+# user(config)# show running-config | include lldp
 # feature lldp
 # lldp timer 35
 # lldp holdtime 100 
