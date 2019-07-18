@@ -11,8 +11,12 @@
 - name: Replace device configuration of specific LLDP attributes with provided configuration
   nxos_lldp_global:
     config: 
+      enabled: true
       timer: 40
-      tlv_remove: system-name
+      tlv_select: 
+        system-name: false
+        management-address:
+          v4: true
     state: replaced
 
 # After state:

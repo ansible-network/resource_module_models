@@ -8,7 +8,7 @@ ANSIBLE_METADATA: |
     'supported_by': 'network'
   }
 NETWORK_OS: nxos
-RESOURCE: lldp
+RESOURCE: lldp_global
 COPYRIGHT: Copyright 2019 Red Hat
 
 DOCUMENTATION: |
@@ -21,9 +21,12 @@ DOCUMENTATION: |
     config:
       description:
         - A list of link layer discovery configurations
-      type: list
-      elements: dict
+      type: dict
       suboptions:
+        enabled:
+          description: 
+            - This attribute can be used to enable or disable the LLDP feature
+          type: bool
         holdtime:
           description:
             - Amount of time the receiving device should hold the information (in seconds)
@@ -33,7 +36,6 @@ DOCUMENTATION: |
             - This attribute defines if the interface names should be advertised in the long(0) or short(1) form.
           type: int
           choice: [0,1]
-          default: 0
         reinit: 
           description:
             - Amount of time to delay the intialization of LLDP on any interface (in seconds)
@@ -42,11 +44,46 @@ DOCUMENTATION: |
           description:
             - Frequency at which LLDP updates need to be transmitted (in seconds)
           type: int
-        tlv_remove:
+        tlv_select:
           description:
-            - This attribute can be used to specify the TLVs that do not need to be sent and received in the LLDP packets. By default, all TLVs are advertised
-          type: str
-          choices: ['dcbxp','management-address','port-description','port-vlan','system-capabilities','system-description','system-name']
+            - This attribute can be used to specify the TLVs that need to be sent and received in the LLDP packets. By default, all TLVs are advertised
+          type: dict
+          suboptions: 
+            dcbxp:
+              description: 
+                - Used to specify the Data Center Bridging Exchange Protocol TLV messages
+              type: bool
+            management-address: 
+              description: 
+                - Used to specify the management address in TLV messages
+              type: dict
+              suboptions:
+                v4:
+                  description: Management address with TLV v4
+                  type: bool
+                v6:
+                  description: Management address with TLV v6
+                  type: bool
+            port-description:
+              description: 
+                - Used to specify the port description in TLV messages
+              type: bool
+            port-vlan:
+              description:
+                - Used to specify the port VLAN ID in TLV messages
+              type: bool
+            system-capabilities:
+              description: 
+                - Used to specify the system capabilities in TLV messages
+              type: bool
+            system-description:
+              description: 
+                - Used to specify the system description in TLV messages
+              type: bool
+            system-name:
+              description:
+                - Used to specify the system name in TLV messages
+              type: bool
     state:
       description: 
         - The state the configuration should be left in

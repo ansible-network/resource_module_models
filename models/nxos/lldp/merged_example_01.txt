@@ -3,11 +3,12 @@
 # -------------
 #
 # user(config)# show running-config | include lldp
-# feature lldp
+# 
 
 - name: Merge provided configuration with device configuration
   nxos_lldp_global:
     config:
+      enabled: true
       timer: 35
       holdtime: 100
     state: merged

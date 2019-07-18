@@ -15,5 +15,5 @@
 # ------------
 # 
 # user(config)# show running-config | include lldp
-# feature lldp
+# 
 
