@@ -53,7 +53,7 @@ DOCUMENTATION: |
               description: 
                 - Used to specify the Data Center Bridging Exchange Protocol TLV messages
               type: bool
-            management-address: 
+            management_address: 
               description: 
                 - Used to specify the management address in TLV messages
               type: dict
@@ -64,23 +64,23 @@ DOCUMENTATION: |
                 v6:
                   description: Management address with TLV v6
                   type: bool
-            port-description:
+            port_description:
               description: 
                 - Used to specify the port description in TLV messages
               type: bool
-            port-vlan:
+            port_vlan:
               description:
                 - Used to specify the port VLAN ID in TLV messages
               type: bool
-            system-capabilities:
+            system_capabilities:
               description: 
                 - Used to specify the system capabilities in TLV messages
               type: bool
-            system-description:
+            system_description:
               description: 
                 - Used to specify the system description in TLV messages
               type: bool
-            system-name:
+            system_name:
               description:
                 - Used to specify the system name in TLV messages
               type: bool
