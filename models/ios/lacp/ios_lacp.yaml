@@ -22,14 +22,16 @@ DOCUMENTATION: |
   options:
     config:
       description: A dictionary of LACP options
-      type: list
-      elements: dict
+      type: dict
       suboptions:
-        system_priority:
-          description:
-          - LACP priority for the system.
-          type: int
-          required: True
+        system:
+          description: LACP system options.
+          type: dict
+          suboptions:
+            priority:
+              description:
+                - LACP priority for the system. Note, Cisco default LACP System priority is 32768.
+              type: int
     state:
       description:
       - The state the configuration should be left in
@@ -37,12 +39,10 @@ DOCUMENTATION: |
       choices:
       - merged
       - replaced
-      - overridden
       - deleted
       default: merged
 EXAMPLES:
   - deleted_example_01.txt
   - merged_example_01.txt
-  - overridden_example_01.txt
   - replaced_example_01.txt
 
