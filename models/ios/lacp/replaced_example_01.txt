@@ -1,0 +1,20 @@
+# Using replaced
+#
+# Before state:
+# -------------
+#
+# vios#show lacp sys-id
+# 400, 5e00.0000.8000
+
+- name: Replaces Global LACP configuration
+  ios_lacp:
+    config:
+      system:
+        priority: 123
+    state: replaced
+
+# After state:
+# ------------
+#
+# vios#show lacp sys-id
+# 123, 5e00.0000.8000
