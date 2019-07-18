@@ -1,0 +1,104 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+NETWORK_OS: vyos
+RESOURCE: lldp_interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: vyos_lldp_interfaces
+  version_added: 2.9
+  short_description: Manages attributes of lldp interfaces on VyOS devices.
+  description: This module manages attributes of lldp interfaces on VyOS network devices.
+  author: Rohit Thakur (@rohitthakur2590)
+  options:
+    config:
+      description: A list of lldp interfaces configurations.
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - Name of the  lldp interface.
+          type: str
+          required: True
+        disable:
+          description:
+            - to disable lldp on the interface.
+          type: bool
+        location:
+          description:
+            - LLDP-MED location data.
+          type: dict
+          required: True
+          suboptions:
+            civic-based:
+              description:
+                - Civic-based location data.
+              type: dict
+              suboptions:
+                ca-info:
+                   description: LLDP-MED address info 
+                   type: list      
+                   elements: dict
+                   suboptions:
+                     ca-type:
+                       description: LLDP-MED Civic Address type.
+                       type: int
+                       reqired: True
+                     ca-value:
+                       description: LLDP-MED Civic Address type.
+                       type: str
+                       reqired: True
+                country-code:
+                  description: Country Code 
+                  type: str
+                  required: True
+            coordinate-based:
+              description:
+                - Coordinate-based location.
+              type: dict
+              suboptions:
+              altitude:
+                description: Altitude in meters.
+                type: int
+              datum:
+                description: Coordinate datum type.
+                type: str
+                choices:
+                  - WGS84
+                  - NAD83 
+                  - MLLW     
+              latitude:
+                description: Latitude.
+                type: str
+                required: True
+              longitude:
+                description: Longitude.
+                type: str
+                required: True
+            elin:
+              description: Emergency Call Service ELIN number (between 10-25 numbers).
+              type: int     
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+      
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
