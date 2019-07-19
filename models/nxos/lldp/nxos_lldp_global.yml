@@ -17,6 +17,8 @@ DOCUMENTATION: |
   short_description: Configure and manage Link Layer Discovery Protocol(LLDP) attributes on NX-OS platforms.
   description: This module configures and manages the Link Layer Discovery Protocol(LLDP) attributes on NX-OS platforms.
   author: Adharsh Srivats Rangarajan (@adharshsrivatsr)
+  notes:
+    - Tested against <network_os> 7.3.(0)D1(1) on VIRL
   options:
     config:
       description:
