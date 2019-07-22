@@ -8,7 +8,7 @@
 #    non-revertive;
 # }
 
-- name: "Configure Global LACP - deleted"
+- name: Delete global LACP attributes
   junos_lacp:
     operation: deleted
 

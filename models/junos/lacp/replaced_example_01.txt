@@ -8,7 +8,7 @@
 #    non-revertive;
 # }
 
-- name: "Configure Global LACP - replaced"
+- name: Replace global LACP attributes
   junos_lacp:
     config:
       - system_priority: 30

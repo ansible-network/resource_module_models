@@ -5,7 +5,7 @@
 # user@junos01# show chassis aggregated-devices ethernet lacp
 #
 
-- name: "Configure Global LACP - merged"
+- name: Merge global LACP attributes
   junos_lacp:
     config:
       - system_priority: 63

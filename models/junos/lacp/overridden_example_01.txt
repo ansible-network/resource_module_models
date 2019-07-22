@@ -8,7 +8,7 @@
 #    non-revertive;
 # }
 
-- name: "Configure Global LACP - overridden"
+- name: Override global LACP attributes
   junos_lacp:
     config:
       - system_priority: 30

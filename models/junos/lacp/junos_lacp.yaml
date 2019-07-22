@@ -14,7 +14,7 @@ COPYRIGHT: Copyright 2019 Red Hat
 DOCUMENTATION: |
   module: junos_lacp
   version_added: 2.9
-  short_description: Manage Global Link Aggregation Control Protocol (LACP) on Juniper JUNOS devices.
+  short_description: Manage Global Link Aggregation Control Protocol (LACP) on Juniper Junos devices
   description: This module provides declarative management of global LACP on Juniper Junos network devices.
   author: Ganesh Nalawade (@ganeshrn)
   options:
@@ -30,7 +30,7 @@ DOCUMENTATION: |
         link_protection:
           description:
           - Enable LACP link-protection for the system. If the value is set to C(non-revertive)
-            it will not revert links when better priority link comes up by default the link will
+            it will not revert links when a better priority link comes up. By default the link will
             be reverted.
           type: str
           choices: ['revertive', 'non-revertive']
