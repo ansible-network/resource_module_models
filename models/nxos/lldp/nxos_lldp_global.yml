@@ -66,26 +66,36 @@ DOCUMENTATION: |
                 v6:
                   description: Management address with TLV v6
                   type: bool
-            port_description:
-              description: 
-                - Used to specify the port description in TLV messages
-              type: bool
-            port_vlan:
+            port:
               description:
-                - Used to specify the port VLAN ID in TLV messages
-              type: bool
-            system_capabilities:
-              description: 
-                - Used to specify the system capabilities in TLV messages
-              type: bool
-            system_description:
-              description: 
-                - Used to specify the system description in TLV messages
-              type: bool
-            system_name:
+                - Used to manage port based attributes in TLV messages
+              type: dict
+              suboptions:
+                description:
+                  description: 
+                    - Used to specify the port description in TLV messages
+                  type: bool
+                vlan:
+                  description:
+                    - Used to specify the port VLAN ID in TLV messages
+                  type: bool
+            system:
               description:
-                - Used to specify the system name in TLV messages
-              type: bool
+                - Used to manage system based attributes in TLV messages
+              type: dict
+              suboptions:
+                capabilities:
+                  description:
+                    - Used to specify the system capabilities in TLV messages
+                  type: bool
+                description:
+                  description: 
+                    - Used to specify the system description in TLV messages
+                  type: bool
+                name:
+                  description:
+                    - Used to specify the system name in TLV messages
+                  type: bool
     state:
       description: 
         - The state the configuration should be left in
