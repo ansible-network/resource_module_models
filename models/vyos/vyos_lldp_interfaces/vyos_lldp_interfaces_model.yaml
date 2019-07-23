@@ -28,7 +28,7 @@ DOCUMENTATION: |
             - Name of the  lldp interface.
           type: str
           required: True
-        disable:
+        enable:
           description:
             - to disable lldp on the interface.
           type: bool
@@ -38,29 +38,29 @@ DOCUMENTATION: |
           type: dict
           required: True
           suboptions:
-            civic-based:
+            civic_based:
               description:
                 - Civic-based location data.
               type: dict
               suboptions:
-                ca-info:
+                ca_info:
                    description: LLDP-MED address info 
                    type: list      
                    elements: dict
                    suboptions:
-                     ca-type:
+                     ca_type:
                        description: LLDP-MED Civic Address type.
                        type: int
                        reqired: True
-                     ca-value:
-                       description: LLDP-MED Civic Address type.
+                     ca_value:
+                       description: LLDP-MED Civic Address value.
                        type: str
                        reqired: True
-                country-code:
+                country_code:
                   description: Country Code 
                   type: str
                   required: True
-            coordinate-based:
+            coordinate_based:
               description:
                 - Coordinate-based location.
               type: dict
