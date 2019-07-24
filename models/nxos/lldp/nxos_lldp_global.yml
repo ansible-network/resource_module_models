@@ -53,7 +53,7 @@ DOCUMENTATION: |
           suboptions: 
             dcbxp:
               description: 
-                - Used to specify the Data Center Bridging Exchange Protocol TLV messages
+                - Used to specify the Data Center Bridging Exchange Protocol TLV
               type: bool
             management_address: 
               description: 
@@ -73,12 +73,16 @@ DOCUMENTATION: |
               suboptions:
                 description:
                   description: 
-                    - Used to specify the port description in TLV messages
+                    - Used to specify the port description TLV
                   type: bool
                 vlan:
                   description:
-                    - Used to specify the port VLAN ID in TLV messages
+                    - Used to specify the port VLAN ID TLV
                   type: bool
+            power_management:
+              description:
+                - Used to specify IEEE 802.3 DTE Power via MDI TLV
+              type: bool
             system:
               description:
                 - Used to manage system based attributes in TLV messages
@@ -86,21 +90,21 @@ DOCUMENTATION: |
               suboptions:
                 capabilities:
                   description:
-                    - Used to specify the system capabilities in TLV messages
+                    - Used to specify the system capabilities TLV
                   type: bool
                 description:
                   description: 
-                    - Used to specify the system description in TLV messages
+                    - Used to specify the system description TLV
                   type: bool
                 name:
                   description:
-                    - Used to specify the system name in TLV messages
+                    - Used to specify the system name TLV
                   type: bool
     state:
       description: 
         - The state the configuration should be left in
       type: str
-      choices: 
+      choices:  
         - merged
         - replaced
         - deleted
