@@ -33,7 +33,7 @@ DOCUMENTATION: |
           description:
             - Amount of time the receiving device should hold the information (in seconds)
           type: int
-        port-id: 
+        port_id: 
           description:
             - This attribute defines if the interface names should be advertised in the long(0) or short(1) form.
           type: int
