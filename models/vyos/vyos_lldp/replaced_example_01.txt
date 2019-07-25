@@ -10,7 +10,7 @@
 # set service lldp snmp enable
 #
 - name: Replace device configurations with provided configurations
-  vyos_lldp:
+  vyos_lldp_global:
     config:
       legacy_protocols:
         - 'edp'

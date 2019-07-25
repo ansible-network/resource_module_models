@@ -9,7 +9,7 @@
 # set service lldp management-address '172.16.113.104'
 #
 - name: Delete attributes of given lldp service (Note: This won't delete the LLDP service itself)
-  vyos_lldp:
+  vyos_lldp_global:
     config:
     state: deleted
 #

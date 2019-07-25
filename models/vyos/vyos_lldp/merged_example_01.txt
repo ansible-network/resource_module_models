@@ -7,7 +7,7 @@
 # vyos@vyos:~$ 
 #
 - name: Merge provided configuration with device configuration
-  vyos_lldp:
+  vyos_lldp_global:
     config:
       legacy_protocols:
         - 'fdp'
