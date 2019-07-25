@@ -29,6 +29,7 @@ DOCUMENTATION: |
           type: str
           required: True
         enable:
+          default: True
           description:
             - to disable lldp on the interface.
           type: bool
@@ -65,24 +66,24 @@ DOCUMENTATION: |
                 - Coordinate-based location.
               type: dict
               suboptions:
-              altitude:
-                description: Altitude in meters.
-                type: int
-              datum:
-                description: Coordinate datum type.
-                type: str
-                choices:
-                  - WGS84
-                  - NAD83 
-                  - MLLW     
-              latitude:
-                description: Latitude.
-                type: str
-                required: True
-              longitude:
-                description: Longitude.
-                type: str
-                required: True
+                altitude:
+                  description: Altitude in meters.
+                  type: int
+                datum:
+                  description: Coordinate datum type.
+                  type: str
+                  choices:
+                    - WGS84
+                    - NAD83
+                    - MLLW
+                latitude:
+                  description: Latitude.
+                  type: str
+                  required: True
+                longitude:
+                  description: Longitude.
+                  type: str
+                  required: True
             elin:
               description: Emergency Call Service ELIN number (between 10-25 numbers).
               type: int     
