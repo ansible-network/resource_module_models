@@ -60,12 +60,18 @@ DOCUMENTATION: |
       - replaced
       - overridden
       - deleted
-      default: merged
-      description:
-      - The state the configuration should be left in
-      type: str
+    default: merged
+    description:
+    - The state the configuration should be left in
+    type: str
+requirements:
+  - ncclient (>=v0.6.4)
 notes:
-  - Tested against vsrx JUNOS Version 17.3R1.10.
+  - This module requires the netconf system service be enabled on
+    the remote device being managed.
+  - Tested against vSRX JUNOS version 18.4R1.
+  - This module works with connection C(netconf). See L(the Junos OS Platform Options,../network/user_guide/platform_junos.html).
+
 EXAMPLES:
   - deleted_example_01.txt
   - merged_example_01.txt
