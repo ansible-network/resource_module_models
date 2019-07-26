@@ -8,9 +8,9 @@
 - name: Merge global LACP attributes
   junos_lacp:
     config:
-      - system_priority: 63
-        link_protection: revertive
-    operation: merged
+      system_priority: 63
+      link_protection: revertive
+    state: merged
 
 # After state:
 # ------------

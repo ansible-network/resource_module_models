@@ -10,7 +10,7 @@
 
 - name: Delete global LACP attributes
   junos_lacp:
-    operation: deleted
+    state: deleted
 
 # After state:
 # ------------
