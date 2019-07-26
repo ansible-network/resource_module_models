@@ -60,10 +60,10 @@ DOCUMENTATION: |
       - replaced
       - overridden
       - deleted
-    default: merged
-    description:
-    - The state the configuration should be left in
-    type: str
+      default: merged
+      description:
+      - The state the configuration should be left in
+      type: str
 requirements:
   - ncclient (>=v0.6.4)
 notes:
