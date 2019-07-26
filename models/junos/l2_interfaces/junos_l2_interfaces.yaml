@@ -33,9 +33,11 @@ DOCUMENTATION: |
             - Logical interface number. Value of C(unit) should be of type
               integer.
           default: 0
+          type: int
         access:
           description:
           - Configure the interface as a Layer 2 access mode.
+          type: dict
           suboptions:
             vlan:
               description:
@@ -44,6 +46,7 @@ DOCUMENTATION: |
         trunk:
           description:
           - Configure the interface as a Layer 2 trunk mode.
+          type: dict
           suboptions:
             allowed_vlans:
               description:
@@ -54,6 +57,12 @@ DOCUMENTATION: |
               description:
               - Native VLAN to be configured in trunk port. It is used as the trunk native VLAN ID.
               type: str
+        enhanced_layer:
+          description:
+          - True if your device has Enhanced Layer 2 Software (ELS). If the l2 configuration is under
+            C(interface-mode) the value is True else if the l2 configuration is under (port-mode) value
+            is False
+          type: bool
     state:
       choices:
       - merged
