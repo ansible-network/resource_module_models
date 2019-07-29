@@ -38,7 +38,8 @@
         sync_reset: enable
         system:
           priority: 100
-          mac: 00:00:00:00:00:02
+          mac:
+            address: "00:00:00:00:00:02"
       - name: ge-0/0/3
         port_priority: 100
         force_up: True

@@ -43,7 +43,8 @@
       - name: ae0
         system:
           priority: 300
-          mac: 00:00:00:00:00:03
+          mac:
+            address: "00:00:00:00:00:03"
       - name: ge-0/0/2
         port_priority: 200
         force_up: False

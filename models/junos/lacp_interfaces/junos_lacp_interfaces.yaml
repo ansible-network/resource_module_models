@@ -70,7 +70,12 @@ DOCUMENTATION: |
               description:
                 - Specifies the system ID to use in LACP negotiations for
                   the bundle, encoded as a MAC address.
-              type: str
+              type: dict
+              suboptions:
+                  address:
+                    description:
+                      - The system ID to use in LACP negotiations.
+                  type: str
     state:
       description:
         - The state the configuration should be left in.
