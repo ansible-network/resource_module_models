@@ -20,7 +20,7 @@ DOCUMENTATION: |
   author: Ganesh Nalawade (@ganeshrn)
   options:
     config:
-      description: The list of Link Aggregation Control Protocol attribute configurations
+      description: The list of dictionaries of LACP interfaces options.
       type: list
       elements: dict
       suboptions:
