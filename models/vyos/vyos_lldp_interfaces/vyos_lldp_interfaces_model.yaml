@@ -16,7 +16,8 @@ DOCUMENTATION: |
   version_added: 2.9
   short_description: Manages attributes of lldp interfaces on VyOS devices.
   description: This module manages attributes of lldp interfaces on VyOS network devices.
-  author: Rohit Thakur (@rohitthakur2590)
+  author:
+   - Rohit Thakur (@rohitthakur2590)
   options:
     config:
       description: A list of lldp interfaces configurations.
@@ -37,7 +38,6 @@ DOCUMENTATION: |
           description:
             - LLDP-MED location data.
           type: dict
-          required: True
           suboptions:
             civic_based:
               description:
