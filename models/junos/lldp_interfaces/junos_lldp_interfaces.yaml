@@ -14,7 +14,7 @@ COPYRIGHT: Copyright 2019 Red Hat
 DOCUMENTATION: |
   module: junos_lldp_interfaces
   version_added: 2.9
-  short_description: Manage link layer discovery protocol (LLDP) attributes of interfaces on Juniper JUNOS devices.
+  short_description: Manage link layer discovery protocol (LLDP) attributes of interfaces on Juniper JUNOS devices
   description:
     - This module manages link layer discovery protocol (LLDP) attributes of interfaces on Juniper JUNOS devices.
   author: Ganesh Nalawade (@ganeshrn)
@@ -29,7 +29,7 @@ DOCUMENTATION: |
             - Name of the interface LLDP needs to be configured on.
           type: str
           required: True
-        disable:
+        enable:
           description:
             - This is a boolean value to control disabling of LLDP on the interface C(name)
           type: bool

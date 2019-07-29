@@ -6,11 +6,11 @@
 # advertisement-interval 10000;
 
 - name: Merge provided configuration with device configuration
-  junos_lldp:
+  junos_lldp_interfaces:
     config:
       - name: ge-0/0/1
       - name: ge-0/0/2
-        disable: True
+        enable: False
     state: merged
 
 # After state:

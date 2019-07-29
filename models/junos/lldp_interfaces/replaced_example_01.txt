@@ -10,12 +10,12 @@
 # }
 
 - name: Replace provided configuration with device configuration
-  junos_lldp:
+  junos_lldp_interfaces:
     config:
       - name: ge-0/0/2
         disable: False
       - name: ge-0/0/3
-        disable: True
+        enable: False
     state: replaced
 
 # After state:

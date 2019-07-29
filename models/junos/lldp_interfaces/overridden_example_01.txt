@@ -13,7 +13,7 @@
   junos_lldp_interfaces:
     config:
       - name: ge-0/0/2
-        disable: False
+        enable: False
     state: overridden
 
 # After state:
