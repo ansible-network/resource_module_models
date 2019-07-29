@@ -23,7 +23,7 @@ DOCUMENTATION: |
       description: The list of link layer discovery protocol attribute configurations
       type: dict
       suboptions:
-        disable:
+        enable:
           description:
             - This argument is a boolean value to enable or disable LLDP.
           type: bool

@@ -12,7 +12,7 @@
     config:
       address: 20.2.2.2
       hold_multiplier: 30
-      disable: False
+      enable: False
     state: replaced
 
 # After state:
