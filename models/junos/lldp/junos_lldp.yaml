@@ -8,11 +8,11 @@ ANSIBLE_METADATA: |
         'supported_by': 'network'
     }
 NETWORK_OS: junos
-RESOURCE: lldp
+RESOURCE: lldp_global
 COPYRIGHT: Copyright 2019 Red Hat
 
 DOCUMENTATION: |
-  module: junos_lldp
+  module: junos_lldp_global
   version_added: 2.9
   short_description: Manage link layer discovery protocol (LLDP) attributes on Juniper JUNOS devices.
   description:

@@ -5,7 +5,7 @@
 #
 
 - name: Merge provided configuration with device configuration
-  junos_lldp:
+  junos_lldp_global:
     config:
       interval: 10000
       address: 10.1.1.1

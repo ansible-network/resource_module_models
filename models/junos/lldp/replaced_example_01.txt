@@ -8,7 +8,7 @@
 # hold-multiplier 10;
 
 - name: Replace provided configuration with device configuration
-  junos_lldp:
+  junos_lldp_global:
     config:
       address: 20.2.2.2
       hold_multiplier: 30
