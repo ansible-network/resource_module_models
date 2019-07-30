@@ -25,10 +25,6 @@ DOCUMENTATION: |
         - A list of link layer discovery configurations
       type: dict
       suboptions:
-        enabled:
-          description: 
-            - This attribute can be used to enable or disable the LLDP feature
-          type: bool
         holdtime:
           description:
             - Amount of time the receiving device should hold the information (in seconds)
