@@ -19,6 +19,7 @@ DOCUMENTATION: |
   author: Adharsh Srivats Rangarajan (@adharshsrivatsr)
   notes:
     - Tested against <network_os> 7.3.(0)D1(1) on VIRL
+    - The LLDP feature needs to be enabled before using this module
   options:
     config:
       description:
