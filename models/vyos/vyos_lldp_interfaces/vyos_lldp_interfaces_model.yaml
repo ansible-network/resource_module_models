@@ -14,25 +14,25 @@ COPYRIGHT: Copyright 2019 Red Hat
 DOCUMENTATION: |
   module: vyos_lldp_interfaces
   version_added: 2.9
-  short_description: Manages attributes of lldp interfaces on VyOS devices.
-  description: This module manages attributes of lldp interfaces on VyOS network devices.
+  short_description: Manage link layer discovery protocol (LLDP) attributes of interfaces on VyOS devices.
+  description: Manage link layer discovery protocol (LLDP) attributes of interfaces on VyOS network devices.
   author:
    - Rohit Thakur (@rohitthakur2590)
   options:
     config:
-      description: A list of lldp interfaces configurations.
+      description: A list of LLDP interfaces configurations.
       type: list
       elements: dict
       suboptions:
         name:
           description:
-            - Name of the  lldp interface.
+            - Name of the  LLDP interface.
           type: str
           required: True
         enable:
           default: True
           description:
-            - to disable lldp on the interface.
+            - Controls disabling of LLDP on the interface.
           type: bool
         location:
           description:
@@ -72,10 +72,7 @@ DOCUMENTATION: |
                 datum:
                   description: Coordinate datum type.
                   type: str
-                  choices:
-                    - WGS84
-                    - NAD83
-                    - MLLW
+                  choices:  ['WGS84', 'NAD83', 'MLLW']
                 latitude:
                   description: Latitude.
                   type: str
@@ -86,7 +83,7 @@ DOCUMENTATION: |
                   required: True
             elin:
               description: Emergency Call Service ELIN number (between 10-25 numbers).
-              type: int     
+              type: str
     state:
       description:
         - The state the configuration should be left in.
