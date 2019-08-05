@@ -1,0 +1,160 @@
+# Using merged
+#
+# -------------
+# Before state:
+# -------------
+#
+# vyos@vyos:~$ show configuration commands | grep interfaces
+# set interfaces ethernet eth0 address 'dhcp'
+# set interfaces ethernet eth0 address 'dhcpv6'
+# set interfaces ethernet eth0 duplex 'auto'
+# set interfaces ethernet eth0 hw-id '08:00:27:30:f0:22'
+# set interfaces ethernet eth0 smp-affinity 'auto'
+# set interfaces ethernet eth0 speed 'auto'
+# set interfaces ethernet eth1 hw-id '08:00:27:ea:0f:b9'
+# set interfaces ethernet eth1 smp-affinity 'auto'
+# set interfaces ethernet eth2 hw-id '08:00:27:c2:98:23'
+# set interfaces ethernet eth2 smp-affinity 'auto'
+# set interfaces ethernet eth3 hw-id '08:00:27:43:70:8c'
+# set interfaces loopback lo
+
+- name: Merge provided configuration with device configuration
+  vyos_interfaces:
+    config:
+      - name: eth2
+        description: 'Configured by Ansible'
+        enable: True
+	vifs:
+	  - vlan_id: 200
+	    description: "VIF 200 - ETH2"
+        
+      - name: eth3
+        description: 'Configured by Ansible'
+        mtu: 1500
+
+      - name: bond1
+        description: 'Bond - 1'
+        mtu: 1200
+ 
+      - name: vti2
+        description: 'VTI - 2'
+        enable: false
+    state: merged
+#
+#
+# -------------------------
+# Module Execution Result
+# -------------------------
+#
+# "before": [
+#      	{
+#            "enable": true,
+#            "name": "lo"
+#      	},
+#       {
+#            "enable": true,
+#            "name": "eth3"
+#        },
+#        {
+#            "enable": true,
+#            "name": "eth2"
+#        },
+#        {
+#            "enable": true,
+#            "name": "eth1"
+#        },
+#        {
+#            "duplex": "auto",
+#            "enable": true,
+#            "name": "eth0",
+#            "speed": "auto"
+#        }
+#    ]
+#
+# "commands": [
+#        "set interfaces ethernet eth2 description 'Configured by Ansible'",
+#        "set interfaces ethernet eth2 vif 200",
+#        "set interfaces ethernet eth2 vif 200 description 'VIF 200 - ETH2'",
+#        "set interfaces ethernet eth3 description 'Configured by Ansible'",
+#        "set interfaces ethernet eth3 mtu '1500'",
+#        "set interfaces bonding bond1",
+#        "set interfaces bonding bond1 description 'Bond - 1'",
+#        "set interfaces bonding bond1 mtu '1200'",
+#        "set interfaces vti vti2",
+#        "set interfaces vti vti2 description 'VTI - 2'",
+#        "set interfaces vti vti2 disable"
+#    ]
+#
+# "after": [
+#        {
+#            "description": "Bond - 1",
+#            "enable": true,
+#            "mtu": 1200,
+#            "name": "bond1"
+#        },
+#        {
+#            "enable": true,
+#            "name": "lo"
+#        },
+#        {
+#            "description": "VTI - 2",
+#            "enable": false,
+#            "name": "vti2"
+#        },
+#        {
+#            "description": "Configured by Ansible",
+#            "enable": true,
+#            "mtu": 1500,
+#           "name": "eth3"
+#        },
+#        {
+#            "description": "Configured by Ansible",
+#            "enable": true,
+#            "name": "eth2",
+#            "vifs": [
+#                {
+#                    "description": "VIF 200 - ETH2",
+#                    "enable": true,
+#                    "vlan_id": "200"
+#                }
+#            ]
+#        },
+#        {
+#            "enable": true,
+#            "name": "eth1"
+#        },
+#        {
+#            "duplex": "auto",
+#            "enable": true,
+#            "name": "eth0",
+#            "speed": "auto"
+#        }
+#    ]
+#
+#
+# -------------
+# After state:
+# -------------
+#
+# vyos@vyos:~$ show configuration commands | grep interfaces
+# set interfaces bonding bond1 description 'Bond - 1'
+# set interfaces bonding bond1 mtu '1200'
+# set interfaces ethernet eth0 address 'dhcp'
+# set interfaces ethernet eth0 address 'dhcpv6'
+# set interfaces ethernet eth0 duplex 'auto'
+# set interfaces ethernet eth0 hw-id '08:00:27:30:f0:22'
+# set interfaces ethernet eth0 smp-affinity 'auto'
+# set interfaces ethernet eth0 speed 'auto'
+# set interfaces ethernet eth1 hw-id '08:00:27:ea:0f:b9'
+# set interfaces ethernet eth1 smp-affinity 'auto'
+# set interfaces ethernet eth2 description 'Configured by Ansible'
+# set interfaces ethernet eth2 hw-id '08:00:27:c2:98:23'
+# set interfaces ethernet eth2 smp-affinity 'auto'
+# set interfaces ethernet eth2 vif 200 description 'VIF 200 - ETH2'
+# set interfaces ethernet eth3 description 'Configured by Ansible'
+# set interfaces ethernet eth3 hw-id '08:00:27:43:70:8c'
+# set interfaces ethernet eth3 mtu '1500'
+# set interfaces loopback lo
+# set interfaces vti vti2 description 'VTI - 2'
+# set interfaces vti vti2 disable
+#
