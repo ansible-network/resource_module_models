@@ -1,0 +1,92 @@
+# Using replaced
+#
+#
+# ------------
+# Before state
+# ------------
+#
+#
+# RP/0/0/CPU0:an-iosxr#sh run int
+# Sun Jul 21 18:24:52.413 UTC
+# interface Bundle-Ether10
+#  lacp churn logging actor
+#  lacp switchover suppress-flaps 500
+#  lacp collector-max-delay 100
+# !
+# interface Bundle-Ether11
+#  lacp system mac 00c2.4c00.bd15
+# !
+# interface Bundle-Ether12
+# !
+# interface Loopback888
+#  description test for ansible
+#  shutdown
+# !
+# interface MgmtEth0/0/CPU0/0
+#  ipv4 address 192.0.2.11 255.255.255.0
+# !
+# interface GigabitEthernet0/0/0/1
+#  description 'GigabitEthernet - 1"
+#  lacp period 200
+# !
+# interface GigabitEthernet0/0/0/2
+#  description "GigabitEthernet - 2"
+# !
+# interface GigabitEthernet0/0/0/3
+#  description "GigabitEthernet - 3"
+# !
+# interface GigabitEthernet0/0/0/4
+#  description "GigabitEthernet - 4"
+# !
+#
+
+ - name: Replace LACP configuration of listed interfaces with provided configuration
+   iosxr_lacp_interfaces:
+    config:
+      - name: Bundle-Ether10
+        churn_logging: partner
+
+      - name: GigabitEthernet0/0/0/2
+        period: 300
+    state: replaced
+
+#
+#
+# -----------
+# After state
+# -----------
+#
+#
+# RP/0/0/CPU0:an-iosxr#sh run int
+# Sun Jul 21 18:50:21.929 UTC
+# interface Bundle-Ether10
+#  lacp churn logging partner
+# !
+# interface Bundle-Ether11
+#  lacp system mac 00c2.4c00.bd15
+# !
+# interface Bundle-Ether12
+# !
+# interface Loopback888
+#  description test for ansible
+#  shutdown
+# !
+# interface MgmtEth0/0/CPU0/0
+#  ipv4 address 192.0.2.11 255.255.255.0
+# !
+# interface GigabitEthernet0/0/0/1
+#  description 'GigabitEthernet - 1"
+#  lacp period 200
+# !
+# interface GigabitEthernet0/0/0/2
+#  description "GigabitEthernet - 2"
+#  lacp period 300
+# !
+# interface GigabitEthernet0/0/0/3
+#  description "GigabitEthernet - 3"
+# !
+# interface GigabitEthernet0/0/0/4
+#  description "GigabitEthernet - 4"
+# !
+#
+#
