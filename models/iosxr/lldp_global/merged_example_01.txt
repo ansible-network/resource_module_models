@@ -1,0 +1,74 @@
+# Using merged
+#
+#
+# -------------
+# Before State
+# -------------
+#
+#
+# RP/0/0/CPU0:an-iosxr#sh run lldp
+# Tue Aug  6 19:27:54.933 UTC
+# % No such configuration item(s)
+#
+# 
+
+- name: Merge provided LLDP configuration with the existing configuration
+  iosxr_lldp_global:
+    config:
+      holdtime: 100
+      reinit: 2
+      timer: 3000
+      subinterfaces: enable
+      tlv_select:
+        management_address: False
+        system_description: False
+    state: merged
+
+#
+#
+# ------------------------
+# Module Execution Result
+# ------------------------
+#
+#  "before": {}
+#  
+#  "commands": [
+#        "lldp subinterfaces enable",
+#        "lldp holdtime 100",
+#        "lldp reinit 2",
+#        "lldp tlv-select system-description disable",
+#        "lldp tlv-select management-address disable",
+#        "lldp timer 3000"
+#  ]
+#
+#  "after": {
+#        "holdtime": 100,
+#        "reinit": 2,
+#        "subinterfaces": true,
+#        "timer": 3000,
+#        "tlv_select": {
+#            "management_address": false,
+#            "system_description": false
+#        }
+#  }
+#
+#
+# ------------
+# After state
+# ------------
+#
+#
+# RP/0/0/CPU0:an-iosxr#sh run lldp
+# Tue Aug  6 21:31:10.587 UTC
+# lldp
+#  timer 3000
+#  reinit 2
+#  subinterfaces enable
+#  holdtime 100
+#  tlv-select
+#   management-address disable
+#   system-description disable
+#  !
+# !
+#
+#
