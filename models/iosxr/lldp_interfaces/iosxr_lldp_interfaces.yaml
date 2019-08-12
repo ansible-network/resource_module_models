@@ -1,0 +1,65 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+
+NETWORK_OS: iosxr
+RESOURCE: lldp_interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: iosxr_lldp_interfaces
+  version_added: 2.9
+  short_description: Manage Link Layer Discovery Protocol (LLDP) attributes of interfaces on IOS-XR devices.
+  description: 
+    - This module manages Link Layer Discovery Protocol (LLDP) attributes of interfaces on IOS-XR devices.
+  author: Nilashish Chakraborty (@nilashishc)
+  options:
+    config:
+      description: A dictionary of LLDP interfaces options.
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - Name/Identifier of the interface or Ether-Bundle.
+          type: str
+        destination:
+          description:
+            - Specifies LLDP destination configuration on the interface.
+          suboptions:
+            mac_address:
+              description:
+                - Specifies the LLDP destination mac address on the interface.
+              type: str
+              choices: ['ieee-nearest-bridge', 'ieee-nearest-non-tmpr-bridge']
+          type: dict
+        receive:
+          description:
+            - Enable/disable LLDP RX on an interface.
+          type: bool
+        transmit:
+          description:
+            - Enable/disable LLDP TX on an interface.
+          type: bool
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
