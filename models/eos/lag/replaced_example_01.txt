@@ -4,13 +4,13 @@
 # -------------
 #
 # interface Ethernet1
-#   channel group 5 mode on
+#   channel-group 5 mode on
 # interface Ethernet2
 
 - name: Replace all device configuration of specified LAGs with provided configuration
   eos_lag_interfaces:
     config:
-      - name: 5
+      - name: 10
         members:
           - member: Ethernet2
             mode: on
@@ -20,5 +20,6 @@
 # ------------
 #
 # interface Ethernet1
+#   channel-group 5 mode on
 # interface Ethernet2
-#   channel group 5 mode on
+#   channel-group 10 mode on
