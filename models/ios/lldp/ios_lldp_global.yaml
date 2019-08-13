@@ -21,66 +21,62 @@ DOCUMENTATION: |
       description: A dictionary of LLDP options
       type: dict
       suboptions:
-        system:
-          description: LLDP system options.
+        holdtime:
+          description:
+            - LLDP holdtime (in sec) to be sent in packets.
+            - Refer to vendor documentation for valid values.
+          type: int
+        reinit:
+          description:
+            - Specify the delay (in secs) for LLDP to initialize.
+            - Refer to vendor documentation for valid values.
+          type: int
+        run:
+          description:
+            - Enable LLDP
+          type: bool
+        timer:
+          description:
+            - Specify the rate at which LLDP packets are sent (in sec).
+            - Refer to vendor documentation for valid values.
+          type: int
+        tlv-select:
+          description:
+            - Selection of LLDP TLVs to send
           type: dict
           suboptions:
-            holdtime:
+            mac-phy-cfg:
               description:
-                - LLDP holdtime (in sec) to be sent in packets.
-                - Refer to vendor documentation for valid values.
-              type: int
-            reinit:
-              description:
-                - Specify the delay (in secs) for LLDP to initialize.
-                - Refer to vendor documentation for valid values.
-              type: int
-            run:
-              description:
-                - Enable LLDP
+                - IEEE 802.3 MAC/Phy Configuration/status TLV
               type: bool
-            timer:
+            management-address:
               description:
-                - Specify the rate at which LLDP packets are sent (in sec).
-                - Refer to vendor documentation for valid values.
-              type: int
-            tlv-select:
+                - Management Address TLV
+              type: bool
+            port-description:
               description:
-                - Selection of LLDP TLVs to send
-              type: dict
-              suboptions:
-                mac-phy-cfg:
-                  description:
-                    - IEEE 802.3 MAC/Phy Configuration/status TLV
-                  type: bool
-                management-address:
-                  description:
-                    - Management Address TLV
-                  type: bool
-                port-description:
-                  description:
-                    - Port Description TLV
-                  type: bool
-                port-vlan:
-                  description:
-                    - Port VLAN ID TLV
-                  type: bool
-                power-management:
-                  description:
-                    - IEEE 802.3 DTE Power via MDI TLV
-                  type: bool
-                system-capabilities:
-                  description:
-                    - System Capabilities TLV
-                  type: bool
-                system-description
-                  description:
-                    - System Description TLV
-                  type: bool
-                system-name:
-                  description:
-                    - System Name TLV
-                  type: bool
+                - Port Description TLV
+              type: bool
+            port-vlan:
+              description:
+                - Port VLAN ID TLV
+              type: bool
+            power-management:
+              description:
+                - IEEE 802.3 DTE Power via MDI TLV
+              type: bool
+            system-capabilities:
+              description:
+                - System Capabilities TLV
+              type: bool
+            system-description
+              description:
+                - System Description TLV
+              type: bool
+            system-name:
+              description:
+                - System Name TLV
+              type: bool
     state:
       description:
       - The state the configuration should be left in
