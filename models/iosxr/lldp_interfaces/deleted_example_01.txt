@@ -1,0 +1,104 @@
+# Using deleted
+#
+#
+# -------------
+# Before state
+# -------------
+#
+#
+# RP/0/RP0/CPU0:ios#sh run int
+# Mon Aug 12 13:26:21.498 UTC
+# interface TenGigE0/0/0/0
+#  ipv4 address 192.0.2.11 255.255.255.192
+# !
+# interface preconfigure GigabitEthernet0/0/0/1
+#  lldp
+#   receive disable
+#   destination mac-address
+#    ieee-nearest-bridge
+#   !
+#  !
+# !
+# interface preconfigure GigabitEthernet0/0/0/2
+#  lldp
+#   transmit disable
+#   destination mac-address
+#    ieee-nearest-non-tmpr-bridge
+#   !
+#  !
+# !
+#
+#
+
+- name: Delete LLDP configurations of all interfaces (Note - This won't delete the interfaces themselves)
+  iosxr_lldp_interfaces:
+    state: deleted
+
+#
+#
+#
+# ------------------------
+# Module Execution Result
+# ------------------------
+#
+#
+# "before": [
+#        {
+#            "name": "TenGigE0/0/0/0"
+#        },
+#        {
+#            "destination": {
+#                "mac_address": "ieee-nearest-bridge"
+#            },
+#            "name": "GigabitEthernet0/0/0/1",
+#            "receive": false
+#        },
+#        {
+#            "destination": {
+#                "mac_address": "ieee-nearest-non-tmpr-bridge"
+#            },
+#            "name": "GigabitEthernet0/0/0/2",
+#            "transmit": false
+#        }
+# ]
+#
+#
+# "commands": [
+#        "interface GigabitEthernet0/0/0/1",
+#        "no lldp destination mac-address ieee-nearest-bridge",
+#        "no lldp receive disable",
+#        "interface GigabitEthernet0/0/0/2",
+#        "no lldp destination mac-address ieee-nearest-non-tmpr-bridge",
+#        "no lldp transmit disable"
+# ]
+#
+#
+# "after": [
+#        {
+#            "name": "TenGigE0/0/0/0"
+#        },
+#        {
+#            "name": "GigabitEthernet0/0/0/1"
+#        },
+#        {
+#            "name": "GigabitEthernet0/0/0/2"
+#        }
+# ]
+#
+#
+# ------------
+# After state
+# ------------
+#
+# 
+# RP/0/RP0/CPU0:ios#sh run int
+# Mon Aug 12 13:30:14.618 UTC
+# interface TenGigE0/0/0/0
+#  ipv4 address 192.0.2.11 255.255.255.192
+# !
+# interface preconfigure GigabitEthernet0/0/0/1
+# !
+# interface preconfigure GigabitEthernet0/0/0/2
+# !
+#
+#

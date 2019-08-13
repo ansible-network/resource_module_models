@@ -1,0 +1,110 @@
+# Using overridden
+#
+#
+# -------------
+# Before state
+# -------------
+#
+#
+# RP/0/RP0/CPU0:ios#sh run int
+# Mon Aug 12 13:15:40.465 UTC
+# interface TenGigE0/0/0/0
+#  ipv4 address 192.0.2.11 255.255.255.192
+# !
+# interface preconfigure GigabitEthernet0/0/0/1
+#  lldp
+#   receive disable
+#   destination mac-address
+#    ieee-nearest-bridge
+#   !
+#  !
+# !
+# interface preconfigure GigabitEthernet0/0/0/2
+#  lldp
+#   transmit disable
+#   destination mac-address
+#    ieee-nearest-non-tmpr-bridge
+#   !
+#  !
+# !
+#
+#
+
+- name: Override the LLDP configurations of all the interfaces with provided configurations
+  iosxr_lldp_interfaces:
+    config:
+      - name: GigabitEthernet0/0/0/1
+        transmit: False
+    state: overridden
+
+#
+#
+# ------------------------
+# Module Execution Result
+# ------------------------
+#
+#
+# "before": [
+#        {
+#            "name": "TenGigE0/0/0/0"
+#        },
+#        {
+#            "destination": {
+#                "mac_address": "ieee-nearest-bridge"
+#            },
+#            "name": "GigabitEthernet0/0/0/1",
+#            "receive": false
+#        },
+#        {
+#            "destination": {
+#                "mac_address": "ieee-nearest-non-tmpr-bridge"
+#            },
+#            "name": "GigabitEthernet0/0/0/2",
+#            "transmit": false
+#        }
+# ]
+#
+# "commands": [
+#        "interface GigabitEthernet0/0/0/2",
+#        "no lldp destination mac-address ieee-nearest-non-tmpr-bridge",
+#        "no lldp transmit disable",
+#        "interface GigabitEthernet0/0/0/1",
+#        "no lldp destination mac-address ieee-nearest-bridge",
+#        "no lldp receive disable",
+#        "lldp transmit disable"
+# ]
+#
+#
+# "after": [
+#        {
+#            "name": "TenGigE0/0/0/0"
+#        },
+#        {
+#            "name": "GigabitEthernet0/0/0/1",
+#            "transmit": false
+#        },
+#        {
+#            "name": "GigabitEthernet0/0/0/2"
+#        }
+# ]
+#
+#
+# ------------
+# After state
+# ------------
+#
+#
+# RP/0/RP0/CPU0:ios#sh run int
+# Mon Aug 12 13:22:25.604 UTC
+# interface TenGigE0/0/0/0
+#  ipv4 address 192.0.2.11 255.255.255.192
+# !
+# interface preconfigure GigabitEthernet0/0/0/1
+#  lldp
+#   transmit disable
+#  !
+# !
+# interface preconfigure GigabitEthernet0/0/0/2
+# !
+#
+#
