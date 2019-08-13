@@ -30,7 +30,7 @@ DOCUMENTATION: |
         transmit:
           description: Enable LLDP transmission on interface.
           type: bool
-        tlv-select:
+        tlv_select:
           description: Selection of LLDP TLVs to send
           type: dict
           suboptions:
