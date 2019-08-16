@@ -38,9 +38,9 @@ DOCUMENTATION: |
           - Operational state of the VLAN
           type: str
           choices:
-          - present
-          - absent
-          default: present
+          - active
+          - suspended
+          default: active
     state:
       description:
       - The state the configuration should be left in

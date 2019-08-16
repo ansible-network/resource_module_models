@@ -5,6 +5,7 @@
 #
 # path: /rest/restconf/data/openconfig-vlan:vlans/
 # method: GET
+# data:
 # {
 #   "openconfig-vlan:vlans": {
 #     "vlan": [
@@ -44,24 +45,76 @@
 #   }
 # }
 
-
- name: Override device configuration of all VLANs with provided configuration
+- name: Override device configuration of all VLANs with provided configuration
   exos_vlans:
     config:
       - name: TEST_VLAN10
         vlan_id: 10
     state: overridden
 
+# Module Execution Results:
+# -------------------------
+#
+# "before": [
+#     "config": {
+#        "name": "vlan_10",
+#        "state": "ACTIVE",
+#        "vlan-id": 10
+#     }
+#     "config": {
+#        "name": "vlan_20",
+#        "state": "ACTIVE",
+#        "vlan-id": 20
+#     }
+#     "config": {
+#        "name": "vlan_30",
+#        "state": "ACTIVE",
+#        "vlan-id": 30
+#     }
+#  ]
+#
+# "requests": [
+#     {
+#        "data": {
+#          "openconfig-vlan:vlan": [
+#            {
+#              "config": {
+#                "name": "TEST_VLAN10",
+#                "status": "ACTIVE",
+#                "tpid": "oc-vlan-types:TPID_0x8100",
+#                "vlan-id": 10
+#             }
+#            }
+#          ]
+#        },
+#        "method": "PATCH",
+#        "path": "/rest/restconf/data/openconfig-vlan:vlans/vlan=10"
+#     },
+#     {
+#        "method": "DELETE",
+#        "path": "/rest/restconf/data/openconfig-vlan:vlans/vlan=20"
+#     },
+#     {
+#        "method": "DELETE",
+#        "path": "/rest/restconf/data/openconfig-vlan:vlans/vlan=30"
+#     }
+#  ]
+#
+# "After": [
+#    "config": {
+#       "name": "TEST_VLAN10",
+#       "state": "ACTIVE",
+#       "vlan-id": 10
+#     }
+#  ]
+#
+#
 # After state:
 # -------------
 #
-# path: /rest/restconf/data/openconfig-vlan:vlans/vlan=10
-# method: PATCH
-# path: /rest/restconf/data/openconfig-vlan:vlans/vlan=20
-# method: DELETE
-# path: /rest/restconf/data/openconfig-vlan:vlans/vlan=30
-# method: DELETE
-#
+# path: /rest/restconf/data/openconfig-vlan:vlans/
+# method: GET
+# data:
 # {
 #   "openconfig-vlan:vlans": {
 #     "vlan": [

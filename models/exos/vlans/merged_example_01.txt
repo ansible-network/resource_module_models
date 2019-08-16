@@ -4,7 +4,7 @@
 # -------------
 # path: /rest/restconf/data/openconfig-vlan:vlans/
 # method: GET
-#
+# data:
 # {
 #   "openconfig-vlan:vlans": {
 #     "vlan": [
@@ -25,21 +25,95 @@
     config:
       - name: vlan_10
         vlan_id: 10
-        state: present
+        state: active
       - name: vlan_20
         vlan_id: 20
-        state: present
+        state: active
       - name: vlan_30
         vlan_id: 30
-        state: present
+        state: active
     state: merged
 
+# Module Execution Results:
+# -------------------------
+#
+# "before": []
+#
+# "requests": [
+#     {
+#        "data": {
+#          "openconfig-vlan:vlan": [
+#            {
+#              "config": {
+#                "name": "vlan_10",
+#                "status": "ACTIVE",
+#                "tpid": "oc-vlan-types:TPID_0x8100",
+#                "vlan-id": 10
+#             }
+#            }
+#          ]
+#        },
+#        "method": "POST",
+#        "path": "/rest/restconf/data/openconfig-vlan:vlans/"
+#      },
+#      {
+#        "data": {
+#          "openconfig-vlan:vlan": [
+#            {
+#              "config": {
+#                "name": "vlan_20",
+#                "status": "ACTIVE",
+#                "tpid": "oc-vlan-types:TPID_0x8100",
+#                "vlan-id": 20
+#              }
+#            }
+#          ]
+#        },
+#        "method": "POST",
+#        "path": "/rest/restconf/data/openconfig-vlan:vlans/"
+#      },
+#        "data": {
+#          "openconfig-vlan:vlan": [
+#            {
+#              "config": {
+#                "name": "vlan_30",
+#                "status": "ACTIVE",
+#                "tpid": "oc-vlan-types:TPID_0x8100",
+#                "vlan-id": 30
+#              }
+#            }
+#          ]
+#        },
+#        "method": "POST",
+#        "path": "/rest/restconf/data/openconfig-vlan:vlans/"
+#      }
+#    ]
+#
+# "After": [
+#    "config": {
+#       "name": "vlan_10",
+#       "state": "ACTIVE",
+#       "vlan-id": 10
+#     }
+#    "config": {
+#       "name": "vlan_20",
+#       "state": "ACTIVE",
+#       "vlan-id": 20
+#     }
+#    "config": {
+#       "name": "vlan_30",
+#       "state": "ACTIVE",
+#       "vlan-id": 30
+#     }
+#  ]
+#
+# 
 # After state:
 # -------------
 #
 # path: /rest/restconf/data/openconfig-vlan:vlans/
-# method: POST
-#
+# method: GET
+# data:
 # {
 #   "openconfig-vlan:vlans": {
 #     "vlan": [

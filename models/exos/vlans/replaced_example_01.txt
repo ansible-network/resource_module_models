@@ -5,7 +5,7 @@
 #
 # path: /rest/restconf/data/openconfig-vlan:vlans/
 # method: GET
-#
+# data:
 # {
 #   "openconfig-vlan:vlans": {
 #     "vlan": [
@@ -54,14 +54,76 @@
         vlan_id: 30
     state: replaced
 
+# Module Execution Results:
+# -------------------------
+#
+# "before": [
+#     "config": {
+#        "name": "vlan_20",
+#        "state": "ACTIVE",
+#        "vlan-id": 20
+#     },
+#     "config": {
+#        "name": "vlan_30",
+#        "state": "ACTIVE",
+#        "vlan-id": 30
+#     }
+#  ]
+#
+# "requests": [
+#     {
+#        "data": {
+#          "openconfig-vlan:vlan": [
+#            {
+#              "config": {
+#                "name": "TEST_VLAN20",
+#                "status": "ACTIVE",
+#                "tpid": "oc-vlan-types:TPID_0x8100",
+#                "vlan-id": 20
+#             }
+#            }
+#          ]
+#        },
+#        "method": "PATCH",
+#        "path": "/rest/restconf/data/openconfig-vlan:vlans/vlan=20"
+#      },
+#      {
+#        "data": {
+#          "openconfig-vlan:vlan": [
+#            {
+#              "config": {
+#                "name": "TEST_VLAN30",
+#                "status": "ACTIVE",
+#                "tpid": "oc-vlan-types:TPID_0x8100",
+#                "vlan-id": 30
+#              }
+#            }
+#          ]
+#        },
+#        "method": "PATCH",
+#        "path": "/rest/restconf/data/openconfig-vlan:vlans/vlan=30"
+#      }
+#   ]
+#
+# "After": [
+#    "config": {
+#       "name": "TEST_VLAN20",
+#       "state": "ACTIVE",
+#       "vlan-id": 20
+#     }
+#    "config": {
+#       "name": "TEST_VLAN30",
+#       "state": "ACTIVE",
+#       "vlan-id": 30
+#     }
+#  ]
+#
 # After state:
 # -------------
 #
-# path: /rest/restconf/data/openconfig-vlan:vlans/vlan=20
-# method: PATCH
-# path: /rest/restconf/data/openconfig-vlan:vlans/vlan=30
-# method: PATCH
-#
+# path: /rest/restconf/data/openconfig-vlan:vlans/
+# method: GET
+# data:
 # {
 #   "openconfig-vlan:vlans": {
 #     "vlan": [
