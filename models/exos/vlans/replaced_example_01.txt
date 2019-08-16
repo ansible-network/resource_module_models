@@ -1,0 +1,103 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+# path: /rest/restconf/data/openconfig-vlan:vlans/
+# method: GET
+#
+# {
+#   "openconfig-vlan:vlans": {
+#     "vlan": [
+#       {
+#         "config": {
+#           "name": "Default",
+#           "status": "ACTIVE",
+#           "tpid": "oc-vlan-types:TPID_0x8100",
+#           "vlan-id": 1
+#         },
+#       },
+#       {
+#         "config": {
+#           "name": "vlan_10",
+#           "status": "ACTIVE",
+#           "tpid": "oc-vlan-types:TPID_0x8100",
+#           "vlan-id": 10
+#         },
+#       },
+#       {
+#         "config": {
+#           "name": "vlan_20",
+#           "status": "ACTIVE",
+#           "tpid": "oc-vlan-types:TPID_0x8100",
+#           "vlan-id": 20
+#         },
+#       },
+#       {
+#         "config": {
+#           "name": "vlan_30",
+#           "status": "ACTIVE",
+#           "tpid": "oc-vlan-types:TPID_0x8100",
+#           "vlan-id": 30
+#         },
+#       }
+#     ]
+#   }
+# }
+
+- name: Replaces device configuration of listed VLANs with provided configuration
+  exos_vlans:
+    config:
+      - name: Test_VLAN20
+        vlan_id: 20
+      - name: Test_VLAN30
+        vlan_id: 30
+    state: replaced
+
+# After state:
+# -------------
+#
+# path: /rest/restconf/data/openconfig-vlan:vlans/vlan=20
+# method: PATCH
+# path: /rest/restconf/data/openconfig-vlan:vlans/vlan=30
+# method: PATCH
+#
+# {
+#   "openconfig-vlan:vlans": {
+#     "vlan": [
+#       {
+#         "config": {
+#           "name": "Default",
+#           "status": "ACTIVE",
+#           "tpid": "oc-vlan-types:TPID_0x8100",
+#           "vlan-id": 1
+#         },
+#       },
+#       {
+#         "config": {
+#           "name": "vlan_10",
+#           "status": "ACTIVE",
+#           "tpid": "oc-vlan-types:TPID_0x8100",
+#           "vlan-id": 10
+#         },
+#       },
+#       {
+#         "config": {
+#           "name": "TEST_VLAN20",
+#           "status": "ACTIVE",
+#           "tpid": "oc-vlan-types:TPID_0x8100",
+#           "vlan-id": 20
+#         },
+#       },
+#       {
+#         "config": {
+#           "name": "TEST_VLAN30",
+#           "status": "ACTIVE",
+#           "tpid": "oc-vlan-types:TPID_0x8100",
+#           "vlan-id": 30
+#         },
+#       }
+#     ]
+#   }
+# }
+

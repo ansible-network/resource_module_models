@@ -1,0 +1,81 @@
+# Using merged
+
+# Before state:
+# -------------
+# path: /rest/restconf/data/openconfig-vlan:vlans/
+# method: GET
+#
+# {
+#   "openconfig-vlan:vlans": {
+#     "vlan": [
+#       {
+#         "config": {
+#           "name": "Default",
+#           "status": "ACTIVE",
+#           "tpid": "oc-vlan-types:TPID_0x8100",
+#           "vlan-id": 1
+#         },
+#       }
+#     ]
+#   }
+# }
+
+- name: Merge provided configuration with device configuration
+  exos_vlans:
+    config:
+      - name: vlan_10
+        vlan_id: 10
+        state: present
+      - name: vlan_20
+        vlan_id: 20
+        state: present
+      - name: vlan_30
+        vlan_id: 30
+        state: present
+    state: merged
+
+# After state:
+# -------------
+#
+# path: /rest/restconf/data/openconfig-vlan:vlans/
+# method: POST
+#
+# {
+#   "openconfig-vlan:vlans": {
+#     "vlan": [
+#       {
+#         "config": {
+#           "name": "Default",
+#           "status": "ACTIVE",
+#           "tpid": "oc-vlan-types:TPID_0x8100",
+#           "vlan-id": 1
+#         },
+#       },
+#       {
+#         "config": {
+#           "name": "vlan_10",
+#           "status": "ACTIVE",
+#           "tpid": "oc-vlan-types:TPID_0x8100",
+#           "vlan-id": 10
+#         },
+#       },
+#       {
+#         "config": {
+#           "name": "vlan_20",
+#           "status": "ACTIVE",
+#           "tpid": "oc-vlan-types:TPID_0x8100",
+#           "vlan-id": 20
+#         },
+#       },
+#       {
+#         "config": {
+#           "name": "vlan_30",
+#           "status": "ACTIVE",
+#           "tpid": "oc-vlan-types:TPID_0x8100",
+#           "vlan-id": 30
+#         },
+#       }
+#     ]
+#   }
+# }
+
