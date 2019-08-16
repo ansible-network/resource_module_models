@@ -18,7 +18,8 @@ DOCUMENTATION: |
   options:
     config:
       description: A dictionary of LLDP options
-      type: dict
+      type: list
+      elements: dict
       suboptions:
         name:
           description: Full name of the interface excluding any logical unit number, i.e. GigabitEthernet0/1.
