@@ -18,6 +18,8 @@ DOCUMENTATION: |
   author: Jayalakshmi Viswanathan (@jayalakshmiV)
   notes:
     - Tested against EXOS 30.2.1.8
+    - This module works with connection C(httpapi).
+    See L(EXOS Platform Options,../network/user_guide/platform_exos.html)
   options:
     config:
       description: A dictionary of VLANs options
