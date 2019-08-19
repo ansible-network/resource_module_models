@@ -1,0 +1,97 @@
+# Using replaced
+
+
+# Before state:
+# -------------
+# path: /rest/restconf/data/openconfig_lldp:lldp/config
+# method: GET
+# data:
+# {
+#   "openconfig_lldp:config": {
+#     "enabled": true,
+#     "hello-timer": 30,
+#     "suppress-tlv-advertisement": [
+#       "PORT_DESCRIPTION",
+#       "SYSTEM_CAPABILITIES",
+#       "MANAGEMENT_ADDRESS"
+#     ],
+#     "system-description": "ExtremeXOS (X460G2-24t-10G4) version 30.2.1.8"
+#     "system-name": "X460G2-24t-10G4"
+#   }
+# }
+
+- name: Replace device configuration with provided LLDP configuration
+  exos_lldp_global:
+    config:
+      interval: 10000
+      tlv_select:
+        system_capabilities: true
+    state: replaced
+
+# Module Execution Results:
+# -------------------------
+#
+# "before": [
+#   {
+#     "interval": 30,
+#     "tlv_select": {
+#       "system_name": true,
+#       "system_description": true
+#       "port_description": false,
+#       "management_address": false,
+#       "system_capabilities": false
+#     }
+#   }
+# ]
+#
+# "requests": [
+#     {
+#        "data": {
+#           "openconfig_lldp:config": {
+#             "hello-timer": 10000,
+#             "suppress-tlv-advertisement": [
+#               "SYSTEM_NAME",
+#               "SYSTEM_DESCRIPTION",
+#               "PORT_DESCRIPTION",
+#               "MANAGEMENT_ADDRESS"
+#             ]
+#           }
+#         },
+#        "method": "PATCH",
+#        "path": "/rest/restconf/data/openconfig_lldp:lldp/config"
+#      }
+# ]
+#
+# "after": [
+#   {
+#     "interval": 10000,
+#     "tlv_select": {
+#       "system_name": false,
+#       "system_description": false,
+#       "port_description": false,
+#       "management_address": false,
+#       "system_capabilities": true
+#     }
+#   }
+# ]
+
+
+# After state:
+# -------------
+# path: /rest/restconf/data/openconfig_lldp:lldp/config
+# method: GET
+# data:
+# {
+#   "openconfig_lldp:config": {
+#     "enabled": true,
+#     "hello-timer": 10000,
+#     "suppress-tlv-advertisement": [
+#       "SYSTEM_NAME",
+#       "SYSTEM_DESCRIPTION",
+#       "PORT_DESCRIPTION",
+#       "MANAGEMENT_ADDRESS"
+#     ],
+#     "system-description": "ExtremeXOS (X460G2-24t-10G4) version 30.2.1.8"
+#     "system-name": "X460G2-24t-10G4"
+#   }
+# }
