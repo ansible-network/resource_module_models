@@ -54,7 +54,7 @@
 #         },
 #        "method": "PATCH",
 #        "path": "/rest/restconf/data/openconfig_lldp:lldp/config"
-#      }
+#     }
 # ]
 #
 # "after": [
