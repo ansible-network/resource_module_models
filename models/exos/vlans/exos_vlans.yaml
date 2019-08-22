@@ -18,6 +18,8 @@ DOCUMENTATION: |
   author: Jayalakshmi Viswanathan (@jayalakshmiV)
   notes:
     - Tested against EXOS 30.2.1.8
+    - This module works with connection C(httpapi).
+      See L(EXOS Platform Options,../network/user_guide/platform_exos.html)
   options:
     config:
       description: A dictionary of VLANs options
@@ -26,30 +28,30 @@ DOCUMENTATION: |
       suboptions:
         name:
           description:
-          - Ascii name of the VLAN.
+            - Ascii name of the VLAN.
           type: str
         vlan_id:
           description:
-          - ID of the VLAN. Range 1-4094
+            - ID of the VLAN. Range 1-4094
           type: int
           required: True
         state:
           description:
-          - Operational state of the VLAN
+            - Operational state of the VLAN
           type: str
           choices:
-          - active
-          - suspended
+            - active
+            - suspended
           default: active
     state:
       description:
-      - The state the configuration should be left in
+        - The state the configuration should be left in
       type: str
       choices:
-      - merged
-      - replaced
-      - overridden
-      - deleted
+        - merged
+        - replaced
+        - overridden
+        - deleted
       default: merged
 EXAMPLES:
   - deleted_example_01.txt
