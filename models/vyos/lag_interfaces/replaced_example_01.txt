@@ -1,0 +1,104 @@
+# Using replaced
+#
+# Before state:
+# -------------
+#
+# vyos@vyos:~$ show configuration  commands | grep bond
+# set interfaces bonding bond2 hash-policy 'layer2'
+# set interfaces bonding bond2 mode 'active-backup'
+# set interfaces bonding bond2 primary 'eth2'
+# set interfaces bonding bond3 hash-policy 'layer2+3'
+# set interfaces bonding bond3 mode 'active-backup'
+# set interfaces bonding bond3 primary 'eth3'
+# set interfaces ethernet eth1 bond-group 'bond2'
+# set interfaces ethernet eth2 bond-group 'bond2'
+# set interfaces ethernet eth3 bond-group 'bond3'
+#
+- name: Replace device configurations of listed LAGs with provided configurations
+  vyos_lag_interfaces:
+    config:
+      - name: bond3
+        mode: '802.3ad'
+        hash-policy: 'layer2'
+        members: 
+         - member: eth3
+    state: replaced
+#
+#
+# -------------------------
+# Module Execution Result
+# -------------------------
+#
+#    "before": [
+#        {
+#            "hash-policy": "layer2", 
+#            "members": [
+#                {
+#                    "member": "eth1"
+#                }, 
+#                {
+#                    "member": "eth2"
+#                }
+#            ], 
+#            "mode": "active-backup", 
+#            "name": "bond2", 
+#            "primary": "eth2"
+#        }, 
+#        {
+#            "hash-policy": "layer2+3", 
+#            "members": [
+#                {
+#                    "member": "eth3"
+#                }
+#            ], 
+#            "mode": "active-backup", 
+#            "name": "bond3", 
+#            "primary": "eth3"
+#        }
+#    ],
+#
+# "commands": [
+#        "delete interfaces bonding bond3 primary", 
+#        "set interfaces bonding bond3 hash-policy 'layer2'", 
+#        "set interfaces bonding bond3 mode '802.3ad'"
+#    ],
+#
+# "after": [
+#        {
+#            "hash-policy": "layer2", 
+#            "members": [
+#                {
+#                    "member": "eth1"
+#                }, 
+#                {
+#                    "member": "eth2"
+#                }
+#            ], 
+#            "mode": "active-backup", 
+#            "name": "bond2", 
+#            "primary": "eth2"
+#        }, 
+#        {
+#            "hash-policy": "layer2", 
+#            "members": [
+#                {
+#                    "member": "eth3"
+#                }
+#            ], 
+#            "mode": "802.3ad", 
+#            "name": "bond3"
+#        }
+#    ],
+#
+# After state:
+# -------------
+#
+# vyos@vyos:~$ show configuration  commands | grep bond
+# set interfaces bonding bond2 hash-policy 'layer2'
+# set interfaces bonding bond2 mode 'active-backup'
+# set interfaces bonding bond2 primary 'eth2'
+# set interfaces bonding bond3 hash-policy 'layer2'
+# set interfaces bonding bond3 mode '802.3ad'
+# set interfaces ethernet eth1 bond-group 'bond2'
+# set interfaces ethernet eth2 bond-group 'bond2'
+# set interfaces ethernet eth3 bond-group 'bond3'
