@@ -1,0 +1,6 @@
+
+# Using deleted
+
+- name: Configure interfaces
+  bfd_interfaces:
+    operation: deleted
