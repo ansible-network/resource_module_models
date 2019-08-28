@@ -2,7 +2,7 @@
 # Using replaced
 
 - name: Configure interfaces
-  nxos_interfaces:
+  nxos_bfd_interfaces:
     config:
       - name: Ethernet1/1
         bfd: enable

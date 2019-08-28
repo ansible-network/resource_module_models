@@ -2,7 +2,7 @@
 # Using overridden
 
 - name: Configure interfaces
-  myos_interfaces:
+  nxos_bfd_interfaces:
     config:
       - name: Ethernet1/1
         bfd: enable
