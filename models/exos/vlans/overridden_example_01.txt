@@ -55,56 +55,71 @@
 # Module Execution Results:
 # -------------------------
 #
+# "after": [
+#     {
+#         "name": "Default",
+#         "state": "active",
+#         "vlan_id": 1
+#     },
+#     {
+#         "name": "TEST_VLAN10",
+#         "state": "active",
+#         "vlan_id": 10
+#     },
+# ],
+#
 # "before": [
-#     "config": {
-#        "name": "vlan_10",
-#        "state": "ACTIVE",
-#        "vlan-id": 10
+#     {
+#         "name": "Default",
+#         "state": "active",
+#         "vlan_id": 1
+#     },
+#     {
+#         "name": "vlan_10",
+#         "state": "active",
+#         "vlan_id": 10
+#     },
+#     {
+#         "name": "vlan_20",
+#         "state": "active",
+#         "vlan_id": 20
+#     },
+#     {
+#         "name": "vlan_30",
+#         "state": "active",
+#         "vlan_id": 30
 #     }
-#     "config": {
-#        "name": "vlan_20",
-#        "state": "ACTIVE",
-#        "vlan-id": 20
-#     }
-#     "config": {
-#        "name": "vlan_30",
-#        "state": "ACTIVE",
-#        "vlan-id": 30
-#     }
-#  ]
+# ],
 #
 # "requests": [
 #     {
 #        "data": {
-#          "openconfig-vlan:vlan": [
-#            {
-#              "config": {
-#                "name": "TEST_VLAN10",
-#                "status": "ACTIVE",
-#                "tpid": "oc-vlan-types:TPID_0x8100",
-#                "vlan-id": 10
-#             }
-#            }
-#          ]
-#        },
+#          "openconfig-vlan:vlan": {
+#	     "vlan": [
+#              {
+#                "config": {
+#                  "name": "TEST_VLAN10",
+#                  "status": "ACTIVE",
+#                  "tpid": "oc-vlan-types:TPID_0x8100",
+#                  "vlan-id": 10
+#                }
+#              }
+#            ]
+#          }
+#        }
+#     },
 #        "method": "PATCH",
-#        "path": "/rest/restconf/data/openconfig-vlan:vlans/vlan=10"
+#        "path": "/rest/restconf/data/openconfig-vlan:vlans/"
 #     },
 #     {
+#	 "data": null,
 #        "method": "DELETE",
 #        "path": "/rest/restconf/data/openconfig-vlan:vlans/vlan=20"
 #     },
 #     {
+#	 "data": null,
 #        "method": "DELETE",
 #        "path": "/rest/restconf/data/openconfig-vlan:vlans/vlan=30"
-#     }
-#  ]
-#
-# "After": [
-#    "config": {
-#       "name": "TEST_VLAN10",
-#       "state": "ACTIVE",
-#       "vlan-id": 10
 #     }
 #  ]
 #

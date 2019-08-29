@@ -37,7 +37,36 @@
 # Module Execution Results:
 # -------------------------
 #
-# "before": []
+# "after": [
+#     {
+#         "name": "Default",
+#         "state": "active",
+#         "vlan_id": 1
+#     },
+#     {
+#         "name": "vlan_10",
+#         "state": "active",
+#         "vlan_id": 10
+#     },
+#     {
+#         "name": "vlan_20",
+#         "state": "active",
+#         "vlan_id": 20
+#     },
+#     {
+#         "name": "vlan_30",
+#         "state": "active",
+#         "vlan_id": 30
+#     }
+# ],
+#
+# "before": [
+#     {
+#         "name": "Default",
+#         "state": "active",
+#         "vlan_id": 1
+#     }
+# ],
 #
 # "requests": [
 #     {
@@ -88,24 +117,6 @@
 #        "path": "/rest/restconf/data/openconfig-vlan:vlans/"
 #      }
 #    ]
-#
-# "After": [
-#    "config": {
-#       "name": "vlan_10",
-#       "state": "ACTIVE",
-#       "vlan-id": 10
-#     }
-#    "config": {
-#       "name": "vlan_20",
-#       "state": "ACTIVE",
-#       "vlan-id": 20
-#     }
-#    "config": {
-#       "name": "vlan_30",
-#       "state": "ACTIVE",
-#       "vlan-id": 30
-#     }
-#  ]
 #
 # 
 # After state:
