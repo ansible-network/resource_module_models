@@ -1,0 +1,46 @@
+# Using overridden
+
+# Before state:
+# -------------
+#
+# viosl2#show running-config | section ^interface
+# interface GigabitEthernet0/1
+#  description Configured by Ansible
+#  switchport trunk encapsulation dot1q
+#  switchport trunk native vlan 20
+#  switchport mode trunk
+#  negotiation auto
+# interface GigabitEthernet0/2
+#  description This is test
+#  switchport access vlan 20
+#  switchport trunk encapsulation dot1q
+#  switchport trunk native vlan 20
+#  switchport mode trunk
+#  media-type rj45
+#  negotiation auto
+# interface GigabitEthernet0/3.100
+#  encapsulation dot1Q 20
+
+- name: Override device configuration of all l2 interfaces with provided configuration
+  ios_interfaces:
+    config:
+      - name: GigabitEthernet0/2
+        access:
+        - vlan: 20
+    state: overridden
+
+# After state:
+# -------------
+#
+# viosl2#show running-config | section ^interface
+# interface GigabitEthernet0/1
+#  description Configured by Ansible
+#  negotiation auto
+# interface GigabitEthernet0/2
+#  description This is test
+#  switchport access vlan 20
+#  switchport mode access
+#  media-type rj45
+#  negotiation auto
+# interface GigabitEthernet0/3.100
+

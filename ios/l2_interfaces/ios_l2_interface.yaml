@@ -1,0 +1,95 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+    }
+NETWORK_OS: ios
+RESOURCE: l2_interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: ios_l2_interfaces
+  version_added: 2.9
+  short_description: Manage Layer-2 interface on Cisco IOS devices.
+  description: This module provides declarative management of Layer-2 interface on Cisco IOS devices.
+  author: Sumit Jaiswal (@justjais)
+  options:
+    config:
+      description: A dictionary of Layer-2 interface options
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+          - Full name of the interface excluding any logical unit number, i.e. GigabitEthernet0/1.
+          type: str
+          required: True
+        access:
+          description:
+          - Switchport mode access command to configure the interface as a layer 2 access.
+          suboptions:
+            vlan:
+              description:
+              - Configure given VLAN in access port. It's used as the access VLAN ID.
+            type: str
+        trunk:
+          description:
+          - Switchport mode trunk command to configure the interface as a Layer 2 trunk.
+            Note The encapsulation is always set to dot1q.
+          suboptions:
+            allowed_vlans:
+              description:
+              - List of allowed VLANs in a given trunk port. These are the only VLANs that will be
+                configured on the trunk.
+              type: list
+            native_vlan:
+              description:
+              - Native VLAN to be configured in trunk port. It's used as the trunk native VLAN ID.
+              type: str
+            encapsulation:
+              description:
+              - Trunking encapsulation when interface is in trunking mode.
+              choices: ['dot1q','isl', 'negotiate']
+              type: str
+            pruning_vlans:
+              description:
+              - Pruning VLAN to be configured in trunk port. It's used as the trunk pruning VLAN ID.
+              type: list
+        encapsulation:
+          description:
+          - Configuring IP routing on a LAN subinterface is only allowed if that subinterface is
+            already configured as part of an IEEE 802.10, IEEE 802.1Q, or ISL vLAN. Note, that this
+            parameter should only be used with Sub-Interface.
+          suboptions:
+            dot1q:
+              description:
+              - IEEE 802.1Q Virtual LAN ID, valid vlan range is between 1-4094.
+              type: str
+            isl:
+              description:
+              - Inter Switch Link - Virtual LAN encapsulation, valid vlan identifier range is
+                between 1-1000.
+              type: str
+            priority_tag:
+              description:
+              - Priority-tagged (VLAN 0).
+              type: str
+    state:
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+      description:
+      - The state the configuration should be left in
+      type: str
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt

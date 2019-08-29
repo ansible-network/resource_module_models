@@ -1,0 +1,58 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+# viosl2#show running-config | section ^interface
+# interface GigabitEthernet0/1
+#  description Configured by Ansible
+#  switchport access vlan 20
+#  switchport mode access
+#  negotiation auto
+# interface GigabitEthernet0/2
+#  description This is test
+#  switchport access vlan 20
+#  switchport mode access
+#  media-type rj45
+#  negotiation auto
+# interface GigabitEthernet0/3.100
+#  encapsulation dot1Q 20
+
+- name: Replaces device configuration of listed l2 interfaces with provided configuration
+  ios_interfaces:
+    config:
+      - name: GigabitEthernet0/2
+        trunk:
+	- allowed_vlans:
+          - 20
+          - 40
+          native_vlan: 20
+          trunk_vlans: 5-10
+          pruning_vlans:
+          - 10
+          encapsulation: dot1q
+      - name: GigabitEthernet0/3.100
+        encapsulation:
+        - isl: 10
+    state: replaced
+
+# After state:
+# -------------
+#
+# viosl2#show running-config | section ^interface
+# interface GigabitEthernet0/1
+#  description Configured by Ansible
+#  switchport access vlan 20
+#  switchport mode access
+#  negotiation auto
+# interface GigabitEthernet0/2
+#  description This is test
+#  switchport trunk allowed vlan 20,40
+#  switchport trunk encapsulation dot1q
+#  switchport trunk native vlan 20
+#  switchport trunk pruning vlan 10
+#  switchport mode trunk
+#  media-type rj45
+#  negotiation auto
+# interface GigabitEthernet0/3.100
+#  encapsulation isl 10
