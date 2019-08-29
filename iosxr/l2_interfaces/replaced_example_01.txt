@@ -1,0 +1,61 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+# viosxr#show running-config interface
+# interface GigabitEthernet0/0/0/3
+#  description Ansible Network
+#  vrf custB
+#  ipv4 address 10.10.0.2 255.255.255.0
+#  duplex half
+#  shutdown
+#  dot1q native vlan 20
+# !
+# interface GigabitEthernet0/0/0/4
+# description Test description
+#  dot1q native vlan 10
+#  l2transport
+#   l2protocol stp tunnel
+#  !
+# !
+# interface GigabitEthernet0/0/0/3.900 l2transport
+#  dot1q vlan 20 40
+# !
+
+- name: Replaces device configuration of listed interfaces with provided configuration
+  iosxr_interfaces:
+    config:
+      - name: GigabitEthernet0/0/0/4
+        native_vlan: 40
+        l2transport: True
+        l2protocol:
+        - stp: forward
+      - name: GigabitEthernet0/0/0/3.900
+        q_vlan:
+        - 20
+        - any
+    state: overridden
+
+# After state:
+# -------------
+#
+# viosxr#show running-config interface
+# interface GigabitEthernet0/0/0/3
+#  description Ansible Network
+#  vrf custB
+#  ipv4 address 10.10.0.2 255.255.255.0
+#  duplex half
+#  shutdown
+#  dot1q native vlan 20
+# !
+# interface GigabitEthernet0/0/0/4
+# description Test description
+#  dot1q native vlan 40
+#  l2transport
+#   l2protocol stp forward
+#  !
+# !
+# interface GigabitEthernet0/0/0/3.900 l2transport
+#  dot1q vlan 20 any
+# !
