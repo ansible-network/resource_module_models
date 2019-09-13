@@ -1,0 +1,19 @@
+# Using deleted
+
+# Before state:
+# ------------
+#
+# interface Ethernet1/4
+#   lldp tlv-set management vlan 24
+#   no lldp transmit
+# interface mgmt0
+#   no lldp receive
+
+- name: Delete LLDP interfaces configuration
+  nxos_lldp_interfaces:
+    state: deleted
+    
+# After state:
+# ------------
+#
+# 

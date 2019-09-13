@@ -1,0 +1,25 @@
+# Using merged
+
+# Before state:
+# -------------
+# 
+
+- name : Merge provided configuration with device configuration
+  nxos_lldp_interfaces:
+    config:
+        - name : Ethernet1/4
+          receive: false
+          transmit: true
+          tlv_set:
+            management_address:
+                v4: 10.0.0.1
+          vlan: 12
+    state: merged
+
+# After state:
+# -------------
+# 
+# interface Ethernet1/4
+#   no lldp receive
+#   lldp tlv-set management-address 10.0.0.1
+#   lldp tlv-set vlan 12
