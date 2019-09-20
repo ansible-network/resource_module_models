@@ -28,7 +28,7 @@ DOCUMENTATION: |
       suboptions:
         name:
           description:
-            - Name of the interface(s).
+            - Name of the interface
           required: true
           type: str
         receive:
@@ -46,17 +46,8 @@ DOCUMENTATION: |
           suboptions:
             management_address:
               description:
-                - Used to mention the management address for the interface
-              type: dict
-              suboptions:
-                v4:
-                  description:
-                    - IPv4 management address
-                  type: str
-                v6:
-                  description:
-                    - IPv6 management address
-                  type: str
+                - Used to mention the IPv4 or IPv6 management address for the interface
+              type: str
             vlan:
               description:
                 - Used to mention the VLAN for the interface
