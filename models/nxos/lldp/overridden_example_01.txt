@@ -19,7 +19,6 @@
             vlan: 12
     state: overridden
 
-
 # After state:
 # -----------
 #
