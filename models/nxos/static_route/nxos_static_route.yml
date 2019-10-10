@@ -7,7 +7,7 @@ ANSIBLE_METADATA: |
     'status': ['preview'],
     'supported_by': 'network'
   }
-NETWORK_OS: nxos
+NETWORK_OS: nxos:
 RESOURCE: static_route
 COPYRIGHT: Copyright 2019 Red Hat
 
@@ -29,6 +29,8 @@ DOCUMENTATION: |
         next_hop: 
           description: 
             - Interface to take or IP address of next hop router
+            - The address format is <ipv4/v6 address>/<mask>
+            - The mask is number in range 0-32 for IPv4 and in range 0-128 for IPv6
           type: str
           required: true
         pref:
