@@ -1,0 +1,74 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: | 
+  {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'network'
+  }
+NETWORK_OS: nxos
+RESOURCE: static_route
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: nxos_static_route
+  version_added: 2.10
+  short_description: Configures and manages attributes of static routes on NX-OS platforms.
+  description: This module configures and manages the attributes of static routes on NX-OS platforms.
+  author: Adharsh Srivats Rangarajan (adharshsrivatsr)
+  notes:
+    - Tested against NX-OS 7.3.(0)D1(1) on VIRL
+  options:
+    config:
+      description:
+        - A list of configurations for static routes
+      type: list
+      elements: dict
+      suboptions:
+        next_hop: 
+          description: 
+            - Interface to take or IP address of next hop router
+          type: str
+          required: true
+        pref:
+          description: 
+            - Preference or administrative difference of route (range 1-255)
+          type: int
+        prefix:
+          description: 
+            - Destination prefix of static route
+        route_name:
+          description:
+            - Name of the static route
+          type: str
+        tag:
+          description:
+            - Route tag value (numeric)
+          type: int
+        track:
+          description:
+            - Track value (range 1 - 512). Track must already be configured on the device before adding the route.
+          type: int
+        vrf:
+          description:
+            - VRF for static route
+          type: str
+          default: default
+    state:
+      description:
+        - The state the configuration should be left in
+      type: str
+      choices:
+        - deleted
+        - merged
+        - overridden
+        - replaced
+      default:
+        - merged
+
+DOCUMENTATION:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
