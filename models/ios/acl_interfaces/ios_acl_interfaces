@@ -26,7 +26,9 @@ DOCUMENTATION: |
           type: str
           required: True
         access_group:
-          description: Specify access-group for IP access list (standard or extended).
+          description:
+          - Specify access-group for IP access list (standard or extended).
+          - Refer to vendor documentation for valid values.
           type: int
         packets:
           description: Access control for packets.
