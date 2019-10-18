@@ -26,9 +26,13 @@ DOCUMENTATION: |
       type: list
       elements: dict
       suboptions:
+        interface:
+          description:
+            - Interface to be taken. If interface is configured, next hop IP address should also be configured.
+          type: str
         next_hop: 
           description: 
-            - Interface to take or IP address of next hop router
+            - IP address of next hop router
           type: list
           required: true
         pref:
@@ -57,7 +61,6 @@ DOCUMENTATION: |
           description:
             - VRF for static route
           type: str
-          default: default
     state:
       description:
         - The state the configuration should be left in
