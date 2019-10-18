@@ -12,8 +12,9 @@
   nxos_static_route:
     config:
         - prefix: 12.12.12.12/24
-          next_hop:195.134.175.12
-          route_name: replaced_route
+          next_hop:
+            ip: 195.134.175.12
+            route_name: replaced_route
     state:
         - replaced
 

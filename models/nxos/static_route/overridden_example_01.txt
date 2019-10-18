@@ -11,8 +11,9 @@
   nxos_static_route:
     config:
         - prefix: 13.13.13.13/16 
-          next_hop: 192.168.12.2
-          track: 100
+          next_hop: 
+            ip: 192.168.12.2
+            track: 100
     state: 
         - overridden
     
