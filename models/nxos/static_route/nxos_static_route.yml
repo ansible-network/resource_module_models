@@ -26,41 +26,46 @@ DOCUMENTATION: |
       type: list
       elements: dict
       suboptions:
-        interface:
-          description:
-            - Interface to be taken. If interface is configured, next hop IP address should also be configured.
-          type: str
-        next_hop: 
-          description: 
-            - IP address of next hop router
-          type: list
-          required: true
-        pref:
-          description: 
-            - Preference or administrative difference of route (range 1-255)
-          type: int
         prefix:
           description: 
             - Destination prefix of static route
             - The address format is <ipv4/v6 address>/<mask>
             - The mask is number in range 0-32 for IPv4 and in range 0-128 for IPv6
           required: true
-        route_name:
-          description:
-            - Name of the static route
-          type: str
-        tag:
-          description:
-            - Route tag value (numeric)
-          type: int
-        track:
-          description:
-            - Track value (range 1 - 512). Track must already be configured on the device before adding the route.
-          type: int
-        vrf:
-          description:
-            - VRF for static route
-          type: str
+        next_hop: 
+          description: 
+            - Details of route to be taken
+          type: list
+          elements: dict
+          suboptions:
+            ip:
+              description:
+                - IP address of the next hop
+              type: str
+            interface:
+              description:
+                - Outgoing interface to take. If interface is configured, next hop IP address should also be configured.
+              type: str
+            pref:
+              description: 
+                - Preference or administrative difference of route (range 1-255)
+              type: int
+            route_name:
+              description:
+                - Name of the static route
+              type: str
+            tag:
+              description:
+                - Route tag value (numeric)
+              type: int
+            track:
+              description:
+                - Track value (range 1 - 512). Track must already be configured on the device before adding the route.
+              type: int
+            vrf:
+              description:
+                - VRF for static route
+              type: str
     state:
       description:
         - The state the configuration should be left in
@@ -73,7 +78,7 @@ DOCUMENTATION: |
       default:
         - merged
 
-DOCUMENTATION:
+EXAMPLES:
   - deleted_example_01.txt
   - merged_example_01.txt
   - overridden_example_01.txt
