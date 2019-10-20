@@ -31,6 +31,7 @@ DOCUMENTATION: |
             - Destination prefix of static route
             - The address format is <ipv4/v6 address>/<mask>
             - The mask is number in range 0-32 for IPv4 and in range 0-128 for IPv6
+          type: str
           required: true
         next_hop: 
           description: 
@@ -44,7 +45,7 @@ DOCUMENTATION: |
               type: str
             interface:
               description:
-                - Outgoing interface to take. If interface is configured, next hop IP address should also be configured.
+                - Outgoing interface to take. For anything except 'null0', then next hop IP address should also be configured.
               type: str
             pref:
               description: 
