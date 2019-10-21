@@ -42,11 +42,14 @@ DOCUMENTATION: |
             source:
               description: Specify the packet source
               type: dict
-              mutually_exclusive: [[address, addrgroup, any, prefix], [wildcard_bits, addrgroup, any, prefix]]
               required_together: [[address, wildcard_bits]]
               suboptions:
                 address:
                   description: Source network address
+                  type: str
+                wildcard_bits:
+                  description: Destination wildcard bits
+                  type: str
             destination:
               description: Specify the packet destination
               required_together: [[address, wildcard_bits]]
@@ -55,6 +58,9 @@ DOCUMENTATION: |
                 address:
                   description: Host address to match, or any single host address
                   type: str
+                wildcard_bits:
+                    description: Destination wildcard bits
+                    type: str
                 operators:
                   description: Specify the destination operator based on port number
                   type: dict
@@ -81,9 +87,6 @@ DOCUMENTATION: |
                         end:
                           description: Specify the end of the port range
                           type: int
-                wildcard_bits:
-                  description: Destination wildcard bits
-                  type: str
                 dscp:
                   description: Destination wildcard bits
                   type: str
