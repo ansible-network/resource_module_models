@@ -7,10 +7,10 @@ ANSIBLE_METADATA: |
     }
 
 DOCUMENTATION: |
-  module: ios_acl_interfaces
+  module: ios_acls
   version_added: 2.10
-  short_description: Configure and manage access-control (ACL) attributes of interfaces on IOS devices.
-  description: This module configures and manages the access-control (ACL) attributes of interfaces on IOS platforms.
+  short_description: Configure and manage Named or Numbered ACLs on IOS devices.
+  description: This module configures and manages the Named or Numbered on IOS platforms.
   author: Sumit Jaiswal (@justjais)
   notes:
   - Tested against Cisco IOSv Version 15.2 on VIRL
