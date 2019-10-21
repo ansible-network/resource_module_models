@@ -25,8 +25,30 @@ DOCUMENTATION: |
         name:
           description: The name of the ACL
           type: str
+          suboptions:
+            standard:
+              description: Standard Access List
+              type: bool
+            extended:
+              description: Extended Access List
+              type: bool
+            resequence:
+              description: Resequence Access List
+              suboptions:
+                start_sequence:
+                  description:
+                  - Starting Sequence Number.
+                  - Refer to vendor documentation for valid values.
+                  type: int
+                increment_sequence:
+                  description:
+                  - Step to increment the sequence number.
+                  - Refer to vendor documentation for valid values.
+                  type: int
         number:
-          description: IP ACLs number
+          description:
+          - IP ACLs number.
+          - Refer to vendor documentation for valid values.
           type: int
         entries:
           description: The entries within the ACL
