@@ -1,0 +1,111 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+
+NETWORK_OS: iosxr
+RESOURCE: static_routes
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: iosxr_static_routes
+  version_added: 2.10
+  short_description: Manage static routes on devices running Cisco IOS-XR.
+  description: 
+    - This module manages static routes on devices running Cisco IOS-XR.
+  author: Nilashish Chakraborty (@Nilashishc)
+  options:
+    config:
+      description: A dictionary of static route options.
+      type: list
+      elements: dict
+      suboptions:
+        vrf:
+          description:
+            - The VRF to which the static route(s) belong.
+          type: str
+        address_family:
+          description: A dictionary specifying the address family to which the static route(s) belong.
+          required: True
+          elements: dict
+          suboptions:
+            afi:
+              description:
+                - Specifies the top level address family indicator.
+              type: str
+              required: True
+            safi:
+              description:
+                - Specifies the subsequent address family indicator.
+              type: str
+              required: True
+        routes:
+          description: A dictionary that specifies the static route configurations.
+          elements: dict
+          type: list
+          suboptions:
+            destination_prefix:
+              description:
+                - An IPv4 or IPv6 address in CIDR notation that signifies the destination for the static route.
+              type: str
+              required: True
+            vrf:
+              description:
+                - The destination VRF.
+              type: str
+            next_hop:
+              description:
+                - The IP address of the forwarding router.
+            interface:
+              description:
+                - The interface for directly connected static routes.
+              type: str
+            administrative_distance:
+              description:
+                - The administrative distance for this static route.
+                - Refer to vendor documentation for valid values.
+              type: int
+            metric:
+              description:
+                - Specifes the metric for this static route.
+                - Refer to vendor documentation for valid values.
+              type: int
+            description:
+              description:
+                - Specifies the description for this static route.
+              type: str
+            vrflabel:
+              description:
+                - Specifies the VRF label for this static route.
+                - Refer to vendor documentation for valid values.
+              type: int
+            permanent:
+              description:
+                - Specifies whether or not this is a permanent route.
+              type: bool
+            tag:
+              description:
+                - Specifies a numeric tag for this static route.
+                - Refer to vendor documentation for valid values.
+              type: int
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
