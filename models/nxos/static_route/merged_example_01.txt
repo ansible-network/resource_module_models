@@ -11,13 +11,13 @@
     config:
         - prefix: 15.15.15.0/24
           next_hop: 
-            ip: 193.145.98.12
-            pref: 5
+           -  ip: 193.145.98.12
+              pref: 5
         
         - prefix: 0.0.0.0/0 
           next_hop:
-            interface: eth1/2
-            ip: 193.167.124.12
+            - interface: eth1/2
+              ip: 193.167.124.12
     state:
         - merged
 

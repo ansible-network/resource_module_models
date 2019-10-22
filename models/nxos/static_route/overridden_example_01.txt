@@ -12,8 +12,8 @@
     config:
         - prefix: 13.13.13.13/16 
           next_hop: 
-            ip: 192.168.12.2
-            track: 100
+            - ip: 192.168.12.2
+              track: 100
     state: 
         - overridden
     
