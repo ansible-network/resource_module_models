@@ -1,62 +1,63 @@
 ---
 ANSIBLE_METADATA: |
-    {
-      'metadata_version': '1.1',
-      'status': ['preview'],
-      'supported_by': 'network'
-    }
+{
+  'metadata_version': '1.1',
+  'status': ['preview'],
+  'supported_by': 'network'
+}
+
 DOCUMENTATION: |
-  module: ios_static_route
-  version_added: 2.10
-  short_description: Configure and manage static route on IOS devices.
-  description: This module configures and manages the static route on IOS platforms.
-  author: Sumit Jaiswal (@justjais)
-  notes:
-  - Tested against Cisco IOSv Version 15.2 on VIRL
-  - This module works with connection C(network_cli).
-    See L(IOS Platform Options,../network/user_guide/platform_ios.html).
-  options:
-    config:
-      description: A dictionary of static route options
-      type: list
-      elements: dict
-      suboptions:
-        prefix:
-          description: static route.
-          type: str
-          required: True
-        next_hop:
-          description:
-          - Static route to be taken.
-          elements: dict
-          type: list
-          suboptions:
-            ip:
-              description: Forwarding's router address.
-              type: str
-            dialer:
-              description:
-              - Dialer interface number.
-              - Refer to vendor documentation for valid values.
-              type: int
-            interface:
-              description: Interface for directly connected static routes
-              type: str
-        metric:
-          description:
-          - Distance metric for the static route
-          - Refer to vendor documentation for valid values.
-          type: int
-    state:
-      description:
-      - The state the configuration should be left in
-      type: str
-      choices:
-      - merged
-      - replaced
-      - overridden
-      - deleted
-      default: merged
+module: ios_static_route
+version_added: 2.10
+short_description: Configure and manage static route on IOS devices.
+description: This module configures and manages the static route on IOS platforms.
+author: Sumit Jaiswal (@justjais)
+notes:
+- Tested against Cisco IOSv Version 15.2 on VIRL
+- This module works with connection C(network_cli).
+  See L(IOS Platform Options,../network/user_guide/platform_ios.html).
+options:
+  config:
+    description: A dictionary of static route options
+    type: list
+    elements: dict
+    suboptions:
+      prefix:
+        description: static route.
+        type: str
+        required: True
+      next_hop:
+        description:
+        - Static route to be taken.
+        elements: dict
+        type: list
+        suboptions:
+          ip:
+            description: Forwarding's router address.
+            type: str
+          dialer:
+            description:
+            - Dialer interface number.
+            - Refer to vendor documentation for valid values.
+            type: int
+          interface:
+            description: Interface for directly connected static routes
+            type: str
+      metric:
+        description:
+        - Distance metric for the static route
+        - Refer to vendor documentation for valid values.
+        type: int
+  state:
+    description:
+    - The state the configuration should be left in
+    type: str
+    choices:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    default: merged
 EXAMPLES:
   - deleted_example_01.txt
   - merged_example_01.txt
