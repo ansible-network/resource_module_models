@@ -1,0 +1,37 @@
+# Using rendered
+
+# Before state
+# ------------
+#
+# admin# show routing-options
+# static {
+#     route 192.168.47.0/24 next-hop 172.16.1.2;
+#     route 192.168.16.0/24 next-hop 172.16.1.2;
+# }
+
+- name: Render provided configuration with device configuration (default operation is merge)
+  junos_static_routes:
+    config:
+    state: rendered
+
+# XML output
+# ----------
+# <rpc-reply xmlns:junos="http://xml.juniper.net/junos/18.4R1/junos">
+#     <configuration junos:changed-seconds="1571919342" junos:changed-localtime="2019-10-24 12:15:42 UTC">
+#             <routing-options>
+#                 <static>
+#                     <route>
+#                         <name>192.168.47.0/24</name>
+#                         <next-hop>172.16.1.2</next-hop>
+#                     </route>
+#                     <route>
+#                         <name>192.168.16.0/24</name>
+#                         <next-hop>172.16.1.2</next-hop>
+#                     </route>
+#                 </static>
+#             </routing-options>
+#     </configuration>
+#     <cli>
+#         <banner>[edit]</banner>
+#     </cli>
+# </rpc-reply>
