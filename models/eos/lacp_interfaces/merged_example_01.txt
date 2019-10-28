@@ -1,0 +1,35 @@
+# Using merged
+
+# Before state:
+# -------------
+#
+# veos(config)#show running-config | section interface eth
+# interface Ethernet1
+#    no switchport
+#    channel-group 5 mode active
+#    lacp port-priority 30
+# !
+# interface Ethernet2
+#    no switchport
+#    channel-group 5 mode passive
+
+- name: Merge provided LACP attributes with device configuration
+  eos_lacp_interfaces:
+    config:
+      - name: Ethernet2
+        port-priority: 20
+    state: merged
+
+# After state:
+# ------------
+#
+# veos(config)#show running-config | section interface eth
+# interface Ethernet1
+#    no switchport
+#    channel-group 5 mode active
+#    lacp port-priority 30
+# !
+# interface Ethernet2
+#    no switchport
+#    channel-group 5 mode passive
+#    lacp port-priority 20

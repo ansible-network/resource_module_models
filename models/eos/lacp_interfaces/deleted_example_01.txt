@@ -1,0 +1,34 @@
+# Using deleted
+
+# Before state:
+# -------------
+#
+# veos(config)#show running-config | section interface eth
+# interface Ethernet1
+#    no switchport
+#    channel-group 5 mode active
+#    lacp port-priority 30
+# !
+# interface Ethernet2
+#    no switchport
+#    channel-group 5 mode passive
+#    lacp port-priority 10
+
+- name: Delete LACP attributes of given interfaces
+  eos_lacp_interfaces:
+    config:
+      - name: Ethernet1
+    state: deleted
+
+# After state:
+# ------------
+#
+# veos(config)#show running-config | section interface eth
+# interface Ethernet1
+#    no switchport
+#    channel-group 5 mode active
+# !
+# interface Ethernet2
+#    no switchport
+#    channel-group 5 mode passive
+#    lacp port-priority 10

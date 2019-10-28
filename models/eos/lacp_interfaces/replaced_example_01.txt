@@ -1,0 +1,36 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+# veos(config)#show running-config | section interface eth
+# interface Ethernet1
+#    no switchport
+#    channel-group 5 mode active
+#    lacp port-priority 30
+# !
+# interface Ethernet2
+#    no switchport
+#    channel-group 5 mode passive
+#    lacp port-priority 10
+
+- name: Replace device LACP attributes of specified interfaces with provided configuration
+  eos_lacp_interfaces:
+    config:
+      - name: Ethernet2
+        port-priority: 40
+    state: replaced
+
+# After state:
+# ------------
+#
+# veos(config)#show running-config | section interface eth
+# interface Ethernet1
+#    no switchport
+#    channel-group 5 mode active
+#    lacp port-priority 30
+# !
+# interface Ethernet2
+#    no switchport
+#    channel-group 5 mode passive
+#    lacp port-priority 40
