@@ -1,0 +1,33 @@
+
+# Using deleted
+
+# Before state:
+# -------------
+#
+# interface Ethernet1
+#    ip address 192.0.2.12/24
+# !
+# interface Ethernet2
+#    ipv6 address 2001:db8::1/64
+# !
+# interface Management1
+#    ip address dhcp
+#    ipv6 address auto-config
+
+- name: Delete L3 attributes of given interfaces.
+  eos_l3_interfaces:
+    config:
+      - name: Ethernet1
+      - name: Ethernet2
+    state: deleted
+
+# After state:
+# ------------
+#
+# interface Ethernet1
+# !
+# interface Ethernet2
+# !
+# interface Management1
+#    ip address dhcp
+#    ipv6 address auto-config

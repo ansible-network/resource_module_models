@@ -1,0 +1,37 @@
+
+# Using overridden
+
+# Before state:
+# -------------
+#
+# interface Ethernet1
+#    ip address 192.0.2.12/24
+# !
+# interface Ethernet2
+#    ipv6 address 2001:db8::1/64
+# !
+# interface Management1
+#    ip address dhcp
+#    ipv6 address auto-config
+
+- name: Override device configuration of all L2 interfaces on device with provided configuration.
+  eos_l3_interfaces:
+    config:
+      - name: Ethernet1
+        ipv6: 2001:db8:feed::1/96
+      - name: Management1
+        ipv4: dhcp
+	ipv6: auto-config
+    state: overridden
+
+# After state:
+# ------------
+#
+# interface Ethernet1
+#    ipv6 address 2001:db8:feed::1/96
+# !
+# interface Ethernet2
+# !
+# interface Management1
+#    ip address dhcp
+#    ipv6 address auto-config
