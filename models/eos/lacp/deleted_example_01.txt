@@ -1,0 +1,15 @@
+# Using deleted
+
+# Before state:
+# -------------
+# veos# show running-config | include lacp
+# lacp system-priority 10
+
+- name: Delete global LACP attributes
+  eos_lacp:
+    state: deleted
+
+# After state:
+# ------------
+# veos# show running-config | include lacp
+#
