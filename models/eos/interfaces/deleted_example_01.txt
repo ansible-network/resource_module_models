@@ -1,0 +1,35 @@
+
+# Using deleted
+
+# Before state:
+# -------------
+#
+# veos#show running-config | section interface
+# interface Ethernet1
+#    description "Interface 1"
+# !
+# interface Ethernet2
+# !
+# interface Management1
+#    description "Management interface"
+#    ip address dhcp
+# !
+
+- name: Delete or return interface parameters to default settings
+  eos_interfaces:
+    config:
+      - name: Ethernet1
+    state: deleted
+
+# After state:
+# ------------
+#
+# veos#show running-config | section interface
+# interface Ethernet1
+# !
+# interface Ethernet2
+# !
+# interface Management1
+#    description "Management interface"
+#    ip address dhcp
+# !

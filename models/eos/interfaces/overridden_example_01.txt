@@ -1,0 +1,40 @@
+
+# Using overridden
+
+# Before state:
+# -------------
+#
+# veos#show running-config | section interface
+# interface Ethernet1
+#    description "Interface 1"
+# !
+# interface Ethernet2
+# !
+# interface Management1
+#    description "Management interface"
+#    ip address dhcp
+# !
+
+- name: Overrides all device configuration with provided configuration
+  eos_interfaces:
+    config:
+      - name: Ethernet1
+        enable: True
+      - name: Ethernet2
+        description: 'Configured by Ansible'
+        enable: False
+    state: overridden
+
+# After state:
+# ------------
+#
+# veos#show running-config | section interface
+# interface Ethernet1
+# !
+# interface Ethernet2
+#    description "Configured by Ansible"
+#    shutdown
+# !
+# interface Management1
+#    ip address dhcp
+# !

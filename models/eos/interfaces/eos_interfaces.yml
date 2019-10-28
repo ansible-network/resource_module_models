@@ -1,0 +1,90 @@
+generator_version: 1.0
+metadata:
+  vesion: 1.1
+  status:
+  - preview
+  supported_by:
+  - 'Ansible Network'
+  copyright_str: Copyright 2019 Red Hat
+  license: gpl-3.0.txt
+info:
+  network_os: eos
+  resource: interfaces
+  version_added: 2.9
+  short_description: 'Manages interface attributes of Arista EOS interfaces'
+  description:
+  - This module manages the interface attributes of Arista EOS interfaces.
+  authors:
+  - Nathaniel Case (@qalthos)
+  extends_documentation_fragment: eos
+  notes:
+    - Tested against vEOS 4.20
+schema:
+  type: object
+  description: The schema used for the argspec and docstring
+  properties:
+    config:
+      type: array
+      description: The provided configuration
+      items:
+        $ref: '#/definitions/config_dict'
+    state:
+      $ref: '#/definitions/state'
+
+definitions:
+  config_dict:
+    description:
+    - A dictionary of interface options
+    type: object
+    properties:
+      name:
+        description:
+        - Full name of the interface, e.g. GigabitEthernet1.
+        type: str
+        required: true
+      description:
+        description:
+        - Interface description. Must be 240 characters or less.
+        type: str
+      enable:
+        description: 
+          - Administrative state of the interface. 
+          - Set the value to C(true) to administratively enable the interface or C(false) to disable it.
+        type: bool
+        default: true
+      mtu:
+        description:
+        - MTU for a specific interface. Must be an even number between 576 and 9216.
+          Applicable for Ethernet interfaces only.
+        type: str
+      speed:
+        description:
+        - Interface link speed. Applicable for Ethernet interfaces only.
+        - When I(speed) set to a value between I(10) and I(1000),
+          I(duplex) must also be set.
+        type: str
+        choices: ['10', '100', '1000', '10000', '25g', '40g', '50g', '100g']
+      duplex:
+        description:
+        - Interface link status. Applicable for Ethernet interfaces only.
+        - Values other than C(auto) must also set I(speed).
+        - Ignored when I(speed) is set above C(1000), as the only valid value is C(full).
+        type: str
+        default: auto
+        choices: ['full', 'half', 'auto']
+  state:
+    description:
+    - The state the configuration should be left in.
+    type: str
+    enum:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    default: merged
+
+examples:
+- merged_example_01.txt
+- replaced_example_01.txt
+- overridden_example_01.txt
+- deleted_example_01.txt
