@@ -1,0 +1,68 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+    }
+NETWORK_OS: eos
+RESOURCE: l2_interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: eos_l2_interfaces
+  version_added: 2.9
+  short_description: Manage Layer 2 interface attributes on Arista EOS devices
+  description: This module provides declarative management of Layer 2 interfaces on Arista EOS devices.
+  author: Nathaniel Case (@qalthos)
+  options:
+    config:
+      description: A dictionary of Layer 2 interface options
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+          - Full name of interface, e.g. Ethernet1.
+          type: str
+          required: True
+        access:
+          description:
+          - Switchport mode access command to configure the interface as a Layer 2 access.
+          type: dict
+          suboptions:
+            vlan:
+              description:
+              - Configure the access VLAN ID.
+              type: int
+        trunk:
+          description:
+          - Switchport mode trunk command to configure the interface as a Layer 2 trunk.
+          type: dict
+          suboptions:
+            allowed_vlans:
+              description:
+              - List of allowed VLANs in a given trunk port. These are the only VLANs that will be
+                allowed on the trunk.
+              type: list
+            native_vlan:
+              description:
+              - Native VLAN to be configured in trunk port. It is used as the trunk native VLAN ID.
+              type: int
+    state:
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+      description:
+      - The state the configuration should be left in
+      type: str
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt

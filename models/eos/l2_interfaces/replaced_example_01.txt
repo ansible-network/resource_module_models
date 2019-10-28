@@ -1,0 +1,42 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+# veos2#show running-config | s int
+# interface Ethernet1
+#    switchport access vlan 20
+# !
+# interface Ethernet2
+#    switchport trunk native vlan 20
+#    switchport mode trunk
+# !
+# interface Management1
+#    ip address dhcp
+#    ipv6 address auto-config
+
+- name: Replace device configuration of specified L2 interfaces with provided configuration.
+  eos_l2_interfaces:
+    config:
+      - name: Ethernet1
+        trunk:
+	  native_vlan: 20
+	  trunk_vlans: 5-10, 15
+    state: replaced
+
+# After state:
+# ------------
+#
+# veos2#show running-config | s int
+# interface Ethernet1
+#    switchport trunk native vlan 20
+#    switchport trunk allowed vlan 5-10,15
+#    switchport mode trunk
+# !
+# interface Ethernet2
+#    switchport trunk native vlan 20
+#    switchport mode trunk
+# !
+# interface Management1
+#    ip address dhcp
+#    ipv6 address auto-config
