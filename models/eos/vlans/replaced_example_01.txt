@@ -1,0 +1,28 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+# veos(config-vlan-20)#show running-config | section vlan
+# vlan 10
+#    name ten
+# !
+# vlan 20
+#    name twenty
+
+- name: Replace all attributes of specified VLANs with provided configuration
+  ios_vlans:
+    config:
+      - vlan_id: 20
+        state: suspend
+    state: replaced
+
+# After state:
+# ------------
+#
+# veos(config-vlan-20)#show running-config | section vlan
+# vlan 10
+#    name ten
+# !
+# vlan 20
+#    state suspend

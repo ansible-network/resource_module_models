@@ -1,0 +1,24 @@
+# Using deleted
+
+# Before state:
+# -------------
+#
+# veos(config-vlan-20)#show running-config | section vlan
+# vlan 10
+#    name ten
+# !
+# vlan 20
+#    name twenty
+
+- name: Delete attributes of the given VLANs.
+  ios_vlans:
+    config:
+      - vlan_id: 20
+    state: deleted
+
+# After state:
+# ------------
+#
+# veos(config-vlan-20)#show running-config | section vlan
+# vlan 10
+#    name ten

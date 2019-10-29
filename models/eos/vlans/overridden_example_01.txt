@@ -1,0 +1,25 @@
+# Using overridden
+
+# Before state:
+# -------------
+#
+# veos(config-vlan-20)#show running-config | section vlan
+# vlan 10
+#    name ten
+# !
+# vlan 20
+#    name twenty
+
+- name: Override device configuration of all VLANs with provided configuration
+  ios_vlans:
+    config:
+      - vlan_id: 20
+        state: suspend
+    state: overridden
+
+# After state:
+# ------------
+#
+# veos(config-vlan-20)#show running-config | section vlan
+# vlan 20
+#    state suspend
