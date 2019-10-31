@@ -29,70 +29,90 @@ DOCUMENTATION: |
           description:
             - The VRF to which the static route(s) belong.
           type: str
-        address_family:
+          default: __global__
+        address_families:
           description: A dictionary specifying the address family to which the static route(s) belong.
-          required: True
+          type: list
           elements: dict
           suboptions:
             afi:
               description:
                 - Specifies the top level address family indicator.
               type: str
+              choices: ['ipv4', 'ipv6']
               required: True
             safi:
               description:
                 - Specifies the subsequent address family indicator.
               type: str
+              choices: ['unicast', 'multicast']
               required: True
-        routes:
-          description: A dictionary that specifies the static route configurations.
-          elements: dict
-          type: list
-          suboptions:
-            destination_prefix:
-              description:
-                - An IPv4 or IPv6 address in CIDR notation that signifies the destination for the static route.
-              type: str
-              required: True
-            vrf:
-              description:
-                - The destination VRF.
-              type: str
-            next_hop:
-              description:
-                - The IP address of the forwarding router.
-            interface:
-              description:
-                - The interface for directly connected static routes.
-              type: str
-            administrative_distance:
-              description:
-                - The administrative distance for this static route.
-                - Refer to vendor documentation for valid values.
-              type: int
-            metric:
-              description:
-                - Specifes the metric for this static route.
-                - Refer to vendor documentation for valid values.
-              type: int
-            description:
-              description:
-                - Specifies the description for this static route.
-              type: str
-            vrflabel:
-              description:
-                - Specifies the VRF label for this static route.
-                - Refer to vendor documentation for valid values.
-              type: int
-            permanent:
-              description:
-                - Specifies whether or not this is a permanent route.
-              type: bool
-            tag:
-              description:
-                - Specifies a numeric tag for this static route.
-                - Refer to vendor documentation for valid values.
-              type: int
+            routes:
+              description: A dictionary that specifies the static route configurations.
+              elements: dict
+              type: list
+              suboptions:
+                dest:
+                  description:
+                    - An IPv4 or IPv6 address in CIDR notation that specifies the destination network for the static route.
+                  type: str
+                  required: True
+                next_hop:
+                  description:
+                    - Next hops to the specified destination.
+                  type: list
+                  elements: dict
+                  suboptions:
+                    forward_router_address:
+                      description: 
+                        - The IP address of the next hop that can be used to reach the destination network. 
+                      type: str
+                    interface:
+                      description:
+                        - The interface to use to reach the destination.
+                      type: str
+                    vrf:
+                      description:
+                        - The destination VRF.
+                      type: str
+                    admin_distance:
+                      description:
+                        - The administrative distance for this static route.
+                        - Refer to vendor documentation for valid values.
+                      type: int
+                    metric:
+                      description:
+                        - Specifes the metric for this static route.
+                        - Refer to vendor documentation for valid values.
+                      type: int
+                    description:
+                      description:
+                        - Specifies the description for this static route.
+                      type: str
+                    vrflabel:
+                      description:
+                        - Specifies the VRF label for this static route.
+                        - Refer to vendor documentation for valid values.
+                      type: int
+                    permanent:
+                      description:
+                        - Specifies whether or not this is a permanent route.
+                      type: bool
+                    tag:
+                      description:
+                        - Specifies a numeric tag for this static route.
+                        - Refer to vendor documentation for valid values.
+                      type: int
+                    track:
+                      description:
+                        - Specifies the object to be tracked.
+                        - This enables object tracking for static routes.
+                      type: str 
+                    tunnel_id:
+                      description:
+                        - Specifies a tunnel id for the route.
+                        - Refer to vendor documentation for valid values.
+                      type: int
     state:
       description:
         - The state the configuration should be left in.
@@ -102,6 +122,8 @@ DOCUMENTATION: |
       - replaced
       - overridden
       - deleted
+      - gathered
+      - rendered
       default: merged
 
 EXAMPLES:
@@ -109,3 +131,5 @@ EXAMPLES:
   - replaced_example_01.txt
   - overridden_example_01.txt
   - deleted_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt
