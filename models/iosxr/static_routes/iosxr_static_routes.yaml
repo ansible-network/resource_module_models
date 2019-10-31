@@ -57,7 +57,7 @@ DOCUMENTATION: |
                     - An IPv4 or IPv6 address in CIDR notation that specifies the destination network for the static route.
                   type: str
                   required: True
-                next_hop:
+                  next_hops:
                   description:
                     - Next hops to the specified destination.
                   type: list
