@@ -25,10 +25,10 @@ DOCUMENTATION: |
       type: list
       elements: dict
       suboptions:
-        type: 
+        standard: 
           description: standard access-list or not 
-          type: str
-          default: None
+          type: bool
+          default: False
         name:
           description: Name of the acl-list
           type: str
@@ -46,14 +46,6 @@ DOCUMENTATION: |
             fragment-rules:
               description: Add fragment rules
               type: bool
-            resequence:
-              description: Resequence the list
-              type: dict
-              suboptions:
-                sequenceno:
-                  description:  starting sequence number
-                  type: int
-                  default: 10
             action:
               description: Action to be applied on the rule
               type: str
@@ -159,7 +151,7 @@ DOCUMENTATION: |
                 wildcard_bits:
                   description: Source wildcard bits
                   type: str
-                subnetaddress:
+                subnet_address:
                   description:  A subnet address
                   type: str
                 host:
@@ -181,7 +173,7 @@ DOCUMENTATION: |
                 wildcard_bits:
                   description: Source wildcard bits
                   type: str
-                subnetaddress:
+                subnet_address:
                   description:  A subnet address
                   type: str
                 host:
