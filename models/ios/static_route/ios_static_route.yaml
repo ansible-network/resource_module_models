@@ -22,32 +22,70 @@ options:
     type: list
     elements: dict
     suboptions:
-      prefix:
-        description: static route.
-        type: str
-        required: True
-      next_hop:
+      vrf:
         description:
-        - Static route to be taken.
+        - IP VPN Routing/Forwarding instance name
+        type: str
+        required: true
+        default: __global__
+      address_families:
         elements: dict
         type: list
         suboptions:
-          ip:
-            description: Forwarding's router address.
-            type: str
-          dialer:
+          afi:
             description:
-            - Dialer interface number.
-            - Refer to vendor documentation for valid values.
-            type: int
-          interface:
-            description: Interface for directly connected static routes
+              - Address family to use for the static routes
             type: str
-      metric:
-        description:
-        - Distance metric for the static route
-        - Refer to vendor documentation for valid values.
-        type: int
+            required: true
+            choices:
+              - ipv4
+              - ipv6
+          routes:
+            description: Configuring static route
+            type: list
+            elements: dict
+            suboptions:
+              dest:
+                description: Destination prefix with its subnet mask
+                type: str
+                required: true
+              topology:
+                description: Configure static route for a Topology Routing/Forwarding instance
+                type: str
+              forward_router_address:
+                description: Forwarding router's address
+                type: str
+              interface:
+                description: Interface for directly connected static routes
+                type: str
+              dhcp:
+                description: Default gateway obtained from DHCP
+                type: bool
+              distance_metric:
+                description: Distance metric for this route
+                type: int
+              global:
+                description: Next hop address is global
+                type: bool
+              name:
+                description: Specify name of the next hop
+                type: str
+              multicast:
+                description: multicast route
+                type: bool
+              permanent:
+                description: permanent route
+                type: bool
+              tag:
+                description:
+                - Set tag for this route
+                - Refer to vendor documentation for valid values.
+                type: int
+              track:
+                description:
+                - Install route depending on tracked item with tracked object number
+                - Refer to vendor documentation for valid values.
+                type: int
   state:
     description:
     - The state the configuration should be left in
@@ -57,9 +95,13 @@ options:
     - replaced
     - overridden
     - deleted
+    - gathered
+    - rendered
     default: merged
 EXAMPLES:
   - deleted_example_01.txt
   - merged_example_01.txt
   - replaced_example_01.txt
   - overridden_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt
