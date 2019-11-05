@@ -9,17 +9,19 @@
 # ip route 15.15.15.0/24 193.145.98.12 5
 
 - name: Replaced the existing static configuration of a prefix with new configuration
-  nxos_static_route:
+  nxos_static_routes:
     config:
-        - prefix: 12.12.12.12/24
-          next_hop:
-            - ip: 195.134.175.12
-              route_name: replaced_route
+      - address_families:
+          - routes:
+              dest: 12.12.12.12/24
+              next_hop:
+                - ip: 195.134.175.12
+                  route_name: replaced_route
     state:
         - replaced
 
 # After state:
 #
+# ip route 12.12.12.0/24 195.135.175.12 name replaced_route
 # ip route 12.12.13.0/24 192.168.12.3 tag 12
 # ip route 15.15.15.0/24 193.145.98.12 5
-# ip route 12.12.12.12/24 195.134.175.12 name replaced_route

@@ -7,7 +7,7 @@
 # ip route 12.12.13.0/24 192.168.12.3 tag 12 
 
 - name: Delete static route configuration
-  nxos_static_route:
+  nxos_static_routes:
     state: deleted
 
 # After state:

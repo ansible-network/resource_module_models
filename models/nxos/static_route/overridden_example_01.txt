@@ -10,14 +10,17 @@
 - name: Overriden existing static route configuration with new configuration
   nxos_static_route:
     config:
-        - prefix: 13.13.13.13/16 
-          next_hop: 
-            - ip: 192.168.12.2
-              track: 100
+      - address_families:
+          - routes:
+              dest: 14.14.14.14/24
+              next_hop:
+                - interface: Eth1/2
+                  forward_router_address: 179.134.124.12  
+                  track: 100
     state: 
         - overridden
     
 # After state:
 # ------------
 #
-# ip route 13.13.13.13/16 192.168.12.2 track 100
+# ip route 14.14.14.0/24 Ethernet1/2 179.134.124.12 track 100
