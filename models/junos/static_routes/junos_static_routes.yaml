@@ -50,7 +50,7 @@ DOCUMENTATION: |
                 - ipv6
             routes:
               description:
-                - Static route configuration for the vrf
+                - Static route configuration
               elements: dict
               type: list
               suboptions:
