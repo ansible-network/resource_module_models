@@ -11,13 +11,12 @@
       - vrf: Test1
         address_families:
           - routes:
-              dest: 15.15.15.15/24
-              next_hop: 
-                - forward_router_address: 193.145.98.12
-                  pref: 5
-                
-                - forward_router_address: 178.12.112.24
-                  vrf: Trial
+              - dest: 15.15.15.15/24
+                next_hop: 
+                  - forward_router_address: 193.145.98.12
+                    pref: 5                
+                  - forward_router_address: 178.12.112.24
+                    vrf: Trial
 
           - routes:
               dest: 13.13.13.13/24
@@ -26,10 +25,10 @@
       
       - address_families:
           - routes:
-              dest: 12.12.12.12/24
-              next_hop:
-                - forward_router_address: 193.145.98.12
-                  route_name: new_route
+              - dest: 12.12.12.12/24
+                next_hop:
+                  - forward_router_address: 193.145.98.12
+                    route_name: new_route
     state:
         - merged
 

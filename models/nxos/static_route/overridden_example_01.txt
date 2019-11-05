@@ -8,15 +8,15 @@
 # ip route 15.15.15.0/24 193.145.98.12 5
 
 - name: Overriden existing static route configuration with new configuration
-  nxos_static_route:
+  nxos_static_routes:
     config:
       - address_families:
           - routes:
-              dest: 14.14.14.14/24
-              next_hop:
-                - interface: Eth1/2
-                  forward_router_address: 179.134.124.12  
-                  track: 100
+              - dest: 14.14.14.14/24
+                next_hop:
+                  - interface: Eth1/2
+                    forward_router_address: 179.134.124.12  
+                    track: 100
     state: 
         - overridden
     
