@@ -7,10 +7,10 @@ ANSIBLE_METADATA: |
 }
 
 DOCUMENTATION: |
-module: ios_static_route
-version_added: 2.10
-short_description: Configure and manage static route on IOS devices.
-description: This module configures and manages the static route on IOS platforms.
+module: ios_static_routes
+version_added: "2.10"
+short_description: Configure and manage static routes on IOS devices.
+description: This module configures and manages the static routes on IOS platforms.
 author: Sumit Jaiswal (@justjais)
 notes:
 - Tested against Cisco IOSv Version 15.2 on VIRL
@@ -24,7 +24,9 @@ options:
     suboptions:
       vrf:
         description:
-        - IP VPN Routing/Forwarding instance name
+        - IP VPN Routing/Forwarding instance name. Note, if the vrf information
+          is not provided in that case the routes shall be configured under
+          global vrf.
         type: str
         required: true
         default: __global__
@@ -50,14 +52,23 @@ options:
                 type: str
                 required: true
               topology:
-                description: Configure static route for a Topology Routing/Forwarding instance
+                description:
+                - Configure static route for a Topology Routing/Forwarding instance
+                - Note, VRF and Topology can be used together only with Multicast and
+                  Topology should pre-exist before it can be used
                 type: str
-              forward_router_address:
-                description: Forwarding router's address
-                type: str
-              interface:
-                description: Interface for directly connected static routes
-                type: str
+              next_hops:
+                description:
+                - next hop address or interface
+                type: list
+                elements: dict
+                suboptions:
+                  forward_router_address:
+                    description: Forwarding router's address
+                    type: str
+                  interface:
+                    description: Interface for directly connected static routes
+                    type: str
               dhcp:
                 description: Default gateway obtained from DHCP
                 type: bool
@@ -83,7 +94,8 @@ options:
                 type: int
               track:
                 description:
-                - Install route depending on tracked item with tracked object number
+                - Install route depending on tracked item with tracked object number.
+                - Tracking does not support multicast
                 - Refer to vendor documentation for valid values.
                 type: int
   state:
