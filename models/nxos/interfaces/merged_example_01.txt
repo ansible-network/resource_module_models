@@ -1,0 +1,30 @@
+# Using merged
+
+# Before state:
+# -------------
+#
+# interface Ethernet1/1
+#   description testing
+#   mtu 1800
+
+- name: Merge provided configuration with device configuration
+  nxos_interfaces:
+    config:
+      - name: Ethernet1/1
+        description: 'Configured by Ansible'
+        enabled: True
+      - name: Ethernet1/2
+        description: 'Configured by Ansible Network'
+        enabled: False
+    state: merged
+
+# After state:
+# ------------
+#
+# interface Ethernet1/1
+#    description Configured by Ansible
+#    no shutdown
+#    mtu 1800
+# interface Ethernet2
+#    description Configured by Ansible Network
+#    shutdown
