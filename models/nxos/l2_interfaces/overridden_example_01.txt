@@ -1,0 +1,30 @@
+# Using overridden
+
+# Before state:
+# -------------
+#
+# interface Ethernet1/1
+#   switchport access vlan 20
+# interface Ethernet1/2
+#   switchport trunk native vlan 20
+# interface mgmt0
+#   ip address dhcp
+#   ipv6 address auto-config
+
+- name: Override device configuration of all L2 interfaces on device with provided configuration.
+  nxos_l2_interfaces:
+    config:
+      - name: Ethernet1/2
+        access:
+	  vlan: 30
+    state: overridden
+
+# After state:
+# ------------
+#
+# interface Ethernet1/1
+# interface Ethernet1/2
+#   switchport access vlan 30
+# interface mgmt0
+#   ip address dhcp
+#   ipv6 address auto-config
