@@ -1,0 +1,20 @@
+# Using merged
+
+# Before state:
+# -------------
+#
+
+- name: Merge provided configuration with device configuration.
+  nxos_lacp_interfaces:
+    config:
+      - name: Ethernet1/3
+        port_priority: 5
+        rate: fast
+    state: merged
+
+# After state:
+# ------------
+#
+# interface Ethernet1/3
+# lacp port-priority 5
+# lacp rate fast

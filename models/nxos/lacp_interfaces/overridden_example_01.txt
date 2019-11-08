@@ -1,0 +1,23 @@
+# Using overridden
+
+# Before state:
+# -------------
+#
+# interface Ethernet1/3
+#   lacp port-priority 5
+# interface port-channel11
+#   lacp mode delay 
+
+- name: Override device configuration of all LACP interfaces attributes of given interfaces on device with provided configuration.
+  nxos_lacp_interfaces:
+    config:
+      - name: port-channel11
+        links:
+	  min: 4
+    state: overridden
+
+# After state:
+# ------------
+#
+# interface port-channel11
+# lacp min-links 4
