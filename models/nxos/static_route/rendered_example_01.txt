@@ -9,7 +9,8 @@
     config:
         - vrf: 123
           address_families:
-            -   routes:
+            - afi: ipv4  
+              routes:
                     - dest: 14.14.14.14/24
                       next_hop:
                         -   forward_router_address: 192.112.134.78

@@ -2,7 +2,7 @@
 
 # Before state:
 #
-# ip route 1.1.1.1/24 192.123.12.12
+# ipv6 route 4011::0db1/128 6::6 
 # vrf context Test
 # ip route 12.12.12.0/24 192.168.121.1 
 # ip route 12.12.12.0/24 192.168.123.45 5
@@ -17,7 +17,8 @@
 #    config:
 #        -   vrf: Test
 #            address_families:
-#               routes:
+#               -   afi: ipv4
+                    routes:
 #                   -   dest: 12.12.12.0/24
 #                       next_hop: 
 #                            -   forward_router_address: 192.168.121.1 
@@ -26,8 +27,9 @@
 #                                pref: 5
 #
 #        -   address_families:
-#                   routes:
-#                       -   dest: 1.1.1.1/24
-#                           next_hop:
-#                               -   forward_router_address: 192.123.12.12
+                - afi: ipv6
+#                 routes:
+#                     -   dest: 4011::0db1/128
+#                         next_hop:
+#                             -   forward_router_address: 6::6
 #

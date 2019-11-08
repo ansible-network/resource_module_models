@@ -12,7 +12,8 @@
   nxos_static_routes:
     config:
       - address_families:
-          - routes:
+          - afi: ipv4
+            routes:
               - dest: 12.12.12.12/24
                 next_hop:
                   - ip: 195.134.175.12

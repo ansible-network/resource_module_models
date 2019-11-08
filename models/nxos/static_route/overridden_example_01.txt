@@ -11,16 +11,15 @@
   nxos_static_routes:
     config:
       - address_families:
-          - routes:
-              - dest: 14.14.14.14/24
+          - afi: ipv6
+            routes:
+              - dest: 4011:0DB1::/48              
                 next_hop:
-                  - interface: Eth1/2
-                    forward_router_address: 179.134.124.12  
-                    track: 100
+                  - interface: null0
     state: 
         - overridden
     
 # After state:
 # ------------
 #
-# ip route 14.14.14.0/24 Ethernet1/2 179.134.124.12 track 100
+# ipv6 route 4011:0DB1::/48 Null0

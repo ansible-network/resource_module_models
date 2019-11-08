@@ -34,8 +34,14 @@ DOCUMENTATION: |
         address_families:
           description: A dictionary specifying the address family to which the static route(s) belong.
           type: list
-          elements: dict 
+          elements: dict
           suboptions:
+            afi:
+              description:
+                - Specifies the top level address family indicator.
+              type: str
+              choices: ['ipv4', 'ipv6']
+              required: True
             routes:
               description: A dictionary that specifies the static route configurations
               elements: dict
@@ -63,9 +69,9 @@ DOCUMENTATION: |
                       description:
                         - Outgoing interface to take. For anything except 'null0', then next hop IP address should also be configured.
                       type: str
-                    pref:
+                    admin_distance:
                       description: 
-                        - Preference or administrative difference of route (range 1-255)
+                        - Preference or administrative distance of route (range 1-255)
                       type: int
                     route_name:
                       description:
@@ -81,7 +87,7 @@ DOCUMENTATION: |
                       type: int
                     vrf:
                       description:
-                        - VRF for static route
+                        - VRF of the destination
                       type: str
     state:
       description:
