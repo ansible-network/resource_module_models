@@ -1,0 +1,19 @@
+# Using deleted
+# Before state:
+# -------------
+#
+# user(config)# show running-config | include lldp
+# feature lldp
+# lldp holdtime 5
+# lldp reinit 3
+
+- name: Delete LLDP configuration (this will by default remove all lldp configuration)
+  nxos_lldp_global:
+    state: deleted
+
+# After state:
+# ------------
+# 
+# user(config)# show running-config | include lldp
+# feature lldp 
+

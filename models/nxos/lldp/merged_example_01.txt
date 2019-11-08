@@ -1,0 +1,21 @@
+# Using merged
+# Before state:
+# -------------
+#
+# user(config)# show running-config | include lldp
+# feature lldp 
+
+- name: Merge provided configuration with device configuration
+  nxos_lldp_global:
+    config:
+      timer: 35
+      holdtime: 100
+    state: merged
+
+# After state:
+# ------------
+#
+# user(config)# show running-config | include lldp
+# feature lldp
+# lldp timer 35
+# lldp holdtime 100 

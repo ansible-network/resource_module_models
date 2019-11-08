@@ -1,0 +1,29 @@
+# Using replaced
+# Before state:
+# -------------
+#
+# user(config)# show running-config | include lldp
+# feature lldp
+# lldp holdtime 100
+# lldp reinit 5
+# lldp timer 35
+
+- name: Replace device configuration of specific LLDP attributes with provided configuration
+  nxos_lldp_global:
+    config: 
+      timer: 40
+      tlv_select: 
+        system:
+          description: true
+          name: false
+        management_address:
+          v4: true
+    state: replaced
+
+# After state:
+# ------------
+#
+# user(config)# show running-config | include lldp
+# feature lldp
+# lldp timer 40
+# no lldp tlv-select system-name
