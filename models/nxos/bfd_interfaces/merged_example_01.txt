@@ -1,0 +1,13 @@
+
+# Using merged
+
+- name: Configure interfaces
+  nxos_bfd_interfaces:
+    config:
+      - name: Ethernet1/1
+        bfd: enable
+        bfd_echo: enable
+      - name: Ethernet1/2
+        bfd: disable
+        bfd_echo: disable
+    operation: merged

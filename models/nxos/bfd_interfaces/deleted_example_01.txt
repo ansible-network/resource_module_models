@@ -1,0 +1,8 @@
+
+# Using deleted
+
+- name: Configure interfaces
+  nxos_bfd_interfaces:
+    config:
+      - name: Ethernet1/1
+    operation: deleted

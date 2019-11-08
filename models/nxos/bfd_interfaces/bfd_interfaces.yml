@@ -1,0 +1,59 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+
+NETWORK_OS: nxos
+RESOURCE: bfd_interfaces
+COPYRIGHT: Copyright 2019 Cisco and/or its affiliates.
+LICENSE: gpl-3.0.txt
+
+DOCUMENTATION: |
+  module: nxos_bfd_interfaces
+  version_added: 2.9
+  short_description: 'Manages BFD attributes of nxos interfaces.'
+  description: 'Manages attributes of Bidirectional Forwarding Detection (BFD) on the interface.'
+  author: Chris Van Heuveln (@chrisvanheuveln)
+  notes:
+  options:
+    config:
+      description: The provided configuration
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          type: str
+          description: The name of the interface.
+        bfd:
+          type: str
+          description:
+          - Enable/Disable Bidirectional Forwarding Detection (BFD) on the interface.
+          choices:
+          - enable
+          - disable
+        bfd_echo:
+          type: str
+          description:
+          - Enable/Disable BFD Echo functionality on the interface.
+          choices:
+          - enable
+          - disable
+    state:
+      description:
+      - The state the configuration should be left in
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
