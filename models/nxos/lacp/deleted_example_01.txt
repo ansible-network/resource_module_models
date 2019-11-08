@@ -1,0 +1,13 @@
+# Using deleted
+
+# Before state:
+# -------------
+# lacp system-priority 10
+
+- name: Delete global LACP configurations.
+  nxos_lacp:
+    state: deleted
+
+# After state:
+# ------------
+#

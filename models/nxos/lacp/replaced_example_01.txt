@@ -1,0 +1,19 @@
+# Using deleted
+
+# Before state:
+# -------------
+#
+# lacp system-priority 10
+
+- name: Replace device global lacp configuration with the given configuration.
+  nxos_lacp:
+    config:
+      system:
+	mac:
+	  address: 00c1.4c00.bd15
+    state: replaced
+
+# After state:
+# ------------
+#
+# lacp system-mac 00c1.4c00.bd15
