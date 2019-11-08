@@ -1,0 +1,32 @@
+# Using merged
+
+# Before state:
+# -------------
+# vlan 1
+# vlan 3
+#   name testing
+# vlan 5
+#   name test-vlan5
+#   shutdown
+# vlan 10
+#   shutdown
+
+- name: Override device configuration of all vlans with provided configuration.
+  nxos_vlans:
+    config:
+      - vlan_id: 5
+        name: test-vlan
+      - vlan_id: 10
+        vlan_state: active
+    state: overridden
+
+# After state:
+# ------------
+# vlan 1
+# vlan 5
+#   name test-vlan
+#   state active
+#   no shutdown
+# vlan 10
+#   state active
+#   no shutdown
