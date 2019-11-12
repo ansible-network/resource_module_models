@@ -1,0 +1,112 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: | 
+  {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'network'
+  }
+NETWORK_OS: nxos
+RESOURCE: static_routes
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: nxos_static_routes
+  version_added: "2.10"
+  short_description: Configures and manages attributes of static routes on Cisco NX-OS platforms.
+  description: This module configures and manages the attributes of static routes on Cisco NX-OS platforms.
+  author: Adharsh Srivats Rangarajan (@adharshsrivatsr)
+  notes:
+    - Tested against NX-OS 7.3.(0)D1(1) on VIRL
+  options:
+    config:
+      description:
+        - A list of configurations for static routes
+      type: list
+      elements: dict
+      suboptions:
+        vrf:
+          description:
+            - The VRF to which the static route(s) belong
+          type: str
+          default: __global__
+        address_families:
+          description: A dictionary specifying the address family to which the static route(s) belong.
+          type: list
+          elements: dict
+          suboptions:
+            afi:
+              description:
+                - Specifies the top level address family indicator.
+              type: str
+              choices: ['ipv4', 'ipv6']
+              required: True
+            routes:
+              description: A dictionary that specifies the static route configurations
+              elements: dict
+              type: list
+              suboptions:
+                dest:
+                  description: 
+                    - Destination prefix of static route
+                    - The address format is <ipv4/v6 address>/<mask>
+                    - The mask is number in range 0-32 for IPv4 and in range 0-128 for IPv6
+                  type: str
+                  required: True
+                next_hops: 
+                  description: 
+                    - Details of route to be taken
+                  type: list
+                  elements: dict
+                  suboptions:
+                    forward_router_address:
+                      description:
+                        - IP address of the next hop router
+                      type: str
+                      required: True
+                    interface:
+                      description:
+                        - Outgoing interface to take. For anything except 'null0', then next hop IP address should also be configured.
+                      type: str
+                    admin_distance:
+                      description: 
+                        - Preference or administrative distance of route (range 1-255)
+                      type: int
+                    route_name:
+                      description:
+                        - Name of the static route
+                      type: str
+                    tag:
+                      description:
+                        - Route tag value (numeric)
+                      type: int
+                    track:
+                      description:
+                        - Track value (range 1 - 512). Track must already be configured on the device before adding the route.
+                      type: int
+                    vrf:
+                      description:
+                        - VRF of the destination
+                      type: str
+    state:
+      description:
+        - The state the configuration should be left in
+      type: str
+      choices:
+        - deleted
+        - merged
+        - overridden
+        - replaced
+        - gathered
+        - rendered
+      default:
+        - merged
+
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt

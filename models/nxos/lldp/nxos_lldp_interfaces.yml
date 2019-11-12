@@ -13,13 +13,18 @@ COPYRIGHT: Copyright 2019 Red Hat
 
 DOCUMENTATION: |
   module: nxos_lldp_interfaces
-  version_added: 2.10
+  version_added: "2.10"
   short_description: Manages interfaces' configuration for Link Layer Discovery Protocol (LLDP) on NX-OS platforms.
   description: This module manages interfaces' configuration for Link Layer Discovery Protocol (LLDP) on NX-OS platforms.
   author: Adharsh Srivats Rangarajan (@adharshsrivatsr)
   notes:
     - Tested against NxOS 7.3.(0)D1(1) on VIRL
+    - To parse configuration text, provide the output of show running-config | section interface  or a mocked up config
   options:
+    running_config:
+      description:
+        - Used to parse given commands into structured format 
+      type: str
     config:
       description:
         - A list of link layer discovery configurations for interfaces.
@@ -61,9 +66,15 @@ DOCUMENTATION: |
         - replaced
         - overridden
         - deleted
+        - gathered
+        - parsed
+        - rendered
       default: merged
 EXAMPLES:
   - merged_example_01.txt
   - replaced_example_01.txt
   - overridden_example_01.txt
   - deleted_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt
+  - parsed_example_01.txt

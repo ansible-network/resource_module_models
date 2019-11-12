@@ -1,0 +1,35 @@
+# Using gathered:
+
+# Before state:
+#
+# ipv6 route 4011::0db1/128 6::6 
+# vrf context Test
+# ip route 12.12.12.0/24 192.168.121.1 
+# ip route 12.12.12.0/24 192.168.123.45 5
+
+- name: Gather the exisitng condiguration
+  nxos_static_routes:
+    state: gathered
+
+# Output :
+# 
+#  nxos_static_routes:
+#    config:
+#        -   vrf: Test
+#            address_families:
+#               -   afi: ipv4
+                    routes:
+#                   -   dest: 12.12.12.0/24
+#                       next_hop: 
+#                            -   forward_router_address: 192.168.121.1 
+#
+#                            -   forward_router_address: 192.168.123.45
+#                                pref: 5
+#
+#        -   address_families:
+                - afi: ipv6
+#                 routes:
+#                     -   dest: 4011::0db1/128
+#                         next_hop:
+#                             -   forward_router_address: 6::6
+#

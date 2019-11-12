@@ -14,7 +14,7 @@
   nxos_lldp_interfaces:
     config:
         - name: Ethernet1/4
-          transmit: no
+          transmit: false
           tlv_set:
             vlan: 2
     state: replaced
