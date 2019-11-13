@@ -5,22 +5,28 @@
 #
 # vyos@vyos:~$ show configuration  commands | grep static
 #
-- name: Merge provided configuration with device configuration
-  vyos_static_routes:
-    config:
-     - address: 192.0.0.0/24
-       blackhole:
-         enabled: True
-       next_hop:
-         - address: 192.11.11.11
-         - address: 192.11.11.12
-     - address:  2001:db8::0/32
-       blackhole:
-         distance: 2 
-       next_hop:
-         - address: 2001:db8::5
-         - address: 2001:db8::1
-    state: merged
+- name: Merge the provided configuration with the exisiting running configuration
+      vyos_static_routes:
+        config:
+         - address_families:
+           - route_address_type: 'route'
+             routes:
+               - dest: 192.0.0.0/24
+                 blackhole_config:
+                   type: 'blackhole'
+                 next_hops:
+                   - forward_router_address: 192.11.11.11
+                   - forward_router_address: 192.11.11.12
+         - address_families:
+           - route_address_type: 'route6'
+             routes:
+               - dest: 2001:db8::0/32
+                 blackhole_config:
+                   distance: 2
+                 next_hops:
+                   - forward_router_address: 2001:db8::5
+                   - forward_router_address: 2001:db8::1
+        state: merged
 #
 #
 # -------------------------
@@ -30,45 +36,64 @@
 # before": []
 #
 #    "commands": [
+#        "set protocols static route 192.0.0.0/24",
+#        "set protocols static route 192.0.0.0/24 blackhole",
 #        "set protocols static route 192.0.0.0/24 next-hop '192.11.11.11'",
 #        "set protocols static route 192.0.0.0/24 next-hop '192.11.11.12'",
-#        "set protocols static route 192.0.0.0/24 blackhole",
-#        "set protocols static route 192.0.0.0/24",
-#        "set protocols static route6 2001:db8::0/32 next-hop '2001:db8::5'",
-#        "set protocols static route6 2001:db8::0/32 next-hop '2001:db8::1'",
+#        "set protocols static route6 2001:db8::0/32",
 #        "set protocols static route6 2001:db8::0/32 blackhole distance '2'",
-#        "set protocols static route6 2001:db8::0/32"
+#        "set protocols static route6 2001:db8::0/32 next-hop '2001:db8::5'",
+#        "set protocols static route6 2001:db8::0/32 next-hop '2001:db8::1'"
+#    ]
 #
 # "after": [
-#     {
-#            "address": "192.0.0.0/24",
-#            "blackhole": {
-#                "enabled": true
-#            },
-#            "next_hop": [
+#        {
+#            "address_families": [
 #                {
-#                    "address": "192.11.11.11"
-#                },
-#                {
-#                    "address": "192.11.11.12"
+#                    "route_address_type": "route",
+#                    "routes": [
+#                        {
+#                            "blackhole_config": {
+#                                "type": "blackhole"
+#                            },
+#                            "dest": "192.0.0.0/24",
+#                            "next_hops": [
+#                                {
+#                                    "forward_router_address": "192.11.11.11"
+#                                },
+#                                {
+#                                    "forward_router_address": "192.11.11.12"
+#                                }
+#                            ]
+#                        }
+#                    ]
 #                }
 #            ]
 #        },
 #        {
-#            "address": "2001:db8::0/32",
-#            "blackhole": {
-#                "distance": 2
-#            },
-#            "next_hop": [
+#            "address_families": [
 #                {
-#                    "address": "2001:db8::1"
-#                },
-#                {
-#                    "address": "2001:db8::5"
+#                    "route_address_type": "route6",
+#                    "routes": [
+#                        {
+#                            "blackhole_config": {
+#                                "distance": 2
+#                            },
+#                            "dest": "2001:db8::0/32",
+#                            "next_hops": [
+#                                {
+#                                    "forward_router_address": "2001:db8::1"
+#                                },
+#                                {
+#                                    "forward_router_address": "2001:db8::5"
+#                                }
+#                            ]
+#                        }
+#                    ]
 #                }
 #            ]
 #        }
-#    ],
+#    ]
 #
 # After state:
 # -------------
@@ -80,4 +105,3 @@
 # set protocols static route6 2001:db8::0/32 blackhole distance '2'
 # set protocols static route6 2001:db8::0/32 next-hop '2001:db8::1'
 # set protocols static route6 2001:db8::0/32 next-hop '2001:db8::5'
-

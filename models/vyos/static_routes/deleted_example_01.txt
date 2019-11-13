@@ -9,12 +9,20 @@
 # set protocols static route 192.0.0.0/24 next-hop '192.11.11.12'
 # set protocols static route6 2001:db8::0/32 blackhole distance '2'
 # set protocols static route6 2001:db8::0/32 next-hop '2001:db8::1'
-# set protocols static route6 2001:db8::0/32 next-hop '2001:db8::5''
+# set protocols static route6 2001:db8::0/32 next-hop '2001:db8::5'
 #
-- name: Delete LLDP attributes of given interfaces (Note: This won't delete other LLDP configuration).
-  vyos_static_routes:
-    config:
-    state: deleted
+- name: Delete attributes of given static routes.
+      vyos_static_routes:
+        config:
+          - address_families:
+            - route_address_type: 'route'
+              routes:
+                - dest: '192.0.0.0/24'
+          - address_families:
+            - route_address_type: 'route6'
+              routes:
+                - dest: '2001:db8::0/32'
+        state: deleted
 #
 #
 # ------------------------
@@ -23,40 +31,58 @@
 # 
 #    "before": [
 #        {
-#            "address": "192.0.0.0/24",
-#            "blackhole": {
-#                "enabled": true
-#            },
-#            "next_hop": [
+#            "address_families": [
 #                {
-#                    "address": "192.11.11.11"
-#                },
-#                {
-#                    "address": "192.11.11.12"
+#                    "route_address_type": "route",
+#                    "routes": [
+#                        {
+#                            "blackhole_config": {
+#                                "type": "blackhole"
+#                            },
+#                            "dest": "192.0.0.0/24",
+#                            "next_hops": [
+#                                {
+#                                    "forward_router_address": "192.11.11.11"
+#                                },
+#                                {
+#                                    "forward_router_address": "192.11.11.12"
+#                                }
+#                            ]
+#                        }
+#                    ]
 #                }
 #            ]
 #        },
 #        {
-#            "address": "2001:db8::0/32",
-#            "blackhole": {
-#                "distance": 2
-#            },
-#            "next_hop": [
+#            "address_families": [
 #                {
-3                    "address": "2001:db8::1"
-#                },
-#                {
-#                    "address": "2001:db8::5"
+#                    "route_address_type": "route6",
+#                    "routes": [
+#                        {
+#                            "blackhole_config": {
+#                                "distance": 2
+#                            },
+#                            "dest": "2001:db8::0/32",
+#                            "next_hops": [
+#                                {
+#                                    "forward_router_address": "2001:db8::1"
+#                                },
+#                                {
+#                                    "forward_router_address": "2001:db8::5"
+#                                }
+#                            ]
+#                        }
+#                    ]
 #                }
 #            ]
 #        }
 #    ]
 #    "commands": [
-#        "delete protocols static route 192.0.0.0/24", 
+#        "delete protocols static route 192.0.0.0/24",
 #        "delete protocols static route6 2001:db8::0/32"
 #    ]
 #
-# "after": [] 
+# "after": []
 # After state
 # ------------
 # vyos@vyos# run show configuration commands | grep static

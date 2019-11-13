@@ -29,58 +29,58 @@ DOCUMENTATION: |
           type: list
           elements: dict
           suboptions:
-            afi:
+            route_address_type:
               description:
-                - Specifies the top level address family indicator.
+                - Specifies the type of route.
               type: str
-              choices: ['ipv4', 'ipv6']
+              choices: ['route', 'route6']
               required: True
             routes:
-            description: A ditionary that specify the static route configurations.
-            element: dict
-            type: list
-            suboptions:
-              dest:
-                description:
-                  - An IPv4/v6 address in CIDR notation that specifies the destination netwrok for the static route.
-                type: str
-                required: True
-              blackhole:
-                description:
-                  - Configured to silently discard packets.
-                type: dict
-                suboptions:
-                  enabled:
-                    description:
-                      - Configured to discard packets.
-                    type: bool
-                  distance:
-                    description:
-                      - Distance for the route.
-                    type: int
-              next_hops:
-                description:
-                  - Next hops to the specified destination.
-                type: list
-                elements: dict
-                suboptions:
-                  forward_router_address:
-                    description:
-                      - The IP address of the next hop that can be used to reach the destination network.
-                    type: str
-                    required: True
-                  enabled:
-                    description:
-                      - Disable IPv4/v6 next-hop static route.
-                    type: bool
-                  admin_distance:
-                    description:
-                      - Distance value for the route.
-                    type: int
-                  interface:
-                    description:
-                      - Name of the outgoing interface.
-                    type: str
+              description: A ditionary that specify the static route configurations.
+              type: list
+              elements: dict
+              suboptions:
+                dest:
+                  description:
+                    - An IPv4/v6 address in CIDR notation that specifies the destination network for the static route.
+                  type: str
+                  required: True 
+                blackhole_config:
+                  description:
+                    - Configured to silently discard packets.
+                  type: dict
+                  suboptions:
+                    type:
+                      description:
+                        - This is to configure only blackhole.
+                      type: str
+                    distance:
+                      description:
+                        - Distance for the route.
+                      type: int
+                next_hops:
+                  description:
+                    - Next hops to the specified destination.
+                  type: list
+                  elements: dict
+                  suboptions:
+                    forward_router_address:
+                      description:
+                        - The IP address of the next hop that can be used to reach the destination network.
+                      type: str
+                      required: True
+                    enabled:
+                      description:
+                        - Disable IPv4/v6 next-hop static route.
+                      type: bool
+                    admin_distance:
+                      description:
+                        - Distance value for the route.
+                      type: int
+                    interface:
+                      description:
+                        - Name of the outgoing interface.
+                      type: str
 
     state:
       description:
@@ -91,6 +91,8 @@ DOCUMENTATION: |
       - replaced
       - overridden
       - deleted
+      - gathered
+      - rendered
       default: merged
 
 EXAMPLES:
