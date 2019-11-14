@@ -4,7 +4,7 @@
 #
 #
 
-- name: Rendering the configuration
+- name: Render required configuration to be pushed to the device
   nxos_static_routes:
     config:
         - vrf: 123
@@ -17,6 +17,12 @@
 
     state: rendered
 
-# Output:
+# After state:
+# -----------
+#
+
+
+# returns
+# commands:
 # vrf context 123
 # ip route 14.14.14.14/24 192.112.134.78

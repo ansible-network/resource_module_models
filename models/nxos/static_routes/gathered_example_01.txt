@@ -4,14 +4,21 @@
 #
 # ipv6 route 4011::0db1/128 6::6 
 # vrf context Test
-# ip route 12.12.12.0/24 192.168.121.1 
-# ip route 12.12.12.0/24 192.168.123.45 5
+#    ip route 12.12.12.0/24 192.168.121.1 
+#    ip route 12.12.12.0/24 192.168.123.45 5
 
 - name: Gather the exisitng condiguration
   nxos_static_routes:
     state: gathered
 
-# Output :
+# After state:
+#
+# ipv6 route 4011::0db1/128 6::6 
+# vrf context Test
+#   ip route 12.12.12.0/24 192.168.121.1 
+#   ip route 12.12.12.0/24 192.168.123.45 5
+
+# returns:
 # 
 #  nxos_static_routes:
 #    config:

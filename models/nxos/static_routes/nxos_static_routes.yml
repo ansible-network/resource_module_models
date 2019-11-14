@@ -13,13 +13,18 @@ COPYRIGHT: Copyright 2019 Red Hat
 
 DOCUMENTATION: |
   module: nxos_static_routes
-  version_added: 2.10
+  version_added: "2.10"
   short_description: Configures and manages attributes of static routes on Cisco NX-OS platforms.
   description: This module configures and manages the attributes of static routes on Cisco NX-OS platforms.
   author: Adharsh Srivats Rangarajan (@adharshsrivatsr)
   notes:
     - Tested against NX-OS 7.3.(0)D1(1) on VIRL
+    - To parse configuration text, provide the output of show running-config | section interface  or a mocked up config
   options:
+    running_config:
+      description:
+        - Used to parse given commands into structured format, only in parsed state
+      type: str
     config:
       description:
         - A list of configurations for static routes
@@ -100,6 +105,7 @@ DOCUMENTATION: |
         - replaced
         - gathered
         - rendered
+        - parsed
       default:
         - merged
 
@@ -110,3 +116,4 @@ EXAMPLES:
   - replaced_example_01.txt
   - gathered_example_01.txt
   - rendered_example_01.txt
+  - parsed_example_01.txt
