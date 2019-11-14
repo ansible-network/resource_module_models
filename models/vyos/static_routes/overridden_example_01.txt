@@ -16,7 +16,7 @@
       vyos_static_routes:
          config:
            - address_families:
-             - route_address_type: 'route'
+             - afi: 'ipv4'
                routes:
                  - dest: 198.0.0.0/24
                    next_hops:
@@ -32,7 +32,7 @@
 #        {
 #            "address_families": [
 #                {
-#                    "route_address_type": "route",
+#                    "afi": 'ipv4',
 #                    "routes": [
 #                        {
 #                            "blackhole_config": {
@@ -58,7 +58,7 @@
 #        {
 #            "address_families": [
 #                {
-#                    "route_address_type": "route6",
+#                    "afi": 'ipv6',
 #                    "routes": [
 #                        {
 #                            "blackhole_config": {
@@ -91,7 +91,7 @@
 #        {
 #            "address_families": [
 #                {
-#                    "route_address_type": "route",
+#                    "afi": 'ipv4',
 #                    "routes": [
 #                        {
 #                            "dest": "198.0.0.0/24",

@@ -29,11 +29,11 @@ DOCUMENTATION: |
           type: list
           elements: dict
           suboptions:
-            route_address_type:
+            afi:
               description:
                 - Specifies the type of route.
               type: str
-              choices: ['route', 'route6']
+              choices: ['ipv4', 'ipv6']
               required: True
             routes:
               description: A ditionary that specify the static route configurations.
