@@ -21,15 +21,14 @@ DOCUMENTATION: |
   options:
     config:
       description:
-        - A list of configurations for static routes
+        - A list of configurations for static routes.
       type: list
       elements: dict
       suboptions:
         vrf:
           description:
-            - The VRF to which the static route(s) belong
+            - The VRF to which the static route(s) belong.
           type: str
-          default: __global__
         address_families:
           description: A dictionary specifying the address family to which the static route(s) belong.
           type: list
@@ -42,26 +41,26 @@ DOCUMENTATION: |
               choices: ['ipv4', 'ipv6']
               required: True
             routes:
-              description: A dictionary that specifies the static route configurations
+              description: A dictionary that specifies the static route configurations.
               elements: dict
               type: list
               suboptions:
                 dest:
                   description: 
-                    - Destination IPv4 subnet (CIDR or address-mask notation)
-                    - The address format is <v4/v6 address>/<mask> or <v4/v6 address> <mask>
-                    - The mask is number in range 0-32 for IPv4 and in range 0-128 for IPv6
+                    - Destination IPv4 subnet (CIDR or address-mask notation).
+                    - The address format is <v4/v6 address>/<mask> or <v4/v6 address> <mask>.
+                    - The mask is number in range 0-32 for IPv4 and in range 0-128 for IPv6.
                   type: str
                   required: True
                 next_hops: 
                   description: 
-                    - Details of route to be taken
+                    - Details of route to be taken.
                   type: list
                   elements: dict
                   suboptions:
                     forward_router_address:
                       description:
-                        - Forwarding router's address on destination interface
+                        - Forwarding router's address on destination interface.
                       type: str
                     interface:
                       description:
@@ -80,15 +79,15 @@ DOCUMENTATION: |
                       type: str
                     admin_distance:
                       description: 
-                        - Preference or administrative distance of route (range 1-255)
+                        - Preference or administrative distance of route (range 1-255).
                       type: int
-                    route_name:
+                    description:
                       description:
-                        - Name of the static route
+                        - Name of the static route.
                       type: str
                     tag:
                       description:
-                        - Route tag value (ranges from 0 to 4294967295)
+                        - Route tag value (ranges from 0 to 4294967295).
                       type: int
                     track:
                       description:
@@ -96,11 +95,11 @@ DOCUMENTATION: |
                       type: int
                     vrf:
                       description:
-                        - VRF of the destination
+                        - VRF of the destination.
                       type: str
     state:
       description:
-        - The state the configuration should be left in
+        - The state the configuration should be left in.
       type: str
       choices:
         - deleted

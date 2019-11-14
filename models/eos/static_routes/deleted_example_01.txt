@@ -1,2 +1,22 @@
 
 # Using deleted
+
+Before State
+-------------
+veos(config)#show running-config | grep "route"
+ip route 165.10.1.0/24 Ethernet1 100
+ip route 172.17.252.0/24 Nexthop-Group testgroup
+ip route vrf testvrf 130.1.122.0/24 Ethernet1 tag 50
+ipv6 route 5001::/64 Ethernet1 50
+veos(config)#
+
+- name: Delete static route configuration
+  eos_static_routes:
+    state: deleted
+
+After State
+-----------
+
+veos(config)#show running-config | grep "route"
+veos(config)#
+
