@@ -106,8 +106,7 @@ DOCUMENTATION: |
         - gathered
         - rendered
         - parsed
-      default:
-        - merged
+      default: merged
 
 EXAMPLES:
   - deleted_example_01.txt
