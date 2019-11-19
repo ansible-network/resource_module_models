@@ -1,0 +1,46 @@
+# Using rendered
+#
+#
+- name: Render the commands for provided  configuration
+      vyos_static_routes:
+        config:
+         - address_families:
+           - afi: 'ipv4'
+             routes:
+               - dest: 195.1.1.0/24
+                 blackhole_config:
+                   type: 'blackhole'
+                 next_hops:
+                   - forward_router_address: 195.55.55.55
+                   - forward_router_address: 192.56.56.56
+         - address_families:
+           - afi: 'ipv6'
+             routes:
+               - dest: 9001:db9::0/32
+                 blackhole_config:
+                   distance: 3
+                 next_hops:
+                   - forward_router_address: 9001:db9::99
+                   - forward_router_address: 9001:db9::9
+        state: rendered
+#
+#
+# -------------------------
+# Module Execution Result
+# -------------------------
+#
+#
+# "rendered": [
+#        "set protocols static route 195.1.1.0/24",
+#        "set protocols static route 195.1.1.0/24 blackhole",
+#        "set protocols static route 195.1.1.0/24 next-hop '195.55.55.55'",
+#        "set protocols static route 195.1.1.0/24 next-hop '192.56.56.56'",
+#        "set protocols static route6 9001:db9::0/32",
+#        "set protocols static route6 9001:db9::0/32 blackhole distance '3'",
+#        "set protocols static route6 9001:db9::0/32 next-hop '9001:db9::99'",
+#        "set protocols static route6 9001:db9::0/32 next-hop '9001:db9::9'"
+#    ]
+#
+       ]
+#        }
+#    ]
