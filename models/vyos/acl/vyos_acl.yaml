@@ -1,0 +1,127 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+
+NETWORK_OS: vyos
+RESOURCE: acls
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: vyos_acls
+  version_added: 2.10
+  short_description: Manage access control list attributes on VyOS devices
+  description: This module manages access control list attributes on VyOS devices
+  author:
+     - Rohit Thakur (@rohitthakur2590)
+  options:
+    config:
+      description: A dictionary of ACL options.
+      type: list
+      elements: dict
+      suboptions:
+        address_families:
+          description:
+            - A dictionary specifying the address family to which the ACL belongs.
+          type: list
+          elements: dict
+          suboptions:
+            afi:
+              description:
+                - Specifies the type of route.
+              type: str
+              choices: ['ipv4', 'ipv6']
+              required: True
+            name:
+              description:
+                - The name of the ACL.
+              type: str
+              suboptions:
+                standard:
+                  description:
+                    - Standard Access List.
+                  type: bool
+                extended:
+                  description:
+                    - Extended Access List.
+                  type: bool
+            number:
+              description:
+                - IP ACLs number.
+                - Refer to vendor documentation for valid values.
+              type: int
+            description:
+              description:
+                - Description for ACL.
+              type: str
+              
+            rules:
+              description:
+                - A ditionary that specifies the static route configurations.
+              type: list
+              elements: dict
+              suboptions:
+                number:
+                  description:
+                    - An ACL rule number.
+                  type: int
+                  required: True 
+                description:
+                  description:
+                    - Description of this rule.
+                  type: str
+                action:
+                  description:
+                    - Specify the action.
+                  type: str
+                  choice: ['permit', 'deny']
+                source:
+                  description:
+                    - Specify the packet source.
+                  type: dict
+                  suboptions:
+                    type:
+                      description: Source network address type.
+                      type: str
+                      choices: ['any', 'host', 'inverse-mask', 'network', 'exact-match']
+                    address:
+                      description: Source network address.
+                      type: str
+                destination:
+                  description:
+                    - Specify the packet destination for IPv4 ACL.
+                  type: dict
+                  suboptions:
+                    type:
+                      description: Destination network address type.
+                      type: str
+                      choices: ['any', 'host', 'inverse-mask', 'network']
+                    address:
+                      description: Destination network address.
+                      type: str
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      enum:
+        - merged
+        - replaced
+        - overridden
+        - deleted
+        - gathered
+        - rendered
+        - parsed
+        default: merged
+examples:
+- merged_example_01.txt
+- replaced_example_01.txt
+- overridden_example_01.txt
+- deleted_example_01.txt
+- gathered_example_01.txt
+- rendered_example_01.txt
+- parsed_example_01.txt
