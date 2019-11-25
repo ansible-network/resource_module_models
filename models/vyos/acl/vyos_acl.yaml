@@ -41,15 +41,6 @@ DOCUMENTATION: |
               description:
                 - The name of the ACL.
               type: str
-              suboptions:
-                standard:
-                  description:
-                    - Standard Access List.
-                  type: bool
-                extended:
-                  description:
-                    - Extended Access List.
-                  type: bool
             number:
               description:
                 - IP ACLs number.
