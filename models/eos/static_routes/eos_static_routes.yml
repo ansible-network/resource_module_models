@@ -92,6 +92,10 @@ DOCUMENTATION: |
                     track:
                       description:
                         - Track value (range 1 - 512). Track must already be configured on the device before adding the route.
+                      type: str
+                    mpls_label:
+                      description:
+                        - MPLS label
                       type: int
                     vrf:
                       description:
@@ -102,14 +106,9 @@ DOCUMENTATION: |
         - The state the configuration should be left in.
       type: str
       choices:
-        - deleted
-        - merged
-        - overridden
-        - replaced
-        - gathered
-        - rendered
+        ['deleted', 'merged', 'overridden', 'replaced', 'gathered', 'rendered']
       default:
-        - merged
+        merged
 EXAMPLES:
   - deleted_example_01.txt
   - merged_example_01.txt
