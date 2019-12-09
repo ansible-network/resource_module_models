@@ -4,12 +4,12 @@
 # -------------
 #
 # vyos@vyos:~$ show configuration commands| grep static
-# set protocols static route 192.0.0.0/24 'blackhole'
-# set protocols static route 192.0.0.0/24 next-hop '192.11.11.11'
-# set protocols static route 192.0.0.0/24 next-hop '192.11.11.12'
-# set protocols static route6 2001:db8::0/32 blackhole distance '2'
-# set protocols static route6 2001:db8::0/32 next-hop '2001:db8::1'
-# set protocols static route6 2001:db8::0/32 next-hop '2001:db8::5'
+# set protocols static route 192.0.2.32/28 'blackhole'
+# set protocols static route 192.0.2.32/28 next-hop '192.0.2.6'
+# set protocols static route 192.0.2.32/28 next-hop '192.0.2.7'
+# set protocols static route6 2001:db8:1000::/36 blackhole distance '2'
+# set protocols static route6 2001:db8:1000::/36 next-hop '2001:db8:2000:2::1'
+# set protocols static route6 2001:db8:1000::/36 next-hop '2001:db8:2000:2::2'
 #
 - name: Gather listed static routes with provided configurations
       vyos_static_routes:
@@ -25,42 +25,38 @@
 #        {
 #            "address_families": [
 #                {
-#                    "afi": 'ipv4',
+#                    "afi": "ipv4",
 #                    "routes": [
 #                        {
 #                            "blackhole_config": {
 #                                "type": "blackhole"
 #                            },
-#                            "dest": "192.0.0.0/24",
+#                            "dest": "192.0.2.32/28",
 #                            "next_hops": [
 #                                {
-#                                    "forward_router_address": "192.11.11.11"
+#                                    "forward_router_address": "192.0.2.6"
 #                                },
 #                                {
-#                                    "forward_router_address": "192.11.11.12"
+#                                    "forward_router_address": "192.0.2.7"
 #                                }
 #                            ]
 #                        }
 #                    ]
-#                }
-#            ]
-#        },
-#        {
-#            "address_families": [
+#                },
 #                {
-#                    "afi": 'ipv6',
+#                    "afi": "ipv6",
 #                    "routes": [
 #                        {
 #                            "blackhole_config": {
 #                                "distance": 2
 #                            },
-#                            "dest": "2001:db8::0/32",
+#                            "dest": "2001:db8:1000::/36", 
 #                            "next_hops": [
 #                                {
-#                                    "forward_router_address": "2001:db8::1"
+#                                    "forward_router_address": "2001:db8:2000:2::1"
 #                                },
 #                                {
-#                                    "forward_router_address": "2001:db8::5"
+#                                    "forward_router_address": "2001:db8:2000:2::2"
 #                                }
 #                            ]
 #                        }
@@ -75,10 +71,9 @@
 # -------------
 #
 # vyos@vyos:~$ show configuration commands| grep static
-# set protocols static route 192.0.0.0/24 blackhole distance '2'
-# set protocols static route 192.0.0.0/24 next-hop '192.1.1.11'
-# set protocols static route 192.0.0.0/24 next-hop '192.3.3.13'
-# set protocols static route 192.0.0.0/24 next-hop '192.11.11.12'
-# set protocols static route6 2001:db8::0/32 blackhole distance '2'
-# set protocols static route6 2001:db8::0/32 next-hop '2001:db8::1'
-# set protocols static route6 2001:db8::0/32 next-hop '2001:db8::5'
+# set protocols static route 192.0.2.32/28 'blackhole'
+# set protocols static route 192.0.2.32/28 next-hop '192.0.2.6'
+# set protocols static route 192.0.2.32/28 next-hop '192.0.2.7'
+# set protocols static route6 2001:db8:1000::/36 blackhole distance '2'
+# set protocols static route6 2001:db8:1000::/36 next-hop '2001:db8:2000:2::1'
+# set protocols static route6 2001:db8:1000::/36 next-hop '2001:db8:2000:2::2'

@@ -7,21 +7,21 @@
          - address_families:
            - afi: 'ipv4'
              routes:
-               - dest: 195.1.1.0/24
+               - dest: 192.0.2.32/28
                  blackhole_config:
                    type: 'blackhole'
                  next_hops:
-                   - forward_router_address: 195.55.55.55
-                   - forward_router_address: 192.56.56.56
+                   - forward_router_address: 192.0.2.6
+                   - forward_router_address: 192.0.2.7
          - address_families:
            - afi: 'ipv6'
              routes:
-               - dest: 9001:db9::0/32
+               - dest: 2001:db8:1000::/36
                  blackhole_config:
-                   distance: 3
+                   distance: 2
                  next_hops:
-                   - forward_router_address: 9001:db9::99
-                   - forward_router_address: 9001:db9::9
+                   - forward_router_address: 2001:db8:2000:2::1
+                   - forward_router_address: 2001:db8:2000:2::2
         state: rendered
 #
 #
@@ -31,16 +31,12 @@
 #
 #
 # "rendered": [
-#        "set protocols static route 195.1.1.0/24",
-#        "set protocols static route 195.1.1.0/24 blackhole",
-#        "set protocols static route 195.1.1.0/24 next-hop '195.55.55.55'",
-#        "set protocols static route 195.1.1.0/24 next-hop '192.56.56.56'",
-#        "set protocols static route6 9001:db9::0/32",
-#        "set protocols static route6 9001:db9::0/32 blackhole distance '3'",
-#        "set protocols static route6 9001:db9::0/32 next-hop '9001:db9::99'",
-#        "set protocols static route6 9001:db9::0/32 next-hop '9001:db9::9'"
-#    ]
-#
-       ]
-#        }
+#        "set protocols static route 192.0.2.32/28",
+#        "set protocols static route 192.0.2.32/28 blackhole",
+#        "set protocols static route 192.0.2.32/28 next-hop '192.0.2.6'",
+#        "set protocols static route 192.0.2.32/28 next-hop '192.0.2.7'",
+#        "set protocols static route6 2001:db8:1000::/36",
+#        "set protocols static route6 2001:db8:1000::/36 blackhole distance '2'",
+#        "set protocols static route6 2001:db8:1000::/36 next-hop '2001:db8:2000:2::1'",
+#        "set protocols static route6 2001:db8:1000::/36 next-hop '2001:db8:2000:2::2'"
 #    ]
