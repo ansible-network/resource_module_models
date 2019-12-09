@@ -1,0 +1,458 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+
+NETWORK_OS: vyos
+RESOURCE: firewalls
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: vyos_firewalls
+  version_added: 2.10
+  short_description: Manage firewall rule-set attributes on VyOS devices
+  description: This module manages firewall rule-set attributes on VyOS devices
+  author:
+     - Rohit Thakur (@rohitthakur2590)
+  options:
+    config:
+      description: A dictionary of Firewall rule-set options.
+      type: list
+      elements: dict
+      suboptions:
+        address_families:
+          description:
+            - A dictionary specifying the address family to which the Firewall rule-set belongs.
+          type: list
+          elements: dict
+          suboptions:
+            afi:
+              description:
+                - Specifies the type of rule-set.
+              type: str
+              choices: ['ipv4', 'ipv6']
+              required: True
+            rule_sets:
+              description:
+                - The Firewall rule-sets list.
+              type: list
+              elements: dict
+              suboptions:
+                name:
+                 description:
+                   - Firewall rule set name.
+                 type: str    
+                default_action:
+                  description:
+                    - Default action for rule-set.
+                    - drop (Drop if no prior rules are hit (default))
+                    - reject (Drop and notify source if no prior rules are hit)
+                    - accept (Accept if no prior rules are hit)
+                  type: str
+                  choices: ['drop', 'reject', 'accept']
+                description:
+                  description:
+                    - Rule set description.
+                  type: str
+                enable_default_log:
+                  description:
+                    - Option to log packets hitting default-action.
+                rules:
+                  description:
+                    - A ditionary that specifies the rule-set configurations.
+                  type: list
+                  elements: dict
+                  suboptions:
+                    number:
+                      description:
+                        - Rule number.
+                      type: int
+                      required: True 
+                    description:
+                      description:
+                        - Description of this rule.
+                      type: str
+                    action:
+                      description:
+                        - Specifying the action.
+                      type: str
+                      choice: ['drop', 'reject', 'accept', 'inspect']
+                    destination:
+                      description:
+                        - Specifying the destination parameters.
+                      type: dict
+                      suboptions:
+                        address:
+                          description:
+                            - Destination ip address subnet or range.
+                            - IPv4/6 address, subnet or range to match.
+                            - Match everything except the specified address, subnet or range.
+                            - Destination ip address subnet or range.
+                          type: str
+                        group:
+                          description:
+                            - Destination group.
+                          type: dict
+                          suboptions:
+                            address_group:
+                              description:
+                                - Group of addresses.
+                              type: str
+                            network_group:
+                              description:
+                                - Group of networks.
+                              type: str
+                            port_group:
+                              description:
+                                - Group of ports.
+                              type: str
+                        port:
+                         description:
+                           - Multiple destination ports can be specified as a comma-separated list.
+                           - The whole list can also be "negated" using '!'.
+                           - For example:'!22,telnet,http,123,1001-1005'.
+                         type: str      
+                    disabled:
+                      description:
+                        - Option to disable firewall rule.
+                      type: bool
+                    fragment:
+                      description:
+                        - IP fragment match.
+                      type: str
+                      choices: ['match-frag', 'match-non-frag']
+                    icmp:
+                     description:
+                       - ICMP type and code information.
+                     type: dict
+                     suboptions:
+                       type_name:
+                         description:
+                           - ICMP type-name.
+                         type: str
+                         choices: ['any', 'echo-reply', 'destination-unreachable', 'network-unreachable', 'host-unreachable', 'protocol-unreachable', 
+                                  'port-unreachable','fragmentation-needed','source-route-failed', 'network-unknown', 'host-unknown', 'network-prohibited',
+                                  'host-prohibited', 'TOS-network-unreachable', 'TOS-host-unreachable', 'communication-prohibited', 'host-precedence-violation',
+                                  'precedence-cutoff', 'source-quench', 'redirect', 'network-redirect', 'host-redirect', 'TOS-network-redirect', 'TOS-host-redirect']
+                       code:
+                         description:
+                           - ICMP code.
+                         type: int
+                       type:
+                         description:
+                           - ICMP type.
+                         type: int
+                    ipsec:
+                      description:
+                        - Inboud ip sec packets.
+                      type: str
+                      choices: ['match-ipsec', 'match-none']
+                    limit:
+                      description:
+                        - Rate limit using a token bucket filter.
+                      type: dict
+                      suboptions:
+                        burst:
+                          description:
+                            - Maximum number of packets to allow in excess of rate.
+                          type: int
+                        rate:
+                          description:
+                            - format for rate (integer/time unit).
+                            - any one of second, minute, hour or day may be used to specify time unit.
+                            - eg. 1/second implies rule to be matched at an average of once per second.
+                          type: dict
+                          suboptions:
+                            number:
+                              description:
+                                - This is the integer value.
+                              type: int
+                            unit:
+                              description:
+                                - This is the time unit.
+                              type: str
+                    p2p:
+                     description:
+                       - P2P application packets.
+                     type: list
+                     choices: ['all', 'applejuice', 'bittorrent', 'directconnect', 'edonkey', 'gnutella', 'kazaa']
+                    protocol:
+                      description:
+                        - Protocol to match (protocol name in /etc/protocols or protocol number or all).
+                        - <text> IP protocol name from /etc/protocols (e.g. "tcp" or "udp").
+                        - <0-255> IP protocol number.
+                        - tcp_udp Both TCP and UDP.
+                        - all All IP protocols.
+                        - !<protocol>  All IP protocols except for the specified name or number.
+                    recent:
+                      description:
+                        - Parameters for matching recently seen sources.
+                      type: dict
+                      suboptions:
+                        count:
+                          description:
+                            - Source addresses seen more than N times.
+                          type: int
+                        time:
+                          description:
+                            - Source addresses seen in the last N seconds.
+                          type: int
+                    source:
+                      description:
+                        - Source parameters.
+                      type: dict
+                      suboptions:
+                        address:
+                          description:
+                            - Source ip address subnet or range.
+                            - IPv4/6 address, subnet or range to match.
+                            - Match everything except the specified address, subnet or range.
+                            - Source ip address subnet or range.
+                          type: str
+                        group:
+                          description:
+                            - Source group.
+                          type: dict
+                          suboptions:
+                            address_group:
+                              description:
+                                - Group of addresses.
+                              type: str
+                            network_group:
+                              description:
+                                - Group of networks.
+                              type: str
+                            port_group:
+                              description:
+                                - Group of ports.
+                              type: str
+                        port:
+                         description:
+                           - Multiple source ports can be specified as a comma-separated list.
+                           - The whole list can also be "negated" using '!'.
+                           - For example:'!22,telnet,http,123,1001-1005'.
+                         type: str
+                        mac_address:
+                          description:
+                            - <MAC address> MAC address to match.
+                            - <!MAC address> Match everything except the specified MAC address.
+                          type: str    
+                    state:
+                      description:
+                        - Session state.
+                      type: dict
+                      suboptions:
+                        established:
+                          description:
+                            - Established state.
+                          type: bool 
+                        invalid:
+                          description:
+                            - Invalid state.
+                          type: bool
+                        new:
+                          description:
+                            - New state.
+                          type: bool
+                        related:
+                          description:
+                            - Related state.
+                          type: bool
+                    tcp:
+                      description:
+                        - TCP flags to match.
+                      type: dict
+                      suboptions:
+                        flags:
+                          description:
+                            - TCP flags to be matched.
+                          type: str
+                    time:
+                      description:
+                        - Time to match rule.
+                      type: dict
+                      suboptions:
+                        monthdays:
+                          description:
+                            - Monthdays to match rule on.
+                          type: str    
+                        startdate:
+                          description:
+                            - Date to start matching rule.
+                          type: str
+                        starttime:
+                          description:
+                            - Time of day to start matching rule.
+                          type: str
+                        stopdate:
+                          description:
+                            - Date to stop matching rule.
+                          type: str
+                        stoptime:
+                          description:
+                            - Time of day to stop matching rule.
+                          type: str
+                        weekdays:
+                          description:
+                            - Weekdays to match rule on.
+                          type: str
+        global:
+          description:
+            - Global policies or configuration for firewalls.
+            type: dict
+            suboptions:
+              all_ping:
+                description:
+                  - Policy for handling of all IPv4 ICMP echo requests.
+                type: bool
+              broadcast_ping:
+                description:
+                  - Policy for handling broadcast IPv4 ICMP echo and timestamp requests.
+                type: bool
+              config_trap:
+                description:
+                - SNMP trap generation on firewall configuration changes.
+                type: bool
+              group:
+                description:
+                  - Firewall group.
+                type: dict
+                suboptions:
+                  address_group:
+                    description:
+                      - Firewall address-group.
+                    type: list
+                    elements: dict
+                    suboptions:
+                      name:
+                        description:
+                          - Name of the address-group.
+                        type: str
+                        required: True
+                      description:
+                        description:
+                          - Address-group description.
+                        type: str
+                      address:
+                        description:
+                          - Address-group members.
+                          - IPv4 address to match.
+                          - IPv4 range to match.
+                        type: list
+                  network_group:
+                    description:
+                      - Firewall network-group.
+                    type: list
+                    elements: dict
+                    suboptions:
+                      name:
+                        description:
+                          - Name of the network-group.
+                        type: str
+                        required: True
+                      description:
+                        description:
+                          - network-group description.
+                        type: str
+                      address:
+                        description:
+                          - Network-group member.
+                        type: list
+                  port_group:
+                    description:
+                      - Firewall port-group.
+                    type: list
+                    elements: dict
+                    suboptions:
+                      name:
+                        description:
+                          - Name of the port-group.
+                        type: str
+                        required: True
+                      description:
+                        description:
+                          - port-group description.
+                        type: str
+                      port_member:
+                        description:
+                          - Port-group member.
+                        type: list
+              ip_src_route:
+                description:
+                  - Policy for handling IPv4 packets with source route option.
+                type: bool
+              ipv6_src_route:
+                description:
+                  - Policy for handling IPv6 packets with routing extension header.
+                type: bool
+              log_martians:
+                description:
+                  - Policy for logging IPv4 packets with invalid addresses.
+                type: bool
+              receive_redirects:
+                description:
+                  - Policy for handling received IPv4 ICMP redirect messages.
+                type: bool
+              send_redirects:
+                description:
+                  - Policy for sending IPv4 ICMP redirect messages.
+                type: bool
+              source_validation:
+                description:
+                  - Policy for source validation by reversed path, as specified in RFC3704
+                type: str
+                choices: ['strict', 'loose', 'disable']
+              syn_cookies:
+                description:
+                  - Policy for using TCP SYN cookies with IPv4.
+                type: bool
+              twa_hazards_protection:
+                description:
+                  - RFC1337 TCP TIME-WAIT assasination hazards protection.
+                type: bool
+              state_policy:
+                description:
+                  - global firewall state-policy.
+                type: list
+                elements: dict
+                suboptions:
+                  connection_type:
+                    description: Specifies connection type.
+                    type: str
+                    choices: ['established', 'invalid', 'related']
+                  action:
+                    description:
+                      - Action for packets part of an established connection.
+                    type: str
+                    choices: ['accept', 'drop', 'reject']
+                  log:
+                    description:
+                      - Enable logging of packets part of an established connection.
+                    type: str
+                  
+    state:
+      description:
+      - The state the configuration should be left in
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - gathered
+      - rendered
+      - parsed  
+      default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt
+  - parsed_example_01.txt
