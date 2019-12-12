@@ -7,33 +7,47 @@ ANSIBLE_METADATA: |
     }
 
 DOCUMENTATION: |
-  module: ios_acls
-  version_added: 2.10
-  short_description: Configure and manage Named or Numbered ACLs on IOS devices.
-  description: This module configures and manages the Named or Numbered on IOS platforms.
-  author: Sumit Jaiswal (@justjais)
-  notes:
-  - Tested against Cisco IOSv Version 15.2 on VIRL
-  - This module works with connection C(network_cli).
-    See L(IOS Platform Options,../network/user_guide/platform_ios.html).
-  options:
-    config:
-      description: A dictionary of ACL options
-      type: list
-      elements: dict
-      suboptions:
+module: ios_acl
+version_added: 2.10
+short_description: Configure and manage named or numbered ACLs on IOS devices.
+description: This module configures and manages the named or numbered ACLs on IOS platforms.
+author: Sumit Jaiswal (@justjais)
+notes:
+- Tested against Cisco IOSv Version 15.2 on VIRL
+- This module works with connection C(network_cli).
+  See L(IOS Platform Options,../network/user_guide/platform_ios.html).
+options:
+  config:
+    description: A dictionary of ACL options.
+    type: list
+    elements: dict
+    suboptions:
+      afi:
+        description:
+          - The Address Family Indicator (AFI) for the Access Control Lists (ACL).
+        required: true
+        type: str
+        choices:
+          - ipv4
+          - ipv6
+      acls:
+        description:
+          - A list of Access Control Lists (ACL).
+        type: list
+        elements: dict
+        suboptions:
         name:
-          description: The name of the ACL
+          description: The name of the ACL.
           type: str
           suboptions:
             standard:
-              description: Standard Access List
+              description: Standard Access List.
               type: bool
             extended:
-              description: Extended Access List
+              description: Extended Access List.
               type: bool
             resequence:
-              description: Resequence Access List
+              description: Resequence Access List.
               suboptions:
                 start_sequence:
                   description:
@@ -49,631 +63,353 @@ DOCUMENTATION: |
           description:
           - IP ACLs number.
           - Refer to vendor documentation for valid values.
+          - Note, based on number standard or extended acl shall take effect
           type: int
         entries:
-          description: The entries within the ACL
+          description: The entries within the ACL.
           mutually_exclusive: [[name], [number]]
           elements: dict
           required_together: [[action, protocol, source, destination]]
           type: list
           suboptions:
             action:
-              description: Specify the action
+              description: Specify the action.
               type: str
               choice: ['permit', 'deny']
-            source:
-              description: Specify the packet source
+            protocol:
+              description: protocol type.
               type: dict
-              required_together: [[address, wildcard_bits]]
+              suboptions:
+                protocol_number:
+                  description: An IP protocol number
+                  type: int
+                ahp:
+                  description: Authentication Header Protocol.
+                  type: bool
+                eigrp:
+                  description: Cisco's EIGRP routing protocol.
+                  type: bool
+                esp:
+                  description: Encapsulation Security Payload.
+                  type: bool
+                gre:
+                  description: Cisco's GRE tunneling.
+                  type: bool
+                icmp:
+                  description: Internet Control Message Protocol.
+                  type: bool
+                igmp:
+                  description: Internet Gateway Message Protocol.
+                  type: bool
+                ip:
+                  description: Any Internet Protocol.
+                  type: bool
+                ipinip:
+                  description: IP in IP tunneling.
+                  type: bool
+                nos:
+                  description: KA9Q NOS compatible IP over IP tunneling.
+                  type: bool
+                ospf:
+                  description: OSPF routing protocol.
+                  type: bool
+                pcp:
+                  description: Payload Compression Protocol.
+                  type: bool
+                pim:
+                  description: Protocol Independent Multicast.
+                  type: bool
+                sctp:
+                  description: Stream Control Transmission Protocol.
+                  type: bool
+                tcp:
+                  description: Transmission Control Protocol.
+                  type: bool
+                udp:
+                  description: User Datagram Protocol.
+                  type: bool
+            source:
+              description: Specify the packet source.
+              type: dict
+              mutually_exclusive: [[address, any], [wildcard_bits, any]]
+              required_together: [address, wildcard_bits]
               suboptions:
                 address:
-                  description: Source network address
+                  description: Source network address.
                   type: str
                 wildcard_bits:
-                  description: Destination wildcard bits
+                  description: Destination wildcard bits.
                   type: str
-            destination:
-              description: Specify the packet destination
-              required_together: [[address, wildcard_bits]]
-              type: dict
-              suboptions
-                address:
-                  description: Host address to match, or any single host address
-                  type: str
-                wildcard_bits:
-                    description: Destination wildcard bits
-                    type: str
+                any:
+                  description:
+                    - Match any source address.
+                  type: bool
                 operators:
-                  description: Specify the destination operator based on port number
+                  description:
+                  - Specify the destination operator based on port number.
+                  - Note, this is not valid with all protocol type, please
+                    refer vendor documentation.
                   type: dict
                   suboptions:
                     eq:
-                      description: Match only packets on a given port number
+                      description: Match only packets on a given port number.
                       type: str
                     gt:
-                      description: Match only packets with a greater port number
+                      description: Match only packets with a greater port number.
                       type: str
                     lt:
-                      description: Match only packets with a lower port number
+                      description: Match only packets with a lower port number.
                       type: str
                     neq:
-                      description: Match only packets not on a given port number
+                      description: Match only packets not on a given port number.
                       type: str
                     range:
-                      description: Port group
+                      description: Port group.
                       type: dict
                       suboptions:
                         start:
-                          description: Specify the start of the port range
+                          description: Specify the start of the port range.
                           type: int
                         end:
-                          description: Specify the end of the port range
+                          description: Specify the end of the port range.
                           type: int
-                dscp:
-                  description: Destination wildcard bits
-                  type: str
-                log:
-                  description: Log matches against access-list entry
-                  type: str
-                log-input:
-                  description: Log matches against this entry, including input interface
-                  type: str
-                option:
-                  description: Match packets with given IP Options value
-                  type: dict
-                  suboptions:
-                    add-ext
-                      description: Match packets with Address Extension Option (147)
-                      type: bool
-                    any-options:
-                      description: Match packets with ANY Option
-                      type: bool
-                    com-security:
-                      description: Match packets with Commercial Security Option (134)
-                      type: bool
-                    dps:
-                      description: Match packets with Dynamic Packet State Option (151)
-                      type: bool
-                    encode:
-                      description: Match packets with Encode Option (15)
-                      type: bool
-                    eool:
-                      description: Match packets with End of Options (0)
-                      type: bool
-                    ext-ip:
-                      description: Match packets with Extended IP Option (145)
-                      type: bool
-                    ext-security:
-                      description: Match packets with Extended Security Option (133)
-                      type: bool
-                    finn:
-                      description: Match packets with Experimental Flow Control Option (205)
-                      type: bool
-                    imitd:
-                      description: Match packets with IMI Traffic Desriptor Option (144)
-                      type: bool
-                    lsr:
-                      description: Match packets with Loose Source Route Option (131)
-                      type: bool
-                    mtup:
-                      description: Match packets with MTU Probe Option (11)
-                      type: bool
-                    mtur:
-                      description: Match packets with MTU Reply Option (12)
-                      type: bool
-                    no-op:
-                      description: Match packets with No Operation Option (1)
-                      type: bool
-                    nsapa:
-                      description: Match packets with NSAP Addresses Option (150)
-                      type: bool
-                    record-route:
-                      description: Match packets with Record Route Option (7)
-                      type: bool
-                    router-alert:
-                      description: Match packets with Router Alert Option (148)
-                      type: bool
-                    sdb:
-                      description: Match packets with Selective Directed Broadcast Option (149)
-                      type: bool
-                    security:
-                      description: Match packets with Basic Security Option (130)
-                      type: bool
-                    ssr:
-                      description: Match packets with Strict Source Routing Option (137)
-                      type: bool
-                    stream-id:
-                      description: Match packets with Stream ID Option (136)
-                      type: bool
-                    timestamp:
-                      description: Match packets with Time Stamp Option (68)
-                      type: bool
-                    traceroute:
-                      description: Match packets with Trace Route Option (82)
-                      type: bool
-                    ump:
-                      description: Match packets with Upstream Multicast Packet Option (152)
-                      type: bool
-                    visa:
-                      description: Match packets with Experimental Access Control Option (142)
-                      type: bool
-                    zsu:
-                      description: Match packets with Experimental Measurement Option (10)
-                      type: bool
-                precedence:
-                  description: Match packets with given precedence value
-                  type: int
-                time-range:
-                  description: Specify a time-range
-                  type: str
-                tos:
-                  description: Match packets with given TOS value
-                  type: dict
-                  suboptions:
-                    max-reliability
-                      description: Match packets with max reliable TOS (2)
-                      type: bool
-                    max-throughput:
-                      description: Match packets with max throughput TOS (4)
-                      type: bool
-                    min-delay :
-                      description: Match packets with min delay TOS (8)
-                      type: bool
-                    min-monetary-cost:
-                      description: Match packets with min monetary cost TOS (1)
-                      type: bool
-                    normal:
-                      description: Match packets with normal TOS (0)
-                      type: bool
-                  ttl:
-                    description: Match packets with given TTL value
-                    type: dict
-                    suboptions:
-                      eq:
-                        description: Match only packets on a given TTL number
-                        type: int
-                      gt:
-                        description: Match only packets with a greater TTL number
-                        type: int
-                      lt:
-                        description: Match only packets with a lower TTL number
-                        type: int
-                      neq:
-                        description: Match only packets not on a given TTL number
-                        type: int
-                      range:
-                        description: Match only packets in the range of TTLs
-                        type: dict
-                        suboptions:
-                          start:
-                            description: Specify the start of the port range
-                            type: int
-                          end:
-                            description: Specify the end of the port range
-                            type: int
-            match_categories:
-              description: protocol type
+            destination:
+              description: Specify the packet destination.
+              mutually_exclusive: [[address, any], [wildcard_bits, any]]
+              required_together: [address, wildcard_bits]
               type: dict
               suboptions:
-                ahp:
-                  description: Authentication Header Protocol
+                address:
+                  description: Host address to match, or any single host address.
+                  type: str
+                wildcard_bits:
+                  description: Destination wildcard bits.
+                  type: str
+                any:
+                  description:
+                    - Match any source address.
                   type: bool
-                eigrp:
-                  description: Cisco's EIGRP routing protocol
-                  type: bool
-                esp:
-                  description: Encapsulation Security Payload
-                  type: bool
-                gre:
-                  description: Cisco's GRE tunneling
-                  type: bool
-                icmp:
-                  description: Internet Control Message Protocol
+                operators:
+                  description: Specify the destination operator based on port number.
                   type: dict
                   suboptions:
-                    administratively-prohibited:
-                      description: Administratively prohibited
+                    eq:
+                      description: Match only packets on a given port number.
+                      type: str
+                    gt:
+                      description: Match only packets with a greater port number.
+                      type: str
+                    lt:
+                      description: Match only packets with a lower port number.
+                      type: str
+                    neq:
+                      description: Match only packets not on a given port number.
+                      type: str
+                    range:
+                      description: Port group.
+                      type: dict
+                      suboptions:
+                        start:
+                          description: Specify the start of the port range.
+                          type: int
+                        end:
+                          description: Specify the end of the port range.
+                          type: int
+            match:
+              description: match options
+              type: list
+              elements: dict
+              suboptions:
+                dscp:
+                  description: Destination wildcard bits.
+                  type: str
+                log:
+                  description: Log matches against access-list entry.
+                  type: str
+                log_input:
+                  description: Log matches against this entry, including input interface.
+                  type: str
+                option:
+                  description: Match packets with given IP Options value.
+                  type: dict
+                  suboptions:
+                    add_ext:
+                      description: Match packets with Address Extension Option (147).
                       type: bool
-                    alternate-address
-                      description: Alternate address
+                    any_options:
+                      description: Match packets with ANY Option.
                       type: bool
-                    conversion-error:
-                      description: Alternate address
+                    com_security:
+                      description: Match packets with Commercial Security Option (134).
                       type: bool
-                    dod-host-prohibited:
-                      description: Host prohibited
+                    dps:
+                      description: Match packets with Dynamic Packet State Option (151).
                       type: bool
-                    dod-net-prohibited:
-                      description: Net prohibited
+                    encode:
+                      description: Match packets with Encode Option (15).
                       type: bool
-                    dscp:
-                      description: Match packets with given dscp value
+                    eool:
+                      description: Match packets with End of Options (0).
                       type: bool
-                    echo:
-                      description: Echo (ping)
+                    ext_ip:
+                      description: Match packets with Extended IP Option (145).
                       type: bool
-                    echo-reply:
-                      description: Echo reply
+                    ext_security:
+                      description: Match packets with Extended Security Option (133).
                       type: bool
-                    fragments:
-                      description: Check non-initial fragments
+                    finn:
+                      description: Match packets with Experimental Flow Control Option (205).
                       type: bool
-                    general-parameter-problem:
-                      description: Parameter problem
+                    imitd:
+                      description: Match packets with IMI Traffic Desriptor Option (144).
                       type: bool
-                    fragments:
-                      description: Check non-initial fragments
+                    ip_option_value:
+                      description:
+                      - IP Options value
+                      - Note, refer vendor documentation for respective values
+                      type: int
+                    lsr:
+                      description: Match packets with Loose Source Route Option (131).
                       type: bool
-                    host-isolated:
-                      description: Host isolated
+                    mtup:
+                      description: Match packets with MTU Probe Option (11).
                       type: bool
-                    host-precedence-unreachable:
-                      description: Host unreachable for precedence
+                    mtur:
+                      description: Match packets with MTU Reply Option (12).
                       type: bool
-                    host-redirect:
-                      description: Host redirect
+                    no_op:
+                      description: Match packets with No Operation Option (1).
                       type: bool
-                    host-tos-redirect:
-                      description: Host redirect for TOS
+                    nsapa:
+                      description: Match packets with NSAP Addresses Option (150).
                       type: bool
-                    host-tos-unreachable:
-                      description: Host unreachable for TOS
+                    record_route:
+                      description: Match packets with Record Route Option (7).
                       type: bool
-                    host-unknown:
-                      description: Host unknown
+                    router_alert:
+                      description: Match packets with Router Alert Option (148).
                       type: bool
-                    host-unreachable:
-                      description: Host unreachable
+                    sdb:
+                      description: Match packets with Selective Directed Broadcast Option (149).
                       type: bool
-                    information-reply:
-                      description: Information replies
+                    security:
+                      description: Match packets with Basic Security Option (130).
                       type: bool
-                    information-request:
-                      description: Information requests
+                    ssr:
+                      description: Match packets with Strict Source Routing Option (137).
                       type: bool
-                    mask-reply:
-                      description: Mask replies
+                    stream_id:
+                      description: Match packets with Stream ID Option (136).
                       type: bool
-                    mask-request:
-                      description: Mask requests
-                      type: bool
-                    mobile-redirect:
-                      description: Mobile host redirect
-                      type: bool
-                    net-redirect:
-                      description: Network redirect
-                      type: bool
-                    net-tos-redirect:
-                      description: Net redirect for TOS
-                      type: bool
-                    net-tos-unreachable:
-                      description: Network unreachable for TOS
-                      type: bool
-                    net-unreachable:
-                      description: Net unreachable
-                      type: bool
-                    network-unknown:
-                      description: Network unknown
-                      type: bool
-                    no-room-for-option:
-                      description: Parameter required but no room
-                      type: bool
-                    packet-too-big:
-                      description: Fragmentation needed and DF set
-                      type: bool
-                    parameter-problem:
-                      description: All parameter problems
-                      type: bool
-                    port-unreachable:
-                      description: Port unreachable
-                      type: bool
-                    precedence-unreachable:
-                      description: Precedence cutoff
-                      type: bool
-                    protocol-unreachable:
-                      description: Protocol unreachable
-                      type: bool
-                    reassembly-timeout:
-                      description: Reassembly timeout
-                      type: bool
-                    redirect:
-                      description: All redirects
-                      type: bool
-                    router-advertisement:
-                      description: Router discovery advertisements
-                      type: bool
-                    router-solicitation:
-                      description: Router discovery solicitations
-                      type: bool
-                    source-quench:
-                      description: Source quenches
-                      type: bool
-                    source-route-failed:
-                      description: Source route failed
-                      type: bool
-                    time-exceeded:
-                      description: All time exceededs
-                      type: bool
-                    timestamp-reply:
-                      description: Timestamp replies
-                      type: bool
-                    timestamp-request:
-                      description: Timestamp requests
+                    timestamp:
+                      description: Match packets with Time Stamp Option (68).
                       type: bool
                     traceroute:
-                      description: Traceroute
+                      description: Match packets with Trace Route Option (82).
                       type: bool
-                    ttl-exceeded:
-                      description: TTL exceeded
+                    ump:
+                      description: Match packets with Upstream Multicast Packet Option (152).
                       type: bool
-                    unreachable:
-                      description: All unreachables
+                    visa:
+                      description: Match packets with Experimental Access Control Option (142).
                       type: bool
-                igmp:
-                  description: Internet Gateway Message Protocol
+                    zsu:
+                      description: Match packets with Experimental Measurement Option (10).
+                      type: bool
+                precedence:
+                  description: Match packets with given precedence value.
+                  type: int
+                time_range:
+                  description: Specify a time-range.
+                  type: str
+                tcp_flags:
+                  description: Match TCP packet flags
+                    type: dict
+                    suboptions:
+                      ack:
+                        description: Match on the ACK bit
+                        type: bool
+                      established:
+                        description: Match established connections
+                        type: bool
+                      fin:
+                        description: Match on the FIN bit
+                        type: bool
+                      psh:
+                        description: Match on the PSH bit
+                        type: bool
+                      rst:
+                        description: Match on the RST bit
+                        type: bool
+                      syn:
+                        description: Match on the SYN bit
+                        type: bool
+                      urg:
+                        description: Match on the URG bit
+                        type: bool
+                tos:
+                  description: Match packets with given TOS value.
                   type: dict
                   suboptions:
-                    dvmrp:
-                      description: Distance Vector Multicast Routing Protocol(2)
+                    max_reliability:
+                      description: Match packets with max reliable TOS (2).
                       type: bool
-                    fragments:
-                      description: Check non-initial fragments
+                    max_throughput:
+                      description: Match packets with max throughput TOS (4).
                       type: bool
-                    host-query:
-                      description: IGMP Membership Query(0)
+                    min_delay :
+                      description: Match packets with min delay TOS (8).
                       type: bool
-                    mtrace-resp:
-                      description: Multicast Traceroute Response(7)
+                    min_monetary_cost:
+                      description: Match packets with min monetary cost TOS (1).
                       type: bool
-                    mtrace-route:
-                      description: Multicast Traceroute(8)
+                    normal:
+                      description: Match packets with normal TOS (0).
                       type: bool
-                    pim:
-                      description: Protocol Independent Multicast(3)
-                      type: bool
-                    trace:
-                      description: Multicast trace(4)
-                      type: bool
-                    v1host-report:
-                      description: IGMPv1 Membership Report(1)
-                      type: bool
-                    v2host-report:
-                      description: IGMPv2 Membership Report(5)
-                      type: bool
-                    v2leave-group:
-                      description: IGMPv2 Leave Group(6)
-                      type: bool
-                    v3host-report:
-                      description: IGMPv3 Membership Report(9)
-                      type: bool
-                ip:
-                  description: Any Internet Protocol
-                  type: bool
-                ipinip:
-                  description: IP in IP tunneling
-                  type: bool
-                nos:
-                  description: KA9Q NOS compatible IP over IP tunneling
-                  type: bool
-                ospf:
-                  description: OSPF routing protocol
-                  type: bool
-                pcp:
-                  description: Payload Compression Protocol
-                  type: bool
-                pim:
-                  description: Protocol Independent Multicast
-                  type: bool
-                sctp:
-                  description: Stream Control Transmission Protocol
-                  type: bool
-                tcp:
-                  description: Transmission Control Protocol
+                ttl:
+                  description: Match packets with given TTL value.
                   type: dict
                   suboptions:
-                    bgp:
-                      description: Border Gateway Protocol (179)
-                      type: bool
-                    chargen:
-                      description: Character generator (19)
-                      type: bool
-                    cmd:
-                      description: Remote commands (rcmd, 514)
-                      type: bool
-                    daytime
-                      description: Daytime (13)
-                      type: bool
-                    discard:
-                      description: Discard (9)
-                      type: bool
-                    domain:
-                      description: Domain Name Service (53)
-                      type: bool
-                    drip:
-                      description: Dynamic Routing Information Protocol (3949)
-                      type: bool
-                    echo:
-                      description: Echo (7)
-                      type: bool
-                    exec:
-                      description: Exec (rsh, 512)
-                      type: bool
-                    finge:
-                      description: Finger (79)
-                      type: bool
-                    ftp:
-                      description: File Transfer Protocol (21)
-                      type: bool
-                    ftp-data:
-                      description: FTP data connections (20)
-                      type: bool
-                    gopher:
-                      description: Gopher (70)
-                      type: bool
-                    hostname:
-                      description: NIC hostname server (101)
-                      type: bool
-                    ident:
-                      description: Ident Protocol (113)
-                      type: bool
-                    irc:
-                      description: Internet Relay Chat (194)
-                      type: bool
-                    klogin:
-                      description: Kerberos login (543)
-                      type: bool
-                    kshell:
-                      description: Kerberos shell (544)
-                      type: bool
-                    login:
-                      description: Login (rlogin, 513)
-                      type: bool
-                    lpd:
-                      description: Printer service (515)
-                      type: bool
-                    nntp:
-                      description: Network News Transport Protocol (119)
-                      type: bool
-                    onep-plain
-                      description: ONEP Cleartext (15001)
-                      type: bool
-                    onep-tls:
-                      description: ONEP TLS (15002)
-                      type: bool
-                    pim-auto-rp:
-                      description: PIM Auto-RP (496)
-                      type: bool
-                    pop2:
-                      description: Post Office Protocol v2 (109)
-                      type: bool
-                    pop3:
-                      description: Post Office Protocol v3 (110)
-                      type: bool
-                    smtp:
-                      description: Simple Mail Transport Protocol (25)
-                      type: bool
-                    sunrpc:
-                      description: Sun Remote Procedure Call (111)
-                      type: bool
-                    tacacs:
-                      description: TAC Access Control System (49)
-                      type: bool
-                    talk:
-                      description: Talk (517)
-                      type: bool
-                    telnet:
-                      description: Telnet (23)
-                      type: bool
-                    time:
-                      description: Time (37)
-                      type: bool
-                    uucp:
-                      description: Unix-to-Unix Copy Program (540)
-                      type: bool
-                    whois:
-                      description: Nicname (43)
-                      type: bool
-                    www:
-                      description: World Wide Web (HTTP, 80)
-                      type: bool
-                udp:
-                  description: User Datagram Protocol
-                  type: dict
-                  suboptions:
-                    biff:
-                      description: Biff (mail notification, comsat, 512)
-                      type: bool
-                    bootpc:
-                      description: Bootstrap Protocol (BOOTP) client (68)
-                      type: bool
-                    bootps:
-                      description: Bootstrap Protocol (BOOTP) server (67)
-                      type: bool
-                    discard:
-                      description: Discard (9)
-                      type: bool
-                    dnsix:
-                      description: DNSIX security protocol auditing (195)
-                      type: bool
-                    domain:
-                      description: Domain Name Service (DNS, 53)
-                      type: bool
-                    echo:
-                      description: Echo (7)
-                      type: bool
-                    isakmp:
-                      description: Internet Security Association and Key Management Protocol (500)
-                      type: bool
-                    mobile-ip:
-                      description: Mobile IP registration (434)
-                      type: bool
-                    nameserver:
-                      description: IEN116 name service (obsolete, 42)
-                      type: bool
-                    netbios-dgm:
-                      description: NetBios datagram service (138)
-                      type: bool
-                    netbios-ns:
-                      description: NetBios name service (137)
-                      type: bool
-                    netbios-ss:
-                      description: NetBios session service (139)
-                      type: bool
-                    non500-isakmp
-                      description: Internet Security Association and Key Management Protocol (4500)
-                      type: bool
-                    ntp:
-                      description: Network Time Protocol (123)
-                      type: bool
-                    pim-auto-rp:
-                      description: PIM Auto-RP (496)
-                      type: bool
-                    rip:
-                      description: Routing Information Protocol (router, in.routed, 520)
-                      type: bool
-                    snmp:
-                      description: Simple Network Management Protocol (161)
-                      type: bool
-                    snmptrap:
-                      description: SNMP Traps (162)
-                      type: bool
-                    sunrpc:
-                      description: Sun Remote Procedure Call (111)
-                      type: bool
-                    syslog:
-                      description: System Logger (514)
-                      type: bool
-                    tacacs:
-                      description: TAC Access Control System (49)
-                      type: bool
-                    talk:
-                      description: Talk (517)
-                      type: bool
-                    tftp:
-                      description: Trivial File Transfer Protocol (69)
-                      type: bool
-                    time:
-                      description: Time (37)
-                      type: bool
-                    who:
-                      description: Who service (rwho, 513)
-                      type: bool
-                    xdmcp:
-                      description: X Display Manager Control Protocol (177)
-                      type: bool
-    state:
-      description:
-      - The state the configuration should be left in
-      type: str
-      choices:
-      - merged
-      - replaced
-      - overridden
-      - deleted
-      default: merged
+                    eq:
+                      description: Match only packets on a given TTL number.
+                      type: int
+                    gt:
+                      description: Match only packets with a greater TTL number.
+                      type: int
+                    lt:
+                      description: Match only packets with a lower TTL number.
+                      type: int
+                    neq:
+                      description: Match only packets not on a given TTL number.
+                      type: int
+                    range:
+                      description: Match only packets in the range of TTLs.
+                      type: dict
+                      suboptions:
+                        start:
+                          description: Specify the start of the port range.
+                          type: int
+                        end:
+                          description: Specify the end of the port range.
+                          type: int
+  state:
+    description:
+    - The state the configuration should be left in
+    type: str
+    choices:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    - gathered
+    - rendered
+    - parsed
+    default: merged
 EXAMPLES:
-  - deleted_example_01.txt
-  - merged_example_01.txt
-  - replaced_example_01.txt
-  - overridden_example_01.txt
-
+- deleted_example_01.txt
+- merged_example_01.txt
+- replaced_example_01.txt
+- overridden_example_01.txt
+- gathered_example_01.txt
+- rendered_example_01.txt
+- parsed_example_01.txt

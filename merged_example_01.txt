@@ -1,0 +1,50 @@
+# Using merged
+
+# Before state:
+# -------------
+#
+# viosl2#sh access-lists
+#
+
+- name: Merge provided configuration with device configuration
+  ios_acl:
+    config:
+      - afi: ipv4
+        acl:
+          - number: 125
+        entries:
+          - action: deny
+            source:
+              address: 192.168.2.0
+              wildcard_bits: 0.0.0.255
+              operator:
+                eq: www
+            destination:
+              any: True
+              operator:
+                eq: www
+            match:
+            - tcp:
+                ack: True
+              ttl:
+                eq: 0
+          - action: permit
+            source:
+              any: True
+              operator:
+                eq: www
+            destination:
+              any: True
+              operator:
+                eq: www
+            match:
+            - tcp:
+                ack: True
+    state: merged
+# After state:
+# ------------
+#
+# viosl2#sh access-lists
+# Extended IP access list 125
+#    10 deny tcp 192.168.2.0 0.0.0.255 eq www any eq 0 ack ttl eq 0
+#    20 permit tcp any any ack
