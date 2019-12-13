@@ -10,12 +10,16 @@
 #    30 deny tcp host 10.10.20.1 eq finger www any syn log 
 #    40 permit ip any any
 # !
+# ipv6 access-list test2
+#     10 deny icmpv6 any any reject-route hop-limit eq 20
+
 
 - name: Delete provided configuration 
-  eos_acl:
+  eos_acls:
     config:
-      - name: test1
-        entries:
+      - afi: "ipv4"
+      	- name: test1
+          aces:
 	  - sequence: 30
     state: deleted
 
@@ -28,6 +32,10 @@
 #    20 permit ip 10.30.10.0/24 host 10.20.10.1
 #    40 permit ip any any
 # !
+# ipv6 access-list test2
+#     10 deny icmpv6 any any reject-route hop-limit eq 20
+
+
 
 # Before state:
 # -------------
@@ -37,12 +45,16 @@
 #    20 permit ip 10.30.10.0/24 host 10.20.10.1
 #    30 deny tcp host 10.10.20.1 eq finger www any syn log
 #    40 permit ip any any
+# ipv6 access-list test2
+#     10 deny icmpv6 any any reject-route hop-limit eq 20
+
 # !
 
 - name: Delete provided configuration
   eos_acl:
     config:
-      - name: test1
+     - afi: "ipv4"
+       - name: test1
     state: deleted
 
 # After state:
@@ -50,3 +62,5 @@
 #
 # show running-config | section access-list
 
+# ipv6 access-list test2
+#     10 deny icmpv6 any any reject-route hop-limit eq 20

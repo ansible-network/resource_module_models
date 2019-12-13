@@ -13,16 +13,20 @@
 # ip access-list test3
 #    10 permit ip 35.33.0.0/16 any log
 # !
+# ipv6 access-list test2
+#     10 deny icmpv6 any any reject-route hop-limit eq 20
+
+
 
 - name: override device configuration with  provided configuration
   eos_acl:
     config:
-      - name: test1
-        entries:
+      - afi: "ipv4"
+        - name: test1
+          aces:
 	  - sequence: 35
 	    action: "permit"
-	    protocol:
-	      ospf: True
+	    protocol: "ospf"
 	    source:
 	      subnetaddress: 20.0.0.0/8
             dest:
@@ -36,4 +40,3 @@
 # ip access-list test1
 #    35 permit ospf 20.0.0.0/8 any
 # !
-
