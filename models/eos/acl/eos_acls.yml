@@ -28,6 +28,12 @@ DOCUMENTATION: |
         afi:
           description:
             - The Address Family Indicator (AFI) for the Access Control Lists (ACL).
+          type: str
+          required: true
+          choices: ['ipv4', 'ipv6']
+        acls:
+          description:
+          - A list of Access Control Lists (ACL).
           type: list
           elements: dict
           suboptions:
@@ -41,7 +47,7 @@ DOCUMENTATION: |
               required: true
             aces:
               description: Filtering data
-              type: dict
+              type: list
               element: dict
               suboptions:
                 sequence:
@@ -328,6 +334,13 @@ DOCUMENTATION: |
                         nexthop_group:
                           description: Nexthop-group name.
                           type: str
+                    ipv6:
+                      description : Internet V6 Protocol.
+                      type: dict
+                      suboptions:
+                        nexthop_group:
+                          description: Nexthop-group name.
+                          type: str
                 source:
                   description: The packet's source address
                   type: dict
@@ -400,7 +413,7 @@ DOCUMENTATION: |
                   type: bool
                 tracked:
                   description: Match packets in existing ICMP/UDP/TCP connections
-                  type: str
+                  type: bool
                 hop_limit:
                   description: Hop limit value.
                   type: dict
