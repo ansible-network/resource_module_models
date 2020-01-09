@@ -46,6 +46,26 @@
 
 
 # Using DELETED without any config passed
+=======
+# vios#sh running-config | include access-list|ipv6 access-list|permit|deny
+# access-list 110 deny   tcp 198.51.100.0 0.0.0.255 eq telnet 198.51.110.0 0.0.0.255 eq www ack dscp ef ttl eq 10
+# access-list 150 deny   tcp 198.51.100.0 0.0.0.255 eq telnet 198.51.110.0 0.0.0.255 eq telnet syn dscp ef ttl eq 10
+
+- name: "Delete module attributes of given acl (Note: This won't delete the interface itself)"
+  ios_acl:
+    config:
+      - afi: ipv4
+        acls:
+          - name: 110
+    state: deleted
+
+# After state:
+# -------------
+#
+# vios#sh running-config | include access-list|ipv6 access-list|permit|deny
+# access-list 150 deny   tcp 198.51.100.0 0.0.0.255 eq telnet 198.51.110.0 0.0.0.255 eq telnet syn dscp ef ttl eq 10
+
+# Using Deleted without any config passed
 #"(NOTE: This will delete all of configured resource module attributes from each configured interface)"
 
 # Before state:
@@ -82,3 +102,14 @@
 # interface GigabitEthernet0/0
 # interface GigabitEthernet0/1
 # interface GigabitEthernet0/2
+# vios#sh running-config | include access-list|ipv6 access-list|permit|deny
+# access-list 150 deny   tcp 198.51.100.0 0.0.0.255 eq telnet 198.51.110.0 0.0.0.255 eq telnet syn dscp ef ttl eq 10
+
+- name: "Delete module attributes of all acl (Note: This won't delete the interface itself)"
+  ios_acl:
+    state: deleted
+
+# After state:
+# -------------
+#
+# vios#sh running-config | include access-list|ipv6 access-list|permit|deny
