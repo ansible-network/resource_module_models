@@ -13,7 +13,7 @@ COPYRIGHT: Copyright 2019 Red Hat
 
 DOCUMENTATION: |
   module: nxos_acls
-  version_added: 2.10
+  version_added: '2.10'
   short_description: Manage named ACLs on NX-OS
   description: Manage Manage named ACLs on NX-OS
   author: Bradley Thornton (@cidrblock) & Adharsh Srivats Rangarajan (@adharshsrivatsr)
@@ -28,7 +28,7 @@ DOCUMENTATION: |
         afi:
           description: The Address Family Indicator (AFI) for the ACL
           type: str
-          required: True
+          required: true
           choices: ['ipv4','ipv6']
         acls:
           description: A list of the ACLs
@@ -38,6 +38,7 @@ DOCUMENTATION: |
             name:
               description: Name of the ACL
               type: str
+              required: true
             aces:
               description: The entries within the ACL
               type: list
@@ -48,11 +49,10 @@ DOCUMENTATION: |
                   description: Action to be applied on the rule
                   type: str
                   choice: ['permit', 'deny']   
-
                 destination:
                   description: Specify the packet destination
                   type: dict                
-                  mutually_exclusive: [[address, addrgroup, any,host], [wildcard_bits, addrgroup, any,host]]
+                  mutually_exclusive: [[address, addrgroup, any,host,prefix], [wildcard_bits, addrgroup, any,host,prefix]]
                   required_together: [[address, wildcard_bits]]
                   suboptions:
                     address:
@@ -94,40 +94,18 @@ DOCUMENTATION: |
                               type: str
                             end:
                               description: Specify the end of the port range
-                              type: str
+                              type: str  
+                    prefix:
+                      description: Source network prefix
+                      type: str
                     wildcard_bits:
                       description: Destination wildcard bits
                       type: str
 
                 dscp:
                   description: Match packets with given dscp value
-                  type: dict
-                  mutually_exclusive: [[eq, lt, neq, gt, range]]
-                  suboptions:
-                    eq:
-                      description: Match only packets on a given dscp value
-                      type: str
-                    gt:
-                      description: Match only packets with a greater dscp value
-                      type: str
-                    lt:
-                      description: Match only packets with a lower dscp value
-                      type: str
-                    neq:
-                      description: Match only packets not on a given dscp value
-                      type: str
-                    range:
-                      description: Match only packets in the range of dscp values
-                      type: dict
-                      required_together: [[start, end]]
-                      suboptions:
-                        start:
-                          description: Specify the start of the dscp range
-                          type: str
-                        end:
-                          description: Specify the end of the dscp range
-                          type: str
-              
+                  type: str
+            
                 fragments:
                   description: Check non-initial fragments
                   type: bool
@@ -143,7 +121,7 @@ DOCUMENTATION: |
                 source:
                   description: Specify the packet source
                   type: dict
-                  mutually_exclusive: [[address, addrgroup, any, prefix], [wildcard_bits, addrgroup, any, prefix]]
+                  mutually_exclusive: [[address, addrgroup, any, host,prefix], [wildcard_bits,host, addrgroup, any, prefix]]
                   required_together: [[address, wildcard_bits]]
                   suboptions:
                     address:
@@ -159,7 +137,7 @@ DOCUMENTATION: |
                       description: Host IP address
                       type: str
                     port_protocol:
-                      description: Specify the destination port or protocol
+                      description: Specify the destination port or protocol (only for TCP and UDP)
                       type: dict
                       mutually_exclusive: [[eq, lt, neq, portgroup, range], [eq, gt, neq, portgroup, range]]
                       suboptions:
@@ -188,7 +166,9 @@ DOCUMENTATION: |
                             end:
                               description: Specify the end of the port range
                               type: str
-
+                    prefix:
+                      description: Source network prefix
+                      type: str
                     wildcard_bits:
                       description: Source wildcard bits
                       type: str
@@ -238,7 +218,7 @@ DOCUMENTATION: |
                 
                 protocol_options:
                   description: All possible suboptions for the protocol chosen
-                  mutually_exclusive: [['icmp','igmp','tcp']]
+                  mutually_exclusive: [['icmp','igmp','tcp','udp']]
                   type: dict
                   elements: dict
                   suboptions:
@@ -423,33 +403,7 @@ DOCUMENTATION: |
                           type: list
                         http_method:
                           description: Match packets based on http-method
-                          type: dict
-                          mutually_exclusive: [['value','connect','delete','get','head','post','put','trace']]
-                          suboptions:
-                            value:
-                              description: Http_option value <1-7>
-                              type: int
-                            connect:
-                              description: Match http packets with CONNECT method [0x434f4e4e]
-                              type: bool
-                            delete:
-                              description: Match http packets with DELETE method [0x44454c45]
-                              type: bool
-                            get:
-                              description: Match http packets with GET method [0x47455420]
-                              type: bool
-                            head:
-                              description: Match http packets with HEAD method [0x48454144]
-                              type: bool
-                            post:
-                              description: Match http packets with POST method [0x504f5354]
-                              type: bool
-                            put:
-                              description: Match http packets with PUT method [0x50555420]
-                              type: bool
-                            trace:
-                              description:  Match http packets with TRACE method [0x54524143]
-                              type: bool
+                          type: str
                     igmp:
                       type: dict
                       mutually_exclusive: [['dvmrp','host_query','host_report']]
@@ -463,7 +417,12 @@ DOCUMENTATION: |
                         host_report:
                           description: Host Report
                           type: bool
-
+                    udp:
+                      type: dict
+                      suboptions:
+                        nve_vni: 
+                          description: VNI ID <0-16777215>
+                          type: str
                 ttl:
                   description: Match Packets with a given TTL value
                   type: int
@@ -487,7 +446,7 @@ DOCUMENTATION: |
 
     state:
       description:
-        - The state the configuration should be left in.
+        - The state the configuration should be left in
       type: str
       choices:
         - deleted
@@ -505,5 +464,5 @@ EXAMPLES:
 - overridden_example_01.txt
 - deleted_example_01.txt
 - parsed_example_01.txt
-- gathered_exmaple_01.txt
+- gathered_example_01.txt
 - rendered_example_01.txt
