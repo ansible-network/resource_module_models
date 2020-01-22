@@ -1,0 +1,72 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+    }
+NETWORK_OS: nxos
+RESOURCE: acls_interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: nxos_acls_interfaces
+  version_added: '2.10'
+  short_description: Add and remove Access Control Lists on interfaces in NX-OS platform
+  description: Add and remove Access Control Lists on interfaces in NX-OS platform
+  author: Adharsh Srivats Rangarajan (@adharshsrivatsr)
+  notes:
+    - Tested against NX-OS 7.3.(0)D1(1) on VIRL
+  options:
+    config:
+      description: A list of interfaces to be configured with ACLs
+      type: lists
+      elements: dict
+      suboptions:
+        name: 
+          description: Name of the interface
+          type: str
+        access_groups:
+          description: List of address family indicators with ACLs to be configured on the interface
+          type: list
+          elements: dict
+          suboptions:
+            afi:
+              description: Address Family Indicator of the ACLs to be configured
+              type: str
+              choices: ['ipv4','ipv6']
+            acls:
+              description: List of Access Control Lists for the interface
+              type: list
+              elements: dict
+              suboptions:
+                name: 
+                  description: Name of the ACL to be added/removed
+                  type: str
+                direction:
+                  description: Direction to be applied for the ACL
+                  type: str
+                  choices: ['in','out']
+      state: 
+        description: The state the configuration should be left in
+        type: str
+        choices:
+          - deleted
+          - gathered
+          - merged
+          - overridden
+          - rendered
+          - replaced
+          - parsed
+        default: merged
+
+EXAMPLES:
+- merged_example_01.txt
+- replaced_example_01.txt
+- overridden_example_01.txt
+- deleted_example_01.txt
+- parsed_example_01.txt
+- gathered_example_01.txt
+- rendered_example_01.txt
