@@ -7,7 +7,7 @@ ANSIBLE_METADATA: |
     }
 DOCUMENTATION: |
   module: ios_acl_interfaces
-  version_added: 2.10
+  version_added: '2.10'
   short_description: Configure and manage access-control (ACL) attributes of interfaces on IOS devices.
   description: This module configures and manages the access-control (ACL) attributes of interfaces on IOS platforms.
   author: Sumit Jaiswal (@justjais)
@@ -25,15 +25,35 @@ DOCUMENTATION: |
           description: Full name of the interface excluding any logical unit number, i.e. GigabitEthernet0/1.
           type: str
           required: True
-        access_group:
-          description:
-          - Specify access-group for IP access list (standard or extended).
-          - Refer to vendor documentation for valid values.
-          type: int
-        packets:
-          description: Access control for packets.
-          type: str
-          choice: ['in', 'out']
+        access_groups:
+          description: Specify access-group for IP access list (standard or extended).
+          type: list
+          elements: dict
+          suboptions:
+            afi:
+              description:
+              - Specifies the AFI for the ACLs to be configured on this interface.
+              type: str
+              choices:
+              - ipv4
+              - ipv6
+           acls:
+             type: list
+             description:
+             - Specifies the ACLs for the provided AFI.
+             elements: dict
+             suboptions:
+               name:
+                 description:
+                 - Specifies the name of the IPv4/IPv4 ACL for the interface.
+                 type: str
+               direction:
+                 description:
+                 - Specifies the direction of packets that the ACL will be applied on.
+                 type: str
+                 choices:
+                 - in
+                 - out
     state:
       description:
       - The state the configuration should be left in
@@ -43,6 +63,9 @@ DOCUMENTATION: |
       - replaced
       - overridden
       - deleted
+      - gathered
+      - parsed
+      - rendered
       default: merged
 EXAMPLES:
   - deleted_example_01.txt
