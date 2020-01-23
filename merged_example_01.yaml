@@ -1,0 +1,45 @@
+# Using Merged
+
+# Before state:
+# -------------
+#
+# vios#sh running-config | include interface|ip access-group|ipv6 traffic-filter
+# interface Loopback888
+# interface GigabitEthernet0/0
+# interface GigabitEthernet0/1
+# interface GigabitEthernet0/2
+#  ip access-group 110 out
+
+- name: "Merge module attributes of given access-groups"
+  ios_acl_interfaces:
+    config:
+      - name: GigabitEthernet0/1
+        access_groups:
+          - afi: ipv4
+            acls:
+              name: 110
+              direction: in
+          - afi: ipv6
+            acls:
+              name: test_v6
+              direction: out
+    state: merged
+
+# Commands Fired:
+# ---------------
+#
+# interface GigabitEthernet 0/1
+#  ip access-group 110 in
+#  ipv6 traffic-filter test_v6 out
+
+# After state:
+# -------------
+#
+# vios#sh running-config | include interface|ip access-group|ipv6 traffic-filter
+# interface Loopback888
+# interface GigabitEthernet0/0
+# interface GigabitEthernet0/1
+#  ip access-group 110 in
+#  ipv6 traffic-filter test_v6 out
+# interface GigabitEthernet0/2
+#  ip access-group 110 out
