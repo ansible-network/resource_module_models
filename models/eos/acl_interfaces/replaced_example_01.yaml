@@ -1,0 +1,42 @@
+# Using Replaced
+
+# Before state:
+# -------------
+#
+# eos#sh running-config | include interface|access-group
+# interface Ethernet1
+# interface Ethernet2
+#  ip access-group acl01 in
+#  ipv6 access-group acl03 out
+# interface Ethernet3
+#  ip access-group acl01 in
+
+- name: "Replace module attributes of given access-groups"
+  eos_acl_interfaces:
+    config:
+      - name: Ethernet2
+        access_groups:
+          - afi: ipv4
+            acls:
+              name: acl01
+              direction: out
+    state: replaced
+
+# Commands Fired:
+# ---------------
+#
+# interface Ethernet2
+# no ip access-group acl01 in
+# no ipv6 access-group acl03 out
+# ip access-group acl01 out
+
+# After state:
+# -------------
+#
+# eos#sh running-config | include interface| access-group
+# interface Loopback888
+# interface Ethernet1
+# interface Ethernet2
+#  ip access-group acl01 out
+# interface Ethernet3
+#  ip access-group acl01 in
