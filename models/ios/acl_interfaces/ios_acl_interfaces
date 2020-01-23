@@ -47,6 +47,7 @@ DOCUMENTATION: |
                  description:
                  - Specifies the name of the IPv4/IPv4 ACL for the interface.
                  type: str
+                 required: True
                direction:
                  description:
                  - Specifies the direction of packets that the ACL will be applied on.
