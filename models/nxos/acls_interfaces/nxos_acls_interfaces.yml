@@ -28,6 +28,7 @@ DOCUMENTATION: |
         name: 
           description: Name of the interface
           type: str
+          required: true
         access_groups:
           description: List of address family indicators with ACLs to be configured on the interface
           type: list
@@ -36,6 +37,7 @@ DOCUMENTATION: |
             afi:
               description: Address Family Indicator of the ACLs to be configured
               type: str
+              required: true
               choices: ['ipv4','ipv6']
             acls:
               description: List of Access Control Lists for the interface
@@ -45,9 +47,11 @@ DOCUMENTATION: |
                 name: 
                   description: Name of the ACL to be added/removed
                   type: str
+                  required: true
                 direction:
                   description: Direction to be applied for the ACL
                   type: str
+                  required: true
                   choices: ['in','out']
       state: 
         description: The state the configuration should be left in
