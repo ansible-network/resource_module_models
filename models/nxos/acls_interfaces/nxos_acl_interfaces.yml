@@ -8,11 +8,11 @@ ANSIBLE_METADATA: |
       'supported_by': 'network'
     }
 NETWORK_OS: nxos
-RESOURCE: acls_interfaces
+RESOURCE: acl_interfaces
 COPYRIGHT: Copyright 2019 Red Hat
 
 DOCUMENTATION: |
-  module: nxos_acls_interfaces
+  module: nxos_acl_interfaces
   version_added: '2.10'
   short_description: Add and remove Access Control Lists on interfaces in NX-OS platform
   description: Add and remove Access Control Lists on interfaces in NX-OS platform
