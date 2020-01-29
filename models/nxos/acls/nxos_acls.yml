@@ -14,8 +14,8 @@ COPYRIGHT: Copyright 2019 Red Hat
 DOCUMENTATION: |
   module: nxos_acls
   version_added: '2.10'
-  short_description: Manage named ACLs on NX-OS
-  description: Manage Manage named ACLs on NX-OS
+  short_description: Manage named IP ACLs on NX-OS
+  description: Manage named IP ACLs on NX-OS
   author: Bradley Thornton (@cidrblock) & Adharsh Srivats Rangarajan (@adharshsrivatsr)
   notes:
     - Tested against NX-OS 7.3.(0)D1(1) on VIRL
@@ -48,7 +48,8 @@ DOCUMENTATION: |
                 grant:
                   description: Action to be applied on the rule
                   type: str
-                  choice: ['permit', 'deny']   
+                  choice: ['permit', 'deny']
+
                 destination:
                   description: Specify the packet destination
                   type: dict                
@@ -58,9 +59,6 @@ DOCUMENTATION: |
                     address:
                       description: Destination network address
                       type: str
-                    addrgroup:
-                      description: Destination address group
-                      type: str
                     any:
                       description: Any destination address
                       type: bool
@@ -68,7 +66,7 @@ DOCUMENTATION: |
                       description: Host IP address
                       type: str                      
                     port_protocol:
-                      description: Specify the destination port or protocol
+                      description: Specify the destination port or protocol (only for TCP and UDP)
                       type: dict
                       mutually_exclusive: [[eq, lt, neq, gt, range]]
                       suboptions:
@@ -121,14 +119,11 @@ DOCUMENTATION: |
                 source:
                   description: Specify the packet source
                   type: dict
-                  mutually_exclusive: [[address, addrgroup, any, host,prefix], [wildcard_bits,host, addrgroup, any, prefix]]
+                  mutually_exclusive: [[address, any, host,prefix], [wildcard_bits,host, any, prefix]]
                   required_together: [[address, wildcard_bits]]
                   suboptions:
                     address:
                       description: Source network address
-                      type: str
-                    addrgroup:
-                      description: Source address group
                       type: str
                     any:
                       description: Any source address
@@ -153,9 +148,6 @@ DOCUMENTATION: |
                         neq:
                           description: Match only packets not on a given port number
                           type: str
-                        portgroup:
-                          description: Port group
-                          type: str
                         range:
                           description: Match only packets in the range of port numbers
                           type: dict
@@ -173,41 +165,10 @@ DOCUMENTATION: |
                       description: Source wildcard bits
                       type: str
                 
-                vlan:
-                  description: Configure match based on vlan
-                  type: int                    
-               
                 log:
                   description: Log matches against this entry
                   type: bool
-                
-                packet_length:
-                  type: dict
-                  mutually_exclusive: [[eq, lt, neq, range], [eq, gt, neq, range]]
-                  suboptions:
-                    eq:
-                      description: Match only packets on a given packet length
-                      type: int
-                    gt:
-                      description: Match only packets with a greater packet length
-                      type: int
-                    lt:
-                      description: Match only packets with a lower packet length
-                      type: int
-                    neq:
-                      description: Match only packets not on a given packet length
-                      type: int
-                    range:
-                      description: Match only packets in the range of packet lengths
-                      type: dict
-                      suboptions:
-                        start:
-                          description: Start of the packet length range
-                          type: int
-                        end:
-                          description: End of the packet length range
-                          type: int
-                
+
                 precedence:
                   description: Match packets with given precedence value
                   type: str
@@ -218,7 +179,7 @@ DOCUMENTATION: |
                 
                 protocol_options:
                   description: All possible suboptions for the protocol chosen
-                  mutually_exclusive: [['icmp','igmp','tcp','udp']]
+                  mutually_exclusive: [['icmp','igmp','tcp']]
                   type: dict
                   elements: dict
                   suboptions:
@@ -395,15 +356,6 @@ DOCUMENTATION: |
                             urg:
                               description: Match on the URG bit
                               type: bool
-                        tcp_flags_mask:
-                          description: TCP flags mask <0-63>
-                          type: list
-                        tcp_option_length:
-                          description: TCP option length (multiples of 4 bytes) <0-40>
-                          type: list
-                        http_method:
-                          description: Match packets based on http-method
-                          type: str
                     igmp:
                       type: dict
                       mutually_exclusive: [['dvmrp','host_query','host_report']]
@@ -417,32 +369,6 @@ DOCUMENTATION: |
                         host_report:
                           description: Host Report
                           type: bool
-                    udp:
-                      type: dict
-                      suboptions:
-                        nve_vni: 
-                          description: VNI ID <0-16777215>
-                          type: str
-                ttl:
-                  description: Match Packets with a given TTL value
-                  type: int
-                time_range:
-                  description: Time range name (Max Size 64)
-                  type: str
-                udf:
-                  description: User defined field match
-                  type: list
-                  elements: dict
-                  suboptions:
-                    mask:
-                      description: Mask to apply to UDF value
-                      type: str
-                    name:
-                      description: UDF name
-                      type: str
-                    value:
-                      description: UDF value to match
-                      type: str
 
     state:
       description:
