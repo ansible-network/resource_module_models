@@ -68,9 +68,13 @@ DOCUMENTATION: |
                   description:
                     - Specifies the packet source.
                   type: dict
-                  mutually_exclusive: [[address, host, any], [wildcard_bits, host, any]]
+                  mutually_exclusive: [[address, prefix, host, any], [wildcard_bits, prefix, host, any]]
                   required_together: [[address, wildcard_bits]]
                   suboptions:
+                    prefix:
+                      description:
+                        - Source network prefix.
+                      type: str
                     host:
                       description:
                         - The host IP address to match.
@@ -127,9 +131,13 @@ DOCUMENTATION: |
                   description:
                     - Specifies the packet destination.
                   type: dict
-                  mutually_exclusive: [[address, host, any], [wildcard_bits, host, any]]
+                  mutually_exclusive: [[address, prefix, host, any], [wildcard_bits, prefix, host, any]]
                   required_together: [[address, wildcard_bits]]
                   suboptions:
+                    prefix:
+                      destination:
+                        - Destination network prefix.
+                      type: str
                     host:
                       description:
                         - The host IP address to match.
