@@ -33,7 +33,7 @@ DOCUMENTATION: |
           choices: ['ipv4', 'ipv6']
         acls:
           description:
-            - A list of Access Control Lists (ACL).
+            - A list of Access Control Lists (ACLs).
           type: list
           elements: dict
           suboptions:
@@ -68,9 +68,13 @@ DOCUMENTATION: |
                   description:
                     - Specifies the packet source.
                   type: dict
-                  mutually_exclusive: [[address, any], [wildcard_bits, any]]
+                  mutually_exclusive: [[address, host, any], [wildcard_bits, host, any]]
                   required_together: [[address, wildcard_bits]]
                   suboptions:
+                    host:
+                      description:
+                        - The host IP address to match.
+                      type: str
                     address:
                       description:
                         - The source IP address to match.
@@ -123,9 +127,13 @@ DOCUMENTATION: |
                   description:
                     - Specifies the packet destination.
                   type: dict
-                  mutually_exclusive: [[address, any], [wildcard_bits, any]]
+                  mutually_exclusive: [[address, host, any], [wildcard_bits, host, any]]
                   required_together: [[address, wildcard_bits]]
                   suboptions:
+                    host:
+                      description:
+                        - The host IP address to match.
+                      type: str
                     address:
                       description:
                         - The destination IP address to match.
@@ -183,8 +191,129 @@ DOCUMENTATION: |
                   description:
                     - Additional suboptions for the protocol.
                   type: dict
-                  mutually_exclusive: [['icmp', 'tcp', 'igmp']]
+                  mutually_exclusive: [['icmp', 'tcp', 'igmp', 'icmpv6']]
                   suboptions:
+                    icmpv6:
+                      description: Internet Control Message Protocol settings for IPv6.
+                      type: dict
+                      suboptions:
+                        address_unreachable:
+                          description: Address Unreachable
+                          type: bool
+                        administratively_prohibited:
+                          description: Administratively Prohibited
+                          type: bool
+                        beyond_scope_of_source_address:
+                          description: Administratively Prohibited
+                          type: bool
+                        destination_unreachable:
+                          description: Destination Unreachable
+                          type: bool
+                        echo:
+                          description: Echo
+                          type: bool
+                        echo_reply:
+                          description: Echo Reply
+                          type: bool
+                        erroneous_header_field:
+                          description: Erroneous Header Field
+                          type: bool
+                        group_membership_query:
+                          description: Group Membership Query
+                          type: bool
+                        group_membership_report:
+                          description: Group Membership Report
+                          type: bool
+                        group_membership_termination:
+                          description: Group Membership Termination
+                          type: bool
+                        host_unreachable:
+                          description: Host Unreachable
+                          type: bool
+                        nd_na:
+                          description: Neighbor Discovery - Neighbor Advertisement
+                          type: bool
+                        nd_ns:
+                          description: Neighbor Discovery - Neighbor Solicitation
+                          type: bool
+                        neighbor_redirect:
+                          description: Neighbor Redirect
+                          type: bool
+                        no_route_to_destination:
+                          description: No Route To Destination
+                          type: bool
+                        node_information_request_is_refused:
+                          description: Node Information Request Is Refused
+                          type: bool
+                        node_information_successful_reply:
+                          description: Node Information Successful Reply
+                          type: bool
+                        packet_too_big:
+                          description: Packet Too Big
+                          type: bool
+                        parameter_problem:
+                          description: Parameter Problem
+                          type: bool
+                        port_unreachable:
+                          description: Port Unreachable
+                          type: bool
+                        query_subject_is_IPv4address:
+                          description: Query Subject Is IPv4 address
+                          type: bool
+                        query_subject_is_IPv6address:
+                          description: Query Subject Is IPv6 address
+                          type: bool
+                        query_subject_is_domainname:
+                          description: Query Subject Is Domain name
+                          type: bool
+                        reassembly_timeout:
+                          description: Reassembly Timeout
+                          type: bool
+                        redirect:
+                          description: Redirect
+                          type: bool
+                        router_advertisement:
+                          description: Router Advertisement
+                          type: bool
+                        router_renumbering:
+                          description: Router Renumbering
+                          type: bool
+                        router_solicitation:
+                          description: Router Solicitation
+                          type: bool
+                        rr_command:
+                          description: RR Command
+                          type: bool
+                        rr_result:
+                          description: RR Result
+                          type: bool
+                        rr_seqnum_reset:
+                          description: RR Seqnum Reset
+                          type: bool
+                        time_exceeded:
+                          description: Time Exceeded
+                          type: bool
+                        ttl_exceeded:
+                          description: TTL Exceeded
+                          type: bool
+                        unknown_query_type:
+                          description: Unknown Query Type
+                          type: bool
+                        unreachable:
+                          description: Unreachable
+                          type: bool
+                        unrecognized_next_header:
+                          descrription: Unrecognized Next Header
+                          type: bool
+                        unrecognized_option:
+                          description: Unrecognized Option
+                          type: bool
+                        whoareyou_reply:
+                          description: Whoareyou Reply
+                          type: bool
+                        whoareyou_request:
+                          description: Whoareyou Request
+                          type: bool
                     icmp:
                       description: Internet Control Message Protocol settings.
                       type: dict
@@ -378,9 +507,31 @@ DOCUMENTATION: |
                           description: Match mtrace response
                           type: bool                
                 dscp:
-                  description: 
-                    - Match packets with given dscp value.
-                  type: str
+                  type: dict
+                  mutually_exclusive: [[eq, lt, neq, range], [eq, gt, neq, range]]
+                  suboptions:
+                    eq:
+                      description: Match only packets on a given dscp value
+                      type: int
+                    gt:
+                      description: Match only packets with a greater dscp value
+                      type: int
+                    lt:
+                      description: Match only packets with a lower dscp value
+                      type: int
+                    neq:
+                      description: Match only packets not on a given dscp value
+                      type: int
+                    range:
+                      description: Match only packets in the range of dscp values
+                      type: dict
+                      suboptions:
+                        start:
+                          description: Start of the dscp range
+                          type: int
+                        end:
+                          description: End of the dscp range
+                          type: int
                 fragments:
                   description:
                     - Check non-intial fragments.
@@ -451,7 +602,27 @@ DOCUMENTATION: |
                 icmp_off:
                   description:
                     - Enable/disable the ICMP message for this entry.
-                  type: bool                            
+                  type: bool
+                capture:
+                  description:
+                    - Capture matched packet.
+                  type: bool
+                destopts:
+                  description:
+                    - Match if destination opts header is present.
+                  type: bool
+                authen:
+                  description:
+                    - Match if authentication header is present.
+                  type: bool
+                routing:
+                  description:
+                    - Match if routing header is present.
+                  type: bool
+                hop_by_hop:
+                  description:
+                    -  Match if hop-by-hop opts header is present.
+                  type: bool          
     state:
       description:
         - The state the configuration should be left in.
