@@ -14,15 +14,21 @@ COPYRIGHT: Copyright 2019 Red Hat
 DOCUMENTATION: |
   module: nxos_acls
   version_added: '2.10'
-  short_description: Manage named IP ACLs on NX-OS
-  description: Manage named IP ACLs on NX-OS
+  short_description: Manage named IP Access Control Lists on NX-OS platform
+  description: Manage named IP Access Control Lists on NX-OS platform
   author: Bradley Thornton (@cidrblock) & Adharsh Srivats Rangarajan (@adharshsrivatsr)
   notes:
     - Tested against NX-OS 7.3.(0)D1(1) on VIRL
+    - <documentation for sequence number>
+    - To parse configuration text, provide the output of show running-config | section access-list or a mocked up config
   options:
+    running_config:
+      description:
+        - Used to parse given commands into structured format, only in parsed state
+      type: str
     config:
       description: A list of ACLs
-      type: lists
+      type: list
       elements: dict
       suboptions:
         afi:
@@ -53,7 +59,7 @@ DOCUMENTATION: |
                 destination:
                   description: Specify the packet destination
                   type: dict                
-                  mutually_exclusive: [[address, addrgroup, any,host,prefix], [wildcard_bits, addrgroup, any,host,prefix]]
+                  mutually_exclusive: [[address,any,host,prefix], [wildcard_bits,any,host,prefix]]
                   required_together: [[address, wildcard_bits]]
                   suboptions:
                     address:
@@ -134,7 +140,7 @@ DOCUMENTATION: |
                     port_protocol:
                       description: Specify the destination port or protocol (only for TCP and UDP)
                       type: dict
-                      mutually_exclusive: [[eq, lt, neq, portgroup, range], [eq, gt, neq, portgroup, range]]
+                      mutually_exclusive: [[eq, lt, neq, range], [eq, gt, neq, range]]
                       suboptions:
                         eq:
                           description: Match only packets on a given port number
@@ -181,7 +187,6 @@ DOCUMENTATION: |
                   description: All possible suboptions for the protocol chosen
                   mutually_exclusive: [['icmp','igmp','tcp']]
                   type: dict
-                  elements: dict
                   suboptions:
                     icmp:
                       type: dict
@@ -331,31 +336,27 @@ DOCUMENTATION: |
                       description: Match TCP packet flags
                       type: dict
                       suboptions:
-                        flags:
-                          description: Match TCP packet flags
-                          type: dict
-                          suboptions:
-                            ack:
-                              description: Match on the ACK bit
-                              type: bool
-                            established:
-                              description: Match established connections
-                              type: bool
-                            fin:
-                              description: Match on the FIN bit
-                              type: bool
-                            psh:
-                              description: Match on the PSH bit
-                              type: bool
-                            rst:
-                              description: Match on the RST bit
-                              type: bool
-                            syn:
-                              description: Match on the SYN bit
-                              type: bool
-                            urg:
-                              description: Match on the URG bit
-                              type: bool
+                        ack:
+                          description: Match on the ACK bit
+                          type: bool
+                        established:
+                          description: Match established connections
+                          type: bool
+                        fin:
+                          description: Match on the FIN bit
+                          type: bool
+                        psh:
+                          description: Match on the PSH bit
+                          type: bool
+                        rst:
+                          description: Match on the RST bit
+                          type: bool
+                        syn:
+                          description: Match on the SYN bit
+                          type: bool
+                        urg:
+                          description: Match on the URG bit
+                          type: bool
                     igmp:
                       type: dict
                       mutually_exclusive: [['dvmrp','host_query','host_report']]
