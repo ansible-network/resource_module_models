@@ -101,7 +101,7 @@ DOCUMENTATION: |
                               type: str  
                     prefix:
                       description: Source network prefix
-                      type: str
+                      type: str 
                     wildcard_bits:
                       description: Destination wildcard bits
                       type: str
