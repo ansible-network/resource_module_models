@@ -19,7 +19,7 @@ DOCUMENTATION: |
   author: Bradley Thornton (@cidrblock) & Adharsh Srivats Rangarajan (@adharshsrivatsr)
   notes:
     - Tested against NX-OS 7.3.(0)D1(1) on VIRL
-    - <documentation for sequence number>
+    - As NX-OS allows configuring a rule again with different sequence numbers, the user is expected to provide sequence numbers for the access control entries to preserve idempotency. If no sequence number is given, the rule will be added as a new rule by the device.
     - To parse configuration text, provide the output of show running-config | section access-list or a mocked up config
   options:
     running_config:
@@ -69,8 +69,8 @@ DOCUMENTATION: |
                       description: Any destination address
                       type: bool
                     host:
-                      description: Host IP address
-                      type: str                      
+                      description: Host IP address. 
+                      type: str                    
                     port_protocol:
                       description: Specify the destination port or protocol (only for TCP and UDP)
                       type: dict
@@ -78,16 +78,16 @@ DOCUMENTATION: |
                       suboptions:
                         eq:
                           description: Match only packets on a given port number
-                          type: str
+                          type: int
                         gt:
                           description: Match only packets with a greater port number
-                          type: str
+                          type: int
                         lt:
                           description: Match only packets with a lower port number
-                          type: str
+                          type: int
                         neq:
                           description: Match only packets not on a given port number
-                          type: str
+                          type: int
                         range:
                           description: Match only packets in the range of port numbers
                           type: dict
@@ -95,13 +95,13 @@ DOCUMENTATION: |
                           suboptions:
                             start:
                               description: Specify the start of the port range
-                              type: str
+                              type: int
                             end:
                               description: Specify the end of the port range
-                              type: str  
+                              type: int  
                     prefix:
-                      description: Source network prefix
-                      type: str 
+                      description: Destination network prefix. Only for prefixes of value less than 31 for ipv4 and 127 for ipv6. Prefixes of 32 (ipv4) and 128 (ipv6) should be given in the 'host' key. 
+                      type: str
                     wildcard_bits:
                       description: Destination wildcard bits
                       type: str
@@ -144,28 +144,28 @@ DOCUMENTATION: |
                       suboptions:
                         eq:
                           description: Match only packets on a given port number
-                          type: str
+                          type: int
                         gt:
                           description: Match only packets with a greater port number
-                          type: str
+                          type: int
                         lt:
                           description: Match only packets with a lower port number
-                          type: str
+                          type: int
                         neq:
                           description: Match only packets not on a given port number
-                          type: str
+                          type: int
                         range:
                           description: Match only packets in the range of port numbers
                           type: dict
                           suboptions:
                             start:
                               description: Specify the start of the port range
-                              type: str
+                              type: int
                             end:
                               description: Specify the end of the port range
-                              type: str
+                              type: int
                     prefix:
-                      description: Source network prefix
+                      description: Source network prefix. Only for prefixes of mask value less than 31 for ipv4 and 127 for ipv6. Prefixes of mask 32 (ipv4) and 128 (ipv6) should be given in the 'host' key.
                       type: str
                     wildcard_bits:
                       description: Source wildcard bits
