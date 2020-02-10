@@ -1,0 +1,127 @@
+# Using deleted
+#
+# Before state
+# -------------
+#
+# vyos@vyos:~$ show configuration commands| grep firewall
+# set firewall ipv6-name 'V6-LOCAL'
+# set firewall name 'INBOUND'
+# set firewall name 'LOCAL'
+# set firewall name 'OUTBOUND'
+# set interfaces ethernet eth1 firewall in name 'INBOUND'
+# set interfaces ethernet eth1 firewall local ipv6-name 'V6-LOCAL'
+# set interfaces ethernet eth1 firewall local name 'LOCAL'
+# set interfaces ethernet eth1 firewall out name 'OUTBOUND'
+# set interfaces ethernet eth3 firewall in name 'INBOUND'
+# set interfaces ethernet eth3 firewall local ipv6-name 'V6-LOCAL'
+# set interfaces ethernet eth3 firewall local name 'LOCAL'
+# set interfaces ethernet eth3 firewall out name 'OUTBOUND'
+#
+- name: Delete firewall interfaces.
+      vyos_firewall_interfaces:
+        config:
+          - name: 'eth1'
+          - name: 'eth3'
+        state: deleted
+#
+#
+# ------------------------
+# Module Execution Results
+# ------------------------
+#
+# "before": [
+#        {
+#            "name": "eth0"
+#        },
+#        {
+#            "access_rules": [
+#                {
+#                    "afi": "ipv4",
+#                    "rules": [
+#                        {
+#                            "direction": "in", 
+#                            "name": "INBOUND"
+#                        }, 
+#                        {
+#                            "direction": "local", 
+#                            "name": "LOCAL"
+#                        }, 
+#                        {
+#                            "direction": "out", 
+#                            "name": "OUTBOUND"
+#                        }
+#                    ]
+#                }, 
+#                {
+#                    "afi": "ipv6", 
+#                    "rules": [
+#                        {
+#                            "direction": "local", 
+#                            "name": "V6-LOCAL"
+#                        }
+#                    ]
+#                }
+#            ], 
+#            "name": "eth1"
+#        }, 
+#        {
+#            "name": "eth2"
+#        }, 
+#        {
+#            "access_rules": [
+#                {
+#                    "afi": "ipv4", 
+#                    "rules": [
+#                        {
+#                            "direction": "in", 
+#                            "name": "INBOUND"
+#                        }, 
+#                        {
+#                            "direction": "local", 
+#                            "name": "LOCAL"
+#                        }, 
+#                        {
+#                            "direction": "out", 
+#                            "name": "OUTBOUND"
+#                        }
+#                    ]
+#                }, 
+#                {
+#                    "afi": "ipv6", 
+#                    "rules": [
+#                        {
+#                            "direction": "local", 
+#                            "name": "V6-LOCAL"
+#                        }
+#                    ]
+#                }
+#            ],
+#            "name": "eth3"
+#        }
+#    ]
+#    "commands": [
+#        "delete interfaces ethernet eth1 firewall", 
+#        "delete interfaces ethernet eth3 firewall"
+#    ]
+#
+# "after": [
+        {
+            "name": "eth0"
+        }, 
+        {
+            "name": "eth1"
+        }, 
+        {
+            "name": "eth2"
+        }, 
+        {
+            "name": "eth3"
+        }
+    ]
+# After state
+# ------------
+# vyos@vyos# run show configuration commands | grep firewall
+# set firewall ipv6-name 'V6-LOCAL'
+# set firewall name 'INBOUND'
+# set firewall name 'LOCAL'
+# set firewall name 'OUTBOUND'
