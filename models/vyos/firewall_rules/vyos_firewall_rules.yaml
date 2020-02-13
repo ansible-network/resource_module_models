@@ -76,7 +76,7 @@ DOCUMENTATION: |
                   description:
                     - Specifying the action.
                   type: str
-                  choice: ['drop', 'reject', 'accept', 'inspect']
+                  choices: ['drop', 'reject', 'accept', 'inspect']
                 destination:
                   description:
                     - Specifying the destination parameters.
@@ -130,10 +130,17 @@ DOCUMENTATION: |
                       description:
                         - ICMP type-name.
                       type: str
-                      choices: ['any', 'echo-reply', 'destination-unreachable', 'network-unreachable', 'host-unreachable', 'protocol-unreachable', 
-                                  'port-unreachable','fragmentation-needed','source-route-failed', 'network-unknown', 'host-unknown', 'network-prohibited',
-                                  'host-prohibited', 'TOS-network-unreachable', 'TOS-host-unreachable', 'communication-prohibited', 'host-precedence-violation',
-                                  'precedence-cutoff', 'source-quench', 'redirect', 'network-redirect', 'host-redirect', 'TOS-network-redirect', 'TOS-host-redirect']
+                      choices: ['any', 'echo-reply', 'destination-unreachable', 'network-unreachable',
+                              'host-unreachable', 'protocol-unreachable', 'port-unreachable', 'fragmentation-needed',
+                              'source-route-failed', 'network-unknown', 'host-unknown', 'network-prohibited',
+                              'host-prohibited', 'TOS-network-unreachable', 'TOS-host-unreachable',
+                              'communication-prohibited', 'host-precedence-violation',
+                              'precedence-cutoff', 'source-quench', 'redirect', 'network-redirect', 'host-redirect',
+                              'TOS-network-redirect', 'TOS-host-redirect', 'echo-request', 'router-advertisement',
+                              'router-solicitation', 'time-exceeded', 'ttl-zero-during-transit',
+                              'ttl-zero-during-reassembly', 'parameter-problem', 'ip-header-bad',
+                              'required-option-missing', 'timestamp-request', 'timestamp-reply', 'address-mask-request',
+                              'address-mask-reply', 'ping', 'pong', 'ttl-exceeded']
                     code:
                       description:
                         - ICMP code.
@@ -175,7 +182,13 @@ DOCUMENTATION: |
                   description:
                     - P2P application packets.
                   type: list
-                  choices: ['all', 'applejuice', 'bittorrent', 'directconnect', 'edonkey', 'gnutella', 'kazaa']
+                  elements: dict
+                  suboptions:
+                    application:
+                      description:
+                        - Name of the application.
+                      type: str
+                      choices: ['all', 'applejuice', 'bittorrent', 'directconnect', 'edonkey', 'gnutella', 'kazaa']
                 protocol:
                   description:
                     - Protocol to match (protocol name in /etc/protocols or protocol number or all).
@@ -273,6 +286,10 @@ DOCUMENTATION: |
                     - Time to match rule.
                   type: dict
                   suboptions:
+                    utc:
+                      description:
+                        - Interpret times for startdate, stopdate, starttime and stoptime to be UTC.
+                      type: bool
                     monthdays:
                       description:
                         - Monthdays to match rule on.
