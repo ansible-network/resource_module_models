@@ -15,62 +15,45 @@ COPYRIGHT: Copyright 2019 Red Hat
 DOCUMENTATION: |
   module: vyos_firewall_global
   version_added: 2.10
-  short_description: Manage global policies or configurations for firewall on VyOS devices..
-  description: This moduleglobal policies or configurations for firewall on VyOS devices.
+  short_description: Manage global policies or configurations for firewall on VyOS devices.
+  description: This module manage global policies or configurations for firewall on VyOS devices.
   author:
      - Rohit Thakur (@rohitthakur2590)
   options:
     config:
-      description: A dictionary of Firewall global configuration options.
+      description:
+        - A dictionary of Firewall global configuration options.
       type: dict
       suboptions:
-        afi:
+        route_redirects:
           description:
-            - Specifies IP address type.
+            -A dictionary of Firewall icmp redirect and source route global configuration options.
           type: list
           elements: dict
           suboptions:
-            type:
-              description:  
+            afi:
+              description:
                 - Specifies IP address type
               type: str
               choices: ['ipv4', 'ipv6']
               required: True
-            source_route:
-              description:
-                - Specifies whether to process packets with the Loose Source Route or Strict Source Route IP options.
-                - (enable) Processes packets with source routing IP options set.
-                - (disable) Does not process packets with source routing IP options set.
-              type: dict
-              suboptions:
-                validation:      
-                  description:
-                    - Specifies a policy for source validation by reversed path, as defined in RFC 3704.
-                    - (disable) No source validation is performed.
-                    - (loose) Enable Loose Reverse Path Forwarding as defined in RFC3704.
-                    - (strict) Enable Strict Reverse Path Forwarding as defined in RFC3704. 
-                  type: str
-                  choices: ['strict', 'loose', 'disable']
-                ip_src_rout:
-                  description:
-                    - Specifies whether or not to process source route IP options.
-                    - The default is disable.
-                  type: bool
             icmp_redirects:
               description:
                 - Specifies whether to allow sending/receiving of IPv4/v6 ICMP redirect messages.
-                - (enable) Permits IPv4/v6 ICMP redirects to be sent.
-                - (disable) Denies IPv4/v6 ICMP redirects from being sent.
               type: dict
               suboptions:
-                sending:
+                send:
                   description:
                     - Permits or denies transmitting packets ICMP redirect messages.
                   type: bool
-                receiving:
+                receive:
                   description:
                     - Permits or denies receiving packets ICMP redirect messages.
                   type: bool
+            ip_src_route:
+              description:
+                - Specifies whether or not to process source route IP options.
+              type: bool
         ping:
           description:
             - Policy for handling of all IPv4 ICMP echo requests.
@@ -90,6 +73,14 @@ DOCUMENTATION: |
           description:
             - SNMP trap generation on firewall configuration changes.
           type: bool
+        validation:
+          description:
+            - Specifies a policy for source validation by reversed path, as defined in RFC 3704.
+            - (disable) No source validation is performed.
+            - (loose) Enable Loose Reverse Path Forwarding as defined in RFC3704.
+            - (strict) Enable Strict Reverse Path Forwarding as defined in RFC3704.
+          type: str
+          choices: ['strict', 'loose', 'disable']
         group:
           description:
             - Defines a group of objects for referencing in firewall rules.
@@ -110,12 +101,17 @@ DOCUMENTATION: |
                    description:
                      - Allows you to specify a brief description for the address group.
                    type: str
-                 address:
+                 members:
                    description:
                      - Address-group members.
                      - IPv4 address to match.
                      - IPv4 range to match.
                    type: list
+                   elements: dict
+                   suboptions:
+                     address:
+                       description: IP address.
+                       type: str
              network_group:
                description:
                  - Defines a group of networks for referencing in firewall rules.
@@ -126,18 +122,24 @@ DOCUMENTATION: |
                    description:
                      - Name of the firewall network group.
                    type: str
+                   required: True
                  description:
                    description:
                      - Allows you to specify a brief description for the network group.
                    type: str
-                 network:
+                 members:
                    description:
                      - Adds an IPv4 network to the specified network group.
                      - The format is ip-address/prefix.
                    type: list
+                   elements: dict
+                   suboptions:
+                     address:
+                       description: IP address.
+                       type: str
              port_group:
                description:
-                 - Defines a a group of ports for referencing in firewall rules.
+                 - Defines a group of ports for referencing in firewall rules.
                type: list
                elements: dict
                suboptions:
@@ -150,17 +152,22 @@ DOCUMENTATION: |
                    description:
                      - Allows you to specify a brief description for the port group.
                    type: str
-                 port_member:
+                 members:
                    description:
                      - Port-group member.
                    type: list
+                   elements: dict
+                   suboptions:
+                     port:
+                       description: IP address.
+                       type: str
+
         log_martians:
           description:
             - Specifies whether or not to record packets with invalid addresses in the log.
             - (enable) Logs packets with invalid addresses.
             - (disable) Does not log packets with invalid addresses.
           type: bool
-
         syn_cookies:
           description:
             - Specifies policy for using TCP SYN cookies with IPv4.
@@ -174,22 +181,22 @@ DOCUMENTATION: |
         state_policy:
           description:
             - Specifies global firewall state-policy.
-           type: list
-           elements: dict
-           suboptions:
-             connection_type:
-               description: Specifies connection type.
-               type: str
-               choices: ['established', 'invalid', 'related']
-             action:
-               description:
-                 - Action for packets part of an established connection.
-               type: str
-               choices: ['accept', 'drop', 'reject']
-             log:
-               description:
-                 - Enable logging of packets part of an established connection.
-               type: str
+          type: list
+          elements: dict
+          suboptions:
+            connection_type:
+              description: Specifies connection type.
+              type: str
+              choices: ['established', 'invalid', 'related']
+            action:
+              description:
+                - Action for packets part of an established connection.
+              type: str
+              choices: ['accept', 'drop', 'reject']
+            log:
+              description:
+                - Enable logging of packets part of an established connection.
+              type: bool
     state:
       description:
         - The state the configuration should be left in.
@@ -200,13 +207,12 @@ DOCUMENTATION: |
       - deleted
       - gathered
       - rendered
-      - parsed  
+      - parsed
       default: merged
 EXAMPLES:
-  - deleted_example_01.txt
   - merged_example_01.txt
+  - parsed_example_01.txt
+  - deleted_example_01.txt
   - replaced_example_01.txt
   - gathered_example_01.txt
   - rendered_example_01.txt
-  - parsed_example_01.txtt.
-
