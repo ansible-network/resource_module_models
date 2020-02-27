@@ -42,8 +42,7 @@ options:
             required: true
           address_family:
             description: Address Family configuration mode
-            type: list
-            elements: dict
+            type: dict
             suboptions:
               afi:
                 description:
