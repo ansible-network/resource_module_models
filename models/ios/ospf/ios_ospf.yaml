@@ -30,16 +30,16 @@ options:
         choices:
           - ospf
           - ospfv3
+      id:
+        type: int
+        description: Process ID
+        required: true
       ospf_process:
         description:
           - OSPF process configuration
         type: list
         elements: dict
         suboptions:
-          process_id:
-            type: int
-            description: Process ID
-            required: true
           address_family:
             description: Address Family configuration mode
             type: dict
@@ -318,13 +318,15 @@ options:
                     description: Associate a cost with the sham-link
                     type: int
               stub:
-                description: Specify a stub area
+                description:
+                - Specify a stub area
+                - Backbone can not be configured as stub area
                 type: dict
                 suboptions:
                   no_ext_capability:
                     description: Do not send domain specific capabilities into stub area
                     type: bool
-                  cost:
+                  no_summary:
                     description: Do not send summary LSA into stub area
                     type: bool
           auto_cost:
