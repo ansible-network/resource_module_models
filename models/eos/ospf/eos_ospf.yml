@@ -1,0 +1,532 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: | 
+  {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'network'
+  }
+NETWORK_OS: eos
+RESOURCE: ospf
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: eos_ospf
+  version_added: 2.10
+  short_description: Configures and manages attributes of ospf on Arista EOS platforms.
+  description: This module configures and manages the attributes of ospf on Arista EOS platforms.
+  author: Gomathi Selvi Srinivasan (@GomathiselviS)
+  notes:
+  options:
+    config:
+      description:
+        - A list of configurations for ospf.
+      type: list
+      elements: dict
+      suboptions:
+        afi:
+          description:
+            - Specifies the top level address family indicator.
+          type: str
+           require: True
+        instance:
+          description: A dictionary specifying the address family to which the static route(s) belong.
+          type: list
+          elements: dict
+          suboptions:
+            process_id:
+              description:
+                - ID of OSPFV2 process.
+              type: int
+              required: True
+            vrf:
+              description: VRF name .
+              type: str
+            general:
+              description: General OSPFv3 configuration.
+              type: bool
+            qos_dscp:
+              description: Set QoS parameters for CPU generated OSPFv3 traffic.
+              type: int
+            traffic_engineering:
+              description: Enter traffic engineering config mode
+              type: bool
+            ospf_params:
+              description: Specify the configuration parameters under appropriate level
+              type: list
+              elements: dict
+              suboptions:
+                router:
+                  description: If True, parameters are configured under router level, else address-family level.
+                  type: bool
+                  required: True
+                address_family:
+                  description: Specify afi to enter its config mode. Required when 'router' is False.
+                  type: str
+                  choices: ['ipv4', 'ipv6']
+                adjacency:
+                  description: Configure adjacency options for OSPF instance.
+                  type: dict
+                  suboptions:
+                    exchange_start:
+                      description: Configure exchange-start options for OSPF instance.
+                      type: dict
+                      suboptions:
+                        threshold:
+                          description:  Number of peers to bring up simultaneously.
+                          type: int
+                router_id:
+                  description: 32-bit number assigned to a router running OSPFv2.
+                  elements: str
+                lsa_overload:
+                  description: Specifies the switch behavior on reaching max lsa count. 
+                  type: dict
+                  suboptions:
+                    max_lsa:
+                      description: maximum number of LSAs allowed in an LSDB database.
+                      type: dict
+                      suboptions:
+                        count:
+                          description: maximum count of lsas.
+                          type: int
+                        percentage:
+                          description: percentage of <count> , when a warning should be raised.
+                          type: int
+                    ignore_time:
+                      description: time in minutes, for which the switch shoud be shutdown on max-lsa warning
+                      type: int
+                    ignore_count:
+                      description: No. of times the switch can shut down temporarily on warning
+                      type: int
+                    reset_time:
+                       description: Time in minutes, after which the shutdown counter resets, if no. of
+                                    lsas is less than max-lsa count.
+                       type: int
+                max_metric:
+                  description: Set maximum metric.
+                  type: dict
+                  suboptions:
+                    router_lsa:
+                      description: Maximum metric in self-originated router-LSAs.
+                      type: bool
+                    external_lsa:
+                      description: Override external-lsa metric with max-metric value.
+                      type: bool
+                    include_stub:
+                      description: Set maximum metric for stub links in router-LSAs.
+                      type: bool
+                    on_startup:
+                      description: Set maximum metric temporarily after reboot.
+                      type: bool
+                    summary_lsa:
+                      description: Override summary-lsa metric with max-metric value.
+                      type: bool
+                    overriding_metric:
+                      description: Overriding metric in summary-LSAs (default 16711680).
+                      type: int
+                log_adjacency_changes:
+                  description: To configure link-state changes and transitions of OSPFv2 neighbors.
+                  type: dict
+                  suboptions:
+                    detail:
+                      description:
+                        - If True , configures the switch to log all link-state changes.
+                        - If False , configures the switch to log transitions of neighbors into the up or down state.
+                      type: bool
+                maximum_paths:
+                  description: Maximum number of next-hops in an ECMP route.
+                  type: int
+                mpls_ldp:
+                  decription: mpls ldp sync configuration.
+                  type: bool
+                network:
+                  description: Configure routing for a network.
+                  type: list
+                  elements: dict
+                  suboptions:
+                    network_address:
+                      description: Network Address.
+                      type: str
+                    prefix:
+                      description: Prefix.
+                      type: str
+                    mask:
+                      description: Network Wildcard Mask.
+                      type: str
+                    area:
+                      description: Configure OSPF area.
+                      type: str
+                passive_interface:
+                  description: Include interface but without actively running OSPF.
+                  type: dict
+                  suboption:
+                    interface_list:
+                      Description: Interface range.
+                      type: str
+                    default:
+                      Description: If True, Set all interfaces to passive by default
+                      type: bool
+                point_to_point:
+                  description:  Configure Point-to-point specific features.
+                  type: bool
+                rfc_compatible:
+                  description: Specifies different methods for calculating summary route metrics. 
+                  type: str
+                  choices: ['rfc1583', 'rfc2328']
+                distance:
+                  description: Specifies the administrative distance for routes.
+                  type: dict
+                  suboptions:
+                    external:
+                      description: Routes external to the area
+                      type: int
+                    inter_area:
+                      description: Routes from other areas
+                      type: int
+                    intra_area:
+                      description: Routes with in an area
+                      type: int
+
+                passive_interface:
+                  description: Specifies the passive interfaces
+                  type: dict
+                  suboptions:
+                    enable: 
+                      description: If False, re-enables OSPFv2 processing on the specified interface.
+                      type: bool
+                      default: True
+                    interface:
+                      description: Specifies the interface on which the command has to be applied.
+                      type: str
+                redistribute:
+                  description: Specifies the routes to be redistributed
+                  type: dict
+                  suboptions:
+                    routes:
+                      description: Route types (BGP,isis,connected etc)
+                      type: str
+                    route_map:
+                      description: Specify which route map to use.
+                      type: str
+                    isis_level:
+                      description: ISIS levels.
+                      type: str
+                retransmission_threshold:
+                  description: Configure threshold for retransmission.
+                  type: int
+                distribute_list:
+                  description: Specifies the list of routes to be filtered.
+                  type: dict
+                  suboptions:
+                    route_map:
+                      description: route map to be filtered
+                      type: str
+                    prefix_list:
+                      description: prefix list to be filtered
+                      type: str
+                area:
+                  description: Specifies the configuration for OSPF areas
+                  type: list
+                  elements: dict
+                  suboptions:
+                    number:
+                      description: Specifies a 32 bit number expressed in decimal or dotted-decimal notation.
+                      type: str
+                    default_cost:
+                      description: Specify the cost for default summary route in stub/NSSA area.
+                      type: int
+                    filter:
+                      description: Specify the filter for incoming summary LSAs.
+                      type: dict
+                      suboptions:
+                        address:
+                          description: IP address.
+                          type: str
+                        subnetaddress:
+                          description: IP address with mask length
+                          type: str
+                        subnet_mask:
+                          description: IP subnet mask
+                          type: str
+                    nssa:
+                      description: Configures NSSA parameters.
+                      type: dict
+                      suboptions:
+                        default_information_originate:
+                          description: Originate default Type 7 LSA.
+                          type: dict
+                          suboptions:
+                            metric:
+                              description: Metric for default route.
+                              type: int
+                            metric_type:
+                              description: Metric type for default route.
+                              type: int
+                            nssa_only:
+                              description: Limit default advertisement to this NSSA area.
+                              type: bool
+                        no_summary:
+                          description: Filter all type-3 LSAs in the nssa area.
+                          type: bool
+                        nssa_only:
+                          description: Disable Type-7 LSA p-bit setting
+                          type: bool
+                        translate:
+                          description: Enable LSA translation.
+                          type: bool
+                    range:
+                      description: Configure route summarization.
+                      type: dict
+                      suboptions:
+                        address:
+                          description: IP address.
+                          type: str
+                        subnetaddress:
+                          description: IP address with mask length
+                          type: str
+                        subnet_mask:
+                          description: IP subnet mask
+                          type: str 
+                        advertise:
+                          description: Enable Advertisement of the range.
+                          type: bool
+                        cost:
+                          description: Configures the metric.
+                          type: int
+                    stub:
+                      description: Stub area.
+                      type: dict
+                      suboptions:
+                        summary_lsa:
+                          desctiption: If False , Filter all type-3 LSAs in the stub area.
+                          type: bool
+                    authentication:
+                      description: Configure authentication for the area incase of ospfv3.
+                      type: dict
+                      suboptions:
+                        spi:
+                          description: Specify the SPI value
+                          type: int
+                        algorithm:
+                          description: Specify the params for md5/sha1 algorithm.
+                          type: dict
+                          suboptions:
+                            type:
+                              description: Type of algorithm to be used.
+                              type: str
+                              choices: ['md5', 'sha1']
+                            encrypt_key:
+                              description: If False, key string is not encrypted
+                              type: bool
+                            hidden_key:
+                              description: If True, Specifies that a HIDDEN key will follow.
+                              type: bool
+                            key:
+                              description: 128 bit MD5 key or 140 bit SHA1 key.
+                              type: str
+                            passphrase:
+                              description: Passphrase String for deriving keys for authentication and encryption.
+                              type: str
+                    encryption:
+                      description: Configure encryption for the area
+                      type: dict
+                      suboptions:
+                        spi:
+                          description: Specify the SPI value
+                          type: int
+                        algorithm:
+                          description: Specify the params for encryption algorithm.
+                          type: dict
+                          suboptions:
+                            type:
+                              description: Type of algorithm to be used.
+                              type: str
+                              choices: ['3des-cbc', 'aes-128-cbc', 'aes-192-cbc', 'aes-256-cbc', 'null md5', 'null sha1']
+                            encrypt_key:
+                              description: If False, key string is not encrypted
+                              type: bool
+                            hidden_key:
+                              description: If True, Specifies that a HIDDEN key will follow.
+                              type: bool
+                            key:
+                              description: 128 bit MD5 key or 140 bit SHA1 key.
+                              type: str
+                            passphrase:
+                              description: Passphrase String for deriving keys for authentication and encryption.
+                              type: str
+i                   not_so_stubby:
+                      description: Configures NSSA parameters.
+                      type: dict
+                      suboptions:
+                        default_information_originate:
+                          description: Originate default Type 7 LSA.
+                          type: dict
+                          suboptions:
+                            metric:
+                              description: Metric for default route.
+                              type: int
+                            metric_type:
+                              description: Metric type for default route.
+                              type: int
+                            nssa_only:
+                              description: Limit default advertisement to this NSSA area.
+                              type: bool
+                            lsa:
+                              description: If set , Always translates Type-7 LSAs to Type-5.
+                              type: bool
+                        no_summary:
+                          description: Filter all type-3 LSAs in the nssa area.
+                          type: bool
+                        nssa_only:
+                          description: Disable Type-7 LSA p-bit setting
+                          type: bool
+                        translate:
+                          description: Enable LSA translation.
+
+                auto_cost:
+                  description: Set auto-cost.
+                  type: dict
+                  suboptions:
+                    reference_bandwidth:
+                      description: reference bandwidth in megabits per sec.
+                      type: int
+                bfd:
+                  description: Enable BFD.
+                  type: dict
+                  suboptions:
+                    all_interfaces:
+                      description: Enable BFD on all interfaces.
+                      type: bool
+                default_information:
+                  description: Control distribution of default information.
+                  type: dict
+                  suboptions:
+                    originate:
+                      description: Distribute a default route.
+                      type: bool
+                    always:
+                      description: Always advertise default route.
+                      type: bool
+                    metric:
+                      description: Metric for default route.
+                      type: int
+                    metric_type:
+                      description: Metric type for default route.
+                      type: int
+                    route_map:
+                      description: Specify which route-map to use.
+                      type: str
+                default_metric:
+                  description: Configure the default metric for redistributed routes
+                  type: int
+                dn_bit_ignore:
+                  description: If True, Disable dn-bit check for Type-3 LSAs in non-default VRFs.
+                  type: bool
+                graceful_restart:
+                  description: Enable graceful restart mode.
+                  type: dict
+                  suboptions:
+                    grace_period:
+                    description: Specify maximum time to wait for graceful-restart to complete.
+                    type: int
+                graceful_restart_helper:
+                  description: If True, Enable graceful restart helper.
+                  type: bool
+                shutdown:
+                  description: Disable the OSPF instance.
+                  type: bool
+                summary_address:
+                  description: Summary route configuration.
+                  type: dict
+                  suboptions:
+                    address:
+                      description: IP summary address.
+                      type: str
+                    prefix:
+                      description: Prefix.
+                      type: str
+                    mask:
+                      description: Summary Mask.
+                      type: str
+                    attributE_map:
+                      description: Set attributes of summary route.
+                      type: str
+                    not_advertise:
+                      description: Do not advertise summary route.
+                      type: bool
+                    tag:
+                      description: Set tag.
+                      type: int
+                timers:
+                  description: Configure OSPF timers.
+                  type: dict
+                  suboptions:
+                    lsa:
+                      description: Configure OSPF LSA timers.
+                      type: dict
+                      suboptions:
+                        rx:
+                          description: Configure OSPF LSA receiving timers
+                          type: dict
+                          suboptions:
+                            min_interval:
+                              description: Configure OSPF LSA arrival timer.
+                              type: int
+                        tx:
+                          description: Configure OSPF LSA transmission timers.
+                          type: dict
+                          suboptions:
+                            delay:
+                              description: Configure OSPF LSA transmission delay.
+                              type: dict
+                              suboptions:
+                                initial:
+                                  description: Delay to generate first occurrence of LSA in msecs.
+                                  type: int
+                                min:
+                                  description: Min delay between originating the same LSA in msecs.
+                                  type: int
+                                max:
+                                  description: Maximum delay between originating the same LSA in msecs.
+                                  type: int
+                    out_delay:
+                      description: Configure out-delay timer.
+                      type: int
+                    pacing:
+                      description: Configure OSPF packet pacing.
+                      type: int
+                    spf:
+                      description: Configure SPF timers
+                      type: dict
+                      suboptions:
+                        seconds:
+                          description: Seconds.
+                          type: int
+                        initial:
+                          description: Initial SPF schedule delay in msecs.
+                          type: int
+                        min : 
+                          description: Min Hold time between two SPFs in msecs
+                          type: int
+                        max:
+                          description: Max wait time between two SPFs in msecs.
+                          type: int
+                fips_restrictions:
+                  description: Use FIPS compliant algorithms
+                  type: str
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+        ['deleted', 'merged', 'overridden', 'replaced', 'gathered', 'rendered']
+      default:
+        merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt
