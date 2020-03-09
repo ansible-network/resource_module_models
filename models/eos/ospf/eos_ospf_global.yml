@@ -204,7 +204,7 @@ DOCUMENTATION: |
                     prefix_list:
                       description: prefix list to be filtered
                       type: str
-                area:
+                areas:
                   description: Specifies the configuration for OSPF areas
                   type: list
                   elements: dict
@@ -227,6 +227,9 @@ DOCUMENTATION: |
                           type: str
                         subnet_mask:
                           description: IP subnet mask
+                          type: str
+                        prefix_list:
+                          description: Specify list to filter for incoming LSAs.
                           type: str
                     nssa:
                       description: Configures NSSA parameters.
