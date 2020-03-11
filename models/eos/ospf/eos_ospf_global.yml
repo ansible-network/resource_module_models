@@ -72,20 +72,16 @@ DOCUMENTATION: |
                 router_id:
                   description: 32-bit number assigned to a router running OSPFv2.
                   elements: str
-                lsa_overload:
+                max_lsa:
                   description: Specifies the switch behavior on reaching max lsa count. 
                   type: dict
                   suboptions:
-                    max_lsa:
-                      description: maximum number of LSAs allowed in an LSDB database.
-                      type: dict
-                      suboptions:
-                        count:
-                          description: maximum count of lsas.
-                          type: int
-                        percentage:
-                          description: percentage of <count> , when a warning should be raised.
-                          type: int
+                    count:
+                      description: maximum count of lsas.
+                      type: int
+                    threshold:
+                      description: percentage of <count> , when a warning should be raised.
+                      type: int
                     ignore_time:
                       description: time in minutes, for which the switch shoud be shutdown on max-lsa warning
                       type: int
@@ -101,22 +97,50 @@ DOCUMENTATION: |
                   suboptions:
                     router_lsa:
                       description: Maximum metric in self-originated router-LSAs.
-                      type: bool
-                    external_lsa:
-                      description: Override external-lsa metric with max-metric value.
-                      type: bool
+                      type: dict
+                      suboptions:
+                        set:
+                          description:
+                            - Set router-lsa attribute.
+                          type: bool
+                        external_lsa:
+                          description: Override external-lsa metric with max-metric value.
+                          type: dict
+                          suboptions:
+                            set:
+                              description:
+                                - Set external-lsa attribute.
+                              type: bool
+                            max_metric_value:
+                              description:
+                                - Set max metric value for external LSAs.
+                              type: int
                     include_stub:
                       description: Set maximum metric for stub links in router-LSAs.
                       type: bool
                     on_startup:
                       description: Set maximum metric temporarily after reboot.
-                      type: bool
+                      type: dict
+                      suboptions:
+                        set:
+                          description: Set on-startup attribute.
+                          type: bool
+                        wait_period:
+                          description:
+                            - Wait period in seconds after startup.
+                          type: int
                     summary_lsa:
                       description: Override summary-lsa metric with max-metric value.
-                      type: bool
-                    overriding_metric:
-                      description: Overriding metric in summary-LSAs (default 16711680).
-                      type: int
+                      type: dict
+                      suboptions:
+                        set:
+                          description:
+                            - Set external-lsa attribute.
+                          type: bool
+                        max_metric_value:
+                          description:
+                           - Set max metric value for external LSAs.
+                          type: int
                 log_adjacency_changes:
                   description: To configure link-state changes and transitions of OSPFv2 neighbors.
                   type: dict
@@ -130,7 +154,7 @@ DOCUMENTATION: |
                 mpls_ldp:
                   description: mpls ldp sync configuration.
                   type: bool
-                networks
+                networks:
                   description: Configure routing for a network.
                   type: list
                   elements: dict
@@ -160,10 +184,9 @@ DOCUMENTATION: |
                 point_to_point:
                   description:  Configure Point-to-point specific features.
                   type: bool
-                rfc_compatible:
+                rfc1583compatibility:
                   description: Specifies different methods for calculating summary route metrics. 
-                  type: str
-                  choices: ['rfc1583', 'rfc2328']
+                  type: bool
                 distance:
                   description: Specifies the administrative distance for routes.
                   type: dict
