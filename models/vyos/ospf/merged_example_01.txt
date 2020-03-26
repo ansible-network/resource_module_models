@@ -1,0 +1,126 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+# vyos@192# run show configuration commands | grep ospf
+#
+- name: Merge the provided configuration with the existing running configuration
+      vyos_ospf_routes:
+        config:
+          - afi: 'ipv4'
+            ospf_area:
+              - area: 0
+                network: 192.168.0.0/24
+            default_information:
+              originate:
+                always: true
+                metric: 2
+                metric_type: 10
+            log_adjacency_changes: "details"
+            parameters:
+              router_id: 10.1.1.1
+            redistribute:
+              - route_type: 'connected'
+                metric_type: 2
+                route_map: 'CONNECT'
+          - afi: 'ipv6'
+            ospf_area:
+              - area: 0.0.0.0
+                range: 2001:db8:1::/64
+            parameters:
+              router-id 192.168.1.1
+            redistribute:
+              - route_type: 'connected'
+        state: merged
+#
+#
+# -------------------------
+# Module Execution Result
+# -------------------------
+#
+# before": []
+#
+#    "commands": [
+#       "set interfaces ethernet eth1 firewall in name 'INBOUND'", 
+#       "set protocols ospf area 0 network 192.168.0.0/24",
+#       "set protocols ospf default-information originate always",
+#       "set protocols ospf default-information originate metric 10",
+#       "set protocols ospf default-information originate metric-type 2",
+#       "set protocols ospf log-adjacency-changes",
+#       "set protocols ospf parameters router-id 10.1.1.1",
+#       "set protocols ospf redistribute connected metric-type 2",
+#       "set protocols ospf redistribute connected route-map CONNECT",
+#       "set protocols ospfv3 area 0.0.0.0 range 2001:db8:1::/64,
+#       "set protocols ospfv3 parameters router-id 192.168.1.1,
+#       "set protocols ospfv3 redistribute connected
+#    ]
+#
+# "after": [
+#        {
+#                {
+#                    "afi": "ipv4",
+#                    "ospf_area":[
+#                        {
+#                            "area": "0", 
+#                            "network": "192.168.0.0/24"
+#                        }
+#                      ],
+#                    "default_information": 
+#                        {
+#                            "originate": 
+#                               {
+#                                 always: true,
+#                                 metric: 2, 
+#                                 metric_type: 10 
+#                               }
+#                        },
+#                   "log_adjacency_changes": "details"
+#                   "parameters":
+#                        {
+#                            "router_id": "10.1.1.1"
+#                        },
+#                    "redistribute":[
+#                        {
+#                            "route_type": "connetced", 
+#                            "metric_type": 2
+#                            "route_map": "CONNECT"
+#                        }
+#                      ]
+#                }, 
+#                {
+#                    "afi": "ipv6", 
+#                    "ospf_area":[
+#                        {
+#                            "area": "0.0.0.0", 
+#                        }
+#                       ],
+#                    "range": "2001:db8:1::/64", 
+#                    "parameters":
+#                        {
+#                            "router_id": "192.168.1.1"
+#                        },
+#                    "redistribute":
+#                        [
+#                            {
+#                               "route_type": "connetced",
+#                            } 
+#                        ]
+#                }
+#    ]
+#
+# After state:
+# -------------
+#
+# vyos@vyos:~$ show configuration commands| grep firewall
+# set protocols ospf area 0 network 192.168.0.0/24
+# set protocols ospf default-information originate always
+# set protocols ospf default-information originate metric 10
+# set protocols ospf default-information originate metric-type 2
+# set protocols ospf log-adjacency-changes details
+# set protocols ospf parameters router-id 10.1.1.1
+# set protocols ospf redistribute connected metric-type 2
+# set protocols ospf redistribute connected route-map CONNECT
+# set protocols ospfv3 area 0.0.0.0 range 2001:db8:1::/64
+# set protocols ospfv3 parameters router-id 192.168.1.1
+# set protocols ospfv3 redistribute connected
