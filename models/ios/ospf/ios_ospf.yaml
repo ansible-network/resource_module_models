@@ -7,7 +7,7 @@ ANSIBLE_METADATA: |
     }
 
 DOCUMENTATION: |
-module: ios_ospf
+module: ios_ospf_global
 version_added: 2.10
 short_description: Manages and configures Open Shortest Path First (OSPF) and it's attributes.
 description: This module configures and manages the Open Shortest Path First (OSPF) on IOS platforms.
@@ -22,589 +22,919 @@ options:
     type: list
     elements: dict
     suboptions:
-      ospf_type:
+      ospf_version:
         description:
         - OSPF version to be used
-        - OSPFv2 supports only IPV4 configuration
-        - OSPFv3 supports both IPV4 and IPV6 configuration
+        - OSPFv2 supports only IPV4 routing configuration
+        - OSPFv3 supports both IPV4 and IPV6 routing configuration
         choices:
-          - ospf
-          - ospfv3
-      id:
-        type: int
-        description: Process ID
-        required: true
-      ospf_process:
+          - v2
+          - v3
+      ospf_processes:
         description:
-          - OSPF process configuration
+          - List of OSPF instance configurations.
         type: list
         elements: dict
         suboptions:
-          address_family:
-            description: Address Family configuration mode
-            type: dict
+          id:
+            type: int
+            description: Process ID
+            required: true
+          vrf:
+            description: Specify parameters for a VPN Routing/Forwarding instance
+            type: str
+          ospf_params:
+            description:
+              - Specify the OSPF configuration parameters under appropriate context..
+            type: list
+            elements: dict
             suboptions:
-              afi:
+              address_family:
                 description:
-                  - The Address Family Indicator (AFI) for Open Shortest Path First (OSPF).
-                required: true
-                type: str
-                choices:
-                  - ipv4
-                  - ipv6
-              unicast:
-                description: Address Family modifier
-                type: bool
-              vrf:
-                description: Specify parameters for a VPN Routing/Forwarding instance
-                type: str
-              default_information:
-                description: Distribution of default information
-                type: dict
+                - Router Address Family configuration mode
+                - If absent, the configurations take place under global router config context.
+                type: list
+                element: dict
                 suboptions:
-                  originate:
-                    description: Distribute default route
+                  afi:
+                    description: Address family indicator
+                    type: str
+                    choices:
+                      - ipv4
+                      - ipv6
+                  multicast:
+                    description:
+                      - Address Family modifier
+                      - Valid only with ospf V2 version
+                    type: bool
+                  unicast:
+                    description:
+                      - Address Family modifier
+                      - Valid only with ospf V3 version
+                    type: bool
+                  vrf:
+                    description:
+                      - Specify parameters for a VPN Routing/Forwarding instance
+                      - VPN Routing/Forwarding instance name
+                      - Valid only with ospf V3 version
+                    type: str
+                  adjacency:
+                    description:
+                      - Control adjacency formation
                     type: dict
                     suboptions:
-                      always:
-                        description: Always advertise default route
-                        type: bool
-                      ospf_metric:
-                        description:
-                          - OSPF default metric
-                          - Note, refer vendor documentation for respective valid values
-                        type: int
-                      metric_type:
-                        description:
-                          - OSPF metric type for default routes
-                          - Note, refer vendor documentation for respective valid values
-                        type: int
-                      route_map:
-                        description: Route-map reference name
+                      min_adjacency:
+                        description: Initial number of adjacencies allowed to be forming in an area
                         type: str
-              default_metric:
-                description: Set metric of redistributed routes
-                type: int
-              discard_route:
-                description: Enable or disable discard-route installation
-                type: str
-                choices:
-                  - external
-                  - internal
-              distance:
-                description: Administrative distance
+                      max_adjacency:
+                        description: Maximum number of adjacencies allowed to be forming
+                        type: str
+                      none:
+                        description: Maximum number of adjacencies allowed to be forming
+                        type: bool
+                      disable:
+                        description: Disable adjacency staggering
+                        type: bool
+                  areas:
+                    description:
+                      - Address family OSPF area parameters
+                    type: list
+                    element: dict
+                    suboptions:
+                      area_id:
+                        description:
+                          - OSPF area ID as a decimal value. Please refer vendor documentation
+                            of Valid values.
+                          - OSPF area ID in IP address format(e.g. A.B.C.D)
+                        type: str
+                      authentication:
+                        description: Enable authentication
+                        type: dict
+                        suboptions:
+                          key_chain:
+                            description:
+                              - Key-chain name
+                              - Use a key-chain for cryptographic authentication keys
+                            type: str
+                          null:
+                            description: Use no authentication
+                            type: bool
+                      default_cost:
+                        description:
+                          - Set the summary default-cost of a NSSA/stub area
+                          - Stub's advertised external route metric
+                        type: int
+                      filter_list:
+                        description:
+                          - Filter networks between OSPFv3 areas
+                          - Filter prefixes between OSPFv3 areas
+                          - Name of an IP prefix-list
+                        type: str
+                      normal:
+                        description: Specify a normal area type
+                        type: bool
+                      nssa:
+                        description: Specify a NSSA area
+                        type: dict
+                        suboptions:
+                          default_information_originate:
+                            description: Specify a normal area type
+                            type: bool
+                          no_redistribution:
+                            description: No redistribution into this NSSA area
+                            type: bool
+                          no_summary:
+                            description: Do not send summary LSA into NSSA
+                            type: bool
+                          translate:
+                            description: Translate LSA, from Type 7 to Type 5
+                            type: dict
+                            suboptions:
+                              always:
+                                description: Always translate LSAs on this ABR
+                                type: bool
+                              suppress_fa:
+                                description: Suppress forwarding address in translated LSAs
+                                type: bool
+                      range:
+                        description: Summarize routes matching address/mask (border routers only)
+                        type: dict
+                        suboptions:
+                          address:
+                            description: IPv4 address to match
+                            type: str
+                          netmask:
+                            description: IPv4 mask for address
+                            type: str
+                          advertise:
+                            description: Advertise this range (default)
+                            type: bool
+                          cost:
+                            description: User specified metric for this range
+                            type: bool/int
+                          not_advertise:
+                            description: DoNotAdvertise this range
+                            type: bool
+                      stub:
+                        description: Specify a stub area
+                        type: dict
+                        suboptions:
+                          set:
+                            description: To set and specify a stub area
+                            type: bool
+                          no_summary:
+                            description:
+                              - Do not send summary LSA into stub area
+                              - If no_summary is set there's no need to setting the stub value too
+                            type: bool
+                  authentication:
+                    description: Address Family authentication parameters
+                    type: dict
+                      suboptions:
+                        deployment:
+                          description: Deployment mode of operation
+                          type: bool
+                        normal:
+                          description: Normal mode of operation
+                          type: bool
+                  auto_cost:
+                    description: Calculate OSPF interface cost according to bandwidth
+                    type: dict
+                      suboptions:
+                        reference_bandwidth:
+                          description:
+                            - Use reference bandwidth method to assign OSPF cost
+                            - The reference bandwidth in terms of Mbits per second
+                            - Note, Please check vendor documentation for valid range.
+                          type: int
+                  bfd:
+                    description: BFD configuration commands
+                    type: dict
+                      suboptions:
+                        all_interfaces:
+                          description: Enable BFD on all interfaces
+                          type: bool
+                        disable:
+                          description: Disable BFD on all interfaces
+                          type: bool
+                  compatible:
+                    description: OSPF address family compatibility list
+                    type: dict
+                      suboptions:
+                        rfc1583:
+                          description: compatible with RFC 1583
+                          type: bool
+                        rfc1587:
+                          description: compatible with RFC 1587
+                          type: bool
+                        rfc5243:
+                          description: compatible with RFC 5243
+                          type: bool
+                  default:
+                    description: Set a command to its defaults
+                    type: bool
+                  default_information:
+                    description: Distribution of default information
+                    type: dict
+                    suboptions:
+                      originate:
+                        description: Distribute default route
+                        type: dict
+                        suboptions:
+                          always:
+                            description: Always advertise default route
+                            type: bool
+                          ospf_metric:
+                            description:
+                              - OSPF default metric
+                              - Note, refer vendor documentation for respective valid values
+                            type: int
+                          metric_type:
+                            description:
+                              - OSPF metric type for default routes
+                              - Note, please refer vendor documentation for respective valid range
+                            type: int
+                          route_map:
+                            description: Route-map reference name
+                            type: str
+                  default_metric:
+                    description: Set metric of redistributed routes
+                    type: int
+                  discard_route:
+                    description: Enable or disable discard-route installation
+                    type: str
+                    choices:
+                      - external
+                      - internal
+                  distance:
+                    description: Administrative distance
+                    type: dict
+                    suboptions:
+                      admin_distance:
+                        description:
+                          - Administrative distance
+                          - Note, please refer vendor documentation for respective valid range
+                        type: int
+                      ospf_distance:
+                        description: OSPF distance
+                        type: dict
+                        suboptions:
+                          external_distance:
+                            description:
+                              - Distance for external type 5 and type 7 routes
+                              - Note, please refer vendor documentation for respective valid range
+                            type: int
+                          inter_area_distance:
+                            description:
+                              - Distance for inter-area routes
+                              - Note, please refer vendor documentation for respective valid range
+                            type: int
+                          intra_area_distance:
+                            description:
+                              - Distance for intra-area routes
+                              - Note, please refer vendor documentation for respective valid range
+                            type: int
+                  distribute_list:
+                    description:
+                      - OSPF Filter networks in routing updates
+                    type: dict
+                    suboptions:
+                      prefix:
+                        description: Filter prefixes in routing updates, valid with IPV4 address-family
+                        type: dict
+                        suboptions:
+                          name:
+                            description: Name of an IP prefix-list
+                            type: str
+                          in:
+                            description:
+                              - Filter incoming routing updates
+                              - Note, please refer vendor documentation for respective valid range
+                            type: str
+                          out:
+                            description:
+                              - Filter outgoing routing updates
+                              - _Note, please refer vendor documentation for respective valid range
+                            type: str
+                      prefix_list:
+                        description: Filter connections based on an IPv6 prefix-list
+                        type: str
+                      route_map:
+                        description: Filter routes based on a route-map
+                        type: str
+                  event_log:
+                    description: Event Logging
+                    type: dict
+                    suboptions:
+                      one_shot:
+                        description: Disable Logging When Log Buffer Becomes Full
+                        type: bool
+                      pause:
+                        description: Pause Event Logging
+                        type: bool
+                      size:
+                        description: Maximum Number of Events Stored in the Event Log
+                        type: bool
+                  graceful_restart:
+                    description: Graceful-restart options
+                    type: dict
+                    suboptions:
+                      enable:
+                        description: Enable helper support
+                        type: bool
+                      disable:
+                        description: Disable helper support
+                        type: bool
+                      strict_lsa_checking:
+                        description: Enable helper strict LSA checking
+                        type: bool
+                  help:
+                    description: Description of the interactive help system
+                    type: bool
+                  interface_id:
+                    description: Source of the interface ID
+                    type: dict
+                    suboptions:
+                      ios_if_index:
+                        description: IOS interface number
+                        type: bool
+                      snmp_if_index:
+                        description: SNMP MIB ifIndex
+                        type: bool
+                  limit:
+                    description:
+                      - Limit a specific OSPF feature
+                      - LS update, DBD, and LS request retransmissions
+                    type: dict
+                    suboptions:
+                      dc:
+                        description: Demand circuit retransmissions
+                        type: dict
+                        suboptions:
+                          max_retransmission:
+                            description: The maximum number of retransmissions
+                            type: int
+                          disable:
+                            description: Disble the feature
+                            type: bool
+                      non_dc:
+                        description: Non-demand-circuit retransmissions
+                        type: dict
+                        suboptions:
+                          max_retransmission:
+                            description: The maximum number of retransmissions
+                            type: int
+                          disable:
+                            description: Disble the feature
+                            type: bool
+                  local_rib_criteria:
+                    description: Enable or disable usage of local RIB as route criteria
+                    type: dict
+                    suboptions:
+                      forwarding_address:
+                        description: Local RIB used to validate external/NSSA forwarding addresses
+                        type: bool
+                      inter_area_summary:
+                        description: Local RIB used as criteria for inter-area summaries
+                        type: bool
+                      nssa_translation:
+                        description: Local RIB used as criteria for NSSA translation
+                        type: bool
+                  log_adjacency_changes:
+                    description: Log changes in adjacency state
+                    type: dict
+                    suboptions:
+                      set:
+                        description: Enable Log changes in adjacency state
+                        type: bool
+                      detail:
+                        description: Log all state changes
+                        type: bool
+                  manet:
+                    description: Specify MANET OSPF parameters
+                    type: dict
+                    suboptions:
+                      cache:
+                        description: Specify MANET cache sizes
+                        type: dict
+                        suboptions:
+                          acknowledgement:
+                            description:
+                              - Specify MANET acknowledgement cache size
+                              - Maximum number of acknowledgements in cache
+                              - Note, please refer vendor documentation for respective valid range
+                            type: int
+                          update:
+                            description:
+                              - Specify MANET LSA cache size
+                              - Maximum number of LSAs in cache
+                              - Note, please refer vendor documentation for respective valid range
+                            type: int
+                      hello:
+                        description: Unicast Hellos rather than multicast
+                        type: dict
+                        suboptions:
+                          multicast:
+                            description: Multicast Hello requests and responses rather than unicast
+                            type: bool
+                          unicast:
+                            description: Unicast Hello requests and responses rather than multicast
+                            type: bool
+                      peering:
+                        description: MANET OSPF Smart Peering
+                        type: dict
+                        suboptions:
+                          enable:
+                            description: Enable MANET selective peering
+                            type: bool
+                          disable:
+                            description: Disable selective peering
+                            type: bool
+                          per_interface:
+                            description: Select peers per interface rather than per node
+                            type: bool
+                          redundancy:
+                            description:
+                              - Number of redundant OSPF paths
+                              - Note, please refer vendor documentation for respective valid range
+                            type: int
+                      willingness:
+                        description:
+                          - Specify Relay willingness value
+                          - Relay willingness value
+                          - Note, please refer vendor documentation for respective valid range
+                        type: int
+                  max_lsa:
+                    description: Maximum number of non self-generated LSAs to accept
+                    type: dict
+                    suboptions:
+                      number:
+                        description:
+                          - Maximum number of non self-generated LSAs to accept
+                          - Note, please refer vendor documentation for respective valid range
+                        type: int
+                      threshold_value:
+                        description:
+                          - Threshold value (%) at which to generate a warning msg
+                          - Note, please refer vendor documentation for respective valid range
+                        type: int
+                      ignore_count:
+                        description:
+                          - Maximum number of times adjacencies can be suppressed
+                          - Note, please refer vendor documentation for respective valid range
+                        type: int
+                      ignore_time:
+                        description:
+                          - Number of minutes after which ignore-count is reset to zero
+                          - Number of minutes during which all adjacencies are suppressed
+                          - Note, please refer vendor documentation for respective valid range
+                        type: int
+                      reset_time:
+                        description:
+                          - Number of minutes after which ignore-count is reset to zero
+                          - Note, please refer vendor documentation for respective valid range
+                        type: int
+                      warning_only:
+                        description: Only give a warning message when limit is exceeded
+                        type: bool
+                  max_metric:
+                    description: Set maximum metric
+                    type: dict
+                    suboptions:
+                      router_lsa:
+                        description: Maximum metric in self-originated router-LSAs
+                        type: dict
+                        suboptions:
+                          enable:
+                            description: enable maximum metric in self-originated router-LSAs
+                            type: bool
+                          disable:
+                            description: disable maximum metric in self-originated router-LSAs
+                            type: bool
+                      external_lsa:
+                        description:
+                          - Override external-lsa metric with max-metric value
+                          - Overriding metric in external-LSAs
+                          - Note, please refer vendor documentation for respective valid range
+                        type: int
+                      inter_area_lsas:
+                        description:
+                          - Override inter-area-lsas metric with max-metric value
+                          - Overriding metric in inter-area-LSAs
+                          - Note, please refer vendor documentation for respective valid range
+                        type: int
+                      on_startup:
+                        description: Set maximum metric temporarily after reboot
+                        type: dict
+                        suboptions:
+                          time:
+                            description:
+                              - Time, in seconds, router-LSAs are originated with max-metric
+                              - Note, please refer vendor documentation for respective valid range
+                            type: int
+                          wait_for_bgp:
+                            description: Let BGP decide when to originate router-LSA with normal metric
+                            type: bool
+                      stub_prefix_lsa:
+                        description: Set maximum metric for stub links in prefix LSAs
+                        type: bool
+                  maximum_paths:
+                    description:
+                      - Number of paths
+                      - Note, please refer vendor documentation for respective valid values
+                    type: int
+                  passive_interface:
+                    description:
+                      - Suppress routing updates on an interface
+                      - Interface name with respective interface number
+                    type: dict
+                  prefix_suppression:
+                    description: Prefix suppression
+                    type: dict
+                    suboptions:
+                      enable:
+                        description: Enable prefix suppression
+                        type: bool
+                      disable:
+                        description: Disable prefix suppression
+                        type: bool
+                  queue_depth:
+                    description: Hello/Router process queue depth
+                    type: dict
+                    suboptions:
+                      hello:
+                        description: OSPF Hello process queue depth
+                        type: dict
+                        suboptions:
+                          max_packets:
+                            description: maximum number of packets in the queue
+                            type: int
+                          unlimited:
+                            description: Unlimited queue depth
+                            type: bool
+                      update:
+                        description: OSPF Router process queue depth
+                        type: dict
+                        suboptions:
+                          max_packets:
+                            description: maximum number of packets in the queue
+                            type: int
+                          unlimited:
+                            description: Unlimited queue depth
+                            type: bool
+                  router_id:
+                    description:
+                      - Router-id for this OSPF process
+                      - OSPF router-id in IP address format(A.B.C.D)
+                    type: str
+                  snmp_context:
+                    description:
+                      - Modify snmp parameters
+                      - Configure SNMP context name
+                    type: str
+                  summary_prefix:
+                    description: Configure IPV4/IPv6 summary prefix
+                    type: dict
+                    suboptions:
+                      address:
+                        description: IPV4/IPv6 prefix
+                        type: str
+                      not_advertise:
+                        description: Do not advertise or translate
+                        type: bool
+                      nssa_only:
+                        description: Limit summary to NSSA areas
+                        type: bool
+                      tags:
+                        description:
+                          - Set tag
+                          - Note, refer vendor documentation for respective valid values
+                        type: int
+                  timers:
+                    description: Adjust routing timers
+                    type: dict
+                    suboptions:
+                      lsa:
+                        description: OSPF LSA timers
+                        type: int
+                      manet:
+                        description: Do not advertise or translate
+                        type: dict
+                        suboptions:
+                          ackwait:
+                            description:
+                              - Specify acknowledgement delay timer value
+                              - Acknowledgement delay timer value in milliseconds
+                            type: int
+                          peering:
+                            description:
+                              - Specify redundant peering delay timer value
+                              - Peering delay timer value in milliseconds
+                            type: int
+                          pushback:
+                            description:
+                               - Specify pushback timer value
+                               - Pushback timer value in milliseconds
+                            type: int
+              adjacency:
+                description: To configure control adjacency formation
                 type: dict
                 suboptions:
-                  admin_distance:
+                  min_adjacency:
                     description:
-                      - Administrative distance
+                      - Initial number of adjacencies allowed to be forming in an area
+                      - Please refer vendor documentation for valid values
+                    type: int limit or minimum adjacencies forming in area
+                  max_adjacency:
+                    description:
+                      - Maximum number of adjacencies allowed to be forming
+                      - Please refer vendor documentation for valid values
+                    type: int
+                  none:
+                    description:
+                      - No initial
+                    type: bool
+              area:
+                description: OSPF area parameters
+                type: list
+                elements: dict
+                suboptions:
+                  area_id:
+                    description:
+                      - OSPF area ID as a decimal value. Please refer vendor documentation
+                        of Valid values.
+                      - OSPF area ID in IP address format(e.g. A.B.C.D)
+                    type: str
+                  authentication:
+                    description:
+                      - Enable authentication
+                    type: dict
+                    suboptions:
+                      ipsec:
+                        description: Use IPsec authentication
+                        type: dict
+                        suboptions:
+                          spi:
+                            description:
+                              - Set the SPI (Security Parameters Index)
+                              - Note, refer vendor documentation for respective valid values
+                            type: int
+                          md5:
+                            description: Use MD5 authentication
+                            type: dict
+                            suboptions:
+                              key_encryption:
+                                description:
+                                  - Encryption type.
+                                  - 0 for no-encryption (plain text)
+                                  - 7 for encrypted key
+                                type: int
+                                choices: [0, 7]
+                              hex_string:
+                                description: MD5 key (32 chars)
+                                type: str
+                          sha1:
+                            description: Use SHA-1 authentication
+                            type: dict
+                            suboptions:
+                              key_encryption:
+                                description:
+                                  - Encryption type.
+                                  - 0 for no-encryption (plain text)
+                                  - 7 for encrypted key
+                                type: int
+                                choices: [0, 7]
+                              hex_string:
+                                description: SHA-1 key (40 chars)
+                                type: str
+                      key_chain:
+                        description:
+                          - Use a key-chain for cryptographic authentication keys
+                          - Key-chain name
+                        type: str
+                  capability:
+                    description:
+                      - Enable area specific capability
+                      - Enable exclusion of links from base topology
+                    type: bool
+                  default_cost:
+                    description:
+                      - Set the summary default-cost of a NSSA/stub area
+                      - Stub's advertised external route metric
                       - Note, refer vendor documentation for respective valid values
                     type: int
-                  ospf_distance:
+                  encryption:
                     description:
-                      - OSPF distance
+                      - Enable encryption
+                      - Use IPsec encryption
                     type: dict
                     suboptions:
-                      external_distance:
+                      spi:
                         description:
-                          - Distance for external type 5 and type 7 routes
-                          - Note, refer vendor documentation for respective valid values
+                          - Set the SPI (Security Parameters Index)
+                          - Note, please refer vendor documentation for respective valid values
                         type: int
-                      inter_area_distance:
-                        description:
-                          - Distance for inter-area routes
-                          - Note, refer vendor documentation for respective valid values
-                        type: int
-                      intra_area_distance:
-                        description:
-                          - Distance for intra-area routes
-                          - Note, refer vendor documentation for respective valid values
-                        type: int
-              distribute_list:
-                description:
-                  - OSPF Filter networks in routing updates
-                type: dict
-                suboptions:
-                  prefix:
-                    description: Filter prefixes in routing updates, valid with IPV4 address-family
+                      esp:
+                        description: Filter networks sent to this area
+                        type: dict
+                        suboptions:
+                          3des:
+                            description: Use 3DES encryption
+                            type: dict
+                            suboptions:
+                              key_encryption:
+                                description:
+                                  - Encryption type.
+                                  - 0 for no-encryption (plain text)
+                                  - 7 for encrypted key
+                                type: int
+                                choices: [0, 7]
+                              hex_string:
+                                description: 192bit key (48 chars)
+                                type: str
+                          aes_cbc:
+                            description: Use 3DES encryption
+                            type: dict
+                            suboptions:
+                              key_length:
+                                description: aes_cbc key length
+                                type: int
+                                choices: [128, 192, 256]
+                              key_encryption:
+                                description:
+                                  - Encryption type.
+                                  - 0 for no-encryption (plain text)
+                                  - 7 for encrypted key
+                                type: int
+                                choices: [0, 7]
+                              hex_string:
+                                description: Based on key length specified
+                                type: str
+                          des:
+                            description: Use DES encryption
+                            type: dict
+                            suboptions:
+                              key_encryption:
+                                description:
+                                  - Encryption type.
+                                  - 0 for no-encryption (plain text)
+                                  - 7 for encrypted key
+                                type: int
+                                choices: [0, 7]
+                              hex_string:
+                                description: 64bit key (16 chars)
+                                type: str
+                          null:
+                            description: ESP with no encryption
+                            type: dict
+                            suboptions:
+                              auth_type:
+                                description: Null authentication type
+                                type: str
+                                choices: ['md5', 'sha1']
+                              key_encryption:
+                                description:
+                                  - Encryption type.
+                                  - 0 for no-encryption (plain text)
+                                  - 7 for encrypted key
+                                type: int
+                                choices: [0, 7]
+                              hex_string:
+                                description: Based on auth type specified
+                                type: str
+                  filter_list:
+                    description: Filter networks between OSPF areas
                     type: dict
                     suboptions:
                       name:
                         description: Name of an IP prefix-list
                         type: str
                       in:
-                        description:
-                          - Filter incoming routing updates
-                          - Note, refer vendor documentation for respective valid values
-                        type: str
+                        description: Filter networks sent to this area
+                        type: bool
                       out:
-                        description:
-                          - Filter outgoing routing updates
-                          - Note, refer vendor documentation for respective valid values
-                        type: str
-                  prefix_list:
-                    description: Filter connections based on an IPv6 prefix-list
-                    type: str
-                  route_map:
-                    description: Filter routes based on a route-map
-                    type: str
-              maximum_paths:
-                description:
-                  - Number of paths
-                  - Note, refer vendor documentation for respective valid values
-                type: int
-              snmp_context:
-                description: Modify snmp parameter context name
-                type: str
-              summary_prefix:
-                description:
-                  - Configure IPV4/IPv6 summary prefix
-                type: dict
-                suboptions:
-                  address:
-                    description: IPV4/IPv6 prefix
-                    type: str
-                  not_advertise:
-                    description: Do not advertise or translate
-                    type: bool
-                  nssa_only:
-                    description: Limit summary to NSSA areas
-                    type: bool
-                  tags:
-                    description:
-                      - Set tag
-                      - Note, refer vendor documentation for respective valid values
-                    type: int
-              table_map:
-                description: route-map name
-                type: str
-          adjacency:
-            description: Control adjacency formation
-            type: dict
-            suboptions:
-              stagger:
-                description: Control adjacency formation
-                type: dict
-                suboptions:
-                  initial_adjacency:
-                    description:
-                      - Initial number of adjacencies allowed to be forming in an area
-                      - Note, refer vendor documentation for respective valid values
-                    type: int
-                  none:
-                    description: No initial limit or minimum adjacencies forming in area
-                    type: bool
-                  max_adjacency:
-                    description:
-                      - Maximum number of adjacencies allowed to be forming
-                      - Note, refer vendor documentation for respective valid values
-                    type: int
-          area:
-            description: OSPF area parameters
-            type: list
-            elements: dict
-            suboptions:
-              authentication:
-                description:
-                  - Enable authentication
-                type: dict
-                suboptions:
-                  message_diggest:
-                    description: Use message-digest authentication
-                    type: bool
-              capability:
-                description:
-                  - Enable area specific capability
-                  - Enable exclusion of links from base topology
-                type: bool
-              default_cost:
-                description:
-                  - Set the summary default-cost of a NSSA/stub area
-                  - Stub's advertised external route metric
-                  - Note, refer vendor documentation for respective valid values
-                type: int
-              encryption:
-                description:
-                  - Enable encryption
-                  - Use IPsec encryption
-                type: dict
-                suboptions:
-                  spi:
-                    description:
-                      - Set the SPI (Security Parameters Index)
-                      - Note, refer vendor documentation for respective valid values
-                    type: int
-                  esp:
-                    description: Filter networks sent to this area
+                        description: Filter networks sent from this area
+                        type: bool
+                  nssa:
+                    description: Specify a NSSA area
                     type: dict
                     suboptions:
-                      3des:
-                        description: Use 3DES encryption
+                      default_information_originate:
+                        description: Originate Type 7 default into NSSA area
+                        type: dict
+                        suboptions:
+                          metric:
+                            description:
+                              - OSPF default metric
+                            type: int
+                          metric_type:
+                            description:
+                              - OSPF metric type for default routes
+                              - OSPF Link State type
+                            type: int
+                            choices: [1, 2]
+                          no_redistribution:
+                            description: No redistribution into this NSSA area
+                            type: bool
+                          no_summary:
+                            description: Do not send summary LSA into NSSA
+                            type: bool
+                          nssa_only:
+                            description: Limit default advertisement to this NSSA area
+                            type: bool
+                          translate:
+                            description: Translate LSA
+                            type: str
+                            choices: ['always', 'suppress-fa']
+                      no_redistribution:
+                        description: No redistribution into this NSSA area
+                        type: bool
+                      no_summary:
+                        description: Do not send summary LSA into NSSA
+                        type: bool
+                      translate:
+                        description: Translate LSA
                         type: str
-                      aes_cbc:
-                        description: Use AES-CBC encryption
-                        type: str
-                      des:
-                        description: Use DES encryption
-                        type: str
-                      null:
-                        description: ESP with no encryption
-                        type: str
-              filter_list:
-                description: Filter networks between OSPF areas
-                type: dict
-                suboptions:
-                  name:
-                    description: Name of an IP prefix-list
-                    type: str
-                  in:
-                    description: Filter networks sent to this area
-                    type: bool
-                  out:
-                    description: Filter networks sent from this area
-                    type: bool
-              nssa:
-                description: Specify a NSSA area
-                type: dict
-                suboptions:
-                  default_information_originate:
-                    description: Originate Type 7 default into NSSA area
-                    type: str
-                  no_ext_capability:
-                    description: Do not send domain specific capabilities into NSSA
-                    type: bool
-                  no_redistribution:
-                    description: No redistribution into this NSSA area
-                    type: bool
-                  no_summary:
-                    description: Do not send summary LSA into NSSA
-                    type: bool
-                  translate:
-                    description: Translate LSA
-                    type: str
-              range:
-                description: Summarize routes matching address/mask (border routers only)
-                type: dict
-                suboptions:
-                  address:
-                    description: IP address to match
-                    type: str
-                  mask:
-                    description: IP mask for address
-                    type: str
-                  advertise:
-                    description: Advertise this range (default)
-                    type: bool
-                  cost:
-                    description: User specified metric for this range
-                    type: int
-                  not_advertise:
-                    description: DoNotAdvertise this range
-                    type: bool
-              sham_link:
-                description: Define a sham link and its parameters
-                type: dict
-                suboptions:
-                  address:
-                    description: IP addr associated with sham-link source
-                    type: str
-                  mask:
-                    description: IP addr mask associated with sham-link source
-                    type: str
-                  ttl_security_hops:
-                    description: Maximum number of TTL security check hops allowed
-                    type: int
-                  cost:
-                    description: Associate a cost with the sham-link
-                    type: int
-              stub:
-                description:
-                - Specify a stub area
-                - Backbone can not be configured as stub area
-                type: dict
-                suboptions:
-                  no_ext_capability:
-                    description: Do not send domain specific capabilities into stub area
-                    type: bool
-                  no_summary:
-                    description: Do not send summary LSA into stub area
-                    type: bool
-          auto_cost:
-            description: Calculate OSPF interface cost according to bandwidth
-            type: dict
-            suboptions:
-              reference_bandwidth:
-                description:
-                  - Use reference bandwidth method to assign OSPF cost
-                  - Note, refer vendor documentation for respective valid values
-                type: int
-          bfd:
-            description:
-              - BFD configuration commands
-              - Enable BFD on all interfaces
-            type: bool
-          capability:
-            description: Enable specific OSPF featur
-            type: dict
-            suboptions:
-              lls:
-                description: Link-local Signaling (LLS) support
-                type: bool
-              opaque:
-                description: Opaque LSA
-                type: bool
-              transit:
-                description: Transit Area
-                type: bool
-          compatible:
-            description: OSPF compatibility list
-            type: dict
-            suboptions:
-              rfc1583:
-                description: compatible with RFC 1583
-                type: bool
-              rfc1587:
-                description: compatible with RFC 1587
-                type: bool
-              rfc5243:
-                description: supports DBD exchange optimization
-                type: bool
-          domain_id:
-            description: OSPF domain-id
-            type: dict
-            suboptions:
-              address:
-                description: OSPF domain ID in IP address format
-                type: str
-              secondary:
-                description: Secondary Domain-ID
-                type: bool
-              null:
-                description: Null Domain-ID
-                type: bool
-              type:
-                description: OSPF domain ID type in Hex format
-                type: str
-          domain_tag:
-            description: OSPF domain tag - 32-bit value
-            type: int
-          event_log:
-            description: Event Logging
-            type: dict
-            suboptions:
-              one_shot:
-                description: Disable Logging When Log Buffer Becomes Full
-                type: bool
-              pause:
-                description: Pause Event Logging
-                type: bool
-              size:
-                description:
-                  - Maximum Number of Events Stored in the Event Log
-                  - Note, refer vendor documentation for respective valid values
-                type: int
-          graceful_restart:
-            description: Graceful-restart options
-            type: dict
-            suboptions:
-              disable:
-                description: disable helper support
-                type: bool
-              strict_lsa_checking:
-                description: enable helper strict LSA checking
-                type: bool
-          ignore:
-            description: Do not complain about specific event
-            type: bool
-          interface_id:
-            description: Source of the interface ID
-            type: dict
-            suboptions:
-              snmp_if_index:
-                description: SNMP MIB ifIndex
-                type: bool
-          ispf:
-            description: Enable incremental SPF computation
-            type: bool
-          limit:
-            description: Limit a specific OSPF feature and LS update, DBD, and LS request retransmissions
-            type: dict
-            suboptions:
-              dc:
-                description: Demand circuit retransmissions
-                type: dict
-                suboptions:
-                  number:
-                    description: The maximum number of retransmissions
-                  disable:
-                    description: Disble the feature
-                    type: bool
-              non_dc:
-                description: Non-demand-circuit retransmissions
-                type: dict
-                suboptions:
-                  number:
-                    description: The maximum number of retransmissions
-                  disable:
-                    description: Disble the feature
-                    type: bool
-          local_rib_criteria:
-            description: Enable or disable usage of local RIB as route criteria
-            type: dict
-            suboptions:
-              forwarding_address:
-                description: Local RIB used to validate external/NSSA forwarding addresses
-                type: bool
-              inter_area_summary:
-                description: Local RIB used as criteria for inter-area summaries
-                type: bool
-              nssa_translation:
-                description: Local RIB used as criteria for NSSA translation
-                type: bool
-          log_adjacency_changes:
-            description:
-              - Log changes in adjacency state
-              - Log all state changes
-            type: bool
-          manet:
-            description: Specify MANET OSPF parameters
-            type: dict
-            suboptions:
-              cache:
-                description: Specify MANET OSPF parameters
-                type: dict
-                suboptions:
-                  acknowledgement:
+                  stub:
                     description:
-                      - Specify MANET acknowledgement cache size
-                      - Maximum number of acknowledgements in cache
+                    - Specify a stub area
+                    - Backbone can not be configured as stub area
+                    type: dict
+                    suboptions:
+                      no_summary:
+                        description: Do not send summary LSA into stub area
+                        type: bool
+              authentication:
+                description: Router authentication parameters
+                type: dict
+                  suboptions:
+                    deployment:
+                      description: Deployment mode of operation
+                      type: bool
+              auto_cost:
+                description: Calculate OSPF interface cost according to bandwidth
+                type: dict
+                suboptions:
+                  reference_bandwidth:
+                    description:
+                      - Use reference bandwidth method to assign OSPF cost
                       - Note, refer vendor documentation for respective valid values
                     type: int
-                  update:
+              bfd:
+                description:
+                  - BFD configuration commands
+                  - Enable BFD on all interfaces
+                type: bool
+              capability:
+                description: Enable specific OSPF feature
+                type: dict
+                suboptions:
+                  lls:
+                    description: Link-local Signaling (LLS) support
+                    type: bool
+                  opaque:
+                    description: Opaque LSA
+                    type: bool
+                  transit:
+                    description: Transit Area
+                    type: bool
+              compatible:
+                description: OSPF router compatibility list
+                type: dict
+                suboptions:
+                  rfc1583:
+                    description: compatible with RFC 1583
+                    type: bool
+                  rfc1587:
+                    description: compatible with RFC 1587
+                    type: bool
+                  rfc5243:
+                    description: supports DBD exchange optimization
+                    type: bool
+              default:
+                description: Set a command to its defaults
+                type: bool
+              event_log:
+                description: Event Logging
+                type: dict
+                suboptions:
+                  one_shot:
+                    description: Disable Logging When Log Buffer Becomes Full
+                    type: bool
+                  pause:
+                    description: Pause Event Logging
+                    type: bool
+                  size:
                     description:
-                      - Specify MANET LSA cache size
-                      - Maximum number of LSAs in cache
+                      - Maximum Number of Events Stored in the Event Log
                       - Note, refer vendor documentation for respective valid values
                     type: int
-              hello:
-                description:
-                  - Unicast Hellos rather than multicast
-                  - Unicast Hello requests and responses rather than multicast
-                type: bool
-              peering:
-                description: MANET OSPF Smart Peering
+              graceful_restart:
+                description: Graceful-restart options
                 type: dict
                 suboptions:
-                  selective_per_interface:
-                    description:
-                      - Enable selective peering
-                      - Select peers per interface rather than per node
-                      - Note, refer vendor documentation for respective valid values
-                    type: bool
-                  selective_redundancy:
-                    description:
-                      - Enable selective peering
-                      - Redundant paths
-                      - Number of redundant OSPF paths
-                      - Note, refer vendor documentation for respective valid values
-                    type: int
-              willingness:
-                description:
-                  - Specify Relay willingness value
-                  - Relay willingness value
-                  - Note, refer vendor documentation for respective valid values
-                type: int
-          max_lsa:
-            description: Maximum number of non self-generated LSAs to accept
-            type: dict
-            suboptions:
-              number:
-                description:
-                  - Maximum number of non self-generated LSAs to accept
-                  - Note, refer vendor documentation for respective valid values
-                type: int
-              threshold_value:
-                description:
-                  - Threshold value (%) at which to generate a warning msg
-                  - Note, refer vendor documentation for respective valid values
-                type: int
-              ignore_count:
-                description:
-                  - Maximum number of times adjacencies can be suppressed
-                  - Note, refer vendor documentation for respective valid values
-                type: int
-              ignore_time:
-                description:
-                  - Number of minutes during which all adjacencies are suppressed
-                  - Note, refer vendor documentation for respective valid values
-                type: int
-              reset_time:
-                description:
-                  - Number of minutes after which ignore-count is reset to zero
-                  - Note, refer vendor documentation for respective valid values
-                type: int
-              warning_only:
-                description:
-                  - Only give a warning message when limit is exceeded
-                type: bool
-          max_metric:
-            description: Set maximum metric
-            type: dict
-            suboptions:
-              external_lsa:
-                description:
-                  - Override external-lsa metric with max-metric value
-                  - Overriding metric in external-LSAs
-                  - Note, refer vendor documentation for respective valid values
-                type: int
-              inter_area_lsas:
-                description:
-                  - Override inter-area-lsas metric with max-metric value
-                  - Overriding metric in inter-area-LSAs
-                  - Note, refer vendor documentation for respective valid values
-                type: int
-              on_startup:
-                description:
-                  - Set maximum metric temporarily after reboot
-                  - Time, in seconds, router-LSAs are originated with max-metric
-                  - Note, refer vendor documentation for respective valid values
-                type: int
-              stub_prefix_lsa:
-                description: Set maximum metric for stub links in prefix LSAs
-                type: bool
-          network:
-            description: Enable routing on an IP network
-            type: dict
-            suboptions:
-              address:
-                description: Network number
-                type: str
-              wildcard_bits:
-                description: OSPF wild card bits
-                type: str
-              area:
-                description: Set the OSPF area ID
-                type: str
-          nsf:
-            description: Non-stop forwarding
-            type: dict
-            suboptions:
-              cisco:
-                description: Cisco Non-stop forwarding
-                type: dict
-                suboptions:
-                  helper:
-                    description: helper support
-                    type: bool
-                  disable:
-                    description: disable helper support
-                    type: bool
-              ietf:
-                description: IETF graceful restart
-                type: dict
-                suboptions:
-                  helper:
-                    description: helper support
+                  enable:
+                    description: Enable helper support
                     type: bool
                   disable:
                     description: disable helper support
@@ -612,112 +942,371 @@ options:
                   strict_lsa_checking:
                     description: enable helper strict LSA checking
                     type: bool
-          passive_interface:
-            description: Suppress routing updates on an interface
-            type: str
-          prefix_suppression:
-            description: Enable prefix suppression
-            type: bool
-          priority:
-            description:
-              - OSPF topology priority
-              - Note, refer vendor documentation for respective valid values
-            type: int
-          queue_depth:
-            description: Hello/Router process queue depth
-            type: dict
-            suboptions:
-              hello:
-                description:
-                  - OSPF Hello process queue depth
-                  - maximum number of packets in the queue
-                  - Unlimited queue depth
-                type: str
-              update:
-                description:
-                  - OSPF Router process queue depth
-                  - maximum number of packets in the queue
-                  - Unlimited queue depth
-                type: str
-          router_id:
-            description: router-id address for this OSPF process
-            type: str
-          shudown:
-            description: Shutdown the router process
-            type: bool
-          summary_address:
-            description: Configure IP address summaries
-            type: dict
-            suboptions:
-              address:
-                description: IP summary address
-                type: str
-              mask:
-                description: IP Summary mask
-                type: str
-              not_advertise:
-                description: Do not advertise or translate
+              help:
+                description: Description of the interactive help system
                 type: bool
-              nssa_only:
-                description: Limit summary to NSSA areas
-                type: bool
-              tag:
-                description: Set tag
-                type: int
-          timers:
-            description: Adjust routing timers
-            type: dict
-            suboptions:
-              lsa:
-                description: OSPF LSA timers
+              interface_id:
+                description: Source of the interface ID
                 type: dict
                 suboptions:
-                  arrival:
+                  snmp_if_index:
+                    description: SNMP MIB ifIndex
+                    type: bool
+              limit:
+                description: Limit a specific OSPF feature and LS update, DBD, and LS request retransmissions
+                type: dict
+                suboptions:
+                  dc:
+                    description: Demand circuit retransmissions
+                    type: dict
+                    suboptions:
+                      number:
+                        description: The maximum number of retransmissions
+                        type: int
+                      disable:
+                        description: Disble the feature
+                        type: bool
+                  non_dc:
+                    description: Non-demand-circuit retransmissions
+                    type: dict
+                    suboptions:
+                      number:
+                        description: The maximum number of retransmissions
+                        type: int
+                      disable:
+                        description: Disble the feature
+                        type: bool
+              local_rib_criteria:
+                description: Enable or disable usage of local RIB as route criteria
+                type: dict
+                suboptions:
+                  forwarding_address:
+                    description: Local RIB used to validate external/NSSA forwarding addresses
+                    type: bool
+                  inter_area_summary:
+                    description: Local RIB used as criteria for inter-area summaries
+                    type: bool
+                  nssa_translation:
+                    description: Local RIB used as criteria for NSSA translation
+                    type: bool
+              log_adjacency_changes:
+                description:
+                  - Log changes in adjacency state
+                  - Log all state changes
+                type: bool
+              manet:
+                description: Specify MANET OSPF parameters
+                type: dict
+                suboptions:
+                  cache:
+                    description: Specify MANET OSPF parameters
+                    type: dict
+                    suboptions:
+                      acknowledgement:
+                        description:
+                          - Specify MANET acknowledgement cache size
+                          - Maximum number of acknowledgements in cache
+                          - Note, refer vendor documentation for respective valid values
+                        type: int
+                      update:
+                        description:
+                          - Specify MANET LSA cache size
+                          - Maximum number of LSAs in cache
+                          - Note, refer vendor documentation for respective valid values
+                        type: int
+                  hello:
                     description:
-                      - OSPF LSA arrival timer
+                      - Unicast Hellos rather than multicast
+                      - Unicast Hello requests and responses rather than multicast
+                    type: bool
+                  peering:
+                    description: MANET OSPF Smart Peering
+                    type: dict
+                    suboptions:
+                      enable:
+                        description: Enable MANET selective peering
+                        type: bool
+                      per_interface:
+                        description:
+                          - Enable selective peering
+                          - Select peers per interface rather than per node
+                          - Note, refer vendor documentation for respective valid values
+                        type: bool
+                      redundancy:
+                        description:
+                          - Enable selective peering
+                          - Redundant paths
+                          - Number of redundant OSPF paths
+                          - Note, refer vendor documentation for respective valid values
+                        type: int
+                  willingness:
+                    description:
+                      - Specify Relay willingness value
+                      - Relay willingness value
+                      - Note, refer vendor documentation for respective valid values
+                    type: int
+              max_lsa:
+                description: Maximum number of non self-generated LSAs to accept
+                type: dict
+                suboptions:
+                  number:
+                    description:
+                      - Maximum number of non self-generated LSAs to accept
+                      - Note, refer vendor documentation for respective valid values
+                    type: int
+                  threshold_value:
+                    description:
+                      - Threshold value (%) at which to generate a warning msg
+                      - Note, refer vendor documentation for respective valid values
+                    type: int
+                  ignore_count:
+                    description:
+                      - Maximum number of times adjacencies can be suppressed
+                      - Note, refer vendor documentation for respective valid values
+                    type: int
+                  ignore_time:
+                    description:
+                      - Number of minutes during which all adjacencies are suppressed
+                      - Note, refer vendor documentation for respective valid values
+                    type: int
+                  reset_time:
+                    description:
+                      - Number of minutes after which ignore-count is reset to zero
+                      - Note, refer vendor documentation for respective valid values
+                    type: int
+                  warning_only:
+                    description: Only give a warning message when limit is exceeded
+                    type: bool
+              max_metric:
+                description: Set maximum metric
+                type: dict
+                suboptions:
+                  router_lsa:
+                    description: Maximum metric in self-originated router-LSAs
+                    type: dict
+                    suboptions:
+                      enable:
+                        description: enable maximum metric in self-originated router-LSAs
+                        type: bool
+                  external_lsa:
+                    description:
+                      - Override external-lsa metric with max-metric value
+                      - Overriding metric in external-LSAs
+                      - Note, refer vendor documentation for respective valid values
+                    type: int
+                  inter_area_lsas:
+                    description:
+                      - Override inter-area-lsas metric with max-metric value
+                      - Overriding metric in inter-area-LSAs
+                      - Note, refer vendor documentation for respective valid values
+                    type: int
+                  on_startup:
+                    description: Set maximum metric temporarily after reboot
+                      type: dict
+                      suboptions:
+                        time:
+                          description:
+                            - Time, in seconds, router-LSAs are originated with max-metric
+                            - Note, please refer vendor documentation for respective valid range
+                          type: int
+                        wait_for_bgp:
+                          description: Let BGP decide when to originate router-LSA with normal metric
+                          type: bool
+                  stub_prefix_lsa:
+                    description: Set maximum metric for stub links in prefix LSAs
+                    type: bool
+              network:
+                description: Enable routing on an IP network
+                type: dict
+                suboptions:
+                  address:
+                    description: Network number
+                    type: str
+                  wildcard_bits:
+                    description: OSPF wild card bits
+                    type: str
+                  area:
+                    description: Set the OSPF area ID
+                    type: str
+              nsf:
+                description: Non-stop forwarding
+                type: dict
+                suboptions:
+                  cisco:
+                    description: Cisco Non-stop forwarding
+                    type: dict
+                    suboptions:
+                      helper:
+                        description: helper support
+                        type: bool
+                      disable:
+                        description: disable helper support
+                        type: bool
+                  ietf:
+                    description: IETF graceful restart
+                    type: dict
+                    suboptions:
+                      helper:
+                        description: helper support
+                        type: bool
+                      disable:
+                        description: disable helper support
+                        type: bool
+                      strict_lsa_checking:
+                        description: enable helper strict LSA checking
+                        type: bool
+              passive_interface:
+                description:
+                  - Suppress routing updates on an interface
+                  - Interface name with respective interface number
+                type: dict
+              prefix_suppression:
+                description: Enable prefix suppression
+                type: bool
+              priority:
+                description:
+                  - OSPF topology priority
+                  - Note, refer vendor documentation for respective valid values
+                type: int
+              queue_depth:
+                description: Hello/Router process queue depth
+                type: dict
+                suboptions:
+                  hello:
+                    description: OSPF Hello process queue depth
+                    type: dict
+                    suboptions:
+                      max_packets:
+                        description: maximum number of packets in the queue
+                        type: int
+                      unlimited:
+                        description: Unlimited queue depth
+                        type: bool
+                  update:
+                    description: OSPF Router process queue depth
+                    type: dict
+                    suboptions:
+                      max_packets:
+                        description: maximum number of packets in the queue
+                        type: int
+                      unlimited:
+                        description: Unlimited queue depth
+                        type: bool
+              router_id:
+                description:
+                  - Router-id address for this OSPF process
+                  - OSPF router-id in IP address format (A.B.C.D)
+                type: str
+              shudown:
+                description: Shutdown the router process
+                type: bool
+              summary_address:
+                description: Configure IP address summaries
+                type: dict
+                suboptions:
+                  address:
+                    description: IP summary address
+                    type: str
+                  mask:
+                    description: IP Summary mask
+                    type: str
+                  not_advertise:
+                    description: Do not advertise or translate
+                    type: bool
+                  nssa_only:
+                    description: Limit summary to NSSA areas
+                    type: bool
+                  tag:
+                    description: Set tag
+                    type: int
+              timers:
+                description: Adjust routing timers
+                type: dict
+                suboptions:
+                  lsa:
+                    description:
+                      - OSPF LSA timers, arrival timer
                       - The minimum interval in milliseconds between accepting the same LSA
                       - Note, refer vendor documentation for respective valid values
                     type: int
-              manet:
-                description: OSPF MANET timers
+                  manet:
+                    description: OSPF MANET timers
+                    type: dict
+                    suboptions:
+                      ackwait:
+                        description:
+                          - Specify acknowledgement delay timer value
+                          - Acknowledgement delay timer value in milliseconds
+                          - Note, refer vendor documentation for respective valid values
+                        type: int
+                      peering:
+                        description:
+                          - Specify redundant peering delay timer value
+                          - Peering delay timer value in millisecondss
+                          - Note, refer vendor documentation for respective valid values
+                        type: int
+                      pushback:
+                        description:
+                          - Specify pushback timer value
+                          - Pushback timer value in milliseconds
+                          - Note, refer vendor documentation for respective valid values
+                        type: int
+                  pacing:
+                    description: OSPF pacing timers
+                    type: dict
+                    suboptions:
+                      flood:
+                        description:
+                          - OSPF flood pacing timer
+                          - The minimum interval in msec to pace limit flooding on interface
+                          - Note, refer vendor documentation for respective valid values
+                        type: int
+                      lsa_group:
+                        description:
+                          - OSPF LSA group pacing timer
+                          - Interval in sec between group of LSA being refreshed or maxaged
+                          - Note, refer vendor documentation for respective valid values
+                        type: int
+                      retransmission:
+                        description:
+                          - OSPF retransmission pacing timer
+                          - The minimum interval in msec between neighbor retransmissions
+                          - Note, refer vendor documentation for respective valid values
+                        type: int
+                  throttle:
+                    description: OSPF throttle timers
+                    type: dict
+                    suboptions:
+                      lsa:
+                        description:
+                          - OSPF LSA throttle timers
+                          - Delay to generate first occurrence of LSA in milliseconds
+                          - Note, refer vendor documentation for respective valid values
+                        type: int
+                      spf:
+                        description:
+                          - OSPF SPF throttle timers
+                          - Delay between receiving a change to SPF calculation in milliseconds
+                          - Note, refer vendor documentation for respective valid values
+                        type: int
+              traffic-share:
+                description:
+                  - How to compute traffic share over alternate paths
+                  - All traffic shared among min metric paths
+                  - Use different interfaces for equal-cost paths
+                type: bool
+              ttl_security:
+                description:
+                  - TTL security check
+                  - Enable TTL Security on all interfaces
+                  - Use different interfaces for equal-cost paths
                 type: dict
                 suboptions:
-                  ackwait:
+                  hops:
                     description:
-                      - Specify acknowledgement delay timer value
-                      - Acknowledgement delay timer value in milliseconds
+                      - Maximum number of IP hops allowed
                       - Note, refer vendor documentation for respective valid values
                     type: int
-                  peering:
-                    description:
-                      - Specify redundant peering delay timer value
-                      - Peering delay timer value in millisecondss
-                      - Note, refer vendor documentation for respective valid values
-                    type: int
-                  pushback:
-                    description:
-                      - Specify pushback timer value
-                      - Pushback timer value in milliseconds
-                      - Note, refer vendor documentation for respective valid values
-                    type: int
-          traffic-share:
-            description:
-              - How to compute traffic share over alternate paths
-              - All traffic shared among min metric paths
-              - Use different interfaces for equal-cost paths
-            type: bool
-          ttl_security:
-            description:
-              - TTL security check
-              - Enable TTL Security on all interfaces
-              - Use different interfaces for equal-cost paths
-            type: dict
-            suboptions:
-              hops:
-                description:
-                  - Maximum number of IP hops allowed
-                  - Note, refer vendor documentation for respective valid values
-                type: int
   state:
     description:
     - The state the configuration should be left in
