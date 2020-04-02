@@ -9,14 +9,14 @@ ANSIBLE_METADATA: |
     }
 
 NETWORK_OS: vyos
-RESOURCE: ospf_global
+RESOURCE: ospfv2
 COPYRIGHT: Copyright 2019 Red Hat
 
 DOCUMENTATION: |
-  module: vyos_ospf_global
+  module: vyos_ospfv2
   version_added: 2.10
-  short_description: Manages attributes of OSPF routes on VyOS network devices.
-  description: This module manages attributes of OSPF routes on VyOS network devices.
+  short_description: Manages attributes of OSPF IPv4 routes on VyOS network devices.
+  description: This module manages attributes of OSPF IPv4 routes on VyOS network devices.
   author: Rohit Thakur (@rohitthakur2590)
   options:
     config:
@@ -24,12 +24,6 @@ DOCUMENTATION: |
       type: list
       elements: dict
       suboptions:
-        afi:
-          description:
-            - Specifies the type of ospf route.
-          type: str
-          choices: ['ipv4', 'ipv6']
-          required: True
         ospf_area:
           description: OSPF area.
           type: list
@@ -49,6 +43,9 @@ DOCUMENTATION: |
                   description: Nssa OSPF area.
                   type: dict
                   suboptions:
+                    enable:
+                      description: Enable the nssa.
+                      type: bool       
                     default_cost:
                       description: Summary-default cost of nssa area.
                       type: int
@@ -72,14 +69,14 @@ DOCUMENTATION: |
             authentication:
               description: OSPF area authentication type.
               type: str
-              choices: ['plaintext_password', 'md5']
+              choices: ['plaintext-password', 'md5']
             network:
               description: OSPF network.
               type: list
-              required: True
               elements: dict
               suboptions:
                 address:
+                  required: True
                   description: OSPF IPv4 network address.
                   type: str 
             range:
@@ -93,9 +90,6 @@ DOCUMENTATION: |
                 cost:
                   description: Metric for this range.
                   type: int
-                advertise:
-                  description: Advertise this range.
-                  type: bool
                 not_advertise:
                   description: Don't advertise this range.
                   type: bool
@@ -125,6 +119,9 @@ DOCUMENTATION: |
                         key_id:
                           description: MD5 key id.
                           type: int
+                        md5_key:
+                          description: MD5 key.
+                          type: str
                     plaintext_password:
                       description: Plain text password.
                       type: str
@@ -140,16 +137,10 @@ DOCUMENTATION: |
                 transmit_delay:
                   description: Link state transmit delay.
                   type: int
-            export_list:
-              description: Name of export-list.
-              type: str
-            import_list:
-              description: Name of import-list.
-              type: str
         log_adjacency_changes:
            description: Log changes in adjacency state.
            type: str
-           choices: ['details']
+           choices: ['detail']
         max_metric: 
           description: OSPF maximum/infinite-distance metric.
           type: dict
@@ -195,8 +186,8 @@ DOCUMENTATION: |
                   description: Route map references.
                   type: str           
         default_metric:
-                  description: Metric of redistributed routes
-                  type: int
+          description: Metric of redistributed routes
+          type: int
         distance:
           description: Administrative distance.
           type: dict
@@ -253,7 +244,7 @@ DOCUMENTATION: |
            opaque_lsa:
              description: Enable the Opaque-LSA capability (rfc2370).
              type: bool
-           rfc1583-compatibility:
+           rfc1583_compatibility:
              description: Enable rfc1583 criteria for handling AS external routes.
              type: bool
            router_id: 
@@ -263,7 +254,7 @@ DOCUMENTATION: |
           description: Suppress routing updates on an interface.
           type: list
         passive_interface_exclude:
-          description: Interface to exclude when using 'passive-interface default'.
+          description: Interface to exclude when using passive-interface default.
           type: list
         redistribute:  
           description: Redistribute information from another routing protocol.
@@ -273,7 +264,7 @@ DOCUMENTATION: |
             route_type:
               description: Route type to redistribute.
               type: str
-              choices: ['bgp', 'connected', 'kernel', 'rip', 'static', 'ripng']
+              choices: ['bgp', 'connected', 'kernel', 'rip', 'static']
             metric:
               description: Metric for redistribution routes.
               type: int
@@ -322,7 +313,6 @@ DOCUMENTATION: |
       choices:
       - merged
       - replaced
-      - overridden
       - deleted
       - parsed
       - gathered
@@ -332,7 +322,6 @@ DOCUMENTATION: |
 EXAMPLES:
   - merged_example_01.txt
   - replaced_example_01.txt
-  - overridden_example_01.txt
   - rendered_example_01.txt
   - parsed_example_01.txt
   - gathered_example_01.txt
