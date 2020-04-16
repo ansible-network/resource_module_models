@@ -71,7 +71,7 @@ DOCUMENTATION: |
                 authentication:
                   description: Enable authentication
                   type: dict
-                  mutually_exclusive:[[keychain,message_digest,null]]
+                  mutually_exclusive: [[keychain,message_digest,null]]
                   suboptions:
                     keychain:
                       description: Specify keychain name
@@ -195,7 +195,7 @@ DOCUMENTATION: |
                     authentication:
                       description: Enable authentication
                       type: dict
-                      mutually_exclusive:[[keychain,message_digest,null]]
+                      mutually_exclusive: [[keychain,message_digest,null]]
                       suboptions:
                         keychain:
                           description: Specify keychain name
@@ -261,7 +261,7 @@ DOCUMENTATION: |
             authentication:
                   description: Enable authentication.
                   type: dict
-                  mutually_exclusive:[[keychain,message_digest,null]]
+                  mutually_exclusive: [[keychain,message_digest,null]]
                   suboptions:
                     keychain:
                       description: Specify keychain name.
@@ -308,7 +308,7 @@ DOCUMENTATION: |
                 fast_detect:
                   description: Configure fast detection.
                   type: dict
-                  mutually_exclusive:[[set,strict_mode]]
+                  mutually_exclusive: [[set,strict_mode]]
                   suboptions:
                     set:
                       description: Enable fast detection only.
@@ -329,7 +329,7 @@ DOCUMENTATION: |
                 opaque:
                 description: Configure opaque LSA.
                 type: dict
-                mutually_exclusive:[[set,disable]]
+                mutually_exclusive: [[set,disable]]
                 suboptions:
                   disable: 
                     description: Disable Opaque LSA capability.
@@ -389,7 +389,7 @@ DOCUMENTATION: |
                   description: Administrative distance.
                   type: list
                   elements: dict
-                  required_together:[[value,source,wildcard]]
+                  required_together: [[value,source,wildcard]]
                   suboptions:
                     value:
                       description: Distance value (1-255).
@@ -433,7 +433,7 @@ DOCUMENTATION: |
                 access_list:
                   description: Inbound/outbound access-list.
                   type: dict
-                  required_together:[[name,direction]]
+                  required_together: [[name,direction]]
                   suboptions:
                     name:
                       description: Access-list name
@@ -647,7 +647,7 @@ DOCUMENTATION: |
             microloop_avoidance:
               description: Avoid microloops.
               type: dict
-              mutually_exclusive:[[protected,rib_update_delay,segment_routing]]
+              mutually_exclusive: [[protected,rib_update_delay,segment_routing]]
               suboptions:
                 protected:
                   description: Avoid microloops for protected prefixes only).
@@ -745,7 +745,7 @@ DOCUMENTATION: |
               type: dict
               suboptions:
                 cisco:
-                  description: Cisco Non-stop forwarding
+                  description: Cisco Non-stop forwarding.
                   type: dict
                   suboptions:
                     enforce_global:
@@ -758,11 +758,11 @@ DOCUMENTATION: |
                   description: Maximum time allowed for external route learning (<1-3600> seconds).
                   type: int
                 ietf:
-                  description: IETF graceful restart
+                  description: IETF graceful restart.
                   type: dict
                   suboptions:
                     helper_disable:
-                      description:Disable router's helper support level.
+                      description: Disable router's helper support level.
                       type: bool
                     set:
                       description: Only enable ietf option.
@@ -777,7 +777,7 @@ DOCUMENTATION: |
               description: Enable NSR for all VRFs in this process. 'False' option to disable NSR for all VRFs in this process.
               type: bool
             packet_size:
-              description: Size of OSPF packets to use Min: 576 Max: MTU bytes
+              description: Size of OSPF packets to use. min=576 max=MTU bytes.
               type: int
             passive:
               description: Enable/Disable passive.
@@ -860,7 +860,7 @@ DOCUMENTATION: |
                   type: str
                 level:
                   description: ISIS levels.(1=level-1 routes only, 2=level-2 routes only,12=level-1 and level-2 routes)
-                  choices:[1,2,12]
+                  choices: [1,2,12]
                   type: int
                 lsa_type_summary:
                   description: LSA type 3 for redistributed routes.
@@ -1054,7 +1054,7 @@ DOCUMENTATION: |
             trace:
               description: OSPF tracing options(cisco-support).
               type: dict
-              required_together:[[name,entry]]
+              required_together: [[name,entry]]
               suboptions:
                 name:
                   description: Name of trace buffer.
@@ -1127,7 +1127,7 @@ DOCUMENTATION: |
                     authentication:
                       description: Enable authentication
                       type: dict
-                      mutually_exclusive:[[keychain,message_digest,null]]
+                      mutually_exclusive: [[keychain,message_digest,null]]
                       suboptions:
                         keychain:
                           description: Specify keychain name
@@ -1206,10 +1206,10 @@ DOCUMENTATION: |
                           type: str
                           required: True
                         advertise:
-                          description: Advertise this range (default)
+                          description: Advertise this range (default).
                           type: bool
                         not_advertise:
-                          description: DoNotAdvertise this range
+                          description: DoNotAdvertise this range.
                           type: bool
                     route_policy:
                       description: Specify the route-policy to filter type 3 LSAs
@@ -1250,7 +1250,7 @@ DOCUMENTATION: |
                         authentication:
                           description: Enable authentication
                           type: dict
-                          mutually_exclusive:[[keychain,message_digest,null]]
+                          mutually_exclusive: [[keychain,message_digest,null]]
                           suboptions:
                             keychain:
                               description: Specify keychain name
@@ -1316,7 +1316,7 @@ DOCUMENTATION: |
                 authentication:
                   description: Enable authentication.
                   type: dict
-                  mutually_exclusive:[[keychain,message_digest,null]]
+                  mutually_exclusive: [[keychain,message_digest,null]]
                   suboptions:
                     keychain:
                       description: Specify keychain name.
@@ -1352,7 +1352,7 @@ DOCUMENTATION: |
                     fast_detect:
                       description: Configure fast detection.
                       type: dict
-                      mutually_exclusive:[[set,strict_mode]]
+                      mutually_exclusive: [[set,strict_mode]]
                       suboptions:
                         set:
                           description: Enable fast detection only.
@@ -1422,7 +1422,7 @@ DOCUMENTATION: |
                       description: Administrative distance.
                       type: list
                       elements: dict
-                      required_together:[[value,source,wildcard]]
+                      required_together: [[value,source,wildcard]]
                       suboptions:
                         value:
                           description: Distance value (1-255).
@@ -1456,7 +1456,7 @@ DOCUMENTATION: |
                     access_list:
                       description: Inbound/outbound access-list.
                       type: dict
-                      required_together:[[name,direction]]
+                      required_together: [[name,direction]]
                       suboptions:
                         name:
                           description: Access-list name
@@ -1648,7 +1648,7 @@ DOCUMENTATION: |
                 microloop_avoidance:
                   description: Avoid microloops.
                   type: dict
-                  mutually_exclusive:[[protected,rib_update_delay,segment_routing]]
+                  mutually_exclusive: [[protected,rib_update_delay,segment_routing]]
                   suboptions:
                     protected:
                       description: Avoid microloops for protected prefixes only).
@@ -1706,7 +1706,7 @@ DOCUMENTATION: |
                       type: dict
                       suboptions:
                         helper_disable:
-                          description:Disable router's helper support level.
+                          description: Disable router's helper support level.
                           type: bool
                         set:
                           description: Only enable ietf option.
@@ -1784,7 +1784,7 @@ DOCUMENTATION: |
                       type: str
                     level:
                       description: ISIS levels.(1=level-1 routes only, 2=level-2 routes only,12=level-1 and level-2 routes)
-                      choices:[1,2,12]
+                      choices: [1,2,12]
                       type: int
                     lsa_type_summary:
                       description: LSA type 3 for redistributed routes.
