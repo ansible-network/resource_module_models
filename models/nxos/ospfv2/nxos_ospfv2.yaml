@@ -22,8 +22,7 @@ DOCUMENTATION: |
   options:
     config:
       description: A list of OSPF process configuration.
-      type: list
-      elements: dict
+      type: dict
       suboptions:
         processes:
           description:
@@ -31,161 +30,18 @@ DOCUMENTATION: |
           type: list
           elements: dict
           suboptions:
-            process_id:
-              description:
-                - The OSPF process tag.
-              type: str
-              required: True
-            maximum_paths:
-              description:
-                - Maximum paths per destination.
-              type: int
-            summary_address:
-              description:
-                - Configure route summarization for redistribution.
-              type: list
-              elements: dict
-              suboptions:
-                prefix:
-                  description:
-                    -  IP prefix in format x.x.x.x/ml.
-                  type: str
-                  required: True
-                not_advertise:
-                  description:
-                    - Supress advertising the specified summary.
-                  type: bool
-                tag:
-                  description:
-                    - A 32-bit tag value.
-                  type: int
-            table_map:
-              description:
-                - Policy for filtering/modifying OSPF routes before sending them to RIB.
-              type: dict
-              suboptions:
-                name:
-                  description:
-                    - The Route Map name.
-                  type: str
-                  required: True
-                filter:
-                  description:
-                    - Block the OSPF routes from being sent to RIB.
-                  type: bool
-            timers:
-              description:
-                - Configure timer related constants.
-              type: dict
-              suboptions:
-                lsa_arrival:
-                  description:
-                    - Mimimum interval between arrival of a LSA.
-                  type: int
-                lsa_group_pacing:
-                  description:
-                    - LSA group refresh/maxage interval.
-                  type: int
-                throttle:
-                  description:
-                    - Configure throttle related constants.
-                  type: dict
-                  suboptions:
-                    lsa:
-                      description:
-                        - Set rate-limiting for LSA generation.
-                      type: dict
-                      suboptions:
-                        start_interval:
-                          description:
-                            - The start interval.
-                          type: int
-                        hold_interval:
-                          description:
-                            - The hold interval.
-                          type: int
-                        max_interval:
-                          description:
-                            - The max interval.
-                          type: int
-                    spf:
-                      description:
-                        - Set OSPF SPF timers.
-                      type: dict
-                      suboptions:
-                        initial_spf_delay:
-                          description:
-                            - Initial SPF schedule delay in milliseconds.
-                          type: int
-                        min_hold_time:
-                          description:
-                            - Minimum hold time between SPF calculations.
-                          type: int
-                        max_wait_time:
-                          description:
-                            - Maximum wait time between SPF calculations.
-                          type: int
-            redistribute:
-              description:
-                - Redistribute information from another routing protocol.
-              type: list
-              elements: dict
-              suboptions:
-                protocol:
-                  description:
-                    - The name of the protocol.
-                  type: str
-                  choices: ['bgp', 'direct', 'eigrp', 'isis', 'lisp', 'ospf', 'rip', 'static']
-                  required: True
-                id:
-                  description:
-                    - The identifier for the protocol specified.
-                  type: str
-                route_map:
-                  description:
-                    - The route map policy to constrain redistribution.
-                  type: str
-                  required: True
-            distance:
-              description:
-                - Configure the OSPF administrative distance.
-              type: int
-            default_information:
-              description:
-                - Control distribution of default routes.
-              type: dict
-              suboptions:
-                originate:
-                  description:
-                    - Distribute a default route.
-                  type: dict
-                  suboptions:
-                    set:
-                      description: 
-                        - Enable distribution of default route.
-                      type: bool
-                    always:
-                      description:
-                        - Always advertise a default route.
-                      type: bool
-                    route_map:
-                      description:
-                        - Policy to control distribution of default routes
-                      type: str
-            default_metric:
-              description:
-                - Specify default metric for redistributed routes.
-              type: str
-            areas:  
+            areas:
               description:
                 - Configure properties of OSPF Areas.
               type: list
               elements: dict
+              required_one_of: [['authentication', 'default_cost', 'filter_list', 'nssa', 'ranges', 'stub']]
               suboptions:
                 area_id:
                   description:
                     - The Area ID as an integer or IP Address.
                   type: str
+                  required: True
                 authentication:
                   description:
                     - Authentication settings for the Area.
@@ -264,7 +120,7 @@ DOCUMENTATION: |
                               description:
                                 - Suppress forwarding address in translated LSAs.
                               type: bool
-                range:
+                ranges:
                   description:
                     - Configure an address range for the area.
                   type: list
@@ -310,11 +166,42 @@ DOCUMENTATION: |
                   description:
                     - Specify in which unit the reference bandwidth is specified.
                   type: str
+                  required: True
                   choices: ['Gbps', 'Mbps']
             bfd:
               description:
                 - Enable BFD on all OSPF interfaces.
               type: bool
+            default_information:
+              description:
+                - Control distribution of default routes.
+              type: dict
+              suboptions:
+                originate:
+                  description:
+                    - Distribute a default route.
+                  type: dict
+                  suboptions:
+                    set:
+                      description: 
+                        - Enable distribution of default route.
+                      type: bool
+                    always:
+                      description:
+                        - Always advertise a default route.
+                      type: bool
+                    route_map:
+                      description:
+                        - Policy to control distribution of default routes
+                      type: str
+            default_metric:
+              description:
+                - Specify default metric for redistributed routes.
+              type: int
+            distance:
+              description:
+                - Configure the OSPF administrative distance.
+              type: int
             flush_routes:
               description:
                 - Flush routes on a non-graceful controlled restart.
@@ -444,6 +331,10 @@ DOCUMENTATION: |
                           description:
                             - Max metric value for summary LSAs.
                           type: int
+            maximum_paths:
+              description:
+                - Maximum paths per destination.
+              type: int
             mpls:
               description:
                 - OSPF MPLS configuration settings.
@@ -454,10 +345,16 @@ DOCUMENTATION: |
                     - OSPF MPLS Traffic Engineering commands.
                   type: dict
                   suboptions:
-                    area_id:
+                    areas:
                       description:
-                        - Area Id as an integer or ip address.
-                      type: str
+                        - List of Area IDs.
+                      type: list
+                      elements: dict
+                      suboptions:
+                        area_id:
+                          description:
+                            - Area Id as an integer or ip address.
+                        type: str
                     multicast_intact:
                       description:
                         - MPLS TE multicast support.
@@ -479,6 +376,32 @@ DOCUMENTATION: |
                   description:
                     - Interfaces passive by default.
                   type: bool
+            process_id:
+              description:
+                - The OSPF process tag.
+              type: str
+              required: True
+            redistribute:
+              description:
+                - Redistribute information from another routing protocol.
+              type: list
+              elements: dict
+              suboptions:
+                protocol:
+                  description:
+                    - The name of the protocol.
+                  type: str
+                  choices: ['bgp', 'direct', 'eigrp', 'isis', 'lisp', 'ospf', 'rip', 'static']
+                  required: True
+                id:
+                  description:
+                    - The identifier for the protocol specified.
+                  type: str
+                route_map:
+                  description:
+                    - The route map policy to constrain redistribution.
+                  type: str
+                  required: True
             rfc1583compatibility:
               description:
                 - Configure 1583 compatibility for external path preferences.
@@ -491,27 +414,109 @@ DOCUMENTATION: |
               description:
                 - Shutdown the OSPF protocol instance.
               type: bool        
+            summary_address:
+              description:
+                - Configure route summarization for redistribution.
+              type: list
+              elements: dict
+              suboptions:
+                prefix:
+                  description:
+                    -  IP prefix in format x.x.x.x/ml.
+                  type: str
+                  required: True
+                not_advertise:
+                  description:
+                    - Supress advertising the specified summary.
+                  type: bool
+                tag:
+                  description:
+                    - A 32-bit tag value.
+                  type: int
+            table_map:
+              description:
+                - Policy for filtering/modifying OSPF routes before sending them to RIB.
+              type: dict
+              suboptions:
+                name:
+                  description:
+                    - The Route Map name.
+                  type: str
+                  required: True
+                filter:
+                  description:
+                    - Block the OSPF routes from being sent to RIB.
+                  type: bool
+            timers:
+              description:
+                - Configure timer related constants.
+              type: dict
+              suboptions:
+                lsa_arrival:
+                  description:
+                    - Mimimum interval between arrival of a LSA.
+                  type: int
+                lsa_group_pacing:
+                  description:
+                    - LSA group refresh/maxage interval.
+                  type: int
+                throttle:
+                  description:
+                    - Configure throttle related constants.
+                  type: dict
+                  suboptions:
+                    lsa:
+                      description:
+                        - Set rate-limiting for LSA generation.
+                      type: dict
+                      suboptions:
+                        start_interval:
+                          description:
+                            - The start interval.
+                          type: int
+                        hold_interval:
+                          description:
+                            - The hold interval.
+                          type: int
+                        max_interval:
+                          description:
+                            - The max interval.
+                          type: int
+                    spf:
+                      description:
+                        - Set OSPF SPF timers.
+                      type: dict
+                      suboptions:
+                        initial_spf_delay:
+                          description:
+                            - Initial SPF schedule delay in milliseconds.
+                          type: int
+                        min_hold_time:
+                          description:
+                            - Minimum hold time between SPF calculations.
+                          type: int
+                        max_wait_time:
+                          description:
+                            - Maximum wait time between SPF calculations.
+                          type: int
             vrfs:
               description:
                 - Configure VRF specific OSPF settings.
               type: list
               elements: dict
               suboptions:
-                vrf:
-                  description:
-                    - Name/Identifier of the VRF.
-                  type: str
-                  required: True
-                areas:  
+                areas:
                   description:
                     - Configure properties of OSPF Areas.
                   type: list
                   elements: dict
+                  required_one_of: [['authentication', 'default_cost', 'filter_list', 'nssa', 'ranges', 'stub']]
                   suboptions:
                     area_id:
                       description:
                         - The Area ID as an integer or IP Address.
                       type: str
+                      required: True
                     authentication:
                       description:
                         - Authentication settings for the Area.
@@ -532,17 +537,20 @@ DOCUMENTATION: |
                     filter_list:
                       description:
                         - Filter prefixes between OSPF areas.
-                      type: dict
+                      type: list
+                      elements: dict
                       suboptions:
                         route_map:
                           description:
                             - The Route-map name.
                           type: str
+                          required: True
                         direction:
                           description:
                             - The direction to apply the route map.
                           type: str
                           choices: ['in', 'out']
+                          required: True
                     nssa:
                       description:
                         - NSSA settings for the area.
@@ -587,7 +595,7 @@ DOCUMENTATION: |
                                   description:
                                     - Suppress forwarding address in translated LSAs.
                                   type: bool
-                    range:
+                    ranges:
                       description:
                         - Configure an address range for the area.
                       type: list
@@ -597,7 +605,7 @@ DOCUMENTATION: |
                           description:
                             - IP in Prefix format (x.x.x.x/len)
                           type: str
-                          required: True
+                          range: True
                         cost:
                           description:
                             - Cost to use for the range.
@@ -618,7 +626,7 @@ DOCUMENTATION: |
                         no_summary:
                           description:
                             - Prevent ABR from sending summary LSAs into stub area.
-                          type: bool   
+                          type: bool
                 auto_cost:
                   description:
                     - Calculate OSPF cost according to bandwidth.
@@ -634,6 +642,10 @@ DOCUMENTATION: |
                         - Specify in which unit the reference bandwidth is specified.
                       type: str
                       choices: ['Gbps', 'Mbps']
+                bfd:
+                  description:
+                    - Enable BFD on all OSPF interfaces.
+                  type: bool
                 default_information:
                   description:
                     - Control distribution of default routes.
@@ -664,6 +676,28 @@ DOCUMENTATION: |
                   description:
                     - Configure the OSPF administrative distance.
                   type: int
+                down_bit_ignore:
+                  description:
+                    - Configure a PE router to ignore the DN bit for network summary, external and NSSA external LSA.
+                  type: bool
+                capability:
+                  description:
+                    - OSPF capability settings.
+                  type: dict
+                  suboptions:
+                    vrf_lite:
+                      description:
+                        - Enable VRF-lite capability settings.
+                      type: dict
+                      suboptions:
+                        set:
+                          description:
+                            - Enable VRF-lite support.
+                          type: bool
+                        evpn:
+                          description:
+                            - Ethernet VPN.
+                          type: bool
                 graceful_restart:
                   description:
                     - Configure graceful restart.
@@ -920,6 +954,11 @@ DOCUMENTATION: |
                               description:
                                 - Maximum wait time between SPF calculations.
                               type: int
+                vrf:
+                  description:
+                    - Name/Identifier of the VRF.
+                  type: str
+                  required: True
     state:
       description:
         - The state the configuration should be left in.
@@ -929,6 +968,9 @@ DOCUMENTATION: |
       - replaced
       - overridden
       - deleted
+      - gathered
+      - parsed
+      - rendered
       default: merged
 
 EXAMPLES:
