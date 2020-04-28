@@ -22,8 +22,7 @@ DOCUMENTATION: |
   options:
     config:
       description: A list of OSPF process configuration
-      type: list
-      elements: dict
+      type: dict
       suboptions:
         processes: 
           description: A list of OSPF instances configuration
@@ -36,7 +35,6 @@ DOCUMENTATION: |
             adjacency_stagger:
               description: Stagger OSPF adjacency bring up
               type: dict
-              required: True
               required_together: [[min_adjacency,max_adjacency]]
               suboptions:
                 min_adjacency:
@@ -103,7 +101,219 @@ DOCUMENTATION: |
                 default_cost:
                   description: Set the summary default-cost of a NSSA/stub area. Stub's advertised external route metric (1-16777215).
                   type: int
-                multi_area_interface: [..]
+                multi_area_interface:
+                  description: Enable multi-area adjacency on this interface.
+                  type: list
+                  elements: dict
+                  suboptions:
+                    interface_type:
+                      description: Specify interface type.
+                      type: str
+                      choices: ['BVI', 'Bundle-Ether', 'Bundle-POS', 'FastEthernet', 'FiftyGigE', 'FortyGigE', 'FourHundredGigE', 'GigabitEthernet', 'HundredGigE', 'MgmtEth', 'Multilink', 'PW-Ether', 'PW-IW', 'SRP', 'Serial', 'TenGigE', 'TwentyFiveGigE', 'TwoHundredGigE', 'nve', 'tunnel-ip', 'tunnel-ipsec', 'tunnel-mte', 'tunnel-tp']
+                    authentication:
+                      description: Enable authentication
+                      type: dict
+                      mutually_exclusive: [[keychain,message_digest,null]]
+                      suboptions:
+                        keychain:
+                          description: Specify keychain name
+                          type: str
+                        message_digest:
+                          description: Use message-digest authentication
+                          type: dict
+                          suboptions:
+                            keychain:
+                              description: Specify keychain name
+                              type: str
+                        null:
+                          description: Use no authentication
+                          type: bool
+                    authentication_key:
+                      description: Used to mention authentication password (key).
+                      type: dict
+                      mutually_exclusive: [[clear,encrypted]]
+                      suboptions:
+                        password:
+                          description: The OSPF password (key)
+                          type: str
+                        clear:
+                          description: Specifies an UNENCRYPTED password (key) will follow
+                          type: bool
+                        encrypted:
+                          description: Specifies an ENCRYPTED password (key) will follow
+                          type: bool
+                    cost:
+                      description: Interface cost (1-65535).
+                      type: int
+                    cost_fallback:
+                      description: Cost when cumulative bandwidth goes below the theshold.
+                      type: dict
+                      suboptions:
+                        cost:
+                          description: Cost when cumulative bandwidth goes below the theshold (1-65535).
+                          type: int
+                        threshold:
+                          description: Threshold bandwidth when cost-fallback is applied (1-4294967).
+                          type: int
+                    database_filter:
+                      description: Filter OSPF LSA during synchronization and flooding (all outgoing LSA). Enable/Disable filtering.
+                      type: str
+                      choices: ['enable','disable']
+                    dead_interval:
+                      description: Interval after which a neighbor is declared dead (<1-65535> seconds).
+                      type: int
+                    distribute_list:
+                      description: Filter networks in routing updates (list can have one inbound policy only).
+                      type: dict
+                      mutually_exclusive: [[access_list,route_policy]]
+                      suboptions:
+                        access_list:
+                          description: Inbound access-list.
+                          type: str
+                        route_policy:
+                          description: Route Policy to filter OSPF prefixes.
+                          type: str
+                    hello_interval:
+                      description: Time between HELLO packets (<1-65535> seconds).
+                      type: int
+                    retransmit_interval:
+                      description: Delay between LSA retransmissions (<1-65535> seconds).
+                      type: int
+                    transmit_delay:
+                      description: Link state transmit delay (<1-65535> seconds).
+                      type: int
+                    message_digest_key:
+                      description: Message digest authentication password (key)
+                      type: dict
+                      suboptions:
+                        id:
+                          description: Key ID (1-255)
+                          type: int
+                          required: True
+                        md5:
+                          description: Use MD5 Algorithm
+                          type: dict
+                          mutually_exclusive: [[clear,encrypted]]
+                          suboptions:
+                            password:
+                              description: The OSPF password (key)
+                              type: str
+                            clear:
+                              description: Specifies an UNENCRYPTED password (key) will follow
+                              type: bool
+                            encrypted:
+                              description: Specifies an ENCRYPTED password (key) will follow
+                              type: bool
+                    mtu_ignore:
+                      description: Enable/Disable ignoring of MTU in DBD packets.
+                      type: str
+                      choices:
+                        - enable
+                        - disable
+                    packet_size:
+                      description: Size of OSPF packets to use. min=576 max=MTU bytes.
+                      type: int
+                    passive:
+                      description: Enable/Disable passive.
+                      type: str
+                      choices:
+                        - enable
+                        - disable
+                    fast_reroute:
+                      description: IP Fast Reroute.
+                      type: dict
+                      mutually_exclusive: [[disable,per_link,per_prefix]]
+                      suboptions:
+                        disable:
+                          description: Disable IP Fast Reroute.
+                          type: bool
+                        per_link:
+                          description:  Per-link computation.
+                          type: list
+                          elements: dict
+                          suboptions:
+                            exclude:
+                              description: Per-link LFA exclusion information.
+                              type: dict
+                              suboptions:
+                                interface:
+                                  description: Interface type. Refer vendor documentation for respective valid values.
+                                  type: str
+                                value:
+                                  description: Enter value between 1-4294967295.
+                                  type: int
+                            lfa_candidate:
+                              description: FRR LFA candidate information.
+                              type: dict
+                              suboptions:
+                                interface:
+                                  description: Interface type. Refer vendor documentation for respective valid values.
+                                  type: str
+                                value:
+                                  description: Enter value between 1-4294967295.
+                                  type: int
+                            use_candidate_only:
+                              description: Enable/Disable backup selection from candidate-list only.
+                              type: bool
+                        per_prefix:
+                          description:  Per-prefix computation.
+                          type: list
+                          elements: dict
+                          suboptions:
+                            exclude:
+                              description: Per-prefix LFA exclusion information.
+                              type: dict
+                              suboptions:
+                                interface:
+                                  description: Interface type. Refer vendor documentation for respective valid values.
+                                  type: str
+                                value:
+                                  description: Enter value between 1-4294967295.
+                                  type: int
+                            lfa_candidate:
+                              description: FRR LFA candidate information.
+                              type: dict
+                              suboptions:
+                                interface:
+                                  description: Interface type. Refer vendor documentation for respective valid values.
+                                  type: str
+                                value:
+                                  description: Enter value between 1-4294967295.
+                                  type: int
+                            use_candidate_only:
+                              description: Enable/Disable backup selection from candidate-list only.
+                              type: bool       
+                            remote_lfa:
+                              description: Remote LFA computation.
+                              type: dict
+                              suboptions:
+                                disable:
+                                  description: Disable remote LFA computation.
+                                  type: bool
+                                maximum_cost:
+                                  description: Maximum path cost to remote LFA <1-4294967295>.
+                                  type: int
+                                tunnel_mpls_ldp:
+                                  description: Enable remote LFA computation using tunnels. MPLS LDP tunnels.
+                                  type: bool 
+                            ti_lfa:
+                              description: Topology Independent LFA computation.
+                              type: bool
+                            tiebreaker:
+                              description: Configure tiebreaker for multiple backups.
+                              type: list
+                              elements: dict
+                              mutually_exclusive: [[disable,index]]
+                              suboptions:
+                                preference:
+                                  description: Specify preference. Refer vendor documentation for respective valid values.
+                                  type: str
+                                index:
+                                  description: Set preference order among tiebreakers <1-255>.
+                                  type: int
+                                disable:
+                                  description: Disable tiebreaker.
+                                  type: bool
                 nssa:
                   description:
                     - NSSA settings for the area.
@@ -141,9 +351,10 @@ DOCUMENTATION: |
                               description:
                                 - Always translate LSAs
                               type: bool                
-                range:
+                ranges:
                   description: Summarize routes matching address/mask (border routers only).
-                  type: dict
+                  type: list
+                  elements: dict
                   mutually_exclusive: [[advertise,not_advertise]]
                   suboptions:
                     prefix:
@@ -157,8 +368,9 @@ DOCUMENTATION: |
                       description: DoNotAdvertise this range
                       type: bool
                 route_policy:
-                  description: Specify the route-policy to filter type 3 LSAs
-                  type: dict
+                  description: Specify the route-policy to filter type 3 LSAs (list can have one inbound and/or one outbound policy only). 
+                  type: list
+                  elements: dict
                   suboptions:
                     parameters:
                       description: Specify parameter values for the policy
@@ -327,16 +539,16 @@ DOCUMENTATION: |
               type: dict
               suboptions:
                 opaque:
-                description: Configure opaque LSA.
-                type: dict
-                mutually_exclusive: [[set,disable]]
-                suboptions:
-                  disable: 
-                    description: Disable Opaque LSA capability.
-                    type: bool
-                  set:
-                    description: Enable opaque LSA.
-                    type: bool
+                  description: Configure opaque LSA.
+                  type: dict
+                  mutually_exclusive: [[set,disable]]
+                  suboptions:
+                    disable: 
+                      description: Disable Opaque LSA capability.
+                      type: bool
+                    set:
+                      description: Enable opaque LSA.
+                      type: bool
             cost:
               description: Interface cost (1-65535).
               type: int
@@ -372,8 +584,8 @@ DOCUMENTATION: |
                       type: list
                       elements: str
                 set:
-                      description: Enable distribution of default route.
-                      type: bool
+                  description: Enable distribution of default route.
+                  type: bool
             default_metric:
               description: Set metric of redistributed routes <1-16777214>.
               type: int
@@ -427,59 +639,41 @@ DOCUMENTATION: |
                   description: Throttle time between successive LSA updates (<1-3600> seconds).
                   type: int
             distribute_list:
-              description: Filter networks in routing updates.
-              type: dict
+              description: Filter networks in routing updates (list can have one inbound and/or one outbound policy only).
+              type: list
+              elements: dict
+              mutually_exclusive: [[access_list,route_policy]]
               suboptions:
                 access_list:
                   description: Inbound/outbound access-list.
+                  type: str
+                direction:
+                  description: Filter incoming/outgoing routing updates
+                  type: str
+                  choices:
+                    - in
+                    - out
+                outgoing_params:
+                  description: Specify additional parameters for outgoing updates only.
                   type: dict
-                  required_together: [[name,direction]]
                   suboptions:
-                    name:
-                      description: Access-list name
+                    route_type:
+                      description: Type of routes.
                       type: str
-                    direction:
-                      description: Filter incoming/outgoing routing updates
+                      choices: 
+                        - bgp
+                        - connected
+                        - dagr
+                        - ospf
+                        - static
+                    id: 
+                      description:
+                        - For BGP, specify AS number. 2-byte AS number <1-65535> (or) 4-byte AS number in asdot (X.Y) format <1-65535>.<0-65535> (or) 4-byte AS number in asplain format <65536-4294967295>.
+                        - For OSPF, specify OSPF instance name.
                       type: str
-                      choices:
-                        - in
-                        - out
-                    options:
-                      description: Specify additional parameters for outgoing updates only.
-                      type: dict
-                      suboptions:
-                        route_type:
-                          description: Type of routes.
-                          type: str
-                          choices: 
-                            - bgp
-                            - connected
-                            - dagr
-                            - ospf
-                            - static
-                        as_number: 
-                          description:
-                            - Specify AS number (for bgp only).
-                            - 2-byte AS number <1-65535> (or) 4-byte AS number in asdot (X.Y) format <1-65535>.<0-65535> (or) 4-byte AS number in asplain format <65536-4294967295>.
-                          type: str
-                        ospf_instance:
-                          description: OSPF instance name (for ospf only).
-                          type: str
                 route_policy:
-                  description:  Route Policy to filter OSPF prefixes.
-                  type: dict
-                  suboptions:
-                    name:
-                      description: Name of the policy. 
-                      type: str
-                      required: True
-                    parameters:
-                      description: Specify parameter values for the policy.
-                      type: list
-                      elements: str
-                    in:
-                      description: Filter incoming routing updates.
-                      type: bool
+                  description: Route Policy to filter OSPF prefixes (for incoming updates only).
+                  type: str
             external_out:
               description: Enable/Disable advertisement of intra-area prefixes as external
               type: str
@@ -1213,7 +1407,8 @@ DOCUMENTATION: |
                           type: bool
                     route_policy:
                       description: Specify the route-policy to filter type 3 LSAs
-                      type: dict
+                      type: list
+                      elements: dict
                       suboptions:
                         parameters:
                           description: Specify parameter values for the policy
@@ -1376,37 +1571,33 @@ DOCUMENTATION: |
                 dead_interval:
                   description: Interval after which a neighbor is declared dead (<1-65535> seconds).
                   type: int
-                default_information:
-                  description: Distribution of default information.
+                default_information_originate:
+                  description: Distribute default route.
                   type: dict
                   suboptions:
-                    originate:
-                      description: Distribute default route.
+                    always:
+                      description: Always advertise default route.
+                      type: bool
+                    metric:
+                      description: OSPF default metric.
+                      type: int
+                    metric_type:
+                      description: OSPF metric type for default routes.
+                      type: int
+                    route_policy:
+                      description: Apply route-policy to default-information origination.
                       type: dict
                       suboptions:
-                        always:
-                          description: Always advertise default route.
-                          type: bool
-                        metric:
-                          description: OSPF default metric.
-                          type: int
-                        metric_type:
-                          description: OSPF metric type for default routes.
-                          type: int
-                        route_policy:
-                          description: Apply route-policy to default-information origination.
-                          type: dict
-                          suboptions:
-                            name:
-                              description: Name of the policy.
-                              type: str
-                            parameters:
-                              description: Specify parameter values for the policy.
-                              type: list
-                              elements: str
-                        set:
-                          description: Enable distribution of default route.
-                          type: bool
+                        name:
+                          description: Name of the policy.
+                          type: str
+                        parameters:
+                          description: Specify parameter values for the policy.
+                          type: list
+                          elements: str
+                    set:
+                      description: Enable distribution of default route.
+                      type: bool
                 default_metric:
                   description: Set metric of redistributed routes <1-16777214>.
                   type: int
@@ -1963,15 +2154,15 @@ DOCUMENTATION: |
       description:
         - The state the configuration should be left in.
       type: str
-    choices:
-      - merged
-      - replaced
-      - overridden
-      - deleted
-      - gathered
-      - rendered
-      - parsed
-    default: merged
+      choices:
+        - merged
+        - replaced
+        - overridden
+        - deleted
+        - gathered
+        - rendered
+        - parsed
+      default: merged
 
 EXAMPLES:
   - merged_example_01.txt
