@@ -12,7 +12,7 @@ RESOURCE: ospf
 COPYRIGHT: Copyright 2019 Red Hat
 
 DOCUMENTATION: |
-  module: eos_ospf
+  module: eos_ospf_global
   version_added: 2.10
   short_description: Configures and manages attributes of ospf on Arista EOS platforms.
   description: This module configures and manages the attributes of ospf on Arista EOS platforms.
