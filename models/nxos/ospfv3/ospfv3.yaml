@@ -2,7 +2,7 @@ module: nxos_ospfv3
 short_description: OSPFv3 resource module
 description:
 - This module manages OSPFv3 configuration on devices running Cisco NX-OS.
-version_added: 1.1.0
+version_added: 1.2.0
 notes:
 - Tested against NX-OS 7.0(3)I5(1).
 - This module works with connection C(network_cli) and C(httpapi).
@@ -12,7 +12,7 @@ options:
     description:
     - This option is used only with state I(parsed).
     - The value of this option should be the output received from the NX-OS device
-      by executing the command B(show running-config | section "^router ospf .*").
+      by executing the command B(show running-config | section '^router ospfv3').
     - The state I(parsed) reads the configuration from C(running_config) option and
       transforms it into Ansible structured data as per the resource module's argspec
       and the value is then returned in the I(parsed) key within the result.
