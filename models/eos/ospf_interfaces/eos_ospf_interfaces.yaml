@@ -68,8 +68,8 @@ options:
               keytype:
                 description: 
                 - Specifies if an unencrypted/hidden follows.
-                - "0" denotes unencrypted key.
-                - "7" denotes hidden key.
+                - 0 denotes unencrypted key.
+                - 7 denotes hidden key.
                 type: str
               passphrase:
                 description: Passphrase String for deriving keys for authentication and encryption.
@@ -85,8 +85,8 @@ options:
             suboptions:
               encryption:
                 description:
-                - "0" Specifies an UNENCRYPTED authentication key will follow.
-                - "7" Specifies a proprietry encryption type.`
+                - 0 Specifies an UNENCRYPTED authentication key will follow.
+                - 7 Specifies a proprietry encryption type.`
                 type: str
               key:
                 description:
@@ -122,8 +122,8 @@ options:
               keytype:
                 description:
                 - Specifies if an unencrypted/hidden follows.
-                - "0" denotes unencrypted key.
-                - "7" denotes hidden key.
+                - 0 denotes unencrypted key.
+                - 7 denotes hidden key.
                 type: str
               passphrase:
                 description: Passphrase String for deriving keys for authentication and encryption.
@@ -209,8 +209,8 @@ options:
                 type: int
               encryption:
                 description:
-                - "0" Specifies an UNENCRYPTED ospf password (key) will follow.
-                - "7" Specifies a proprietry encryption type.
+                - 0 Specifies an UNENCRYPTED ospf password (key) will follow.
+                - 7 Specifies a proprietry encryption type.
                 type: str
               key:
                 description:
