@@ -39,7 +39,7 @@ DOCUMENTATION: |
                 - Specifies the top level address family indicator.
               type: str
               choices: ['ipv4', 'ipv6']
-              required: True
+              required: true
             routes:
               description: A dictionary that specifies the static route configurations.
               elements: dict
@@ -51,7 +51,7 @@ DOCUMENTATION: |
                     - The address format is <v4/v6 address>/<mask> or <v4/v6 address> <mask>.
                     - The mask is number in range 0-32 for IPv4 and in range 0-128 for IPv6.
                   type: str
-                  required: True
+                  required: true
                 next_hops: 
                   description: 
                     - Details of route to be taken.
@@ -81,6 +81,10 @@ DOCUMENTATION: |
                       description: 
                         - Preference or administrative distance of route (range 1-255).
                       type: int
+                    nexthop_grp:
+                      description:
+                      - Nexthop group.
+                      type: str
                     description:
                       description:
                         - Name of the static route.
@@ -95,12 +99,21 @@ DOCUMENTATION: |
                       type: str
                     mpls_label:
                       description:
-                        - MPLS label
+                        - MPLS label.
                       type: int
                     vrf:
                       description:
                         - VRF of the destination.
                       type: str
+    running_config:
+      description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the EOS device by
+        executing the command B(show running-config | grep routes).
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into Ansible structured data as per the resource module's argspec
+        and the value is then returned in the I(parsed) key within the result.
+      type: str
     state:
       description:
         - The state the configuration should be left in.
