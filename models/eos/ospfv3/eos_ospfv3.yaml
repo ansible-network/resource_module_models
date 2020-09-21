@@ -1,24 +1,24 @@
 module: eos_ospfv3
 short_description: Manages OSPFv3 resource module
-description: This module configures and manages the attributes of ospfv3 on Arista
+description: This module configures and manages the attributes of OSPFv3 on Arista
   EOS platforms.
 version_added: 1.0.0
 author: Gomathi Selvi Srinivasan (@GomathiselviS)
 notes:
 - Tested against Arista EOS 4.23.0F
-- This module works with connection C(network_cli). See the L(EOS Platform Options,../network/user_guide/platform_eos.html).
+- This module works with connection C(network_cli). See the L(EOS Platform Options,eos_platform_options).
 options:
   config:
-    description: A list of configurations for ospfv3.
+    description: A list of configurations for OSPFv3.
     type: dict
     suboptions:
       processes:
-        description: A list of dictionary specifying the ospfv3 processes.
+        description: A list of dictionary specifying the OSPFv3 processes.
         type: list
         elements: dict
         suboptions:
           vrf:
-            description: VRF name .
+            description: VRF name.
             type: str
           adjacency:
             description: Configure adjacency options for OSPF instance.
@@ -52,7 +52,7 @@ options:
                     area.
                   type: int
                 authentication:
-                  description: Configure authentication for the area incase of ospfv3.
+                  description: Configure authentication for the area incase of OSPFv3.
                   type: dict
                   suboptions:
                     spi:
@@ -63,16 +63,16 @@ options:
                       type: str
                       choices: ['md5', 'sha1']
                     encrypt_key:
-                      description: If False, key string is not encrypted
+                      description: If false, key string is not encrypted
                       type: bool
                     hidden_key:
-                      description: If True, Specifies that a HIDDEN key will follow.
+                      description: If true, Specifies that a HIDDEN key will follow.
                       type: bool
                     key:
-                      description: 128 bit MD5 key or 140 bit SHA1 key.
+                      description: 128-bit MD5 key or 140-bit SHA1 key.
                       type: str
                     passphrase:
-                      description: Passphrase String for deriving keys for authentication and encryption.
+                      description: Passphrase string for deriving keys for authentication and encryption.
                       type: str
                 encryption:
                   description: Configure encryption for the area
@@ -90,16 +90,16 @@ options:
                       type: str
                       choices: ['sha1', 'md5']
                     encrypt_key:
-                      description: If False, key string is not encrypted
+                      description: If false, key string is not encrypted
                       type: bool
                     hidden_key:
-                      description: If True, Specifies that a HIDDEN key will follow.
+                      description: If true, Specifies that a HIDDEN key will follow.
                       type: bool
                     key:
-                      description: 128 bit MD5 key or 140 bit SHA1 key.
+                      description: 128-bit MD5 key or 140-bit SHA1 key.
                       type: str
                     passphrase:
-                      description: Passphrase String for deriving keys for authentication and encryption.
+                      description: Passphrase string for deriving keys for authentication and encryption.
                       type: str
                 nssa:
                     description: Configures NSSA parameters.
@@ -119,7 +119,7 @@ options:
                             description: Limit default advertisement to this NSSA area.
                             type: bool
                           set:
-                            description: True if only default information orignate is set
+                            description: true if only default information orignate is set
                             type: bool
                       no_summary:
                         description: Filter all type-3 LSAs in the nssa area.
@@ -131,17 +131,17 @@ options:
                         description: Enable LSA translation.
                         type: bool
                       set:
-                        description: True if only nssa is set
+                        description: true if only nssa is set
                         type: bool
                 stub:
                   description: Stub area.
                   type: dict
                   suboptions:
                     set:
-                      description: True if only stub is set
+                      description: true if only stub is set
                       type: bool
                     summary_lsa:
-                      desctiption: If False , Filter all type-3 LSAs in the stub area.
+                      desctiption: If false , Filter all type-3 LSAs in the stub area.
                       type: bool
 
           bfd:
@@ -166,7 +166,7 @@ options:
                   description: When true sets the grace_fulrestart config alone.
                   type: bool
           graceful_restart_helper:
-            description: If True, Enable graceful restart helper.
+            description: If true, Enable graceful restart helper.
             type: bool
           log_adjacency_changes:
             description: To configure link-state changes and transitions of OSPFv3
@@ -279,7 +279,7 @@ options:
             elements: dict
             suboptions:
               afi:
-                description: address family . Specify 'router' if the following configurations should be in router contxt.
+                description: address family . Specify 'router' if the following configurations should be in router context.
                 choices: [ipv4, ipv6, router]
               adjacency:
                 description: Configure adjacency options for OSPF instance.
@@ -305,7 +305,7 @@ options:
                 elements: dict
                 suboptions:
                   area_id:
-                    description: Specifies a 32 bit number expressed in decimal or dotted-decimal
+                    description: Specifies a 32-bit number expressed in decimal or dotted-decimal
                                  notation.
                     type: str
                   default_cost:
@@ -313,7 +313,7 @@ options:
                       area.
                     type: int
                   authentication:
-                    description: Configure authentication for the area incase of ospfv3.
+                    description: Configure authentication for the area.
                     type: dict
                     suboptions:
                       spi:
@@ -324,16 +324,16 @@ options:
                         type: str
                         choices: ['md5', 'sha1']
                       encrypt_key:
-                        description: If False, key string is not encrypted
+                        description: If false, key string is not encrypted
                         type: bool
                       hidden_key:
-                        description: If True, Specifies that a HIDDEN key will follow.
+                        description: If true, Specifies that a HIDDEN key will follow.
                         type: bool
                       key:
-                        description: 128 bit MD5 key or 140 bit SHA1 key.
+                        description: 128-bit MD5 key or 140-bit SHA1 key.
                         type: str
                       passphrase:
-                        description: Passphrase String for deriving keys for authentication and encryption.
+                        description: Passphrase string for deriving keys for authentication and encryption.
                         type: str
                   encryption:
                     description: Configure encryption for the area
@@ -351,16 +351,16 @@ options:
                         type: str
                         choices: ['sha1', 'md5']
                       encrypt_key:
-                        description: If False, key string is not encrypted
+                        description: If false, key string is not encrypted
                         type: bool
                       hidden_key:
-                        description: If True, Specifies that a HIDDEN key will follow.
+                        description: If true, Specifies that a HIDDEN key will follow.
                         type: bool
                       key:
-                        description: 128 bit MD5 key or 140 bit SHA1 key.
+                        description: 128-bit MD5 key or 140-bit SHA1 key.
                         type: str
                       passphrase:
-                        description: Passphrase String for deriving keys for authentication and encryption.
+                        description: Passphrase string for deriving keys for authentication and encryption.
                         type: str
                   nssa:
                       description: Configures NSSA parameters.
@@ -380,7 +380,7 @@ options:
                               description: Limit default advertisement to this NSSA area.
                               type: bool
                             set:
-                              description: True if only default information orignate is set
+                              description: true if only default information orignate is set
                               type: bool
                         no_summary:
                           description: Filter all type-3 LSAs in the nssa area.
@@ -392,7 +392,7 @@ options:
                           description: Enable LSA translation.
                           type: bool
                         set:
-                          description: True if only nssa is set 
+                          description: true if only nssa is set 
                           type: bool
                   ranges:
                     description: Configure route summarization(not valid when afi=router).
@@ -419,10 +419,10 @@ options:
                     type: dict
                     suboptions:
                       set:
-                        description: True if only stub is set
+                        description: true if only stub is set
                         type: bool
                       summary_lsa:
-                        desctiption: If False , Filter all type-3 LSAs in the stub area.
+                        desctiption: If false , Filter all type-3 LSAs in the stub area.
                         type: bool
 
               bfd:
@@ -472,7 +472,7 @@ options:
                     description: When true sets the grace_fulrestart config alone.
                     type: bool
               graceful_restart_helper:
-                description: If True, Enable graceful restart helper.
+                description: If true, Enable graceful restart helper.
                 type: bool
               log_adjacency_changes:
                 description: To configure link-state changes and transitions of OSPFv3
@@ -597,7 +597,7 @@ options:
     description:
     - This option is used only with state I(parsed).
     - The value of this option should be the output received from the EOS device by
-      executing the command B(show running-config | section ospfv3).
+      executing the command B(show running-config | section OSPFv3).
     - The state I(parsed) reads the configuration from C(running_config) option and
       transforms it into Ansible structured data as per the resource module's argspec
       and the value is then returned in the I(parsed) key within the result.
