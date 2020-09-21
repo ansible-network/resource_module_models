@@ -1,0 +1,124 @@
+# Using overridden
+
+# Before state:
+# -------------
+#
+# router ospf 1
+#    router-id 170.21.0.4
+#    distance ospf intra-area 85
+#    redistribute static
+#    area 0.0.0.2 filter 10.1.1.0/24
+#    network 10.10.2.0/24 area 0.0.0.0
+#    network 10.10.3.0/24 area 0.0.0.0
+#    max-lsa 8000 40 ignore-time 6 ignore-count 3 reset-time 20
+#    adjacency exchange-start threshold 20045623
+#    default-information originate metric 100 metric-type 1
+# !
+# router ospfv3 vrf ospf201
+#    router-id 192.0.2.1
+#    area 0.0.0.10 nssa no-summary
+#    !
+#    address-family ipv4
+#       log-adjacency-changes detail
+#    !
+#    address-family ipv6
+#       redistribute bgp route-map FilterExternalBGP
+#       timers pacing flood 44
+#       default-information originate route-map DefaultRouteFilter
+# 
+# eos_ospf_global:
+#     - afi: "ipv4"
+#       instance:
+#         - process_id: 1
+#             ospf_params:
+#               router_id: "170.21.0.4"
+#               distance:
+#               intra_area: 85
+#               redistribute: 
+#                 - routes: static
+#                   areas:
+#                     - number: '0.0.0.2'
+#                       filter:
+#                          subnet_address: 10.1.1.0/24
+#                   networks:
+#                      - network_address: 10.10.2.0/24
+#                        area: 0.0.0.0
+#                      - network_address: 10.10.3.0/24
+#                        area: 0.0.0.0
+#                   lsa_overload:
+#                      max_lsa: 
+#                      count: 8000
+#                      percentage: 40
+#                      ignore_time: 6
+#                      ignore_count: 3
+#                      reset_time: 20
+#                   adjacency:
+#                      exchange_start:
+#                      threshold: 20045623
+#                   default_information:
+#                      originate: true
+#                      metric: 100
+#                      metric_type: 1
+#      - afi: "ipv6"
+#        instance:
+#          - vrf: "ospf201"
+#            ospf_params:
+#              - router_id: "192.0.2.1"
+#    	         areas: 
+#                  - number: 0.0.0.10
+#                    nssa:
+#                      no_summary: true
+#              - address_family: ipv4
+#                log_adjacency_changes: True
+#              - address_family: ipv6
+#                redistribute: 
+#                  - routes: bgp
+#                    route_map: FilterExternalBGP
+#   	       timers:
+# 		 pacing: 44
+#   	       default_information:
+# 	         originate: true
+# 		 route_map: "DefaultRouteFilter"
+
+- name: override given ospf attributes with device configuration
+  eos_ospf_global:
+    config:
+       - afi: "ipv6"
+         instance:
+           - vrf: "ospf201"
+             ospf_params:
+               - router_id: "10.1.1.1"
+               - address_family: "ipv4"
+                 areas:
+                   - number: 0.0.0.15
+                     nssa:
+                       no_summary: true
+                 graceful_restart:
+	           grace_period: 150
+    state: override
+
+# After state:
+# ------------
+#
+# router ospfv3 vrf ospf201
+#    router-id 10.1.1.1
+#    !
+#    address-family ipv4
+#       area 0.0.0.15 nssa no_summary
+#       graceful-restart grace-period 150
+#    !
+#
+# eos_ospf_global:
+#      - afi: "ipv6"
+#        instance:
+#          - vrf: "ospf201"
+#            ospf_params:
+#              - router_id: "10.1.1.1"
+#              - address_family: ipv4
+#                areas:
+#        	   - number: 0.0.0.15
+#                    nssa:
+#                      no_summary: true
+#                graceful_restart:
+#                  grace_period: 150
+
