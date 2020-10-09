@@ -18,11 +18,11 @@ options:
         and the value is then returned in the I(parsed) key within the result.
     type: str
   config:
-    description: A list of ospfv3 process configuration
+    description: A list of OSPFv3 process configuration
     type: dict
     suboptions:
       processes:
-        description: A list of ospfv3 instances configuration
+        description: A list of OSPFv3 instances configuration
         type: list
         elements: dict
         suboptions:
@@ -62,14 +62,14 @@ options:
                     description: Specify key in encrypted form
                     type: str
           auto_cost:
-            description: Calculate ospfv3 interface cost according to bandwidth
+            description: Calculate OSPFv3 interface cost according to bandwidth
             type: dict
             suboptions:
               reference_bandwidth:
                 description: Specify reference bandwidth in megabits per sec
                 type: int
               disable:
-                description: Assign ospfv3 cost based on interface type
+                description: Assign OSPFv3 cost based on interface type
                 type: bool
           bfd:
             description: Configure BFD parameters
@@ -92,7 +92,7 @@ options:
                 description: Detect multiplier
                 type: int
           areas:
-            description: Configure ospfv3 areas' properties
+            description: Configure OSPFv3 areas' properties
             type: list
             elements: dict
             suboptions:
@@ -165,7 +165,7 @@ options:
                 description: Set the summary default-cost of a NSSA/stub area. Stub's advertised external route metric
                 type: int
               demand_circuit:
-                description: Enable/Disable ospfv3 demand circuit
+                description: Enable/Disable OSPFv3 demand circuit
                 type: bool
               distrinbute_rib_prefix_list_name:
                 description: Filter LSAs during synchronization and flooding
@@ -420,10 +420,10 @@ options:
                     type: dict
                     suboptions:
                       set:
-                        description: Set nssa to default information originate
+                        description: Set NSSA to default information originate
                         type: bool
                       metric:
-                        description: ospfv3 default metric
+                        description: OSPFv3 default metric
                         type: int
                       metric_type:
                         description: Metric type for default routes
@@ -712,7 +712,7 @@ options:
             type: dict
             suboptions:
               type7:
-                description: Specify type7 nssa capability
+                description: Specify type7 NSSA capability
                 type: dict
                 suboptions:
                   prefer:
@@ -742,10 +742,10 @@ options:
                 description: Always advertise default route
                 type: bool
               metric:
-                description: ospfv3 default metric
+                description: OSPFv3 default metric
                 type: int
               metric_type:
-                description: ospfv3 metric type for default routes
+                description: OSPFv3 metric type for default routes
                 type: int
               route_policy:
                 description: Apply route-policy to default-information origination
@@ -760,7 +760,7 @@ options:
             description: Set metric of redistributed routes
             type: int
           demand_circuit:
-            description: Enable/Disable ospfv3 demand circuit
+            description: Enable/Disable OSPFv3 demand circuit
             type: bool
           distance:
             description: Define an administrative distance
@@ -770,7 +770,7 @@ options:
                 description: Administrative distance
                 type: int
               ospfv3_distance:
-                description: ospfv3 administrative distance
+                description: OSPFv3 administrative distance
                 type: dict
                 suboptions:
                   external:
@@ -1334,7 +1334,7 @@ options:
                     description: Set tag for routes redistributed into OSPFv3
                     type: int
               ospfv3:
-                description: Specify ospfv3 routes
+                description: Specify OSPFv3 routes
                 type: list
                 elements: dict
                 suboptions:
@@ -1343,7 +1343,7 @@ options:
                     type: str
                     required: true
                   set:
-                    description: Set ospfv3 route number
+                    description: Set OSPFv3 route number
                     type: bool
                   match:
                     description: Redistribution of OSPFv3 routes
@@ -1414,7 +1414,7 @@ options:
             description: Delay between LSA retransmissions
             type: int
           router_id:
-            description: ospfv3 router-id in IPv4 address format (A.B.C.D)
+            description: OSPFv3 router-id in IPv4 address format (A.B.C.D)
             type: str
           spf_prefix_priority:
             description: Specify SPF configuration
@@ -1447,7 +1447,7 @@ options:
                     type: str
                     choices: ["max-metric", "r-bit", "v6-bit"]
                   always:
-                    description: Force ospfv3 stub router mode unconditionally
+                    description: Force OSPFv3 stub router mode unconditionally
                     type: bool
                   external_lsa:
                     description: Override External LSA metric in stub router mode
@@ -1463,10 +1463,10 @@ options:
                     description: Set maximum metric for stub links in stub router mode
                     type: bool
                   on_proc_migration:
-                    description: Enter stub router mode on ospfv3 process migration
+                    description: Enter stub router mode on OSPFv3 process migration
                     type: int
                   on_proc_restart:
-                    description: Enter stub router mode on ospfv3 process restart
+                    description: Enter stub router mode on OSPFv3 process restart
                     type: int
                   on_startup:
                     description: Enter stub router mode on startup
