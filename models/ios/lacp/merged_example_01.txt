@@ -1,0 +1,21 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+# vios#show lacp sys-id
+# 250, 5e00.0000.8000
+
+- name: Merge provided configuration with device configuration
+  ios_lacp:
+    config:
+      system:
+        priority: 123
+    state: merged
+
+# After state:
+# ------------
+#
+# vios#show lacp sys-id
+# 123, 5e00.0000.8000
+
