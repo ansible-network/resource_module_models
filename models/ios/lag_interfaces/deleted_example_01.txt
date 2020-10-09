@@ -1,0 +1,48 @@
+# Using Deleted
+
+# Before state:
+# -------------
+#
+# vios#show running-config | section ^interface
+# interface Port-channel10
+#  flowcontrol receive on
+# interface Port-channel20
+# interface Port-channel30
+# interface GigabitEthernet0/1
+#  shutdown
+#  flowcontrol receive on
+#  channel-group 10 mode auto
+# interface GigabitEthernet0/2
+#  shutdown
+#  flowcontrol receive on
+#  channel-group 10 mode auto
+# interface GigabitEthernet0/3
+#  shutdown
+#  channel-group 20 mode on
+# interface GigabitEthernet0/4
+#  shutdown
+#  channel-group 30 mode active
+
+- name: Delete LAG attributes of given interfaces (Note: This won't delete the interface itself)
+  ios_lag_interfaces:
+    config:
+      - name: 10
+      - name: 20
+      - name: 30
+    operation: deleted
+
+# After state:
+# -------------
+#
+# vios#show running-config | section ^interface
+# interface Port-channel10
+# interface Port-channel20
+# interface Port-channel30
+# interface GigabitEthernet0/1
+#  shutdown
+# interface GigabitEthernet0/2
+#  shutdown
+# interface GigabitEthernet0/3
+#  shutdown
+# interface GigabitEthernet0/4
+#  shutdown
