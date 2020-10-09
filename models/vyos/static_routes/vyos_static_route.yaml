@@ -15,7 +15,7 @@ COPYRIGHT: Copyright 2019 Red Hat
 DOCUMENTATION: |
   module: vyos_static_routes
   version_added: 2.10
-  short_description: Manages attributes of static routes on VyOS network devices.
+  short_description: Static routes resource module.
   description: This module manages attributes of static routes on VyOS network devices.
   author: Rohit Thakur (@rohitthakur2590)
   options:
