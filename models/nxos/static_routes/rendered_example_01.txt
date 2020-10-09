@@ -1,0 +1,28 @@
+# Using rendered:
+
+# Before state:
+#
+#
+
+- name: Render required configuration to be pushed to the device
+  nxos_static_routes:
+    config:
+        - vrf: 123
+          address_families:
+            - afi: ipv4  
+              routes:
+                    - dest: 14.14.14.14/24
+                      next_hop:
+                        -   forward_router_address: 192.112.134.78
+
+    state: rendered
+
+# After state:
+# -----------
+#
+
+
+# returns
+# commands:
+# vrf context 123
+# ip route 14.14.14.14/24 192.112.134.78
