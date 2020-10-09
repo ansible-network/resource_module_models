@@ -1,0 +1,135 @@
+---
+ANSIBLE_METADATA: |
+{
+  'metadata_version': '1.1',
+  'status': ['preview'],
+  'supported_by': 'network'
+}
+
+DOCUMENTATION: |
+module: ios_static_routes
+version_added: "2.10"
+short_description: Configure and manage static routes on IOS devices.
+description: This module configures and manages the static routes on IOS platforms.
+author: Sumit Jaiswal (@justjais)
+notes:
+- Tested against Cisco IOSv Version 15.2 on VIRL
+- This module works with connection C(network_cli).
+  See L(IOS Platform Options,../network/user_guide/platform_ios.html).
+options:
+  config:
+    description: A dictionary of static route options
+    type: list
+    elements: dict
+    suboptions:
+      vrf:
+        description:
+        - IP VPN Routing/Forwarding instance name.
+        - NOTE, In case of IPV4/IPV6 VRF routing table should pre-exist before
+          configuring.
+        - NOTE, if the vrf information is not provided then the routes shall be
+          configured under global vrf.
+        type: str
+      address_families:
+        elements: dict
+        description:
+        - Address family to use for the static routes
+        type: list
+        suboptions:
+          afi:
+            description:
+            - Top level address family indicator.
+            type: str
+            required: true
+            choices:
+              - ipv4
+              - ipv6
+          routes:
+            description: Configuring static route
+            type: list
+            elements: dict
+            suboptions:
+              dest:
+                description: Destination prefix with its subnet mask
+                type: str
+                required: true
+              topology:
+                description:
+                - Configure static route for a Topology Routing/Forwarding instance
+                - NOTE, VRF and Topology can be used together only with Multicast and
+                  Topology should pre-exist before it can be used
+                type: str
+              next_hops:
+                description:
+                - next hop address or interface
+                type: list
+                elements: dict
+                suboptions:
+                  forward_router_address:
+                    description: Forwarding router's address
+                    type: str
+                  interface:
+                    description: Interface for directly connected static routes
+                    type: str
+                  dhcp:
+                    description: Default gateway obtained from DHCP
+                    type: bool
+                  distance_metric:
+                    description: Distance metric for this route
+                    type: int
+                  global:
+                    description: Next hop address is global
+                    type: bool
+                  name:
+                    description: Specify name of the next hop
+                    type: str
+                  multicast:
+                    description: multicast route
+                    type: bool
+                  permanent:
+                    description: permanent route
+                    type: bool
+                  tag:
+                    description:
+                    - Set tag for this route
+                    - Refer to vendor documentation for valid values.
+                    type: int
+                  track:
+                    description:
+                    - Install route depending on tracked item with tracked object number.
+                    - Tracking does not support multicast
+                    - Refer to vendor documentation for valid values.
+                    type: int
+  state:
+    description:
+    - The state the configuration should be left in
+    - The states I(rendered), I(gathered) and I(parsed) does not perform any change on the
+      device.
+    - The state I(rendered) will transform the configuration in C(config) option to platform
+      specific CLI commands which will be returned in the I(rendered) key within the result.
+      For state I(rendered) active connection to remote host is not required.
+    - The state I(gathered) will fetch the running configuration from device and transform
+      it into structured data in the format as per the resource module argspec and the
+      value is returned in the I(gathered) key within the result.
+    - The state I(parsed) reads the configuration from C(running_config) option and transforms
+      it into JSON format as per the resource module parameters and the value is returned in
+      the I(parsed) key within the result. The value of C(running_config) option should be the
+      same format as the output of command I(show running-config | include ip route|ipv6 route)
+      executed on device. For state I(parsed) active connection to remote host is not required.
+    type: str
+    choices:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    - gathered
+    - rendered
+    - parsed
+    default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt
