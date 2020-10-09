@@ -1,0 +1,64 @@
+# Using deleted
+#
+# Before state
+# -------------
+#
+# vyos@vyos:~$ show configuration commands| grep firewall
+# set firewall group address-group 'inbound'
+# set firewall name Downlink default-action 'accept'
+# set firewall name Downlink description 'IPv4 INBOUND rule set'
+# set firewall name Downlink rule 501 action 'accept'
+# set firewall name Downlink rule 501 description 'Rule 501 is configured by Ansible'
+# set firewall name Downlink rule 501 ipsec 'match-ipsec'
+# set firewall name Downlink rule 502 action 'reject'
+# set firewall name Downlink rule 502 description 'Rule 502 is configured by Ansible'
+# set firewall name Downlink rule 502 ipsec 'match-ipsec'
+#
+- name: Delete attributes of given firewall rules.
+      vyos_firewall_rules:
+        config:
+          - afi: ipv4
+            rule_sets:
+              - name: 'Downlink'
+        state: deleted
+#
+#
+# ------------------------
+# Module Execution Results
+# ------------------------
+#
+#    "before": [
+#        {
+#            "afi": "ipv4", 
+#            "rule_sets": [
+#                {
+#                    "default_action": "accept", 
+#                    "description": "IPv4 INBOUND rule set", 
+#                    "name": "Downlink", 
+#                    "rules": [
+#                        {
+#                            "action": "accept", 
+#                            "description": "Rule 501 is configured by Ansible", 
+#                            "ipsec": "match-ipsec", 
+#                            "number": 501
+#                        }, 
+#                        {
+#                            "action": "reject", 
+#                            "description": "Rule 502 is configured by Ansible", 
+#                            "ipsec": "match-ipsec", 
+#                            "number": 502
+#                        }
+#                    ]
+#               }
+#            ]
+#        }
+#    ]
+#    "commands": [
+#        "delete firewall name Downlink"
+#    ]
+#
+# "after": []
+# After state
+# ------------
+# vyos@vyos# run show configuration commands | grep firewall
+# set firewall group address-group 'inbound'

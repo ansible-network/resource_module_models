@@ -15,7 +15,7 @@ LICENSE: gpl-3.0.txt
 DOCUMENTATION: |
   module: junos_acls
   version_added: 2.10
-  short_description: Manage ACLs on Juniper JUNOS devices
+  short_description: ACLs resource module
   description: This module provides declarative management of ACLs/filters on Juniper JUNOS devices
   author: Daniel Mellado (@dmellado)
   requirements:
@@ -324,6 +324,7 @@ DOCUMENTATION: |
       - overridden
       - deleted
       - gathered
+
       default: merged
 EXAMPLES:
   - deleted_example_01.txt

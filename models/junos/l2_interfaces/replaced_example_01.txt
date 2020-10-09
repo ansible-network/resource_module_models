@@ -1,0 +1,60 @@
+# Using replaced
+
+# Before state:
+# -------------
+# ansible@junos01# show interfaces
+# ge-0/0/3 {
+#    description "test interface";
+#    speed 1g;
+#}
+# ge-0/0/4 {
+#    description interface-trunk;
+#    native-vlan-id 100;
+#    unit 0 {
+#        family ethernet-switching {
+#            interface-mode trunk;
+#            vlan {
+#                members [ vlan40 ];
+#            }
+#        }
+#    }
+# }
+
+- name: "Replace provided configuration with device configuration"
+  junos_l2_interfaces:
+    config:
+      - name: ge-0/0/3
+        access:
+          vlan: v101
+      - name: ge-0/0/4
+        trunk:
+          allowed_vlans:
+            - vlan30
+          native_vlan: 50
+    state: replaced
+
+# After state:
+# ------------
+# user@junos01# show interfaces
+# ge-0/0/3 {
+#    unit 0 {
+#        family ethernet-switching {
+#            interface-mode access;
+#            vlan {
+#                members v101;
+#            }
+#        }
+#    }
+# }
+# ge-0/0/4 {
+#    description interface-trunk;
+#    native-vlan-id 50;
+#    unit 0 {
+#        family ethernet-switching {
+#            interface-mode trunk;
+#            vlan {
+#                members [ vlan30 ];
+#            }
+#        }
+#    }
+# }

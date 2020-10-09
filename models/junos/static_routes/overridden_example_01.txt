@@ -1,0 +1,26 @@
+# Using overridden
+
+# Before state
+# ------------
+#
+# admin# show routing-options
+# static {
+#     route 192.168.47.0/24 next-hop 172.16.1.2;
+#     route 192.168.16.0/24 next-hop 172.16.0.1;
+# }
+
+- name: Merge provided configuration with device configuration (default operation is merge)
+  junos_static_routes:
+    config:
+      - routes:
+          - dest: 10.200.16.75/24
+            next_hop: 10.200.16.2
+    state: overridden
+
+# After state:
+# ------------
+#
+# admin# show routing-options
+# static {
+#     route 10.200.16.75/24 next-hop 10.200.16.2;
+# }

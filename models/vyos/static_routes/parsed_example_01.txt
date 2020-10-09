@@ -1,0 +1,58 @@
+# Using parsed
+#
+#
+- name: Render the commands for provided  configuration
+      vyos_static_routes:
+        running_config: 
+         "set protocols static route 192.0.2.32/28 'blackhole'
+ set protocols static route 192.0.2.32/28 next-hop '192.0.2.6'
+ set protocols static route 192.0.2.32/28 next-hop '192.0.2.7'
+ set protocols static route6 2001:db8:1000::/36 blackhole distance '2'
+ set protocols static route6 2001:db8:1000::/36 next-hop '2001:db8:2000:2::1'
+ set protocols static route6 2001:db8:1000::/36 next-hop '2001:db8:2000:2::2'"
+        state: parsed
+#
+#
+# -------------------------
+# Module Execution Result
+# -------------------------
+#
+#
+# "parsed": [
+#        {
+#            "address_families": [
+#                {
+#                    "afi": "ipv4",
+#                    "routes": [
+#                        {
+#                            "blackhole_config": {
+#                                "distance": 2
+#                            }, 
+#                            "dest": "192.0.2.32/28",
+#                            "next_hops": [
+#                                {
+#                                    "forward_router_address": "2001:db8:2000:2::2"
+#                                }
+#                            ]
+#                        }
+#                    ]
+#                },
+#                {
+#                    "afi": "ipv6",
+#                    "routes": [
+#                        {
+#                            "blackhole_config": {
+#                                "distance": 2
+#                            },
+#                            "dest": "2001:db8:1000::/36",
+#                            "next_hops": [
+#                                {
+#                                    "forward_router_address": "2001:db8:2000:2::2"
+#                                }
+#                            ]
+#                        }
+#                    ]
+#                }
+#            ]
+#        }
+#    ]

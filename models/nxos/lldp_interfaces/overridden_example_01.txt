@@ -1,0 +1,27 @@
+# Using overridden
+
+# Before state:
+# ------------
+# 
+# interface Ethernet1/4
+#   no lldp receive
+#   lldp tlv-set management-address 192.168.122.64
+# interface Ethernet1/5
+#   no lldp transmit
+#   lldp tlv-set vlan 10
+
+- name: Override LLDP configuration on all interfaces with given configuration
+  nxos_lldp_interfaces:
+    config:
+        - name: Ethernet1/7
+          receive: no
+          tlv_set:
+            vlan: 12
+    state: overridden
+
+# After state:
+# -----------
+#
+# interface Ethernet1/7
+#   no lldp receive
+#   lldp tlv_set vlan 12

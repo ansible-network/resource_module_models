@@ -1,0 +1,20 @@
+# Using Parsed
+#
+# Before state
+# -------------
+#
+
+- name: Parse OSPF V2 provided configuration
+  cisco.ios.ios_ospfv2:
+    running_config:
+    state: parsed
+
+#
+#
+# ------------------------
+# Module Execution Results
+# ------------------------
+#
+
+# After state
+# ------------

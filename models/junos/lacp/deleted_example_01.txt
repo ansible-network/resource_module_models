@@ -1,0 +1,18 @@
+# Using deleted
+
+# Before state:
+# -------------
+# user@junos01# show chassis aggregated-devices ethernet lacp
+# system-priority 63;
+# link-protection {
+#    non-revertive;
+# }
+
+- name: Delete global LACP attributes
+  junos_lacp:
+    state: deleted
+
+# After state:
+# ------------
+# user@junos01# show chassis aggregated-devices ethernet lacp
+#

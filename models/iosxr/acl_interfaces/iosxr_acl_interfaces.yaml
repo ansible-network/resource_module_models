@@ -1,0 +1,76 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+
+NETWORK_OS: iosxr
+RESOURCE: acl_interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: iosxr_acl_interfaces
+  version_added: "2.10"
+  short_description: Manage adding and removing Access Control Lists (ACLs) from interfaces on devices running IOS-XR software.
+  description: 
+    - This module manages adding and removing Access Control Lists (ACLs) from interfaces on devices running IOS-XR software.
+  author: Nilashish Chakraborty (@NilashishC)
+  options:
+    config:
+      description: A dictionary of ACL options for interfaces.
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - Name/Identifier for the interface.
+          type: str
+        access_groups:
+          type: list
+          elements: dict
+          description:
+            - Specifies ACLs attached to the interface.
+          suboptions:
+            afi:
+              description:
+                - Specifies the AFI for the ACL(s) to be configured on this interface.
+              type: str
+              choices: ['ipv4', 'ipv6']
+            acls:
+              type: list
+              description:
+                - Specifies the ACLs for the provided AFI.
+              elements: dict
+              suboptions:
+                name:
+                  description:
+                    - Specifies the name of the IPv4/IPv4 ACL for the interface.
+                  type: str
+                direction:
+                  description:
+                    - Specifies the direction of packets that the ACL will be applied on.
+                  type: str
+                  choices: ['in', 'out']
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - gathered
+      - parsed
+      - rendered
+      default: merged
+
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt

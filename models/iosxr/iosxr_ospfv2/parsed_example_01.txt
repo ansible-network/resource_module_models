@@ -1,0 +1,133 @@
+# Using parsed
+#
+#
+- name: Parsed the device configuration to get output commands
+  cisco.iosxr.iosxr_ospfv2:
+    running_config:
+         "Thu Jun 11 17:28:51.918 UTC
+          router ospf 10
+           authentication keychain ansible_test1102
+           area 11
+            cost 11
+            default-cost 5
+           !
+           area 22
+            default-cost 6
+           !
+          !
+          router ospf 26
+           authentication message-digest keychain ansible1101pass
+           adjacency stagger 10 20
+          !
+          router ospf 27
+           area 10
+            authentication keychain ansi11393
+            hello-interval 2
+           !
+          !
+          router ospf 30
+           router-id 2.2.2.2
+           summary-in enable
+           external-out disable
+           cost 2
+           packet-size 577
+           weight 2
+           passive disable
+           priority 1
+           mtu-ignore enable
+           flood-reduction disable
+           dead-interval 2
+           retransmit-interval 2
+           demand-circuit enable
+           hello-interval 1
+           transmit-delay 2
+           default-metric 10
+           area 11
+            default-cost 5
+           !
+           area 22
+            default-cost 6
+           !
+          !"
+    state: parsed
+#
+#
+# -------------------------
+# Module Execution Result
+# -------------------------
+#
+#
+# "parsed": {
+#        "processes": [
+#            {
+#                "areas": [
+#                    {
+#                        "area_id": "11",
+#                        "cost": 11,
+#                        "default_cost": 5
+#                    },
+#                    {
+#                        "area_id": "22",
+#                        "default_cost": 6
+#                    }
+#                ],
+#                "authentication": {
+#                    "keychain": "ansible_test1102"
+#                },
+#                "process_id": "10"
+#            },
+#            {
+#                "adjacency_stagger": {
+#                    "max_adjacency": 20,
+#                    "min_adjacency": 10
+#                },
+#                "authentication": {
+#                    "message_digest": {
+#                        "keychain": "ansible1101pass"
+#                    }
+#                },
+#                "process_id": "26"
+#            },
+#            {
+#                "areas": [
+#                    {
+#                        "area_id": "10",
+#                        "authentication": {
+#                            "keychain": "ansi11393"
+#                        },
+#                        "hello_interval": 2
+#                    }
+#                ],
+#                "process_id": "27"
+#            },
+#            {
+#                "areas": [
+#                    {
+#                        "area_id": "11",
+#                        "default_cost": 5
+#                    },
+#                    {
+#                        "area_id": "22",
+#                        "default_cost": 6
+#                    }
+#                ],
+#                "cost": 2,
+#                "dead_interval": 2,
+#                "default_metric": 10,
+#                "demand_circuit": "enable",
+#                "external_out": "disable",
+#                "flood_reduction": "disable",
+#                "hello_interval": 1,
+#                "mtu_ignore": "enable",
+#                "packet_size": 577,
+#                "passive": "disable",
+#                "priority": 1,
+#                "process_id": "30",
+#                "retransmit_interval": 2,
+#                "router_id": "2.2.2.2",
+#                "summary_in": "enable",
+#                "transmit_delay": 2,
+#                "weight": 2
+#            }
+#        ]
+#    }

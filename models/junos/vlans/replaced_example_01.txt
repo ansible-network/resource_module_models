@@ -1,0 +1,39 @@
+Using replaced
+#############
+
+# Before State
+# ------------
+#
+# admin# show vlans
+# vlan-1 {
+#     vlan-id 1;
+# }
+# vlan-2 {
+#     vlan-id 2;
+# }
+# vlan-3 {
+#     vlan-id 3;
+# }
+
+- name: Replace JUNOS vlan
+  junos_vlans:
+    config:
+      - name: vlan-1
+        vlan-id: 10
+      - name: vlan-3
+        vlan-id: 30
+  state: replaced
+
+# After State
+# -----------
+#
+# admin# show vlans
+# vlan-1 {
+#     vlan-id 10;
+# }
+# vlan-2 {
+#     vlan-id 2;
+# }
+# vlan-3 {
+#     vlan-id 30;
+# }

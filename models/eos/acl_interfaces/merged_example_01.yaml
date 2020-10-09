@@ -1,0 +1,42 @@
+# Using Merged
+
+# Before state:
+# -------------
+#
+# eos#sh running-config | include interface|access-group
+# interface Ethernet1
+# interface Ethernet2
+# interface Ethernet3
+
+- name: "Merge module attributes of given access-groups"
+  eos_acl_interfaces:
+    config:
+      - name: Ethernet2
+        access_groups:
+          - afi: ipv4
+            acls:
+              name: acl01
+              direction: in
+          - afi: ipv6
+            acls:
+              name: acl03
+              direction: out
+    state: merged
+
+# Commands Fired:
+# ---------------
+#
+# interface Ethernet2
+# ip access-group acl01 in
+# ipv6 access-group acl03 out
+
+# After state:
+# -------------
+#
+# eos#sh running-config | include interface| access-group
+# interface Loopback888
+# interface Ethernet1
+# interface Ethernet2
+#  ip access-group acl01 in
+#  ipv6 access-group acl03 out
+# interface Ethernet3

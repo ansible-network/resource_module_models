@@ -1,0 +1,36 @@
+Using overridden
+################
+
+# Before State
+# ------------
+#
+# admin# show vlans
+# vlan-1 {
+#     vlan-id 1;
+# }
+# vlan-2 {
+#     vlan-id 2;
+# }
+# vlan-3 {
+#     vlan-id 3;
+# }
+
+- name: Override JUNOS vlan
+  junos_vlans:
+    config:
+      - name: vlan-4
+        vlan-id: 100
+      - name: vlan-2
+        vlan-id: 200
+  state: overridden
+
+# After State
+# -----------
+#
+# admin# show vlans
+# vlan-2 {
+#     vlan-id 200;
+# }
+# vlan-4 {
+#     vlan-id 100;
+# }

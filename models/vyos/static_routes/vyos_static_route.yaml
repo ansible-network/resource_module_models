@@ -1,0 +1,105 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+
+NETWORK_OS: vyos
+RESOURCE: static_routes
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: vyos_static_routes
+  version_added: 2.10
+  short_description: Static routes resource module.
+  description: This module manages attributes of static routes on VyOS network devices.
+  author: Rohit Thakur (@rohitthakur2590)
+  options:
+    config:
+      description: A provided static route configuration.
+      type: list
+      elements: dict
+      suboptions:
+        address_families:
+          description: A dictionary specifying the address family to which the static route(s) belong.
+          type: list
+          elements: dict
+          suboptions:
+            afi:
+              description:
+                - Specifies the type of route.
+              type: str
+              choices: ['ipv4', 'ipv6']
+              required: True
+            routes:
+              description: A ditionary that specify the static route configurations.
+              type: list
+              elements: dict
+              suboptions:
+                dest:
+                  description:
+                    - An IPv4/v6 address in CIDR notation that specifies the destination network for the static route.
+                  type: str
+                  required: True 
+                blackhole_config:
+                  description:
+                    - Configured to silently discard packets.
+                  type: dict
+                  suboptions:
+                    type:
+                      description:
+                        - This is to configure only blackhole.
+                      type: str
+                    distance:
+                      description:
+                        - Distance for the route.
+                      type: int
+                next_hops:
+                  description:
+                    - Next hops to the specified destination.
+                  type: list
+                  elements: dict
+                  suboptions:
+                    forward_router_address:
+                      description:
+                        - The IP address of the next hop that can be used to reach the destination network.
+                      type: str
+                      required: True
+                    enabled:
+                      description:
+                        - Disable IPv4/v6 next-hop static route.
+                      type: bool
+                    admin_distance:
+                      description:
+                        - Distance value for the route.
+                      type: int
+                    interface:
+                      description:
+                        - Name of the outgoing interface.
+                      type: str
+
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - gathered
+      - rendered
+      default: merged
+
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
+  - rendered_example_01.txt
+  - parsed_example_01.txt
+  - gathered_example_01.txt
