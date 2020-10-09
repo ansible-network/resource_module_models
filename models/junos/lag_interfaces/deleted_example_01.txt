@@ -1,0 +1,40 @@
+# Using merged
+
+# Before state:
+# -------------
+# user@junos01# show interfaces
+# ge-0/0/1 {
+#    description "Ansible configured interface 1";
+#    ether-options {
+#        802.3ad ae0;
+#    }
+# }
+# ge-0/0/2 {
+#    description "Ansible configured interface 2";
+#    ether-options {
+#        802.3ad ae0;
+#    }
+# }
+# ae0 {
+#     description "lag interface";
+# }
+# ae1 {
+#     description "lag interface 1";
+# }
+
+- name: Delete LAG attributes of given interfaces (Note: This won't delete the interface itself)
+  junos_lag_interfaces:
+    config:
+      - name: ae0
+      - name: ae1
+    state: deleted
+
+# After state:
+# -------------
+# user@junos01# show interfaces
+# ge-0/0/1 {
+#    description "Ansible configured interface 1";
+# }
+# ge-0/0/2 {
+#    description "Ansible configured interface 2";
+# }
