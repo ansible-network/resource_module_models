@@ -1,0 +1,58 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+# viosxr#show running-config interface
+# interface GigabitEthernet0/0/0/1
+#  description Configured by Ansible
+#  shutdown
+# !
+# interface GigabitEthernet0/0/0/2
+#  description Test
+#  vrf custB
+#  ipv4 address 178.18.169.23 255.255.255.0
+#  dot1q native vlan 30
+# !
+# interface GigabitEthernet0/0/0/3
+#  vrf custB
+#  ipv4 address 10.10.0.2 255.255.255.0
+#  dot1q native vlan 1021
+# !
+
+- name: Replaces device configuration of listed interfaces with provided configuration
+  iosxr_interfaces:
+    config:
+      - name: GigabitEthernet0/0/0/2
+        description: Configured and Replaced by Ansible
+        enabled: True
+        mtu: 2000
+      - name: GigabitEthernet0/0/0/3
+        description: Configured and Replaced by Ansible
+        enabled: False
+        duplex: half
+    operation: replaced
+
+# After state:
+# -------------
+#
+# viosxr#show running-config interface
+# interface GigabitEthernet0/0/0/1
+#  description Configured by Ansible
+#  shutdown
+# !
+# interface GigabitEthernet0/0/0/2
+#  description Configured and Replaced by Ansible
+#  mtu 2000
+#  vrf custB
+#  ipv4 address 178.18.169.23 255.255.255.0
+#  dot1q native vlan 30
+# !
+# interface GigabitEthernet0/0/0/3
+#  description Configured and Replaced by Ansible Network
+#  vrf custB
+#  ipv4 address 10.10.0.2 255.255.255.0
+#  duplex half
+#  shutdown
+#  dot1q native vlan 1021
+# !
