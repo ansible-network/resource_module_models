@@ -15,7 +15,7 @@ COPYRIGHT: Copyright 2019 Red Hat
 DOCUMENTATION: |
   module: vyos_ospfv2
   version_added: 2.10
-  short_description: This resource module configures and manages attributes of OSPFv2 routes on VyOS network devices.
+  short_description: OSPFv2 resource module.
   description: This resource module configures and manages attributes of OSPFv2 routes on VyOS network devices.
   author: Rohit Thakur (@rohitthakur2590)
   options:
@@ -29,7 +29,7 @@ DOCUMENTATION: |
           elements: dict
           suboptions:
             area_id:
-              description: Configured to discard packets.
+              description: OSPFv2 area identity.
               type: str
             area_type:
               description: Area type.
@@ -39,20 +39,20 @@ DOCUMENTATION: |
                   description: Normal OSPFv2 area.
                   type: bool
                 nssa:
-                  description: Nssa OSPFv2 area.
+                  description: NSSA OSPFv2 area.
                   type: dict
                   suboptions:
                     set: 
-                      description: Enabling nssa.
+                      description: Enabling NSSA.
                       type: bool
                     default_cost:
-                      description: Summary-default cost of nssa area.
+                      description: Summary-default cost of NSSA area.
                       type: int
                     no_summary:
                       description: Do not inject inter-area routes into stub.
                       type: bool
                     translate: 
-                      description: Nssa-abr.
+                      description: Specify NSSA translator.
                       type: str
                       choices: ['always', 'candidate', 'never']
                 stub: 
@@ -115,12 +115,12 @@ DOCUMENTATION: |
                   type: dict
                   suboptions:
                     md5:
-                      description: MD5 key id based authentication.
+                      description: MD5 key ID based authentication.
                       type: list
                       elements: dict
                       suboptions:
                         key_id:
-                          description: MD5 key id.
+                          description: MD5 key ID.
                           type: int
                         md5_key:
                           description: MD5 key.
@@ -183,13 +183,13 @@ DOCUMENTATION: |
                   description: OSPFv2 default metric.
                   type: int
                 metric_type:
-                  description: OSPFv2 Metric types for default routes.
+                  description: OSPFv2 metric types for default routes.
                   type: int
                 route_map:
                   description: Route map references.
                   type: str           
         default_metric:
-          description: Metric of redistributed routes
+          description: Metric of redistributed routes.
           type: int
         distance:
           description: Administrative distance.
@@ -272,7 +272,7 @@ DOCUMENTATION: |
               description: Metric for redistribution routes.
               type: int
             metric_type:
-              description: OSPFv2 Metric types.
+              description: OSPFv2 metric types.
               type: int
             route_map:
               description: Route map references.
@@ -301,7 +301,7 @@ DOCUMENTATION: |
                   type: dict
                   suboptions:
                     delay:
-                      description: Delay (msec) from first change received till SPF calculation.
+                      description: Delay (msec) from first change received untill SPF calculation.
                       type: int
                     initial_holdtime:
                       description: Initial hold time(msec) between consecutive SPF calculations.
