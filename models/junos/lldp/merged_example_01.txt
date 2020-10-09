@@ -1,0 +1,22 @@
+# Using merged
+# Before state:
+# -------------
+# user@junos01# # show protocols lldp
+#
+
+- name: Merge provided configuration with device configuration
+  junos_lldp_global:
+    config:
+      interval: 10000
+      address: 10.1.1.1
+      transmit_delay: 400
+      hold_multiplier: 10
+    state: merged
+
+# After state:
+# -------------
+# user@junos01# show protocols lldp
+# management-address 10.1.1.1;
+# advertisement-interval 10000;
+# transmit-delay 400;
+# hold-multiplier 10;
