@@ -1,0 +1,41 @@
+# Using merged
+
+# Before state:
+# ------------
+#
+
+- name: Merge ACL interfaces configuration
+  nxos_acl_interfaces:
+    config:
+      - name: Ethernet1/2
+        access_groups:
+          - afi: ipv6
+            acls:
+              - name: ACL1v6
+                direction: in
+
+      - name: Eth1/5
+        access_groups:
+          - afi: ipv4
+            acls:
+              - name: PortACL
+                direction: in
+                port: True
+              
+              - name: ACL1v4
+                direction: out                
+          
+          - afi: ipv6
+            acls:
+              - name: ACL1v6
+                direction: in
+    state: merged
+
+# After state:
+# ------------
+# interface Ethernet1/2
+#   ipv6 traffic-filter ACL1v6 in
+# interface Ethernet1/5
+#   ip port access-group PortACL in
+#   ip access-group ACL1v4 out
+#   ipv6 traffic-filter ACL1v6 in

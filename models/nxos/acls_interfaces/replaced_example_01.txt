@@ -1,0 +1,40 @@
+# Using replaced
+
+# Before state:
+# ------------
+# interface Ethernet1/2
+#   ipv6 traffic-filter ACL1v6 in
+# interface Ethernet1/5
+#   ip port access-group PortACL in
+#   ip access-group ACL1v4 out
+#   ipv6 traffic-filter ACL1v6 in
+
+- name: Replace interface configuration with given configuration
+  nxos_acl_interfaces:
+    config:
+      - name: Eth1/5
+        access_groups:
+          - afi: ipv4
+            acls:
+              - name: NewACLv4
+                direction: out
+      
+      - name: Ethernet1/3
+        access_groups:
+          - afi: ipv6
+            acls:
+              - name: NewACLv6
+                direction: in
+                port: true
+    state: replaced
+
+
+# After state:
+# ------------
+# interface Ethernet1/2
+#   ipv6 traffic-filter ACL1v6 in
+# interface Ethernet1/3
+#   ipv6 port traffic-filter NewACLv6 in
+# interface Ethernet1/5
+#   ip access-group NewACLv4 out
+
