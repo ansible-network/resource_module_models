@@ -1,0 +1,90 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+  {
+     'metadata_version': '1.1',
+     'status': ['preview'],
+     'supported_by': 'network'
+  }
+
+NETWORK_OS: junos
+RESOURCE: acls
+COPYRIGHT: Copyright 2019 Red Hat
+LICENSE: gpl-3.0.txt
+
+DOCUMENTATION: |
+  module: junos_acls
+  version_added: 2.10
+  short_description: Manage acls on Juniper JUNOS devices
+  description: This module provides declarative management of acls/filters on Juniper JUNOS devices
+  author: Daniel Mellado (@dmellado)
+  requirements:
+    - ncclient (>=v0.6.4)
+    - xmltodict (>=0.12.0)
+  notes:
+    - This module requires the netconf system service be enabled on the device being managed.
+    - This module works with connection C(netconf). See L(the Junos OS Platform Options,../network/user_guide/platform_junos.html).
+    - Tested against JunOS v18.4R1
+  options:
+    config:
+      description: A dictionary of acls options
+      type: list
+      elements: dict
+      suboptions:
+        family:
+          description:
+            - Protocol family to use by the acl filter
+          type: str
+          required: true
+          choices:
+            - any
+            - inet
+            - inet6
+            - mpls
+            - vpls
+            - ccc
+            - bridge
+            - ethernet
+          default: inet
+        filter:
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description:
+                - Name to use for the acl filter
+              type: str
+              required: true
+            term:
+              type: list
+              elements: dict
+              suboptions:
+                name:
+                  description:
+                    - Filter term name
+                  type: str
+                  required: true
+                from:
+                  description:
+                    - Condition against to evaluate
+                  type: str
+                  required: true
+                then:
+                  description:
+                    - Action to take after matching condition
+                  type: str
+    state:
+      description:
+      - The state the configuration should be left in
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
