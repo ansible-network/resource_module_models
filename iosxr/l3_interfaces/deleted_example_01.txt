@@ -23,7 +23,7 @@
 # !
 
 - name: Delete attributes of given interfaces (Note: This won't delete the interface itself)
-  iosxr_interfaces:
+  iosxr_l3_interfaces:
     config:
       - name: GigabitEthernet0/0/0/3
       - name: GigabitEthernet0/0/0/4

@@ -23,7 +23,7 @@
 # !
 
 - name: Override device configuration of all interfaces with provided configuration
-  iosxr_interfaces:
+  iosxr_l3_interfaces:
     config:
       - name: GigabitEthernet0/0/0/3
         ipv4: 

@@ -22,7 +22,7 @@ I# Using merged
 # !
 
 - name: Merge provided configuration with device configuration
-  iosxr_interfaces:
+  iosxr_l3_interfaces:
     config:
       - name: GigabitEthernet0/0/0/2
         ipv4:
