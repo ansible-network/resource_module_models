@@ -9,14 +9,14 @@ ANSIBLE_METADATA: |
 
 NETWORK_OS: junos
 RESOURCE: acls
-COPYRIGHT: Copyright 2019 Red Hat
+COPYRIGHT: Copyright 2020 Red Hat
 LICENSE: gpl-3.0.txt
 
 DOCUMENTATION: |
   module: junos_acls
   version_added: 2.10
-  short_description: Manage acls on Juniper JUNOS devices
-  description: This module provides declarative management of acls/filters on Juniper JUNOS devices
+  short_description: ACLs resource module
+  description: This module provides declarative management of ACLs/filters on Juniper JUNOS devices
   author: Daniel Mellado (@dmellado)
   requirements:
     - ncclient (>=v0.6.4)
@@ -27,26 +27,20 @@ DOCUMENTATION: |
     - Tested against JunOS v18.4R1
   options:
     config:
-      description: A dictionary of acls options
+      description: A dictionary of ACLs options
       type: list
       elements: dict
       suboptions:
-        family:
+        afi:
           description:
             - Protocol family to use by the acl filter
           type: str
           required: true
           choices:
-            - any
-            - inet
-            - inet6
-            - mpls
-            - vpls
-            - ccc
-            - bridge
-            - ethernet
-          default: inet
-        filter:
+            - ipv4
+            - ipv6
+          default: ipv4
+        acls:
           type: list
           elements: dict
           suboptions:
@@ -55,7 +49,7 @@ DOCUMENTATION: |
                 - Name to use for the acl filter
               type: str
               required: true
-            term:
+            aces:
               type: list
               elements: dict
               suboptions:
@@ -64,15 +58,262 @@ DOCUMENTATION: |
                     - Filter term name
                   type: str
                   required: true
-                from:
+                grant:
+                  desctiption:
+                    - Action to take after matching condition (allow, discard/reject)
+                  type: bool
+                port:
                   description:
-                    - Condition against to evaluate
-                  type: str
-                  required: true
-                then:
+                    - Port to use for the rule
+                  choices:
+                    - number
+                    - <range>
+                    - afs
+                    - bgp
+                    - biff
+                    - bootpc
+                    - bootps
+                    - cmd
+                    - cvspserver
+                    - dhcp
+                    - domain
+                    - eklogin
+                    - ekshell
+                    - exec
+                    - finger
+                    - ftp
+                    - ftp-data
+                    - http
+                    - https
+                    - ident
+                    - imap
+                    - kerberos-sec
+                    - klogin
+                    - kpasswd
+                    - krb-prop
+                    - krbupdate
+                    - kshell
+                    - ldap
+                    - ldp
+                    - login
+                    - mobileip-agent
+                    - mobilip-mn
+                    - msdp
+                    - netbios-dgm
+                    - netbios-ns
+                    - netbios-ssn
+                    - nfsd
+                    - nntp
+                    - ntalk
+                    - ntp
+                    - pop3
+                    - pptp
+                    - printer
+                    - radacct
+                    - radius
+                    - rip
+                    - rkinit
+                    - smtp
+                    - snmp
+                    - snmptrap
+                    - snpp
+                    - socks
+                    - ssh
+                    - sunrpc
+                    - syslog
+                    - tacacs
+                    - tacacs-ds
+                    - talk
+                    - telnet
+                    - tftp
+                    - timed
+                    - who
+                    - xdmcp
+                    - zephyr-clt
+                    - zephyr-hm
+                    - zephyr-srv
+                protocol:
+                  type: dict
                   description:
-                    - Action to take after matching condition
-                  type: str
+                    - Protocol to use for the acl rule
+                  suboptions:
+                    tcp:
+                      description:
+                        - Use TCP protocol for the acl rule
+                      type: str
+                    ucp:
+                      description:
+                        - Use UDP protcol for the acl rule
+                      type: str
+                    icmp:
+                      description:
+                        - Use ICMP protocol for the acl rule
+                      type: str
+                source:
+                  type: list
+                  elements: dict
+                  description:
+                    - Specifies the source for the filter
+                  suboptions:
+                    source-address:
+                      description:
+                        - Ip source address to use for the filter
+                      type: str
+                    source-prefix-list:
+                      description:
+                        - Ip source prefix list to use for the filter
+                      type: str
+                    source-port:
+                      description:
+                        - Source port to use for the filter
+                      choices:
+                        - <range>
+                        - afs
+                        - bgp
+                        - biff
+                        - bootpc
+                        - bootps
+                        - cmd
+                        - cvspserver
+                        - dhcp
+                        - domain
+                        - eklogin
+                        - ekshell
+                        - exec
+                        - finger
+                        - ftp
+                        - ftp-data
+                        - http
+                        - https
+                        - ident
+                        - imap
+                        - kerberos-sec
+                        - klogin
+                        - kpasswd
+                        - krb-prop
+                        - krbupdate
+                        - kshell
+                        - ldap
+                        - ldp
+                        - login
+                        - mobileip-agent
+                        - mobilip-mn
+                        - msdp
+                        - netbios-dgm
+                        - netbios-ns
+                        - netbios-ssn
+                        - nfsd
+                        - nntp
+                        - ntalk
+                        - ntp
+                        - pop3
+                        - pptp
+                        - printer
+                        - radacct
+                        - radius
+                        - rip
+                        - rkinit
+                        - smtp
+                        - snmp
+                        - snmptrap
+                        - snpp
+                        - socks
+                        - ssh
+                        - sunrpc
+                        - syslog
+                        - tacacs
+                        - tacacs-ds
+                        - talk
+                        - telnet
+                        - tftp
+                        - timed
+                        - who
+                        - xdmcp
+                        - zephyr-clt
+                        - zephyr-hm
+                        - zephyr-srv
+                destination:
+                  type: list
+                  elements: dict
+                  description:
+                    - Specifies the destination for the filter
+                  suboptions:
+                    destination-address:
+                      description:
+                        - Match IP destination address
+                    destination-prefix-list:
+                      description:
+                        - Match IP destination prefixes in named list
+                      type: str
+                    destination-port:
+                      description:
+                        - Destination port to use for the filter
+                      choices:
+                        - <range>
+                        - afs
+                        - bgp
+                        - biff
+                        - bootpc
+                        - bootps
+                        - cmd
+                        - cvspserver
+                        - dhcp
+                        - domain
+                        - eklogin
+                        - ekshell
+                        - exec
+                        - finger
+                        - ftp
+                        - ftp-data
+                        - http
+                        - https
+                        - ident
+                        - imap
+                        - kerberos-sec
+                        - klogin
+                        - kpasswd
+                        - krb-prop
+                        - krbupdate
+                        - kshell
+                        - ldap
+                        - ldp
+                        - login
+                        - mobileip-agent
+                        - mobilip-mn
+                        - msdp
+                        - netbios-dgm
+                        - netbios-ns
+                        - netbios-ssn
+                        - nfsd
+                        - nntp
+                        - ntalk
+                        - ntp
+                        - pop3
+                        - pptp
+                        - printer
+                        - radacct
+                        - radius
+                        - rip
+                        - rkinit
+                        - smtp
+                        - snmp
+                        - snmptrap
+                        - snpp
+                        - socks
+                        - ssh
+                        - sunrpc
+                        - syslog
+                        - tacacs
+                        - tacacs-ds
+                        - talk
+                        - telnet
+                        - tftp
+                        - timed
+                        - who
+                        - xdmcp
+                        - zephyr-clt
+                        - zephyr-hm
+                        - zephyr-srv
     state:
       description:
       - The state the configuration should be left in
@@ -82,6 +323,8 @@ DOCUMENTATION: |
       - replaced
       - overridden
       - deleted
+      - gathered
+
       default: merged
 EXAMPLES:
   - deleted_example_01.txt
