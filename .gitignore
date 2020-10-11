@@ -1,4 +1,4 @@
-.idea
+.idea/
 .mypy_cache
 .vscode/
 *.code-workspace
