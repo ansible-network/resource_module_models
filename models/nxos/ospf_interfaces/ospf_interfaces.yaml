@@ -27,7 +27,7 @@ options:
             type: str
             choices: ['ipv4', 'ipv6']
             required: True
-          process:
+          processes:
             description:
             - Interfaces configuration for an OSPF process.
             type: list
@@ -55,7 +55,7 @@ options:
               multi_areas:
                 description:
                 - Multi-Areas associated with interface.
-                - Valid values are Area Ids as an integer or IP address
+                - Valid values are Area Ids as an integer or IP address.
                 type: list
                 elements: str
           multi_areas:
@@ -81,6 +81,10 @@ options:
                 description:
                 - Enable/disable authentication on the interface.
                 type: bool
+              null_auth:
+                description:
+                - Use null(disable) authentication.
+                type: bool
           authentication_key:
             description:
             - Configure the authentication key for the interface.
@@ -88,10 +92,10 @@ options:
             suboptions:
               encryption:
                 description:
-                - "0" Specifies an UNENCRYPTED authentication key will follow.
-                - "3" Specifies an 3DES ENCRYPTED authentication key will follow.
-                - "7" Specifies a Cisco type 7  ENCRYPTED authentication key will follow.
-                type: str
+                - 0 Specifies an UNENCRYPTED authentication key will follow.
+                - 3 Specifies an 3DES ENCRYPTED authentication key will follow.
+                - 7 Specifies a Cisco type 7  ENCRYPTED authentication key will follow.
+                type: int
               key:
                 description:
                 - Authentication key.
@@ -110,10 +114,10 @@ options:
                 type: int
               encryption:
                 description:
-                - "0" Specifies an UNENCRYPTED ospf password (key) will follow.
-                - "3" Specifies an 3DES ENCRYPTED ospf password (key) will follow.
-                - "7" Specifies a Cisco type 7 ENCRYPTED the ospf password (key) will follow.
-                type: str
+                - 0 Specifies an UNENCRYPTED ospf password (key) will follow.
+                - 3 Specifies an 3DES ENCRYPTED ospf password (key) will follow.
+                - 7 Specifies a Cisco type 7 ENCRYPTED the ospf password (key) will follow.
+                type: int
               key:
                 description:
                 - Authentication key.
