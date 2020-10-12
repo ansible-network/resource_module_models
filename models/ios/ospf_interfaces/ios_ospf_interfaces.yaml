@@ -1,0 +1,239 @@
+---
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+    }
+
+NETWORK_OS: ios
+RESOURCE: ospf_interfaces
+COPYRIGHT: Copyright 2020 Red Hat
+LICENSE: gpl-3.0.txt
+
+DOCUMENTATION: |
+module: ios_ospf_interfaces
+version_added: 1.1.1
+short_description: OSPF_interfaces resource module.
+description: Manages and configures Open Shortest Path First (OSPF) version 2 and it's attributes over interface on IOS
+  platforms.
+author: Sumit Jaiswal (@justjais)
+info:
+  network_os: ios
+notes:
+  - Tested against Cisco IOSv Version 15.2 on VIRL
+  - This module works with connection C(network_cli).
+    See L(IOS Platform Options,../network/user_guide/platform_ios.html).
+options:
+  config:
+    description: A dictionary of OSPF interfaces options.
+    type: dict
+    suboptions:
+      processes:
+        description:
+          - List of OSPF interfaces instance configurations.
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            description:
+            - Full name of the interface excluding any logical unit number, i.e. GigabitEthernet0/1.
+            type: str
+            required: true
+          address_family:
+            description:
+            - OSPF interfaces settings on the interfaces in address-family context.
+            type: list
+            elements: dict
+            suboptions:
+              afi:
+                description:
+                - Address Family Identifier (AFI) for OSPF interfaces settings on the interfaces.
+                type: str
+                choices: ['ipv4', 'ipv6']
+                required: True
+              process_id:
+                description: Process ID
+                required: true
+                type: dict
+                suboptions:
+                  area:
+                    description: OSPF interfaces area parameters.
+                    type: dict
+                    suboptions:
+                      area_id:
+                        description:
+                          - OSPF interfaces area ID as a decimal value. Please refer vendor documentation
+                            of Valid values.
+                          - OSPF interfaces area ID in IP address format(e.g. A.B.C.D)
+                        type: str
+                      secondaries:
+                        description: Include or exclude secondary IP addresses.
+                        type: bool
+                  adjacency:
+                    description: Adjacency staggering
+                    type: bool
+          authentication:
+            description: Enable authentication
+            type: dict
+            suboptions:
+              key_chain:
+                description: Use a key-chain for cryptographic authentication keys
+                type: str
+              message_digest:
+                description: Use message-digest authentication
+                type: str
+              null:
+                description: Use no authentication
+                type: str
+          bfd:
+            description:
+              - BFD configuration commands
+              - Enable BFD on this interface
+            type: bool
+          cost:
+            description: Interface cost
+            type: int
+          database_filter:
+            description: Filter OSPF LSA during synchronization and flooding
+            type: bool
+          dead-interval:
+            description: Interval after which a neighbor is declared dead
+            type: dict
+            suboptions:
+              time:
+                description: time in seconds
+                type: int
+              minimal:
+                description: Set to 1 second
+                type: dict
+                suboptions:
+                  hello-multiplier:
+                    description:
+                      - Set multiplier for Hellos
+                      - Number of Hellos sent within 1 second. Please refer vendor documentation
+                        of Valid values.
+                    type: int
+          demand_circuit:
+            description: OSPF Demand Circuit, enable/disable the demand circuit
+            type: bool
+          flood_reduction:
+            description: OSPF Flood Reduction
+            type: bool
+          hello_interval:
+            description:
+              - Time between HELLO packets
+              - Please refer vendor documentation of Valid values.
+            type: int
+          lls:
+            description: Link-local Signaling (LLS) support
+            type: bool
+          mtu_ignore:
+            description: Ignores the MTU in DBD packets
+            type: bool
+          multi-area:
+            description: Set to 1 second
+            type: dict
+            suboptions:
+              id:
+                description:
+                  - OSPF multi-area ID as a decimal value. Please refer vendor documentation
+                    of Valid values.
+                  - OSPF multi-area ID in IP address format(e.g. A.B.C.D)
+              cost:
+                description: Interface cost
+                type: bool
+          network:
+            description: Network type
+            type: dict
+            suboptions:
+              broadcast:
+                description: Specify OSPF broadcast multi-access network
+                type: bool
+              non_broadcast:
+                description: Specify OSPF NBMA network
+                type: bool
+              point_to_multipoint:
+                description: Specify OSPF point-to-multipoint network
+                type: bool
+              point_to_point:
+                description: Specify OSPF point-to-point network
+                type: bool
+          prefix_suppression:
+            description: Enable/Disable OSPF prefix suppression
+            type: bool
+          priority:
+            description: Router priority. Please refer vendor documentation of Valid values.
+            type: int
+          resync_timeout:
+            description: Interval after which adjacency is reset if oob-resync is not started.
+            Please refer vendor documentation of Valid values.
+            type: int
+          retransmit_interval:
+            description: Time between retransmitting lost link state advertisements. Please
+            refer vendor documentation of Valid values.
+            type: int
+          shutdown:
+            description: Set OSPF protocol's state to disable under current interface
+            type: bool
+          transmit-delay:
+            description: Link state transmit delay. Please refer vendor documentation of Valid
+            values.
+            type: int
+          ttl_security:
+            description: TTL security check
+            type: dict
+            suboptions:
+              set:
+                description: Enable TTL Security on all interfaces
+                type: bool
+              hops:
+                description:
+                  - Maximum number of IP hops allowed
+                  - Note, refer vendor documentation for respective valid values
+                type: int
+  running_config:
+    description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the IOS device by
+        executing the command B(sh running-config | section ^interface).
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into Ansible structured data as per the resource module's argspec
+        and the value is then returned in the I(parsed) key within the result.
+    type: str
+  state:
+    description:
+      - The state the configuration should be left in
+      - The states I(rendered), I(gathered) and I(parsed) does not perform any change
+        on the device.
+      - The state I(rendered) will transform the configuration in C(config) option to
+        platform specific CLI commands which will be returned in the I(rendered) key
+        within the result. For state I(rendered) active connection to remote host is
+        not required.
+      - The state I(gathered) will fetch the running configuration from device and transform
+        it into structured data in the format as per the resource module argspec and
+        the value is returned in the I(gathered) key within the result.
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into JSON format as per the resource module parameters and the
+        value is returned in the I(parsed) key within the result. The value of C(running_config)
+        option should be the same format as the output of command I(show running-config
+        | include ip route|ipv6 route) executed on device. For state I(parsed) active
+        connection to remote host is not required.
+    type: str
+    choices:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    - gathered
+    - rendered
+    - parsed
+    default: merged
+EXAMPLES:
+- deleted_example_01.txt
+- merged_example_01.txt
+- replaced_example_01.txt
+- overridden_example_01.txt
+- gathered_example_01.txt
+- rendered_example_01.txt
+- parsed_example_01.txt
