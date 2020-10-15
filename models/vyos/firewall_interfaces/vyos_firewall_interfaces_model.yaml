@@ -1,0 +1,81 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+NETWORK_OS: vyos
+RESOURCE: firewall_interfaces
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: vyos_firewall_interfaces
+  version_added: 2.10
+  short_description: Manage firewall rules attributes of interfaces on VyOS devices
+  description: Manage firewall rules of interfaces on VyOS network devices.
+  author:
+   - Rohit Thakur (@rohitthakur2590)
+  options:
+    config:
+      description: A list of firewall rules options for interfaces.
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - Name/Identifier for the interface.
+          type: str
+          required: True
+        access_rules:
+          description:
+            - Specifies firewall rules attached to the interfaces.
+          type: list
+          elements: dict
+          suboptions:
+            afi:
+              description:
+                - Specifies the AFI for the Firewall rules to be configured on this interface.
+              type: str
+              choices: ['ipv4', 'ipv6']
+              required: True
+            rules:
+              description:
+                - Specifies the firewall rules for the provided AFI.
+              type: list
+              elements: dict
+              suboptions: 
+                name:
+                  description:
+                    - Specifies the name of the IPv4/IPv6 Firewall rule for the interface.
+                  type: str
+                direction:
+                  description:
+                    - Specifies the direction of packets that the firewall rule will be applied on.
+                  type: str
+                  choices: ['in', 'local', 'out']
+                  required: True  
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - parsed
+      - rendered
+      - gathered
+      default: merged
+      
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
+  - parsed_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt

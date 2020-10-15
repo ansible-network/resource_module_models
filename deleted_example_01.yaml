@@ -1,0 +1,115 @@
+# Using Deleted
+
+# Before state:
+# -------------
+#
+# vios#sh running-config | include interface|ip access-group|ipv6 traffic-filter
+# interface Loopback888
+# interface GigabitEthernet0/0
+# interface GigabitEthernet0/1
+#  ip access-group 110 in
+#  ipv6 traffic-filter test_v6 out
+# interface GigabitEthernet0/2
+#  ip access-group 110 out
+
+- name: "Delete module attributes of given access-groups"
+  ios_acl_interfaces:
+    config:
+      - name: GigabitEthernet0/1
+        access_groups:
+          - afi: ipv4
+            acls:
+              name: 110
+              direction: in
+          - afi: ipv6
+            acls:
+              name: test_v6
+              direction: out
+    state: deleted
+
+# Commands Fired:
+# ---------------
+#
+# interface GigabitEthernet 0/1
+# no ip access-group 110 in
+# no ipv6 traffic-filter test_v6 out
+
+# After state:
+# -------------
+#
+# vios#sh running-config | include interface|ip access-group|ipv6 traffic-filter
+# interface Loopback888
+# interface GigabitEthernet0/0
+# interface GigabitEthernet0/1
+# interface GigabitEthernet0/2
+#  ip access-group 110 out
+
+
+# Using DELETED without any config passed
+=======
+# vios#sh running-config | include access-list|ipv6 access-list|permit|deny
+# access-list 110 deny   tcp 198.51.100.0 0.0.0.255 eq telnet 198.51.110.0 0.0.0.255 eq www ack dscp ef ttl eq 10
+# access-list 150 deny   tcp 198.51.100.0 0.0.0.255 eq telnet 198.51.110.0 0.0.0.255 eq telnet syn dscp ef ttl eq 10
+
+- name: "Delete module attributes of given acl (Note: This won't delete the interface itself)"
+  ios_acl:
+    config:
+      - afi: ipv4
+        acls:
+          - name: 110
+    state: deleted
+
+# After state:
+# -------------
+#
+# vios#sh running-config | include access-list|ipv6 access-list|permit|deny
+# access-list 150 deny   tcp 198.51.100.0 0.0.0.255 eq telnet 198.51.110.0 0.0.0.255 eq telnet syn dscp ef ttl eq 10
+
+# Using Deleted without any config passed
+#"(NOTE: This will delete all of configured resource module attributes from each configured interface)"
+
+# Before state:
+# -------------
+#
+# vios#sh running-config | include interface|ip access-group|ipv6 traffic-filter
+# interface Loopback888
+# interface GigabitEthernet0/0
+# interface GigabitEthernet0/1
+#  ip access-group 110 in
+#  ipv6 traffic-filter test_v6 out
+# interface GigabitEthernet0/2
+#  ip access-group 110 out
+
+- name: "Delete module attributes of given access-groups from ALL Interfaces"
+  ios_acl_interfaces:
+    config:
+    state: deleted
+
+# Commands Fired:
+# ---------------
+#
+# interface GigabitEthernet 0/1
+# no ip access-group 110 in
+# no ipv6 traffic-filter test_v6 out
+# interface GigabitEthernet 0/2
+# no ip access-group 110 out
+
+# After state:
+# -------------
+#
+# vios#sh running-config | include interface|ip access-group|ipv6 traffic-filter
+# interface Loopback888
+# interface GigabitEthernet0/0
+# interface GigabitEthernet0/1
+# interface GigabitEthernet0/2
+# vios#sh running-config | include access-list|ipv6 access-list|permit|deny
+# access-list 150 deny   tcp 198.51.100.0 0.0.0.255 eq telnet 198.51.110.0 0.0.0.255 eq telnet syn dscp ef ttl eq 10
+
+- name: "Delete module attributes of all acl (Note: This won't delete the interface itself)"
+  ios_acl:
+    state: deleted
+
+# After state:
+# -------------
+#
+# vios#sh running-config | include access-list|ipv6 access-list|permit|deny

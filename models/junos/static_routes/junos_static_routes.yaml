@@ -1,0 +1,87 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+  {
+     'metadata_version': '1.1',
+     'status': ['preview'],
+     'supported_by': 'network'
+  }
+
+NETWORK_OS: junos
+RESOURCE: static_routes
+COPYRIGHT: Copyright 2019 Red Hat
+LICENSE: gpl-3.0.txt
+
+DOCUMENTATION: |
+  module: junos_static_routes
+  version_added: 2.10
+  short_description: Manage static routes on Juniper JUNOS devices
+  description: This module provides declarative management of static routes on Juniper JUNOS devices
+  author: Daniel Mellado (@dmellado)
+  requirements:
+    - ncclient (>=v0.6.4)
+  notes:
+    - This module requires the netconf system service be enabled on the device being managed.
+    - This module works with connection C(netconf). See L(the Junos OS Platform Options,../network/user_guide/platform_junos.html).
+    - Tested against JunOS v18.4R1
+  options:
+    config:
+      description: A dictionary of static routes options
+      type: list
+      elements: dict
+      suboptions:
+        vrf:
+          description:
+            - Virtual Routing and Forwarding (VRF) name
+          type: str
+          required: true
+          default: __global__
+        address_families:
+          elements: dict
+          type: list
+          suboptions:
+            afi:
+              description:
+                - afi to use for the static routes
+              type: str
+              required: true
+              choices:
+                - ipv4
+                - ipv6
+            routes:
+              description:
+                - Static route configuration
+              elements: dict
+              type: list
+              suboptions:
+                dest:
+                  description:
+                    - Static route destination including prefix
+                  type: str
+                next_hop:
+                  description:
+                    - Next hop to destination
+                  type: str
+                metric:
+                  description:
+                    - Metric value for the static route
+                  type: int
+    state:
+      description:
+      - The state the configuration should be left in
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - gathered
+      - rendered
+      default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt

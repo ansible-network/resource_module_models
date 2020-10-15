@@ -1,0 +1,218 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+
+NETWORK_OS: vyos
+RESOURCE: firewall_global
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: vyos_firewall_global
+  version_added: 2.10
+  short_description: Manage global policies or configurations for firewall on VyOS devices.
+  description: This module manage global policies or configurations for firewall on VyOS devices.
+  author:
+     - Rohit Thakur (@rohitthakur2590)
+  options:
+    config:
+      description:
+        - A dictionary of Firewall global configuration options.
+      type: dict
+      suboptions:
+        route_redirects:
+          description:
+            -A dictionary of Firewall icmp redirect and source route global configuration options.
+          type: list
+          elements: dict
+          suboptions:
+            afi:
+              description:
+                - Specifies IP address type
+              type: str
+              choices: ['ipv4', 'ipv6']
+              required: True
+            icmp_redirects:
+              description:
+                - Specifies whether to allow sending/receiving of IPv4/v6 ICMP redirect messages.
+              type: dict
+              suboptions:
+                send:
+                  description:
+                    - Permits or denies transmitting packets ICMP redirect messages.
+                  type: bool
+                receive:
+                  description:
+                    - Permits or denies receiving packets ICMP redirect messages.
+                  type: bool
+            ip_src_route:
+              description:
+                - Specifies whether or not to process source route IP options.
+              type: bool
+        ping:
+          description:
+            - Policy for handling of all IPv4 ICMP echo requests.
+          type: dict
+          suboptions:
+            all:
+              description:
+                - Enables or disables response to all IPv4 ICMP Echo Request (ping) messages.
+                - The system responds to IPv4 ICMP Echo Request messages.
+              type: bool
+            broadcast:
+              description:
+                - Enables or disables response to broadcast IPv4 ICMP Echo Request and Timestamp Request messages.
+                - IPv4 ICMP Echo and Timestamp Request messages are not processed.
+              type: bool
+        config_trap:
+          description:
+            - SNMP trap generation on firewall configuration changes.
+          type: bool
+        validation:
+          description:
+            - Specifies a policy for source validation by reversed path, as defined in RFC 3704.
+            - (disable) No source validation is performed.
+            - (loose) Enable Loose Reverse Path Forwarding as defined in RFC3704.
+            - (strict) Enable Strict Reverse Path Forwarding as defined in RFC3704.
+          type: str
+          choices: ['strict', 'loose', 'disable']
+        group:
+          description:
+            - Defines a group of objects for referencing in firewall rules.
+          type: dict
+          suboptions:
+             address_group:
+               description:
+                 - Defines a group of IP addresses for referencing in firewall rules.
+               type: list
+               elements: dict
+               suboptions:
+                 name:
+                   description:
+                     - Name of the firewall address group.
+                   type: str
+                   required: True
+                 description:
+                   description:
+                     - Allows you to specify a brief description for the address group.
+                   type: str
+                 members:
+                   description:
+                     - Address-group members.
+                     - IPv4 address to match.
+                     - IPv4 range to match.
+                   type: list
+                   elements: dict
+                   suboptions:
+                     address:
+                       description: IP address.
+                       type: str
+             network_group:
+               description:
+                 - Defines a group of networks for referencing in firewall rules.
+               type: list
+               elements: dict
+               suboptions:
+                 name:
+                   description:
+                     - Name of the firewall network group.
+                   type: str
+                   required: True
+                 description:
+                   description:
+                     - Allows you to specify a brief description for the network group.
+                   type: str
+                 members:
+                   description:
+                     - Adds an IPv4 network to the specified network group.
+                     - The format is ip-address/prefix.
+                   type: list
+                   elements: dict
+                   suboptions:
+                     address:
+                       description: IP address.
+                       type: str
+             port_group:
+               description:
+                 - Defines a group of ports for referencing in firewall rules.
+               type: list
+               elements: dict
+               suboptions:
+                 name:
+                   description:
+                     - Name of the firewall port group.
+                   type: str
+                   required: True
+                 description:
+                   description:
+                     - Allows you to specify a brief description for the port group.
+                   type: str
+                 members:
+                   description:
+                     - Port-group member.
+                   type: list
+                   elements: dict
+                   suboptions:
+                     port:
+                       description: IP address.
+                       type: str
+
+        log_martians:
+          description:
+            - Specifies whether or not to record packets with invalid addresses in the log.
+            - (enable) Logs packets with invalid addresses.
+            - (disable) Does not log packets with invalid addresses.
+          type: bool
+        syn_cookies:
+          description:
+            - Specifies policy for using TCP SYN cookies with IPv4.
+            - (enable) Enables TCP SYN cookies with IPv4.
+            - (disable) Disables TCP SYN cookies with IPv4.
+          type: bool
+        twa_hazards_protection:
+          description:
+            - RFC1337 TCP TIME-WAIT assasination hazards protection.
+          type: bool
+        state_policy:
+          description:
+            - Specifies global firewall state-policy.
+          type: list
+          elements: dict
+          suboptions:
+            connection_type:
+              description: Specifies connection type.
+              type: str
+              choices: ['established', 'invalid', 'related']
+            action:
+              description:
+                - Action for packets part of an established connection.
+              type: str
+              choices: ['accept', 'drop', 'reject']
+            log:
+              description:
+                - Enable logging of packets part of an established connection.
+              type: bool
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - deleted
+      - gathered
+      - rendered
+      - parsed
+      default: merged
+EXAMPLES:
+  - merged_example_01.txt
+  - parsed_example_01.txt
+  - deleted_example_01.txt
+  - replaced_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt

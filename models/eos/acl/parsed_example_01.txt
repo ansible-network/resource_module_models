@@ -1,0 +1,15 @@
+returns:
+
+  eos_acl:
+    config:
+     - afi: "ipv4"
+        - name: test1
+          aces:
+          - sequence: 35
+            grant: "deny"
+            protocol: "ospf"
+            source:
+              subnetaddress: 20.0.0.0/8
+            dest:
+              any: true
+

@@ -1,0 +1,56 @@
+# Using overridden
+
+# Before state:
+# -------------
+#
+# vios#show running-config | section ^interface
+# interface Port-channel10
+#  flowcontrol receive on
+# interface Port-channel20
+# interface Port-channel30
+# interface GigabitEthernet0/1
+#  shutdown
+#  flowcontrol receive on
+#  channel-group 10 mode auto
+# interface GigabitEthernet0/2
+#  shutdown
+#  flowcontrol receive on
+#  channel-group 10 mode auto
+# interface GigabitEthernet0/3
+#  shutdown
+#  channel-group 20 mode on
+# interface GigabitEthernet0/4
+#  shutdown
+#  channel-group 30 mode active
+
+- name: Override device configuration of all interfaces with provided configuration
+  ios_lag_interfaces:
+    config:
+      - name: 20
+        mode: auto
+        members:
+        - GigabitEthernet0/2
+        - GigabitEthernet0/3
+        flowcontrol: off
+    operation: overridden
+
+# After state:
+# ------------
+#
+# vios#show running-config | section ^interface
+# interface Port-channel10
+# interface Port-channel20
+#  flowcontrol receive off
+# interface Port-channel30
+# interface GigabitEthernet0/1
+#  shutdown
+# interface GigabitEthernet0/2
+#  shutdown
+#  flowcontrol receive off   
+#  channel-group 20 mode auto
+# interface GigabitEthernet0/3
+#  shutdown
+#  flowcontrol receive off
+#  channel-group 20 mode auto
+# interface GigabitEthernet0/4
+#  shutdown

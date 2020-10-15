@@ -1,0 +1,331 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+
+NETWORK_OS: vyos
+RESOURCE: ospfv2
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: vyos_ospfv2
+  version_added: 2.10
+  short_description: OSPFv2 resource module.
+  description: This resource module configures and manages attributes of OSPFv2 routes on VyOS network devices.
+  author: Rohit Thakur (@rohitthakur2590)
+  options:
+    config:
+      description: A provided OSPFv2 route configuration.
+      type: dict
+      suboptions:
+        areas:
+          description: OSPFv2 area.
+          type: list
+          elements: dict
+          suboptions:
+            area_id:
+              description: OSPFv2 area identity.
+              type: str
+            area_type:
+              description: Area type.
+              type: dict
+              suboptions:
+                normal:
+                  description: Normal OSPFv2 area.
+                  type: bool
+                nssa:
+                  description: NSSA OSPFv2 area.
+                  type: dict
+                  suboptions:
+                    set: 
+                      description: Enabling NSSA.
+                      type: bool
+                    default_cost:
+                      description: Summary-default cost of NSSA area.
+                      type: int
+                    no_summary:
+                      description: Do not inject inter-area routes into stub.
+                      type: bool
+                    translate: 
+                      description: Specify NSSA translator.
+                      type: str
+                      choices: ['always', 'candidate', 'never']
+                stub: 
+                  description: Stub OSPFv2 area.
+                  type: dict
+                  suboptions:
+                    set: 
+                      description: Enabling stub.
+                      type: bool
+                    default_cost:
+                      description: Summary-default cost of stub area.
+                      type: int
+                    no_summary:
+                      description: Do not inject inter-area routes into stub.
+                      type: bool
+            authentication:
+              description: OSPFv2 area authentication type.
+              type: str
+              choices: ['plaintext-password', 'md5']
+            network:
+              description: OSPFv2 network.
+              type: list
+              elements: dict
+              suboptions:
+                address:
+                  required: True
+                  description: OSPFv2 IPv4 network address.
+                  type: str 
+            range:
+              description: Summarize routes matching prefix (border routers only).
+              type: list
+              elements: dict
+              suboptions:
+                address:
+                  description: border router IPv4 address.
+                  type: str
+                cost:
+                  description: Metric for this range.
+                  type: int
+                not_advertise:
+                  description: Don't advertise this range.
+                  type: bool
+                substitute:
+                  description: Announce area range (IPv4 address) as another prefix.
+                  type: str
+            shortcut:
+              description: Area's shortcut mode.
+              type: str
+              choices: ['default', 'disable', 'enable']
+            virtual_link:
+              description: Virtual link address.
+              type: list
+              elements: dict
+              suboptions:
+                address:
+                  description: virtual link address.
+                  type: str
+                authentication:
+                  description: OSPFv2 area authentication type.
+                  type: dict
+                  suboptions:
+                    md5:
+                      description: MD5 key ID based authentication.
+                      type: list
+                      elements: dict
+                      suboptions:
+                        key_id:
+                          description: MD5 key ID.
+                          type: int
+                        md5_key:
+                          description: MD5 key.
+                          type: str
+                    plaintext_password:
+                      description: Plain text password.
+                      type: str
+                dead_interval:
+                  description: Interval after which a neighbor is declared dead.
+                  type: int
+                hello_interval:
+                  description: Interval between hello packets.
+                  type: int
+                retransmit_interval: 
+                  description: Interval between retransmitting lost link state advertisements.
+                  type: int
+                transmit_delay:
+                  description: Link state transmit delay.
+                  type: int
+        log_adjacency_changes:
+           description: Log changes in adjacency state.
+           type: str
+           choices: ['detail']
+        max_metric: 
+          description: OSPFv2 maximum/infinite-distance metric.
+          type: dict
+          suboptions:
+            router_lsa:
+              description: Advertise own Router-LSA with infinite distance (stub router).
+              type: dict
+              suboptions:
+                administrative:
+                  description: Administratively apply, for an indefinite period.
+                  type: bool
+                on_shutdown:
+                  description: Time to advertise self as stub-router.
+                  type: int   
+                on_startup:
+                  description: Time to advertise self as stub-router
+                  type: int   
+        auto_cost:
+          description: Calculate OSPFv2 interface cost according to bandwidth.
+          type: dict
+          suboptions:
+            reference_bandwidth:
+              description: Reference bandwidth cost in Mbits/sec.
+              type: int
+        default_information:
+          description: Control distribution of default information.
+          type: dict
+          suboptions:
+            originate:
+              description: Distribute a default route.
+              type: dict
+              suboptions:
+                always:
+                  description: Always advertise default route.
+                  type: bool
+                metric:
+                  description: OSPFv2 default metric.
+                  type: int
+                metric_type:
+                  description: OSPFv2 metric types for default routes.
+                  type: int
+                route_map:
+                  description: Route map references.
+                  type: str           
+        default_metric:
+          description: Metric of redistributed routes.
+          type: int
+        distance:
+          description: Administrative distance.
+          type: dict
+          suboptions:
+            global:
+              description: Global OSPFv2 administrative distance.
+              type: int
+            ospf: 
+              description: OSPFv2 administrative distance.
+              type: dict
+              suboptions:
+                external: 
+                  description: Distance for external routes.
+                  type: int
+                inter_area:
+                  description: Distance for inter-area routes.
+                  type: int
+                intra_area:
+                  description: Distance for intra-area routes.
+                  type: int
+        mpls_te:
+          description: MultiProtocol Label Switching-Traffic Engineering (MPLS-TE) parameters.
+          type: dict
+          suboptions:
+            enabled:
+              description: Enable MPLS-TE functionality.
+              type: bool
+            router_address:
+              description: Stable IP address of the advertising router.
+              type: str
+
+        neighbor:
+          description: Neighbor IP address.
+          type: list
+          elements: dict
+          suboptions:
+            neighbor_id:
+              description: Identity (number/IP address) of neighbor.
+              type: str 
+            poll_interval:
+              description: Seconds between dead neighbor polling interval.
+              type: int
+            priority:
+              description: Neighbor priority.
+              type: int       
+        parameters:
+          descriptions: OSPFv2 specific parameters.
+          type: dict
+          suboptions: 
+           abr_type: 
+             description: OSPFv2 ABR Type.
+             type: str
+             choices: ['cisco', 'ibm', 'shortcut', 'standard']
+           opaque_lsa:
+             description: Enable the Opaque-LSA capability (rfc2370).
+             type: bool
+           rfc1583_compatibility:
+             description: Enable rfc1583 criteria for handling AS external routes.
+             type: bool
+           router_id: 
+             description: Override the default router identifier.
+             type: str
+        passive_interface:
+          description: Suppress routing updates on an interface.
+          type: list
+        passive_interface_exclude:
+          description: Interface to exclude when using passive-interface default.
+          type: list
+        redistribute:  
+          description: Redistribute information from another routing protocol.
+          type: list
+          elements: dict
+          suboptions: 
+            route_type:
+              description: Route type to redistribute.
+              type: str
+              choices: ['bgp', 'connected', 'kernel', 'rip', 'static']
+            metric:
+              description: Metric for redistribution routes.
+              type: int
+            metric_type:
+              description: OSPFv2 metric types.
+              type: int
+            route_map:
+              description: Route map references.
+              type: str 
+        
+        route_map:
+          description: Filter routes installed in local route map.       
+          type: list
+        timers:
+          description: Adjust routing timers.
+          type: dict
+          suboptions:
+            refresh:
+              description: Adjust refresh parameters.
+              type: dict
+              suboptions:
+                timers:
+                  description: refresh timer.
+                  type: int
+            throttle:
+              description: Throttling adaptive timers.
+              type: dict
+              suboptions:
+                spf:
+                  description: OSPFv2 SPF timers.
+                  type: dict
+                  suboptions:
+                    delay:
+                      description: Delay (msec) from first change received untill SPF calculation.
+                      type: int
+                    initial_holdtime:
+                      description: Initial hold time(msec) between consecutive SPF calculations.
+                      type: int
+                    max_holdtime:
+                      description: maximum hold time (sec).
+                      type: int
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - deleted
+      - parsed
+      - gathered
+      - rendered
+      default: merged
+
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - rendered_example_01.txt
+  - parsed_example_01.txt
+  - gathered_example_01.txt
+  - deleted_example_01.txt

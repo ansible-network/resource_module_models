@@ -1,0 +1,196 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+
+NETWORK_OS: junos
+RESOURCE: ospf
+COPYRIGHT: Copyright 2020 Red Hat
+LICENSE: gpl-3.0.txt
+
+DOCUMENTATION: |
+  module: junos_ospf
+  version_added: "2.10"
+  short_description: Manages OSPFv2 configuration on devices running Juniper JUNOS.
+  description:
+    - This module manages global OSPFv2 configuration on devices running Juniper JUNOS.
+  author: Daniel Mellado (@dmellado)
+  requirements:
+    - ncclient (>=v0.6.4)
+    - xmltodict (>=0.12.0)
+  notes:
+    - This module requires the netconf system service be enabled on the device being managed.
+    - This module works with connection C(netconf). See L(the Junos OS Platform Options,../network/user_guide/platform_junos.html).
+    - Tested against JunOS v18.4R1
+  options:
+    config:
+      description: A list of OSPF process configuration.
+      type: list
+      elements: dict
+      suboptions:
+        router_id:
+          description:
+            - The OSPF router id.
+          type: str
+          required: True
+        areas:
+          description:
+            - A list of OSPF areas' configuration.
+          type: list
+          elements: dict
+          suboptions:
+            area_id:
+              description:
+                - The Area ID as an integer or IP Address.
+              type: str
+              required: True
+            area_range:
+              description:
+                - Configure an address range for the area.
+              type: str
+            stub:
+              description:
+                - Settings for configuring the area as a stub.
+              type: dict
+              suboptions:
+                default_metric:
+                  description:
+                    - Metric for the default route in this area.
+                  type: int
+                set:
+                  description:
+                    - Configure the area as a stub.
+                  type: bool
+            interfaces:
+              description:
+                - List of interfaces in this area.
+              type: list
+              elements: dict
+              suboptions:
+                authentication:
+                  type: dict
+                  suboptions:
+                    type:
+                      description:
+                        - Type of authentication to use.
+                      type: dict
+                bandwidth_based_metrics:
+                  type: list
+                  elements: dict
+                  suboptions:
+                    bandwidth:
+                      description:
+                        - BW to apply metric to.
+                      type: str
+                      choices: ['1g', '10g']
+                    metric:
+                      description:
+                      type: int
+                name:
+                  description:
+                    - Name of the interface.
+                  type: str
+                  required: True
+                priority:
+                  description:
+                    - Priority for the interface.
+                  type: int
+                metric:
+                  description:
+                    - Metric applied to the interface.
+                  type: int
+                flood_reduction:
+                  description:
+                    - Enable flood reduction.
+                  type: bool
+                passive:
+                  type: bool
+                timers:
+                  type: dict
+                  suboptions:
+                    dead_interval:
+                      description:
+                        - Dead interval (seconds).
+                      type: int
+                    hello_interval:
+                      description:
+                        - Hello interval (seconds).
+                      type: int
+                    poll_interval:
+                      description:
+                        - Poll interval (seconds).
+                      type: int
+                    retransmit_interval:
+                      description:
+                        - Retransmit interval (seconds).
+                      type: int
+                    transit_delay:
+                      description:
+                        - Transit delay (seconds).
+                      type: int
+        external_preference:
+          description:
+            - Preference of external routes.
+          type: int
+        overload:
+          type: dict
+          suboptions:
+            timeout:
+              description:
+                - Time after which overload mode is reset (seconds).
+              type: int
+        preference:
+          description:
+            - Preference of internal routes.
+          type: int
+        prefix_export_limit:
+          description:
+            - Maximum number of external prefixes that can be exported.
+          type: int
+        reference_bandwidth:
+          description:
+            - Bandwidth for calculating metric defaults.
+          type: str
+          choices: ['1g', '10g']
+        rfc1583compatibility:
+          description:
+            - Set RFC1583 compatibility
+          type: bool
+        spf_options:
+          description:
+            - Configure options for SPF.
+          type: dict
+          suboptions:
+            delay:
+              description:
+                - Time to wait before running an SPF (seconds).
+              type: int
+            holddown:
+              description:
+                - Time to hold down before running an SPF (seconds).
+              type: int
+            rapid_runs:
+              description:
+                - Number of maximum rapid SPF runs before holddown (seconds).
+              type: int
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt

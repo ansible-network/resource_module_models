@@ -1,0 +1,54 @@
+# Using gathered
+# localhost#show running-config | section ospf
+# router ospf 2 vrf vrf01
+#    redistribute connected
+#    area 0.0.0.9 default-cost 20
+#    max-lsa 8000 40 ignore-time 6 ignore-count 3 reset-time 20
+# !
+# router ospf 3 vrf vrf02
+#    redistribute connected
+#    max-lsa 12000
+# localhost#
+  - name: replace Ospf configs
+    arista.eos.eos_ospfv2:
+          state: gathered
+# "gathered": [
+#         {
+#             "processes": [
+#                 {
+#                     "areas": [
+#                         {
+#                             "default_cost": 20,
+#                             "id": "0.0.0.9"
+#                         }
+#                     ],
+#                     "max_lsa": {
+#                         "count": 8000,
+#                         "ignore_count": 3,
+#                         "ignore_time": 6,
+#                         "reset_time": 20,
+#                         "threshold": 40
+#                     },
+#                     "process_id": 2,
+#                     "redistribute": [
+#                         {
+#                             "routes": "connected"
+#                         }
+#                     ],
+#                     "vrf": "vrf01"
+#                 },
+#                 {
+#                     "max_lsa": {
+#                         "count": 12000
+#                     },
+#                     "process_id": 3,
+#                     "redistribute": [
+#                         {
+#                             "routes": "connected"
+#                         }
+#                     ],
+#                     "vrf": "vrf02"
+#                 }
+#             ]
+#         }
+#     ]
