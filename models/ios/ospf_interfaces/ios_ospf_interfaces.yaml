@@ -1,29 +1,27 @@
 ---
 ANSIBLE_METADATA: |
-    {
-      'metadata_version': '1.1',
-      'status': ['preview'],
-      'supported_by': 'network'
-    }
-
+  {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'network'
+  }
 NETWORK_OS: ios
 RESOURCE: ospf_interfaces
 COPYRIGHT: Copyright 2020 Red Hat
 LICENSE: gpl-3.0.txt
-
-DOCUMENTATION: |
+DOCUMENTATION: ''
 module: ios_ospf_interfaces
 version_added: 1.1.1
 short_description: OSPF_interfaces resource module.
-description: Manages and configures Open Shortest Path First (OSPF) version 2 and it's attributes over interface on IOS
-  platforms.
+description: Manages and configures Open Shortest Path First (OSPF) version
+  2 and it's attributes over interface on IOS platforms.
 author: Sumit Jaiswal (@justjais)
 info:
   network_os: ios
 notes:
   - Tested against Cisco IOSv Version 15.2 on VIRL
-  - This module works with connection C(network_cli).
-    See L(IOS Platform Options,../network/user_guide/platform_ios.html).
+  - This module works with connection C(network_cli). See L(IOS Platform
+    Options,../network/user_guide/platform_ios.html).
 options:
   config:
     description: A dictionary of OSPF interfaces options.
@@ -37,21 +35,26 @@ options:
         suboptions:
           name:
             description:
-            - Full name of the interface excluding any logical unit number, i.e. GigabitEthernet0/1.
+              - Full name of the interface excluding any logical unit number,
+                i.e. GigabitEthernet0/1.
             type: str
             required: true
           address_family:
             description:
-            - OSPF interfaces settings on the interfaces in address-family context.
+              - OSPF interfaces settings on the interfaces in address-family
+                context.
             type: list
             elements: dict
             suboptions:
               afi:
                 description:
-                - Address Family Identifier (AFI) for OSPF interfaces settings on the interfaces.
+                  - Address Family Identifier (AFI) for OSPF interfaces settings
+                    on the interfaces.
                 type: str
-                choices: ['ipv4', 'ipv6']
-                required: True
+                choices:
+                  - ipv4
+                  - ipv6
+                required: true
               process_id:
                 description: Process ID
                 required: true
@@ -63,13 +66,21 @@ options:
                     suboptions:
                       area_id:
                         description:
-                          - OSPF interfaces area ID as a decimal value. Please refer vendor documentation
-                            of Valid values.
-                          - OSPF interfaces area ID in IP address format(e.g. A.B.C.D)
+                          - OSPF interfaces area ID as a decimal value. Please
+                            refer vendor documentation of Valid values.
+                          - OSPF interfaces area ID in IP address format(e.g.
+                            A.B.C.D)
                         type: str
                       secondaries:
-                        description: Include or exclude secondary IP addresses.
+                        description:
+                          - Include or exclude secondary IP addresses.
+                          - Valid only with IPv4 config
                         type: bool
+                      instance_id:
+                        description:
+                          - Set the OSPF instance based on ID
+                          - Valid only with IPv6 OSPF config
+                        type: int
                   adjacency:
                     description: Adjacency staggering
                     type: bool
@@ -78,12 +89,13 @@ options:
             type: dict
             suboptions:
               key_chain:
-                description: Use a key-chain for cryptographic authentication keys
+                description: Use a key-chain for cryptographic
+                  authentication keys
                 type: str
               message_digest:
                 description: Use message-digest authentication
                 type: str
-              null:
+              'null':
                 description: Use no authentication
                 type: str
           bfd:
@@ -93,7 +105,67 @@ options:
             type: bool
           cost:
             description: Interface cost
-            type: int
+            type: dict
+            suboptions:
+              interface_cost:
+                description: Interface cost or Route cost of this interface
+                type: int
+              dynamic_cost:
+                description:
+                  - Specify dynamic cost options
+                  - Valid only with IPv6 OSPF config
+                type: dict
+                suboptions:
+                  default:
+                    description: Specify default link metric value
+                    type: int
+                  hysteresis:
+                    description: Specify hysteresis value for LSA dampening
+                    type: dict
+                    suboptions:
+                      percent:
+                        description: Specify hysteresis percent changed.
+                          Please refer vendor documentation of Valid values.
+                        type: int
+                      threshold:
+                        description: Specify hysteresis threshold value.
+                          Please refer vendor documentation of Valid values.
+                        type: int
+                  weight:
+                    description: Specify weight to be placed on individual
+                      metrics
+                    type: dict
+                    suboptions:
+                      l2_factor:
+                        description:
+                          - Specify weight to be given to L2-factor metric
+                          - Percentage weight of L2-factor metric. Please refer
+                            vendor documentation of Valid values.
+                        type: int
+                      latency:
+                        description:
+                          - Specify weight to be given to latency metric.
+                          - Percentage weight of latency metric. Please refer
+                            vendor documentation of Valid values.
+                        type: int
+                      oc:
+                        description:
+                          - Specify weight to be given to cdr/mdr for oc
+                          - Give 100 percent weightage for current data rate(0
+                            for maxdatarate)
+                        type: bool
+                      resources:
+                        description:
+                          - Specify weight to be given to resources metric
+                          - Percentage weight of resources metric. Please refer
+                            vendor documentation of Valid values.
+                        type: int
+                      throughput:
+                        description:
+                          - Specify weight to be given to throughput metric
+                          - Percentage weight of throughput metric. Please refer
+                            vendor documentation of Valid values.
+                        type: int
           database_filter:
             description: Filter OSPF LSA during synchronization and flooding
             type: bool
@@ -105,18 +177,33 @@ options:
                 description: time in seconds
                 type: int
               minimal:
-                description: Set to 1 second
+                description:
+                  - Set to 1 second
+                  - Valid only with IP OSPF config
                 type: dict
                 suboptions:
                   hello-multiplier:
                     description:
                       - Set multiplier for Hellos
-                      - Number of Hellos sent within 1 second. Please refer vendor documentation
-                        of Valid values.
+                      - Number of Hellos sent within 1 second. Please refer
+                        vendor documentation of Valid values.
                     type: int
           demand_circuit:
-            description: OSPF Demand Circuit, enable/disable the demand circuit
-            type: bool
+            description: OSPF Demand Circuit, enable or disable
+              the demand circuit'
+            type: dict
+            suboptions:
+              enable:
+                description: Enable Demand Circuit
+                type: bool
+              ignore:
+                description: Ignore demand circuit auto-negotiation requests
+                type: bool
+              disable:
+                description:
+                  - Disable demand circuit on this interface
+                  - Valid only with IPv6 OSPF config
+                type: bool
           flood_reduction:
             description: OSPF Flood Reduction
             type: bool
@@ -126,8 +213,40 @@ options:
               - Please refer vendor documentation of Valid values.
             type: int
           lls:
-            description: Link-local Signaling (LLS) support
+            description:
+              - Link-local Signaling (LLS) support
+              - Valid only with IP OSPF config
             type: bool
+          manet:
+            description:
+              - Mobile Adhoc Networking options
+              - MANET Peering options
+              - Valid only with IPv6 OSPF config
+            type: dict
+            suboptions:
+              cost:
+                description: Redundant path cost improvement required to peer
+                type: dict
+                suboptions:
+                  percent:
+                    description: Relative incremental path cost.
+                      Please refer vendor documentation of Valid values.
+                    type: int
+                  threshold:
+                    description: Absolute incremental path cost.
+                      Please refer vendor documentation of Valid values.
+                    type: int
+              link_metrics:
+                description: Redundant path cost improvement required to peer
+                type: dict
+                suboptions:
+                  set:
+                    description: Enable link-metrics
+                    type: bool
+                  cost_threshold:
+                    description: Minimum link cost threshold.
+                      Please refer vendor documentation of Valid values.
+                    type: int
           mtu_ignore:
             description: Ignores the MTU in DBD packets
             type: bool
@@ -137,18 +256,28 @@ options:
             suboptions:
               id:
                 description:
-                  - OSPF multi-area ID as a decimal value. Please refer vendor documentation
-                    of Valid values.
+                  - OSPF multi-area ID as a decimal value. Please refer vendor
+                    documentation of Valid values.
                   - OSPF multi-area ID in IP address format(e.g. A.B.C.D)
               cost:
                 description: Interface cost
                 type: bool
+          neighbor:
+            description:
+              - Neighbor link-local IPv6 address
+              - Valid only with IPv6 OSPF config
+            type: str
           network:
             description: Network type
             type: dict
             suboptions:
               broadcast:
                 description: Specify OSPF broadcast multi-access network
+                type: bool
+              manet:
+                description:
+                  - Specify MANET OSPF interface type
+                  - Valid only with IPv6 OSPF config
                 type: bool
               non_broadcast:
                 description: Specify OSPF NBMA network
@@ -163,22 +292,24 @@ options:
             description: Enable/Disable OSPF prefix suppression
             type: bool
           priority:
-            description: Router priority. Please refer vendor documentation of Valid values.
+            description: Router priority. Please refer vendor documentation
+              of Valid values.
             type: int
           resync_timeout:
-            description: Interval after which adjacency is reset if oob-resync is not started.
-            Please refer vendor documentation of Valid values.
+            description: Interval after which adjacency is reset if oob-resync
+              is not started. Please refer vendor documentation of Valid values.
             type: int
           retransmit_interval:
-            description: Time between retransmitting lost link state advertisements. Please
-            refer vendor documentation of Valid values.
+            description: Time between retransmitting lost link state
+              advertisements. Please refer vendor documentation of Valid values.
             type: int
           shutdown:
-            description: Set OSPF protocol's state to disable under current interface
+            description: Set OSPF protocol's state to disable under
+              current interface
             type: bool
           transmit-delay:
-            description: Link state transmit delay. Please refer vendor documentation of Valid
-            values.
+            description: Link state transmit delay.
+              Please refer vendor documentation of Valid values.
             type: int
           ttl_security:
             description: TTL security check
@@ -190,50 +321,54 @@ options:
               hops:
                 description:
                   - Maximum number of IP hops allowed
-                  - Note, refer vendor documentation for respective valid values
+                  - Please refer vendor documentation of Valid values.
                 type: int
   running_config:
     description:
       - This option is used only with state I(parsed).
-      - The value of this option should be the output received from the IOS device by
-        executing the command B(sh running-config | section ^interface).
-      - The state I(parsed) reads the configuration from C(running_config) option and
-        transforms it into Ansible structured data as per the resource module's argspec
-        and the value is then returned in the I(parsed) key within the result.
+      - The value of this option should be the output received from the IOS
+        device by executing the command B(sh running-config | section
+        ^interface).
+      - The state I(parsed) reads the configuration from C(running_config)
+        option and transforms it into Ansible structured data as per the
+        resource module's argspec and the value is then returned in the
+        I(parsed) key within the result.
     type: str
   state:
     description:
       - The state the configuration should be left in
-      - The states I(rendered), I(gathered) and I(parsed) does not perform any change
-        on the device.
-      - The state I(rendered) will transform the configuration in C(config) option to
-        platform specific CLI commands which will be returned in the I(rendered) key
-        within the result. For state I(rendered) active connection to remote host is
-        not required.
-      - The state I(gathered) will fetch the running configuration from device and transform
-        it into structured data in the format as per the resource module argspec and
-        the value is returned in the I(gathered) key within the result.
-      - The state I(parsed) reads the configuration from C(running_config) option and
-        transforms it into JSON format as per the resource module parameters and the
-        value is returned in the I(parsed) key within the result. The value of C(running_config)
-        option should be the same format as the output of command I(show running-config
-        | include ip route|ipv6 route) executed on device. For state I(parsed) active
+      - The states I(rendered), I(gathered) and I(parsed) does not perform any
+        change on the device.
+      - The state I(rendered) will transform the configuration in C(config)
+        option to platform specific CLI commands which will be returned in the
+        I(rendered) key within the result. For state I(rendered) active
         connection to remote host is not required.
+      - The state I(gathered) will fetch the running configuration from device
+        and transform it into structured data in the format as per the resource
+        module argspec and the value is returned in the I(gathered) key within
+        the result.
+      - The state I(parsed) reads the configuration from C(running_config)
+        option and transforms it into JSON format as per the resource module
+        parameters and the value is returned in the I(parsed) key within the
+        result. The value of C(running_config) option should be the same format
+        as the output of command I(show running-config | include ip route|ipv6
+        route) executed on device. For state I(parsed) active connection to
+        remote host is not required.
     type: str
     choices:
-    - merged
-    - replaced
-    - overridden
-    - deleted
-    - gathered
-    - rendered
-    - parsed
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - gathered
+      - rendered
+      - parsed
     default: merged
 EXAMPLES:
-- deleted_example_01.txt
-- merged_example_01.txt
-- replaced_example_01.txt
-- overridden_example_01.txt
-- gathered_example_01.txt
-- rendered_example_01.txt
-- parsed_example_01.txt
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt
+  - parsed_example_01.txt
