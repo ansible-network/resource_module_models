@@ -1,0 +1,123 @@
+module: vyos_ospf_interfaces
+version_added: 1.2.0
+short_description: OSPF Interfaces Resource Module.
+description: 
+- This module manages OSPF configuration of interfaces on devices running VYOS.
+author: Gomathi Selvi Srinivasan (@GomathiselviS)
+options:
+  config:
+    description: A list of OSPF configuration for interfaces.
+    type: list
+    elements: dict    
+    suboptions:
+      name:
+        description:
+        - Name/Identifier of the interface.
+        type: str
+        required: True
+      address_family:
+        description:
+        - OSPF settings on the interfaces in address-family context.
+        type: list
+        elements: dict
+        suboptions:
+          afi:
+            description:
+            - Address Family Identifier (AFI) for OSPF settings on the interfaces.
+            type: str
+            choices: ['ipv4', 'ipv6']
+            required: True
+          authentication:
+            description:
+            - Authentication settings on the interface.
+            type: dict
+            suboptions:
+              plaintext_password:
+                description:
+                - Plain Text password.
+                type: str
+              md5_key:
+                description:
+                - md5 parameters.
+                type: dict
+                suboptions:
+                  key_id:
+                    description:
+                    - key id.
+                    type: int
+                  key:
+                    description:
+                    - md5 key.
+                    type: str
+                description: 128 bit MD5 key or 140 bit SHA1 key.
+                type: str
+          bandwidth:
+            description:
+            -  Bandwidth of interface (kilobits/sec)
+            type: int
+          cost:
+            description:
+            - metric associated with interface.
+            type: int
+          dead_interval:
+            description:
+            - Time interval to detect a dead router.
+            type: int
+          hello_interval:
+            description:
+            - Timer interval between transmission of hello packets.
+            type: int
+          mtu_ignore:
+            description:
+            - if True, Disable MTU check for Database Description packets.
+            type: bool
+          network:
+            description:
+            - Interface type.
+            type: str
+          priority:
+            description:
+            - Interface priority.
+            type: int
+          retransmit_interval:
+            description:
+            - LSA retransmission interval.
+            type: int
+          transmit_delay:
+            description:
+            - LSA transmission delay.
+            type: int
+          ifmtu:
+            description:
+            - interface MTU.
+            type: int
+          instance:
+            description:
+            - Instance ID.
+            type: str
+          passive:
+            description:
+            - If True, disables forming adjacency.
+            type: bool
+  running_config:
+    description:
+    - This option is used only with state I(parsed).
+    - The value of this option should be the output received from the IOS device by
+      executing the command B(sh running-config | section ^interface).
+    - The state I(parsed) reads the configuration from C(running_config) option and
+      transforms it into Ansible structured data as per the resource module's argspec
+      and the value is then returned in the I(parsed) key within the result.
+  state:
+    description:
+      - The state the configuration should be left in.
+    type: str
+    choices:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    - gathered
+    - parsed
+    - rendered
+    default: merged
+
