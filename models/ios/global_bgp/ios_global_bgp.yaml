@@ -218,13 +218,13 @@ options:
             type: dict
             suboptions:
               address:
-                description: Neighbor address
+                description: Neighbor address (A.B.C.D)
                 type: str
               tag:
                 description: Neighbor tag
                 type: str
               ipv6_adddress:
-                description: Neighbor ipv6 address
+                description: Neighbor ipv6 address (X:X:X:X::X)
                 type: str
               activate:
                 description: Enable the Address Family for this Neighbor
@@ -781,42 +781,306 @@ options:
                   - Automatically assign per-vrf bgp router id
                 type: str
           scan_time:
-            
-snmp
-sso
-suppress_inactive
-transport
-update_delay
-update_group
-
-
-
-bmp
-default
-default_information
-default_metric
-distance
-distribute_list
-exit
-help
-maximum_paths
-maximum_secondary_paths
-neighbor
-network
-no
-redistribute
-route_server_context
-scope
-snmp
-synchronization
-table_map
-template
-timers
+            description:
+              - Configure background scanner interval
+              - Please refer vendor documentation for valid values
+            type: int
+          snmp:
+            description:
+              - BGP SNMP options
+              - BGP SNMP trap options
+              - Use cbgpPeer2Type as part of index for traps
+            type: bool
+          sso:
+            description:
+              - Stateful Switchover
+              - Enable SSO only for Route-Refresh capable peers
+            type: bool
+          suppress_inactive:
+            description: Suppress routes that are not in the routing table
+            type: bool
+          transport:
+            description:
+              - Global enable/disable transport session parameters
+              - Transport path MTU discovery
+            type: bool
+          update_delay:
+            description:
+              - Set the max initial delay for sending update
+              - Please refer vendor documentation for valid values
+            type: bool
+          update_group:
+            description:
+              - Manage peers in bgp update groups
+              - Split update groups based on Policy
+              - Keep peers with as-override in different update groups
+            type: bool
+      bmp:
+        description: BGP Monitoring Protocol)
+        type: dict
+        suboptions:
+          buffer_size:
+            description:
+              - BMP Buffer Size
+              - Please refer vendor documentation for valid values
+            type: int
+          initial_refresh:
+            description: Initial Refresh options
+            type: dict
+            suboptions:
+              delay:
+                description: Delay before Initial Refresh
+                type: int
+              skip:
+                description: skip all refreshes
+                type: bool
+          server:
+            description:
+              - Server Information
+              - Please refer vendor documentation for valid values
+            type: int
+      neighbor:
+        description: Specify a neighbor router
+        type: dict
+        suboptions:
+          address:
+            description: Neighbor address (A.B.C.D)
+            type: str
+          tag:
+            description: Neighbor tag
+            type: str
+          ipv6_adddress:
+            description: Neighbor ipv6 address (X:X:X:X::X)
+            type: str
+          bmp_activate:
+            description:
+            type: dict
+            suboptions:
+              all:
+                description: Activate BMP monitoring for all servers
+                type: bool
+              server:
+                description:
+                  - Activate BMP for server
+                  - BMP Server Number
+                  - Please refer vendor documentation for valid values
+                type: int
+          cluster_id:
+            description:
+              - Configure Route-Reflector Cluster-id (peers may reset)
+              - Route-Reflector Cluster-id as 32 bit quantity, or
+                Route-Reflector Cluster-id in IP address format (A.B.C.D)
+            type: str
+          description:
+            description: Neighbor specific description
+            type: str
+          disable_connected_check:
+            description: one-hop away EBGP peer using loopback address
+            type: bool
+          ebgp_multihop:
+            description: Allow EBGP neighbors not on directly connected networks
+            type: dict
+            suboptions:
+              enable:
+                description: Allow EBGP neighbors not on directly connected networks
+                type: bool
+              hop_count:
+                description:
+                  - Maximum hop count
+                  - Please refer vendor documentation for valid values
+                type: int
+          fall_over:
+            description: Session fall on peer route lost
+            type: dict
+            suboptions:
+              bfd:
+                description: Use BFD to detect failure
+                type: dict
+                suboptions:
+                  set:
+                    description: set bfd
+                    type: bool
+                  multi_hop:
+                    description: Force BFD multi-hop to detect failure
+                    type: bool
+                  single_hop:
+                    description: Force BFD single-hop to detect failure
+                    type: bool
+              route_map:
+                description: Route map for peer route
+                type: str
+          ha_mode:
+            description: high availability mode
+            type: dict
+            suboptions:
+              set:
+                description: set ha-mode and graceful-restart for this peer
+                type: bool
+              disable:
+                description: disable graceful-restart
+                type: bool
+          inherit:
+            description:
+              - Inherit a template
+              - Inherit a peer-session template and Template name
+            type: str
+          local_as:
+            description: Specify a local-as number
+            type: dict
+            suboptions:
+              set:
+                description: set local-as number
+                type: bool
+              number:
+                description:
+                  - AS number used as local AS
+                  - Please refer vendor documentation for valid values
+                type: int
+          log_neighbor_changes:
+            description: Log neighbor up/down and reset reason
+            type: dict
+            suboptions:
+              set:
+                description: set Log neighbor up/down and reset
+                type: bool
+              disable:
+                description: disable Log neighbor up/down and reset
+                type: bool
+          password:
+            description: Set a password
+            type: str
+          path_attribute:
+            description: BGP optional attribute filtering
+            type: dict
+            suboptions:
+              discard:
+                description: Discard matching path-attribute for this neighbor
+                type: dict
+                suboptions:
+                  type:
+                    description:
+                      - path attribute type
+                      - Please refer vendor documentation for valid values
+                    type: int
+                  range:
+                    type: dict
+                    suboptions:
+                      start:
+                        description:
+                          - path attribute range start value
+                          - Please refer vendor documentation for valid values
+                        type: int
+                      end:
+                        description:
+                          - path attribute range end value
+                          - Please refer vendor documentation for valid values
+                        type: int
+                  in:
+                    description: Perform inbound path-attribute filtering
+                    type: bool
+              treat_as_withdraw:
+                description: Treat-as-withdraw matching path-attribute for this neighbor
+                type: dict
+                suboptions:
+                  type:
+                    description:
+                      - path attribute type
+                      - Please refer vendor documentation for valid values
+                    type: int
+                  range:
+                    type: dict
+                    suboptions:
+                      start:
+                        description:
+                          - path attribute range start value
+                          - Please refer vendor documentation for valid values
+                        type: int
+                      end:
+                        description:
+                          - path attribute range end value
+                          - Please refer vendor documentation for valid values
+                        type: int
+                  in:
+                    description: Perform inbound path-attribute filtering
+                    type: bool
+          peer_group:
+            description: Member of the peer-group
+            type: str
+          remote_as:
+            description:
+              - Specify a BGP neighbor
+              - AS of remote neighbor
+            type: int
+          shutdown:
+            description: Administratively shut down this neighbor
+            type: dict
+            suboptions:
+              set:
+                description: shut down
+                type: bool
+              graceful:
+                description:
+                  - Gracefully shut down this neighbor
+                  - time in seconds
+                  - Please refer vendor documentation for valid values
+                type: int
+          timers:
+            description: BGP per neighbor timers
+            type: dict
+            suboptions:
+              interval:
+                description: Keepalive interval
+                type: int
+              holdtime:
+                description: Holdtime
+                type: int
+              min_holdtime:
+                description: Minimum hold time from neighbor
+                type: int
+          transport:
+            description: Transport options
+            type: dict
+            suboptions:
+              connection_mode:
+                description: Specify passive or active connection
+                type: dict
+                suboptions:
+                  active:
+                    description: Actively establish the TCP session
+                    type: bool
+                  passive:
+                    description: Passively establish the TCP session
+                    type: bool
+              multi_session:
+                description: Use Multi-session for transport
+                type: bool
+              path_mtu_discovery:
+                description: Use transport path MTU discovery
+                type: dict
+                suboptions:
+                  set:
+                    description: Use path MTU discovery
+                    type: bool
+                  disable:
+                    description: disable
+                    type: bool
+              ttl_security:
+                description:
+                  - BGP ttl security check
+                  - maximum number of hops
+                  - Please refer vendor documentation for valid values
+                type: int
+              version:
+                description:
+                  - Set the BGP version to match a neighbor
+                  - Neighbor's BGP version
+                  - Please refer vendor documentation for valid values
+                type: int
   running_config:
     description:
     - This option is used only with state I(parsed).
     - The value of this option should be the output received from the IOS device by
-      executing the command B(sh running-config | section ^router global bgp).
+      executing the command B(sh bgp).
     - The state I(parsed) reads the configuration from C(running_config) option and
       transforms it into Ansible structured data as per the resource module's argspec
       and the value is then returned in the I(parsed) key within the result.
