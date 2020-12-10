@@ -291,12 +291,9 @@ options:
           type: list
           elements: dict
           suboptions:
-            address:
+            peer:
               type: str
-              description: Neighbor address
-            peer_group:
-              description: Name of the peer-group.
-              type: str
+              description: Neighbor address or peer-group.
             additional_paths:
               description: BGP additional-paths commands.
               type: str
@@ -775,7 +772,7 @@ options:
                     peers:
                       description: Confederation peers.
                       type: list  
-                control_plan_filter:
+                control_plane_filter:
                   description: Control plane filter for BGP.
                   type: bool
                 convergence:
@@ -931,12 +928,9 @@ options:
               type: list
               elements: dict
               suboptions:
-                address:
+                peer:
                   type: str
-                  description: Neighbor address
-                peer_group:
-                  description: Name of the peer-group.
-                  type: str
+                  description: Neighbor address or peer group.
                 additional_paths:
                   description: BGP additional-paths commands.
                   type: str
