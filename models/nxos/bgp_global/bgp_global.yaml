@@ -12,7 +12,7 @@ options:
     description:
     - This option is used only with state I(parsed).
     - The value of this option should be the output received from the NX-OS device
-      by executing the command B(show running-config | section '^router ospfv3').
+      by executing the command B(show running-config | section '^router bgp').
     - The state I(parsed) reads the configuration from C(running_config) option and
       transforms it into Ansible structured data as per the resource module's argspec
       and the value is then returned in the I(parsed) key within the result.
@@ -24,7 +24,7 @@ options:
       asn:
         description: Autonomous System Number of the router.
         type: str
-      bestpath:
+      bestpath: &bestpath
         description: Define the default bestpath selection algorithm.
         type: dict
         suboptions:
@@ -66,10 +66,10 @@ options:
               non_deterministic:
                 description: Not always pick the best-MED path among paths from same AS.
                 type: bool
-      cluster_id:
+      cluster_id: &cluster_id
         description: Configure Route Reflector Cluster-ID.
         type: str
-      confederation:
+      confederation: &confederation
         description: AS confederation parameters.
         type: dict
         suboptions:
@@ -155,13 +155,13 @@ options:
       isolate:
         description: Isolate this router from BGP perspective.
         type: bool
-      log_neighbor_changes:
+      log_neighbor_changes: &log_nbr
         description: Log a message for neighbor up/down event.
         type: bool
-      maxas_limit:
+      maxas_limit: &maxas_limit
         description: Allow AS-PATH attribute from EBGP neighbor imposing a limit on number of ASes.
         type: int
-      neighbors:
+      neighbors: &nbr
         description: Configure BGP neighbors.
         type: list
         elements: dict
@@ -310,7 +310,7 @@ options:
           update_source:
             description: Specify source of BGP session and updates.
             type: str
-      neighbor_down:
+      neighbor_down: &nbr_down
         description: Handle BGP neighbor down event, due to various reasons.
         type: dict
         suboptions:
@@ -324,19 +324,19 @@ options:
           suppress_default_resolution:
             description: Prohibit use of default route for nexthop address resolution.
             type: bool
-      reconnect_interval:
+      reconnect_interval: &reconn_intv
         description: Configure connection reconnect interval.
         type: int
-      router_id:
+      router_id: &rtr_id
         description: Specify the IP address to use as router-id.
         type: str
-      shutdown:
+      shutdown: &shtdwn
         description: Administratively shutdown BGP protocol.
         type: bool
-      suppress_fib_pending:
+      suppress_fib_pending: &suppr
         description: Advertise only routes that are programmed in hardware to peers.
         type: bool
-      timers:
+      timers: &timers
         description: Configure bgp related timers.
         type: dict
         suboptions:
@@ -366,6 +366,44 @@ options:
           prefix_peer_wait:
             description: Configure wait timer for a prefix peer.
             type: int
+      vrfs:
+        description: Virtual Router Context configurations.
+        type: list
+        elements: dict
+        suboptions:
+          vrf: 
+            description: VRF name.
+            type: str
+          bestpath: *bestpath
+          cluster_id: *cluster_id
+          confederation: *confederation
+          graceful_restart:
+            description: Configure Graceful Restart functionality.
+            type: dict
+            suboptions:
+              set:
+                description: Enable graceful-restart.
+                type: bool
+              restart_time:
+                description: Maximum time for restart advertised to peers.
+                type: int
+              stalepath_time:
+                description: Maximum time to keep a restarting peer's stale routes.
+                type: int
+              helper:
+                description: Configure Graceful Restart Helper mode functionality.
+                type: bool
+          local_as:
+            description: Specify the local-as for this vrf.
+            type: str
+          log_neighbor_changes: *log_nbr
+          maxas_limit: *maxas_limit
+          neighbors: *nbr
+          neighbor_down: *nbr_down
+          reconnect_interval: *reconn_intv
+          router_id: *rtr_id
+          shutdown: *shtdwn
+          timers: *timers
   state:
     description:
     - The state the configuration should be left in.
