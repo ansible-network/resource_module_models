@@ -235,17 +235,18 @@ options:
             description: Behaviour in low memory situations.
             type: dict
             suboptions:
-              exempt: Do not shutdown this peer when under memory pressure.
-              type: bool
+              exempt: 
+                description: Do not shutdown this peer when under memory pressure.
+                type: bool
           password:
             description: Configure a password for neighbor.
             type: dict
             suboptions:
               encryption:
                 description:
-                - "0" specifies an UNENCRYPTED neighbor password.
-                - "3" specifies an 3DES ENCRYPTED neighbor password will follow.
-                - "7" specifies a Cisco type 7  ENCRYPTED neighbor password will follow.
+                - 0 specifies an UNENCRYPTED neighbor password.
+                - 3 specifies an 3DES ENCRYPTED neighbor password will follow.
+                - 7 specifies a Cisco type 7  ENCRYPTED neighbor password will follow.
               key:
                 description: Authentication password.
                 type: str
