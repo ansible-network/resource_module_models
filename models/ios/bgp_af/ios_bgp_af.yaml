@@ -13,11 +13,11 @@ options:
     description: A list of configurations for bgp address family.
     type: dict
     suboptions:
-      asn:
+      as_number:
         description: Autonomous system number.
         type: str
         required: true
-      address_family;
+      address_family:
         description: A list of configurations for bgp address family.
         type: list
         elements: dict
