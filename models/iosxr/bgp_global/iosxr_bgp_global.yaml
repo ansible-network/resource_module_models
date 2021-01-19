@@ -293,7 +293,7 @@ options:
             bfd: &bfd
               description: Configure BFD parameters.
               type: dict
-              suboption:
+              suboptions:
                 fast_detect:
                   description: Enable Fast detection
                   type: dict
@@ -584,29 +584,27 @@ options:
                       description: Inbound update message filtering
                       type: dict
                       suboptions:
-                        type: dict
-                        suboptions:
-                          attribute_filter:
-                            description: Attribute-filter configuration.
+                        attribute_filter:
+                          description: Attribute-filter configuration.
+                          type: dict
+                          suboptions:
+                            group:
+                              description: Name of group.
+                              type: str
+                        logging:
+                            description: Update filtering syslog message.
                             type: dict
                             suboptions:
-                              group:
-                                description: Name of group.
-                                type: str
-                            logging:
-                              description: Update filtering syslog message.
-                              type: dict
-                              suboptions:
-                                disable:
-                                  description: Disable update filtering syslog message.
-                                  type: bool
-                            message:
-                              description: Filtered update messages.
-                              type: dict
-                              suboptions:
-                                buffers:
-                                  description: Number of buffers to store filtered update messages (resizing does not take effect after filtering action has started).
-                                  type: int
+                              disable:
+                                description: Disable update filtering syslog message.
+                                type: bool
+                        message:
+                          description: Filtered update messages.
+                          type: dict
+                          suboptions:
+                            buffers:
+                              description: Number of buffers to store filtered update messages (resizing does not take effect after filtering action has started).
+                              type: int
             update_source: &update_src
               description: Source of routing updates.Refer vendor document for valid values.
               type: str
@@ -711,7 +709,6 @@ options:
             send_buffer_size:
               description: socket send buffer size.Example- <4096-131072>.
               type: int
-
         timers: *timers
         update:
           description: BGP Update configuration.
@@ -720,7 +717,7 @@ options:
             in:
               description: Inbound update message handling
               type: dict
-              suboption:
+              suboptions:
                 error_handling:
                   description: Inbound update message error handling.
                   type: dict
