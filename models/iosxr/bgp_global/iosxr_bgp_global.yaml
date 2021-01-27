@@ -16,7 +16,7 @@ options:
           description: Autonomous system number of the router.
           type: str
           required: true
-        bfd_params: &bfd_params
+        bfd: &bfd
           description: Configure BFD parameters.
           type: dict
           suboptions:
@@ -26,7 +26,7 @@ options:
             multiplier: &multiplier
               description: Specifies the BFD session's multiplier value for the neighbor.
               type: int
-        bgp_params: &bgp_params
+        bgp: &bgp
           description: BGP parameters.
           type: dict
           suboptions:
@@ -46,8 +46,14 @@ options:
               suboptions:
                 as_path:
                   description: Select the bestpath selection based on as-path.
-                  type: str
-                  choices: [ 'ignore', 'multipath_relax' ]
+                  type: dict
+                  suboptions:
+                    ignore:
+                      description: ignore
+                      type: bool
+                    multipath_relax:
+                      description: multipath-relax
+                      type: bool
                 aigp:
                   description: AIGP attribute
                   type: dict
@@ -120,10 +126,18 @@ options:
                   type: int
             enforce_first_as: &enforce_first_as
               description: Enforce the first AS for EBGP routes
-              type: bool
+              type: dict
+              suboptions:
+                disable:
+                  description: disable enforce 1st as
+                  type: bool
             fast_external_fallover: &fast_external_fallover
               description: Immediately reset session if a link to a directly connected external peer goes down.
-              type: bool
+              type: dict
+              suboptions:
+                disable:
+                  description: disable fast external fallover.
+                  type: bool
             graceful_restart:
               description: Enable graceful restart support.
               type: dict
@@ -156,15 +170,25 @@ options:
               suboptions:
                 message:
                   description: Log neighbor inbound/outbound message.
-                  type: bool
+                  type: dict
+                  suboptions:
+                    disable:
+                      description: disable inbound outbound messages.
+                      type: bool
                 neighbor:
                   description: Log neighbor state info.
                   type: dict
                   suboptions:
                     changes:
                       description: Log neighbor up/down and reset reason.
-                      type: str
-                      choices: [ 'detail', 'disable' ]
+                      type: dict
+                      suboptions:
+                        detail:
+                          type: bool
+                          description: detail
+                        disable:
+                          type: bool
+                          description: disable
             maximum:
               description: Maximum number of neighbors that can be configured
               type: dict
@@ -227,7 +251,7 @@ options:
             unsafe_ebgp_policy: &ebgp_policy
               description: Make eBGP neighbors with no policy pass all routes(cisco-support).
               type: bool
-            update-delay:
+            update_delay:
               description: Set the max initial delay for sending updates Example-<0-3600> in secs.
               type: int
         default_information: &default_info
@@ -239,15 +263,15 @@ options:
               type: bool
         default_metric: &default_metric
           description: Default metric. Example-<1-4294967295>.
-          type: in
-        graceful_maintenanc:
+          type: int
+        graceful_maintenance:
           description: This allows the router to be brought in or out of service gracefully.
           type: dict
           suboptions:
             activate:
               description: All neighbors with graceful-maintenance config
               type: str
-              choices: [ 'all-neighbors','retain-routes','all-neighbors retain-routes' ]
+              choices: [ 'all-neighbors','retain-routes','all-neighbors retain-routes', '' ]
         ibgp:
           description: Set options for iBGP peers.
           type: dict
@@ -290,7 +314,7 @@ options:
             advertisement_interval: &advertisement_interval
               description: Minimum interval between sending BGP routing updates.Example-<0-600>.
               type: int
-            bfd: &bfd
+            bfd: &nbr_bfd
               description: Configure BFD parameters.
               type: dict
               suboptions:
@@ -398,7 +422,7 @@ options:
                     bgp configuration.
                   type: dict
                   suboptions:
-                    inheritance-disable:
+                    inheritance_disable:
                       description: Prevent activate from being inherited from the parent.
                       type: bool
                 as_prepends:
@@ -406,7 +430,7 @@ options:
                     AS path of routes. Default=0
                   type: dict
                   suboptions:
-                    inheritance-disable:
+                    inheritance_disable:
                       description: Prevent as prepends from being inherited from the parent.
                       type: bool
                 local_preference:
@@ -432,7 +456,7 @@ options:
               description: Bypass the directly connected nexthop check for single-hop eBGP peering
               type: dict
               suboptions:
-                inheritance-disable:
+                inheritance_disable:
                   description: Prevent ignore-connected-check from being inherited from the parent
                   type: bool
             keychain: &keychain
@@ -626,7 +650,7 @@ options:
               description: Neighbor-group name.
               type: str
             advertisement_interval: *advertisement_interval
-            bfd: *bfd
+            bfd: *nbr_bfd
             bmp_activate: *bmp_activate
             capability: *capability
             cluster_id: *cluster_id
@@ -668,7 +692,7 @@ options:
               description: Session-group name.
               type: str
             advertisement_interval: *advertisement_interval
-            bfd: *bfd
+            bfd: *nbr_bfd
             bmp_activate: *bmp_activate
             capability: *capability
             cluster_id: *cluster_id
@@ -771,8 +795,8 @@ options:
             vrf:
               description: VRF name.
               type: str
-            bfd: *bfd_params
-            bgp_params:
+            bfd: *bfd
+            bgp:
               description: BGP commands.
               type: dict
               suboptions:
@@ -817,10 +841,3 @@ options:
       type: str
       choices: [deleted, merged, overridden, replaced, gathered, rendered, parsed]
       default: merged
-EXAMPLES:
-- deleted_example_01.txt
-- merged_example_01.txt
-- overridden_example_01.txt
-- replaced_example_01.txt
-- gathered_example_01.txt
-- rendered_example_01.txt
