@@ -4,7 +4,7 @@ description:
 - This module manages global BGP configuration on devices running Cisco NX-OS.
 version_added: 1.4.0
 notes:
-- Tested against NX-OS 9.3.3.
+- Tested against NX-OS 9.3.6.
 - This module works with connection C(network_cli) and C(httpapi).
 author: Nilashish Chakraborty (@NilashishC)
 options:
@@ -21,9 +21,16 @@ options:
     description: A list of BGP process configuration.
     type: dict
     suboptions:
-      asn:
+      as_number:
         description: Autonomous System Number of the router.
         type: str
+      affinity_group:
+        description: Configure an affinity group.
+        type: dict
+        suboptions:
+          group_id:
+            description: Affinity Group ID.
+            type: int
       bestpath: &bestpath
         description: Define the default bestpath selection algorithm.
         type: dict
@@ -113,13 +120,16 @@ options:
       enhanced_error:
         description: Enable BGP Enhanced error handling.
         type: bool
+      fabric_soo:
+        description: Fabric site of origin.
+        type: str
       fast_external_fallover:
         description: Immediately reset the session if the link to a directly connected BGP peer goes down.
         type: bool
       flush_routes:
         description: Flush routes in RIB upon controlled restart.
         type: bool
-      graceful_restart:
+      graceful_restart: &graceful_restart
         description: Configure Graceful Restart functionality.
         type: dict
         suboptions:
@@ -135,26 +145,33 @@ options:
           helper:
             description: Configure Graceful Restart Helper mode functionality.
             type: bool
-          shutdown:
-            description: Graceful-shutdown for BGP protocol.
+      graceful_shutdown:
+        description: Graceful-shutdown for BGP protocol.
+        type: dict
+        suboptions:
+          activate:
+            description: Send graceful-shutdown community on all routes.
             type: dict
             suboptions:
-              activate:
-                description: Send graceful-shutdown community on all routes.
-                type: dict
-                suboptions:
-                  set:
-                    description: Activiate graceful-shutdown.
-                    type: bool
-                  route_map:
-                    description: Apply route-map to modify attributes for outbound.
-                    type: str
-              aware:
-                description: Lower preference of routes carrying graceful-shutdown community.
+              set:
+                description: Activiate graceful-shutdown.
                 type: bool
+              route_map:
+                description: Apply route-map to modify attributes for outbound.
+                type: str
+          aware:
+            description: Lower preference of routes carrying graceful-shutdown community.
+            type: bool
       isolate:
         description: Isolate this router from BGP perspective.
-        type: bool
+        type: dict
+        suboptions:
+          set:
+            description: Withdraw remote BGP routes to isolate this router.
+            type: bool
+          include_local:
+            description: Withdraw both local and remote BGP routes.
+            type: bool
       log_neighbor_changes: &log_nbr
         description: Log a message for neighbor up/down event.
         type: bool
@@ -166,13 +183,17 @@ options:
         type: list
         elements: dict
         suboptions:
-          neighbor_address: 
+          neighbor_address:
             description: IP address/Prefix of the neighbor or interface.
             type: str
             required: True
-          remote_as:
-            description: Remote ASN.
-            type: str
+          neighbor_affinity_group:
+            description: Configure an affinity group.
+            type: dict
+            suboptions:
+              group_id:
+                description: Affinity Group ID.
+                type: int
           bmp_activate_server:
             description: Specify server ID for activating BMP monitoring for the peer.
             type: int
@@ -230,12 +251,21 @@ options:
             type: str
           log_neighbor_changes:
             description: Log message for neighbor up/down event.
-            type: str
+            type: dict
+            suboptions:
+              set:
+                description:
+                - Set log-neighbor-changes.
+                type: bool
+              disable:
+                description:
+                - Disable logging of neighbor up/down event.
+                type: bool
           low_memory:
             description: Behaviour in low memory situations.
             type: dict
             suboptions:
-              exempt: 
+              exempt:
                 description: Do not shutdown this peer when under memory pressure.
                 type: bool
           password:
@@ -247,18 +277,20 @@ options:
                 - 0 specifies an UNENCRYPTED neighbor password.
                 - 3 specifies an 3DES ENCRYPTED neighbor password will follow.
                 - 7 specifies a Cisco type 7  ENCRYPTED neighbor password will follow.
+                type: int
               key:
                 description: Authentication password.
                 type: str
           path_attribute:
             description: BGP path attribute optional filtering.
-            type: dict
+            type: list
+            elements: dict
             suboptions:
               action:
                 description: Action.
                 type: str
                 choices: ["discard", "treat-as-withdraw"]
-              path_attribute_type:
+              type:
                 description: Path attribute type
                 type: int
               range:
@@ -271,12 +303,26 @@ options:
                   end:
                     description: Path attribute range end value.
                     type: int
+          peer_type:
+            description: Neighbor facing
+            type: str
+            choices: ["fabric-border-leaf", "fabric-external"]
           remote_as:
             description: Specify Autonomous System Number of the neighbor.
             type: str
           remove_private_as:
             description: Remove private AS number from outbound updates.
-            type: str
+            type: dict
+            suboptions:
+              set:
+                description: Remove private AS.
+                type: bool
+              replace_as:
+                description: Replace.
+                type: bool
+              all:
+                description: All.
+                type: bool
           shutdown:
             description: Administratively shutdown this neighbor.
             type: bool
@@ -325,6 +371,16 @@ options:
           suppress_default_resolution:
             description: Prohibit use of default route for nexthop address resolution.
             type: bool
+      rd:
+        description: Secondary Route Distinguisher for vxlan multisite border gateway.
+        type: dict
+        suboptions:
+          dual:
+            description: Generate Secondary RD for all VRFs and L2VNIs.
+            type: bool
+          id:
+            description: Specify 2 byte value for ID.
+            type: int
       reconnect_interval: &reconn_intv
         description: Configure connection reconnect interval.
         type: int
@@ -372,28 +428,16 @@ options:
         type: list
         elements: dict
         suboptions:
-          vrf: 
+          vrf:
             description: VRF name.
             type: str
+          allocate_index:
+            description: Configure allocate-index.
+            type: int
           bestpath: *bestpath
           cluster_id: *cluster_id
           confederation: *confederation
-          graceful_restart:
-            description: Configure Graceful Restart functionality.
-            type: dict
-            suboptions:
-              set:
-                description: Enable graceful-restart.
-                type: bool
-              restart_time:
-                description: Maximum time for restart advertised to peers.
-                type: int
-              stalepath_time:
-                description: Maximum time to keep a restarting peer's stale routes.
-                type: int
-              helper:
-                description: Configure Graceful Restart Helper mode functionality.
-                type: bool
+          graceful_restart: *graceful_restart
           local_as:
             description: Specify the local-as for this vrf.
             type: str
@@ -403,18 +447,28 @@ options:
           neighbor_down: *nbr_down
           reconnect_interval: *reconn_intv
           router_id: *rtr_id
-          shutdown: *shtdwn
           timers: *timers
   state:
     description:
     - The state the configuration should be left in.
+    - State I(purged) removes all the BGP configurations from the
+      target device. Use caution with this state.
+    - State I(deleted) only removes BGP attributes that this modules
+      manages and does not negate the BGP process completely. Thereby, preserving
+      address-family related configurations under BGP context.
+    - Running states I(deleted) and I(replaced) will result in an error if there
+      are address-family configuration lines present under a neighbor,
+      or a vrf context that is to be removed. Please use the
+      M(cisco.nxos.nxos_bgp_af) or M(cisco.nxos.nxos_bgp_neighbor_af)
+      modules for prior cleanup.
+    - Refer to examples for more details.
     type: str
     choices:
     - merged
     - replaced
-    - overridden
     - deleted
-    - gathered
+    - purged
     - parsed
+    - gathered
     - rendered
     default: merged
