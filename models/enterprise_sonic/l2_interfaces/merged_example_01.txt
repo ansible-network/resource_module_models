@@ -1,0 +1,28 @@
+# Using merged
+
+# Before state:
+# -------------
+#
+do show Vlan
+Q: A - Access (Untagged), T - Tagged
+NUM        Status      Q Ports
+11         Inactive    T  Ethernet24
+12         Inactive    T  Ethernet24
+
+- name: Configure switch port of interfaces
+  sonic_l2_interfaces:
+    config:
+      - name: Ethernet12
+        access: 
+          vlan: 10
+    state: merged
+
+# After state:
+# ------------
+#
+do show Vlan
+Q: A - Access (Untagged), T - Tagged
+NUM        Status      Q Ports
+10         Inactive    A  Ethernet12
+11         Inactive    T  Ethernet24
+12         Inactive    T  Ethernet24

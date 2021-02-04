@@ -1,0 +1,27 @@
+# Using deleted
+
+# Before state:
+# -------------
+#
+#sonic# show Vlan
+#Q: A - Access (Untagged), T - Tagged
+#NUM        Status      Q Ports
+#10         Inactive
+#20         Inactive
+#30         Inactive
+#
+#sonic#
+
+- name: Delete all the VLANs in the switch
+  sonic_vlans:
+    config:
+    state: deleted
+
+# After state:
+# ------------
+#
+#sonic# show Vlan
+#Q: A - Access (Untagged), T - Tagged
+#NUM        Status      Q Ports
+#
+#sonic#

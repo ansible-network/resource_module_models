@@ -1,0 +1,102 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+      'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: bgp
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: sonic_bgp
+  version_added: "2.10"
+  author: "Dhivya P (@dhivayp)"
+  short_description: Configure global BGP protocol settings on SONiC.
+  description:
+    - This module provides configuration management of global BGP parameters on devices running SONiC
+  notes:
+    - Tested against Enterprise SONiC, release 3.0.2
+  options:
+    config:
+      description:
+        - Specifies the BGP related configuration.
+      type: list
+      elements: dict
+      suboptions:
+        bgp_as:
+          description:
+            - Specifies the BGP Autonomous System (AS) number to configure on the device.
+          type: str
+          required: true
+        vrf_name:
+          description:
+            - Specifies the vrf name
+          type: str
+          default: 'default'
+        router_id:
+          description:
+            - Configures the BGP routing process router-id value.
+          type: str
+        log_neighbor_changes:
+          description:
+            - Enable/disable logging neighbor up/down and reset reason.
+          type: bool
+        bestpath:
+          description:
+            - Configures the BGP bestpath.
+          type: dict
+          suboptions:
+            as_path:
+              description:
+                - Configure the as_path values
+              type: dict
+              suboptions:
+                confed:
+                  description:
+                    - Configure the confed values of as-path
+                  type: bool
+                ignore:
+                  description:
+                    - Configure the ignore values of as-path
+                  type: bool
+                multipath_relax:
+                  description:
+                    - Configure the multipath_relax values of as-path
+                  type: bool
+                multipath_relax_as_set:
+                  description:
+                    - Configure the multipath_relax_as_set values of as-path
+                  type: bool
+            compare_routerid:
+              description:
+                - Configures the compare_routerid.
+              type: bool
+            med:
+              description:
+                - Configure the med values
+              type: dict
+              suboptions:
+                confed:
+                  description:
+                    - Configure the confed values of med
+                  type: bool
+                missing_as_worst:
+                  description:
+                    - Configure the missing_as_worst values of as-path
+                  type: bool
+    state:
+      description:
+        - Specifies the operation to be performed on the BGP process configured on the device.
+        - In case of merged, the input configuration will be merged with the existing BGP configuration on the device.
+        - In case of deleted the existing BGP configuration will be removed from the device.
+      default: merged
+      choices: ['merged', 'deleted']
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt

@@ -1,0 +1,30 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+#rno-dctor-1ar01c01sw02# show snmp-server community
+#
+#         Community Name                     Group Name
+#-------------------------------- --------------------------------
+#private                          ro
+#public                           ro
+#
+
+- name: Replace a SNMP community
+  sonic_snmp:
+    config:
+      - community: "public"
+        access: "rw"
+    state: replaced
+
+# After state:
+# ------------
+#
+#rno-dctor-1ar01c01sw02# show snmp-server community
+#
+#         Community Name                     Group Name
+#-------------------------------- --------------------------------
+#private                          ro
+#public                           rw
+#

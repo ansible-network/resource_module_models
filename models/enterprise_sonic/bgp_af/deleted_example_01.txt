@@ -1,0 +1,67 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+#do show running-configuration bgp
+#!
+#router bgp 51
+# router-id 111.2.2.41
+# timers 60 180
+# !
+# address-family ipv4 unicast
+#  maximum-paths 1
+#  maximum-paths ibgp 1
+#  dampening
+# !
+# address-family ipv6 unicast
+#  redistribute connected route-map bb metric 21
+#  redistribute ospf route-map aa metric 27
+#  redistribute static route-map bb metric 26
+#  maximum-paths 4
+#  maximum-paths ibgp 5
+# !
+# address-family l2vpn evpn
+#!
+#
+#- name: Delete BGP Address family configuration in device
+#    sonic_bgp_af:
+#      config:
+#        - bgp_as: 51
+#          address_family:
+#            afis:
+#              - afi: l2vpn
+#                safi: evpn
+#                advertise_all_vni: False
+#                advertise_default_gw: False
+#                advertise_prefix:
+#              - afi: ipv4
+#                safi: unicast
+#              - afi: ipv6
+#                safi: unicast
+#                max_path:
+#                  ebgp: 2
+#                  ibgp: 5
+#                redistribute:
+#                  - metric: "21"
+#                    protocol: connected
+#                    route_map: bb
+#                  - metric: "27"
+#                    protocol: ospf
+#                    route_map: aa
+#                  - metric: "26"
+#                    protocol: static
+#                    route_map: bb
+#      state: deleted
+# After state:
+# ------------
+#
+#do show running-configuration bgp
+#!
+#router bgp 51
+# router-id 111.2.2.41
+# timers 60 180
+# !
+# address-family ipv6 unicast
+# !
+# address-family l2vpn evpn

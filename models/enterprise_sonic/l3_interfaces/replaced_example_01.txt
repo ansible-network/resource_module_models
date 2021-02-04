@@ -1,0 +1,43 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+#rno-dctor-1ar01c01sw02# show runningconfiguration all
+#{
+#  ...
+#  "INTERFACE": {
+#     ...
+#     "Ethernet112|5.1.1.1/16": {},
+#     "Ethernet112|6.1.1.1/16": {},
+#     "Ethernet112|3333::1/64": {},
+#     "Ethernet112|4444::1/64": {},
+#     ...
+#   },
+#  ...
+#}
+
+- name: Replace l3 interface
+  sonic_l3_interfaces:
+    config:
+      - name: Ethernet112
+        ipv4:
+        - address: 11.1.1.1/16
+        ipv6:
+        - address: 6666::1/16
+    state: replaced
+
+# After state:
+# ------------
+#
+#rno-dctor-1ar01c01sw02# show runningconfiguration all
+#{
+#  ...
+#  "INTERFACE": {
+#     ...
+#     "Ethernet112|11.1.1.1/16": {},
+#     "Ethernet112|6666::1/16": {},
+#     ...
+#   },
+#  ...
+#}

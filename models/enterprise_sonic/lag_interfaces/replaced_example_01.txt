@@ -1,0 +1,28 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+# interface Eth1/5
+#   channel-group 10
+# interface Eth1/6
+#   channel-group 20
+
+- name: Replace device configuration of specified LAG attributes of given interfaces with provided configuration.
+  sonic_lag_interfaces:
+    config:
+      - name: PortChannel10
+	members:
+          interfaces:
+	    - member: Eth1/7
+    state: replaced
+
+# After state:
+# ------------
+#
+# interface Eth1/7
+#   channel-group 10
+# interface Eth1/6
+#   channel-group 20
+# interface Eth1/5
+#   no channel-group

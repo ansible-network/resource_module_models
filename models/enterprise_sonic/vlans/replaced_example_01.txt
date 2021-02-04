@@ -1,0 +1,29 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+#sonic# show Vlan
+#Q: A - Access (Untagged), T - Tagged
+#NUM        Status      Q Ports
+#10         Inactive
+#30         Inactive
+#
+#sonic#
+
+- name: Replace all attributes of specified VLANs with provided configuration
+  sonic_vlans:
+    config:
+      - vlan_id: 10    
+    state: replaced
+
+# After state:
+# ------------
+#
+#sonic# show Vlan
+#Q: A - Access (Untagged), T - Tagged
+#NUM        Status      Q Ports
+#10         Inactive
+#30         Inactive
+#
+#sonic#

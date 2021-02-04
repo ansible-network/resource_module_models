@@ -1,0 +1,34 @@
+# Using overridden
+
+# Before state:
+# -------------
+#
+do show Vlan
+Q: A - Access (Untagged), T - Tagged
+NUM        Status      Q Ports
+10         Inactive    A  Ethernet11
+11         Inactive    T  Ethernet11
+12         Inactive    A  Ethernet12
+13         Inactive    T  Ethernet12
+
+- name: Configure switch port of interfaces
+  sonic_l2_interfaces:
+    config:
+      - name: Ethernet13
+        access: 
+          vlan: 12
+        trunk: 
+          allowed_vlans:
+             - vlan: 13
+             - vlan: 14
+    state: overridden
+
+# After state:
+# ------------
+#
+do show Vlan
+Q: A - Access (Untagged), T - Tagged
+NUM        Status      Q Ports
+12         Inactive    A  Ethernet13
+13         Inactive    T  Ethernet13
+14         Inactive    T  Ethernet13

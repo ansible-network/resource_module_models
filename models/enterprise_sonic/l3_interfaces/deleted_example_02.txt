@@ -1,0 +1,49 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+#rno-dctor-1ar01c01sw02# show running-configuration interface
+#!
+#interface Ethernet20
+# mtu 9100
+# speed 100000
+# shutdown
+# ip address 83.1.1.1/16
+# ip address 84.1.1.1/16 secondary
+# ipv6 address 83::1/16
+# ipv6 address 84::1/16
+# ipv6 enable
+#!
+#interface Ethernet24
+# mtu 9100
+# speed 100000
+# shutdown
+# ip address 91.1.1.1/16
+# ipv6 address 90::1/16
+# ipv6 address 91::1/16
+# ipv6 address 92::1/16
+# ipv6 address 93::1/16
+#!
+#
+#
+#    - name: delete one l3 interface
+#      sonic_l3_interfaces:
+#        config:
+#        state: deleted
+#
+# After state:
+# ------------
+#
+#rno-dctor-1ar01c01sw02# show running-configuration interface
+#!
+#interface Ethernet20
+# mtu 9100
+# speed 100000
+# shutdown
+#!
+#interface Ethernet24
+# mtu 9100
+# speed 100000
+# shutdown
+#!
