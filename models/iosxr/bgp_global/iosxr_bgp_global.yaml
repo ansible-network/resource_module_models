@@ -855,12 +855,18 @@ options:
             timers: *timers
     running_config:
       description:
-      - This option is used only with state I(parsed).
-      - The value of this option should be the output received from the IOSXR device by
-        executing the command B(show running-config router bgp).
-      - The state I(parsed) reads the configuration from C(running_config) option and
-        transforms it into Ansible structured data as per the resource module's argspec
-        and the value is then returned in the I(parsed) key within the result.
+        The state the configuration should be left in.
+        - State I(purged) removes all the BGP configurations from the
+        target device. Use caution with this state.
+        - State I(deleted) only removes BGP attributes that this modules
+        manages and does not negate the BGP process completely. Thereby, preserving
+        address-family related configurations under BGP context.
+        - Running states I(deleted) and I(replaced) will result in an error if there
+        are address-family configuration lines present under a neighbor,
+        or a vrf context that is to be removed. Please use the
+        M(cisco.iosxr.iosxr_bgp_address_family) or M(cisco.iosxr.iosxr_bgp_neighbor_address_family)
+        modules for prior cleanup.
+        - Refer to examples for more details.
       type: str
     state:
       description:
