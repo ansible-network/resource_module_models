@@ -3,7 +3,7 @@ short_description: Manages BGP global resource module.
 description:
 - This module configures and manages the attributes of BGP global on Cisco IOS-XR platforms.
 version_added: 1.3.0
-author: Ashwini Mhatre (amhatre)
+author: Ashwini Mhatre (@Ashwini Mhatre)
 notes:
 - Tested against Cisco IOS-XR 6.1.3.
 - This module works with connection C(network_cli).
@@ -81,7 +81,7 @@ options:
                   type: dict
                   suboptions:
                     ignore:
-                      description:
+                      description: ignore cost_community
                       type: bool
                 origin_as:
                   description: BGP origin-AS knobs.
@@ -154,7 +154,7 @@ options:
                   description: Time before stale routes are purged in seconds <1-6000>.
                   type: int
                 stalepath_time: &stalepath_time
-                  decription: Maximum time to wait for restart of GR capable peers in seconds <1-4095>.
+                  description: Maximum time to wait for restart of GR capable peers in seconds <1-4095>.
                   type: int
             install:
               description: Install diversion path to RIB/CEF.
@@ -368,7 +368,7 @@ options:
                   description: Suppress advertising capability to the peer.
                   type: dict
                   suboptions:
-                    4_byte_AS:
+                    four_byte_AS:
                       description: 4-byte-as capability
                       type: dict
                       suboptions:
@@ -771,7 +771,7 @@ options:
               elements: dict
               suboptions:
                 name:
-                  description:
+                  description: address of rpki server.
                   type: str
                 purge_time:
                   type: int
@@ -855,12 +855,18 @@ options:
             timers: *timers
     running_config:
       description:
-      - This option is used only with state I(parsed).
-      - The value of this option should be the output received from the IOSXR device by
-        executing the command B(show running-config router bgp).
-      - The state I(parsed) reads the configuration from C(running_config) option and
-        transforms it into Ansible structured data as per the resource module's argspec
-        and the value is then returned in the I(parsed) key within the result.
+        The state the configuration should be left in.
+        - State I(purged) removes all the BGP configurations from the
+        target device. Use caution with this state.
+        - State I(deleted) only removes BGP attributes that this modules
+        manages and does not negate the BGP process completely. Thereby, preserving
+        address-family related configurations under BGP context.
+        - Running states I(deleted) and I(replaced) will result in an error if there
+        are address-family configuration lines present under a neighbor,
+        or a vrf context that is to be removed. Please use the
+        M(cisco.iosxr.iosxr_bgp_address_family) or M(cisco.iosxr.iosxr_bgp_neighbor_address_family)
+        modules for prior cleanup.
+        - Refer to examples for more details.
       type: str
     state:
       description:
