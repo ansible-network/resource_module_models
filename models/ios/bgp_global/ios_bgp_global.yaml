@@ -139,8 +139,10 @@ options:
                 description: inter-cluster and intra-cluster (default)
                 type: bool
               intra_cluster:
-                description: intra cluster reflection
-                type: bool
+                description:
+                  - intra cluster reflection
+                  - intra-cluster reflection for cluster-id
+                type: str
           cluster_id:
             description:
               - Configure Route-Reflector Cluster-id (peers may reset)
@@ -266,16 +268,6 @@ options:
                   activate:
                     description: Activate graceful shutdown of all neigbors
                     type: bool
-                  community:
-                    description:
-                      - Set Community for Gshut routes
-                      - community number/community number in aa:nn format
-                    type: str
-                  local_preference:
-                    description:
-                      - Set Local Preference for Gshut routes
-                      - Please refer vendor documentation for valid values
-                    type: int
               vrfs:
                 description: Gracefully shut down all vrf neigbors
                 type: dict
@@ -288,16 +280,16 @@ options:
                   activate:
                     description: Activate graceful shutdown of all neigbors
                     type: bool
-                  community:
-                    description:
-                      - Set Community for Gshut routes
-                      - community number/community number in aa:nn format
-                    type: str
-                  local_preference:
-                    description:
-                      - Set Local Preference for Gshut routes
-                      - Please refer vendor documentation for valid values
-                    type: int
+              community:
+                description:
+                  - Set Community for Gshut routes
+                  - community number/community number in aa:nn format
+                type: str
+              local_preference:
+                description:
+                  - Set Local Preference for Gshut routes
+                  - Please refer vendor documentation for valid values
+                type: int
           inject_map:
             description: Routemap which specifies prefixes to inject
             type: dict
@@ -359,6 +351,7 @@ options:
                 description: Route map for valid nexthops
                 type: str
               trigger:
+                description: nexthop trackings
                 type: dict
                 suboptions:
                   delay:
@@ -768,6 +761,7 @@ options:
                             type: bool
                           transitive:
                             description: Cost community is Transitive
+                            type: bool
                   med:
                     description: Med carrying AIGP Value
                     type: bool
@@ -999,6 +993,7 @@ options:
                       - Please refer vendor documentation for valid values
                     type: int
                   range:
+                    description: path attribute range
                     type: dict
                     suboptions:
                       start:
@@ -1024,6 +1019,7 @@ options:
                       - Please refer vendor documentation for valid values
                     type: int
                   range:
+                    description: path attribute range
                     type: dict
                     suboptions:
                       start:
@@ -1135,6 +1131,9 @@ options:
                 description: Configure slow-peer
                 type: dict
                 suboptions:
+                  enable:
+                    description: Enable slow-peer detection
+                    type: bool
                   disable:
                     description: Disable slow-peer detection
                     type: bool
@@ -1149,6 +1148,9 @@ options:
                     description: Dynamically split the slow peer to slow-update group
                     type: dict
                     suboptions:
+                      enable:
+                        description: Enable slow-peer detection
+                        type: bool
                       disable:
                         description: Disable slow-peer detection
                         type: bool
