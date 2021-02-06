@@ -520,14 +520,121 @@ options:
                     filter:
                       description: Selective route download
                       type: str
+            snmp:
+              description: Modify snmp parameters
+              type: dict
+              suboptions:
+                context:
+                  description:
+                    - Configure a SNMP context
+                    - Context Name
+                  type: str
+                community:
+                  description: Configure a SNMP v2c Community string and access privs
+                  type: dict
+                  suboptions:
+                    snmp_community:
+                      description: SNMP community string
+                      type: str
+                    acl:
+                      description:
+                        - Standard IP accesslist allowing access with this community string
+                        - Expanded IP accesslist allowing access with this community string
+                        - Access-list name
+                      type: str
+                    ipv6:
+                      description:
+                        - Specify IPv6 Named Access-List
+                        - IPv6 Access-list name
+                      type: str
+                    ro:
+                      description: Read-only access with this community string
+                      type: bool
+                    rw:
+                      description: Read-write access with this community string
+                      type: bool
+                user:
+                  description: Configure a SNMP v3 user
+                  type: dict
+                  suboptions:
+                    name:
+                      description: SNMP community string
+                      type: str
+                    access:
+                      description: specify an access-list associated with this group
+                      type: dict
+                      suboptions:
+                        acl:
+                          description: SNMP community string
+                          type: str
+                        ipv6:
+                          description:
+                            - Specify IPv6 Named Access-List
+                            - IPv6 Access-list name
+                          type: str
+                    auth:
+                      description: specify an access-list associated with this group
+                      type: dict
+                      suboptions:
+                        md5:
+                          description:
+                            - Use HMAC MD5 algorithm for authentication
+                            - authentication password for user
+                          type: str
+                        sha:
+                          description:
+                            - Use HMAC SHA algorithm for authentication
+                            - authentication password for user
+                          type: str
+                        access:
+                          description: specify an access-list associated with this group
+                          type: dict
+                          suboptions:
+                            acl:
+                              description: SNMP community string
+                              type: str
+                            ipv6:
+                              description:
+                                - Specify IPv6 Named Access-List
+                                - IPv6 Access-list name
+                              type: str
+                        priv:
+                          description: encryption parameters for the user
+                          type: dict
+                          suboptions:
+                            3des:
+                              description: Use 168 bit 3DES algorithm for encryption
+                              type: str
+                            aes:
+                              description: Use AES algorithm for encryption
+                              type: dict
+                              suboptions:
+                                128:
+                                  description:
+                                    - Use 128 bit AES algorithm for encryption
+                                    - privacy password for user
+                                  type: str
+                                192:
+                                  description:
+                                    - Use 192 bit AES algorithm for encryption
+                                    - privacy password for user
+                                  type: str
+                                256:
+                                  description:
+                                    - Use 256 bit AES algorithm for encryption
+                                    - privacy password for user
+                            des:
+                              description: Use 56 bit DES algorithm for encryption
+                              type: str
   running_config:
     description:
-    - This option is used only with state I(parsed).
-    - The value of this option should be the output received from the IOS device by
-      executing the command B(sh bgp).
-    - The state I(parsed) reads the configuration from C(running_config) option and
-      transforms it into Ansible structured data as per the resource module's argspec
-      and the value is then returned in the I(parsed) key within the result.
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the IOS
+        device by executing the command B(sh running-config | section ^router bgp).
+      - The state I(parsed) reads the configuration from C(running_config)
+        option and transforms it into Ansible structured data as per the
+        resource module's argspec and the value is then returned in the
+        I(parsed) key within the result.
     type: str
   state:
     description:
