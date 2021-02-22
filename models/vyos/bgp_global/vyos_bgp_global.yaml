@@ -17,7 +17,8 @@ options:
       aggregate_address:
         description:
           - BGP aggregate network.
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           address:
             description: BGP aggregate network.
@@ -121,7 +122,7 @@ options:
             description:  Maximum number of prefixes to accept from this neighbor
                nexthop-self Nexthop for routes sent to this neighbor to be the local router.
             type: int
-          nexthop-self:
+          nexthop_self:
             description:  Nexthop for routes sent to this neighbor to be the local router.
             type: bool
           override_capability:
