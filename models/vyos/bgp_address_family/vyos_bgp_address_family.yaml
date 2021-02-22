@@ -1,0 +1,210 @@
+module: vyos_bgp_family
+version_added: 2.0.1
+short_description: BGP Address Family Resource Module.
+description: 
+- This module manages BGP address family configuration of interfaces on devices running VYOS.
+author: Gomathi Selvi Srinivasan (@GomathiselviS)
+options:
+  config:
+    description: A dict of BGP global configuration for interfaces.
+    type: dict
+    suboptions:
+      as_number:
+        description:
+        - AS number.
+        type: int
+      address_family:
+        description: BGP address-family parameters.
+        type: list
+        elements: dict
+        suboptions:
+          afi:
+            description: BGP address family settings.
+            type: str
+            choices: ['ipv4_unicast', 'ipv6_unicast']
+          aggregate_address:
+            description:
+              - BGP aggregate network.
+            type: list
+            elements: dict
+            suboptions:
+              address:
+                description: BGP aggregate network.
+                type: str
+              as_set:
+                description: Generate AS-set path information for this aggregate address.
+                type: bool
+              summary_only:
+                description: Announce the aggregate summary network only.
+                type: bool
+          network:
+            description: BGP network
+            type: list
+            elements: dict
+            suboptions:
+              address:
+                description: BGP network address
+                type: str
+              path_limit:
+                description: AS path hop count limit
+                type: int
+              backdoor:
+                description: Network as a backdoor route.
+                type: bool
+              route_map:
+                description: Route-map to modify route attributes
+                type: str
+          redistribute:
+            description: Redistribute routes from other protocols into BGP
+            type: list
+            elements: dict
+            suboptions:
+              protocol:
+                description: types of routes to be redistributed.
+                type: str
+                choices: ['connected', 'kernel', 'ospf', 'ospfv3', 'rip', 'ripng', 'static']
+              table:
+                description: Redistribute non-main Kernel Routing Table.
+                type: str
+              route_map:
+                description: Route map to filter redistributed routes
+                type: str
+              metric:
+                description: Metric for redistributed routes.
+                type: int
+      neighbors:
+        description: BGP neighbor
+        type: dict
+        suboptions:
+          address:
+            description: BGP neighbor address (v4/v6).
+            type: str
+          afi:
+            description: BGP neighbor parameters.
+            type: str
+            choices: ['ipv4_unicast', 'ipv6_unicast']
+          allowas_in:
+            description: Number of occurrences of AS number.
+            type: int
+          as_override:
+            description:  AS for routes sent to this neighbor to be the local AS.
+            type: bool
+          attribute_unchanged:
+            description: BGP attributes are sent unchanged.
+            type: str
+            choices: ['as_path', 'med', 'next_hop']
+          capability:
+            description: Advertise capabilities to this neighbor.
+            type: dict
+            suboptions:
+              dynamic:
+                description: Advertise dynamic capability to this neighbor.
+                type: bool
+              orf:
+                description: Advertise ORF capability to this neighbor.
+                type: str
+                choices: ['send', 'receive']
+          default_originiate:
+            description: Send default route to this neighbor
+            type: str
+          distribute_list:
+            description:  Access-list to filter route updates to/from this neighbor.
+            type: list
+            elements: dict
+            suboptions:
+              action:
+                description:  Access-list to filter outgoing/incoming route updates to this neighbor
+                type: str
+                choices: ['export', 'import']
+              acl:
+                description: Acess-list number.
+                type: int
+          filter_list:
+            description: As-path-list to filter route updates to/from this neighbor.
+            type: list
+            elements: dict
+            suboptions:
+              action:
+                description: filter outgoing/incoming route updates
+                type: str
+                choices: ['export', 'import']
+              path_list:
+                description: As-path-list to filter
+                type: str
+          maximum_prefix:
+            description:  Maximum number of prefixes to accept from this neighbor
+               nexthop-self Nexthop for routes sent to this neighbor to be the local router.
+            type: int
+          nexthop_local:
+            description:  Nexthop attributes.
+            type: bool
+          nexthop_self:
+            description:  Nexthop for routes sent to this neighbor to be the local router.
+            type: bool
+          peer_group:
+            description:  IPv4 peer group for this peer
+            type: str
+          prefix_list:
+            description: Prefix-list to filter route updates to/from this neighbor.
+            type: list
+            elements: dict
+            suboptions:
+              action:
+                description: filter outgoing/incoming route updates
+                type: str
+                choices: ['export', 'import']
+              prefix_list:
+                description: Prefix-list to filter
+                type: str
+          remove_private_as:
+            description: Remove private AS numbers from AS path in outbound route updates
+            type: bool
+          route_map:
+            description: Route-map to filter route updates to/from this neighbor.
+            type: list
+            elements: dict
+            suboptions:
+              action:
+                description: filter outgoing/incoming route updates
+                type: str
+                choices: ['export', 'import']
+              route_map:
+                description: route-map to filter
+                type: str
+          route_reflector_client:
+            description: Neighbor as a route reflector client
+            type: bool
+          route_server_client:
+            description: Neighbor is route server client
+            type: bool
+          soft_reconfiguration:
+            description: Soft reconfiguration for neighbor
+            type: bool
+          unsupress_map:
+            description:  Route-map to selectively unsuppress suppressed routes
+            type: str
+          weight:
+            description: Default weight for routes from this neighbor
+            type: int
+  running_config:
+    description:
+    - This option is used only with state I(parsed).
+    - The value of this option should be the output received from the IOS device by
+      executing the command B(show configuration command | match bgp).
+    - The state I(parsed) reads the configuration from C(running_config) option and
+      transforms it into Ansible structured data as per the resource module's argspec
+      and the value is then returned in the I(parsed) key within the result.
+  state:
+    description:
+      - The state the configuration should be left in.
+    type: str
+    choices:
+    - merged
+    - replaced
+    - deleted
+    - gathered
+    - parsed
+    - rendered
+    - purged
+    - overridden
+    default: merged
