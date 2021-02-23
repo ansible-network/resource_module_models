@@ -1,0 +1,392 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+  {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+  }
+NETWORK_OS: junos
+RESOURCE: bgp_address_family
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: junos_bgp_address_family
+  version_added: 1.3.0
+  short_description: Manage BGP Address Family attributes of interfaces on Junos devices.
+  description: Manage BGP Address Family attributes of interfaces on Junos network devices.
+  author: Rohit Thakur (@rohitthakur2590)
+  requirements:
+    - ncclient (>=v0.6.4)
+    - xmltodict (>=0.12.0)
+  notes:
+    - This module requires the netconf system service be enabled on the device being managed.
+    - This module works with connection C(netconf). See L(the Junos OS Platform Options,../network/user_guide/platform_junos.html).
+    - Tested against JunOS v18.4R1
+  options:
+    running_config:
+      description:
+        - This option is used only with state I(parsed).
+        - The value of this option should be the output received from the Junos device
+          by executing the command B(show protocols bgp).
+        - The state I(parsed) reads the configuration from C(running_config) option and
+          transforms it into Ansible structured data as per the resource module's argspec
+          and the value is then returned in the I(parsed) key within the result
+      type: str
+    config:
+      description: The provided link BGP address family dictionary.
+      type: dict
+      suboptions:
+        address_family: &address_family
+          description: Enable address family and enter its config mode.
+          type: list
+          elements: dict
+          suboptions:
+            afi:
+              description: address family.
+              type: str
+              choices:
+                - evpn
+                - inet
+                - inet-mdt
+                - inet-mvpn
+                - inet-vpn
+                - inet6
+                - inet6-mvpn
+                - inet6-vpn
+                - iso-vpn
+                - l2vpn
+                - route-target
+                - traffic-engineering
+            af_type:
+              description: Address family type for ipv4.
+              type: list
+              elements: dict
+              suboptions:
+                type:
+                  description: Specify type of NLRI.
+                  type: str
+                  choices:
+                    - any
+                    - flow
+                    - labeled-unicast
+                    - multicast
+                    - segment-routing-te
+                    - unicast
+                    - signaling
+                    - auto-discovery-mspw
+                    - auto-discovery-only
+                set:
+                  description: Set NLRI.
+                  type: bool
+                accepted_prefix_limit:
+                  description: Specify limit for maximum number of prefixes accepted from a peer.
+                  type: dict
+                  suboptions:
+                    maximum:
+                      description: Specify maximum number of prefixes accepted from a peer.
+                      type: int
+                    teardown:
+                      description: Clear peer connection on reaching limit.
+                      type: bool
+                    limit_threshold:
+                      description: Specify teardown percentage of prefix-limit to start warnings.
+                      type: int
+                    idle_timeout:
+                      description: Set idle timeout node.
+                      type: bool
+                    idle_timeout_value:
+                      description: Specify timeout before attempting to restart peer.
+                      type: int
+                    forever:
+                      description: Idle the peer until the user intervenes.
+                      type: bool
+                add_path:
+                  description: Advertise multiple paths to peer.
+                  type: dict
+                  suboptions:
+                    receive:
+                      description: Receive multiple paths from peer.
+                      type: bool
+                    send:
+                      description: Send multiple paths to peer.
+                      type: dict
+                      suboptions:
+                        include_backup_path:
+                          description: Specify number of backup paths to advertise.
+                          type: int
+                        multipath:
+                          description: Include only multipath contributor routes.
+                          type: bool
+                        path_count:
+                          description: Include only multipath contributor routes.
+                          type: int
+                          required: true
+                        path_selection_mode:
+                          description: Configure how to select add-path routes.
+                          type: dict
+                          suboptions:
+                            all_paths:
+                              description: Advertise all paths allowed by path count.
+                              type: bool
+                            equal_cost_paths:
+                              description: Advertise equal cost paths.
+                              type: bool
+                        prefix_policy:
+                          description: Perform add-path only for prefixes that match policy.
+                          type: str
+                aggregate_label:
+                  description: Aggregate labels of incoming routes with the same FEC.
+                  type: dict
+                  suboptions:
+                    set:
+                      description: Set Aggregate labels of incoming routes with the same FEC
+                      type: bool
+                    community:
+                      description: Community to identify the FEC of incoming routesC.
+                      type: str
+                aigp:
+                  description: Allow sending and receiving of AIGP attribute.
+                  type: dict
+                  suboptions:
+                    set:
+                      description: Set AIGP.
+                      type: bool
+                    disable:
+                      description: Dn not allow sending and receiving of AIGP attribute.
+                      type: bool
+                damping:
+                  description: Enable route flap damping.
+                  type: bool
+                defer_initial_multipath_build:
+                  description: Defer initial multipath build until EOR is received.
+                  type: dict
+                  suboptions:
+                    set:
+                      description: Set defer initial multipath build.
+                      type: bool
+                    maximum_delay:
+                       description:  Max delay(sec) multipath build after peer is up.
+                       type: int
+                delay_route_advertisements:
+                  description: Delay route updates for this family until FIB-sync.
+                  type: dict
+                  suboptions:
+                    set:
+                      description: Set delay route advertisements.
+                      type: bool
+                    max_delay_route_age:
+                      description: Set max delay advertisement route age.
+                      type: int
+                    max_delay_routing_uptime:
+                      description: Set max delay advertisement route age.
+                      type: int
+                    min_delay_inbound_convergence:
+                      description: Set min delayadvertisement after source-peer sent all routes.
+                      type: int
+                    min_delay_routing_uptime:
+                      description: Set min delay advertisement route age.
+                      type: int
+                entropy_label:
+                  description: Use entropy label for entropy label capable BGP LSPs.
+                  type: dict
+                  suboptions:
+                    set:
+                      description: Set entropy-label attribute.
+                      type: bool
+                    import:
+                      description: Policy to select BGP LSPs to use entropy label.
+                      type: str
+                    no_next_hop_validation:
+                      description: Don't validate next hop field against route next hop.
+                      type: bool
+                explicit_null:
+                  description: Advertise explicit null.
+                  type: dict
+                  suboptions:
+                    set:
+                      description: Set explicit-null attribute.
+                      type: bool
+                    connected_only:
+                      description: Advertise explicit null only for connected routes.
+                      type: bool
+                extended_nexthop:
+                  description: Enable extended nexthop encoding.
+                  type: bool
+                extended_nexthop_color:
+                  description: Resolve using extended color nexthop.
+                  type: bool
+                graceful_restart_forwarding_state_bit:
+                  description: Specify BGP graceful restart options.
+                  type: str
+                  choices: ['from-fib', 'set']
+                local_ipv4_address:
+                  description: Specify local IPv4 address.
+                  type: str
+                legacy_redirect_ip_action:
+                  description: Configure legacy redirect to IP support.
+                  type: dict
+                  suboptions:
+                    set:
+                      description: Set the legacy-redirect-ip-action.
+                      type: bool
+                    send:
+                      description: Advertise Redirect action as legacy redirect attribute.
+                      type: bool
+                    receive:
+                      description: Accept legacy encoded redirect-to-ip action attribute
+                      type: bool
+                loops:
+                  description: Allow local AS in received AS paths.
+                  type: int
+                no_install:
+                  description: Dont install received routes in forwarding.
+                  type: bool
+                no_validate:
+                  description: Bypass validation procedure for routes that match policy.
+                  type: str
+                output_queue_priority_expedited:
+                  description: Expedited queue; highest priority.
+                  type: bool
+                output_queue_priority_priority:
+                  description: Output queue priority; higher is better.
+                  type: int
+                per_group_label:
+                  description: Advertise prefixes with unique labels per group.
+                  type: bool
+                per_prefix_label:
+                  description: Allocate a unique label to each advertised prefix.
+                  type: bool
+                prefix_limit:
+                  description: Limit maximum number of prefixes from a peer.
+                  type: dict
+                  suboptions:
+                    maximum:
+                      description: Specify maximum number of prefixes from a peer.
+                      type: int
+                    teardown:
+                      description: Clear peer connection on reaching limit.
+                      type: bool
+                    limit_threshold:
+                      description: Percentage of prefix-limit to start warnings.
+                      type: int
+                    idle_timeout:
+                      description: Set idle timeout node.
+                      type: bool
+                    idle_timeout_value:
+                      description: Specify timeout before attempting to restart peer.
+                      type: int
+                    forever:
+                      description: Idle the peer until the user intervenes.
+                      type: bool
+                resolve_vpn:
+                  description: Install received NLRI in inet.3 also.
+                  type: bool
+                rib:
+                  description: Select table used by labeled unicast routes.
+                  type: str
+                  choices: ['inet.3']
+                ribgroup_name:
+                  description: Name of the routing table group.
+                  type: str
+                route_refresh_priority_expedited:
+                  description: Expedited queue; highest priority.
+                  type: bool
+                route_refresh_priority_priority:
+                  description: Output queue priority; higher is better.
+                  type: int
+                secondary_independent_resolution:
+                  description: Resolve FLOW routes in VRF table independent of VPN FLOW route.
+                  type: bool
+                topology:
+                  description: Multi topology routing tables.
+                  type: dict
+                  suboptions:
+                    name:
+                      description: Specify topology name.
+                      type: str
+                    community:
+                      description: Community to identify multi topology routes.
+                      type: bool
+                withdraw_priority_expedited:
+                  description: Expedited queue; highest priority.
+                  type: bool
+                withdraw_priority_priority:
+                  description: Output queue priority; higher is better.
+                  type: int
+                strip_nexthop:
+                  description: Strip the next-hop from the outgoing flow update.
+                  type: bool
+                traffic_statistics:
+                  description: Collect statistics for BGP label-switched paths
+                  type: dict
+                  suboptions:
+                    set:
+                      description: Set traffic-statistics.
+                      type: bool
+                    interval:
+                      description: Time to collect statistics (seconds).
+                      type: int
+                    labeled_path:
+                      description: Enable ingress labeled path statistics.
+                      type: bool
+                    file:
+                      description: Statistics file options.
+                      type: dict
+                      suboptions:
+                        filename:
+                          description: Name of file in which to write trace information.
+                          type: str
+                        files:
+                          description: Maximum number of trace files.
+                          type: int
+                        no_world_readable:
+                          description: Don't allow any user to read the log file.
+                          type: bool
+                        size:
+                          description: Maximum trace file size.
+                          type: int
+                        world_readable:
+                          description: Don't allow any user to read the log file.
+                          type: bool
+        groups:
+          description: Specify address family config for groups.
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description: Specify name of the group
+              type: str
+            address_family: *address_family
+            neighbors:
+              description: Specify address family config per neighbor.
+              type: list
+              elements: dict
+              suboptions:
+                neighbor_address:
+                  description: Specify neighbor address.
+                  type: str
+                address_family: *address_family
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - parsed
+      - gathered
+      - rendered
+      default: merged
+
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
+  - parsed_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt
