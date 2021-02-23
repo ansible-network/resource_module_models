@@ -839,6 +839,7 @@ DOCUMENTATION: |
               description: Apply BGP export policy when exporting VPN routes.
               type: bool
             neighbors:
+              description: Specify list of neighbors.
               type: list
               elements: dict
               suboptions:
@@ -906,10 +907,9 @@ DOCUMENTATION: |
         - The state the configuration should be left in.
       type: str
       choices:
-        - purge
+        - purged
         - merged
         - replaced
-        - overridden
         - deleted
         - gathered
         - parsed
