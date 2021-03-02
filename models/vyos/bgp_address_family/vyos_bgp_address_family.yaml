@@ -74,7 +74,8 @@ options:
                 type: int
       neighbors:
         description: BGP neighbor
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           neighbor_address:
             description: BGP neighbor address (v4/v6).
