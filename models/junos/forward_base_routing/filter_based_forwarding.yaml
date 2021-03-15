@@ -1,0 +1,138 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+  {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+  }
+NETWORK_OS: junos
+RESOURCE: filter_based_forwarding
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: junos_filter_based_forwarding
+  version_added: 1.3.1
+  short_description: Manage Filter based forwarding on on Junos devices.
+  description: Manage Filter based forwarding on Junos network devices.
+  author: Rohit Thakur (@rohitthakur2590)
+  requirements:
+    - ncclient (>=v0.6.4)
+    - xmltodict (>=0.12.0)
+  notes:
+    - This module requires the netconf system service be enabled on the device being managed.
+    - This module works with connection C(netconf). See L(the Junos OS Platform Options,../network/user_guide/platform_junos.html).
+    - Tested against JunOS v18.4R1
+  options:
+    running_config:
+      description:
+        - This option is used only with state I(parsed).
+        - The value of this option should be the output received from the Junos device
+          by executing the command B(show routing-instance).
+        - The state I(parsed) reads the configuration from C(running_config) option and
+          transforms it into Ansible structured data as per the resource module's argspec
+          and the value is then returned in the I(parsed) key within the result
+      type: str
+    config:
+      description: The provided Routing instance configuration list.
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description: Specify routing instance name.
+          type: str
+        connector_id_advertise:
+          description: Advertise connector-id attribute.
+          type: bool
+        description: Specify text description of routing instance.
+          type: str
+        egress_protection:
+          description: Egress instance protection dictionary.
+          type: dict
+          suboptions:
+            context_identifier:
+              description: Specify context identifier.
+              type: str
+            protector:
+              description: Enable Edge Protector functionality for this VPN.
+        instance_role:
+          description: Primary role of L2Backhaul-vpn router.
+          type: str
+          choices: ['access', 'nni']
+        type:
+          description: Specify instance type.
+          type: str
+          choices:
+            - evpn
+            - evpn-vpws
+            - forwarding
+            - l2backhaul-vpn
+            - l2vpn
+            - layer2-control
+            - mpls-forwarding
+            - mpls-internet-multicast
+            - no-forwarding
+            - virtual-router
+            - vpls
+            - vrf
+        interfaces:
+          description: Interface name for this routing instance.
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description: Specify name of the interface.
+              type: str
+            protect_interface:
+              description: Specify name of the protected interface.
+              type: str
+        l2vpn_id:
+          description: Layer-2 vpn-id for this instance.
+          type: str
+        no_irb_layer_2_copy:
+          description: Disable transmission of layer-2 copy of packets of irb routing-interface.
+          type: bool
+        no_local_switching:
+          description: Disable vlan id normalization for interfaces.
+          type: bool
+        no_vrf_advertise:
+          description: Disable vlan id normalization for interfaces.
+          type: bool
+        no_vrf_propagate_ttl:
+          description: Disable TTL propagation from IP to MPLS (on push) and MPLS to IP (on pop).
+          type: bool
+        protocols:
+          description:  Routing protocol configuration list.
+          type: list
+          elements: str
+        qualified_bum_pruning_mode:
+          description: Enable BUM pruning for VPLS instance.
+          type: bool
+        routing_interface:
+          description: Routing interface name for this routing-instance.
+          type: list
+          elements: str
+
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - parsed
+      - gathered
+      - rendered
+      default: merged
+
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
+  - parsed_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt
