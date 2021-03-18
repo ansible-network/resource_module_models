@@ -2,363 +2,361 @@ module: eos_route_maps
 short_description: Manages Route Maps resource module
 description: This module configures and manages the attributes of Route Mapd on Arista
   EOS platforms.
-  version_added: 2.0.0
-  author: Gomathi Selvi Srinivasan (@GomathiselviS)
-  notes:
-  - Tested against Arista EOS 4.23.0F
-  - This module works with connection C(network_cli). See the L(EOS Platform Options,eos_platform_options).
-  options:
+version_added: 2.0.0
+author: Gomathi Selvi Srinivasan (@GomathiselviS)
+notes:
+- Tested against Arista EOS 4.23.0F
+- This module works with connection C(network_cli). See the L(EOS Platform Options,eos_platform_options).
+options:
     config:
       description: A list of route-map options
       type: list
       elements: dict
       suboptions:
-        route_maps:
-          description:
-          - Route Map statements.
+        route_map_name:
+          description: Route map name.
+          type: str
+        entries:
+          description: Route Map entries.
           type: list
           elements: dict
           suboptions:
-            route_map_name:
-              description: Route map name.
+            statement:
+              description: statement name
               type: str
-            entries:
-              description: Route Map entries.
-              type: list
-              elements: dict
-              suboptions:
-                statement:
-                  description: statement name
-                  type: str
-                source:
-                  description: Rename/Copy configuration
-                  type: dict
-                  suboption:
-                    action:
-                      description: rename or copy configuration
-                      type: str
-                      choices: ["rename", "copy"]
-                    source_map_name:
-                      description: Source route map name.
-                      type: str
-                    overwrite:
-                      description: if True, overwrite existing config.
-                      type: bool
+            source:
+              description: Rename/Copy configuration
+              type: dict
+              suboption:
                 action:
-                  description: Action for matching routes
+                  description: rename or copy configuration
                   type: str
-                  choices: ["deny", "permit"]
-                sequence:
-                  description: Index in the sequence.
-                  type: int
-                continue:
-                  description: Route map entry sequence number.
-                  type: int
-                description:
-                  description: Description for the route map.
+                  choices: ["rename", "copy"]
+                source_map_name:
+                  description: Source route map name.
                   type: str
-                sub_route_map:
-                  description: Sub route map
+                overwrite:
+                  description: if True, overwrite existing config.
+                  type: bool
+            action:
+              description: Action for matching routes
+              type: str
+              choices: ["deny", "permit"]
+            sequence:
+              description: Index in the sequence.
+              type: int
+            continue:
+              description: Route map entry sequence number.
+              type: int
+            description:
+              description: Description for the route map.
+              type: str
+            sub_route_map:
+              description: Sub route map
+              type: dict
+              suboptions:
+                name:
+                  description: sub route map name
+                  type: str
+                invert_result:
+                  description: Invert sub route map result
+                  type: bool
+            set:
+              description: set route attributes.
+              type: dict
+              suboptions:
+                as_path:
+                  description: Set as-path.
                   type: dict
                   suboptions:
-                    name:
-                      description: sub route map name
-                      type: stry
-                    invert_result:
-                      description: Invert sub route map result
-                      type: bool
-                set:
-                  description: set route attributes.
-                  type: dict
-                  suboptions:
-                    as_path:
-                      description: Set as-path.
+                    match:
+                      description: Match the entire as-path.
                       type: dict
                       suboptions:
-                        match:
-                          description: Match the entire as-path.
-                          type: bool
-                        prepend:
-                          description: Prepend to the as-path.
-                          type: dict
-                          suboptions:
-                            as_number:
-                              description: as number to prepend (includes auto;in csv format)
-                              type: str
-                            last_as:
-                              description: The number of times to prepend the last AS number.
-                              type: int
-                    bgp:
-                      description: BGP AS path multipath weight.
-                      type: int
-                    community_attributes:
-                      description: BGP community attribute.
-                      type: dict
-                      suboptions:
-                        graceful_shutdown:
-                          description: Graceful shutdown
-                          type: bool
-                        community:
-                          description: community attributes.
-                          type: dict
-                          suboptions:
-                            number:
-                              description: community number (in csv format).
-                              type: str
-                            list:
-                              description: community list name.
-                              type: str
-                            graceful_shutdown:
-                              description: Gracefully shutdown.
-                              type: bool
-                            additive:
-                              description: Add to existing community.
-                              type: bool
-                            delete:
-                              description: Delete matching communities.
-                              type: bool
-                            internet:
-                              description: Internet community
-                              type: bool
-                            local_as:
-                              description: Do not send outside local AS.
-                              type: bool
-                            no_advertise:
-                              description: Do not advertise to any peer.
-                              type: bool
-                            no_export:
-                              description: Do not export to next AS.
-                              type: bool
-                        none:
-                          description: No community attribute.
-                          type: bool
-                    distance:
-                      description: Set protocol independent distance.
-                      type: int
-                    evpn:
-                      description: Keep the next hop when advertising to eBGP peers.
-                      type: bool
-                    extcommunity:
-                      description: BGP extended community attribute.
-                      type: dict
-                      suboptions:
-                        lbw:
-                          description: Link bandwith values.
-                          type: dict
-                          suboptions:
-                            value:
-                              description: Link Bandwidth extended community value.
-                              type: str
-                            aggregate:
-                              description: Aggregate Link Bandwidth.
-                              type: bool
-                            divide:
-                              description: Divide Link Bandwidth.
-                              type: str
-                              choices: ["equal", "ration"]
-                        none:
-                          description: No attribute.
-                          type: bool
-                        rt:
-                          description: Route target extended community
-                          type: dict
-                          suboptions: &params01
-                            vpn:
-                              description: VPN extended community.
-                              type: str
-                            additive:
-                              description: Add to the existing community.
-                              type: bool
-                            delete:
-                              description: Delete matching communities.
-                              type: bool
-                        soo:
-                          description: Site-of-Origin extended community.
-                          type: dict
-                          suboptions: *params01
-                    ip:
-                      description: Set IP specific information.
-                      type: dict
-                      suboptions: &params02
-                        address:
-                          description: next hop address.
+                        as_number:
+                          description: as number to use (includes auto;in csv format)
                           type: str
-                        unchanged:
-                          description: Keep the next hop when advertising to eBGP peer
+                        none:
+                          description: Remove matching AS numbers
                           type: bool
-                        peer_address:
-                          description: Use BGP peering addr as next-hop.
-                          type: bool
-                    ipv6:
-                      description: Set IPv6 specific information.
-                      type: dict
-                      suboptions: *params02
-                    isis_level:
-                      description: IS-IS level.
-                      type: str
-                    local_preference:
-                      description: BGP local preference.
-                      type: int
-                    metric:
-                      description: Route metric.
+                    prepend:
+                      description: Prepend to the as-path.
                       type: dict
                       suboptions:
-                        igp_metric:
-                          description: IGP route metric
-                          type: dict
-                          suboptions: &params03
-                            set:
-                              description: set the parameter alone.
-                              type: bool
-                            value:
-                              description: metric value to add or subtract(with +/- sign).
-                              type: int
-                        igp_nexthop_cost:
-                          description: IGP nexthop cost
-                          type: dict
-                          suboptions: *params03
-                    ospf_metric_type:
-                      description: Route metric type.
-                      type: str
-                      choices: ["type-1", "type-2"]
-                    nexthop:
-                      description: Route next hop.
+                        as_number:
+                          description: as number to prepend (includes auto;in csv format)
+                          type: str
+                        last_as:
+                          description: The number of times to prepend the last AS number.
+                          type: int
+                bgp:
+                  description: BGP AS path multipath weight.
+                  type: int
+                community_attributes:
+                  description: BGP community attribute.
+                  type: dict
+                  suboptions:
+                    graceful_shutdown:
+                      description: Graceful shutdown
+                      type: bool
+                    community:
+                      description: community attributes.
+                      type: dict
+                      suboptions:
+                        number:
+                          description: community number (in csv format).
+                          type: str
+                        list:
+                          description: community list name.
+                          type: str
+                        graceful_shutdown:
+                          description: Gracefully shutdown.
+                          type: bool
+                        additive:
+                          description: Add to existing community.
+                          type: bool
+                        delete:
+                          description: Delete matching communities.
+                          type: bool
+                        internet:
+                          description: Internet community
+                          type: bool
+                        local_as:
+                          description: Do not send outside local AS.
+                          type: bool
+                        no_advertise:
+                          description: Do not advertise to any peer.
+                          type: bool
+                        no_export:
+                          description: Do not export to next AS.
+                          type: bool
+                    none:
+                      description: No community attribute.
+                      type: bool
+                distance:
+                  description: Set protocol independent distance.
+                  type: int
+                evpn:
+                  description: Keep the next hop when advertising to eBGP peers.
+                  type: bool
+                extcommunity:
+                  description: BGP extended community attribute.
+                  type: dict
+                  suboptions:
+                    lbw:
+                      description: Link bandwith values.
                       type: dict
                       suboptions:
                         value:
-                          description: IGP metric value.
-                          type: int
-                        max_metric:
-                          description: Set IGP max metric value.
+                          description: Link Bandwidth extended community value.
+                          type: str
+                        aggregate:
+                          description: Aggregate Link Bandwidth.
                           type: bool
-                    origin:
-                      description: Set bgp origin.
+                        divide:
+                          description: Divide Link Bandwidth.
+                          type: str
+                          choices: ["equal", "ration"]
+                    none:
+                      description: No attribute.
+                      type: bool
+                    rt:
+                      description: Route target extended community
+                      type: dict
+                      suboptions: &params01
+                        vpn:
+                          description: VPN extended community.
+                          type: str
+                        additive:
+                          description: Add to the existing community.
+                          type: bool
+                        delete:
+                          description: Delete matching communities.
+                          type: bool
+                    soo:
+                      description: Site-of-Origin extended community.
+                      type: dict
+                      suboptions: *params01
+                ip:
+                  description: Set IP specific information.
+                  type: dict
+                  suboptions: &params02
+                    address:
+                      description: next hop address.
                       type: str
-                      choices: ["ebgp", "ibgp", "incomplete"]
-                    segment_index:
-                      description: MPLS Segment-routing Segment Index.
-                      type: int
-                    tag:
-                      description: Route tag
-                      type: int
-                    weight:
-                      description: BGP weight.
-                      type: int
-                match:
-                  description: Route map match rules.
+                    unchanged:
+                      description: Keep the next hop when advertising to eBGP peer
+                      type: bool
+                    peer_address:
+                      description: Use BGP peering addr as next-hop.
+                      type: bool
+                ipv6:
+                  description: Set IPv6 specific information.
+                  type: dict
+                  suboptions: *params02
+                isis_level:
+                  description: IS-IS level.
+                  type: str
+                local_preference:
+                  description: BGP local preference.
+                  type: int
+                metric:
+                  description: Route metric.
                   type: dict
                   suboptions:
-                    aggregate_role: &params04
-                      description: Role in BGP contributor-aggregate relation.
-                      type: dict
-                      suboptions:
-                        contributor:
-                          description: BGP aggregate's contributor.
-                          type: bool
-                        route_map:
-                          description: Route map to apply against the aggregate route.
-                          type: str
-                    as:
-                      description: BGP AS number.
-                      type: int
-                    as_path: &params05
-                      description: Set as-path.
-                      type: dict
-                      suboptions:
-                        path_list:
-                          description: AS path list name.
-                          type: str
-                        length:
-                          description: Specify as-path length ( with comparison operators like <= 60 and >= 40 ).
-                          type: str
-                    community: &params06
-                      description: BGP community attribute.
-                      type: dict
-                      suboptions:
-                        community_list:
-                          description: list of community names (in csv format).
-                          type: str
-                        exact_match:
-                          description:  Do exact matching of communities.
-                          type: bool
-                        instances:
-                          description: Match number of community instances ( with comparison operators like <= 60 and >= 40 ).
-                          type: str
-                    extcommunity: &params07
-                      description: extended community list name.
-                      type: dict
-                      suboptions:
-                        community_list:
-                          description: list of community names (in csv format).
-                          type: str
-                        exact_match:
-                          description: Do exact matching of communities.
-                          type: bool
-                    interface:
-                      description: interface name.
+                    igp_param:
+                      description: IGP parameter
                       type: str
-                    invert_result:
-                      description: Invert match result.
-                      type: dict
-                      suboptions:
-                        aggregate_role: *params04
-                        as_path: *params05
-                        community: *params06
-                        extcommunity: *params07
-                        large_community: *params07
-                    ip:
-                      description: Set IP specific information.
-                      type: dict
-                      suboptions: &params08
-                        address:
-                          description: next hop destination.
-                          type: dict
-                          suboptions:
-                            access_list:
-                              description: ip access-list.
-                              type: str
-                            dynamic:
-                              description: Configure dynamic prefix-list.
-                              type: str
-                            prefix_list:
-                              description: Prefix list.
-                              type: str
-                        next_hop:
-                          description: next hop prefix list.
-                          type: str
-                        resolved_next_hop:
-                          description: Route resolved prefix list.
-                          type: str
-                    ipv6:
-                      description: Set IPv6 specific information.
-                      type: dict
-                      suboptions: *params08
+                      choices: ['igp-metric', 'igp-nexthop-cost']
+                    add:
+                      description: Add igp-metric / igp-nexthop-cost
+                      type: str
+                      choices: ['igp-metric', 'igp-nexthop-cost']
+                    value:
+                      description: metric value to add or subtract(with +/- sign).
+                      type: str
+                metric_type:
+                  description: Route metric type.
+                  type: str
+                  choices: ["type-1", "type-2"]
+                nexthop:
+                  description: Route next hop.
+                  type: dict
+                  suboptions:
+                    value:
+                      description: IGP metric value.
+                      type: int
+                    max_metric:
+                      description: Set IGP max metric value.
+                      type: bool
+                origin:
+                  description: Set bgp origin.
+                  type: str
+                  choices: ["ebgp", "ibgp", "incomplete"]
+                segment_index:
+                  description: MPLS Segment-routing Segment Index.
+                  type: int
+                tag:
+                  description: Route tag
+                  type: int
+                weight:
+                  description: BGP weight.
+                  type: int
+            match:
+              description: Route map match rules.
+              type: dict
+              suboptions:
+                aggregate_role: &params04
+                  description: Role in BGP contributor-aggregate relation.
+                  type: dict
+                  suboptions:
+                    contributor:
+                      description: BGP aggregate's contributor.
+                      type: bool
+                    route_map:
+                      description: Route map to apply against the aggregate route.
+                      type: str
+                as:
+                  description: BGP AS number.
+                  type: int
+                as_path: &params05
+                  description: Set as-path.
+                  type: dict
+                  suboptions:
+                    path_list:
+                      description: AS path list name.
+                      type: str
+                    length:
+                      description: Specify as-path length ( with comparison operators like <= 60 and >= 40 ).
+                      type: str
+                community: &params06
+                  description: BGP community attribute.
+                  type: dict
+                  suboptions:
+                    community_list:
+                      description: list of community names (in csv format).
+                      type: str
+                    exact_match:
+                      description:  Do exact matching of communities.
+                      type: bool
+                    instances:
+                      description: Match number of community instances ( with comparison operators like <= 60 and >= 40 ).
+                      type: str
+                extcommunity: &params07
+                  description: extended community list name.
+                  type: dict
+                  suboptions:
+                    community_list:
+                      description: list of community names (in csv format).
+                      type: str
+                    exact_match:
+                      description: Do exact matching of communities.
+                      type: bool
+                interface:
+                  description: interface name.
+                  type: str
+                invert_result:
+                  description: Invert match result.
+                  type: dict
+                  suboptions:
+                    aggregate_role: *params04
+                    as_path: *params05
+                    community: *params06
+                    extcommunity: *params07
                     large_community: *params07
-                    isis_level:
-                      description: IS-IS level.
+                ip:
+                  description: Set IP specific information.
+                  type: dict
+                  suboptions: &params08
+                    address:
+                      description: next hop destination.
+                      type: dict
+                      suboptions:
+                        access_list:
+                          description: ip access-list.
+                          type: str
+                        dynamic:
+                          description: Configure dynamic prefix-list.
+                          type: bool
+                        prefix_list:
+                          description: Prefix list.
+                          type: str
+                    next_hop:
+                      description: next hop prefix list.
                       type: str
-                    local_preference:
-                      description: BGP local preference.
-                      type: int
-                    metric:
-                      description: Route metric.
-                      type: int
-                    ospf_metric_type:
-                      description: Route metric type.
+                    resolved_next_hop:
+                      description: Route resolved prefix list.
                       type: str
-                      choices: ["type-1", "type-2"]
-                    route_type:
-                      description: Route type
-                      type: str
-                    router_id:
-                      description: Router ID.
-                      type: str
-                    source_protocol:
-                      description: Source routing protocol,
-                      type: str
-                    tag:
-                      description: Route tag
-                      type: int
+                ipv6:
+                  description: Set IPv6 specific information.
+                  type: dict
+                  suboptions: *params08
+                large_community: *params07
+                isis_level:
+                  description: IS-IS level.
+                  type: str
+                local_preference:
+                  description: BGP local preference.
+                  type: int
+                metric:
+                  description: Route metric.
+                  type: int
+                metric_type:
+                  description: Route metric type.
+                  type: str
+                  choices: ["type-1", "type-2"]
+                route_type:
+                  description: Route type
+                  type: str
+                router_id:
+                  description: Router ID.
+                  type: str
+                source_protocol:
+                  description: Source routing protocol,
+                  type: str
+                tag:
+                  description: Route tag
+                  type: int
     running_config:
       description:
       - This option is used only with state I(parsed).
