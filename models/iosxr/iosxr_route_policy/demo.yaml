@@ -1,3 +1,4 @@
+ ##############if statement model #################
  if_statements:
   type: list
   elements: dict
@@ -40,7 +41,7 @@
                 description: it represent nested if number. index is starts from 0.
               statements: *statements
 
-
+###############running-conf###############
 route-policy test2
   if aigp-metric eq 2 then
     apply test1
@@ -59,7 +60,7 @@ route-policy test2
   done
 end-policy
 
-
+###############user input##############
 if_statements:
   condition: aigp-metric eq 2 then
   nested_ifs_statements:
