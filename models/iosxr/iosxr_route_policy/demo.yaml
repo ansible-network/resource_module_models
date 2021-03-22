@@ -61,23 +61,22 @@ end-policy
 
 
 if_statements:
-	condition: aigp-metric eq 2 then
-	nested_ifs_statements:
-		- if_statement:
-            index: 1  #1st nested if loop
-		    condition: mldp root 1.1.1.1
-            Statements:
-			  - set community (123:456) additive
-              - done
-		- if_statement:
-            index: 2 #2nd nested if loop
-		    condition:   mldp root 1.1.1.2
-            statements:
-              - done
-		- if_statement:
-            index: 3 #3rd nested if loop
-		    condition:   mac in test
-            statements:
-              - done
+  condition: aigp-metric eq 2 then
+  nested_ifs_statements:
+	- if_statement:
+        index: 1  #1st nested if loop
+        condition: mldp root 1.1.1.1
+        statements:
+		  - set community (123:456) additive
+          - done
+	- if_statement:
+        index: 2 #2nd nested if loop
+        condition:   mldp root 1.1.1.2
+        statements:
+          - done
+	- if_statement:
+        index: 3 #3rd nested if loop
+        condition:   mac in test
+        statements:
+          - done
 
-            
