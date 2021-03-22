@@ -1,0 +1,83 @@
+ if_statements:
+  type: list
+  elements: dict
+  description: Begin if-statement.
+  suboptions:
+    condition: &condition
+      type: str
+    statements: &statements
+      type: list
+      elements: str
+    nested_ifs_statements:
+      type: list
+      elements: dict
+      description: nested if statements
+      suboptions:
+      if_statemnt:
+        elements: dict
+        description: if defination.
+          suboptions:
+            condition: *condition
+            statements: *statements
+            index:
+              type: int
+              description: it represent nested if number. index is starts from 1
+        if_else_statement:
+          elements: dict
+          description: if else defination
+          suboptions:
+            condition: *condition
+            statements: *statements
+            index:
+              type: int
+              description: it represent nested if number. index is starts from 0
+        else:
+          elements: dict
+            description: nested if statements
+            suboptions:
+              index:
+                type: int
+                description: it represent nested if number. index is starts from 0.
+              statements: *statements
+
+
+route-policy test2
+  if aigp-metric eq 2 then
+    apply test1
+    if mldp root 1.1.1.1 then
+      set community (123:456) additive
+      if mldp root 1.1.1.2 then
+        if mac in test then
+          done
+        endif
+        done
+      endif
+      done
+    endif
+    done
+  endif
+  done
+end-policy
+
+
+if_statements:
+	condition: aigp-metric eq 2 then
+	nested_ifs_statements:
+		- if_statement:
+            index: 1  #1st nested if loop
+		    condition: mldp root 1.1.1.1
+            Statements:
+			  - set community (123:456) additive
+              - done
+		- if_statement:
+            index: 2 #2nd nested if loop
+		    condition:   mldp root 1.1.1.2
+            statements:
+              - done
+		- if_statement:
+            index: 3 #3rd nested if loop
+		    condition:   mac in test
+            statements:
+              - done
+
+            

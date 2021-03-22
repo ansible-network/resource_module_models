@@ -1,0 +1,520 @@
+module: iosxr_route_policy
+short_description: Manages Route policy resource module
+description: This module configures and manages the attributes of Route policy on Cisco
+  IOSXR platforms.
+version_added: 2.0.0
+author: Ashwini Mhatre (@amhatre)
+notes:
+- Tested against Cisco IOS-XR 6.1.3.
+- This module works with connection C(network_cli).
+options:
+    config:
+      description: A list of route-policy options
+      type: dict
+      suboptions:
+        route_policys:
+          description:
+          - Route Policy statements.
+          type: list
+          elements: dict
+          suboptions:
+            route_policy_name:
+              description: Route map name.
+              type: str
+            add: &add
+              description: Add RIP/EIGRP metric attribute
+              type: list
+              elements: dict
+              suboptions:
+                metric_type:
+                  type: str
+                  choices: ['rip-metric', 'eigrp-metric']
+                bandwidth:
+                  type: int
+                  description: Bandwidth in Kbits per second  <0-4294967295>.
+                delay:
+                  type: int
+                  description: Delay metric in 10 microsecond units <0-4294967295>.
+                reliability:
+                  type: int
+                  description: Reliability metric where 255 is 100% reliable<0-255>.
+                effective_bandwidth:
+                  type: int
+                  description: Effective bandwidth metric (Loading) where 255 is 100% loaded.
+                mtu:
+                  type: int
+                  description: Maximum Transmission Unit metric of the path<0-65535>.
+                rip_metric:
+                  type: int
+                  description: applicable only for rip-metric.decimal number<0-16>.
+            apply:
+              type: str
+              description: Apply a route policy.
+            delete_community_all:
+              type: bool
+              description: Delete all but the well-known BGP communities
+            delete_community_in:
+              type: str
+              description: Community set name.
+            delete_community_not_in:
+              type: str
+              description: Community set name.
+            done:
+              type: bool
+              description: Accept this route with no further processing.
+            drop:
+              type: bool
+              description: Reject this route with no further processing.
+            prepend_as_path_most_recent:
+              type: int
+              description: Prepend to BGP AS-path. number of times to prepend<1-63>.
+            remove_as_path_private_as_entire_aspath:
+              type: bool
+              description: Remove all private-as entries.
+            replace_as_path_private_as:
+              type: bool
+              description: Replace a sequence of AS numbers with local AS.
+            set:
+              type: dict
+              description: Set a route attribute.
+              suboptions:
+                administrative_distance:
+                  type: int
+                  description: Administrative Distance of the prefix <1-255>.
+                aigp_metric_igp_cost:
+                  type: bool
+                  description: AIGP metric attribute.
+                attribute_set:
+                  description: TE attribute-set name
+                  type: dict
+                  suboptions:
+                    name_string:
+                      type: str
+                      description: Name string.
+                    32_bit_decimal_number:
+                      type: int
+                      description: 32-bit decimal number <0-4294967295>.
+                c_multicast_routing_bgp:
+                  type: bool
+                  description: BGP customer-multicast routing.
+                c_multicast_routing_pim:
+                  type: bool
+                  description: PIM customer-multicast routing
+                community:
+                  type: str
+                  description: Community set name
+                core_tree_ingress_replication:
+                  type: bool
+                  description: Ingress Replication core segment
+                core_tree_ingress_replication_default:
+                  type: bool
+                  description: Ingress Replication Default MDT core.
+                core_tree_ingress_replication_partitioned:
+                  type: bool
+                  description: Ingress Replication Partitioned MDT core.
+                core_tree_mldp:
+                  type: bool
+                  description: MLDP core segment.
+                core_tree_mldp_default:
+                  type: bool
+                  description: MLDP Default MDT core.
+                core_tree_mldp_inband:
+                  type: bool
+                  description: MLDP Inband core.
+                core_tree_mldp_partitioned_mp2mp:
+                  type: bool
+                  description: MLDP Partitioned MP2MP MDT core.
+                core_tree_mldp_partitioned_p2mp:
+                  type: bool
+                  description: MLDP Partitioned P2MP MDT core.
+                core_tree_p2mp_te:
+                  type: bool
+                  description: P2MP TE core segment.
+                core_tree_p2mp_te_default:
+                  type: bool
+                  description: P2MP TE Default MDT core.
+                core_tree_p2mp_te_partitioned:
+                  type: bool
+                  description: P2MP TE Partitioned MDT core.
+                core_tree_pim_default:
+                  type: bool
+                  description: PIM Default MDT core.
+                dampening:
+                  type: dict
+                  description:  BGP route flap dampening parameters.
+                  suboptions:
+                    halflife:
+                      type: int
+                      description: Half-life time for penalty, default 15. Example <1-45>.
+                    max_suppress:
+                      type: int
+                      description: Maximum dampening penalty. Example <1-255>.Maximum dampening penalty time, default 60
+                    suppress:
+                      type: int
+                      description: Dampening penalty to start suppressing a route.Suppress penalty threshold, default 2000.
+                    reuse:
+                      type: int
+                      description: Penalty before reusing suppressed route.
+                    others_default:
+                      type: bool
+                      description: Apply to all unspecified parameters.
+                downstream_core_tree_ingress_replication:
+                  type: bool
+                  description: Ingress Replication core segment.
+                downstream_core_tree_mldp:
+                  type: bool
+                  description: MLDP core segment.
+                downstream_core_tree_p2mp_te:
+                  type: bool
+                  description: P2MP TE core segment.
+                downstream_core_tree_sr_p2mp:
+                  type: bool
+                  description: Segment-Routing P2MP core.
+                eigp_metric:
+                  description: Set EIGRP metric attribute
+                  type: dict
+                  suboptions:
+                    bandwidth:
+                      type: int
+                      description: Bandwidth in Kbits per second  <0-4294967295>.
+                    delay:
+                      type: int
+                      description: Delay metric in 10 microsecond units <0-4294967295>.
+                    reliability:
+                      type: int
+                      description: Reliability metric where 255 is 100% reliable<0-255>.
+                    effective_bandwidth:
+                      type: int
+                      description: Effective bandwidth metric (Loading) where 255 is 100% loaded.
+                    mtu:
+                      type: int
+                      description: Maximum Transmission Unit metric of the path<0-65535>.
+                    rip_metric:
+                      type: int
+                      description: applicable only for rip-metric.decimal number<0-16>.
+                extcommunity:
+                  description: BGP extended community attribute
+                  type: dict
+                  suboptions:
+                    bandwidth:
+                      type: dict
+                      description: BGP Link-bandwidth type extended community.
+                      suboptions:
+                        name:
+                          type: str
+                          description: Bandwidth community type extcommunity set name.
+                         additive: &additive
+                          type: bool
+                          description: Add to the existing community.
+                    color:
+                      type: dict
+                      description: BGP Color extended community.
+                      suboptions:
+                        name:
+                          type: str
+                          description: Opaque type extcommunity set name.
+                          additive: *additive
+                    cost:
+                      type: dict
+                      description: Cost Community type extended community.
+                      suboptions:
+                        name:
+                          type: str
+                          description: Cost community type extcommunity set name.
+                          additive: *additive
+                    redirect_to_rt:
+                      type: list
+                      description: BGP Redirect RT extended community.
+                      elements: str
+                    rt:
+                      type: list
+                      description: BGP Route Target (RT) extended community.
+                      elements: str
+                    seg_nh:
+                      type: list
+                      description: P2MP Segmented Nexthop extended community.
+                      elements: str
+                    soo:
+                      type: list
+                      description: BGP Site of Origin (SoO) extended community.
+                      elements: str
+                fallback_vrf_lookup:
+                  type: bool
+                  description: fallback vrf look-up.
+                flow_tag:
+                  type: int
+                  description: flow tag value for PBR BGP flow-tag.<1-63>
+                forward_class:
+                  type: int
+                  description: Forward class (default value 0).<1-7>.
+                ip_precedence:
+                  type: int
+                  description: 3 bit decimal number starting from 1 <1-7>
+                isis_metric:
+                  type: int
+                  description: IS-IS metric attribute.
+                label:
+                  type: dict
+                  description: Set BGP label value.
+                  suboptions:
+                    value:
+                      type: int
+                      description: 20 bit decimal number <0-1048575>
+                    explicit_null:
+                      type: bool
+                      description: Set label to explicit-null
+                    implicit_null:
+                      type: bool
+                      description: Set label to implicit-null.
+                label_index:
+                  type: int
+                  description: Set Segment Routing label-index value.
+                label_mode:
+                  type: dict
+                  description: Set BGP label-mode value.
+                  suboptions:
+                    per_ce:
+                      type: bool
+                      description: Set the label mode to per-ce.
+                    per_prefix:
+                      type: bool
+                      description: Set the label mode to per-prefix.
+                    per_vrf:
+                      type: bool
+                      description: Set the label mode to per-vrf.
+                large_community:
+                  type: list
+                  description: BGP large community attribute.
+                  elements: str
+                level:
+                  type: list
+                  elements: dict
+                  description:  Where to import route.
+                  suboptions:
+                    level_type:
+                      type: str
+                      choices: ['level-1', 'level-1-2', 'level-2']
+                load_balance_ecmp_consistent:
+                  type: bool
+                  description: Load-balance for ECMP.
+                local_preference:
+                  type: list
+                  elements: str
+                  description: BGP local-preference attribute.
+                lsm_root:
+                  typr: list
+                  elements: str
+                  description: Label Switched Multicast Root address.
+                med:
+                  type: dict
+                  description: BGP Multi-Exit-Discriminator attribute
+                  suboptions:
+                    increment:
+                      type: int
+                      description: Increment the attribute with specified value<0-4294967295>
+                    decrement:
+                      type: int
+                      description: Decrement the attribute by specified value
+                    value:
+                      type: int
+                      description: 32-bit decimal number.
+                    igp_cost:
+                      type: bool
+                      description: Internal routing protocol cost.
+                    max_reachable:
+                      type: bool
+                      description: 2^32 - 1 (4294967295)
+                metric_type:
+                  type: list
+                  description: Type of metric for destination routing protocol.
+                  elements: dict
+                  suboptions:
+                    metric_type: str
+                    choices: ['external', 'internal', 'rib-metric-as-external', 'rib-metric-as-internal', 'type-1', 'type-2']
+                mpls_traffic_eng_attributeset:
+                  type: str
+                  description: MPLS
+                nexthop_discard:
+                  type: bool
+                  description: sets next-hop to discard traffic.
+                nexthop_ipv6_global:
+                  type: bool
+                  description: Set next-hop as global IPv6 address.
+                nexthop_peer_address:
+                  type: bool
+                  description: Address of the neighbor where this policy is attached.
+                nexthop_self:
+                  type: bool
+                  description: Sets self as next-hop
+                nexthop_unchanged:
+                  type: bool
+                  description: Sets next-hop unchanged
+                nexthop_ipv4:
+                  type: list
+                  elements: str
+                  description: Specify an IPv4 address / Specify an IPv4 ACL.
+                nexthop_ipv6:
+                  type: list
+                  elements: str
+                  description: Specify an IPv6 address / Specify an IPv6 ACL.
+                origin:
+                  type: list
+                  elements: dict
+                  description: BGP origin code.
+                  suboptions:
+                    origin_type:
+                      type: str
+                      description: remote igp,local egp,Unknown heritage
+                      choices: ['igp', 'egp', 'incomplete']
+                ospf_metric:
+                  type: int
+                  description: OSPF metric attribute.
+                path_color_external_reach:
+                  type: bool
+                  description: BGP external-reach value for RIB.
+                path-selection_all_advertise:
+                  type: bool
+                  description: BGP all paths
+                path_selection_backup_advertise:
+                  type: bool
+                  description:  Advertise the path.
+                path_selection_backup_install:
+                  type: bool
+                  description: Install the path.
+                path_selection_best_path:
+                  type: bool
+                  description: BGP best path.
+                path_selection_group_best_advertise:
+                  type: bool
+                  description: advertise BGP group best path.
+                path_selection_multipath_advertise:
+                  type: bool
+                  description: BGP multipath.
+                qos_group:
+                  type: int
+                  description: QoS Group to classify packets.
+                rib_metric:
+                  type: int
+                  description: RIB metric for table-policy.
+                rip_metric:
+                  type: int
+                  description: RIP metric for table-policY.
+                rip_tag:
+                  type: int
+                  description: RIP Route tag attribute.
+                rt_set_route_limit:
+                  type: int
+                  description:  Limit on routes with paths with an RT-set.
+                s_pmsi_star_g:
+                  type: bool
+                  description: S-PMSI Advertisement type
+                static_p2mp_te:
+                  type: str
+                  description: Static P2MP-TE tunnel.
+                tag:
+                  type: int
+                  description: Route tag attribute.
+                traffic_index:
+                  type: int
+                  description: Traffic-index for BGP policy accountin
+                traffic_index_ignore:
+                  type: bool
+                  description: Remove any traffic-index setting.
+                upstream_core_tree:
+                  type: dict
+                  suboptions:
+                  description: BGP Leaf AD core tree type.
+                    mldp:
+                      typr: bool
+                      description: MLDP core segment
+                    p2mp_te:
+                      type: bool
+                      description:  P2MP TE core segment.
+                    ingress_replication:
+                      type: bool
+                      description: Ingress Replication core segment.
+                    sr_p2mp:
+                      type: bool
+                      description: Segment-Routing P2MP core.
+                vpn_distinguisher:
+                  type: int
+                  description: BGP VPN distinguisher (VD) attribute
+                weight:
+                  type: int
+                  description: Weight attribute for route selection.
+                rpf_topology_ipv4_multicast_topology:
+                  type: str
+                  description: Subsequent address family identifier - Multicast.
+                rpf_topology_ipv6_multicast_topology:
+                  type: str
+                  description: Subsequent address family identifier - Multicast.
+                rpf_topology_ipv4_unicast_topology:
+                  type: str
+                  description: Subsequent address family identifier - Unicast.
+                rpf_topology_ipv6_unicast_topology:
+                  type: str
+                  description: Subsequent address family identifier - Unicast.
+                rpf_topology_vrf:
+                  type: str
+                  description: Specify virtual routing and forwarding (VRF).
+            if_statements:
+              type: list
+              elements: dict
+              description: Begin if-statement.
+              suboptions:
+                condition: &condition
+                  type: str
+                statements: &statements
+                  type: list
+                  elements: str
+                nested_ifs_statements:
+                  type: list
+                  elements: dict
+                  description: nested if statements
+                  suboptions:
+                    if_statemnt:
+                      type: dict
+                      description: if statement defination
+                      suboptions:
+                        condition: *condition
+                        statements: *statements
+                        index: &index
+                          type: int
+                          description: it represent nested if number
+                    if_else_statement:
+                      type: dict
+                      description: if else statement defination
+                      suboptions:
+                        condition: *condition
+                        statements: *statements
+                        index: *index
+                    else:
+                      type: dict
+                      description: if else statement defination
+                        suboptions:
+                          index: *index
+                          statements: *statements
+    running_config:
+      description:
+      type: str
+    state:
+      description:
+      - The state the configuration should be left in.
+      type: str
+      choices:
+      - deleted
+      - merged
+      - overridden
+      - replaced
+      - gathered
+      - rendered
+      - parsed
+      default: merged
+EXAMPLES:
+- merged_example_01.txt
+- replaced_example_01.txt
+- overridden_example_01.txt
+- deleted_example_01.txt
+- gathered_example_01.txt
+- parsed_example_01.txt
+- rendered_example_01.txt
