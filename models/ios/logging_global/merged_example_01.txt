@@ -1,0 +1,64 @@
+# Using merged
+
+# Before state:
+# -------------
+#
+# an-ios-02#show running-config | include logging
+# no logging buffered
+# logging trap notifications
+# logging host 10.74.10.239
+# logging host 172.16.0.2
+# logging host 172.16.0.4
+
+- name: Merge provided logging configuration with existing device configuration
+  cisco.ios.ios_logging_global:
+    config:
+      - name: 10.0.2.15
+        dest: host
+      - name: 10.0.2.16
+        dest: host
+    operation: merged
+
+# After state:
+# -------------
+#
+# an-ios-02#show running-config | include logging
+# no logging buffered
+# logging trap notifications
+# logging host 10.74.10.239
+# logging host 172.16.0.2
+# logging host 172.16.0.4
+# logging host 172.16.2.15
+# logging host 172.16.2.16
+
+
+# Before state:
+# -------------
+#
+# an-ios-02#show running-config | include logging
+# no logging buffered
+# logging trap notifications
+# logging host 10.74.10.239
+# logging host 172.16.0.2
+# logging host 172.16.0.4
+# logging host 172.16.2.15
+# logging host 172.16.2.16
+
+- name: Merge provided logging configuration with existing device configuration
+  cisco.ios.ios_logging_global:
+    config:
+      - facility: local6
+    operation: merged
+
+# After state:
+# -------------
+#
+# an-ios-02#show running-config | include logging
+# no logging buffered
+# logging trap notifications
+# logging host 10.74.10.239
+# logging host 172.16.0.2
+# logging host 172.16.0.4
+# logging host 172.16.2.15
+# logging host 172.16.2.16
+# logging facility local6
