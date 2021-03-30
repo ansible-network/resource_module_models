@@ -14,30 +14,25 @@ options:
         - The hostname or IP address of the destination.
         - Required when dest=host.
         type: str
-        required: False
       size:
         description:
         - Size of buffer. The acceptable value is in range from 4096 to 4294967295 bytes.
         type: int
-        required: False
       dest:
         description:
         - Destination of the logs.
         - On dest has to be quoted as 'on' or else pyyaml will convert to True before it gets to Ansible.
         type: str
-        required: True
         choices: ['on', 'host', 'console', 'monitor', 'buffered', 'trap']
       level:
         description:
         - Set logging severity levels.
         type: str
-        required: False
         choices: ['emergencies', 'alerts', 'critical', 'errors', 'warnings', 'notifications', 'informational', 'debugging']
       facility:
         description:
         - Set logging facility.
         type: str
-        required: False
   state:
     choices:
     - merged
