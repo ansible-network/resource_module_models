@@ -11,25 +11,26 @@ notes:
 options:
   config:
     description: A list of configurations for Route maps.
-    type: dict
+    type: list
+    elements: dict
     suboptions:
-      route_maps:
-        description: A list of configurations for Route maps.
+      route_map:
+        description: Route map tag/name
+        type: str
+      entries:
+        description: A list of configurations entries for Route maps.
         type: list
         elements: dict
         suboptions:
-          name:
-            description: Route map tag
-            type: str
-          operation:
-            description: Route map set operations
-            type: str
-            choices: ['deny', 'permit']
           sequence:
             description:
               - Sequence to insert to/delete from existing route-map entry
               - Please refer vendor documentation for valid values
             type: int
+          action:
+            description: Route map set operations
+            type: str
+            choices: ['deny', 'permit']
           continue:
             description: Continue on a different entry within the route-map
             type: dict
