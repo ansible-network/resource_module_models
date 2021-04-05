@@ -163,8 +163,19 @@ options:
         type: str
         choices: ["auth","cron","daemon","kern","local0","local1","local2","local3","local4","local5","local6","local7","lpr","mail","news","sys10","sys11","sys12","sys13","sys14","sys9","syslog","user","uucp"]
 
-      filter: #12 #TODO          
+      filter: #12         
         description: Specify logging filter
+        type: dict
+        suboptions:
+          url: 
+            description: Filter Uniform Resource Locator
+            type: str
+          order: 
+            description: Order of filter execution
+            type: int
+          args:
+            description: Arguments passed to filter module.
+            type: str
 
       history: #13            
         description: Configure syslog history table
@@ -878,108 +889,201 @@ options:
         type: dict
         suboptions:
           Async:              
-            type: 
+            type: int
             description: Async interface
           Auto-Template:      
-            type: 
             description: Auto-Template interface
+            type: dict
+            suboptions:
+              number:
+                description: Auto-Template interface number
+                type: int
+              vrf:
+                description: VPN Routing/Forwarding instance name
+                type: str
           BDI:                
-            type: 
             description: Bridge-Domain interface
+            type: dict
+            suboptions:
+              number:
+                description: BDI interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
           BVI:                
-            type: 
+            type: int
             description: Bridge-Group Virtual Interface
           CDMA-Ix:            
-            type: 
+            type: int
             description: CDMA Ix interface
           CTunnel:            
-            type: 
             description: CTunnel interface
+            type: dict
+            suboptions:
+              number:
+                description: CTunnel interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
           Dialer:             
-            type: 
             description: Dialer interface
+            type: dict
+            suboptions:
+              number:
+                description: Dialer interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
           GMPLS:              
-            type: 
             description: MPLS interface
+            type: dict
+            suboptions:
+              number:
+                description: GMPLS interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
           GigabitEthernet:    
-            type: 
+            type: int
             description: GigabitEthernet IEEE 802.3z
           LISP:               
-            type: 
             description: Locator/ID Separation Protocol Virtual Interface
+            type: dict
+            suboptions:
+              number:
+                description: LISP interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
           LongReachEthernet:  
-            type: 
+            type: int
             description: Long-Reach Ethernet interface
           Loopback:           
-            type: 
             description: Loopback interface
+            type: dict
+            suboptions:
+              number:
+                description: Loopback interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
           Lspvif:             
-            type: 
+            type: int 
             description: LSP virtual interface
           MFR:                
-            type: 
             description: Multilink Frame Relay bundle interface
+            type: dict
+            suboptions:
+              number:
+                description: MFR interface number
+                type: int
+              vrf:
+                description: VPN Routing/Forwarding instance name
+                type: str
           Multilink:          
-            type: 
             description: Multilink-group interface
+            type: dict
+            suboptions:
+              number:
+                description: Multilink interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
           Null:               
-            type: 
             description: Null interface
+            type: dict
+            suboptions:
+              number:
+                description: Null interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
           Tunnel:             
-            type: 
             description: Tunnel interface
-          Vif:                
-            type: 
+            type: dict
+            suboptions:
+              number:
+                description: Tunnel interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
+          Vif:    #do             
             description: PGM Multicast Host interface
+            type: dict
+            suboptions:
+              number:
+                description: Vif interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
           Virtual-PPP:        
-            type: 
             description: Virtual PPP interface
+            type: dict
+            suboptions:
+              number:
+                description: Virtual-PPP interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
           Virtual-Template:   
-            type: 
             description: Virtual Template interface
+            type: dict
+            suboptions:
+              number:
+                description: Virtual-Template interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
           Virtual-TokenRing:  
-            type: 
             description: Virtual TokenRing
+            type: dict
+            suboptions:
+              number:
+                description: Virtual-TokenRing interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
           vmi:                
-            type: 
             description: Virtual Multipoint Interface
-
-
-
+            type: dict
+            suboptions:
+              number:
+                description: Vmi interface number
+                type: int
+              vrf:
+                description:  Specify the vrf of source interface for logging transactions
+                type: str
 
       trap:       #27             
         description: Set syslog server logging level
+        type: dict
+        suboptions:
+          level:           
+            description: Logging severity level (0-7)
+            type: int
+            choices: [0,1,2,3,4,5,6,7]
+          severity:
+            description: Logging severity level
+            type: str
+            choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
+
       userinfo:    #28            
         description: Enable logging of user info on privileged mode enabling
+        type: bool
 
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
   state:
     choices:
     - merged
