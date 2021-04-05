@@ -9,11 +9,9 @@ options:
     type: list
     elements: dict
     suboptions:
-
       Hostname: 
         description: IP address of the logging host
         type: str
-
       buffered:         
         description: Set buffered logging parameters
         type: dict
@@ -62,11 +60,9 @@ options:
                 description: Logging severity level
                 type: str
                 choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
-      
       buginf:          
         description: Enable buginf logging for debugging
         type: bool
-
       cns_events:   
         description: Set CNS Event logging level
         type: dict
@@ -82,7 +78,6 @@ options:
             description: Logging severity level
             type: str
             choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
-
       console:         
         description: Set console logging parameters
         type: dict
@@ -122,11 +117,9 @@ options:
                 description: Logging severity level
                 type: str
                 choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
-      
       count:                
         description: Count every log message and timestamp last occurance
         type: bool
-
       delimiter:    
         description: Append delimiter to syslog messages
         type: str
@@ -134,11 +127,9 @@ options:
           tcp:           
             description: Append delimiter to syslog messages over TCP
             type: bool
-
       discriminator:
         description: Create or modify a message discriminator
         type: str
-
       dmvpn:          
         description: DMVPN Configuration
         type: dict
@@ -146,7 +137,6 @@ options:
           rate_limit:           
             description: rate in messages/minute, default is 600 messages/minute (1-10000)
             type: int
-
       esm:        
         description: Set ESM filter restrictions
         type: str
@@ -154,16 +144,13 @@ options:
           config:           
             description: Permit/Deny configuration changes from ESM filters
             type: bool
-
       exception:    
         description: Limit size of exception flush output (4096-2147483647)
         type: int
-
       facility:     
         description: Facility parameter for syslog messages
         type: str
         choices: ["auth","cron","daemon","kern","local0","local1","local2","local3","local4","local5","local6","local7","lpr","mail","news","sys10","sys11","sys12","sys13","sys14","sys9","syslog","user","uucp"]
-
       filter:     
         description: Specify logging filter
         type: dict
@@ -177,7 +164,6 @@ options:
           args:
             description: Arguments passed to filter module.
             type: str
-
       history:
         description: Configure syslog history table
         type: dict
@@ -193,7 +179,6 @@ options:
             description: Logging severity level
             type: str
             choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
-
       host:           
         description: Set syslog server IP address and parameters
         type: dict
@@ -681,7 +666,6 @@ options:
           hostname:
             description: IP address of the syslog server
             type: str
-      
       message_counter:   
         description: Configure log message to include certain counter value 
         type: dict
@@ -695,7 +679,6 @@ options:
           syslog:
             description: counter of current lines of syslog messages sent
             type: str
-
       monitor:        
         description: Set terminal line (monitor) logging parameters
         type: dict
@@ -734,12 +717,10 @@ options:
               severity:
                 description: Logging severity level
                 type: str
-                choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
-      
+                choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]     
       on:               
         description: Enable logging to all enabled destinations
         type: str
-
       origin-id:      
         description: Add origin ID to syslog messages
         type: dict
@@ -751,7 +732,6 @@ options:
           string:
             description: Define a unique text string as ID
             type: str
-
       persistent:
         description: Set persistent logging parameters
         type: list
@@ -781,7 +761,6 @@ options:
           url:        
             type: str 
             description: URL to store logging messages
-
       policy_firewall:   
         description: Firewall configuration
         type: dict
@@ -789,7 +768,6 @@ options:
           rate_limit:
             description: (0-3600) value in seconds, default is 30 Sec.
             type: int
-
       queue_limit:     
         description: Set logger message queue size
         type: dict
@@ -803,7 +781,6 @@ options:
           trap:
             description: (100-2147483647) set new queue size
             type: int
-
       rate_limit:           
         description: Set messages per second limit
         type: dict
@@ -852,7 +829,6 @@ options:
                     description: Logging severity level
                     type: str
                     choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
-
       reload:        
         description: Set reload logging level
         type: dict
@@ -868,11 +844,9 @@ options:
           message_limit:
             description: Number of messages (1-4294967295>)
             type: int
-
       server_arp:        
         description: Enable sending ARP requests for syslog servers when first configured
         type: bool
-
       snmp_trap:   
         description: Set syslog level for sending snmp trap
         type: dict
@@ -885,7 +859,6 @@ options:
             description: Logging severity level
             type: str
             choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
-
       source_interface:
         description: Specify interface for source address in logging transactions
         type: dict
@@ -1068,7 +1041,6 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-
       trap:   
         description: Set syslog server logging level
         type: dict
@@ -1081,11 +1053,9 @@ options:
             description: Logging severity level
             type: str
             choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
-
       userinfo:      
         description: Enable logging of user info on privileged mode enabling
         type: bool
-
   state:
     choices:
     - merged
