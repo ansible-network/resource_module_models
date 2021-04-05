@@ -10,10 +10,11 @@ options:
     elements: dict
     suboptions:
 
-      Hostname: #IDK
+      Hostname: 
         description: IP address of the logging host
+        type: str
 
-      buffered: #1            
+      buffered:         
         description: Set buffered logging parameters
         type: dict
         suboptions:
@@ -62,11 +63,11 @@ options:
                 type: str
                 choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
       
-      buginf: #2 #is choice               
+      buginf:          
         description: Enable buginf logging for debugging
         type: bool
 
-      cns-events: #3     
+      cns_events:   
         description: Set CNS Event logging level
         type: dict
         suboptions:
@@ -82,7 +83,7 @@ options:
             type: str
             choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
 
-      console: #4             
+      console:         
         description: Set console logging parameters
         type: dict
         suboptions:
@@ -122,11 +123,11 @@ options:
                 type: str
                 choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
       
-      count: #5 #is choice                  
+      count:                
         description: Count every log message and timestamp last occurance
         type: bool
 
-      delimiter: #6        
+      delimiter:    
         description: Append delimiter to syslog messages
         type: str
         suboptions:
@@ -134,11 +135,11 @@ options:
             description: Append delimiter to syslog messages over TCP
             type: bool
 
-      discriminator: #7     
+      discriminator:
         description: Create or modify a message discriminator
         type: str
 
-      dmvpn: #8                
+      dmvpn:          
         description: DMVPN Configuration
         type: dict
         suboptions:
@@ -146,7 +147,7 @@ options:
             description: rate in messages/minute, default is 600 messages/minute (1-10000)
             type: int
 
-      esm: #9              
+      esm:        
         description: Set ESM filter restrictions
         type: str
         suboptions:
@@ -154,16 +155,16 @@ options:
             description: Permit/Deny configuration changes from ESM filters
             type: bool
 
-      exception: #10           
+      exception:    
         description: Limit size of exception flush output (4096-2147483647)
         type: int
 
-      facility: #11            
+      facility:     
         description: Facility parameter for syslog messages
         type: str
         choices: ["auth","cron","daemon","kern","local0","local1","local2","local3","local4","local5","local6","local7","lpr","mail","news","sys10","sys11","sys12","sys13","sys14","sys9","syslog","user","uucp"]
 
-      filter: #12         
+      filter:     
         description: Specify logging filter
         type: dict
         suboptions:
@@ -177,7 +178,7 @@ options:
             description: Arguments passed to filter module.
             type: str
 
-      history: #13            
+      history:
         description: Configure syslog history table
         type: dict
         suboptions:
@@ -193,7 +194,7 @@ options:
             type: str
             choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
 
-      host: #14 #do verify                
+      host:           
         description: Set syslog server IP address and parameters
         type: dict
         suboptions:
@@ -208,23 +209,23 @@ options:
                 description: Enable filtered logging
                 type: dict
                 suboptions:
-                  sequence-num-session: 
+                  sequence_num_session: 
                     description: Include session sequence number tag in syslog message
                     type: int
-                  session-id: 
+                  sessio_id: 
                     description: Specify syslog message session ID tagging
                     type: int
                   stream: 
                     description: This server should only receive messages from a numbered stream
                     type: str
-              sequence-num-session:
+              sequence_num_session:
                 description: Include session sequence number tag in syslog message
                 type: dict
                 suboptions:
                   discriminator: 
                     description:  Message discriminator identifier for this logging session
                     type: str
-              session-id:
+              sessio_id:
                 description: Specify syslog message session ID tagging
                 type: dict
                 suboptions:
@@ -235,7 +236,7 @@ options:
                       discriminator: 
                         description:  Message discriminator identifier for this logging session
                         type: str
-                      sequence-num-session: 
+                      sequence_num_session: 
                         description:  Message discriminator identifier for this logging session
                         type: str
                   ipv4: 
@@ -262,7 +263,7 @@ options:
                           discriminator: 
                             description:  Specify a message discriminator identifier for this logging session
                             type: str
-                          sequence-num-session: 
+                          sequence_num_session: 
                             description:  Include session sequence number tag in syslog message
                             type: dict
                             suboptions:
@@ -273,14 +274,14 @@ options:
                             description:  Enable filtered logging
                             type: dict
                             suboptions:
-                              sequence-num-session: 
+                              sequence_num_session: 
                                 description: Include session sequence number tag in syslog message
                                 type: dict
                                 suboptions:
                                   discriminator: 
                                     description:  Specify a message discriminator identifier for this logging session
                                     type: str
-                              session-id: 
+                              session_id: 
                                 description: Specify syslog message session ID tagging
                                 type: dict
                                 suboptions:
@@ -291,7 +292,7 @@ options:
                                       discriminator: 
                                         description:  Message discriminator identifier for this logging session
                                         type: str
-                                      sequence-num-session: 
+                                      sequence_num_session: 
                                         description:  Message discriminator identifier for this logging session
                                         type: dict
                                         suboptions:
@@ -310,7 +311,7 @@ options:
                               stream: 
                                 description: This server should only receive messages from a numbered stream
                                 type: str
-                          session-id: 
+                          sessio_id: 
                             description:  Specify syslog message session ID tagging
                             type: dict
                             suboptions:
@@ -321,7 +322,7 @@ options:
                                   discriminator: 
                                     description:  Message discriminator identifier for this logging session
                                     type: str
-                                  sequence-num-session: 
+                                  sequence_num_session: 
                                     description:  Message discriminator identifier for this logging session
                                     type: dict
                                     suboptions:
@@ -344,14 +345,14 @@ options:
                               discriminator: 
                                 description:  Specify a message discriminator identifier for this logging session
                                 type: str
-                              sequence-num-session: 
+                              sequence_num_session: 
                                 description:  Include session sequence number tag in syslog message
                                 type: dict
                                 suboptions:
                                   discriminator: 
                                     description:  Specify a message discriminator identifier for this logging session
                                     type: str
-                              session-id: 
+                              sessio_id: 
                                 description:  Specify syslog message session ID tagging
                                 type: dict
                                 suboptions:
@@ -362,7 +363,7 @@ options:
                                       discriminator: 
                                         description:  Message discriminator identifier for this logging session
                                         type: str
-                                      sequence-num-session: 
+                                      sequence_num_session: 
                                         description:  Message discriminator identifier for this logging session
                                         type: dict
                                         suboptions:
@@ -384,55 +385,55 @@ options:
                       filtered:
                         description: Enable filtered logging
                         type: dict
-                          suboptions:
-                            sequence-num-session: 
-                              description: Include session sequence number tag in syslog message
-                              type: dict
-                              suboptions:
-                                discriminator: 
-                                  description:  Specify a message discriminator identifier for this logging session
-                                  type: str
-                            session-id: 
-                              description: Specify syslog message session ID tagging
-                              type: dict
-                              suboptions:
-                                hostname: 
-                                  description: Include hostname in session ID tag
-                                  type: dict
-                                  suboptions:
-                                    discriminator: 
-                                      description:  Message discriminator identifier for this logging session
-                                      type: str
-                                    sequence-num-session: 
-                                      description:  Message discriminator identifier for this logging session
-                                      type: dict
-                                      suboptions:
-                                        discriminator: 
-                                          description:  Specify a message discriminator identifier for this logging session
-                                          type: str
-                                ipv4: 
-                                  description: Include logging source IP address in session ID tag
-                                  type: bool
-                                ipv6: 
-                                  description: Include logging source IPV6 address in session ID tag
-                                  type: bool
-                                string: 
-                                  description: Include custom string in session ID tag
-                                  type: str
-                            stream: 
-                              description: This server should only receive messages from a numbered stream
-                              type: str
+                        suboptions:
+                          sequence_num_session: 
+                            description: Include session sequence number tag in syslog message
+                            type: dict
+                            suboptions:
+                              discriminator: 
+                                description:  Specify a message discriminator identifier for this logging session
+                                type: str
+                          sessio_id: 
+                            description: Specify syslog message session ID tagging
+                            type: dict
+                            suboptions:
+                              hostname: 
+                                description: Include hostname in session ID tag
+                                type: dict
+                                suboptions:
+                                  discriminator: 
+                                    description:  Message discriminator identifier for this logging session
+                                    type: str
+                                  sequence_num_session: 
+                                    description:  Message discriminator identifier for this logging session
+                                    type: dict
+                                    suboptions:
+                                      discriminator: 
+                                        description:  Specify a message discriminator identifier for this logging session
+                                        type: str
+                              ipv4: 
+                                description: Include logging source IP address in session ID tag
+                                type: bool
+                              ipv6: 
+                                description: Include logging source IPV6 address in session ID tag
+                                type: bool
+                              string: 
+                                description: Include custom string in session ID tag
+                                type: str
+                          stream: 
+                            description: This server should only receive messages from a numbered stream
+                            type: str
                       port:
                         description: Specify the TCP port number (default=601) (1 - 65535)
                         type: int
-                      sequence-num-session:
+                      sequence_num_session:
                         description:  Message discriminator identifier for this logging session
                         type: dict
                         suboptions:
                           discriminator: 
                             description:  Specify a message discriminator identifier for this logging session
                             type: str
-                      session-id:
+                      sessio_id:
                         description: Specify syslog message session ID tagging
                         type: dict
                         suboptions:
@@ -443,7 +444,7 @@ options:
                               discriminator: 
                                 description:  Message discriminator identifier for this logging session
                                 type: str
-                              sequence-num-session: 
+                              sequence_num_session: 
                                 description:  Message discriminator identifier for this logging session
                                 type: dict
                                 suboptions:
@@ -466,14 +467,14 @@ options:
                           discriminator: 
                             description:  Specify a message discriminator identifier for this logging session
                             type: str
-                          sequence-num-session: 
+                          sequence_num_session: 
                             description:  Include session sequence number tag in syslog message
                             type: dict
                             suboptions:
                               discriminator: 
                                 description:  Specify a message discriminator identifier for this logging session
                                 type: str
-                          session-id: 
+                          sessio_id: 
                             description:  Specify syslog message session ID tagging
                             type: dict
                             suboptions:
@@ -484,7 +485,7 @@ options:
                                   discriminator: 
                                     description:  Message discriminator identifier for this logging session
                                     type: str
-                                  sequence-num-session: 
+                                  sequence_num_session: 
                                     description:  Message discriminator identifier for this logging session
                                     type: dict
                                     suboptions:
@@ -502,7 +503,7 @@ options:
                                 type: str
                   udp: 
                     description: User Datagram Protocol
-                        type: dict
+                    type: dict
                     suboptions:
                       discriminator:
                         type: str
@@ -510,55 +511,55 @@ options:
                       filtered:
                         description: Enable filtered logging
                         type: dict
-                          suboptions:
-                            sequence-num-session: 
-                              description: Include session sequence number tag in syslog message
-                              type: dict
-                              suboptions:
-                                discriminator: 
-                                  description:  Specify a message discriminator identifier for this logging session
-                                  type: str
-                            session-id: 
-                              description: Specify syslog message session ID tagging
-                              type: dict
-                              suboptions:
-                                hostname: 
-                                  description: Include hostname in session ID tag
-                                  type: dict
-                                  suboptions:
-                                    discriminator: 
-                                      description:  Message discriminator identifier for this logging session
-                                      type: str
-                                    sequence-num-session: 
-                                      description:  Message discriminator identifier for this logging session
-                                      type: dict
-                                      suboptions:
-                                        discriminator: 
-                                          description:  Specify a message discriminator identifier for this logging session
-                                          type: str
-                                ipv4: 
-                                  description: Include logging source IP address in session ID tag
-                                  type: bool
-                                ipv6: 
-                                  description: Include logging source IPV6 address in session ID tag
-                                  type: bool
-                                string: 
-                                  description: Include custom string in session ID tag
-                                  type: str
-                            stream: 
-                              description: This server should only receive messages from a numbered stream
-                              type: str
+                        suboptions:
+                          sequence_num_session: 
+                            description: Include session sequence number tag in syslog message
+                            type: dict
+                            suboptions:
+                              discriminator: 
+                                description:  Specify a message discriminator identifier for this logging session
+                                type: str
+                          sessio_id: 
+                            description: Specify syslog message session ID tagging
+                            type: dict
+                            suboptions:
+                              hostname: 
+                                description: Include hostname in session ID tag
+                                type: dict
+                                suboptions:
+                                  discriminator: 
+                                    description:  Message discriminator identifier for this logging session
+                                    type: str
+                                  sequence_num_session: 
+                                    description:  Message discriminator identifier for this logging session
+                                    type: dict
+                                    suboptions:
+                                      discriminator: 
+                                        description:  Specify a message discriminator identifier for this logging session
+                                        type: str
+                              ipv4: 
+                                description: Include logging source IP address in session ID tag
+                                type: bool
+                              ipv6: 
+                                description: Include logging source IPV6 address in session ID tag
+                                type: bool
+                              string: 
+                                description: Include custom string in session ID tag
+                                type: str
+                          stream: 
+                            description: This server should only receive messages from a numbered stream
+                            type: str
                       port:
                         description: Specify the TCP port number (default=514) (1 - 65535)
                         type: int
-                      sequence-num-session:
+                      sequence_num_session:
                         description:  Message discriminator identifier for this logging session
                         type: dict
                         suboptions:
                           discriminator: 
                             description:  Specify a message discriminator identifier for this logging session
                             type: str
-                      session-id:
+                      sessio_id:
                         description: Specify syslog message session ID tagging
                         type: dict
                         suboptions:
@@ -569,7 +570,7 @@ options:
                               discriminator: 
                                 description:  Message discriminator identifier for this logging session
                                 type: str
-                              sequence-num-session: 
+                              sequence_num_session: 
                                 description:  Message discriminator identifier for this logging session
                                 type: dict
                                 suboptions:
@@ -592,14 +593,14 @@ options:
                           discriminator: 
                             description:  Specify a message discriminator identifier for this logging session
                             type: str
-                          sequence-num-session: 
+                          sequence_num_session: 
                             description:  Include session sequence number tag in syslog message
                             type: dict
                             suboptions:
                               discriminator: 
                                 description:  Specify a message discriminator identifier for this logging session
                                 type: str
-                          session-id: 
+                          sessio_id: 
                             description:  Specify syslog message session ID tagging
                             type: dict
                             suboptions:
@@ -610,7 +611,7 @@ options:
                                   discriminator: 
                                     description:  Message discriminator identifier for this logging session
                                     type: str
-                                  sequence-num-session: 
+                                  sequence_num_session: 
                                     description:  Message discriminator identifier for this logging session
                                     type: dict
                                     suboptions:
@@ -628,7 +629,7 @@ options:
                                 type: str
               vrf:
                 description: Set VRF option
-                type:str
+                type: str
               xml:
                 description: Enable logging in XML
                 type: dict
@@ -636,14 +637,14 @@ options:
                   discriminator: 
                     description:  Specify a message discriminator identifier for this logging session
                     type: str
-                  sequence-num-session: 
+                  sequence_num_session: 
                     description:  Include session sequence number tag in syslog message
                     type: dict
                     suboptions:
                       discriminator: 
                         description:  Specify a message discriminator identifier for this logging session
                         type: str
-                  session-id: 
+                  sessio_id: 
                     description:  Specify syslog message session ID tagging
                     type: dict
                     suboptions:
@@ -654,7 +655,7 @@ options:
                           discriminator: 
                             description:  Message discriminator identifier for this logging session
                             type: str
-                          sequence-num-session: 
+                          sequence_num_session: 
                             description:  Message discriminator identifier for this logging session
                             type: dict
                             suboptions:
@@ -673,29 +674,29 @@ options:
           ipv6:            
             description: Configure IPv6 syslog server
             type: dict
-              suboptions:
-                name:
-                  description: Configure IPv6 syslog server
-                  type: str
+            suboptions:
+              name:
+                description: Configure IPv6 syslog server
+                type: str
           hostname:
             description: IP address of the syslog server
             type: str
       
-      message-counter: #15     
+      message_counter:   
         description: Configure log message to include certain counter value 
         type: dict
-          suboptions:
-            log:
-              description: counter of accumulated logging messages received by logger
-              type: str
-            debug:
-              description: counter of accumulated buginf messages received by logger
-              type: str
-            syslog:
-              description: counter of current lines of syslog messages sent
-              type: str
+        suboptions:
+          log:
+            description: counter of accumulated logging messages received by logger
+            type: str
+          debug:
+            description: counter of accumulated buginf messages received by logger
+            type: str
+          syslog:
+            description: counter of current lines of syslog messages sent
+            type: str
 
-      monitor:  #16            
+      monitor:        
         description: Set terminal line (monitor) logging parameters
         type: dict
         suboptions:
@@ -735,11 +736,11 @@ options:
                 type: str
                 choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
       
-      on: #17                  
+      on:               
         description: Enable logging to all enabled destinations
         type: str
 
-      origin-id:  #18          
+      origin-id:      
         description: Add origin ID to syslog messages
         type: dict
         suboptions:
@@ -751,9 +752,10 @@ options:
             description: Define a unique text string as ID
             type: str
 
-      persistent: #19  an-ios-02(config)#logging persistent url flash0:a1 immediate notify protected     
+      persistent:
         description: Set persistent logging parameters
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           batch:      
             type: int 
@@ -780,7 +782,7 @@ options:
             type: str 
             description: URL to store logging messages
 
-      policy-firewall: #20     
+      policy_firewall:   
         description: Firewall configuration
         type: dict
         suboptions:
@@ -788,7 +790,7 @@ options:
             description: (0-3600) value in seconds, default is 30 Sec.
             type: int
 
-      queue-limit: #21           
+      queue_limit:     
         description: Set logger message queue size
         type: dict
         suboptions:
@@ -802,7 +804,7 @@ options:
             description: (100-2147483647) set new queue size
             type: int
 
-      rate-limit: #22            
+      rate_limit:           
         description: Set messages per second limit
         type: dict
         suboptions:
@@ -851,7 +853,7 @@ options:
                     type: str
                     choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
 
-      reload:     #23             
+      reload:        
         description: Set reload logging level
         type: dict
         suboptions:
@@ -867,11 +869,11 @@ options:
             description: Number of messages (1-4294967295>)
             type: int
 
-      server-arp:  #24            
+      server_arp:        
         description: Enable sending ARP requests for syslog servers when first configured
         type: bool
 
-      snmp-trap:     #25          
+      snmp_trap:   
         description: Set syslog level for sending snmp trap
         type: dict
         suboptions:
@@ -884,14 +886,14 @@ options:
             type: str
             choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
 
-      source-interface: #26        
+      source_interface:
         description: Specify interface for source address in logging transactions
         type: dict
         suboptions:
           Async:              
             type: int
             description: Async interface
-          Auto-Template:      
+          Auto_Template:      
             description: Auto-Template interface
             type: dict
             suboptions:
@@ -914,7 +916,7 @@ options:
           BVI:                
             type: int
             description: Bridge-Group Virtual Interface
-          CDMA-Ix:            
+          CDMA_Ix:            
             type: int
             description: CDMA Ix interface
           CTunnel:            
@@ -1016,7 +1018,7 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          Vif:    #do             
+          Vif:
             description: PGM Multicast Host interface
             type: dict
             suboptions:
@@ -1026,7 +1028,7 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          Virtual-PPP:        
+          Virtual_PPP:        
             description: Virtual PPP interface
             type: dict
             suboptions:
@@ -1036,7 +1038,7 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          Virtual-Template:   
+          Virtual_Template:   
             description: Virtual Template interface
             type: dict
             suboptions:
@@ -1046,7 +1048,7 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          Virtual-TokenRing:  
+          Virtual_TokenRing:  
             description: Virtual TokenRing
             type: dict
             suboptions:
@@ -1067,7 +1069,7 @@ options:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
 
-      trap:       #27             
+      trap:   
         description: Set syslog server logging level
         type: dict
         suboptions:
@@ -1080,7 +1082,7 @@ options:
             type: str
             choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
 
-      userinfo:    #28            
+      userinfo:      
         description: Enable logging of user info on privileged mode enabling
         type: bool
 
