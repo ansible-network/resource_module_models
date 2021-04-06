@@ -9,7 +9,7 @@ options:
     type: list
     elements: dict
     suboptions:
-      Hostname: 
+      hostname: 
         description: IP address of the logging host
         type: str
       buffered:         
@@ -863,10 +863,10 @@ options:
         description: Specify interface for source address in logging transactions
         type: dict
         suboptions:
-          Async:              
+          async:              
             type: int
             description: Async interface
-          Auto_Template:      
+          auto_Template:      
             description: Auto-Template interface
             type: dict
             suboptions:
@@ -876,7 +876,7 @@ options:
               vrf:
                 description: VPN Routing/Forwarding instance name
                 type: str
-          BDI:                
+          bdi:                
             description: Bridge-Domain interface
             type: dict
             suboptions:
@@ -886,13 +886,13 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          BVI:                
+          bvi:                
             type: int
             description: Bridge-Group Virtual Interface
-          CDMA_Ix:            
+          cdma_ix:            
             type: int
             description: CDMA Ix interface
-          CTunnel:            
+          ctunnel:            
             description: CTunnel interface
             type: dict
             suboptions:
@@ -902,7 +902,7 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          Dialer:             
+          dialer:             
             description: Dialer interface
             type: dict
             suboptions:
@@ -912,7 +912,7 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          GMPLS:              
+          gmpls:              
             description: MPLS interface
             type: dict
             suboptions:
@@ -922,10 +922,10 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          GigabitEthernet:    
+          gigabitethernet:    
             type: int
             description: GigabitEthernet IEEE 802.3z
-          LISP:               
+          lisp:               
             description: Locator/ID Separation Protocol Virtual Interface
             type: dict
             suboptions:
@@ -935,10 +935,10 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          LongReachEthernet:  
+          longreachethernet:  
             type: int
             description: Long-Reach Ethernet interface
-          Loopback:           
+          loopback:           
             description: Loopback interface
             type: dict
             suboptions:
@@ -948,10 +948,10 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          Lspvif:             
+          lspvif:             
             type: int 
             description: LSP virtual interface
-          MFR:                
+          mfr:                
             description: Multilink Frame Relay bundle interface
             type: dict
             suboptions:
@@ -961,7 +961,7 @@ options:
               vrf:
                 description: VPN Routing/Forwarding instance name
                 type: str
-          Multilink:          
+          multilink:          
             description: Multilink-group interface
             type: dict
             suboptions:
@@ -971,7 +971,7 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          Null:               
+          null:               
             description: Null interface
             type: dict
             suboptions:
@@ -981,7 +981,7 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          Tunnel:             
+          tunnel:             
             description: Tunnel interface
             type: dict
             suboptions:
@@ -991,7 +991,7 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          Vif:
+          vif:
             description: PGM Multicast Host interface
             type: dict
             suboptions:
@@ -1001,7 +1001,7 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          Virtual_PPP:        
+          virtual_ppp:        
             description: Virtual PPP interface
             type: dict
             suboptions:
@@ -1011,7 +1011,7 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          Virtual_Template:   
+          virtual_template:   
             description: Virtual Template interface
             type: dict
             suboptions:
@@ -1021,7 +1021,7 @@ options:
               vrf:
                 description:  Specify the vrf of source interface for logging transactions
                 type: str
-          Virtual_TokenRing:  
+          virtual_tokenring:  
             description: Virtual TokenRing
             type: dict
             suboptions:
