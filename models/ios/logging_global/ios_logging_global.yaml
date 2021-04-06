@@ -717,7 +717,7 @@ options:
                 choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]     
       on:               
         description: Enable logging to all enabled destinations
-        type: str
+        type: bool
       origin-id:      
         description: Add origin ID to syslog messages
         type: dict
