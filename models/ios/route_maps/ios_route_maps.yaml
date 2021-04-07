@@ -50,7 +50,7 @@ options:
             description: Match values from routing table
             type: dict
             suboptions:
-              additional-paths:
+              additional_paths:
                 description:
                   - BGP Add-Path match policie
                   - BGP Add-Path advertise-set policy
@@ -60,15 +60,22 @@ options:
                     description: BGP Add-Path advertise all paths
                     type: bool
                   best:
-                    description: BGP Add-Path advertise best n paths
+                    description: BGP Add-Path advertise best n paths (1-3)
                     type: int
-                  best-range:
+                  best_range:
                     description: BGP Add-Path advertise best paths (range m to n)
-                    type: bool
+                    type: dict
+                    suboptions:
+                      lower_limit:
+                        description: BGP Add-Path best paths to advertise (lower limit) (1-3)
+                        type: int
+                      upper_limit:
+                        description: BGP Add-Path best paths to advertise (upper limit) (1-3)
+                        type: int
                   group_best:
                     description: BGP Add-Path advertise group-best path
                     type: bool
-              as-path:
+              as_path:
                 description: Match BGP AS path list
                 type: dict
                 suboptions:
@@ -87,18 +94,24 @@ options:
                   address:
                     description: Match address of route or match packet
                     type: str
-                  next-hop:
+                  next_hop:
                     description: Match next-hop address of route
                     type: str
-                  route-source:
+                  route_source:
                     description: Match advertising source address of route
                     type: str
               community:
-                description:
-                  - Match BGP community list
-                  - Community-list number
-                  - Please refer vendor documentation for valid values
-                type: str
+                description: Match BGP community list
+                type: dict
+                suboptions:
+                  name:
+                    description:
+                      - Community-list number/Community-list name
+                      - Please refer vendor documentation for valid values
+                    type: str
+                  exact_match:
+                    description: Do exact matching of communities
+                    type: str
               extcommunity:
                 description:
                   - Match BGP/VPN extended community list
@@ -124,7 +137,7 @@ options:
                           - IP access-list name
                           - Please refer vendor documentation for valid values
                         type: str
-                      prefix-list:
+                      prefix_list:
                         description:
                           - Match entries of prefix-lists
                           - IP prefix-list name
@@ -134,10 +147,10 @@ options:
                     type: list
                     elements: dict
                     suboptions:
-                      dest-pfx:
+                      dest_pfx:
                         description: Match dest prefix component of flowspec prefix
                         type: bool
-                      src-pfx:
+                      src_pfx:
                         description: Match source prefix component of flowspec prefix
                         type: bool
                       acl:
@@ -146,12 +159,12 @@ options:
                           - IP access-list name
                           - Please refer vendor documentation for valid values
                         type: str
-                      prefix-list:
+                      prefix_list:
                         description:
                           - Match entries of prefix-lists
                           - IP prefix-list name
                         type: str
-                  next-hop:
+                  next_hop:
                     description: Match next-hop address of route
                     type: list
                     elements: dict
@@ -165,12 +178,12 @@ options:
                           - IP access-list name
                           - Please refer vendor documentation for valid values
                         type: str
-                      prefix-list:
+                      prefix_list:
                         description:
                           - Match entries of prefix-lists
                           - IP prefix-list name
                         type: str
-                  redistribution-source:
+                  redistribution_source:
                     description: route redistribution source (EIGRP only)
                     type: list
                     elements: dict
@@ -184,12 +197,12 @@ options:
                           - IP access-list name
                           - Please refer vendor documentation for valid values
                         type: str
-                      prefix-list:
+                      prefix_list:
                         description:
                           - Match entries of prefix-lists
                           - IP prefix-list name
                         type: str
-                  route-source:
+                  route_source:
                     description: Match advertising source address of route
                     type: list
                     elements: dict
@@ -197,7 +210,7 @@ options:
                       set:
                         description: Set redistribution-source
                         type: bool
-                      redistribution-source:
+                      redistribution_source:
                         description: route redistribution source (EIGRP only)
                         type: bool
                       acl:
@@ -206,7 +219,7 @@ options:
                           - IP access-list name
                           - Please refer vendor documentation for valid values
                         type: str
-                      prefix-list:
+                      prefix_list:
                         description:
                           - Match entries of prefix-lists
                           - IP prefix-list name
@@ -216,20 +229,54 @@ options:
                 type: dict
                 suboptions:
                   address:
-                    description: Match address of route
-                    type: str
+                    type: list
+                    elements: dict
+                    suboptions:
+                      acl:
+                        description: IPv6 access-list name
+                        type: str
+                      prefix_list:
+                        description: IPv6 prefix-list name
+                        type: str
                   flowspec:
                     description: Match next-hop address of route
-                    type: str
-                  next-hop:
+                    type: list
+                    elements: dict
+                    suboptions:
+                      dest_pfx:
+                        description: Match dest prefix component of flowspec prefix
+                        type: bool
+                      src_pfx:
+                        description: Match source prefix component of flowspec prefix
+                        type: bool
+                      acl:
+                        description: IPv6 access-list name
+                        type: str
+                      prefix_list:
+                        description: IPv6 prefix-list name
+                        type: str
+                  next_hop:
                     description: Match next-hop address of route
-                    type: str
-                  route-source:
+                    type: list
+                    elements: dict
+                    suboptions:
+                      acl:
+                        description: IPv6 access-list name
+                        type: str
+                      prefix_list:
+                        description: IPv6 prefix-list name
+                        type: str
+                  route_source:
                     description: Match advertising source address of route
-                    type: str
-                  prefix-list:
-                    description: IPv6 prefix-list
-                    type: str
+                    type: list
+                    elements: dict
+                    suboptions:
+                      acl:
+                        description: IPv6 access-list name
+                        type: str
+                      prefix_list:
+                        description: IPv6 prefix-list name
+                        type: str
               length:
                 description: Packet length
                 type: dict
@@ -244,20 +291,30 @@ options:
                       - Maximum packet length
                       - Please refer vendor documentation for valid values
                     type: int
-              local-preference:
-                description:
-                  - Local preference for route
-                  - Local preference value
-                  - Please refer vendor documentation for valid values
-                type: list
-                elements: int
-              mdt-group:
-                description:
-                  - Match routes corresponding to MDT group
-                  - IP access-list number/IP standard access-list name
-                  - Please refer vendor documentation for valid values
-                type: list
-                elements: str
+              local_preference:
+                description: Local preference for route
+                type: dict
+                suboptions:
+                  set:
+                    description: Set the Local preference for route
+                    type: bool
+                  value:
+                    description:
+                      - Local preference value
+                      - Please refer vendor documentation for valid values
+                    type: int
+              mdt_group:
+                description: Match routes corresponding to MDT group
+                type: dict
+                suboptions:
+                  set:
+                    description: Set and Match routes corresponding to MDT group
+                    type: bool
+                  acl:
+                    description:
+                      - IP access-list number/IP standard access-list name
+                      - Please refer vendor documentation for valid values
+                    type: str
               metric:
                 description: Match metric of route
                 type: dict
@@ -270,14 +327,23 @@ options:
                   external:
                     description: Match route using external protocol metric
                     type: bool
-              mpls-label:
+                  deviation:
+                    description: Deviation option to match metric in a range
+                    choices: ['plus', 'minus']
+                    type: str
+                  deviation_value:
+                    description:
+                      - deviation value, 500 +- 10 creates the range 490 - 510
+                      - Please refer vendor documentation for valid values
+                    type: int
+              mpls_label:
                 description: Match routes which have MPLS labels
                 type: bool
-              policy-list:
+              policy_list:
                 description: Match IP policy list
                 type: list
                 elements: str
-              route-type:
+              route_type:
                 description: Match route-type of route
                 type: dict
                 suboptions:
@@ -288,35 +354,35 @@ options:
                       set:
                         description: Set external route
                         type: bool
-                      type-1:
+                      type_1:
                         description: OSPF external type 1 route
                         type: bool
-                      type-2:
+                      type_2:
                         description: OSPF external type 2 route
                         type: bool
                   internal:
                     description: internal route (including OSPF intra/inter area)
                     type: bool
-                  level-1:
+                  level_1:
                     description: IS-IS level-1 route
                     type: bool
-                  level-2:
+                  level_2:
                     description: IS-IS level-2 route
                     type: bool
                   local:
                     description: locally generated route
                     type: bool
-                  nssa-external:
+                  nssa_external:
                     description: nssa-external route (OSPF type 1/2)
                     type: dict
                     suboptions:
                       set:
                         description: Set nssa-external route
                         type: bool
-                      type-1:
+                      type_1:
                         description: OSPF external type 1 route
                         type: bool
-                      type-2:
+                      type_2:
                         description: OSPF external type 2 route
                         type: bool
               rpki:
@@ -326,13 +392,13 @@ options:
                   invalid:
                     description: RPKI Invalid State
                     type: bool
-                  not-found:
+                  not_found:
                     description: RPKI Not Found State
                     type: bool
                   valid:
                     description: RPKI Valid State
                     type: bool
-              security-group:
+              security_group:
                 description: Security Group
                 type: dict
                 suboptions:
@@ -348,7 +414,7 @@ options:
                       - Please refer vendor documentation for valid values
                     type: list
                     elements: int
-              source-protocol:
+              source_protocol:
                 description: Match source-protocol of route
                 type: list
                 elements: dict
@@ -389,14 +455,22 @@ options:
                     type: int
                   rip:
                     description: Routing Information Protocol (RIP)
-                    type: int
+                    type: bool
                   static:
                     description: Static routes
                     type: bool
               tag:
                 description: Match tag of route
-                type: list
-                elements: str
+                type: dict
+                suboptions:
+                  value:
+                    description: Tag value/Tag in Dotted Decimal eg, 10.10.10.10
+                    type: list
+                    elements: str
+                  list:
+                    description: Route Tag List/Tag list name
+                    type: list
+                    elements: str
               track:
                 description: tracking object
                 type: int
@@ -405,17 +479,17 @@ options:
             type: list
             elements: dict
             suboptions:
-              aigp-metric:
+              aigp_metric:
                 description: accumulated metric value
                 type: dict
                 suboptions:
                   value:
                     description: manual value
                     type: int
-                  igp-metric:
+                  igp_metric:
                     description: metric value from rib
                     type: bool
-              as-path:
+              as_path:
                 description: Prepend string for a BGP AS-path attribute
                 type: dict
                 suboptions:
@@ -427,8 +501,8 @@ options:
                         description:
                           - AS number
                           - Please refer vendor documentation for valid values
-                        type: int
-                      last-as:
+                        type: str
+                      last_as:
                         description:
                           - Prepend last AS to the as-path
                           - Number of last-AS prepends
@@ -437,7 +511,7 @@ options:
                   tag:
                     description: Set the tag as an AS-path attribute
                     type: bool
-              automatic-tag:
+              automatic_tag:
                 description: Automatically compute TAG value
                 type: bool
               clns:
@@ -446,16 +520,12 @@ options:
                   - Next hop address
                   - CLNS summary prefix
                 type: str
-              comm-list:
-                description: set BGP community list (for deletion)
-                type: dict
-                suboptions:
-                  number:
-                    description: Community-list number/name
-                    type: str
-                  delete:
-                    description: Delete matching communities
-                    type: bool
+              comm_list:
+                description:
+                  - set BGP community list (for deletion)
+                  - Community-list name/number
+                  - Delete matching communities
+                type: str
               community:
                 description: BGP community attribute
                 type: dict
@@ -466,420 +536,511 @@ options:
                       - community number in aa:nn format
                       - Please refer vendor documentation for valid values
                     type: str
+                  additive:
+                    description: Add to the existing community
+                    type: bool
                   gshut:
                     description: Graceful Shutdown (well-known community)
                     type: bool
                   internet:
                     description: Internet (well-known community)
                     type: bool
-                  local-as:
+                  local_as:
                     description: Do not send outside local AS (well-known community)
                     type: bool
-                  no-advertise:
+                  no_advertise:
                     description: Do not advertise to any peer (well-known community)
                     type: bool
-                  no-export:
+                  no_export:
                     description: Do not export to next AS (well-known community)
                     type: bool
                   none:
                     description: No community attribute
                     type: bool
-                  dampening:
-                    description: Set BGP route flap dampening parameters
-                    type: dict
-                    suboptions:
-                      penalty_half_time:
-                        description:
-                          - half-life time for the penalty
-                          - Please refer vendor documentation for valid values
-                        type: int
-                      reuse_route_val:
-                        description:
-                          - Penalty to start reusing a route
-                          - Please refer vendor documentation for valid values
-                        type: int
-                      suppress_route_val:
-                        description:
-                          - Penalty to start suppressing a route
-                          - Please refer vendor documentation for valid values
-                        type: int
-                      max_suppress:
-                        description:
-                          - Maximum duration to suppress a stable route
-                          - Please refer vendor documentation for valid values
-                        type: int
-                  default:
+              dampening:
+                description: Set BGP route flap dampening parameters
+                type: dict
+                suboptions:
+                  penalty_half_time:
                     description:
-                      - Set default information
-                      - Default output interface
-                    type: str
-                  extcomm-list:
-                    description: Set BGP/VPN extended community list (for deletion)
-                    type: dict
-                    suboptions:
-                      number:
-                        description: Extended community-list number/name
-                        type: str
-                      delete:
-                        description: Delete matching extended communities
-                        type: bool
-                  extcommunity:
-                    description: BGP extended community attribute
-                    type: dict
-                    suboptions:
-                      cost:
-                        description: Cost extended community
-                        type: dict
-                        suboptions:
-                          id:
-                            description:
-                              - Community ID
-                              - Please refer vendor documentation for valid values
-                            type: int
-                          cost:
-                            description:
-                              - Cost Value (No-preference Cost = 2147483647)
-                              - Please refer vendor documentation for valid values
-                            type: int
-                          igp:
-                            description: Compare following IGP cost comparison
-                            type: bool
-                          pre-bestpath:
-                            description: Compare before all other steps in bestpath calculation
-                            type: bool
-                      rt:
-                        description: Route Target extended community
-                        type: dict
-                        suboptions:
-                          address:
-                            description: VPN extended community
-                            type: str
-                          range:
-                            description: Specify a range of extended community
-                            type: bool
-                      soo:
-                        description: Site-of-Origin extended community
-                        type: str
-                      vpn-distinguisher:
-                        description: VPN Distinguisher
-                        type: dict
-                        suboptions:
-                          address:
-                            description: VPN extended community
-                            type: str
-                          range:
-                            description: Specify a range of extended community
-                            type: bool
-                          additive:
-                            description: Add to the existing extcommunity
-                            type: bool
-                  global:
-                    description: Set to global routing table
-                    type: bool
-                  interface:
-                    description: Output interface
-                    type: str
-                  ip:
-                    description: IP specific information
-                    type: dict
-                    suboptions:
-                      address:
-                        description:
-                          - Specify IP address
-                          - Prefix-list name to set ip address
-                        type: str
-                      default:
-                        description: Set default information
-                        type: bool
-                      df:
-                        description: Set DF bit
-                        type: int
-                      global:
-                        description: global routing table
-                        type: dict
-                        suboptions:
-                          address:
-                            description: IP address of next hop
-                            type: str
-                          verify-availability:
-                            description: Verify if nexthop is reachable
-                            type: bool
-                          sequence:
-                            description:
-                              - Sequence to insert into next-hop list
-                              - Please refer vendor documentation for valid values
-                            type: int
-                          track:
-                            description:
-                              - Set the next hop depending on the state of a tracked object
-                              - tracked object number
-                              - Please refer vendor documentation for valid values
-                            type: int
-                      next-hop:
-                        description: Next hop address
-                        type: dict
-                        suboptions:
-                          address:
-                            description: IP address of next hop
-                            type: str
-                          dynamic:
-                            description:
-                              - application dynamically sets next hop
-                              - DHCP learned next hop
-                            type: bool
-                          encapsulate:
-                            description:
-                              - Encapsulation profile for VPN nexthop
-                              - L3VPN
-                              - Encapsulation profile name
-                            type: str
-                          peer-address:
-                            description: Use peer address (for BGP only)
-                            type: bool
-                          recursive:
-                            description: Recursive next-hop
-                            type: dict
-                            suboptions:
-                              address:
-                                description: IP address of recursive next hop
-                                type: str
-                              global:
-                                description: global routing table
-                                type: bool
-                              vrf:
-                                description: VRF name
-                                type: str
-                          self:
-                            description: Use self address (for BGP only)
-                            type: bool
-                          verify-availability:
-                            description: Verify if nexthop is reachable
-                            type: bool
-                      precedence:
-                        description: Set precedence field
-                        type: dict
-                        suboptions:
-                          critical:
-                            description: Set critical precedence (5)
-                            type: bool
-                          flash:
-                            description: Set flash precedence (3)
-                            type: bool
-                          flash-override:
-                            description: Set flash override precedence (4)
-                            type: bool
-                          immediate:
-                            description: Set immediate precedence (2)
-                            type: bool
-                          internet:
-                            description: Set internetwork control precedence (6)
-                            type: bool
-                          network:
-                            description: Set network control precedence (7)
-                            type: bool
-                          priority:
-                            description: Set priority precedence (1)
-                            type: bool
-                          routine:
-                            description: Set routine precedence (0)
-                            type: bool
-                      qos-group:
-                        description:
-                          - Set QOS Group ID
-                          - Please refer vendor documentation for valid values
-                        type: int
-                      tos:
-                        description: Set type of service field
-                        type: dict
-                        suboptions:
-                          max-reliability:
-                            description: Set max reliable TOS (2)
-                            type: bool
-                          max-throughput:
-                            description: Set max throughput TOS (4)
-                            type: bool
-                          min-delay:
-                            description: Set min delay TOS (8)
-                            type: bool
-                          min-monetary-cost:
-                            description: Set min monetary cost TOS (1)
-                            type: bool
-                          normal:
-                            description: Set normal TOS (0)
-                            type: bool
-                      vrf:
-                        description: VRF name
-                        type: str
-                  ipv6:
-                    description: IPv6 specific information
-                    type: dict
-                    suboptions:
-                      address:
-                        description:
-                          - IPv6 address
-                          - IPv6 prefix-list
-                        type: str
-                      default:
-                        description: Set default information
-                        type: bool
-                      global:
-                        description: global routing table
-                        type: dict
-                        suboptions:
-                          address:
-                            description: Next hop address (X:X:X:X::X)
-                            type: str
-                          verify-availability:
-                            description: Verify if nexthop is reachable
-                            type: bool
-                          sequence:
-                            description:
-                              - Sequence to insert into next-hop list
-                              - Please refer vendor documentation for valid values
-                            type: int
-                          track:
-                            description:
-                              - Set the next hop depending on the state of a tracked object
-                              - tracked object number
-                              - Please refer vendor documentation for valid values
-                            type: int
-                      next-hop:
-                        description: IPv6 Next hop
-                        type: dict
-                        suboptions:
-                          address:
-                            description: Next hop address (X:X:X:X::X)
-                            type: str
-                          encapsulate:
-                            description:
-                              - Encapsulation profile for VPN nexthop
-                              - L3VPN
-                              - Encapsulation profile name
-                            type: str
-                          peer-address:
-                            description: Use peer address (for BGP only)
-                            type: bool
-                          recursive:
-                            description: Recursive next-hop
-                            type: dict
-                            suboptions:
-                              address:
-                                description: IP address of recursive next hop
-                                type: str
-                      precedence:
-                        description:
-                          - Set precedence field
-                          - Precedence value
-                          - Please refer vendor documentation for valid values
-                        type: int
-                      vrf:
-                        description: VRF name
-                        type: str
-                  level:
-                    description: Where to import route
-                    type: dict
-                    suboptions:
-                      level-1:
-                        description: Import into a level-1 area
-                        type: bool
-                      level-1-2:
-                        description: Import into level-1 and level-2
-                        type: bool
-                      level-2:
-                        description: Import into level-2 sub-domain
-                        type: bool
-                      nssa-only:
-                        description: Import only into OSPF NSSA areas and don't propagate
-                        type: bool
-                  lisp:
-                    description:
-                      - Locator ID Separation Protocol specific information
-                      - Specify a locator-set to use in LISP route-import
-                      - The name of the locator set
-                    type: str
-                  local-preference:
-                    description:
-                      - BGP local preference path attribute
+                      - half-life time for the penalty
                       - Please refer vendor documentation for valid values
                     type: int
-                  metric:
-                    description: Metric value for destination routing protocol
+                  reuse_route_val:
+                    description:
+                      - Penalty to start reusing a route
+                      - Please refer vendor documentation for valid values
+                    type: int
+                  suppress_route_val:
+                    description:
+                      - Penalty to start suppressing a route
+                      - Please refer vendor documentation for valid values
+                    type: int
+                  max_suppress:
+                    description:
+                      - Maximum duration to suppress a stable route
+                      - Please refer vendor documentation for valid values
+                    type: int
+              default:
+                description:
+                  - Set default information
+                  - Default output interface
+                type: str
+              extcomm_list:
+                description:
+                  - Set BGP/VPN extended community list (for deletion)
+                  - Extended community-list number/name
+                  - Delete matching extended communities
+                type: str
+              extcommunity:
+                description: BGP extended community attribute
+                type: dict
+                suboptions:
+                  cost:
+                    description: Cost extended community
                     type: dict
                     suboptions:
-                      metric-value:
+                      id:
                         description:
-                          - Metric value or Bandwidth in Kbits per second
+                          - Community ID
                           - Please refer vendor documentation for valid values
                         type: int
-                      eigrp-delay:
+                      cost:
                         description:
-                          - EIGRP delay metric, in 10 microsecond units
+                          - Cost Value (No-preference Cost = 2147483647)
                           - Please refer vendor documentation for valid values
                         type: int
-                      metric_reliability:
-                        description:
-                          - EIGRP reliability metric where 255 is 100% reliable
-                          - Please refer vendor documentation for valid values
-                        type: int
-                      metric-bandwidth:
-                        description:
-                          - EIGRP Effective bandwidth metric (Loading) where 255 is 100% loaded
-                          - Please refer vendor documentation for valid values
-                        type: int
-                      mtu:
-                        description:
-                          - EIGRP MTU of the path
-                          - Please refer vendor documentation for valid values
-                        type: int
-                  metric-type:
-                    description: Type of metric for destination routing protocol
-                    type: dict
-                    suboptions:
-                      external:
-                        description: IS-IS external metric
-                        type: bool
-                      internal:
-                        description: IS-IS internal metric or Use IGP metric as the MED for BGP
-                        type: bool
-                      type-1:
-                        description: OSPF external type 1 metric
-                        type: bool
-                      type-2:
-                        description: OSPF external type 2 metric
-                        type: bool
-                  mpls-label:
-                    description: Set MPLS label for prefix
-                    type: bool
-                  origin:
-                    description: BGP origin code
-                    type: dict
-                    suboptions:
                       igp:
-                        description: local IGP
+                        description: Compare following IGP cost comparison
                         type: bool
-                      incomplete:
-                        description: unknown heritage
+                      pre_bestpath:
+                        description: Compare before all other steps in bestpath calculation
                         type: bool
-                  tag:
-                    description:
-                      - Tag value for destination routing protocol
-                      - Tag value A.B.C.D(dotted decimal format)/Tag value
+                  rt:
+                    description: Route Target extended community
+                    type: dict
+                    suboptions:
+                      address:
+                        description: VPN extended community
+                        type: str
+                      range:
+                        description: Specify a range of extended community
+                        type: bool
+                  soo:
+                    description: Site-of-Origin extended community
                     type: str
-                  traffic-index:
+                  vpn_distinguisher:
+                    description: VPN Distinguisher
+                    type: dict
+                    suboptions:
+                      address:
+                        description: VPN extended community
+                        type: str
+                      range:
+                        description: Specify a range of extended community
+                        type: bool
+                      additive:
+                        description: Add to the existing extcommunity
+                        type: bool
+              global:
+                description: Set to global routing table
+                type: bool
+              interface:
+                description: Output interface
+                type: str
+              ip:
+                description: IP specific information
+                type: dict
+                suboptions:
+                  address:
                     description:
-                      - BGP traffic classification number for accounting
+                      - Specify IP address
+                      - Prefix-list name to set ip address
+                    type: str
+                  default:
+                    description: Set default information
+                    type: bool
+                  df:
+                    description: Set DF bit
+                    choices: [0, 1]
+                    type: int
+                  global:
+                    description: global routing table
+                    type: bool
+                    suboptions:
+                      address:
+                        description: IP address of next hop
+                        type: str
+                      verify_availability:
+                        description: Verify if nexthop is reachable
+                        type: dict
+                        suboptions:
+                          address:
+                            description: IP address of next hop
+                            type: str
+                          sequence:
+                            description:
+                              - Sequence to insert into next-hop list
+                              - Please refer vendor documentation for valid values
+                            type: int
+                          track:
+                            description:
+                              - Set the next hop depending on the state of a tracked object
+                              - tracked object number
+                              - Please refer vendor documentation for valid values
+                            type: int
+                  next_hop:
+                    description: Next hop address
+                    type: dict
+                    suboptions:
+                      address:
+                        description: IP address of next hop
+                        type: str
+                      dynamic:
+                        description:
+                          - application dynamically sets next hop
+                          - DHCP learned next hop
+                        type: bool
+                      encapsulate:
+                        description:
+                          - Encapsulation profile for VPN nexthop
+                          - L3VPN
+                          - Encapsulation profile name
+                        type: str
+                      peer_address:
+                        description: Use peer address (for BGP only)
+                        type: bool
+                      recursive:
+                        description: Recursive next-hop
+                        type: dict
+                        suboptions:
+                          address:
+                            description: IP address of recursive next hop
+                            type: str
+                          global:
+                            description: global routing table
+                            type: str
+                          vrf:
+                            description: VRF
+                            type: dict
+                            suboptions:
+                              name:
+                                description: VRF name
+                                type: str
+                              address:
+                                description: IP address of recursive next hop
+                                type: str
+                      self:
+                        description: Use self address (for BGP only)
+                        type: bool
+                      verify_availability:
+                        description: Verify if nexthop is reachable
+                        type: dict
+                        suboptions:
+                          set:
+                            description: Set and Verify if nexthop is reachable
+                            type: bool
+                          address:
+                            description: IP address of next hop
+                            ype: str
+                          sequence:
+                            description:
+                              - Sequence to insert into next-hop list
+                              - Please refer vendor documentation for valid values
+                            type: int
+                          track:
+                            description:
+                              - Set the next hop depending on the state of a tracked object
+                              - tracked object number
+                              - Please refer vendor documentation for valid values
+                            type: int
+                  precedence:
+                    description: Set precedence field
+                    type: dict
+                    suboptions:
+                      set:
+                        description: Just set precedence field
+                        type: bool
+                      critical:
+                        description: Set critical precedence (5)
+                        type: bool
+                      flash:
+                        description: Set flash precedence (3)
+                        type: bool
+                      flash_override:
+                        description: Set flash override precedence (4)
+                        type: bool
+                      immediate:
+                        description: Set immediate precedence (2)
+                        type: bool
+                      internet:
+                        description: Set internetwork control precedence (6)
+                        type: bool
+                      network:
+                        description: Set network control precedence (7)
+                        type: bool
+                      priority:
+                        description: Set priority precedence (1)
+                        type: bool
+                      routine:
+                        description: Set routine precedence (0)
+                        type: bool
+                  qos_group:
+                    description:
+                      - Set QOS Group ID
+                      - Please refer vendor documentation for valid values
+                    type: int
+                  tos:
+                    description: Set type of service field
+                    type: dict
+                    suboptions:
+                      set:
+                        description: Just set type of service field
+                        type: bool
+                      max_reliability:
+                        description: Set max reliable TOS (2)
+                        type: bool
+                      max_throughput:
+                        description: Set max throughput TOS (4)
+                        type: bool
+                      min_delay:
+                        description: Set min delay TOS (8)
+                        type: bool
+                      min_monetary_cost:
+                        description: Set min monetary cost TOS (1)
+                        type: bool
+                      normal:
+                        description: Set normal TOS (0)
+                        type: bool
+                  vrf:
+                    description: VRF
+                    type: dict
+                    suboptions:
+                      name:
+                        description: VRF name
+                        type: str
+                      address:
+                        description: IP address of next hop
+                        type: str
+                      verify_availability:
+                        description: Verify if nexthop is reachable
+                        type: dict
+                        suboptions:
+                          set:
+                            description: Set and Verify if nexthop is reachable
+                            type: bool
+                          address:
+                            description: IP address of next hop
+                            ype: str
+                          sequence:
+                            description:
+                              - Sequence to insert into next-hop list
+                              - Please refer vendor documentation for valid values
+                            type: int
+                          track:
+                            description:
+                              - Set the next hop depending on the state of a tracked object
+                              - tracked object number
+                              - Please refer vendor documentation for valid values
+                            type: int
+              ipv6:
+                description: IPv6 specific information
+                type: dict
+                suboptions:
+                  address:
+                    description:
+                      - IPv6 address
+                      - IPv6 prefix-list
+                    type: str
+                  default:
+                    description: Set default information
+                    type: bool
+                  global:
+                    description: global routing table
+                    type: dict
+                    suboptions:
+                      address:
+                        description: Next hop address (X:X:X:X::X)
+                        type: str
+                      verify_availability:
+                        description: Verify if nexthop is reachable
+                        type: dict
+                        suboptions:
+                          address:
+                            description: Next hop address (X:X:X:X::X)
+                            type: str
+                          sequence:
+                            description:
+                              - Sequence to insert into next-hop list
+                              - Please refer vendor documentation for valid values
+                            type: int
+                          track:
+                            description:
+                              - Set the next hop depending on the state of a tracked object
+                              - tracked object number
+                              - Please refer vendor documentation for valid values
+                            type: int
+                  next_hop:
+                    description: IPv6 Next hop
+                    type: dict
+                    suboptions:
+                      address:
+                        description: Next hop address (X:X:X:X::X)
+                        type: str
+                      encapsulate:
+                        description:
+                          - Encapsulation profile for VPN nexthop
+                          - L3VPN
+                          - Encapsulation profile name
+                        type: str
+                      peer_address:
+                        description: Use peer address (for BGP only)
+                        type: bool
+                      recursive:
+                        description:
+                          - Recursive next-hop
+                          - IPv6 address of recursive next-hop
+                        type: str
+                  precedence:
+                    description:
+                      - Set precedence field
+                      - Precedence value
                       - Please refer vendor documentation for valid values
                     type: int
                   vrf:
-                    description:
-                      - Define VRF name
-                      - VPN Routing/Forwarding instance name
+                    description: VRF name
+                    type: dict
+                    suboptions:
+                      name:
+                        description: VRF name
+                        type: str
+                      verify_availability:
+                        description: Verify if nexthop is reachable
+                        type: dict
+                        suboptions:
+                          address:
+                            description: IPv6 address of next hop
+                            ype: str
+                          sequence:
+                            description:
+                              - Sequence to insert into next-hop list
+                              - Please refer vendor documentation for valid values
+                            type: int
+                          track:
+                            description:
+                              - Set the next hop depending on the state of a tracked object
+                              - tracked object number
+                              - Please refer vendor documentation for valid values
+                            type: int
+              level:
+                description: Where to import route
+                type: dict
+                suboptions:
+                  level_1:
+                    description: Import into a level-1 area
+                    type: bool
+                  level_1_2:
+                    description: Import into level-1 and level-2
+                    type: bool
+                  level_2:
+                    description: Import into level-2 sub-domain
+                    type: bool
+                  nssa_only:
+                    description: Import only into OSPF NSSA areas and don't propagate
+                    type: bool
+              lisp:
+                description:
+                  - Locator ID Separation Protocol specific information
+                  - Specify a locator-set to use in LISP route-import
+                  - The name of the locator set
+                type: str
+              local_preference:
+                description:
+                  - BGP local preference path attribute
+                  - Please refer vendor documentation for valid values
+                type: int
+              metric:
+                description: Metric value for destination routing protocol
+                type: dict
+                suboptions:
+                  deviation:
+                    description: Add or subtract metric
+                    choices: ['plus', 'minus']
                     type: str
-                  weight:
+                  metric_value:
                     description:
-                      - BGP weight for routing table
+                      - Metric value or Bandwidth in Kbits per second
                       - Please refer vendor documentation for valid values
                     type: int
+                  eigrp_delay:
+                    description:
+                      - EIGRP delay metric, in 10 microsecond units
+                      - Please refer vendor documentation for valid values
+                    type: int
+                  metric_reliability:
+                    description:
+                      - EIGRP reliability metric where 255 is 100 reliable
+                      - Please refer vendor documentation for valid values
+                    type: int
+                  metric_bandwidth:
+                    description:
+                      - EIGRP Effective bandwidth metric (Loading) where 255 is 100 loaded
+                      - Please refer vendor documentation for valid values
+                    type: int
+                  mtu:
+                    description:
+                      - EIGRP MTU of the path
+                      - Please refer vendor documentation for valid values
+                    type: int
+              metric_type:
+                description: Type of metric for destination routing protocol
+                type: dict
+                suboptions:
+                  external:
+                    description: IS-IS external metric
+                    type: bool
+                  internal:
+                    description: IS-IS internal metric or Use IGP metric as the MED for BGP
+                    type: bool
+                  type_1:
+                    description: OSPF external type 1 metric
+                    type: bool
+                  type_2:
+                    description: OSPF external type 2 metric
+                    type: bool
+              mpls_label:
+                description: Set MPLS label for prefix
+                type: bool
+              origin:
+                description: BGP origin code
+                type: dict
+                suboptions:
+                  igp:
+                    description: local IGP
+                    type: bool
+                  incomplete:
+                    description: unknown heritage
+                    type: bool
+              tag:
+                description:
+                  - Tag value for destination routing protocol
+                  - Tag value A.B.C.D(dotted decimal format)/Tag value
+                type: str
+              traffic_index:
+                description:
+                  - BGP traffic classification number for accounting
+                  - Please refer vendor documentation for valid values
+                type: int
+              vrf:
+                description:
+                  - Define VRF name
+                  - VPN Routing/Forwarding instance name
+                type: str
+              weight:
+                description:
+                  - BGP weight for routing table
+                  - Please refer vendor documentation for valid values
+                type: int
   running_config:
     description:
       - This option is used only with state I(parsed).
