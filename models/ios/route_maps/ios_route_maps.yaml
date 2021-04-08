@@ -48,8 +48,7 @@ options:
             type: str
           match:
             description: Match values from routing table
-            type: list
-            elements: dict
+            type: dict
             suboptions:
               additional_paths:
                 description:
@@ -83,7 +82,7 @@ options:
                   set:
                     description: Set AS path list
                     type: bool
-                  acl:
+                  acl: &acl
                     description:
                       - AS path access-list
                       - Please refer vendor documentation for valid values
@@ -132,14 +131,8 @@ options:
                     description: Match address of route or match packet
                     type: dict
                     suboptions:
-                      acl:
-                        description:
-                          - IP access-list number
-                          - IP access-list name
-                          - Please refer vendor documentation for valid values
-                        type: list
-                        elements: str
-                      prefix_list:
+                      acl: *acl
+                      prefix_list: &prefix_list
                         description:
                           - Match entries of prefix-lists
                           - IP prefix-list name
@@ -155,19 +148,8 @@ options:
                       src_pfx:
                         description: Match source prefix component of flowspec prefix
                         type: bool
-                      acl:
-                        description:
-                          - IP access-list number
-                          - IP access-list name
-                          - Please refer vendor documentation for valid values
-                        type: list
-                        elements: str
-                      prefix_list:
-                        description:
-                          - Match entries of prefix-lists
-                          - IP prefix-list name
-                        type: list
-                        elements: str
+                      acl: *acl
+                      prefix_list: *prefix_list
                   next_hop:
                     description: Match next-hop address of route
                     type: dict
@@ -175,19 +157,8 @@ options:
                       set:
                         description: Set next-hop address
                         type: bool
-                      acl:
-                        description:
-                          - IP access-list number
-                          - IP access-list name
-                          - Please refer vendor documentation for valid values
-                        type: list
-                        elements: str
-                      prefix_list:
-                        description:
-                          - Match entries of prefix-lists
-                          - IP prefix-list name
-                        type: list
-                        elements: str
+                      acl: *acl
+                      prefix_list: *prefix_list
                   redistribution_source:
                     description: route redistribution source (EIGRP only)
                     type: dict
@@ -195,19 +166,8 @@ options:
                       set:
                         description: Set redistribution-source
                         type: bool
-                      acl:
-                        description:
-                          - IP access-list number
-                          - IP access-list name
-                          - Please refer vendor documentation for valid values
-                        type: list
-                        elements: str
-                      prefix_list:
-                        description:
-                          - Match entries of prefix-lists
-                          - IP prefix-list name
-                        type: list
-                        elements: str
+                      acl: *acl
+                      prefix_list: *prefix_list
                   route_source:
                     description: Match advertising source address of route
                     type: dict
@@ -218,19 +178,8 @@ options:
                       redistribution_source:
                         description: route redistribution source (EIGRP only)
                         type: bool
-                      acl:
-                        description:
-                          - IP access-list number
-                          - IP access-list name
-                          - Please refer vendor documentation for valid values
-                        type: list
-                        elements: str
-                      prefix_list:
-                        description:
-                          - Match entries of prefix-lists
-                          - IP prefix-list name
-                        type: list
-                        elements: str
+                      acl: *acl
+                      prefix_list: *prefix_list
               ipv6:
                 description: IPv6 specific information
                 type: dict
@@ -305,7 +254,8 @@ options:
                     description:
                       - Local preference value
                       - Please refer vendor documentation for valid values
-                    type: int
+                    type: list
+                    elements: str
               mdt_group:
                 description: Match routes corresponding to MDT group
                 type: dict
@@ -478,8 +428,7 @@ options:
                 type: int
           set:
             description: Match source-protocol of route
-            type: list
-            elements: dict
+            type: dict
             suboptions:
               aigp_metric:
                 description: accumulated metric value
