@@ -48,7 +48,8 @@ options:
             type: str
           match:
             description: Match values from routing table
-            type: dict
+            type: list
+            elements: dict
             suboptions:
               additional_paths:
                 description:
@@ -87,6 +88,7 @@ options:
                       - AS path access-list
                       - Please refer vendor documentation for valid values
                     type: list
+                    elements: int
               clns:
                 description: CLNS information
                 type: dict
@@ -128,24 +130,24 @@ options:
                 suboptions:
                   address:
                     description: Match address of route or match packet
-                    type: list
-                    elements: dict
+                    type: dict
                     suboptions:
                       acl:
                         description:
                           - IP access-list number
                           - IP access-list name
                           - Please refer vendor documentation for valid values
-                        type: str
+                        type: list
+                        elements: str
                       prefix_list:
                         description:
                           - Match entries of prefix-lists
                           - IP prefix-list name
-                        type: str
+                        type: list
+                        elements: str
                   flowspec:
                     description: Match src/dest prefix component of flowspec prefix
-                    type: list
-                    elements: dict
+                    type: dict
                     suboptions:
                       dest_pfx:
                         description: Match dest prefix component of flowspec prefix
@@ -158,16 +160,17 @@ options:
                           - IP access-list number
                           - IP access-list name
                           - Please refer vendor documentation for valid values
-                        type: str
+                        type: list
+                        elements: str
                       prefix_list:
                         description:
                           - Match entries of prefix-lists
                           - IP prefix-list name
-                        type: str
+                        type: list
+                        elements: str
                   next_hop:
                     description: Match next-hop address of route
-                    type: list
-                    elements: dict
+                    type: dict
                     suboptions:
                       set:
                         description: Set next-hop address
@@ -177,16 +180,17 @@ options:
                           - IP access-list number
                           - IP access-list name
                           - Please refer vendor documentation for valid values
-                        type: str
+                        type: list
+                        elements: str
                       prefix_list:
                         description:
                           - Match entries of prefix-lists
                           - IP prefix-list name
-                        type: str
+                        type: list
+                        elements: str
                   redistribution_source:
                     description: route redistribution source (EIGRP only)
-                    type: list
-                    elements: dict
+                    type: dict
                     suboptions:
                       set:
                         description: Set redistribution-source
@@ -196,16 +200,17 @@ options:
                           - IP access-list number
                           - IP access-list name
                           - Please refer vendor documentation for valid values
-                        type: str
+                        type: list
+                        elements: str
                       prefix_list:
                         description:
                           - Match entries of prefix-lists
                           - IP prefix-list name
-                        type: str
+                        type: list
+                        elements: str
                   route_source:
                     description: Match advertising source address of route
-                    type: list
-                    elements: dict
+                    type: dict
                     suboptions:
                       set:
                         description: Set redistribution-source
@@ -218,19 +223,20 @@ options:
                           - IP access-list number
                           - IP access-list name
                           - Please refer vendor documentation for valid values
-                        type: str
+                        type: list
+                        elements: str
                       prefix_list:
                         description:
                           - Match entries of prefix-lists
                           - IP prefix-list name
-                        type: str
+                        type: list
+                        elements: str
               ipv6:
                 description: IPv6 specific information
                 type: dict
                 suboptions:
                   address:
-                    type: list
-                    elements: dict
+                    type: dict
                     suboptions:
                       acl:
                         description: IPv6 access-list name
@@ -240,8 +246,7 @@ options:
                         type: str
                   flowspec:
                     description: Match next-hop address of route
-                    type: list
-                    elements: dict
+                    type: dict
                     suboptions:
                       dest_pfx:
                         description: Match dest prefix component of flowspec prefix
@@ -257,8 +262,7 @@ options:
                         type: str
                   next_hop:
                     description: Match next-hop address of route
-                    type: list
-                    elements: dict
+                    type: dict
                     suboptions:
                       acl:
                         description: IPv6 access-list name
@@ -268,8 +272,7 @@ options:
                         type: str
                   route_source:
                     description: Match advertising source address of route
-                    type: list
-                    elements: dict
+                    type: dict
                     suboptions:
                       acl:
                         description: IPv6 access-list name
@@ -416,8 +419,7 @@ options:
                     elements: int
               source_protocol:
                 description: Match source-protocol of route
-                type: list
-                elements: dict
+                type: dict
                 suboptions:
                   bgp:
                     description:
