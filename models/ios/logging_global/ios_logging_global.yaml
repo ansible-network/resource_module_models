@@ -9,10 +9,10 @@ options:
     type: list
     elements: dict
     suboptions:
-      hostname: &host
+      hostname:
         description: IP address of the logging host
         type: str
-      buffered: &buffered       
+      buffered:       
         description: Set buffered logging parameters
         type: dict
         suboptions:
@@ -148,7 +148,7 @@ options:
             description: Specify the transport protocol (default=UDP)
             type: dict
             suboptions:
-              tcp: &tcp
+              tcp:
                 description: Transport Control Protocol
                 type: dict
                 suboptions:
@@ -169,7 +169,7 @@ options:
                   sequence_num_session: *sequence_num_session
                   session_id: *session_id
                   xml: *xml
-              udp: &udp
+              udp:
                 description: User Datagram Protocol
                 type: dict
                 suboptions:
