@@ -1,5 +1,5 @@
 module: ios_logging_global
-version_added: 2.0.1
+version_added: 2.1.0
 short_description: Manages logging attributes of Cisco IOS network devices
 description: This module manages the logging attributes of Cisco IOS network devices.
 author: Sagar Paul (@KB-perByte)
@@ -9,31 +9,31 @@ options:
     type: list
     elements: dict
     suboptions:
-      hostname: 
+      hostname: &host
         description: IP address of the logging host
         type: str
-      buffered:         
+      buffered: &buffered       
         description: Set buffered logging parameters
         type: dict
         suboptions:
-          level:           
+          level: &level          
             description: Logging severity level (0-7)
             type: int
             choices: [0,1,2,3,4,5,6,7]
-          size:            
+          size: &size           
             description: Logging buffer size
             type: int
-          severity:
+          severity: &severity
             description: Logging severity level
             type: str
             choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
-          discriminator:    
+          discriminator: &discriminator   
             description: Establish MD-Buffer association
             type: str
-          filtered:         
+          filtered: &filtered        
             description: Enable filtered logging
             type: bool
-          xml:              
+          xml: &xml             
             description: Enable logging in XML to XML logging buffer
             type: bool
           enable:
@@ -46,14 +46,8 @@ options:
         description: Set CNS Event logging level
         type: dict
         suboptions:
-          level:           
-            description: Logging severity level (0-7)
-            type: int
-            choices: [0,1,2,3,4,5,6,7]
-          severity:
-            description: Logging severity level
-            type: str
-            choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
+          level: *level          
+          severity: *severity
           enable:
             description: to enable cns-events logging
             type: bool
@@ -61,23 +55,14 @@ options:
         description: Set console logging parameters
         type: dict
         suboptions:
-          level:           
-            description: Logging severity level (0-7)
-            type: int
-            choices: [0,1,2,3,4,5,6,7]
+          level: *level          
           severity:
             description: Logging severity level
             type: str
             choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings","guaranteed"]
-          discriminator:    
-            description: Establish MD-Buffer association
-            type: str
-          filtered:         
-            description: Enable filtered logging
-            type: bool
-          xml:              
-            description: Enable logging in XML to XML logging buffer
-            type: bool
+          discriminator: *discriminator   
+          filtered: *filtered       
+          xml: *xml            
           enable:
             description: to enable cns-events logging
             type: bool
@@ -98,7 +83,7 @@ options:
         description: DMVPN Configuration
         type: dict
         suboptions:
-          rate_limit:           
+          rate_limit: &rate_limit          
             description: rate in messages/minute, default is 600 messages/minute (1-10000)
             type: int
           enable:
@@ -106,7 +91,7 @@ options:
             type: bool
       esm:        
         description: Set ESM filter restrictions
-        type: str
+        type: dict
         suboptions:
           config:           
             description: Permit/Deny configuration changes from ESM filters
@@ -135,35 +120,23 @@ options:
         description: Configure syslog history table
         type: dict
         suboptions:
-          level:           
-            description: Logging severity level (0-7)
-            type: int
-            choices: [0,1,2,3,4,5,6,7]
-          size:            
-            description: Set history table size (0-500)
-            type: int
-          severity:
-            description: Logging severity level
-            type: str
-            choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
+          level: *level       
+          size: *size          
+          severity: *severity
       host:           
         description: Set syslog server IP address and parameters
         type: list
         elements: dict
         suboptions:          
-          discriminator:
-            description: Specify a message discriminator identifier for this logging session
-            type: str
-          filtered:
-            description: Enable filtered logging
-            type: bool
-          sequence_num_session:
+          discriminator: *discriminator
+          filtered: *filtered
+          sequence_num_session: &sequence_num_session
             description: Include session sequence number tag in syslog message
             type: bool
-          session_id:
+          session_id: &session_id
             description: Specify syslog message session ID tagging
             type: dict
-            suboptions:
+            suboptions: &session_id_suboptions
               tag: 
                 description: Include hostname in session ID tag
                 type: str
@@ -171,20 +144,18 @@ options:
               text: 
                 description: Include custom string in session ID tag
                 type: str
-          transport:
+          transport: &transport
             description: Specify the transport protocol (default=UDP)
             type: dict
             suboptions:
-              tcp: 
+              tcp: &tcp
                 description: Transport Control Protocol
                 type: dict
                 suboptions:
                   audit:
                     description: Set this host for IOS firewall audit logging
                     type: bool
-                  discriminator:
-                    type: str
-                    description: Specify a message discriminator identifier for this logging session
+                  discriminator: *discriminator
                   filtered:
                     description: Enable filtered logging
                     type: dict
@@ -195,30 +166,14 @@ options:
                   port:
                     description: Specify the TCP port number (default=601) (1 - 65535)
                     type: int
-                  sequence_num_session:
-                    description:  Message discriminator identifier for this logging session
-                    type: bool
-                  session_id:
-                    description: Specify syslog message session ID tagging
-                    type: dict
-                    suboptions:
-                      tag: 
-                        description: Include hostname in session ID tag
-                        type: str
-                        choices: ["hostname","ipv4","ipv6"]
-                      text: 
-                        description: Include custom string in session ID tag
-                        type: str
-                  xml:
-                    description: Enable logging in XML
-                    type: bool
-              udp: 
+                  sequence_num_session: *sequence_num_session
+                  session_id: *session_id
+                  xml: *xml
+              udp: &udp
                 description: User Datagram Protocol
                 type: dict
                 suboptions:
-                  discriminator:
-                    type: str
-                    description: Specify a message discriminator identifier for this logging session
+                  discriminator: *discriminator
                   filtered:
                     description: Enable filtered logging
                     type: dict
@@ -229,32 +184,13 @@ options:
                   port:
                     description: Specify the TCP port number (default=601) (1 - 65535)
                     type: int
-                  sequence_num_session:
-                    description:  Message discriminator identifier for this logging session
-                    type: bool
-                  session_id:
-                    description: Specify syslog message session ID tagging
-                    type: dict
-                    suboptions:
-                      tag: 
-                        description: Include hostname in session ID tag
-                        type: str
-                        choices: ["hostname","ipv4","ipv6"]
-                      text: 
-                        description: Include custom string in session ID tag
-                        type: str
-                  session_id_string:
-                    description: Specify syslog message session ID tagging
-                    type: str
-                  xml:
-                    description: Enable logging in XML
-                    type: bool
+                  sequence_num_session: *sequence_num_session
+                  session_id: *session_id
+                  xml: *xml
           vrf:
             description: Set VRF option
             type: str
-          xml:
-            description: Enable logging in XML
-            type: bool
+          xml: *xml
           ipv6:            
             description: Configure IPv6 syslog server
             type: str
@@ -282,37 +218,18 @@ options:
         description: Set terminal line (monitor) logging parameters
         type: dict
         suboptions:
-          level:           
-            description: Logging severity level (0-7)
-            type: int
-            choices: [0,1,2,3,4,5,6,7]
-          severity:
-            description: Logging severity level
-            type: str
-            choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
-          discriminator:    
-            description: Establish MD-Console association
-            type: str
-          filtered:         
-            description: Enable filtered logging
-            type: bool
-          xml:              
-            description: Enable logging in XML to XML logging buffer
-            type: bool
+          level: *level          
+          severity: *severity
+          discriminator: *discriminator  
+          filtered: *filtered        
+          xml: *xml              
       on:               
         description: Enable logging to all enabled destinations
         type: bool
       origin-id:      
         description: Add origin ID to syslog messages
         type: dict
-        suboptions:
-          option:
-            description:
-            type: str
-            choices: ["hostname", "ip", "ipv6"]
-          text:
-            description: Define a unique text string as ID
-            type: str
+        suboptions: *session_id_suboptions
       persistent:
         description: Set persistent logging parameters
         type: list
@@ -369,7 +286,7 @@ options:
         description: Set messages per second limit
         type: dict
         suboptions:
-          size:
+          size: &rate_limit_size
             description: (1-10000) message per second
             type: int
             required: True
@@ -397,34 +314,19 @@ options:
             description: (1-10000) message per second
             type: dict
             suboptions:
-              size:
-                description: (1-10000) message per second
-                type: int
-                required: True
+              size: *rate_limit_size
               except:
                 description: Messages of this severity or higher
                 type: dict
                 suboptions:
-                  level:           
-                    description: Logging severity level (0-7)
-                    type: int
-                    choices: [0,1,2,3,4,5,6,7]
-                  severity:
-                    description: Logging severity level
-                    type: str
-                    choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
+                  level: *level           
+                  severity: *severity
       reload:        
         description: Set reload logging level
         type: dict
         suboptions:
-          level:           
-            description: Logging severity level (0-7)
-            type: int
-            choices: [0,1,2,3,4,5,6,7]
-          severity:
-            description: Logging severity level
-            type: str
-            choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
+          level: *level          
+          severity: *severity
           message_limit:
             description: Number of messages (1-4294967295>)
             type: int
@@ -438,14 +340,8 @@ options:
         description: Set syslog level for sending snmp trap
         type: dict
         suboptions:
-          level:           
-            description: Logging severity level (0-7)
-            type: int
-            choices: [0,1,2,3,4,5,6,7]
-          severity:
-            description: Logging severity level
-            type: str
-            choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
+          level: *level         
+          severity: *severity
       source_interface:
         description: Specify interface for source address in logging transactions
         type: dict
@@ -460,7 +356,7 @@ options:
               number:
                 description: Auto-Template interface number
                 type: int
-              vrf:
+              vrf: &source_interface_vrf
                 description: VPN Routing/Forwarding instance name
                 type: str
           bdi:                
@@ -470,9 +366,7 @@ options:
               number:
                 description: BDI interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
           bvi:                
             type: int
             description: Bridge-Group Virtual Interface
@@ -486,9 +380,7 @@ options:
               number:
                 description: CTunnel interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
           dialer:             
             description: Dialer interface
             type: dict
@@ -496,9 +388,7 @@ options:
               number:
                 description: Dialer interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
           gmpls:              
             description: MPLS interface
             type: dict
@@ -506,9 +396,7 @@ options:
               number:
                 description: GMPLS interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
           gigabitethernet:    
             type: int
             description: GigabitEthernet IEEE 802.3z
@@ -519,9 +407,7 @@ options:
               number:
                 description: LISP interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
           longreachethernet:  
             type: int
             description: Long-Reach Ethernet interface
@@ -532,9 +418,7 @@ options:
               number:
                 description: Loopback interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
           lspvif:             
             type: int 
             description: LSP virtual interface
@@ -545,9 +429,7 @@ options:
               number:
                 description: MFR interface number
                 type: int
-              vrf:
-                description: VPN Routing/Forwarding instance name
-                type: str
+              vrf: *source_interface_vrf
           multilink:          
             description: Multilink-group interface
             type: dict
@@ -555,9 +437,7 @@ options:
               number:
                 description: Multilink interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
           null:               
             description: Null interface
             type: dict
@@ -565,9 +445,7 @@ options:
               number:
                 description: Null interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
           tunnel:             
             description: Tunnel interface
             type: dict
@@ -575,9 +453,7 @@ options:
               number:
                 description: Tunnel interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
           vif:
             description: PGM Multicast Host interface
             type: dict
@@ -585,9 +461,7 @@ options:
               number:
                 description: Vif interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
           virtual_ppp:        
             description: Virtual PPP interface
             type: dict
@@ -595,9 +469,7 @@ options:
               number:
                 description: Virtual-PPP interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
           virtual_template:   
             description: Virtual Template interface
             type: dict
@@ -605,9 +477,7 @@ options:
               number:
                 description: Virtual-Template interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
           virtual_tokenring:  
             description: Virtual TokenRing
             type: dict
@@ -615,9 +485,7 @@ options:
               number:
                 description: Virtual-TokenRing interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
           vmi:                
             description: Virtual Multipoint Interface
             type: dict
@@ -625,21 +493,13 @@ options:
               number:
                 description: Vmi interface number
                 type: int
-              vrf:
-                description:  Specify the vrf of source interface for logging transactions
-                type: str
+              vrf: *source_interface_vrf
       trap:   
         description: Set syslog server logging level
         type: dict
         suboptions:
-          level:           
-            description: Logging severity level (0-7)
-            type: int
-            choices: [0,1,2,3,4,5,6,7]
-          severity:
-            description: Logging severity level
-            type: str
-            choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
+          level: *level         
+          severity: *severity
           enable:
             description: trap logging trap
             type: bool
