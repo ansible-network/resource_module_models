@@ -242,12 +242,12 @@ options:
               type: dict
               description: Exit policy on matches.
               suboptions:
-              next:
-                type: bool
-                description: Next sequence number to goto on match.
-              goto:
-                type: int
-                description: Rule number to goto on match <1-65535>.
+                next:
+                  type: bool
+                  description: Next sequence number to goto on match.
+                goto:
+                  type: int
+                  description: Rule number to goto on match <1-65535>.
     running_config:
       description:
       - This option is used only with state I(parsed).
