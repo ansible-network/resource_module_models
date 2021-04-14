@@ -71,7 +71,7 @@ options:
         type: bool
       delimiter:    
         description: Append delimiter to syslog messages
-        type: str
+        type: dict
         suboptions:
           tcp:           
             description: Append delimiter to syslog messages over TCP
@@ -194,26 +194,13 @@ options:
           ipv6:            
             description: Configure IPv6 syslog server
             type: str
-            suboptions:
-              name:
-                description: Configure IPv6 syslog server
-                type: str
           hostname:
             description: IP address of the syslog server
             type: str
       message_counter:   
-        description: Configure log message to include certain counter value 
-        type: dict
-        suboptions:
-          log:
-            description: counter of accumulated logging messages received by logger
-            type: bool
-          debug:
-            description: counter of accumulated buginf messages received by logger
-            type: bool
-          syslog:
-            description: counter of current lines of syslog messages sent
-            type: bool
+        description: Configure log message to include certain counter value
+        type: str
+        choices: ["log", "debug", "syslog"]
       monitor:        
         description: Set terminal line (monitor) logging parameters
         type: dict
