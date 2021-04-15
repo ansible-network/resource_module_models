@@ -102,7 +102,8 @@ options:
         choices: ["auth","cron","daemon","kern","local0","local1","local2","local3","local4","local5","local6","local7","lpr","mail","news","sys10","sys11","sys12","sys13","sys14","sys9","syslog","user","uucp"]
       filter:     
         description: Specify logging filter
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           url: 
             description: Filter Uniform Resource Locator
@@ -196,7 +197,8 @@ options:
             type: str
       message_counter:   
         description: Configure log message to include certain counter value
-        type: str
+        type: list
+        elements: str
         choices: ["log", "debug", "syslog"]
       monitor:        
         description: Set terminal line (monitor) logging parameters
@@ -328,156 +330,15 @@ options:
           severity: *severity
       source_interface:
         description: Specify interface for source address in logging transactions
-        type: dict
+        type: list
+        elements: dict
         suboptions:
-          async:              
-            type: int
-            description: Async interface
-          auto_Template:      
-            description: Auto-Template interface
-            type: dict
-            suboptions:
-              number:
-                description: Auto-Template interface number
-                type: int
-              vrf: &source_interface_vrf
-                description: VPN Routing/Forwarding instance name
-                type: str
-          bdi:                
-            description: Bridge-Domain interface
-            type: dict
-            suboptions:
-              number:
-                description: BDI interface number
-                type: int
-              vrf: *source_interface_vrf
-          bvi:                
-            type: int
-            description: Bridge-Group Virtual Interface
-          cdma_ix:            
-            type: int
-            description: CDMA Ix interface
-          ctunnel:            
-            description: CTunnel interface
-            type: dict
-            suboptions:
-              number:
-                description: CTunnel interface number
-                type: int
-              vrf: *source_interface_vrf
-          dialer:             
-            description: Dialer interface
-            type: dict
-            suboptions:
-              number:
-                description: Dialer interface number
-                type: int
-              vrf: *source_interface_vrf
-          gmpls:              
-            description: MPLS interface
-            type: dict
-            suboptions:
-              number:
-                description: GMPLS interface number
-                type: int
-              vrf: *source_interface_vrf
-          gigabitethernet:    
-            type: int
-            description: GigabitEthernet IEEE 802.3z
-          lisp:               
-            description: Locator/ID Separation Protocol Virtual Interface
-            type: dict
-            suboptions:
-              number:
-                description: LISP interface number
-                type: int
-              vrf: *source_interface_vrf
-          longreachethernet:  
-            type: int
-            description: Long-Reach Ethernet interface
-          loopback:           
-            description: Loopback interface
-            type: dict
-            suboptions:
-              number:
-                description: Loopback interface number
-                type: int
-              vrf: *source_interface_vrf
-          lspvif:             
-            type: int 
-            description: LSP virtual interface
-          mfr:                
-            description: Multilink Frame Relay bundle interface
-            type: dict
-            suboptions:
-              number:
-                description: MFR interface number
-                type: int
-              vrf: *source_interface_vrf
-          multilink:          
-            description: Multilink-group interface
-            type: dict
-            suboptions:
-              number:
-                description: Multilink interface number
-                type: int
-              vrf: *source_interface_vrf
-          null:               
-            description: Null interface
-            type: dict
-            suboptions:
-              number:
-                description: Null interface number
-                type: int
-              vrf: *source_interface_vrf
-          tunnel:             
-            description: Tunnel interface
-            type: dict
-            suboptions:
-              number:
-                description: Tunnel interface number
-                type: int
-              vrf: *source_interface_vrf
-          vif:
-            description: PGM Multicast Host interface
-            type: dict
-            suboptions:
-              number:
-                description: Vif interface number
-                type: int
-              vrf: *source_interface_vrf
-          virtual_ppp:        
-            description: Virtual PPP interface
-            type: dict
-            suboptions:
-              number:
-                description: Virtual-PPP interface number
-                type: int
-              vrf: *source_interface_vrf
-          virtual_template:   
-            description: Virtual Template interface
-            type: dict
-            suboptions:
-              number:
-                description: Virtual-Template interface number
-                type: int
-              vrf: *source_interface_vrf
-          virtual_tokenring:  
-            description: Virtual TokenRing
-            type: dict
-            suboptions:
-              number:
-                description: Virtual-TokenRing interface number
-                type: int
-              vrf: *source_interface_vrf
-          vmi:                
-            description: Virtual Multipoint Interface
-            type: dict
-            suboptions:
-              number:
-                description: Vmi interface number
-                type: int
-              vrf: *source_interface_vrf
+          interface:
+            description: Interface name with number
+            type: str
+          vrf:
+            description: VPN Routing/Forwarding intstance name
+            type: str
       trap:   
         description: Set syslog server logging level
         type: dict
