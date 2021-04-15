@@ -9,9 +9,6 @@ options:
     type: list
     elements: dict
     suboptions:
-      hostname:
-        description: IP address of the logging host
-        type: str
       buffered:       
         description: Set buffered logging parameters
         type: dict
@@ -213,7 +210,7 @@ options:
       on:               
         description: Enable logging to all enabled destinations
         type: bool
-      origin-id:      
+      origin_id:      
         description: Add origin ID to syslog messages
         type: dict
         suboptions: *session_id_suboptions
