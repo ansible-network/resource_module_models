@@ -268,33 +268,18 @@ options:
             description: (1-10000) message per second
             type: dict
             suboptions:
-              size:
-                description: (1-10000) message per second
-                type: int
-                required: True
-              except:
-                description: Messages of this severity or higher
-                type: dict
-                suboptions:
-                  level:           
-                    description: Logging severity level (0-7)
-                    type: int
-                    choices: [0,1,2,3,4,5,6,7]
-                  severity:
-                    description: Logging severity level
-                    type: str
-                    choices: ["alerts","critical","debugging","emergencies","errors","informational","notifications","warnings"]
+              size: *rate_limit_size
           console:
             description: (1-10000) message per second
             type: dict
             suboptions:
               size: *rate_limit_size
-              except:
-                description: Messages of this severity or higher
-                type: dict
-                suboptions:
-                  level: *level           
-                  severity: *severity
+          except:
+            description: Messages of this severity or higher
+            type: dict
+            suboptions:
+              level: *level           
+              severity: *severity
       reload:        
         description: Set reload logging level
         type: dict
