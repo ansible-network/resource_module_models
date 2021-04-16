@@ -45,9 +45,6 @@ options:
         suboptions:
           level: *level          
           severity: *severity
-          enable:
-            description: to enable cns-events logging
-            type: bool
       console:         
         description: Set console logging parameters
         type: dict
@@ -60,9 +57,6 @@ options:
           discriminator: *discriminator   
           filtered: *filtered       
           xml: *xml            
-          enable:
-            description: to enable cns-events logging
-            type: bool
       count:                
         description: Count every log message and timestamp last occurance
         type: bool
@@ -83,9 +77,6 @@ options:
           rate_limit: &rate_limit          
             description: rate in messages/minute, default is 600 messages/minute (1-10000)
             type: int
-          enable:
-            description: to enable dmvpn logging
-            type: bool
       esm:        
         description: Set ESM filter restrictions
         type: dict
@@ -265,9 +256,6 @@ options:
           trap:
             description: (100-2147483647) set new queue size
             type: int
-          enable:
-            description: enable queue-limit
-            type: bool
       rate_limit:           
         description: Set messages per second limit
         type: dict
@@ -316,9 +304,6 @@ options:
           message_limit:
             description: Number of messages (1-4294967295>)
             type: int
-          enable:
-            description: enable logging reload
-            type: bool
       server_arp:        
         description: Enable sending ARP requests for syslog servers when first configured
         type: bool
@@ -345,9 +330,6 @@ options:
         suboptions:
           level: *level         
           severity: *severity
-          enable:
-            description: trap logging trap
-            type: bool
       userinfo:      
         description: Enable logging of user info on privileged mode enabling
         type: bool
