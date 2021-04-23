@@ -13,7 +13,7 @@ options:
       type: list
       elements: dict
       suboptions:
-        route_map_name:
+        route_map:
           description: Route map name.
           type: str
         entries:
@@ -45,7 +45,7 @@ options:
             sequence:
               description: Index in the sequence.
               type: int
-            continue:
+            continue_sequence:
               description: Route map entry sequence number.
               type: int
             description:
