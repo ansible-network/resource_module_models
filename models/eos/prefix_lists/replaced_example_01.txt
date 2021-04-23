@@ -1,0 +1,47 @@
+
+# Using replaced
+
+# Before state:
+# -------------
+# show running-config | section access-list
+# ip access-list test1
+#    10 permit ip 10.10.10.0/24 any ttl eq 200
+#    20 permit ip 10.30.10.0/24 host 10.20.10.1
+#    30 deny tcp host 10.10.20.1 eq finger www any syn log 
+#    40 permit ip any any
+# !
+# ip access-list test3
+#    10 permit ip 35.33.0.0/16 any log
+# !
+# ipv6 access-list test2
+#     10 deny icmpv6 any any reject-route hop-limit eq 20
+
+
+
+- name: Replace device configuration with provided configuration 
+  eos_acls:
+    config:
+      - afi: "ipv4"
+        - name: test1
+          aces:
+	  - sequence: 35
+	    grant: "permit"
+	    protocol: "ospf"
+	    source:
+	      subnetaddress: 20.0.0.0/8
+            dest:
+              any: true
+    state: replaced
+
+# After state:
+# ------------
+#
+# show running-config | section access-list
+# ip access-list test1
+#    35 permit ospf 20.0.0.0/8 any
+# !
+# ip access-list test3
+#    10 permit ip 35.33.0.0/16 any log 
+# !
+# ipv6 access-list test2
+#     10 deny icmpv6 any any reject-route hop-limit eq 20
