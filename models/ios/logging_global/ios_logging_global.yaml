@@ -126,7 +126,7 @@ options:
               tag: 
                 description: Include hostname in session ID tag
                 type: str
-                choices: ["hostname","ipv4","ipv6"]
+                choices: ["hostname","ip","ipv6"]
               text: 
                 description: Include custom string in session ID tag
                 type: str
@@ -177,6 +177,9 @@ options:
             description: Set VRF option
             type: str
           xml: *xml
+          stream:
+            description: This server should only receive messages from a numbered stream
+            type: int 
           ipv6:            
             description: Configure IPv6 syslog server
             type: str
@@ -205,8 +208,7 @@ options:
         suboptions: *session_id_suboptions
       persistent:
         description: Set persistent logging parameters
-        type: list
-        elements: dict
+        type: dict
         suboptions:
           batch:      
             description: Set batch size for writing to persistent storage (4096-2142715904)
@@ -306,8 +308,8 @@ options:
   running_config:
       description:
       - This option is used only with state I(parsed).
-      - The value of this option should be the output received from the EOS device by
-        executing the command B(show running-config | section access-list).
+      - The value of this option should be the output received from the IOS device by
+        executing the command B(show running-config | include logging).
       - The state I(parsed) reads the configuration from C(running_config) option and
         transforms it into Ansible structured data as per the resource module's argspec
         and the value is then returned in the I(parsed) key within the result.
