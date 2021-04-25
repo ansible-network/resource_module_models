@@ -31,7 +31,7 @@ options:
             description: Route map set operations
             type: str
             choices: ['deny', 'permit']
-          continue:
+          continue_entry:
             description: Continue on a different entry within the route-map
             type: dict
             suboptions:
@@ -82,7 +82,7 @@ options:
                   set:
                     description: Set AS path list
                     type: bool
-                  acl: &acl
+                  acls:
                     description:
                       - AS path access-list
                       - Please refer vendor documentation for valid values
@@ -109,17 +109,19 @@ options:
                     description:
                       - Community-list number/Community-list name
                       - Please refer vendor documentation for valid values
-                    type: str
+                    type: list
+                    elements: str
                   exact_match:
                     description: Do exact matching of communities
-                    type: str
+                    type: bool
               extcommunity:
                 description:
                   - Match BGP/VPN extended community list
                   - Extended community-list number
                   - Please refer vendor documentation for valid values
-                type: str
-              interface:
+                type: list
+                elements: str
+              interfaces:
                 description: Match first hop interface of route
                 type: list
                 elements: str
@@ -131,8 +133,14 @@ options:
                     description: Match address of route or match packet
                     type: dict
                     suboptions:
-                      acl: *acl
-                      prefix_list: &prefix_list
+                      acls: &acls
+                        description:
+                          - Match entries of acl
+                          - IP acl name/number
+                          - Please refer vendor documentation for valid values
+                        type: list
+                        elements: str
+                      prefix_lists: &prefix_lists
                         description:
                           - Match entries of prefix-lists
                           - IP prefix-list name
@@ -148,8 +156,8 @@ options:
                       src_pfx:
                         description: Match source prefix component of flowspec prefix
                         type: bool
-                      acl: *acl
-                      prefix_list: *prefix_list
+                      acls: *acls
+                      prefix_lists: *prefix_lists
                   next_hop:
                     description: Match next-hop address of route
                     type: dict
@@ -157,8 +165,8 @@ options:
                       set:
                         description: Set next-hop address
                         type: bool
-                      acl: *acl
-                      prefix_list: *prefix_list
+                      acls: *acls
+                      prefix_lists: *prefix_lists
                   redistribution_source:
                     description: route redistribution source (EIGRP only)
                     type: dict
@@ -166,8 +174,8 @@ options:
                       set:
                         description: Set redistribution-source
                         type: bool
-                      acl: *acl
-                      prefix_list: *prefix_list
+                      acls: *acls
+                      prefix_lists: *prefix_lists
                   route_source:
                     description: Match advertising source address of route
                     type: dict
@@ -178,14 +186,15 @@ options:
                       redistribution_source:
                         description: route redistribution source (EIGRP only)
                         type: bool
-                      acl: *acl
-                      prefix_list: *prefix_list
+                      acls: *acls
+                      prefix_lists: *prefix_lists
               ipv6:
                 description: IPv6 specific information
                 type: dict
                 suboptions:
                   address:
                     type: dict
+                    description: Match address of route or match packet
                     suboptions:
                       acl:
                         description: IPv6 access-list name
@@ -263,11 +272,12 @@ options:
                   set:
                     description: Set and Match routes corresponding to MDT group
                     type: bool
-                  acl:
+                  acls:
                     description:
                       - IP access-list number/IP standard access-list name
                       - Please refer vendor documentation for valid values
-                    type: str
+                    type: list
+                    elements: str
               metric:
                 description: Match metric of route
                 type: dict
@@ -282,8 +292,7 @@ options:
                     type: bool
                   deviation:
                     description: Deviation option to match metric in a range
-                    choices: ['plus', 'minus']
-                    type: str
+                    type: bool
                   deviation_value:
                     description:
                       - deviation value, 500 +- 10 creates the range 490 - 510
@@ -292,7 +301,7 @@ options:
               mpls_label:
                 description: Match routes which have MPLS labels
                 type: bool
-              policy_list:
+              policy_lists:
                 description: Match IP policy list
                 type: list
                 elements: str
@@ -419,7 +428,7 @@ options:
                     description: Tag value/Tag in Dotted Decimal eg, 10.10.10.10
                     type: list
                     elements: str
-                  list:
+                  tag_list:
                     description: Route Tag List/Tag list name
                     type: list
                     elements: str
@@ -452,7 +461,8 @@ options:
                         description:
                           - AS number
                           - Please refer vendor documentation for valid values
-                        type: str
+                        type: list
+                        elements: str
                       last_as:
                         description:
                           - Prepend last AS to the as-path
@@ -555,8 +565,8 @@ options:
                         description:
                           - Community ID
                           - Please refer vendor documentation for valid values
-                        type: int
-                      cost:
+                        type: str
+                      cost_value:
                         description:
                           - Cost Value (No-preference Cost = 2147483647)
                           - Please refer vendor documentation for valid values
@@ -576,6 +586,16 @@ options:
                         type: str
                       range:
                         description: Specify a range of extended community
+                        type: dict
+                        suboptions:
+                          lower_limit:
+                            description: VPN extended community
+                            type: str
+                          upper_limit:
+                            description: VPN extended community
+                            type: str
+                      additive:
+                        description: Add to the existing extcommunity
                         type: bool
                   soo:
                     description: Site-of-Origin extended community
@@ -589,16 +609,24 @@ options:
                         type: str
                       range:
                         description: Specify a range of extended community
-                        type: bool
+                        type: dict
+                        suboptions:
+                          lower_limit:
+                            description: VPN extended community
+                            type: str
+                          upper_limit:
+                            description: VPN extended community
+                            type: str
                       additive:
                         description: Add to the existing extcommunity
                         type: bool
-              global:
+              global_route:
                 description: Set to global routing table
                 type: bool
-              interface:
+              interfaces:
                 description: Output interface
-                type: str
+                type: list
+                elements: str
               ip:
                 description: IP specific information
                 type: dict
@@ -608,16 +636,13 @@ options:
                       - Specify IP address
                       - Prefix-list name to set ip address
                     type: str
-                  default:
-                    description: Set default information
-                    type: bool
                   df:
                     description: Set DF bit
                     choices: [0, 1]
                     type: int
-                  global:
+                  global_route:
                     description: global routing table
-                    type: bool
+                    type: dict
                     suboptions:
                       address:
                         description: IP address of next hop
@@ -665,22 +690,15 @@ options:
                         description: Recursive next-hop
                         type: dict
                         suboptions:
+                          global_route:
+                            description: global routing table
+                            type: bool
+                          vrf:
+                            description: VRF
+                            type: str
                           address:
                             description: IP address of recursive next hop
                             type: str
-                          global:
-                            description: global routing table
-                            type: str
-                          vrf:
-                            description: VRF
-                            type: dict
-                            suboptions:
-                              name:
-                                description: VRF name
-                                type: str
-                              address:
-                                description: IP address of recursive next hop
-                                type: str
                       self:
                         description: Use self address (for BGP only)
                         type: bool
@@ -693,7 +711,7 @@ options:
                             type: bool
                           address:
                             description: IP address of next hop
-                            ype: str
+                            type: str
                           sequence:
                             description:
                               - Sequence to insert into next-hop list
@@ -782,7 +800,7 @@ options:
                             type: bool
                           address:
                             description: IP address of next hop
-                            ype: str
+                            type: str
                           sequence:
                             description:
                               - Sequence to insert into next-hop list
@@ -806,7 +824,7 @@ options:
                   default:
                     description: Set default information
                     type: bool
-                  global:
+                  global_route:
                     description: global routing table
                     type: dict
                     suboptions:
@@ -871,7 +889,7 @@ options:
                         suboptions:
                           address:
                             description: IPv6 address of next hop
-                            ype: str
+                            type: str
                           sequence:
                             description:
                               - Sequence to insert into next-hop list
