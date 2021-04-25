@@ -1,0 +1,77 @@
+# Using Gathered
+
+# Before state:
+# -------------
+#
+# vios#sh running-config | section ^router bgp
+# router bgp 65000
+#  bgp nopeerup-delay post-boot 10
+#  bgp graceful-shutdown all neighbors 50 local-preference 100 community 100
+#  bgp bestpath compare-routerid
+#  bgp dampening 1 1 1 1
+#  bgp advertise-best-external
+#  neighbor 198.51.100.1 remote-as 100
+#  neighbor 198.51.100.1 description merge neighbor
+#  neighbor 198.51.100.1 aigp send cost-community 100 poi igp-cost transitive
+#  neighbor 198.51.100.1 route-map test-route out
+
+
+- name: Gather listed global BGP with provided configurations
+  cisco.ios.ios_bgp_global:
+    config:
+    state: gathered
+
+# Module Execution Result:
+# ------------------------
+#
+#  "gathered": {
+#         "as_number": "65000",
+#         "bgp": {
+#             "advertise_best_external": true,
+#             "bestpath": [
+#                 {
+#                     "compare_routerid": true
+#                 }
+#             ],
+#             "dampening": {
+#                 "max_suppress": 1,
+#                 "penalty_half_time": 1,
+#                 "reuse_route_val": 1,
+#                 "suppress_route_val": 1
+#             },
+#             "graceful_shutdown": {
+#                 "community": "100",
+#                 "local_preference": 100,
+#                 "neighbors": {
+#                     "time": 50
+#                 }
+#             },
+#             "nopeerup_delay": [
+#                 {
+#                     "post_boot": 10
+#                 }
+#             ]
+#         },
+#         "neighbor": [
+#             {
+#                 "address": "198.51.100.1",
+#                 "aigp": {
+#                     "send": {
+#                         "cost_community": {
+#                             "id": 100,
+#                             "poi": {
+#                                 "igp_cost": true,
+#                                 "transitive": true
+#                             }
+#                         }
+#                     }
+#                 },
+#                 "description": "merge neighbor",
+#                 "remote_as": 100,
+#                 "route_map": {
+#                     "name": "test-route",
+#                     "out": true
+#                 }
+#             }
+#         ]
+#     }

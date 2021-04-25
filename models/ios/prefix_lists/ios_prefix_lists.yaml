@@ -1,0 +1,91 @@
+module: ios_prefix_lists
+short_description: Prefix Lists resource module
+description:
+  - This module configures and manages the attributes of prefix list on Cisco IOS.
+version_added: 2.2.0
+author: Sumit Jaiswal (@justjais)
+notes:
+  - Tested against Cisco IOSv Version 15.2 on VIRL
+  - This module works with connection C(network_cli).
+    See L(IOS Platform Options,../network/user_guide/platform_ios.html)
+options:
+  config:
+    description: A list of configurations for Prefix lists.
+    type: list
+    elements: dict
+    suboptions:
+      afi:
+        description:
+          - The Address Family Indicator (AFI) for the  prefix list.
+        type: str
+        choices:
+          - ipv4
+          - ipv6
+      prefix_lists:
+        description: List of Prefix-lists.
+        type: list
+        elements: dict
+        suboptions:
+          sequence_number:
+            description: Include/exclude sequence numbers in NVGEN
+            type: int
+          name:
+            description: Name of a prefix-list
+            type: str
+          action:
+            description: Specify packets to be rejected or forwarded
+            type: str
+            choices: ['deny', 'permit']
+          address:
+            description:
+              - IP prefix <network>/<length>, e.g., A.B.C.D/nn
+              - IPv6 prefix <network>/<length>, e.g., X:X:X:X::X/<0-128>
+            type: str
+          match:
+            description: List of Prefix-lists.
+            type: dict
+            suboptions:
+              ge:
+                description: Minimum prefix length to be matched
+                type: int
+              le:
+                description: Maximum prefix length to be matched
+                type: int
+          description:
+            description:  Prefix-list specific description
+            type: str
+          sequence:
+            description: sequence number of an entry
+            type: int
+  running_config:
+    description:
+    - This option is used only with state I(parsed).
+    - The value of this option should be the output received from the IOS device by
+      executing the command B(sh bgp).
+    - The state I(parsed) reads the configuration from C(running_config) option and
+      transforms it into Ansible structured data as per the resource module's argspec
+      and the value is then returned in the I(parsed) key within the result.
+    type: str
+  state:
+    description:
+      - The state the configuration should be left in.
+    type: str
+    choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - purged
+      - gathered
+      - parsed
+      - rendered
+    default: merged
+required_if:
+- ["state", "merged", ["config",]]
+- ["state", "replaced", ["config",]]
+- ["state", "overridden", ["config",]]
+- ["state", "rendered", ["config",]]
+- ["state", "parsed", ["running_config",]]
+mutually_exclusive:
+- ["config", "running_config"]
+supports_check_mode: True

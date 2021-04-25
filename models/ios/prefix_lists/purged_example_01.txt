@@ -1,0 +1,34 @@
+# Using Purged
+#"(NOTE: This WILL delete the configured global BGP)"
+
+# Before state:
+# -------------
+#
+# vios#sh running-config | section ^router bgp
+# router bgp 65000
+#  bgp nopeerup-delay post-boot 10
+#  bgp graceful-shutdown all neighbors 50 local-preference 100 community 100
+#  bgp bestpath compare-routerid
+#  bgp dampening 1 1 1 1
+#  bgp advertise-best-external
+#  neighbor 198.51.100.1 remote-as 100
+#  neighbor 198.51.100.1 description merge neighbor
+#  neighbor 198.51.100.1 aigp send cost-community 100 poi igp-cost transitive
+#  neighbor 198.51.100.1 route-map test-route out
+
+
+- name: 'Delete the configured global BGP (Note: This WILL delete the the configured
+    global BGP)'
+  cisco.ios.ios_bgp_global:
+    state: purged
+
+# Commands fired:
+# ---------------
+#  "commands": [
+#         "no router bgp 65000",
+#     ]
+
+# After state:
+# -------------
+#
+# vios#sh running-config | section ^router bgp
