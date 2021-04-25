@@ -37,7 +37,7 @@ options:
             description: Route map denies or permits set operations.
             type: str
             choices: ["deny", "permit"]
-          continue:
+          continue_sequence:
             description: Continue on a different entry within the route-map.
             type: int
           description:
@@ -53,13 +53,16 @@ options:
                 suboptions:
                   asn:
                     description: AS number.
-                    type: str
+                    type: list
+                    elements: str
                   as_path_list:
                     description: AS path access list name.
-                    type: str
+                    type: list
+                    elements: str
               as_path:
                 description: Match BGP AS path list.
-                type: str
+                type: list
+                elements: str
               community:
                 description: Match BGP community list.
                 type: dict
@@ -75,7 +78,7 @@ options:
                 description: Match BGP EVPN Routes.
                 type: dict
                 suboptions:
-                  route_type:
+                  route_types:
                     description: Match route type for evpn route.
                     type: list
                     elements: str
@@ -113,29 +116,22 @@ options:
                     description: Match multicast attributes.
                     type: dict
                     suboptions:
+                      source:
+                        description: Multicast source address.
+                        type: str
                       group:
-                        description: Multicast Group prefix.
+                        description:
+                          - Multicast Group prefix.
+                          - Mutually exclusive with group_range.
                         type: dict
                         suboptions:
                           prefix:
                             description: IPv4 group prefix.
                             type: str
-                          rp: &rp
-                            description: Rendezvous point.
-                            type: dict
-                            suboption:
-                              prefix: 
-                                description: IPv4 rendezvous prefix.
-                                type: str
-                              rp_type:
-                                description: Multicast rendezvous point type.
-                                type: str
-                                choices: ["ASM", "Bidir"]
-                          source: &source
-                            description: Multicast source address.
-                            type: str
                       group_range:
-                        description: Multicast Group address range.
+                        description:
+                          - Multicast Group address range.
+                          - Mutually exclusive with group.
                         type: dict
                         suboptions:
                           first:
@@ -144,8 +140,17 @@ options:
                           last:
                             description: Last Group address.
                             type: str
-                          rp: *rp
-                          source: *source
+                      rp:
+                        description: Rendezvous point.
+                        type: dict
+                        suboptions:
+                          prefix:
+                            description: IPv4 rendezvous prefix.
+                            type: str
+                          rp_type:
+                            description: Multicast rendezvous point type.
+                            type: str
+                            choices: ["ASM", "Bidir"]
                   next_hop:
                     description: Match next-hop address of route.
                     type: dict
@@ -178,7 +183,7 @@ options:
                 description: Match ospf area.
                 type: list
                 elements: int
-              route_type:
+              route_types:
                 description: Match route-type of route.
                 type: list
                 elements: str
@@ -276,9 +281,9 @@ options:
                 type: dict
                 suboptions:
                   gateway_ip:
-                    description: 
+                    description:
                       - Set gateway IP for type 5 EVPN routes.
-                      - Cannot set ip and use-nexthop gateway-ip in the same route-map sequence.
+                      - Cannot set ip and use-nexthop in the same route-map sequence.
                     type: dict
                     suboptions:
                       ip:
@@ -368,6 +373,11 @@ options:
     description:
     - The state the configuration should be left in.
     - Refer to examples for more details.
+    - With state I(replaced), for the listed route-maps,
+      sequences that are in running-config but not in the task are negated.
+    - With state I(overridden), all route-maps that are in running-config but
+      not in the task are negated.
+    - Please refer to examples for more details.
     type: str
     choices:
     - merged
