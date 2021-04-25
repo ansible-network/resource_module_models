@@ -75,7 +75,6 @@ options:
       - replaced
       - overridden
       - deleted
-      - purged
       - gathered
       - parsed
       - rendered
