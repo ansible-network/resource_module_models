@@ -21,17 +21,14 @@ options:
         choices:
           - ipv4
           - ipv6
+      name:
+        description: Name of a prefix-list
+        type: str
       prefix_lists:
         description: List of Prefix-lists.
         type: list
         elements: dict
         suboptions:
-          sequence_number:
-            description: Include/exclude sequence numbers in NVGEN
-            type: int
-          name:
-            description: Name of a prefix-list
-            type: str
           action:
             description: Specify packets to be rejected or forwarded
             type: str
