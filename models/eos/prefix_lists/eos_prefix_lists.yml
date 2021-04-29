@@ -32,40 +32,45 @@ options:
               description: Name of the prefix-list
               type: str
               required: true
-            action:
-              description: action to be performed on the specified path
-              type: str
-              choices: ['deny', 'permit']
-            address:
-              description: ipv4/v6 address in prefix-mask or address-masklen format
-              type: str
-            match:
-              description: match masklen
-              type: dict
+            entries:
+              description: List of prefix-lists
+              type: list
+              elements: dict
               suboptions:
-                operator:
-                  description: equalto/greater than/lesser than
+                action:
+                  description: action to be performed on the specified path
                   type: str
-                  choices: ['eq', 'le', 'ge']
-                masklen:
-                  description: Mask Length.
+                  choices: ['deny', 'permit']
+                address:
+                  description: ipv4/v6 address in prefix-mask or address-masklen format
+                  type: str
+                match:
+                  description: match masklen
+                  type: dict
+                  suboptions:
+                    operator:
+                      description: equalto/greater than/lesser than
+                      type: str
+                      choices: ['eq', 'le', 'ge']
+                    masklen:
+                      description: Mask Length.
+                      type: int
+                sequence:
+                  description: sequence number
                   type: int
-            sequence:
-              description: sequence number
-              type: int
-            resequence:
-              description: Resequence the list.
-              type: dict
-              suboptions:
-                default:
-                  description: Resequence with default values (10).
-                  type: bool
-                start_seq:
-                  description: Starting sequence number.
-                  type: int
-                step:
-                  description: Step to increment the sequence number.
-                  type: int
+                resequence:
+                  description: Resequence the list.
+                  type: dict
+                  suboptions:
+                    default:
+                      description: Resequence with default values (10).
+                      type: bool
+                    start_seq:
+                      description: Starting sequence number.
+                      type: int
+                    step:
+                      description: Step to increment the sequence number.
+                      type: int
     running_config:
       description:
       - This option is used only with state I(parsed).
