@@ -8,7 +8,7 @@ notes:
   - This module works with connection C(network_cli).
     See L(IOS Platform Options,../network/user_guide/platform_ios.html)
   - The Configuration defaults of the Cisco IOS network devices
-    are supposed to hinder idempotent Behavior of plays
+    are supposed to hinder idempotent behavior of plays
 options:
   config:
     description: A list containing dictionary of logging options
