@@ -1,0 +1,61 @@
+# Using state: rendered
+
+- name: Render the commands for provided configuration
+  cisco.ios.ios_logging_global:
+    config:
+      - buffered:
+          severity: notifications
+          size: 5099
+          xml: True
+      - console:
+          severity: critical
+          xml: True
+      - facility: local5
+      - hosts:
+        - hostname: 172.16.1.12
+        - hostname: 172.16.1.11
+          xml: True
+        - hostname: 172.16.1.10
+          filtered: True
+          stream: 10
+        - hostname: 172.16.1.13
+          transport:
+            tcp:
+              port: 514
+      - monitor:
+          severity: warnings
+      - message_counter: log
+      - snmp_trap: errors
+      - trap: errors
+      - userinfo: True
+      - policy_firewall:
+          rate_limit: 10
+      - logging_on: True
+      - exception: 10
+      - dmvpn:
+          rate_limit: 10
+      - cns_events: warnings
+    state: rendered
+
+# Module Execution Result:
+# ------------------------
+
+# "rendered": [
+#     "logging host 172.16.1.12",
+#     "logging host 172.16.1.11 xml",
+#     "logging host 172.16.1.10 filtered stream 10",
+#     "logging host 172.16.1.13 transport tcp port 514",
+#     "logging message-counter log",
+#     "logging snmp-trap errors",
+#     "logging buffered xml 5099 notifications",
+#     "logging console xml critical",
+#     "logging facility local5",
+#     "logging monitor warnings",
+#     "logging trap errors",
+#     "logging userinfo",
+#     "logging policy-firewall rate-limit 10",
+#     "logging on",
+#     "logging exception 10",
+#     "logging dmvpn rate-limit 10",
+#     "logging cns-events warnings"
+#     ]

@@ -1,0 +1,138 @@
+# Using state: parsed
+
+# File: parsed.cfg
+# ----------------
+
+# logging on
+# logging count
+# logging userinfo
+# logging trap errors
+# logging reload alerts
+# logging host 172.16.1.1
+# logging exception 4099
+# logging history alerts
+# logging facility local5
+# logging snmp-trap errors
+# logging monitor warnings
+# logging origin-id hostname
+# logging host 172.16.1.11 xml
+# logging cns-events warnings
+# logging dmvpn rate-limit 10
+# logging message-counter log
+# logging console xml critical
+# logging message-counter debug
+# logging persistent batch 4444
+# logging host 172.16.1.25 filtered
+# logging source-interface GBit1/0
+# logging source-interface CTunnel2
+# logging policy-firewall rate-limit 10
+# logging buffered xml 5099 notifications
+# logging rate-limit all 2 except warnings
+# logging host 172.16.1.10 filtered stream 10
+# logging host 172.16.1.13 transport tcp port 514
+# logging discriminator msglog01 severity includes 5
+# logging filter tftp://172.16.2.18/ESM/elate.tcl args TESTInst2
+# logging filter tftp://172.16.2.14/ESM/escalate.tcl args TESTInst
+
+- name: Parse the provided configuration with the existing running configuration
+  cisco.ios.ios_logging_global:
+    running_config: "{{ lookup('file', 'parsed.cfg') }}"
+    state: parsed
+
+# Module Execution Result:
+# ------------------------
+
+# "parsed": [
+#         {
+#             "buffered": {
+#                 "severity": "notifications",
+#                 "size": 5099,
+#                 "xml": true
+#             },
+#             "cns_events": "warnings",
+#             "console": {
+#                 "severity": "critical",
+#                 "xml": true
+#             },
+#             "count": true,
+#             "discriminator": [
+#                 "msglog01 severity includes 5"
+#             ],
+#             "dmvpn": {
+#                 "rate_limit": 10
+#             },
+#             "exception": 4099,
+#             "facility": "local5",
+#             "filter": [
+#                 {
+#                     "args": "TESTInst2 ",
+#                     "url": "tftp://172.16.2.18/ESM/elate.tcl"
+#                 },
+#                 {
+#                     "args": "TESTInst",
+#                     "url": "tftp://172.16.2.14/ESM/escalate.tcl"
+#                 }
+#             ],
+#             "history": {
+#                 "severity": "alerts"
+#             },
+#             "logging_on": true,
+#             "message_counter": [
+#                 "debug",
+#                 "log"
+#             ],
+#             "monitor": {
+#                 "severity": "warnings"
+#             },
+#             "origin_id": {
+#                 "tag": "hostname"
+#             },
+#             "persistent": {
+#                 "batch": 4444
+#             },
+#             "policy_firewall": {
+#                 "rate_limit": 10
+#             },
+#             "rate_limit": {
+#                 "all": true,
+#                 "except_severity": "warnings",
+#                 "size": 2
+#             },
+#             "reload": {
+#                 "severity": "alerts"
+#             },
+#             "snmp_trap": [
+#                 "errors"
+#             ],
+#             "source_interface": [
+#                 {
+#                     "interface": "GBit1/0"
+#                 },
+#                 {
+#                     "interface": "CTunnel2"
+#                 }
+#             ],
+#             "trap": "errors",
+#             "userinfo": true
+#         },
+#         {
+#             "hosts": [
+#                 {
+#                     "hostname": "172.16.1.1"
+#                 },
+#                 {
+#                     "hostname": "172.16.1.11",
+#                     "xml": true
+#                 },
+#                 {
+#                     "filtered": true,
+#                     "hostname": "172.16.1.25"
+#                 },
+#                 {
+#                     "filtered": true,
+#                     "hostname": "172.16.1.10",
+#                     "stream": 10
+#                 }
+#             ]
+#         }
+#     ]
