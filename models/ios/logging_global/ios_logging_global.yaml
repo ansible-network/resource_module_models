@@ -1,8 +1,14 @@
 module: ios_logging_global
-version_added: 2.1.0
-short_description: Manages logging attributes of Cisco IOS network devices.
-description: This module manages the logging attributes of Cisco IOS network devices.
+version_added: 2.2.0
+short_description: Manages logging attributes of Cisco IOS network devices
+description: This module manages the logging attributes of Cisco IOS network devices
 author: Sagar Paul (@KB-perByte)
+notes:
+  - Tested against Cisco IOSv Version 15.6
+  - This module works with connection C(network_cli).
+    See L(IOS Platform Options,../network/user_guide/platform_ios.html)
+  - The Configuration defaults of the Cisco IOS network devices
+    are supposed to hinder idempotent Behavior of plays
 options:
   config:
     description: A list containing dictionary of logging options
@@ -67,7 +73,7 @@ options:
           filtered: *filtered
           xml: *xml
       count:
-        description: Count every log message and timestamp last occurance
+        description: Count every log message and timestamp last occurrence
         type: bool
       delimiter:
         description: Append delimiter to syslog messages
@@ -78,7 +84,8 @@ options:
             type: bool
       discriminator:
         description: Create or modify a message discriminator
-        type: str
+        type: list
+        elements: str
       dmvpn:
         description: DMVPN Configuration
         type: dict
@@ -100,32 +107,30 @@ options:
         description: Facility parameter for syslog messages
         type: str
         choices:
-          [
-            "auth",
-            "cron",
-            "daemon",
-            "kern",
-            "local0",
-            "local1",
-            "local2",
-            "local3",
-            "local4",
-            "local5",
-            "local6",
-            "local7",
-            "lpr",
-            "mail",
-            "news",
-            "sys10",
-            "sys11",
-            "sys12",
-            "sys13",
-            "sys14",
-            "sys9",
-            "syslog",
-            "user",
-            "uucp",
-          ]
+          - auth
+          - cron
+          - daemon
+          - kern
+          - local0
+          - local1
+          - local2
+          - local3
+          - local4
+          - local5
+          - local6
+          - local7
+          - lpr
+          - mail
+          - news
+          - sys10
+          - sys11
+          - sys12
+          - sys13
+          - sys14
+          - sys9
+          - syslog
+          - user
+          - uucp
       filter:
         description: Specify logging filter
         type: list
@@ -146,7 +151,7 @@ options:
         suboptions:
           size: *size
           severity: *severity
-      host:
+      hosts:
         description: Set syslog server IP address and parameters
         type: list
         elements: dict
@@ -163,10 +168,13 @@ options:
               tag:
                 description: Include hostname in session ID tag
                 type: str
-                choices: ["hostname", "ip", "ipv6"]
+                choices: ["hostname", "ipv4", "ipv6"]
               text:
                 description: Include custom string in session ID tag
                 type: str
+          stream: &stream
+            description: This server should only receive messages from a numbered stream
+            type: int
           transport: &transport
             description: Specify the transport protocol (default=UDP)
             type: dict
@@ -179,13 +187,8 @@ options:
                     description: Set this host for IOS firewall audit logging
                     type: bool
                   discriminator: *discriminator
-                  filtered:
-                    description: Enable filtered logging
-                    type: dict
-                    suboptions:
-                      stream:
-                        description: This server should only receive messages from a numbered stream
-                        type: int
+                  stream: *stream
+                  filtered: *filtered
                   port:
                     description: Specify the TCP port number (default=601) (1 - 65535)
                     type: int
@@ -197,13 +200,8 @@ options:
                 type: dict
                 suboptions:
                   discriminator: *discriminator
-                  filtered:
-                    description: Enable filtered logging
-                    type: dict
-                    suboptions:
-                      stream:
-                        description: This server should only receive messages from a numbered stream
-                        type: int
+                  stream: *stream
+                  filtered: *filtered
                   port:
                     description: Specify the TCP port number (default=601) (1 - 65535)
                     type: int
@@ -214,9 +212,6 @@ options:
             description: Set VRF option
             type: str
           xml: *xml
-          stream:
-            description: This server should only receive messages from a numbered stream
-            type: int
           ipv6:
             description: Configure IPv6 syslog server
             type: str
@@ -238,11 +233,19 @@ options:
           xml: *xml
       logging_on:
         description: Enable logging to all enabled destinations
-        type: bool
+        type: str
+        choices: ["enable", "disable"]
       origin_id:
         description: Add origin ID to syslog messages
         type: dict
-        suboptions: *session_id_suboptions
+        suboptions:
+          tag:
+            description: Include hostname in session ID tag
+            type: str
+            choices: ["hostname", "ip", "ipv6"]
+          text:
+            description: Include custom string in session ID tag
+            type: str
       persistent:
         description: Set persistent logging parameters
         type: dict
@@ -305,7 +308,7 @@ options:
           console:
             description: (1-10000) message per second
             type: bool
-          except:
+          except_severity:
             description: Messages of this severity or higher
             type: str
             choices: *severity_subgroup
@@ -315,14 +318,15 @@ options:
         suboptions:
           severity: *severity
           message_limit:
-            description: Number of messages (1-4294967295>)
+            description: Number of messages (1-4294967295)
             type: int
       server_arp:
         description: Enable sending ARP requests for syslog servers when first configured
         type: bool
       snmp_trap:
         description: Set syslog level for sending snmp trap
-        type: str
+        type: list
+        elements: str
         choices: *severity_subgroup
       source_interface:
         description: Specify interface for source address in logging transactions
@@ -333,7 +337,7 @@ options:
             description: Interface name with number
             type: str
           vrf:
-            description: VPN Routing/Forwarding intstance name
+            description: VPN Routing/Forwarding instance name
             type: str
       trap:
         description: Set syslog server logging level
@@ -364,3 +368,12 @@ options:
     description:
       - The state the configuration should be left in
     type: str
+required_if:
+  - ["state", "merged", ["config"]]
+  - ["state", "replaced", ["config"]]
+  - ["state", "overridden", ["config"]]
+  - ["state", "rendered", ["config"]]
+  - ["state", "parsed", ["running_config"]]
+mutually_exclusive:
+  - ["config", "running_config"]
+supports_check_mode: True
