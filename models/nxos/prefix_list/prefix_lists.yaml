@@ -69,9 +69,9 @@ options:
     description:
     - The state the configuration should be left in.
     - Refer to examples for more details.
-    - With state I(replaced), for the listed route-maps,
+    - With state I(replaced), for the listed prefix-lists,
       sequences that are in running-config but not in the task are negated.
-    - With state I(overridden), all route-maps that are in running-config but
+    - With state I(overridden), all prefix-lists that are in running-config but
       not in the task are negated.
     - Please refer to examples for more details.
     type: str
