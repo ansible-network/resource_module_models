@@ -18,7 +18,7 @@ options:
       and the value is then returned in the I(parsed) key within the result.
     type: str
   config:
-    description: A list of route-map configuration.
+    description: A list of prefix-list configuration.
     type: list
     elements: dict
     suboptions:
@@ -64,7 +64,7 @@ options:
                 type: int
               mask:
                 description: Explicit match mask.
-                type: strr
+                type: str
   state:
     description:
     - The state the configuration should be left in.
