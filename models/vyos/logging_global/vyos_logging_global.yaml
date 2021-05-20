@@ -11,8 +11,7 @@ notes:
 options:
   config:
     description: A list containing dictionary of logging options
-    type: list
-    elements: dict
+    type: dict
     suboptions:
       console:
         description: logging to serial console
@@ -65,7 +64,8 @@ options:
                   - all
       file:
         description: logging to file
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           path:
             description: Logging severity level
@@ -83,7 +83,8 @@ options:
           facility: *facility
       global:
         description: logging to serial console
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           archive: *archive
           facility: *facility
@@ -99,7 +100,8 @@ options:
             type: bool
       host:
         description: logging to serial console
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           port:
             description: Destination port (1-65535)
@@ -121,7 +123,8 @@ options:
             type: str
       user:
         description: logging to file
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           username:
             description: Logging severity level
