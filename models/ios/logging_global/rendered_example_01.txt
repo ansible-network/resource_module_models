@@ -3,15 +3,15 @@
 - name: Render the commands for provided configuration
   cisco.ios.ios_logging_global:
     config:
-      - buffered:
-          severity: notifications
-          size: 5099
-          xml: True
-      - console:
-          severity: critical
-          xml: True
-      - facility: local5
-      - hosts:
+      buffered:
+        severity: notifications
+        size: 5099
+        xml: True
+      console:
+        severity: critical
+        xml: True
+      facility: local5
+      hosts:
         - hostname: 172.16.1.12
         - hostname: 172.16.1.11
           xml: True
@@ -22,19 +22,19 @@
           transport:
             tcp:
               port: 514
-      - monitor:
-          severity: warnings
-      - message_counter: log
-      - snmp_trap: errors
-      - trap: errors
-      - userinfo: True
-      - policy_firewall:
+      monitor:
+        severity: warnings
+      message_counter: log
+      snmp_trap: errors
+      trap: errors
+      userinfo: True
+      policy_firewall:
           rate_limit: 10
-      - logging_on: True
-      - exception: 10
-      - dmvpn:
-          rate_limit: 10
-      - cns_events: warnings
+      logging_on: True
+      exception: 10
+      dmvpn:
+        rate_limit: 10
+      cns_events: warnings
     state: rendered
 
 # Module Execution Result:
