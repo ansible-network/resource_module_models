@@ -26,15 +26,15 @@
 - name: Replace commands with provided configuration
   cisco.ios.ios_logging_global:
     config:
-      - buffered:
-          severity: alerts
-          size: 6025
-      - facility: local6
-      - hosts:
-          - hostname: 172.16.1.19
-          - hostname: 172.16.1.10
-            filtered: true
-            stream: 15
+      buffered:
+        severity: alerts
+        size: 6025
+      facility: local6
+      hosts:
+        - hostname: 172.16.1.19
+        - hostname: 172.16.1.10
+          filtered: true
+          stream: 15
     state: replaced
 
 # Commands Fired:
