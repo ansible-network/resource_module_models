@@ -13,7 +13,7 @@ options:
     description: A list containing dictionary of logging options
     type: dict
     suboptions:
-      console:
+      console_params:
         description: logging to serial console
         type: list
         elements: dict
@@ -62,7 +62,7 @@ options:
                   - info
                   - debug
                   - all
-      file:
+      files:
         description: logging to file
         type: list
         elements: dict
@@ -81,7 +81,7 @@ options:
                 description: Size of log files (in kilobytes, default is 256)
                 type: int
           facility: *facility
-      global:
+      global_params:
         description: logging to serial console
         type: list
         elements: dict
@@ -98,7 +98,7 @@ options:
           preserve_fqdn:
             description: uses FQDN for logging
             type: bool
-      host:
+      hosts:
         description: logging to serial console
         type: list
         elements: dict
@@ -121,7 +121,7 @@ options:
           hostname:
             description: Remote host name or IP address
             type: str
-      user:
+      users:
         description: logging to file
         type: list
         elements: dict
