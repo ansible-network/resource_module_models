@@ -1,0 +1,59 @@
+module: vyos_prefix_lists
+short_description: Prefix-Lists resource module for VyOS
+description:
+  - This module manages prefix-lists configuration on devices running VyOS
+version_added: 1.0.0 # ask ####################
+author: Priyam Sahoo (@priyamsahoo)
+notes:
+  - "Tested against <network_os> <version>" # Fill this as well ####################
+options:
+  config:
+    description: A list of prefix-list configurations
+    type: list
+    elements: dict
+    suboptions:
+      name:
+        description: The name of a defined prefix-list
+        type: str
+        required: True
+      description:
+        description: A brief text description for the prefix-list
+        type: str
+      rules:
+        description: Rule configurations for the prefix-list
+        type: list
+        elements: dict
+        suboptions:
+          id:
+            description: A numeric identifier for the rule
+            type: int
+            required: True # This is second required thing #######################
+          description:
+            description: A brief text description for the prefix list rule
+            type: str
+          action:
+            description: The action to be taken for packets matching a prefix list rule
+            type: str
+            choices: ["permit", "deny"]
+          ge:
+            description: Minimum prefix length to be matched
+            type: int
+          le:
+            description: Maximum prefix list length to be matched
+            type: int
+          prefix:
+            description: IPv4 network in A.B.C.D/LEN format # How to support IPv6 ####################
+            type: str
+  state:
+    description:
+      - The state the configuration should be left in
+    type: str
+    choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - gathered
+      - rendered
+      - parsed
+    default: merged
