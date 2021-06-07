@@ -5,8 +5,8 @@ description:
 version_added: 2.3.1
 author: Priyam Sahoo (@priyamsahoo)
 notes:
-  - Tested against VyOS 1.1.8 (helium).
-  - This module works with connection C(network_cli). See L(the VyOS OS Platform Options,../network/user_guide/platform_vyos.html).
+  - Tested against VyOS 1.1.8 (helium)
+  - This module works with connection C(network_cli)
 options:
   config:
     description: A list of prefix-list options
