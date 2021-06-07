@@ -5,7 +5,8 @@ description:
 version_added: 2.3.1
 author: Priyam Sahoo (@priyamsahoo)
 notes:
-  - "Tested against VyOS 1.1.8" # Fill this as well #################### vyos 1.1.8 (Gomathi's comment req)
+  - Tested against VyOS 1.1.8 (helium).
+  - This module works with connection C(network_cli). See L(the VyOS OS Platform Options,../network/user_guide/platform_vyos.html).
 options:
   config:
     description: A list of prefix-list options
@@ -54,6 +55,15 @@ options:
               prefix:
                 description: IPv4 or IPv6 prefix in A.B.C.D/LEN or A:B::C:D/LEN format
                 type: str
+  running_config:
+    description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the VyOS device
+        by executing the command B(show configuration commands | grep prefix-list).
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into Ansible structured data as per the resource module's argspec
+        and the value is then returned in the I(parsed) key within the result.
+    type: str
   state:
     description:
       - The state the configuration should be left in
