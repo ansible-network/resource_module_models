@@ -141,7 +141,7 @@ options:
                       description: true if only stub is set
                       type: bool
                     summary_lsa:
-                      desctiption: If false , Filter all type-3 LSAs in the stub area.
+                      description: If false , Filter all type-3 LSAs in the stub area.
                       type: bool
 
           bfd:
@@ -422,7 +422,7 @@ options:
                         description: true if only stub is set
                         type: bool
                       summary_lsa:
-                        desctiption: If false , Filter all type-3 LSAs in the stub area.
+                        description: If false , Filter all type-3 LSAs in the stub area.
                         type: bool
 
               bfd:
