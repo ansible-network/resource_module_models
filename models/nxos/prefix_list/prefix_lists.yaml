@@ -35,6 +35,9 @@ options:
           name:
             description: Name of the prefix-list.
             type: str
+          description:
+            description: Description of the prefix list
+            type: str
           entries:
             description: List of configurations for the specified prefix-list
             type: list
@@ -47,9 +50,6 @@ options:
                 description: Prefix-List permit or deny.
                 type: str
                 choices: ["permit", "deny"]
-              description:
-                description: Description of the prefix list
-                type: str
               prefix:
                 description: IP or IPv6 prefix in A.B.C.D/LEN or A:B::C:D/LEN format.
                 type: str
