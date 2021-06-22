@@ -1,17 +1,17 @@
 ---
 
   module: vyos_ntp
-  version added:
-  short_description:  Manages ntp modules of Vyos
+  version added: 2.4.0
+  short_description:  Manages ntp modules of Vyos network devices
   description: This module manages ntp configuration on devices running Vyos
-  author: Varshitha Yataluru (@vyatalur)
+  author: Varshitha Yataluru (@YVarshitha)
   options:
     config:
         description: List of configurations for ntp module
         type: list
         elements: dict
         suboptions:
-            allow-clients:
+            allow_clients:
                 description: Network Time Protocol (NTP) server options
                 type: dict
                 suboptions:
@@ -21,7 +21,7 @@
                         choices:
                             - Ip
                             - IPv6
-            listen-address:
+            listen_address:
                 description: local IP addresses for service to listen on
                 type: str
                 choices:
