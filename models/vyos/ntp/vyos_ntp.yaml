@@ -1,4 +1,3 @@
----
 
   module: vyos_ntp
   version added: 2.4.0
