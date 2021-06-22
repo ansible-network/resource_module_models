@@ -12,35 +12,26 @@
         suboptions:
             allow_clients:
                 description: Network Time Protocol (NTP) server options
-                type: dict
-                suboptions:
-                    address:
-                        description: IP address
-                        type: list
-                        choices:
-                            - Ip
-                            - IPv6
+                type: str
             listen_address:
                 description: local IP addresses for service to listen on
                 type: str
-                choices:
-                    - Ip
-                    - IPv6
             server:
                 description: Network Time Protocol (NTP) server
-                type: dict
+                type: list
+                elements: dict
                 suboptions:
                     server_name:
+                        description: server name for NTP
+                        type: str
+                    server_options:
                         description: server options for NTP
-                        type: dict
-                        suboptions:
-                            server_options:
-                                description: server options for NTP
-                                type: list
-                                choices:
-                                    - noselect
-                                    - pool
-                                    - preempt
-                                    - prefer
+                        type: list
+                        elements: str
+                        choices:
+                            - noselect
+                            - pool
+                            - preempt
+                            - prefer
 
 
