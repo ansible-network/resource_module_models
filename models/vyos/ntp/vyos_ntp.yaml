@@ -1,19 +1,5 @@
 ---
 
-GENERATOR_VERSION: '1.0'
-ANSIBLE_METADATA: |
-  {
-    'metadata_version': '1.1',
-    'status': ['preview'],
-    'supported_by': 'network'
-  }
-
-NETWORK_OS: vyos
-RESOURCE: ntp
-COPYRIGHT: Copyright 2021 Red Hat
-
-
-DOCUMENTAION: |
   module: vyos_ntp
   version added:
   short_description:  Manages ntp modules of Vyos
@@ -27,11 +13,11 @@ DOCUMENTAION: |
         suboptions:
             allow-clients:
                 description: Network Time Protocol (NTP) server options
-                type: str
+                type: dict
                 suboptions:
                     address:
                         description: IP address
-                        type: str
+                        type: list
                         choices:
                             - Ip
                             - IPv6
@@ -47,7 +33,7 @@ DOCUMENTAION: |
                 suboptions:
                     server_name:
                         description: server options for NTP
-                        type: str
+                        type: dict
                         suboptions:
                             server_options:
                                 description: server options for NTP
