@@ -68,7 +68,7 @@ options:
         elements: dict
         suboptions:
           path:
-            description: Logging severity level
+            description: file name or path
             type: str
           archive: &archive
             description: Log file size and rotation characteristics
@@ -88,13 +88,9 @@ options:
         suboptions:
           archive: *archive
           facility: *facility
-          marker:
-            description: mark messages sent to syslog
-            type: dict
-            suboptions:
-              interval:
-                description: mark messages sent to syslog
-                type: int
+          marker_interval:
+            description: time interval how often a mark message is being sent in seconds (default is 1200)
+            type: int
           preserve_fqdn:
             description: uses FQDN for logging
             type: bool
