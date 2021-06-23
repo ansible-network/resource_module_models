@@ -2,20 +2,25 @@
   module: vyos_ntp
   version added: 2.4.0
   short_description:  Manages ntp modules of Vyos network devices
-  description: This module manages ntp configuration on devices running Vyos
+  description: 
+  - This module manages ntp configuration on devices running Vyos
   author: Varshitha Yataluru (@YVarshitha)
+  notes:
+  - Tested against vyos 1.3
+  - This module works with connection C(network_cli).
   options:
     config:
         description: List of configurations for ntp module
-        type: list
-        elements: dict
+        type: dict
         suboptions:
             allow_clients:
                 description: Network Time Protocol (NTP) server options
-                type: str
+                type: list
+                elements: str
             listen_address:
                 description: local IP addresses for service to listen on
-                type: str
+                type: list
+                elements: str
             server:
                 description: Network Time Protocol (NTP) server
                 type: list
@@ -33,5 +38,28 @@
                             - pool
                             - preempt
                             - prefer
+     running_config:
+        description:
+        - This option is used only with state I(parsed).
+        - The value of this option should be the output received from the VYOS device by
+          executing the command B(show configuration commands | grep ntp).
+        - The state I(parsed) reads the configuration from C(show configuration commands | grep ntp) option and
+          transforms it into Ansible structured data as per the resource module's argspec
+          and the value is then returned in the I(parsed) key within the result.
+        type: str
+     state:
+        description:
+         - The state the configuration should be left in.
+        type: str
+        choices:
+        - deleted
+        - merged
+        - overridden
+        - replaced
+        - gathered
+        - rendered
+        - parsed
+        default: merged
+                            
 
 
