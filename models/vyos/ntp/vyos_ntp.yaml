@@ -17,19 +17,19 @@
                 description: Network Time Protocol (NTP) server options
                 type: list
                 elements: str
-            listen_address:
+            listen_addresses:
                 description: local IP addresses for service to listen on
                 type: list
                 elements: str
-            server:
+            servers:
                 description: Network Time Protocol (NTP) server
                 type: list
                 elements: dict
                 suboptions:
-                    server_name:
+                    name:
                         description: server name for NTP
                         type: str
-                    server_options:
+                    options:
                         description: server options for NTP
                         type: list
                         elements: str
