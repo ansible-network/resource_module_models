@@ -4,7 +4,7 @@ short_description: Manages logging attributes of Vyos network devices
 description: This module manages the logging attributes of Vyos network devices
 author: Sagar Paul (@KB-perByte)
 notes:
-  - Tested against #TODO
+  - Tested against vyos 1.2
   - This module works with connection C(network_cli).
   - The Configuration defaults of the Vyos network devices
     are supposed to hinder idempotent behavior of plays
@@ -19,49 +19,45 @@ options:
         elements: dict
         suboptions:
           facility: &facility
-            description: logging to serial console
-            type: dict
-            suboptions:
-              facility_type: &facility_type
-                description: Facility for logging
-                type: str
-                choices:
-                  - all
-                  - auth
-                  - authpriv
-                  - cron
-                  - daemon
-                  - kern
-                  - lpr
-                  - mail
-                  - mark
-                  - news
-                  - protocols
-                  - security
-                  - syslog
-                  - user
-                  - uucp
-                  - local0
-                  - local1
-                  - local2
-                  - local3
-                  - local4
-                  - local5
-                  - local6
-                  - local7
-              level: &level
-                description: logging level
-                type: str
-                choices:
-                  - emerg
-                  - alert
-                  - crit
-                  - err
-                  - warning
-                  - notice
-                  - info
-                  - debug
-                  - all
+            description: Facility for logging
+            type: str
+            choices:
+              - all
+              - auth
+              - authpriv
+              - cron
+              - daemon
+              - kern
+              - lpr
+              - mail
+              - mark
+              - news
+              - protocols
+              - security
+              - syslog
+              - user
+              - uucp
+              - local0
+              - local1
+              - local2
+              - local3
+              - local4
+              - local5
+              - local6
+              - local7
+          level: &level
+            description: logging level
+            type: str
+            choices:
+              - emerg
+              - alert
+              - crit
+              - err
+              - warning
+              - notice
+              - info
+              - debug
+              - all
       files:
         description: logging to file
         type: list
@@ -81,6 +77,7 @@ options:
                 description: Size of log files (in kilobytes, default is 256)
                 type: int
           facility: *facility
+          level: *level
       global_params:
         description: logging to serial console
         type: list
@@ -88,6 +85,7 @@ options:
         suboptions:
           archive: *archive
           facility: *facility
+          level: *level
           marker_interval:
             description: time interval how often a mark message is being sent in seconds (default is 1200)
             type: int
@@ -102,18 +100,14 @@ options:
           port:
             description: Destination port (1-65535)
             type: int
-          facility:
-            description: logging to serial console
-            type: dict
-            suboptions:
-              facility_type: *facility_type
-              level: *level
-              protocol:
-                description: syslog communication protocol
-                type: str
-                choices:
-                  - udp
-                  - tcp
+          facility: *facility
+          level: *level
+          protocol:
+            description: syslog communication protocol
+            type: str
+            choices:
+              - udp
+              - tcp
           hostname:
             description: Remote host name or IP address
             type: str
