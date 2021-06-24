@@ -117,7 +117,7 @@ options:
         elements: dict
         suboptions:
           username:
-            description: Logging severity level
+            description: user login name
             type: str
           facility: *facility
   running_config:
