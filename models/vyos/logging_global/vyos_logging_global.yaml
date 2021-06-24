@@ -120,6 +120,7 @@ options:
             description: user login name
             type: str
           facility: *facility
+          level: *level
   running_config:
     description:
       - This option is used only with state I(parsed).
