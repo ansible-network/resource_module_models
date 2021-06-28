@@ -76,16 +76,19 @@ options:
               size:
                 description: Size of log files (in kilobytes, default is 256)
                 type: int
-          facility: *facility
-          level: *level
+          params: &params
+            description: List of supported params
+            type: list
+            elements: dict
+            suboptions:
+              facility: *facility
+              level: *level
       global_params:
         description: logging to serial console
-        type: list
         elements: dict
         suboptions:
           archive: *archive
-          facility: *facility
-          level: *level
+          params: *params
           marker_interval:
             description: time interval how often a mark message is being sent in seconds (default is 1200)
             type: int
@@ -97,17 +100,22 @@ options:
         type: list
         elements: dict
         suboptions:
-          port:
-            description: Destination port (1-65535)
-            type: int
-          facility: *facility
-          level: *level
-          protocol:
-            description: syslog communication protocol
-            type: str
-            choices:
-              - udp
-              - tcp
+          params:
+            description: List of supported params
+            type: list
+            elements: dict
+            suboptions:
+              port:
+                description: Destination port (1-65535)
+                type: int
+              facility: *facility
+              level: *level
+              protocol:
+                description: syslog communication protocol
+                type: str
+                choices:
+                  - udp
+                  - tcp
           hostname:
             description: Remote host name or IP address
             type: str
@@ -119,8 +127,7 @@ options:
           username:
             description: user login name
             type: str
-          facility: *facility
-          level: *level
+          params: *params
   running_config:
     description:
       - This option is used only with state I(parsed).
