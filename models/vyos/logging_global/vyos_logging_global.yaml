@@ -85,7 +85,7 @@ options:
               level: *level
       global_params:
         description: logging to serial console
-        elements: dict
+        type: dict
         suboptions:
           archive: *archive
           params: *params
@@ -100,14 +100,14 @@ options:
         type: list
         elements: dict
         suboptions:
+          port:
+            description: Destination port (1-65535)
+            type: int
           params:
             description: List of supported params
             type: list
             elements: dict
             suboptions:
-              port:
-                description: Destination port (1-65535)
-                type: int
               facility: *facility
               level: *level
               protocol:
