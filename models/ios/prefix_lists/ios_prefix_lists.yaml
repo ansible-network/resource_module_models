@@ -27,7 +27,10 @@ options:
           name:
             description: Name of a prefix-list
             type: str
-          params:
+          description:
+            description:  Prefix-list specific description
+            type: str
+          entries:
             description: Prefix-lists supported params.
             type: list
             elements: dict
@@ -40,9 +43,15 @@ options:
                 description: sequence number of an entry
                 type: int
               description:
-                description:  Prefix-list specific description
+                description:
+                  - Prefix-list specific description
+                  - Description param at entries level is DEPRECATED
+                  - New Description is introduced at prefix_lists level, please
+                    use the Description param defined at prefix_lists level instead of
+                    Description param at entries level, as at this level description option
+                    will get removed in a future release.
                 type: str
-              address:
+              prefix:
                 description:
                   - IPv4 prefix <network>/<length>, e.g., A.B.C.D/nn
                   - IPv6 prefix <network>/<length>, e.g., X:X:X:X::X/<0-128>
@@ -64,7 +73,27 @@ options:
     type: str
   state:
     description:
-      - The state the configuration should be left in.
+      - The state the configuration should be left in
+      - The states I(merged) is the default state which merges the want and have config, but
+        for Prefix-List module as the IOS platform doesn't allow update of Prefix-List over an
+        pre-existing Prefix-List, same way Prefix-Lists resource module will error out for
+        respective scenario and only addition of new Prefix-List over new sequence will be
+        allowed with merge state.
+      - The states I(rendered), I(gathered) and I(parsed) does not perform any change
+        on the device.
+      - The state I(rendered) will transform the configuration in C(config) option to
+        platform specific CLI commands which will be returned in the I(rendered) key
+        within the result. For state I(rendered) active connection to remote host is
+        not required.
+      - The state I(gathered) will fetch the running configuration from device and transform
+        it into structured data in the format as per the resource module argspec and
+        the value is returned in the I(gathered) key within the result.
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into JSON format as per the resource module parameters and the
+        value is returned in the I(parsed) key within the result. The value of C(running_config)
+        option should be the same format as the output of command I(sh running-config
+        | section ^ip prefix-list|^ipv6 prefix-list) executed on device. For state I(parsed) active
+        connection to remote host is not required.
     type: str
     choices:
       - merged
@@ -75,12 +104,3 @@ options:
       - parsed
       - rendered
     default: merged
-required_if:
-- ["state", "merged", ["config",]]
-- ["state", "replaced", ["config",]]
-- ["state", "overridden", ["config",]]
-- ["state", "rendered", ["config",]]
-- ["state", "parsed", ["running_config",]]
-mutually_exclusive:
-- ["config", "running_config"]
-supports_check_mode: True
