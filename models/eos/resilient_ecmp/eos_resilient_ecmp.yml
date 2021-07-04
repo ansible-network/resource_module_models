@@ -1,0 +1,88 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'network'
+    }
+NETWORK_OS: eos
+RESOURCE: resilient_ecmp
+COPYRIGHT: Copyright 2021 Red Hat
+
+DOCUMENTATION: |
+  module: eos_resilient_ecmp
+  short_description: Manages Resilient ECMP resource module.
+  description:
+    - This module manages Resilient ECMP configurations on Arista EOS platforms.
+  version_added: 1.0.0
+  author: Mohamed Anees (@microanees)
+  notes:
+    - Tested against Arista EOS 4.20.14M
+    - This module works with connection C(network_cli). See the L(EOS Platform Options,eos_platform_options).
+  options:
+    config:
+      description: Resilient ECMP configurations per Address Family.
+      type: list
+      elements: dict
+      suboptions:
+        afi:
+          description:
+            - Specifies the top level address family indicator.
+          type: str
+          choices: ['ipv4', 'ipv6']
+          required: true
+        routes:
+          description: A list of Resilient ECMP entries.
+          type: list
+          elements: dict
+          required: true
+          suboptions:
+            dest:
+              description:
+                - IPv4/IPv6 Network Address.
+                - The address format is <v4/v6 address>/<mask>.
+                - The mask is number in range 0-32 for IPv4 and in range 0-128 for IPv6.
+              type: str
+              required: true
+            capacity:
+              description:
+                - Number of next-hop addresses.
+              type: int
+              required: true
+            redundancy:
+              description:
+                - Number of times next-hop addresses are duplicated in the table.
+              type: int
+              required: true
+    running_config:
+      description:
+        - This option is used only with state I(parsed).
+        - The value of this option should be the output received from the EOS device by
+          executing the command B(show running-config | include hardware fib ecmp resilience).
+        - The state I(parsed) reads the configuration from C(running_config) option and
+          transforms it into Ansible structured data as per the resource module's argspec
+          and the value is then returned in the I(parsed) key within the result.
+      type: str
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+        - deleted
+        - merged
+        - overridden
+        - replaced
+        - gathered
+        - rendered
+        - parsed
+      default: merged
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
+  - gathered_example_01.txt
+  - parsed_example_01.txt
+  - rendered_example_01.txt
