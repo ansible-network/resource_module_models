@@ -1,0 +1,24 @@
+# Using deleted
+
+# Before state:
+# -------------
+#
+# show bgp as-path-access-list
+# AS path list test:
+#   members: 808.*,909.*
+# AS path list test1:
+#   members: 608.*,709.*
+
+- name: Delete BGP as path list.
+  sonic_bgp_as_paths:
+    config:
+      - name: test
+        members:
+    state: deleted
+
+# After state:
+# ------------
+#
+# show bgp as-path-access-list
+# AS path list test1:
+#   members: 608.*,709.*

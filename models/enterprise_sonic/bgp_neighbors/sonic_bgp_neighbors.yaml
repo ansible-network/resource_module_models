@@ -1,0 +1,227 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+    }
+
+NETWORK_OS: sonic
+RESOURCE: bgp_neighbors
+COPYRIGHT: Copyright 2019 Red Hat
+DOCUMENTATION: |
+  module: sonic_bgp_neighbors
+  version_added: 1.0.0
+  author: "Abirami N (@abirami-n)"
+  short_description: Configure BGP neighbors configurations on SONiC.
+  description:
+    - This module provides configuration management of BGP neighbor parameters on devices running SONiC
+    - bgp_as and vrf_name need be created earlier in the device.
+  options:
+    config:
+      description:
+        - Specifies the BGP neighbors related configuration.
+      type: list
+      elements: dict
+      suboptions:
+        bgp_as:
+          description:
+            -  Specifies the BGP Autonomous System (AS) number which is already configured in the device.
+          type: str
+          required: true
+        vrf_name:
+          description:
+            - Specifies the vrf name which is already configured in the device.
+          type: str
+          default: 'default'
+        peer_group:
+          description:
+            - Specifies the list of peer groups.
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description: name of the peer group.
+              type: str
+            remote_as:
+              description:
+                - Remote AS of the BGP peergroup to configure.
+              type: dict
+              mutually_exclusive: [['peer_as','peer_type']]
+              suboptions:
+                peer_as:
+                  description:
+                    - Specifies remote AS number.
+                    - The range is from 1 to 4294967295.
+                  type: int
+                peer_type:
+                  description:
+                    - Specifies type of bgp peer.
+                  type: str
+                  choices: ['internal', 'external']
+            bfd:
+              description:
+                - Enable or disable bfd.
+              type: bool
+            advertisement_interval:
+              description:
+                - Specifies the minimum interval between sending BGP routing updates.
+                - The range is from 0 to 600.
+              type: int
+            timers:
+              description:
+                - Specifies BGP peergroup timer related configurations.
+              type: dict
+              suboptions:
+                keepalive:
+                  description:
+                    - Frequency (in seconds) with which the device sends keepalive messages to its peer.
+                    - The range is from 0 to 65535.
+                  type: int
+                holdtime:
+                  description:
+                    - Interval (in seconds) after not receiving a keepalive message that SONiC declares a peer dead.
+                    - The range is from 0 to 65535.
+                  type: int
+            capability:
+              description:
+                - Specifies capability attributes to this peergroup.
+              type: dict
+              suboptions:
+                dynamic:
+                  description:
+                    - Enable or disable dynamic capability to this peergroup.
+                  type: bool
+                extended_nexthop:
+                  description:
+                    - Enable or disable advertise extended next-hop capability to the peer.
+                  type: bool
+            address_family:
+              description:
+                - Holds of list of address families associated to the peergroup.
+              type: dict
+              suboptions:
+                afis:
+                  description:
+                    - List of address families with afi, safi, activate and allowas-in parameters.
+                    - afi and safi are required together.
+                  type: list
+                  elements: dict
+                  required_together: [['afi', 'safi']]
+                  suboptions:
+                    afi:
+                      description:
+                        - Holds afi mode.
+                      type: str
+                      choices:
+                        - ipv4
+                        - ipv6
+                        - l2vpn
+                    safi:
+                      description:
+                        - Holds safi mode.
+                      type: str
+                      choices:
+                        - unicast
+                        - evpn
+                    activate:
+                      description:
+                        - Enable or disable activate.
+                      type: bool
+                    allowas_in:
+                      description:
+                        - Holds AS value.
+                        - origin and value are mutually exclusive.
+                      type: dict
+                      mutually_exclusive: [['origin', 'value']]
+                      suboptions:
+                        origin:
+                          description:
+                             - Set AS as origin.
+                          type: bool
+                        value:
+                          description:
+                            - Holds AS number in the range 1-10.
+                          type: int
+        neighbors:
+          description:
+            - Specifies BGP neighbor related configurations.
+          type: list
+          elements: dict
+          suboptions:
+            neighbor:
+              description:
+                - Neighbor router address.
+              type: str
+              required: True
+            remote_as:
+              description:
+                - Remote AS of the BGP neighbor to configure.
+              type: dict
+              mutually_exclusive: [['peer_as','peer_type']]
+              suboptions:
+                peer_as:
+                  description:
+                    - Specifies remote AS number.
+                    - The range is from 1 to 4294967295.
+                  type: int
+                peer_type:
+                  description:
+                    - Specifies type of bgp peer.
+                  type: str
+                  choices: ['internal', 'external']
+            bfd:
+              description:
+                - Enable or disable bfd.
+              type: bool
+            advertisement_interval:
+              description:
+                - Specifies the minimum interval between sending BGP routing updates.
+                - The range is from 0 to 600.
+              type: int
+            peer_group:
+              description:
+                - Name of the peer group that the neighbor is a member of.
+              type: str
+            timers:
+              description:
+                - Specifies BGP neighbor timer related configurations.
+              type: dict
+              suboptions:
+                keepalive:
+                  description:
+                    - Frequency (in seconds) with which the device sends keepalive messages to its peer.
+                    - The range is from 0 to 65535.
+                  type: int
+                holdtime:
+                  description:
+                    - Interval (in seconds) after not receiving a keepalive message that SONiC declares a peer dead.
+                    - The range is from 0 to 65535.
+                  type: int
+            capability:
+              description:
+                - Specifies capability attributes to this neighbor.
+              type: dict
+              suboptions:
+                dynamic:
+                  description:
+                    - Enable or disable dynamic capability to this neighbor.
+                  type: bool
+                extended_nexthop:
+                  description:
+                    - Enable or disable advertise extended next-hop capability to the peer.
+                  type: bool
+    state:
+      description:
+        - Specifies the operation to be performed on the BGP process configured on the device.
+        - In case of merged, the input configuration will be merged with the existing BGP configuration on the device.
+        - In case of deleted the existing BGP configuration will be removed from the device.
+      default: merged
+      choices: ['merged', 'deleted']
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - deleted_example_02.txt
+  - deleted_example_03.txt

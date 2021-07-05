@@ -1,0 +1,26 @@
+# Using deleted
+
+# Before state:
+# -------------
+#
+#sonic# show Vlan
+#Q: A - Access (Untagged), T - Tagged
+#NUM        Status      Q Ports
+#20         Inactive
+#
+#sonic#
+
+- name: Delete attributes of the given VLANs.
+  sonic_vlans:
+    config:
+      - vlan_id: 20
+    state: deleted
+
+# After state:
+# ------------
+#
+#sonic# show Vlan
+#Q: A - Access (Untagged), T - Tagged
+#NUM        Status      Q Ports
+#
+#sonic#

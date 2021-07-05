@@ -1,0 +1,42 @@
+# Using deleted
+
+# Before state:
+# -------------
+#
+show ip vrf
+VRF-NAME            INTERFACES
+----------------------------------------------------------------
+Vrfcheck1
+Vrfcheck2
+Vrfcheck3           Ethernet12
+                    Ethernet52
+                    Ethernet60
+                    Ethernet64
+Vrfcheck4           Ethernet24
+                    Ethernet28
+
+- name: Configuring vrf deleted state
+  sonic_vrfs:
+    config:
+      - name: Vrfcheck4
+          members:
+            interfaces:
+              - name: Ethernet28
+      - name: Vrfcheck3
+          members:
+            interfaces:
+              - name: Ethernet12
+              - name: Ethernet52
+    state: deleted
+
+# After state:
+# ------------
+#
+show ip vrf
+VRF-NAME            INTERFACES
+----------------------------------------------------------------
+Vrfcheck1
+Vrfcheck2
+Vrfcheck3           Ethernet60
+                    Ethernet64
+Vrfcheck4           Ethernet24

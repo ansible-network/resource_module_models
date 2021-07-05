@@ -1,0 +1,21 @@
+# Using deleted
+
+# Before state:
+# -------------
+#
+# show bgp community-list
+# Standard community list test:  match: ANY
+#     101
+# Expanded community list test1:   match: ANY
+#     201
+
+- name: Delete All BGP communities.
+  sonic_bgp_communities:
+    config:
+    state: deleted
+
+# After state:
+# ------------
+#
+# show bgp community-list
+# 

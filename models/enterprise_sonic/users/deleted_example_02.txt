@@ -1,0 +1,21 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+#do show running-configuration
+#!
+#username admin password $6$sdZt2C7F$3oPSRkkJyLZtsKlFNGWdwssblQWBj5dXM6qAJAQl7dgOfqLSpZJ/n6xf8zPRcqPUFCu5ZKpEtynJ9sZ/S8Mgj. role admin
+#username sysadmin password $6$3QNqJzpFAPL9JqHA$417xFKw6SRn.CiqMFJkDfQJXKJGjeYwi2A8BIyfuWjGimvunOOjTRunVluudey/W9l8jhzN1oewBW5iLxmq2Q1 role admin
+#username sysoperator password $6$s1eTVjcX4Udi69gY$zlYgqwoKRGC6hGL5iKDImN/4BL7LXKNsx9e5PoSsBLs6C80ShYj2LoJAUZ58ia2WNjcHXhTD1p8eU9wyRTCiE0 role operator
+#
+#    - name: Merge users configurations
+#      sonic_users:
+#        config:
+#        state: deleted
+# After state:
+# ------------
+#
+#do show running-configuration
+#!
+#username admin password $6$sdZt2C7F$3oPSRkkJyLZtsKlFNGWdwssblQWBj5dXM6qAJAQl7dgOfqLSpZJ/n6xf8zPRcqPUFCu5ZKpEtynJ9sZ/S8Mgj. role admin

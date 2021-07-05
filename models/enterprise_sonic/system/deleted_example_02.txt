@@ -1,0 +1,22 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#!
+#SONIC(config)#do show running-configuration
+#!
+#ip anycast-mac-address aa:bb:cc:dd:ee:ff
+#ip anycast-address enable
+#ipv6 anycast-address enable
+#interface-naming standard
+
+    - name: Delete all system related configs in device configuration.
+      sonic_system:
+        config:
+        state: deleted
+
+# After state:
+# ------------
+#!
+#sonic(config)#do show running-configuration
+#!

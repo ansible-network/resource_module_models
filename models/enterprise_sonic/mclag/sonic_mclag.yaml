@@ -1,0 +1,93 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community'
+    }
+
+NETWORK_OS: sonic
+RESOURCE: mclag
+COPYRIGHT: Copyright 2020 Dell Inc. or its subsidiaries. All Rights Reserved
+
+DOCUMENTATION: |
+  module: sonic_mclag
+  version_added: 2.10
+  short_description: Manages multi-chassis link aggregation groups of SONiC domain.
+  description: 
+    - This module manages mclag domian attributes of SONiC.
+  author: Abirami N (@abirami-n)
+
+  options:
+    config:
+      description: Dict of mclag domain configurations.
+      type: dict
+      suboptions:
+        domain_id:
+          description:
+            - ID of the mclag domain (MCLAG domain).
+          type: int
+          required: True
+        peer_address:
+          description:
+            - The IPV4 peer-ip for corresponding MCLAG.
+          type: str
+        source_address:
+          description:
+            - The IPV4 source-ip for coresponding MCLAG.
+          type: str
+        peer_link:
+          description: 
+            - Peer-link for corresponding MCLAG.
+          type: str
+        keepalive:
+          description: 
+            - MCLAG session keepalive-interval in secs
+          type: int
+        session_timeout:
+          description: 
+            - MCLAG session timeout value in secs
+          type: int
+        unique_ip:
+          description: Holds Vlan dictionary for mclag unique ip
+          suboptions:
+            vlans:
+              description: 
+                - Holds list of vlans for which separate ip is enabled for L3 protocol support over MCLAG
+              type: list
+              elements: dict
+              suboptions:
+                 vlan: 
+                   description: Holds Vlan id 
+                   type: str
+          type: dict
+        members:
+          description: Holds portchannels dictionary for mclag domain
+          suboptions:
+            portchannels:
+              description:
+               - Holds list of portchannels for configuring as MCLAG interface
+              type: list
+              elements: dict
+              suboptions:
+                 lag:
+                   description: Holds PortChannel id
+                   type: str
+          type: dict
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+       - merged
+       - deleted
+      default: merged
+
+EXAMPLES:
+  - merged_example_01.txt
+  - merged_example_02.txt
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - deleted_example_03.txt
