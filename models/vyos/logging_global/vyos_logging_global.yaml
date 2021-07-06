@@ -1,6 +1,6 @@
 module: vyos_logging_global
 version_added: 2.4.0
-short_description: Manages logging attributes of Vyos network devices
+short_description: Logging resource module
 description: This module manages the logging attributes of Vyos network devices
 author: Sagar Paul (@KB-perByte)
 notes:
@@ -21,8 +21,8 @@ options:
             description: enable or disable the command
             type: str
             choices:
-              - enable
-              - disable
+              - enabled
+              - disabled
           facilities:
             description: facility configurations for console
             type: list
@@ -161,12 +161,3 @@ options:
     description:
       - The state the configuration should be left in
     type: str
-required_if:
-  - ["state", "merged", ["config"]]
-  - ["state", "replaced", ["config"]]
-  - ["state", "overridden", ["config"]]
-  - ["state", "rendered", ["config"]]
-  - ["state", "parsed", ["running_config"]]
-mutually_exclusive:
-  - ["config", "running_config"]
-supports_check_mode: True
