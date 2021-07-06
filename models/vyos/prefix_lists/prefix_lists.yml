@@ -2,7 +2,7 @@ module: vyos_prefix_lists
 short_description: Prefix-Lists resource module for VyOS
 description:
   - This module manages prefix-lists configuration on devices running VyOS
-version_added: 2.3.1
+version_added: 2.4.0
 author: Priyam Sahoo (@priyamsahoo)
 notes:
   - Tested against VyOS 1.1.8 (helium)
@@ -30,12 +30,12 @@ options:
           description:
             description: A brief text description for the prefix-list
             type: str
-          rules:
+          entries:
             description: Rule configurations for the prefix-list
             type: list
             elements: dict
             suboptions:
-              id:
+              sequence:
                 description: A numeric identifier for the rule
                 type: int
                 required: true
