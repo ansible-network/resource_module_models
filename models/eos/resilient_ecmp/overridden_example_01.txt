@@ -1,1 +1,27 @@
 # Using overridden
+
+Before State
+-------------
+arista-eos-switch#show run | inc hardware fib ecmp resilience
+ip hardware fib ecmp resilience 10.10.10.0/24 capacity 16 redundancy 4
+ip hardware fib ecmp resilience 10.10.90.0/25 capacity 16 redundancy 4
+ipv6 hardware fib ecmp resilience 2001:db8:1:1::/64 capacity 32 redundancy 4
+ipv6 hardware fib ecmp resilience 2001:db8:4:4::/64 capacity 32 redundancy 4
+ipv6 hardware fib ecmp resilience 2001:db8:5:5:6:6:6:6/128 capacity 32 redundancy 4
+arista-eos-switch#
+
+- name: Override Resilient ECMP Configurations
+  arista.eos.eos_resilient_ecmp:
+    config:
+      - afi: ipv6
+        routes:
+          - dest: 2001:db8:a:a::/64
+            capacity: 32
+            redundancy: 4
+    state: overridden
+
+After State
+-----------
+arista-eos-switch#show run | inc hardware fib ecmp resilience
+ipv6 hardware fib ecmp resilience 2001:db8:a:a::/64 capacity 32 redundancy 4
+arista-eos-switch#
