@@ -1,0 +1,38 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+#sonic(config)# do show tacacs-server
+#---------------------------------------------------------
+#TACACS Global Configuration
+#---------------------------------------------------------
+#
+#    - name: Merge tacacs configurations
+#      sonic_tacacs_server:
+#        config:
+#          auth_type: pap
+#          key: pap
+#          source_interface: Ethernet 12
+#          timeout: 10
+#          servers:
+#            - host:
+#                name: 1.2.3.4
+#                auth_type: pap
+#                key: 1234
+#        state: merged
+# After state:
+# ------------
+#
+#sonic(config)# do show tacacs-server
+#---------------------------------------------------------
+#TACACS Global Configuration
+#---------------------------------------------------------
+#source-interface  : Ethernet12
+#timeout    : 10
+#auth-type  : pap
+#key        : pap
+#------------------------------------------------------------------------------------------------
+#HOST                 AUTH-TYPE       KEY        PORT       PRIORITY   TIMEOUT    VRF
+#------------------------------------------------------------------------------------------------
+#1.2.3.4              pap             1234       49         1          5          default

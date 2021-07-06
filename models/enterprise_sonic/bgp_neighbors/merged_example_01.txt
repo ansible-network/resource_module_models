@@ -1,0 +1,99 @@
+# Using merged
+#
+# Before state:
+# ------------
+#router bgp 11 vrf VrfCheck2
+# network import-check
+# timers 60 180
+#!
+#router bgp 51 vrf VrfReg1
+# network import-check
+# timers 60 180
+#!
+#router bgp 11
+# network import-check
+# timers 60 180
+# !
+#
+- name: "Add sonic_bgp_neighbors"
+  sonic_bgp_neighbors:
+    config:
+      - bgp_as: 51
+        vrf_name: VrfReg1
+        peer_group:
+          - name: SPINE
+            bfd: true
+            capability:
+              dynamic: true
+              extended_nexthop: true
+            remote_as:
+              peer_as: 4
+            address_family:
+              afis:
+                - afi: ipv4
+                  safi: unicast
+                  activate: true
+                  allowas_in:
+                    origin: true
+                - afi: ipv6
+                  safi: unicast
+                  activate: true
+                  allowas_in:
+                    value: 5
+        neighbors:
+          - neighbor: Eth1/3
+            remote_as:
+              peer_as: 10
+            peer_group: SPINE
+            advertisement_interval: 15
+            timers:
+              keepalive: 30
+              holdtime: 15
+            bfd: true
+            capability:
+              dynamic: true
+              extended_nexthop: true
+          - neighbor: 192.168.1.4
+    state: merged
+
+# After state:
+# ------------
+#!
+#router bgp 11 vrf VrfCheck2
+# network import-check
+# timers 60 180
+#!
+#router bgp 51 vrf VrfReg1
+# network import-check
+# timers 60 180
+# !
+# peer-group SPINE
+#  remote-as 4
+#  bfd
+#  capability dynamic
+#  capability extended-nexthop
+#  address-family ipv4 unicast
+#   activate
+#   allowas-in origin
+#   send-community both
+# !
+#  address-family ipv6 unicast
+#   activate
+#   allowas-in 5
+#   send-community both
+# !
+# neighbor interface Eth1/3
+#  peer-group SPINE
+#  remote-as 10
+#  timers 15 30
+#  advertisement-interval 15
+#  bfd 
+#  capability extended-nexthop
+#  capability dynamic
+# !
+# neighbor 192.168.1.4
+#!
+#router bgp 11
+# network import-check
+# timers 60 180
+#

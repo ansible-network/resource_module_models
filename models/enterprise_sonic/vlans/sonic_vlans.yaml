@@ -1,0 +1,50 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+      'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: vlans
+COPYRIGHT: Copyright 2020 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+  module: sonic_vlans
+  version_added: "2.10"
+  author: "Mohamed Javeed (@javeedf)"
+  short_description: Configure VLANs protocol settings on SONiC.
+  description:
+    - This module provides configuration management of VLANs parameters
+      on devices running SONiC
+  notes:
+    - Tested against Enterprise SONiC, release 3.0.2
+  options:
+    config:
+      description: A dictionary of VLANs options
+      type: list
+      elements: dict
+      suboptions:
+        vlan_id:
+          description:
+          - ID of the VLAN. Range 1-4094
+          type: int
+          required: true
+    state:
+      description:
+      - The state the configuration should be left in
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt

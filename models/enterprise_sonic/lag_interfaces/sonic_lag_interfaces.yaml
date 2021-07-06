@@ -1,0 +1,72 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community'
+    }
+
+NETWORK_OS: sonic
+RESOURCE: lag_interfaces
+COPYRIGHT: Copyright 2020 Dell Inc. or its subsidiaries. All Rights Reserved
+
+DOCUMENTATION: |
+  module: sonic_lag_interfaces
+  version_added: 1.0.0
+  short_description: Manages link aggregation groups of SONiC Interfaces
+  description: 
+    - This module manages attributes of link aggregation groups of SONiC Interfaces.
+  author: Abirami N (@abirami-n)
+
+  options:
+    config:
+      description: A list of link aggregation group configurations.
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - ID of the link aggregation group (LAG).
+          type: str
+          required: True
+        members:
+          description:
+            - The dict of interfaces that are part of the group.
+          type: dict
+          suboptions:
+            interfaces:
+              description: The list of interfaces that are part of the group.
+              type: list
+              elements: dict
+              suboptions:
+                member:
+                  description:
+                    - The interface name.
+                  type: str
+        mode:
+          description:
+            - Specifies mode of the port-channel while creation.
+          type: str
+          choices:
+            - static
+            - lacp
+
+    state:
+      description:
+        - The state the configuration should be left in.
+      type: str
+      choices:
+       - merged
+       - replaced
+       - overridden
+       - deleted
+      default: merged
+
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
+  - deleted_example_02.txt

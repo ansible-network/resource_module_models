@@ -1,0 +1,49 @@
+# Using deleted
+
+# Before state:
+# ------------
+#
+# sonic# show mclag brief
+#
+# Domain ID            : 1
+# Role                 : standby
+# Session Status       : down
+# Peer Link Status     : down
+# Source Address       : 3.3.3.3
+# Peer Address         : 1.1.1.1
+# Peer Link            : PortChannel1
+# Keepalive Interval   : 10 secs
+# Session Timeout      : 30 secs
+# System Mac           : 20:04:0f:37:bd:c9
+#
+#
+# Number of MLAG Interfaces:1
+-----------------------------------------------------------
+# MLAG Interface       Local/Remote Status
+-----------------------------------------------------------
+# PortChannel10            down/down
+#
+# admin@sonic:~$ show runningconfiguration all
+# {
+# ...
+# "MCLAG_UNIQUE_IP": {
+#        "Vlan4": {
+#            "unique_ip": "enable"
+#        }
+#    },
+# ...
+# }
+        
+- name: Delete all device configuration.
+  sonic_mclag:
+    config:
+    state: deleted
+
+# After state:
+# ------------
+#
+# sonic# show mclag brief
+# MCLAG Not Configured
+# 
+# admin@sonic:~$ show runningconfiguration all | grep MCLAG_UNIQUE_IP
+# admin@sonic:~$ 

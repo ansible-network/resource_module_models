@@ -1,0 +1,110 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+      'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: tacacs_server
+COPYRIGHT: "© Copyright 2021 Dell Inc. or its subsidiaries. All Rights Reserved"
+LICENSE: gpl-3.0.txt
+DOCUMENTATION: |
+  module: sonic_port_breakout
+  version_added: "1.0.0"
+  author: "Niraimadaiselvam M (@niraimadaiselvamm)"
+  short_description: Configures tacacs server settings on Enterprise SONiC.
+  description:
+    - This module provides configuration management of tacacs server parameters on devices running Enterprise SONiC.
+  notes:
+    - Tested against Enterprise SONiC, release 3.0.2.
+  options:
+    config:
+      description:
+        - Specifies the tacacs server related configuration.
+      type: dict
+      suboptions:
+        auth_type:
+          description:
+            - Specifies the authencation type of the tacacs server.
+          type: str
+          choices:
+            - pap
+            - chap
+            - mschap
+            - login
+          default: pap
+        key:
+          description:
+            - Specifies the key of the tacacs server.
+          type: str
+        timeout:
+          description:
+            - Specifies the timeout of the tacacs server.
+          type: int
+        source_interface:
+          description:
+            - Specifies the source interface of the tacacs server.
+          type: str
+        servers:
+          description:
+            - Specifies the servers list of the tacacs server.
+          type: dict
+          suboptions:
+            host:
+              description:
+                - Specifies the host details of the tacacs servers list.
+              type: list
+              elements: dict
+              suboptions:
+                name:
+                  description:
+                    - Specifies the name of the tacacs server host.
+                  type: str
+                auth_type:
+                  description:
+                    - Specifies the authentication type of the tacacs server host.
+                  type: str
+                  choices:
+                    - pap
+                    - chap
+                    - mschap
+                    - login
+                  default: pap
+                key:
+                  description:
+                    - Specifies the key of the tacacs server host.
+                  type: str
+                priority:
+                  description:
+                    - Specifies the priority of the tacacs server host.
+                  type: int
+                  default: 1
+                port:
+                  description:
+                    - Specifies the port of the tacacs server host.
+                  type: int
+                  default: 49
+                timeout:
+                  description:
+                    - Specifies the timeout of the tacacs server host.
+                  type: int
+                  default: 5
+                vrf:
+                  description:
+                    - Specifies the vrf of the tacacs server host.
+                  type: str
+                  default: default
+    state:
+      description:
+        - Specifies the operation to be performed on the tacacs server configured on the device.
+        - In case of merged, the input mode configuration will be merged with the existing tacacs server configuration on the device.
+        - In case of deleted the existing tacacs server mode configuration will be removed from the device.
+      default: merged
+      choices: ['merged', 'deleted']
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt

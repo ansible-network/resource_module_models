@@ -1,0 +1,33 @@
+# Using deleted
+
+# Before state:
+# -------------
+#
+ show interface status | no-more
+------------------------------------------------------------------------------------------
+Name                Description         Admin          Oper           Speed          MTU
+------------------------------------------------------------------------------------------
+Ethernet0           -                   up                            100000         9100
+Ethernet4           -                   up                            100000         9100
+Ethernet8           -                   down                          100000         9100
+Ethernet12          -                   down                          1000           9100
+Ethernet16          -                   down                          100000         9100
+
+- name: Configure interfaces
+  sonic_interfaces:
+    config:
+
+    state: deleted
+
+# After state:
+# -------------
+#
+ show interface status | no-more
+------------------------------------------------------------------------------------------
+Name                Description         Admin          Oper           Speed          MTU
+------------------------------------------------------------------------------------------
+Ethernet0           -                   up                            100000         9100
+Ethernet4           -                   up                            100000         9100
+Ethernet8           -                   up                            100000         9100
+Ethernet12          -                   up                            100000         9100
+Ethernet16          -                   up                            100000         9100

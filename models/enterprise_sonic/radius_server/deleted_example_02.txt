@@ -1,0 +1,36 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+#sonic(config)# do show radius-server
+#---------------------------------------------------------
+#RADIUS Global Configuration
+#---------------------------------------------------------
+#nas-ip-addr: 1.2.3.4
+#statistics : True
+#timeout    : 10
+#auth-type  : chap
+#key        : chap
+#retransmit : 3
+#--------------------------------------------------------------------------------
+#HOST            AUTH-TYPE KEY       AUTH-PORT PRIORITY TIMEOUT RTSMT VRF   SI
+#--------------------------------------------------------------------------------
+#localhost       mschapv2  local     52        2        20      2     mgmt  Ethernet12
+#myhost          chap      local     53        3        23      3     mgmt  Ethernet24
+#---------------------------------------------------------
+#RADIUS Statistics
+#---------------------------------------------------------
+#
+#    - name: Merge radius configurations
+#      sonic_radius_server:
+#        config:
+#        state: deleted
+# After state:
+# ------------
+#sonic(config)# do show radius-server
+#---------------------------------------------------------
+#RADIUS Global Configuration
+#---------------------------------------------------------
+#timeout    : 5
+#auth-type  : pap
