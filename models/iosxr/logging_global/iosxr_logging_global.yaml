@@ -18,7 +18,6 @@ options:
           device:
             type: str
             description: Configure the archive device
-            required: true
           archive_length:
             type: int
             description: The maximum no of weeks of log to maintain.
@@ -35,7 +34,7 @@ options:
           severity: &severity
             description: Logging severity level
             type: str
-            choices: &severity_subgroup
+            choices:
               - alerts
               - critical
               - debugging
@@ -71,11 +70,20 @@ options:
         description: Set console logging parameters
         type: dict
         suboptions:
-          severity: *severity
+          severity: &severity1
+            description: Logging severity level
+            type: str
+            choices:
+              - alerts
+              - critical
+              - debugging
+              - emergencies
+              - errors
+              - informational
+              - notifications
+              - warning
+              - disable
           discriminator: *discriminator
-          disable:
-            type: bool
-            description: Disable logging
       correlator:
         description: Configure properties of the event correlator
         type: dict
@@ -83,10 +91,14 @@ options:
           buffer_size:
             type: int
             description: Configure size of the correlator buffer.
-          rule:
-            type: dict
+          rules:
+            type: list
+            elements: dict
             description: Configure a specified correlation rule.
             suboptions:
+              rule_name:
+                type: str
+                description: name of rule.
               rule_type:
                 type: str
                 choices: ["stateful", "nonstateful"]
@@ -102,12 +114,13 @@ options:
                 description: Specify enable correlation on context.
               reissue_nonbistate:
                 type: bool
-                description: Specify reissue of non-bistate alarms on parent clear.
+                description: Specify reissue of non-bistate alarms on parent clear.This option is allowed for the rules whose type is stateful.
               reparent:
                 type: bool
-                description: Specify reparent of alarm on parent clear.
+                description: Specify reparent of alarm on parent clear.This option is allowed for the rules whose type is stateful.
           rule_set:
-            type: dict
+            type: list
+            elements: dict
             description: Configure a specified correlation ruleset.
             suboptions:
               name:
@@ -128,13 +141,10 @@ options:
             type: bool
             description: Include alarm source location in message text.
           filter_match:
-            type: str
+            type: list
+            elements: str
             description: Configure filter.
           severity: *severity
-          link_status:
-            type: str
-            description:
-            choices: ["software-interfaces", "disable"]
           threshold:
             type: int
             description: Capacity alarm threshold.
@@ -169,9 +179,9 @@ options:
       files:
         type: list
         elements: dict
-        description:
+        description: Set file logging.
         suboptions:
-          file:
+          name:
             description: name of file.
             type: str
           path:
@@ -179,7 +189,18 @@ options:
             type: str
           maxfilesize:
             description: Set max file size.
-          severity: *severity
+          severity:
+            description: Logging severity level
+            type: str
+            choices:
+              - alerts
+              - critical
+              - debugging
+              - emergencies
+              - errors
+              - info
+              - notifications
+              - warning
       format:
         type: bool
         description: Enable to send the syslog message rfc5424 format .
@@ -188,18 +209,31 @@ options:
         type: dict
         suboptions:
           size: *size
-          severity: *severity
+          severity:
+            description: Logging severity level
+            type: str
+            choices:
+              - alerts
+              - critical
+              - debugging
+              - emergencies
+              - errors
+              - informational
+              - notifications
+              - warnings
+              - disable
       hostnameprefix:
         type: str
         description: Hostname prefix to add on msgs to servers.
       ipv4: &ip
         description: Mark the dscp/precedence bit for ipv4 packets.
+        type: dict
         suboptions:
           dscp:
             description: Set IP DSCP (DiffServ CodePoint).Please refer vendor document for valid entries.
             type: str
           precedence:
-            description: Set precedencePlease refer vendor document for valid entries.
+            description: Set precedence Please refer vendor document for valid entries.
             type: str
       ipv6: *ip
       localfilesize:
@@ -209,7 +243,8 @@ options:
         description: Set terminal line (monitor) logging parameters
         type: dict
         suboptions:
-          severity: *severity
+          discriminator: *discriminator
+          severity: *severity1
       source_interfaces:
         description: Specify interface for source address in logging transactions
         type: list
@@ -231,8 +266,9 @@ options:
           duplicates:
             type: bool
             description: Suppress consecutive duplicate messages.
-      tls_server:
-        type: dict
+      tls_servers:
+        type: list
+        elements: dict
         description: Secure server over tls.
         suboptions:
           name:
@@ -250,23 +286,32 @@ options:
             description: name of vrf.
       trap:
         description: Set syslog server logging level
-        type: str
-        choices: *severity_subgroup
+        type: dict
+        suboptions:
+          severity: *severity1
       hosts:
         description: Set syslog server IP address and parameters
         type: list
         elements: dict
         suboptions:
-          ipv6:
-            description: IPv6 address of the logging host
+          severity:
+            description: Logging severity level
             type: str
-          hostname:
-            description: IPv4 address or hostname of the syslog server
+            choices:
+              - alerts
+              - critical
+              - debugging
+              - emergencies
+              - error
+              - info
+              - notifications
+              - warning
+          host:
+            description: IPv4/Ipv6 address or hostname of the syslog server
             type: str
           port:
             description: Set <0-65535>  non-default Port.
             type: str
-            default: default
           vrf:
             description: Set VRF option
             type: str
