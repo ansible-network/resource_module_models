@@ -70,6 +70,10 @@ options:
         description: Set console logging parameters
         type: dict
         suboptions:
+          state: &state
+            description: Enable or disable logging.
+            type: str
+            choices: [ "enabled", "disabled" ]
           severity: &severity1
             description: Logging severity level
             type: str
@@ -82,7 +86,6 @@ options:
               - informational
               - notifications
               - warning
-              - disable
           discriminator: *discriminator
       correlator:
         description: Configure properties of the event correlator
@@ -118,7 +121,7 @@ options:
               reparent:
                 type: bool
                 description: Specify reparent of alarm on parent clear.This option is allowed for the rules whose type is stateful.
-          rule_set:
+          rule_sets:
             type: list
             elements: dict
             description: Configure a specified correlation ruleset.
@@ -188,6 +191,7 @@ options:
             description: Set file path.
             type: str
           maxfilesize:
+            type: int
             description: Set max file size.
           severity:
             description: Logging severity level
@@ -208,6 +212,7 @@ options:
         description: Configure syslog history table
         type: dict
         suboptions:
+          state: *state
           size: *size
           severity:
             description: Logging severity level
@@ -221,7 +226,6 @@ options:
               - informational
               - notifications
               - warnings
-              - disable
       hostnameprefix:
         type: str
         description: Hostname prefix to add on msgs to servers.
@@ -243,6 +247,7 @@ options:
         description: Set terminal line (monitor) logging parameters
         type: dict
         suboptions:
+          state: *state
           discriminator: *discriminator
           severity: *severity1
       source_interfaces:
@@ -288,6 +293,7 @@ options:
         description: Set syslog server logging level
         type: dict
         suboptions:
+          state: *state
           severity: *severity1
       hosts:
         description: Set syslog server IP address and parameters
@@ -312,6 +318,7 @@ options:
           port:
             description: Set <0-65535>  non-default Port.
             type: str
+            default: default
           vrf:
             description: Set VRF option
             type: str
@@ -338,12 +345,3 @@ options:
     description:
       - The state the configuration should be left in
     type: str
-required_if:
-  - ["state", "merged", ["config"]]
-  - ["state", "replaced", ["config"]]
-  - ["state", "overridden", ["config"]]
-  - ["state", "rendered", ["config"]]
-  - ["state", "parsed", ["running_config"]]
-mutually_exclusive:
-  - ["config", "running_config"]
-supports_check_mode: True
