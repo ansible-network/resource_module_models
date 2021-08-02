@@ -89,14 +89,25 @@ options:
               rapid_commit:
                 description: Enable Rapid-Commit.
                 type: bool
-          ipv6_config:
-            description: Other configuration options for ipv6 interfaces
-            type: str
-            choices:
-              - anycast
-              - cga
-              - eui-64
-              - segment-routing
+          anycast:
+            description: Configure as an anycast
+            type: bool
+          cga:
+            description: Use CGA interface identifier
+            type: bool
+          eui:
+            description: Use eui-64 interface identifier
+            type: bool          
+          segment_routing:
+            description: Segment Routing submode
+            type: dict
+            suboptions:
+              default:
+                description: Set a command to its defaults.
+                type: bool
+              ipv6_sr:
+                description: Set a command to its defaults.
+                type: bool
   running_config:
     description:
       - This option is used only with state I(parsed).
