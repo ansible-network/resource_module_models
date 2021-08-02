@@ -1,5 +1,5 @@
 module: vyos_logging_global
-version_added: 2.4.0
+version_added: 2.5.0
 short_description: Logging resource module
 description: This module manages the logging attributes of Vyos network devices
 author: Sagar Paul (@KB-perByte)
