@@ -1,0 +1,69 @@
+# Using state: overridden
+
+# Before state:
+# -------------
+
+# vyos:~$show configuration commands | grep syslog
+# set system syslog console facility local7 level 'err'
+# set system syslog file logFile archive file '2'
+# set system syslog file logFile facility local6 level 'emerg'
+# set system syslog global archive file '2'
+# set system syslog global archive size '111'
+# set system syslog global facility cron level 'debug'
+# set system syslog global marker interval '111'
+# set system syslog global preserve-fqdn
+# set system syslog host 172.16.0.1 facility all protocol 'udp'
+# set system syslog host 172.16.0.1 facility local7 level 'all'
+# set system syslog host 172.16.0.1 port '223'
+# set system syslog user vyos facility local7 level 'debug'
+
+- name: Override the current configuration
+  vyos.vyos.vyos_logging_global:
+    config:
+      console:
+        facilities:
+          - facility: all
+          - facility: local7
+            severity: err
+          - facility: news
+            severity: debug
+      files:
+        - path: logFileNew
+      hosts:
+        - hostname: 172.16.0.2
+          facilities:
+            - facility: local5
+              severity: all
+      global_params:
+        archive:
+          file_num: 10
+    state: overridden
+
+# Commands Fired:
+# ---------------
+
+# "commands": [
+#     "delete system syslog file logFile",
+#     "delete system syslog global facility cron",
+#     "delete system syslog host 172.16.0.1",
+#     "delete system syslog user vyos",
+#     "set system syslog console facility all",
+#     "set system syslog console facility news level debug",
+#     "set system syslog file logFileNew",
+#     "set system syslog host 172.16.0.2 facility local5 level all",
+#     "set system syslog global archive file 10",
+#     "delete system syslog global archive size 111",
+#     "delete system syslog global marker",
+#     "delete system syslog global preserve-fqdn"
+# ],
+
+# After state:
+# ------------
+
+# vyos:~$show configuration commands | grep syslog
+# set system syslog console facility all
+# set system syslog console facility local7 level 'err'
+# set system syslog console facility news level 'debug'
+# set system syslog file logFileNew
+# set system syslog global archive file '10'
+# set system syslog host 172.16.0.2 facility local5 level 'all'

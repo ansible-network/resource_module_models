@@ -1,10 +1,10 @@
 module: vyos_logging_global
-version_added: 2.4.0
-short_description: Manages logging attributes of Vyos network devices
+version_added: 2.5.0
+short_description: Logging resource module
 description: This module manages the logging attributes of Vyos network devices
 author: Sagar Paul (@KB-perByte)
 notes:
-  - Tested against #TODO
+  - Tested against vyos 1.2
   - This module works with connection C(network_cli).
   - The Configuration defaults of the Vyos network devices
     are supposed to hinder idempotent behavior of plays
@@ -13,16 +13,22 @@ options:
     description: A list containing dictionary of logging options
     type: dict
     suboptions:
-      console_params:
+      console:
         description: logging to serial console
-        type: list
-        elements: dict
+        type: dict
         suboptions:
-          facility: &facility
-            description: logging to serial console
-            type: dict
+          state: &state_config
+            description: enable or disable the command
+            type: str
+            choices:
+              - enabled
+              - disabled
+          facilities:
+            description: facility configurations for console
+            type: list
+            elements: dict
             suboptions:
-              facility_type: &facility_type
+              facility: &facility
                 description: Facility for logging
                 type: str
                 choices:
@@ -68,7 +74,7 @@ options:
         elements: dict
         suboptions:
           path:
-            description: Logging severity level
+            description: file name or path
             type: str
           archive: &archive
             description: Log file size and rotation characteristics
@@ -80,21 +86,23 @@ options:
               size:
                 description: Size of log files (in kilobytes, default is 256)
                 type: int
-          facility: *facility
+          facilities: &params
+            description: facility configurations
+            type: list
+            elements: dict
+            suboptions:
+              facility: *facility
+              level: *level
       global_params:
         description: logging to serial console
-        type: list
-        elements: dict
+        type: dict
         suboptions:
+          state: *state_config
           archive: *archive
-          facility: *facility
-          marker:
-            description: mark messages sent to syslog
-            type: dict
-            suboptions:
-              interval:
-                description: mark messages sent to syslog
-                type: int
+          facilities: *params
+          marker_interval:
+            description: time interval how often a mark message is being sent in seconds (default is 1200)
+            type: int
           preserve_fqdn:
             description: uses FQDN for logging
             type: bool
@@ -106,11 +114,12 @@ options:
           port:
             description: Destination port (1-65535)
             type: int
-          facility:
-            description: logging to serial console
-            type: dict
+          facilities:
+            description: facility configurations for host
+            type: list
+            elements: dict
             suboptions:
-              facility_type: *facility_type
+              facility: *facility
               level: *level
               protocol:
                 description: syslog communication protocol
@@ -127,9 +136,9 @@ options:
         elements: dict
         suboptions:
           username:
-            description: Logging severity level
+            description: user login name
             type: str
-          facility: *facility
+          facilities: *params
   running_config:
     description:
       - This option is used only with state I(parsed).
@@ -152,12 +161,3 @@ options:
     description:
       - The state the configuration should be left in
     type: str
-required_if:
-  - ["state", "merged", ["config"]]
-  - ["state", "replaced", ["config"]]
-  - ["state", "overridden", ["config"]]
-  - ["state", "rendered", ["config"]]
-  - ["state", "parsed", ["running_config"]]
-mutually_exclusive:
-  - ["config", "running_config"]
-supports_check_mode: True
