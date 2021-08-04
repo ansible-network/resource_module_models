@@ -18,7 +18,7 @@ options:
           - Set buffered logging parameters.
           type: dict
           suboptions: &message_options
-            level:
+            severity:
               description: Severity level (0-7).
               type: int
             buffer_size:
@@ -58,9 +58,10 @@ options:
                   description: Traditional syslog timestamp format as specified in RFC3164.
                   type: dict
                   suboptions:
-                    set:
-                      description: When true traditional timestamp format is set.
-                      type: bool
+                    state:
+                      description: When enabled traditional timestamp format is set.
+                      type: str
+                      choices: ["enabled", "disabled"]
                     timezone:
                       description: Show timezone in traditional format timestamp
                       type: bool
