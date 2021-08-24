@@ -1,0 +1,39 @@
+# Using merged
+
+# Before state:
+# -------------
+#
+ show interface status | no-more
+------------------------------------------------------------------------------------------
+Name                Description         Admin          Oper           Speed          MTU
+------------------------------------------------------------------------------------------
+Ethernet0           -                   up                            100000         9100
+Ethernet4           -                   up                            100000         9100
+Ethernet8           -                   down                          100000         9100
+Ethernet12          -                   down                          1000           9100
+
+- name: Configure interfaces
+  sonic_interfaces:
+    config:
+      - name: Ethernet12
+        description: 'Ethernet Twelve'
+      - name: Ethernet16
+        description: 'Ethernet Sixteen'
+        enable: True
+        mtu: 3500
+    state: merged
+
+
+# After state:
+# ------------
+#
+ show interface status | no-more
+------------------------------------------------------------------------------------------
+Name                Description         Admin          Oper           Speed          MTU
+------------------------------------------------------------------------------------------
+Ethernet0           -                   up                            100000         9100
+Ethernet4           -                   up                            100000         9100
+Ethernet8           -                   down                          100000         9100
+Ethernet12          Ethernet Twelve     down                          1000           9100
+Ethernet16          Ethernet Sixteen    down                          100000         3500
+

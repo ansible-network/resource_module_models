@@ -1,0 +1,46 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+#!
+#router bgp 4
+# !
+# neighbor interface Ethernet12
+#!
+#
+#- name: Merge neighbors address family configuration on device
+#    sonic_bgp_neighbors_af:
+#      config:
+#        - bgp_as: 4
+#          neighbors:
+#            - neighbor: Ethernet12
+#              address_family:
+#                - afi: ipv4
+#                  safi: unicast
+#                  allowas_in:
+#                    value: 4
+#                  route_map:
+#                    - name: aa
+#                      direction: in
+#                    - name: aa
+#                      direction: out
+#                  route_reflector_client: true
+#                  route_server_client: true
+#      state: merged
+# After state:
+# ------------
+#!
+#router bgp 4
+# !
+# neighbor interface Ethernet12
+#  !
+#  address-family ipv4 unicast
+#   activate
+#   allowas-in 4
+#   route-map aa in
+#   route-map aa out
+#   route-reflector-client
+#   route-server-client
+#   send-community both
+#!

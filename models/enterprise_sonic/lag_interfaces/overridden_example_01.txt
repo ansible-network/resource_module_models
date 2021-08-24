@@ -1,0 +1,27 @@
+# Using overridden
+
+# Before state:
+# -------------
+#
+# interface Eth1/5
+#   channel-group 10
+# interface Eth1/7
+#   channel-group 2
+
+- name: Override device configuration of all LAG attributes of given interfaces on device with provided configuration.
+  sonic_lag_interfaces:
+    config:
+      - name: PortChannel20
+	members:
+          interfaces:
+	    - member: Eth1/6
+    state: overridden
+
+# After state:
+# ------------
+# interface Eth1/7
+    no channel-group
+# interface Eth1/5
+    no channel-group
+# interface Eth1/6
+#   channel-group 20

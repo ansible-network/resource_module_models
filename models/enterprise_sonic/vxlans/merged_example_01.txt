@@ -1,0 +1,45 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+# do show running-configuration
+#
+#!
+#
+#    - name: "Test sonic_vxlans merged state 01"
+#      sonic_vxlans:
+#        config:
+#          - name: vteptest1
+#            source_ip: 1.1.1.1
+#            evpn_nvo: nvo1
+#            vlan_map:
+#              - vni: 101
+#                vlan: 11
+#              - vni: 102
+#                vlan: 12
+#            vrf_map:
+#              - vni: 101
+#                vrf: Vrfcheck1
+#              - vni: 102
+#                vrf: Vrfcheck2
+#        state: merged
+#
+# After state:
+# ------------
+#
+# do show running-configuration
+#
+#interface vxlan vteptest1
+# source-ip 1.1.1.1
+# map vni 101 vlan 11
+# map vni 102 vlan 12
+# map vni 101 vrf Vrfcheck1
+# map vni 102 vrf Vrfcheck2
+#!
+# do show vxlan interface
+#
+#VTEP Name        :  vteptest1
+#VTEP Source IP   :  1.1.1.1
+#EVPN NVO Name    :  nvo1
+#EVPN VTEP        :  vteptest1

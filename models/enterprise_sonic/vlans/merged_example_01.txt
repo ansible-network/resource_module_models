@@ -1,0 +1,29 @@
+# Using merged
+
+# Before state:
+# -------------
+#
+#sonic# show Vlan
+#Q: A - Access (Untagged), T - Tagged
+#NUM        Status      Q Ports
+#10         Inactive
+#30         Inactive
+#
+#sonic#
+
+- name: Merge given VLAN attributes with device configuration
+  sonic_vlans:
+    config:
+      - vlan_id: 10    
+    state: merged
+
+# After state:
+# ------------
+#
+#sonic# show Vlan
+#Q: A - Access (Untagged), T - Tagged
+#NUM        Status      Q Ports
+#10         Inactive
+#30         Inactive
+#
+#sonic#

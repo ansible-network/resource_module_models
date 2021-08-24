@@ -1,0 +1,60 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+      'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: port_breakout
+COPYRIGHT: "© Copyright 2020 Dell Inc. or its subsidiaries. All Rights Reserved"
+LICENSE: gpl-3.0.txt
+DOCUMENTATION: |
+  module: sonic_port_breakout
+  version_added: "1.0.0"
+  author: "Niraimadaiselvam M (@niraimadaiselvamm)"
+  short_description: Configures port breakout settings on Enterprise SONiC.
+  description:
+    - This module provides configuration management of port breakout parameters on devices running Enterprise SONiC.
+  notes:
+    - Tested against Enterprise SONiC, release 3.0.2.
+  options:
+    config:
+      description:
+        - Specifies the port breakout related configuration.
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - Specifies the name of the port breakout.
+          type: str
+          required: true
+        mode:
+          description:
+            - Specifies the mode of the port breakout.
+          type: str
+          choices:
+            - 1x100G
+            - 1x400G
+            - 1x40G
+            - 2x100G
+            - 2x200G
+            - 2x50G
+            - 4x100G 
+            - 4x10G
+            - 4x25G
+            - 4x50G
+    state:
+      description:
+        - Specifies the operation to be performed on the port breakout configured on the device.
+        - In case of merged, the input mode configuration will be merged with the existing port breakout configuration on the device.
+        - In case of deleted the existing port breakout mode configuration will be removed from the device.
+      default: merged
+      choices: ['merged', 'deleted']
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt

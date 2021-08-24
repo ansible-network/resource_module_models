@@ -1,0 +1,76 @@
+# Using state: merged
+
+# Before state:
+# -------------
+
+# vyos:~$show configuration commands | grep syslog
+
+- name: Apply the provided configuration
+  vyos.vyos.vyos_logging_global:
+    config:
+      console:
+        facilities:
+          - facility: local7
+            severity: err
+      files:
+        - path: logFile
+          archive:
+            file_num: 2
+          facilities:
+            - facility: local6
+              severity: emerg
+      hosts:
+        - hostname: 172.16.0.1
+          facilities:
+            - facility: local7
+              severity: all
+            - facility: all
+              protocol: udp
+          port: 223
+      users:
+        - username: vyos
+          facilities:
+          - facility: local7
+            severity: debug
+      global_params:
+        archive:
+          file_num: 2
+          size: 111
+        facilities:
+        - facility: cron
+          severity: debug
+        marker_interval: 111
+        preserve_fqdn: true
+    state: merged
+
+# Commands Fired:
+# ---------------
+# "commands": [
+#     "set system syslog console facility local7 level err",
+#     "set system syslog file logFile archive file 2",
+#     "set system syslog host 172.16.0.1 facility local7 level all",
+#     "set system syslog file logFile facility local6 level emerg",
+#     "set system syslog host 172.16.0.1 facility all protocol udp",
+#     "set system syslog user vyos facility local7 level debug",
+#     "set system syslog host 172.16.0.1 port 223",
+#     "set system syslog global facility cron level debug",
+#     "set system syslog global archive file 2",
+#     "set system syslog global archive size 111",
+#     "set system syslog global marker interval 111",
+#     "set system syslog global preserve-fqdn"
+# ],
+# After state:
+# ------------
+# vyos:~$ show configuration commands | grep syslog
+# set system syslog console facility local7 level 'err'
+# set system syslog file logFile archive file '2'
+# set system syslog file logFile facility local6 level 'emerg'
+# set system syslog global archive file '2'
+# set system syslog global archive size '111'
+# set system syslog global facility cron level 'debug'
+# set system syslog global marker interval '111'
+# set system syslog global preserve-fqdn
+# set system syslog host 172.16.0.1 facility all protocol 'udp'
+# set system syslog host 172.16.0.1 facility local7 level 'all'
+# set system syslog host 172.16.0.1 port '223'
+# set system syslog user vyos facility local7 level 'debug'

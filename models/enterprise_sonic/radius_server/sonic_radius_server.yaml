@@ -1,0 +1,119 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+      'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: radius_server
+COPYRIGHT: "© Copyright 2021 Dell Inc. or its subsidiaries. All Rights Reserved"
+LICENSE: gpl-3.0.txt
+DOCUMENTATION: |
+  module: sonic_port_breakout
+  version_added: "1.0.0"
+  author: "Niraimadaiselvam M (@niraimadaiselvamm)"
+  short_description: Configures radius server settings on Enterprise SONiC.
+  description:
+    - This module provides configuration management of radius server parameters on devices running Enterprise SONiC.
+  notes:
+    - Tested against Enterprise SONiC, release 3.0.2.
+  options:
+    config:
+      description:
+        - Specifies the radius server related configuration.
+      type: dict
+      suboptions:
+        auth_type:
+          description:
+            - Specifies the authencation type of the radius server.
+          type: str
+          choices:
+            - pap
+            - chap
+            - mschapv2
+          default: pap
+        key:
+          description:
+            - Specifies the key of the radius server.
+          type: str
+        nas_ip:
+          description:
+            - Specifies the network access server of the radius server.
+          type: str
+        statistics:
+          description:
+            - Specifies the statistics flag of the radius server.
+          type: bool
+        timeout:
+          description:
+            - Specifies the timeout of the radius server.
+          type: int
+        retransmit:
+          description:
+            - Specifies the re-transmit value of the radius server.
+          type: int
+        servers:
+          description:
+            - Specifies the servers list of the radius server.
+          type: dict
+          suboptions:
+            host:
+              description:
+                - Specifies the host details of the radius servers list.
+              type: list
+              elements: dict
+              suboptions:
+                name:
+                  description:
+                    - Specifies the name of the radius server host.
+                  type: str
+                auth_type:
+                  description:
+                    - Specifies the authentication type of the radius server host.
+                  type: str
+                  choices:
+                    - pap
+                    - chap
+                    - mschapv2
+                key:
+                  description:
+                    - Specifies the key of the radius server host.
+                  type: str
+                priority:
+                  description:
+                    - Specifies the priority of the radius server host.
+                  type: int
+                port:
+                  description:
+                    - Specifies the port of the radius server host.
+                  type: int
+                timeout:
+                  description:
+                    - Specifies the timeout of the radius server host.
+                  type: int
+                retransmit:
+                  description:
+                    - Specifies the retransmit of the radius server host.
+                  type: int
+                source_interface:
+                  description:
+                    - Specifies the source interface of the radius server host.
+                  type: str
+                vrf:
+                  description:
+                    - Specifies the vrf of the radius server host.
+                  type: str
+    state:
+      description:
+        - Specifies the operation to be performed on the radius server configured on the device.
+        - In case of merged, the input mode configuration will be merged with the existing radius server configuration on the device.
+        - In case of deleted the existing radius server mode configuration will be removed from the device.
+      default: merged
+      choices: ['merged', 'deleted']
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt

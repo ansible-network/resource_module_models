@@ -1,0 +1,103 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community'
+    }
+NETWORK_OS: sonic
+RESOURCE: bgp_communities
+COPYRIGHT: Copyright 2020 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_bgp_communities
+    version_added: "2.10"
+    short_description: Configure 'community' settings for a bgp on SONiC.
+    description:
+      - This module provides configuration management of bgp bgp_communities of devices running SONiC
+    author: "Kumaraguru Narayanan (@nkumaraguru)"
+    options:
+      config:
+        description: A list of 'bgp_communities' configurations.
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            required: True
+            type: str
+            description:
+            - Name of bgp communty list name.
+          type:
+            type: str
+            description: 
+            - Whether it is a standard or expanded community-list entry 
+            required: False
+            choices:
+            - standard
+            - expanded
+            default: standard
+          permit:
+            required: False
+            type: bool
+            description:
+            - Permit or Deny this Community.
+          aann:
+            required: False
+            type: str
+            description:
+            - Community number aa:nn format 0..65535:0..65535. Applicable for standard bgp community type.
+          local_as:
+            required: False
+            type: bool
+            description:
+            - Do not send outside local AS (well-known community). Applicable for standard bgp community type.
+          no_advertise:
+            required: False
+            type: bool
+            description:
+            - Do not advertise to any peer (well-known community). Applicable for standard bgp community type.
+          no_export:
+            required: False
+            type: bool
+            description:
+            - Do not export to next AS (well-known community). Applicable for standard bgp community type.
+          no_peer:
+            required: False
+            type: bool
+            description:
+            - Do not export to next AS (well-known community). Applicable for standard bgp community type.
+          members:
+            required: False
+            type: dict
+            suboptions:
+              regex:
+                type: list
+                elements: str
+                required: False
+                description:
+                  - Members of this Bgp community list. Regular expression string can be given here. Applicable for expanded bgp community type.
+            description:
+            - Members of this Bgp community list.
+          match:
+            required: False
+            type: str
+            description:
+            - Match any/all of the the members.
+            choices:
+            - ALL
+            - ANY
+            default: ANY
+      state:
+        description:
+        - The state of the configuration after module completion.
+        type: str
+        choices:
+        - merged
+        - deleted
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - deleted_example_03.txt
+  - deleted_example_04.txt
+  - merged_example_01.txt
