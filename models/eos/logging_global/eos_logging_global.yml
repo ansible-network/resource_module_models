@@ -71,9 +71,10 @@ options:
             sequence_numbers:
               description:  No. of log messages.
               type: bool
-        host: &host
+        hosts: &host
           description: Set syslog server IP address and parameters.
-          type: dict
+          type: list
+          elements: dict
           suboptions:
             name:
               description: Hostname or IP address of the syslog server.
@@ -152,16 +153,17 @@ options:
             severity:
               description: severity level
               type: str
-        vrf:
+        vrfs:
           description: Specify vrf
-          type: dict
+          type: list
+          elements: dict
           suboptions:
             name:
-              description: vrf name:
+              description: vrf name.
               type: str
             host: *host
             source_interface: *srcint
-    running_config:
+   running_config:
       description:
       - This option is used only with state I(parsed).
       - The value of this option should be the output received from the EOS device by
@@ -170,7 +172,7 @@ options:
         transforms it into Ansible structured data as per the resource module's argspec
         and the value is then returned in the I(parsed) key within the result.
       type: str
-    state:
+   state:
       description:
       - The state the configuration should be left in.
       type: str
