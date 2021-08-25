@@ -1,9 +1,9 @@
-# Using merged
+# Using state merged
 
 # Before state:
 # -------------
-#
-# vios#show running-config | section ^interface
+
+# router-ios#show running-config | section ^interface
 # interface GigabitEthernet0/1
 #  description Configured by Ansible
 #  ip address 10.1.1.1 255.255.255.0
@@ -21,27 +21,41 @@
 #  encapsulation dot1Q 20
 
 - name: Merge provided configuration with device configuration
-  ios_interfaces:
+  cisco.ios.ios_l3_interfaces:
     config:
-      - name: GigabitEthernet0/1
-        ipv4: 
-        - address: 192.168.0.1/24
-          secondary: True
-      - name: GigabitEthernet0/2
-        ipv4: 
-        - address: 192.168.0.2/24
-      - name: GigabitEthernet0/3
-        ipv6:
-        - address: fd5d:12c9:2201:1::1/64
-      - name: GigabitEthernet0/3.100
-        ipv4:
-        - address: 192.168.0.3/24
-    operation: merged
+    - name: GigabitEthernet0/1
+      ipv4:
+      - address: 192.168.0.1/24
+        secondary: true
+    - name: GigabitEthernet0/2
+      ipv4:
+      - address: 192.168.0.2/24
+    - name: GigabitEthernet0/3
+      ipv6:
+      - address: fd5d:12c9:2201:1::1/64
+    - name: GigabitEthernet0/3.100
+      ipv4:
+      - address: 192.168.0.3/24
+    state: merged
+
+# Commands Fired:
+# ---------------
+
+# "commands": [
+#       "interface GigabitEthernet0/1",
+#       "ip address 192.168.0.1 255.255.255.0 secondary",
+#       "interface GigabitEthernet0/2",
+#       "ip address 192.168.0.2 255.255.255.0",
+#       "interface GigabitEthernet0/3",
+#       "ipv6 address fd5d:12c9:2201:1::1/64",
+#       "GigabitEthernet0/3.100",
+#       "ip address 192.168.0.3 255.255.255.0",
+#     ],
 
 # After state:
 # ------------
-#
-# vios#show running-config | section ^interface
+
+# router-ios#show running-config | section ^interface
 # interface GigabitEthernet0/1
 #  description Configured by Ansible
 #  ip address 10.1.1.1 255.255.255.0
@@ -59,4 +73,3 @@
 # interface GigabitEthernet0/3.100
 #  encapsulation dot1Q 20
 #  ip address 192.168.0.3 255.255.255.0
-
