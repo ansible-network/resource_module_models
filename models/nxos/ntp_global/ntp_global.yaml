@@ -18,7 +18,7 @@ options:
       and the value is then returned in the I(parsed) key within the result.
     type: str
   config:
-    description: A list of route-map configuration.
+    description: A dict of ntp configuration.
     type: dict
     suboptions:
       access_group:
