@@ -9,10 +9,10 @@ notes:
   - Tested against IOSXR 7.0.2.
   - This module works with connection C(network_cli).
 options:
-   config:
-      description: A dictionary of ntp options
-      type: dict
-      suboptions:
+  config:
+    description: A dictionary of ntp options
+    type: dict
+    suboptions:
         access_group:
           description: Control NTP access
           type: list
@@ -201,20 +201,20 @@ options:
             minpoll: *minpoll
             prefer: *prefer
             version: *version
-    running_config:
-      description:
+  running_config:
+    description:
       - This option is used only with state I(parsed).
       - The value of this option should be the output received from the IOSXR device by
         executing the command B(show running-config ntp).
       - The state I(parsed) reads the configuration from C(running_config) option and
         transforms it into Ansible structured data as per the resource module's argspec
         and the value is then returned in the I(parsed) key within the result.
-      type: str
-    state:
-      description:
+    type: str
+  state:
+    description:
       - The state the configuration should be left in.
-      type: str
-      choices:
+    type: str
+    choices:
       - deleted
       - merged
       - overridden
@@ -222,4 +222,4 @@ options:
       - gathered
       - rendered
       - parsed
-      default: merged
+    default: merged
