@@ -1,0 +1,180 @@
+THIS FILE WONT BE PUSHED TO THE MAIN REPO
+
+ntp access-group peer 2 kod
+ntp access-group query-only 10
+
+ntp allow mode control 4 
+ntp allow mode private
+
+ntp authenticate
+
+ntp authentication-key 2 md5 wew 22
+
+ntp broadcastdelay 22
+
+ntp clock-period 5
+
+ntp logging
+
+ntp master 4
+
+ntp max-associations 34
+
+ntp maxdistance 3 
+
+ntp mindistance
+
+ntp orphan 4
+
+ntp panic update
+
+ntp trusted-key 3 - 3
+ntp trusted-key 21 - 41
+
+ntp peer 10.0.2.10 version 2
+ntp peer 10.0.2.11 key 2 ``ORRRRRRRRRR`
+ntp peer 10.0.2.11 key 2 minpoll 5 prefer version 2
+ntp peer ip abc.com prefer
+ntp peer abx.com periodic
+ntp peer ipv6 ipv6abc.com
+ntp peer ipv6 avipv6.com prefer
+
+SOURCE keys - bkup
+          ACR:
+            description: Virtual ACR interface
+          ATM_ACR:
+            description: ATM interface with ACR
+          Analysis-Module:
+            description: Cisco network analysis service module
+          AppNav-Compress:
+            description: Service-Context Virtual Interface Compress
+          AppNav-UnCompress:
+            description: Service-Context Virtual interface UnCompress
+          Async:
+            description: Async interface
+          Auto-Template:
+            description: Auto-Template interface
+          BD-VIF:
+            description: Bridge-Domain Virtual IP interface
+          BDI:
+            description: Bridge-Domain interface
+          BVI:
+            description: Bridge-Group Virtual Interface
+          Bluetooth:
+            description: Bluetooth interface
+          CDMA-Ix:
+            description: CDMA Ix interface
+          CEM-ACR:
+            description: Circuit Emulation interface with ACR
+          CEM-PG:
+            description: Circuit Emulation interface with Protection group
+          CTunnel:
+            description: CTunnel interface
+          Container:
+            description: Container interface
+          Dialer:
+            description: Dialer interface
+          EsconPhy:
+            description: ESCON interface
+          Ethernet-Internal:
+            description: Ethernet-Internal interface
+          Fcpa:
+            description: Fiber Channel
+          Filter:
+            description: Filter interface
+          Filtergroup:
+            description: Filter Group interface
+          GMPLS:
+            description: MPLS interface
+          GigabitEthernet:
+            description: GigabitEthernet IEEE 802.3z
+          IMA-ACR:
+            description: IMA interface with ACR
+          LISP:
+            description: Locator/ID Separation Protocol Virtual Interface
+          LongReachEthernet:
+            description: Long-Reach Ethernet interface
+          Loopback:
+            description: Loopback interface
+          Lspvif:
+            description: LSP virtual interface
+          MFR:
+            description: Multilink Frame Relay bundle interface
+          Multilink:
+            description: Multilink-group interface
+          NVI:
+            description: NAT virtual interface
+          Null:
+            description: Null interface
+          Overlay:
+            description: Overlay interface
+          PROTECTION_GROUP:
+            description: Protection-group controller
+          Port-channel:
+            description: Ethernet Channel of interfaces
+          Portgroup:
+            description: Portgroup interface
+          Pos-channel:
+            description: POS Channel of interfaces
+          SBC:
+            description: Session Border Controller
+          SDH_ACR:
+            description: Virtual SDH-ACR controller
+          SERIAL-ACR:
+            description: Serial interface with ACR
+          SONET_ACR:
+            description: Virtual SONET-ACR controller
+          SSLVPN-VIF:
+            description: SSLVPN Virtual Interface
+          SYSCLOCK:
+            description: Telecom-Bus Clock Controller
+          Serial-PG:
+            description: Serial interface with Protection Group
+          Service-Engine:
+            description: Cisco service engine module
+          TLS-VIF:
+            description: TLS Virtual Interface
+          Tunnel:
+            description: Tunnel interface
+          Tunnel-tp:
+            description: MPLS Transport Profile interface
+          VPN:
+            description: VPN interface
+          Vif:
+            description: PGM Multicast Host interface
+          Vir-cem-ACR:
+            description: Circuit Emulation Virtual interface with ACR
+          Virtual-PPP:
+            description: Virtual PPP interface
+          Virtual-Template:
+            description: Virtual Template interface
+          Virtual-TokenRing:
+            description: Virtual TokenRing
+          VirtualPortGroup:
+            description: Virtual Port Group
+          Vlan:
+            description: Catalyst Vlans
+          multiservice:
+            description: Multiservice interface
+          nve:
+            description: Network virtualization endpoint interface
+          ucse:
+            description: Cisco ucse server
+          vasileft:
+            description: VasiLeft interface
+          vasiright:
+            description: VasiRight interface
+          vmi:
+            description: Virtual Multipoint Interface
+          voaBypassIn:
+            description: VOA-Bypass-In interface
+          voaBypassOut:
+            description: VOA-Bypass-Out interface
+          voaFilterIn:
+            description: VOA-Filter-In interface
+          voaFilterOut:
+            description: VOA-Filter-Out interface
+          voaIn:
+            description: VOA-In interface
+          voaOut:
+            description: VOA-Out interface
