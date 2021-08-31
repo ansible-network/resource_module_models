@@ -33,7 +33,7 @@ options:
               kod: &kod
                 description: Send a Kiss-o-Death packet for failing peers
                 type: bool
-          query-only: 
+          query_only: 
             description:  Allow only control queries
             type: dict
             suboptions: 
@@ -45,7 +45,7 @@ options:
             suboptions:
               access_list: *access_group_acl
               kod: *kod
-          serve-only: 
+          serve_only: 
             description:  Provide only server access
             type: dict
             suboptions:
@@ -68,20 +68,21 @@ options:
       authenticate:
         description: Authenticate time sources
         type: bool
-      authentication_key:
+      authentication_keys:
         description: Authentication key for trusted time sources
-        type: dict
+        type: list
         elements: dict
         suboptions:
-          key_num:
+          id:
             description: Key number
             type: int
           authentication_type:
             description: Authentication type
             type: str
-          password:
+          key:
             description: Password
             type: str
+            no_log: True
           encryption_type:
             description: Authentication key encryption type
             type: int
@@ -155,7 +156,7 @@ options:
           minpoll:
             description: Minimum poll interval Poll value in Log2
             type: int
-          normal-sync:
+          normal_sync:
             description: Disable rapid sync at startup
             type: bool
           prefer:
