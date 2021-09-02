@@ -76,7 +76,7 @@ options:
           id:
             description: Key number
             type: int
-          authentication_type:
+          algorithm:
             description: Authentication type
             type: str
           key:
@@ -128,51 +128,66 @@ options:
         description: Configure NTP peer
         type: list
         elements: dict
-        suboptions: &peer
-          host:
+        suboptions:
+          peer:
             description: ipv4/ipv6 address or hostname of the peer
             type: str
-          use_ipv4:
+          use_ipv4: &use_ipv4
             description: Use IP for DNS resolution
             type: bool
-          use_ipv6:
+          use_ipv6: &use_ipv6
             description: Use IPv6 for DNS resolution
             type: bool
-          vrf:
+          vrf: &vrf
             description: VPN Routing/Forwarding Information
             type: str
-          burst:
+          burst: &burst
             description: Send a burst when peer is reachable (Default)
             type: bool
-          iburst:
+          iburst: &iburst
             description: Send a burst when peer is unreachable (Default)
             type: bool
-          key:
+          key: &key
             description: Configure peer authentication key
             type: int
-          maxpoll:
+          maxpoll: &maxpoll
             description: Maximum poll interval Poll value in Log2
             type: int
-          minpoll:
+          minpoll: &minpoll
             description: Minimum poll interval Poll value in Log2
             type: int
-          normal_sync:
+          normal_sync: &normal_sync
             description: Disable rapid sync at startup
             type: bool
-          prefer:
+          prefer: &prefer
             description: Prefer this peer when possible
             type: bool
-          source:
+          source: &source
             description: Interface for source address
             type: str
-          version:
+          version: &version
             description: Configure NTP version
             type: int
       servers:
         description: Configure NTP server
         type: list
         elements: dict
-        suboptions: *peer
+        suboptions:
+          server:
+            description: ipv4/ipv6 address or hostname of the server
+            type: str
+          use_ipv4: *use_ipv4
+          use_ipv6: *use_ipv6
+          vrf: *vrf
+          burst: *burst
+          iburst: *iburst
+          key: *key
+          maxpoll: *maxpoll
+          minpoll: *minpoll
+          normal_sync: *normal_sync
+          prefer: *prefer
+          source: *source
+          version: *version
       source:
         description: Configure interface for source address
         type: str
