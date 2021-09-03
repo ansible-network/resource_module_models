@@ -17,15 +17,10 @@ options:
         description: Control NTP access
         type: dict
         suboptions:
-          ipv4: 
-            description:  ipv4 access lists (Default not idempotent)
-            type: bool
-          ipv6: 
-            description:  ipv6 access lists (Default not idempotent)
-            type: bool
           peer: 
             description: Provide full access
-            type: dict
+            type: list
+            elements: dict
             suboptions:
               access_list: &access_group_acl
                 description:  name or number of access list
@@ -33,24 +28,39 @@ options:
               kod: &kod
                 description: Send a Kiss-o-Death packet for failing peers
                 type: bool
+              ipv4: &ipv4
+                description:  ipv4 access lists (Default not idempotent)
+                type: bool
+              ipv6: &ipv6
+                description:  ipv6 access lists (Default not idempotent)
+                type: bool
           query_only: 
             description:  Allow only control queries
-            type: dict
+            type: list
+            elements: dict
             suboptions: 
               access_list: *access_group_acl
               kod: *kod
+              ipv4: *ipv4
+              ipv6: *ipv6
           serve: 
             description:  Provide server and query access
-            type: dict
+            type: list
+            elements: dict
             suboptions:
               access_list: *access_group_acl
               kod: *kod
+              ipv4: *ipv4
+              ipv6: *ipv6
           serve_only: 
             description:  Provide only server access
-            type: dict
+            type: list
+            elements: dict
             suboptions:
               access_list: *access_group_acl
               kod: *kod
+              ipv4: *ipv4
+              ipv6: *ipv6
       allow:
         description: Allow processing of packets
         type: dict
@@ -58,13 +68,14 @@ options:
         suboptions:
           control:
             description: Allow processing control mode packets
-            type: bool
+            type: dict
+            suboptions:
+              rate_limit:
+                description: Rate-limit delay.
+                type: int
           private:
             description: Allow processing private mode packets
             type: bool
-          rate_limit_delay:
-            description: Rate limiting delays
-            type: int
       authenticate:
         description: Authenticate time sources
         type: bool
@@ -83,7 +94,7 @@ options:
             description: Password
             type: str
             no_log: True
-          encryption_type:
+          encryption:
             description: Authentication key encryption type
             type: int
       broadcast_delay:
