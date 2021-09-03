@@ -58,15 +58,16 @@ options:
           description: Authentication key for trusted time sources
           type: dict
           suboptions:
-            key_number:
+            id:
               description: <1-65535>  Key number
               type: int
-            clear:
-              description: Specify an unencrypted key
+            key:
+              description: Authentication key.
               type: str
+              no_log: True
             encrypted:
-              description: Specify an unencrypted key
-              type: str
+              description: Type of key encrypted or clear-text.
+              type: bool
         broadcastdelay:
           type: int
           description: Estimated round-trip delay in microseconds.
@@ -102,21 +103,24 @@ options:
                   type: int
                   description: <2-4>  NTP version number.
             multicast:
-              key:
-                type: int
-                description: Configure multicast authentication key.
-              ttl:
-                type: int
-                description: Configure TTL to use.
-              client:
-                type: str
-                description:
-              destination:
-                type: str
-                description:
-              version:
-                type: int
-                description: <2-4>  NTP version number.
+              type: dict
+              description: Configure NTP multicast service.
+              suboptions:
+                key:
+                  type: int
+                  description: Configure multicast authentication key.
+                ttl:
+                  type: int
+                  description: Configure TTL to use.
+                client:
+                  type: str
+                  description:
+                destination:
+                  type: str
+                  description:
+                version:
+                  type: int
+                  description: <2-4>  NTP version number.
         ipv4: &ip
           description: Mark the dscp/precedence bit for ipv4 packets.
           type: dict
@@ -142,8 +146,9 @@ options:
           type: bool
           description: Enable the passive associations.
         trusted_key:
-          type: 1
-          description: <1-65535>  Key number
+          type: list
+          elements: int
+          description: Key numbers for trusted time sources.
         update_calendar:
           type: bool
           description: Periodically update calendar with NTP time.
@@ -158,7 +163,7 @@ options:
             vrf: &vrf
               description: vrf name.
               type: str
-            host: &host
+            server: &host
               description: Hostname or A.B.C.D or A:B:C:D:E:F:G:H.
               type: str
               required: True
@@ -192,7 +197,7 @@ options:
           elements: dict
           suboptions:
             vrf: *vrf
-            host: *host
+            peer: *host
             burst: *burst
             iburst: *iburst
             key: *key
