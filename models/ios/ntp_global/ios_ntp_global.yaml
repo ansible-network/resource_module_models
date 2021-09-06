@@ -64,7 +64,6 @@ options:
       allow:
         description: Allow processing of packets
         type: dict
-        elements: dict
         suboptions:
           control:
             description: Allow processing control mode packets
@@ -93,7 +92,6 @@ options:
           key:
             description: Password
             type: str
-            no_log: True
           encryption:
             description: Authentication key encryption type
             type: int
@@ -109,7 +107,6 @@ options:
       master:
         description: Act as NTP master clock
         type: dict
-        elements: dict
         suboptions:
           enabled:
             description: Enable master clock
