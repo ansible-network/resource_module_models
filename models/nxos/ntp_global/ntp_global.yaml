@@ -31,19 +31,35 @@ options:
           peer:
             description: Access-group peer.
             type: list
-            elements: str
+            elements: dict
+            suboptions:
+              access_list:
+                description: Name of access list.
+                type: str
           query_only:
             description: Access-group query-only.
             type: list
-            elements: str
+            elements: dict
+            suboptions:
+              access_list:
+                description: Name of access list.
+                type: str
           serve:
             description: Access-group serve.
             type: list
-            elements: str
+            elements: dict
+            suboptions:
+              access_list:
+                description: Name of access list.
+                type: str
           serve_only:
             description: Access-group serve-only.
             type: list
-            elements: str
+            elements: dict
+            suboptions:
+              access_list:
+                description: Name of access list.
+                type: str
       allow:
         description: Enable/Disable the packets.
         type: dict
@@ -52,18 +68,15 @@ options:
             description: Control mode packets.
             type: dict
             suboptions:
-              enable:
-                description: Enable/Disable Control mode packets.
-                type: bool
               rate_limit:
                 description: Rate-limit delay.
-                type: bool
+                type: int
           private:
             description: Enable/Disable Private mode packets.
             type: bool
       authenticate:
         description: Enable/Disable authentication.
-        type: str
+        type: bool
       authentication_keys:
         description: NTP authentication key.
         type: list
@@ -75,7 +88,6 @@ options:
           key:
             description: Authentication key.
             type: str
-            no_log: True
           encryption:
             description:
               - 0 for Clear text
@@ -85,10 +97,13 @@ options:
         description: Enable/Disable logging of NTPD Events.
         type: bool
       master:
-        description: 
+        description:
           - Act as NTP master clock.
-          - Stratum number.
-        type: int
+        type: dict
+        suboptions:
+          stratum:
+            description: Stratum number.
+            type: int
       passive:
         description: NTP passive command.
         type: bool
@@ -96,11 +111,11 @@ options:
         description: NTP Peers.
         type: list
         elements: dict
-        suboptions: &peers
+        suboptions:
           peer:
             description: Hostname/IP address of the NTP Peer.
             type: str
-          key:
+          key_id:
             description: Keyid to be used while communicating to this server.
             type: int
           maxpoll:
@@ -113,6 +128,10 @@ options:
               - Minimum interval to poll a peer.
               - Poll interval in secs to a power of 2.
             type: int
+          prefer:
+            description:
+              - Preferred Server.
+            type: bool
           use_vrf:
             description: Display per-VRF information.
             type: str
@@ -120,25 +139,49 @@ options:
         description: NTP servers.
         type: list
         elements: dict
-        suboptions: *peers
+        suboptions:
+          server:
+            description: Hostname/IP address of the NTP Peer.
+            type: str
+          key_id:
+            description: Keyid to be used while communicating to this server.
+            type: int
+          maxpoll:
+            description:
+              - Maximum interval to poll a peer.
+              - Poll interval in secs to a power of 2.
+            type: int
+          minpoll:
+            description:
+              - Minimum interval to poll a peer.
+              - Poll interval in secs to a power of 2.
+            type: int
+          prefer:
+            description:
+              - Preferred Server.
+            type: bool
+          use_vrf:
+            description: Display per-VRF information.
+            type: str
       source:
         description: Source of NTP packets.
         type: str
       source_interface:
         description: Source interface sending NTP packets.
         type: str
-      trusted_key:
+      trusted_keys:
         description: NTP trusted-key number.
         type: list
-        elements: int
+        elements: dict
+        suboptions:
+          key_id:
+            description: Trusted-Key number.
+            type: int
   state:
     description:
     - The state the configuration should be left in.
-    - Refer to examples for more details.
-    - With state I(replaced), for the listed route-maps,
-      sequences that are in running-config but not in the task are negated.
-    - With state I(overridden), all route-maps that are in running-config but
-      not in the task are negated.
+    - The states I(replaced) and I(overridden) have identical
+      behaviour for this module.
     - Please refer to examples for more details.
     type: str
     choices:
