@@ -136,8 +136,12 @@ options:
           type: bool
           description: Logs internal synchronization changes.
         master:
-          type: int
-          description: Use NTP as clock source with stratum number <1-15>
+          description: Act as NTP master clock
+          type: dict
+          suboptions:
+            stratum:
+              description: Use NTP as clock source with stratum number <1-15>
+              type: int
         max_associations:
           type: int
           description: <0-4294967295>  Number of associations.
@@ -155,7 +159,7 @@ options:
         update_calendar:
           type: bool
           description: Periodically update calendar with NTP time.
-        source:
+        source_interface:
           type: str
           description: Configure default interface.
         source_vrfs:
@@ -187,7 +191,7 @@ options:
             iburst: &iburst
               description: Use initial burst mode.
               type: bool
-            key: &key
+            key_id: &key
               description: SConfigure peer authentication key
               type: int
             source: &source
@@ -214,7 +218,7 @@ options:
             peer: *host
             burst: *burst
             iburst: *iburst
-            key: *key
+            key_id: *key
             source: *source
             maxpoll: *maxpoll
             minpoll: *minpoll
