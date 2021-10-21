@@ -1,0 +1,178 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+  {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'network'
+  }
+NETWORK_OS: junos
+RESOURCE: ntp_global
+COPYRIGHT: Copyright 2021 Red Hat
+
+DOCUMENTATION: |
+  module: junos_ntp_global
+  version_added: 2.6.0
+  short_description: Manage NTP configuration on Junos devices.
+  description: This module manages NTP configuration on devices running Junos.
+  author: Rohit Thakur (@rohitthakur2590)
+  requirements:
+    - ncclient (>=v0.6.4)
+    - xmltodict (>=0.12.0)
+  notes:
+    - This module requires the netconf system service be enabled on the device being managed.
+    - This module works with connection C(netconf).
+    - See L(the Junos OS Platform Options,https://docs.ansible.com/ansible/latest/network/user_guide/platform_junos.html).
+    - Tested against JunOS v18.4R1
+  options:
+    running_config:
+      description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the Junos device
+        by executing the command B(show system syslog).
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into Ansible structured data as per the resource module's argspec
+        and the value is then returned in the I(parsed) key within the result.
+      type: str
+    config:
+      description: A dictionary of NTP configuration.
+      type: dict
+      suboptions:
+        authentication_keys:
+          description: NTP authentication key.
+          type: list
+          elements: dict
+          suboptions:
+            id:
+              description: Authentication key number.
+              type: int
+            algorithm:
+              description: Authentication key type.
+              type: str
+              choices: ['md5', 'sha1', 'sha256']
+            key:
+              description: Authentication key value.
+              type: str
+              no_log: True
+        boot_server:
+          description: Server to query during boot sequence.
+          type: str
+        broadcasts:
+          description: Broadcast parameters.
+          type: list
+          elements: dict
+          suboptions:
+            address:
+              description: Broadcast or multicast address to use.
+              type: str
+            key:
+              description: Authentication key.
+              type: str
+            routing_instance_name:
+              description: Routing intance name in which interface has address in broadcast subnet.
+              type: str
+            ttl:
+              description: TTL value to transmit.
+              type: int
+            version:
+              description: NTP version to use.
+              type: int
+        broadcast_client:
+          description: Listen to broadcast NTP.
+          type: bool
+        interval_range:
+          description: Set the minpoll and maxpoll interval range.
+          type: int
+        multicast_client:
+          description: Listen to multicast NTP address.
+          type: str
+        peers:
+          description: NTP Peers.
+          type: list
+          elements: dict
+          suboptions: &peers
+            peer:
+              description: Hostname/IP address of the NTP Peer.
+              type: str
+            key_id:
+              description: Key-id to be used while communicating.
+              type: int
+            prefer:
+              description: Prefer this peer_serv.
+              type: bool
+            version:
+              description: NTP version to use.
+              type: int
+        servers:
+          description: NTP Servers.
+          type: list
+          elements: dict
+          suboptions:
+            server:
+              description: IP address or hostname of the server.
+              type: str
+            key_id:
+              description: Key-id to be used while communicating.
+              type: int
+            prefer:
+              description: Prefer this peer_serv.
+              type: bool
+            version:
+              description: NTP version to use.
+              type: int
+            routing_instance:
+              description: Routing instance through which server is reachable.
+              type: str
+        source_addresses:
+          description: Source-Address parameters.
+          type: list
+          elements: dict
+          suboptions:
+            source_address:
+              description: Use specified address as source address.
+              type: str
+            routing_instance:
+              description: Routing intance name in which source address is defined.
+              type: str 
+        threshold:
+          description: Set the maximum threshold(sec) allowed for NTP adjustment.
+          type: dict
+          suboptions:
+            value:
+              description: The maximum value(sec) allowed for NTP adjustment.
+              type: int
+            action:
+              description: Select actions for NTP abnormal adjustment.
+              type: str
+              choices: ['accept', 'reject']
+        trusted_keys:
+          description: List of trusted authentication keys.
+          type: list
+          elements: dict
+          suboptions:
+            key_id:
+              description: Trusted-Key number.
+              type: int        
+    state:
+      description:
+      - The state the configuration should be left in.
+      - Refer to examples for more details.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - deleted
+      - overridden
+      - parsed
+      - gathered
+      - rendered
+      default: merged
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
+  - parsed_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt
+
