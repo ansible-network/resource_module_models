@@ -17,34 +17,25 @@ options:
         description: Control NTP access
         type: dict
         suboptions:
-          peer: 
+          peer:
             description: Provide full access
             type: list
             elements: dict
             suboptions:
               access_list: &access_group_acl
-                description:  name or number of access list
+                description: name or number of access list
                 type: str
               kod: &kod
                 description: Send a Kiss-o-Death packet for failing peers
                 type: bool
               ipv4: &ipv4
-                description:  ipv4 access lists (Default not idempotent)
+                description: ipv4 access lists (Default not idempotent)
                 type: bool
               ipv6: &ipv6
-                description:  ipv6 access lists (Default not idempotent)
+                description: ipv6 access lists (Default not idempotent)
                 type: bool
-          query_only: 
-            description:  Allow only control queries
-            type: list
-            elements: dict
-            suboptions: 
-              access_list: *access_group_acl
-              kod: *kod
-              ipv4: *ipv4
-              ipv6: *ipv6
-          serve: 
-            description:  Provide server and query access
+          query_only:
+            description: Allow only control queries
             type: list
             elements: dict
             suboptions:
@@ -52,8 +43,17 @@ options:
               kod: *kod
               ipv4: *ipv4
               ipv6: *ipv6
-          serve_only: 
-            description:  Provide only server access
+          serve:
+            description: Provide server and query access
+            type: list
+            elements: dict
+            suboptions:
+              access_list: *access_group_acl
+              kod: *kod
+              ipv4: *ipv4
+              ipv6: *ipv6
+          serve_only:
+            description: Provide only server access
             type: list
             elements: dict
             suboptions:
@@ -111,7 +111,7 @@ options:
           enabled:
             description: Enable master clock
             type: bool
-          stratum_number:
+          stratum:
             description: Stratum number
             type: int
       max_associations:
@@ -155,9 +155,11 @@ options:
           iburst: &iburst
             description: Send a burst when peer is unreachable (Default)
             type: bool
-          key: &key
+          key_id: &key
             description: Configure peer authentication key
             type: int
+            aliases:
+              - key
           maxpoll: &maxpoll
             description: Maximum poll interval Poll value in Log2
             type: int
@@ -189,7 +191,7 @@ options:
           vrf: *vrf
           burst: *burst
           iburst: *iburst
-          key: *key
+          key_id: *key
           maxpoll: *maxpoll
           minpoll: *minpoll
           normal_sync: *normal_sync
@@ -240,6 +242,8 @@ options:
         platform specific CLI commands which will be returned in the I(rendered) key
         within the result. For state I(rendered) active connection to remote host is
         not required.
+      - The states I(replaced) and I(overridden) have identical
+        behaviour for this module.
       - The state I(gathered) will fetch the running configuration from device and transform
         it into structured data in the format as per the resource module argspec and
         the value is returned in the I(gathered) key within the result.
@@ -247,6 +251,6 @@ options:
         transforms it into JSON format as per the resource module parameters and the
         value is returned in the I(parsed) key within the result. The value of C(running_config)
         option should be the same format as the output of command
-        I(show running-config | section ^interface) executed on device. For state I(parsed) active
+        I(show running-config | section ^ntp) executed on device. For state I(parsed) active
         connection to remote host is not required.
     type: str
