@@ -224,38 +224,29 @@ options:
       queue_length:
         description: Message queue length for each TRAP host
         type: int
+      source_interface:
+        description: Source interface to be used for sending out SNMP notifications.
+        type: dict
+        suboptions:
+          informs:
+            description: SNMP Inform notifications for which this source interface needs to be used.
+            type: bool
+          traps:
+            description: SNMP Trap notifications for which this source interface needs to be used.
+            type: bool
+          interface:
+            description: Interface Name.
+            type: str
       system_shutdown:
         description: Enable use of the SNMP reload command
         type: bool
-      tftp_server:
-        description: Limit TFTP servers used via SNMP
-        type: str
-      trap_authentication:
-        choices:
-          - acl-failure
-          - unknown-context
-          - vrf
-        description: SNMP trap options, fine-tune enable/disable of authentication traps
-        type: str
-      trap_link:
-        choices:
-          - ietf
-          - switchover
-        description: SNMP trap options, Assign/Enable SNMP link traps
-        type: str
-      trap_retry:
-        description: SNMP trap options, number of retries for searching route
-        type: int
       trap_source:
         description: Assign an interface for the source address of all traps
         type: str
       trap_timeout:
         description: Set timeout for TRAP message retransmissions
         type: int
-      trap_timestamp:
-        description: SNMP trap options, add timestamp to trap var binds
-        type: bool
-      trap:
+      traps:
         description: Enable SNMP Traps
         suboptions:
           auth_framework:
