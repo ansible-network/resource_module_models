@@ -2,14 +2,14 @@
 author:
   - Sagar Paul (@KB-perByte)
 description:
-  - This module provides declarative management of snmp server on Cisco IOS devices.
+  - This module provides declarative management of SNMP server on Cisco IOS devices.
 module: ios_snmp_server
 notes:
   - Tested against Cisco IOSv Version 15.6.
   - This module works with connection C(network_cli).
 options:
   config:
-    description: A dictionary of ntp options
+    description: A dictionary of SNMP server configuration
     suboptions:
       accounting:
         description: SNMP Accounting parameters
@@ -794,8 +794,11 @@ options:
   running_config:
     description:
       - This option is used only with state I(parsed).
-      - The value of this option should be the output received from the IOS device by executing the command B(show running-config | include snmp-server).
-      - The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.
+      - The value of this option should be the output received from the IOS device by
+        executing the command B(show running-config | include snmp-server).
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into Ansible structured data as per the resource module's argspec
+        and the value is then returned in the I(parsed) key within the result.
     type: str
   state:
     choices:
