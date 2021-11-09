@@ -1,0 +1,195 @@
+module: nxos_ntp_global
+short_description: NTP Global resource module.
+description:
+- This module manages ntp configuration on devices running Cisco NX-OS.
+version_added: 2.6.0
+notes:
+- Tested against NX-OS 9.3.6.
+- This module works with connection C(network_cli) and C(httpapi).
+author: Nilashish Chakraborty (@NilashishC)
+options:
+  running_config:
+    description:
+    - This option is used only with state I(parsed).
+    - The value of this option should be the output received from the NX-OS device
+      by executing the command B(show running-config ntp).
+    - The state I(parsed) reads the configuration from C(running_config) option and
+      transforms it into Ansible structured data as per the resource module's argspec
+      and the value is then returned in the I(parsed) key within the result.
+    type: str
+  config:
+    description: A dict of ntp configuration.
+    type: dict
+    suboptions:
+      access_group:
+        description: NTP access-group.
+        type: dict
+        suboptions:
+          match_all:
+            description: Scan ACLs present in all ntp access groups.
+            type: bool
+          peer:
+            description: Access-group peer.
+            type: list
+            elements: dict
+            suboptions:
+              access_list:
+                description: Name of access list.
+                type: str
+          query_only:
+            description: Access-group query-only.
+            type: list
+            elements: dict
+            suboptions:
+              access_list:
+                description: Name of access list.
+                type: str
+          serve:
+            description: Access-group serve.
+            type: list
+            elements: dict
+            suboptions:
+              access_list:
+                description: Name of access list.
+                type: str
+          serve_only:
+            description: Access-group serve-only.
+            type: list
+            elements: dict
+            suboptions:
+              access_list:
+                description: Name of access list.
+                type: str
+      allow:
+        description: Enable/Disable the packets.
+        type: dict
+        suboptions:
+          control:
+            description: Control mode packets.
+            type: dict
+            suboptions:
+              rate_limit:
+                description: Rate-limit delay.
+                type: int
+          private:
+            description: Enable/Disable Private mode packets.
+            type: bool
+      authenticate:
+        description: Enable/Disable authentication.
+        type: bool
+      authentication_keys:
+        description: NTP authentication key.
+        type: list
+        elements: dict
+        suboptions:
+          id:
+            description: Authentication key number (range 1-65535).
+            type: int
+          key:
+            description: Authentication key.
+            type: str
+          encryption:
+            description:
+              - 0 for Clear text
+              - 7 for Encrypted
+            type: int
+      logging:
+        description: Enable/Disable logging of NTPD Events.
+        type: bool
+      master:
+        description:
+          - Act as NTP master clock.
+        type: dict
+        suboptions:
+          stratum:
+            description: Stratum number.
+            type: int
+      passive:
+        description: NTP passive command.
+        type: bool
+      peers:
+        description: NTP Peers.
+        type: list
+        elements: dict
+        suboptions:
+          peer:
+            description: Hostname/IP address of the NTP Peer.
+            type: str
+          key_id:
+            description: Keyid to be used while communicating to this server.
+            type: int
+          maxpoll:
+            description:
+              - Maximum interval to poll a peer.
+              - Poll interval in secs to a power of 2.
+            type: int
+          minpoll:
+            description:
+              - Minimum interval to poll a peer.
+              - Poll interval in secs to a power of 2.
+            type: int
+          prefer:
+            description:
+              - Preferred Server.
+            type: bool
+          use_vrf:
+            description: Display per-VRF information.
+            type: str
+      servers:
+        description: NTP servers.
+        type: list
+        elements: dict
+        suboptions:
+          server:
+            description: Hostname/IP address of the NTP Peer.
+            type: str
+          key_id:
+            description: Keyid to be used while communicating to this server.
+            type: int
+          maxpoll:
+            description:
+              - Maximum interval to poll a peer.
+              - Poll interval in secs to a power of 2.
+            type: int
+          minpoll:
+            description:
+              - Minimum interval to poll a peer.
+              - Poll interval in secs to a power of 2.
+            type: int
+          prefer:
+            description:
+              - Preferred Server.
+            type: bool
+          use_vrf:
+            description: Display per-VRF information.
+            type: str
+      source:
+        description: Source of NTP packets.
+        type: str
+      source_interface:
+        description: Source interface sending NTP packets.
+        type: str
+      trusted_keys:
+        description: NTP trusted-key number.
+        type: list
+        elements: dict
+        suboptions:
+          key_id:
+            description: Trusted-Key number.
+            type: int
+  state:
+    description:
+    - The state the configuration should be left in.
+    - The states I(replaced) and I(overridden) have identical
+      behaviour for this module.
+    - Please refer to examples for more details.
+    type: str
+    choices:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    - parsed
+    - gathered
+    - rendered
+    default: merged
