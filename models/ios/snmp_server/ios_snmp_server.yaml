@@ -63,16 +63,6 @@ options:
         description: Create/Delete a context apart from default
         elements: str
         type: list
-      dbal:
-        description: snmp database access layer
-        suboptions:
-          cache:
-            description: snmp dbal cache
-            type: bool
-          timeout:
-            description: snmp dbal cache timeout
-            type: int
-        type: dict
       drop:
         description: Silently drop SNMP packets
         suboptions:
@@ -265,23 +255,9 @@ options:
       trap_timestamp:
         description: SNMP trap options, add timestamp to trap var binds
         type: bool
-      traps:
+      trap:
         description: Enable SNMP Traps
         suboptions:
-          aaa_server:
-            description: Enable SNMP AAA Server traps
-            type: bool
-          adslline:
-            description: Enable ADSL Line-MIB traps
-            type: bool
-          alarms:
-            choices:
-              - critical
-              - informational
-              - major
-              - minor
-            description: Enable SNMP alarms traps
-            type: str
           auth_framework:
             description: Enable SNMP CISCO-AUTH-FRAMEWORK-MIB traps
             suboptions:
@@ -438,39 +414,8 @@ options:
           eigrp:
             description: Enable SNMP eigrp traps
             type: bool
-          energywise:
-            description: Allow energywise related traps
-            suboptions:
-              event_occured:
-                description: Enable ENERGYWISE event occur trap
-                type: bool
-              level_change:
-                description: Enable ENERGYWISE entity level change trap
-                type: bool
-              neighbor_added:
-                description: Enable ENERGYWISE entity neighbor added trap
-                type: bool
-              neighbor_deleted:
-                description: Enable ENERGYWISE entity neighbor deleted trap
-                type: bool
-              state:
-                choices:
-                  - enable
-                  - disable
-                description: Enable/disable  traps
-                type: str
-            type: dict
           entity:
             description: Enable SNMP entity traps
-            type: bool
-          entity_sensor:
-            description: Enable SNMP ENTITY-SENSOR-MIB traps
-            type: bool
-          entity_state:
-            description: Enable SNMP ENTITY-STATE-MIB traps
-            type: bool
-          ether_oam:
-            description: Enable SNMP ip local pool traps
             type: bool
           ethernet:
             description: Allow ethernet traps
@@ -534,6 +479,19 @@ options:
           flowmon:
             description: Enable SNMP flowmon traps
             type: bool
+          firewall:
+            description: Enable SNMP firewall traps
+            suboptions:
+              state:
+                choices:
+                  - enable
+                  - disable
+                description: Enable/disable firewall traps
+                type: str
+              serverstatus:
+                description: Enable firewall server status change trap
+                type: bool
+            type: dict
           frame_relay:
             description: Allow frame-relay traps
             suboptions:
@@ -590,11 +548,8 @@ options:
                     type: bool
                 type: dict
             type: dict
-          ip_local_pool:
-            description: Enable SNMP ip local pool traps
-            type: bool
           ipmulticast:
-            description: Enable SNMP ipmulticastl traps
+            description: Enable SNMP ip multi cast traps
             type: bool
           ipsec:
             description: Allow ike traps
@@ -636,15 +591,12 @@ options:
             description: Allow SNMP l2tun traps
             suboptions:
               pseudowire_status:
-                description: Enable BFD pseudowire status traps
+                description: Enable BFD pseudo wire status traps
                 type: bool
               session:
                 description: Enable BFD session traps
                 type: bool
             type: dict
-          lte:
-            description: Enable SNMP LTE traps
-            type: bool
           msdp:
             description: Enable SNMP msdp traps
             type: bool
@@ -800,7 +752,7 @@ options:
             description: Enable SNMP vrrp traps
             type: bool
         type: dict
-      user:
+      users:
         description: Define a user who can access the SNMP engine
         elements: dict
         suboptions:
@@ -830,7 +782,7 @@ options:
             description: The remote SNMP entity's VPN Routing instance
             type: str
         type: list
-      view:
+      views:
         description: Define an SNMPv2 MIB view
         elements: dict
         suboptions:
