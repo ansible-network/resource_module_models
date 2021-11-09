@@ -1,6 +1,6 @@
 module: eos_snmp_server
-short_description: Manages snmp-server resource module
-description: This module configures and manages the attributes of snmp-server on Arista
+short_description: Manages snmp_server resource module
+description: This module configures and manages the attributes of snmp_server on Arista
   EOS platforms.
 version_added: 3.2.0
 author: Gomathi Selvi Srinivasan (@GomathiselviS)
@@ -24,7 +24,7 @@ options:
             description: Community name
             type: str
           acl_v4:
-            description: standard access-list name
+            description: standard access_list name
             type: str
           acl_v6:
             description: IPv6 access list name.
@@ -33,31 +33,30 @@ options:
             description: Only reads are permitted.
             type: bool
           rw:
-            description: Read-write access
+            description: Read_write access
             type: bool
           view:
             description: MIB view name
             type: str
       contact:
-        description: Person to contact about the syste,.
+        description: Person to contact about the system.
         type: str
       traps:
         description: Enable traps to all configured recipients.
-        type: list
-        elements: dict
+        type: dict
         suboptions:
           bgp:
             description: Enable Bgp traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              arista-backward-transition:
-                description: arista-backward-transition
+              arista_backward_transition:
+                description: arista_backward_transition
                 type: bool
-              arista-established:
-                description: arista-established
+              arista_established:
+                description: arista_established
                 type: bool
-              backward-transition:
-                description: backward-transition
+              backward_transition:
+                description: backward_transition
                 type: bool
               established:
                 description: established.
@@ -69,14 +68,14 @@ options:
             description: Enable Bridge traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              arista-mac-age:
-                description: arista-mac-age
+              arista_mac_age:
+                description: arista_mac_age
                 type: bool
-              arista-mac-learn:
-                description: arista-mac-learn
+              arista_mac_learn:
+                description: arista_mac_learn
                 type: bool
-              arista-mac-move:
-                description: arista-mac-move
+              arista_mac_move:
+                description: arista_mac_move
                 type: bool
               enabled:
                 description: All traps are set.
@@ -85,8 +84,8 @@ options:
             description: Enable Capacity traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              arista-hardware-utilization-alert:
-                description: arista-hardware-utilization-alert
+              arista_hardware_utilization_alert:
+                description: arista_hardware_utilization_alert
                 type: bool
               enabled:
                 description: All traps are set.
@@ -95,20 +94,20 @@ options:
             description: Enable Entity traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              arista-ent-sensor-alarm:
-                description: arista-ent-sensor-alarm
+              arista_ent_sensor_alarm:
+                description: arista_ent_sensor_alarm
                 type: bool
-              ent-config-change:
-                description: ent-config-change
+              ent_config_change:
+                description: ent_config_change
                 type: bool
-              ent-state-oper:
-                description: ent-state-oper
+              ent_state_oper:
+                description: ent_state_oper
                 type: bool
-              ent-state-oper-disabled:
-                description: ent-state-oper-disabled.
+              ent_state_oper_disabled:
+                description: ent_state_oper_disabled.
                 type: bool
-              ent-state-oper-enabled:
-                description: ent-state-oper-enabled.
+              ent_state_oper_enabled:
+                description: ent_state_oper_enabled.
                 type: bool
               enabled:
                 description: All traps are set.
@@ -117,11 +116,11 @@ options:
             description: Enable external alarm traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              arista-external-alarm-asserted-notif:
-                description: arista-external-alarm-asserted-notif
+              arista_external_alarm_asserted_notif:
+                description: arista_external_alarm_asserted_notif
                 type: bool
-              arista-external-alarm-deasserted-notif:
-                description: arista-external-alarm-deasserted-notif
+              arista_external_alarm_deasserted_notif:
+                description: arista_external_alarm_deasserted_notif
                 type: bool
               enabled:
                 description: All traps are set.
@@ -130,29 +129,29 @@ options:
             description: Enable isis traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              adjacency-change:
-                description: adjacency-change
+              adjacency_change:
+                description: adjacency_change
                 type: bool
-              area-mismatch:
-                description: area-mismatch
+              area_mismatch:
+                description: area_mismatch
                 type: bool
-              attempt-to-exceed-max-sequence:
-                description: attempt-to-exceed-max-sequence
+              attempt_to_exceed_max_sequence:
+                description: attempt_to_exceed_max_sequence
                 type: bool
-              authentication-type-failure:
-                description: authentication-type-failure.
+              authentication_type_failure:
+                description: authentication_type_failure.
                 type: bool
-              database-overload:
-                description: database-overload
+              database_overload:
+                description: database_overload
                 type: bool
-              own-lsp-purge:
-                description: own-lsp-purge
+              own_lsp_purge:
+                description: own_lsp_purge
                 type: bool
-              rejected-adjacency:
-                description: rejected-adjacency
+              rejected_adjacency:
+                description: rejected_adjacency
                 type: bool
-              sequence-number-skip:
-                description: sequence-number-skip.
+              sequence_number_skip:
+                description: sequence_number_skip.
                 type: bool
               enabled:
                 description: All traps are set.
@@ -161,8 +160,8 @@ options:
             description: Enable Lldp traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              rem-tables-change:
-                description: rem-tables-change
+              rem_tables_change:
+                description: rem_tables_change
                 type: bool
               enabled:
                 description: All traps are set.
@@ -171,11 +170,11 @@ options:
             description: Enable mpls_ldp traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              mpls-ldp-session-down:
-                description: mpls-ldp-session-down
+              mpls_ldp_session_down:
+                description: mpls_ldp_session_down
                 type: bool
-              mpls-ldp-session-up:
-                description: mpls-ldp-session-up
+              mpls_ldp_session_up:
+                description: mpls_ldp_session_up
                 type: bool
               enabled:
                 description: All traps are set.
@@ -184,8 +183,8 @@ options:
             description: Enable msdp traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              backward-transition:
-                description: backward-transition.
+              backward_transition:
+                description: backward_transition.
                 type: bool
               established:
                 description: established.
@@ -197,17 +196,17 @@ options:
             description: Enable Ospf traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              if-config-error:
-                description: if-config-error
+              if_config_error:
+                description: if_config_error
                 type: bool
-              if-auth-failure:
-                description: if-auth-failure
+              if_auth_failure:
+                description: if_auth_failure
                 type: bool
-              if-state-change:
-                description: if-state-change
+              if_state_change:
+                description: if_state_change
                 type: bool
-              nbr-state-change:
-                description: nbr-state-change.
+              nbr_state_change:
+                description: nbr_state_change.
                 type: bool
               enabled:
                 description: All traps are set.
@@ -216,26 +215,26 @@ options:
             description: Enable Ospfv3 traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              if-config-error:
-                description: if-config-error
+              if_config_error:
+                description: if_config_error
                 type: bool
-              if-rx-bad-packet:
-                description: if-rx-bad-packet
+              if_rx_bad_packet:
+                description: if_rx_bad_packet
                 type: bool
-              if-state-change:
-                description: if-state-change
+              if_state_change:
+                description: if_state_change
                 type: bool
-              nbr-state-change:
-                description: nbr-state-change.
+              nbr_state_change:
+                description: nbr_state_change.
                 type: bool
-              nbr-restart-helper-status-change:
+              nbr_restart_helper_status_change:
                 description: Enable ospfv3NbrRestartHelperStatusChange trap
                 type: bool
-              nssa-translator-status-change:
+              nssa_translator_status_change:
                 description: Enable ospfv3NssaTranslatorStatusChange trap
                 type: bool
-              restart-status-change:
-                description: restart-status-change
+              restart_status_change:
+                description: restart_status_change
                 type: bool
               enabled:
                 description: All traps are set.
@@ -244,8 +243,8 @@ options:
             description: Enable Pim traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              neighbor-loss:
-                description: neighbor-loss
+              neighbor_loss:
+                description: neighbor_loss
                 type: bool
               enabled:
                 description: All traps are set.
@@ -257,11 +256,11 @@ options:
               authentication:
                 description: authentication
                 type: bool
-              link-down:
-                description: link-down
+              link_down:
+                description: link_down
                 type: bool
-              link-up:
-                description: link-up
+              link_up:
+                description: link_up
                 type: bool
               enabled:
                 description: All traps are set.
@@ -270,8 +269,8 @@ options:
             description: Enable snmpConfigManEvent traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              arista-config-man-event:
-                description: arista-config-man-event
+              arista_config_man_event:
+                description: arista_config_man_event
                 type: bool
               enabled:
                 description: All traps are set.
@@ -280,8 +279,8 @@ options:
             description: Enable switchover traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              arista-redundancy-switch-over-notif:
-                description: arista-redundancy-switch-over-notif
+              arista_redundancy_switch_over_notif:
+                description: arista_redundancy_switch_over_notif
                 type: bool
               enabled:
                 description: All traps are set.
@@ -290,8 +289,8 @@ options:
             description: Enable test traps. If set to enabled , all the traps are set.
             type: dict
             suboptions:
-              arista-test-notification:
-                description: arista-test-notification
+              arista_test_notification:
+                description: arista_test_notification
                 type: bool
               enabled:
                 description: All traps are set.
@@ -337,7 +336,7 @@ options:
             description: script location
             type: str
           oneshot:
-            description: Use inefficient one-shot interface
+            description: Use inefficient one_shot interface
             type: bool
       groups:
         description: SNMP USM group
@@ -395,20 +394,20 @@ options:
             description: Specify the VRF in which the host is configured
             type: str
       acls:
-        description: ipv4/ipv6 access-lists
+        description: ipv4/ipv6 access_lists
         type: list
         elements: dict
         suboptions:
-        afi:
-          description: ipv4/ipv6
-          type: str
-          choices: ['ipv4', 'ipv6']
-        acl:
-          description: acl name
-          type: str
-        vrf:
-          description: vrf name
-          type: str
+          afi:
+            description: ipv4/ipv6
+            type: str
+            choices: ['ipv4', 'ipv6']
+          acl:
+            description: acl name
+            type: str
+          vrf:
+            description: vrf name
+            type: str
       local_interface:
         description: Configure the source interface for SNMP notifications.
         type: str
@@ -432,7 +431,7 @@ options:
         description: Configure QoS parameters.
         type: int
       qosmib:
-        description: Set QOS-MIB counter update interval
+        description: Set QOS_MIB counter update interval
         type: int
       transmit:
         description: Maximum number of bytes in SNMP message (UDP/TCP payload)
