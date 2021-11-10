@@ -1,14 +1,4 @@
----
-GENERATOR_VERSION: '1.0'
-ANSIBLE_METADATA: |
-  {
-      'metadata_version': '1.1',
-      'status': ['preview'],
-      'supported_by': 'network'
-  }
-NETWORK_OS: junos
-RESOURCE: snmp_server
-COPYRIGHT: Copyright 2021 Red Hat
+
 
 DOCUMENTATION: |
   module: junos_snmp_server
@@ -100,7 +90,7 @@ DOCUMENTATION: |
                 set:
                   description: Set routing_instance_access.
                   type: bool
-                access_list:
+                access_lists:
                   description: Allow/Deny SNMP access to routing-instances.
                   type: list
                   elements: str
@@ -206,7 +196,7 @@ DOCUMENTATION: |
             commit_delay:
               description: Delay between affirmative SNMP Set reply and start of commit (seconds).
               type: int
-        proxy:
+        proxies:
           description: SNMP proxy configuration.
           type: list
           elements: dict
@@ -256,11 +246,11 @@ DOCUMENTATION: |
             set:
               description: Set Remote monitoring configuration.
               type: bool
-            alarm:
+            alarms:
               description: RMON alarm entries.
               type: list
               elements: int
-            event:
+            events:
               description: RMON event entries.
               type: list
               elements: int
@@ -640,8 +630,8 @@ DOCUMENTATION: |
               type: list
               elements: dict
               suboptions:
-                name: SNMPv3 target parameters name. 
-                  description: type: str
+                name:  
+                  description: SNMPv3 target parameters name.
                   type: str
                 notify_filter:
                   description: Notify filter with filter name to apply to notifications.
@@ -800,5 +790,6 @@ EXAMPLES:
   - parsed_example_01.txt
   - gathered_example_01.txt
   - rendered_example_01.txt
+  
 
 
