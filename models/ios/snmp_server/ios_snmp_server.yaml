@@ -17,18 +17,9 @@ options:
           command:
             description: For SNMP set commands
             type: str
-          command_default:
-            description: Use the default accounting list
-            type: bool
-          disable_community:
-            description: Disable accounting for a particular community
-            type: str
-          disable_user:
-            description: Disable accounting for a particular user
-            type: str
         type: dict
       cache:
-        description: Enable SNMP cache
+        description: Enable SNMP cache and MIB expiry interval
         type: int
       chassis_id:
         description: String to uniquely identify this chassis (Hexadecimal)
@@ -76,17 +67,18 @@ options:
       engine_id:
         description: Configure a local or remote SNMPv3 engineID
         suboptions:
+        elements: dict
+          id:
+            description: engine ID octet string
+            type: str
           local:
             description: Local SNMP agent
-            type: str
+            type: bool
           remote:
             description: Remote SNMP agent
             suboptions:
               host:
                 description: Hostname or IP address of remote SNMP notification host
-                type: str
-              id:
-                description: engine ID octet string
                 type: str
               udp_port:
                 description: The remote SNMP notification host's UDP port number.
@@ -95,13 +87,17 @@ options:
                 description: The remote notification host's VPN routing instance
                 type: str
             type: dict
-        type: dict
+        type: list
       file_transfer:
         description: File transfer related commands
         suboptions:
           access_group:
             description: Access control for file transfers
             type: str
+          protocol:
+            description: Access control protocol for file transfers
+            type: list
+            elements: str
         type: dict
       groups:
         description: Define a User Security Model group
@@ -129,6 +125,12 @@ options:
           write:
             description: View to restrict write access
             type: str
+          acl_v4:
+            description: specify an access-list associated with this group
+            type: str
+          acl_v6:
+            description: specify an access-list associated with this group
+            type: str
         type: list
       hosts:
         description: Specify hosts to receive SNMP notifications
@@ -140,15 +142,26 @@ options:
           informs:
             description: Use SNMP inform messages.
             type: bool
+          community_string:
+            description: SNMPv1/v2c community string or SNMPv3 user name
+            type: str
           traps:
             description: Use SNMP trap messages
-            type: bool
+            type: list
+            elements: str
           version:
             choices:
               - '1'
               - 2c
               - '3'
             description: Notification message SNMP version.
+            type: str
+          version_option:
+            choices:
+              - auth
+              - noauth
+              - priv
+            description: community name to the host.
             type: str
           vrf:
             description: Specify the VRF in which the host is configured
@@ -226,17 +239,7 @@ options:
         type: int
       source_interface:
         description: Source interface to be used for sending out SNMP notifications.
-        type: dict
-        suboptions:
-          informs:
-            description: SNMP Inform notifications for which this source interface needs to be used.
-            type: bool
-          traps:
-            description: SNMP Trap notifications for which this source interface needs to be used.
-            type: bool
-          interface:
-            description: Interface Name.
-            type: str
+        type: str
       system_shutdown:
         description: Enable use of the SNMP reload command
         type: bool
@@ -747,8 +750,11 @@ options:
         description: Define a user who can access the SNMP engine
         elements: dict
         suboptions:
-          access:
-            description: Access list associated
+          acl_v6:
+            description: Access list ipv6 associated
+            type: str
+          acl_v4:
+            description: Access list ipv4 associated
             type: str
           group:
             description: SNMP group for the user.
@@ -759,7 +765,7 @@ options:
           udp_port:
             description: UDP port used by the remote SNMP system
             type: int
-          user:
+          username:
             description: SNMP user name
             type: str
           version:
@@ -768,6 +774,13 @@ options:
               - v2c
               - v3
             description: SNMP security version
+            type: str
+          version_option:
+            choices:
+              - auth
+              - access
+              - encrypted
+            description: community name to the host.
             type: str
           vrf:
             description: The remote SNMP entity's VPN Routing instance
