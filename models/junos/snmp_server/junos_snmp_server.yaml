@@ -1,5 +1,4 @@
-
-
+---
 DOCUMENTATION: |
   module: junos_snmp_server
   version_added: 2.7.0
@@ -57,6 +56,17 @@ DOCUMENTATION: |
                 restrict:
                   description: Deny access.
                   type: bool
+        routing_instance_access: &routing_instance_access
+          description: SNMP routing-instance options.
+          type: dict
+          suboptions:
+            set:
+              description: Set routing_instance_access.
+              type: bool
+            access_lists:
+              description: Allow/Deny SNMP access to routing-instances.
+              type: list
+              elements: str
         communities:
           description: Specify list of community string.
           type: list
@@ -83,23 +93,12 @@ DOCUMENTATION: |
                 restrict:
                   description: Deny access.
                   type: bool
-            routing_instance_access: &routing_instance_access
-              description: SNMP routing-instance options.
-              type: dict
-              suboptions:
-                set:
-                  description: Set routing_instance_access.
-                  type: bool
-                access_lists:
-                  description: Allow/Deny SNMP access to routing-instances.
-                  type: list
-                  elements: str
             routing_instances: &routing_instances
               description: Use routing-instance name for v1/v2c clients. 
               type: list
               elements: dict
               suboptions:
-                routing-instance:
+                name:
                   description: Specify routing-instances.
                   type: str
                 client_list_name: *client_list_name
@@ -161,10 +160,10 @@ DOCUMENTATION: |
             set:
               description: Set health-monitor configuration.
               type: bool
-            falling-threshold:
+            falling_threshold:
               description: Falling threshold applied to all monitored objects.
               type: int
-            rising-threshold:
+            rising_threshold:
               description: Rising threshold applied to all monitored objects.
               type: int
             idp:
@@ -249,12 +248,68 @@ DOCUMENTATION: |
             alarms:
               description: RMON alarm entries.
               type: list
-              elements: int
+              elements: dict
+              suboptions:
+                id:
+                  description: Specify alarm ID.
+                  type: str
+                description: 
+                  description:  General description of alarm (stored in alarmOwner).
+                  type: str
+                falling_event_index:
+                  description: Event triggered after falling threshold is crossed. 
+                  type: int
+                falling_threshold:
+                  description: Specify falling-threshold. 
+                  type: int
+                falling_threshold_interval:
+                  description: Interval between samples during falling-threshold test.
+                  type: int
+                interval:
+                  description: Interval between samples. 
+                  type: int
+                request_type:
+                  description: Type of SNMP request to issue for alarm. 
+                  type: str
+                  choices: ["get-next-request", "get-request", "walk-request"]
+                rising_event_index:
+                  description: Event triggered after rising threshold is crossed. 
+                  type: int
+                rising_threshold:
+                  description: The rising threshold. 
+                  type: int
+                sample_type:
+                  description: Method of sampling the selected variable. 
+                  type: str
+                  choices: ["absolute-value", "delta-value"]
+                startup_alarm:
+                  description: The alarm that may be sent upon entry startup. 
+                  type: str
+                  choices: ["falling-alarm", "rising-alarm", "rising-or-falling-alarm"]
+                syslog_subtag:
+                  description: Tag to be added to syslog messages. 
+                  type: str
+                variable:
+                  description: OID of MIB variable to be monitored. 
+                  type: str
             events:
               description: RMON event entries.
               type: list
-              elements: int
-        routing_instance_access: *routing_instance_access
+              elements: dict
+              suboptions:
+                id: 
+                  description: Specify event ID. 
+                  type: int
+                community: 
+                  description: The community (trap group) for outgoing traps. 
+                  type: str
+                description: 
+                  description: General description of event. 
+                  type: str
+                type: 
+                  description: The type of notification for this event. 
+                  type: str
+                  choices: ["log", "log-and-trap", "none", "snmptrap"]
         subagent:
           description: SNMP subagent configuration.
           type: dict
@@ -335,7 +390,7 @@ DOCUMENTATION: |
                   type: bool
                 size:
                   description: Specify Memory size reserved for tracing.
-                  type: bool
+                  type: int
             no_remote_trace:
               description: Disable remote tracing.
               type: bool
@@ -347,9 +402,6 @@ DOCUMENTATION: |
             name: 
               description: Specify trap group name. 
               type: str
-            set:
-              description: Set trap group.
-              type: bool
             categories:
               description: Specify Trap categories.
               type: dict
@@ -488,7 +540,9 @@ DOCUMENTATION: |
               description: SNMP trap receiver port number
               type: int
             logical_system: *logical_system
-            routing_instances: *routing_instances
+            routing_instance:
+              description: Routing instance for trap destination.
+              type: str
             targets:
               description: Targets for trap messages
               type: list
@@ -541,7 +595,7 @@ DOCUMENTATION: |
                 name: 
                   description: Specify notify name.
                   type: str
-                tag:
+                tags:
                   description: Notifications will be sent to all targets configured with this tag. 
                   type: list
                   elements: str
@@ -558,7 +612,8 @@ DOCUMENTATION: |
                   type: str 
                 oids:
                   description: OID to include/exclude from notify filter. 
-                  type: dict
+                  type: list
+                  elements: dict
                   suboptions:
                     oid:
                       description: Specify OID. 
@@ -784,12 +839,5 @@ DOCUMENTATION: |
       default: merged
 EXAMPLES:
   - merged_example_01.txt
-  - replaced_example_01.txt
-  - overridden_example_01.txt
-  - deleted_example_01.txt
-  - parsed_example_01.txt
-  - gathered_example_01.txt
-  - rendered_example_01.txt
-  
 
 
