@@ -1,0 +1,67 @@
+---
+DOCUMENTATION: |
+  module: junos_routing_options
+  version_added: 2.8.0
+  short_description: Manage routing-options configuration on Junos devices.
+  description: This module manages routing-options configuration on devices running Junos.
+  author: Rohit Thakur (@rohitthakur2590)
+  requirements:
+    - ncclient (>=v0.6.4)
+    - xmltodict (>=0.12.0)
+  notes:
+    - This module requires the netconf system service be enabled on the device being managed.
+    - This module works with connection C(netconf).
+    - See L(the Junos OS Platform Options,https://docs.ansible.com/ansible/latest/network/user_guide/platform_junos.html).
+    - Tested against JunOS v18.4R1
+  options:
+    running_config:
+      description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the Junos device
+        by executing the command B(show routing-options).
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into Ansible structured data as per the resource module's argspec
+        and the value is then returned in the I(parsed) key within the result.
+      type: str
+    config:
+      description: A dictionary of NTP configuration.
+      type: dict
+      suboptions:
+        autonomous_system:
+          description: Specify Autonomous system number.
+          type: dict
+          suboptions:
+            as_number:
+              description: Specify Autonomous system number.
+              type: str
+            loops:
+              description: Specify maximum number of times this AS can be in an AS path.
+              type: int
+            asdot_notation:
+              description: Enable AS-Dot notation to display true 4 byte AS numbers.
+              type: bool
+        router_id:
+          description: Specify Router identifier.
+          type: str
+    state:
+      description:
+      - The state the configuration should be left in.
+      - Refer to examples for more details.
+      type: str
+      choices:
+      - merged
+      - replaced
+      - deleted
+      - overridden
+      - parsed
+      - gathered
+      - rendered
+      default: merged
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
+  - parsed_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt
