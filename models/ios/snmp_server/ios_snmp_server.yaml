@@ -106,6 +106,13 @@ options:
           context:
             description: Specify a context to associate with the group
             type: str
+          version_option:
+            choices:
+              - auth
+              - noauth
+              - priv
+            description: community name to the host.
+            type: str
           group:
             description: SNMP group for the user
             type: str
@@ -265,6 +272,9 @@ options:
           bfd:
             description: Allow SNMP BFD traps
             suboptions:
+              enable:
+                description: Enable/disable bfd
+                type: bool
               session_down:
                 description: Enable BFD session down traps
                 type: bool
@@ -384,6 +394,9 @@ options:
           entity:
             description: Enable SNMP entity traps
             type: bool
+          energywise:
+            description: Enable SNMP energywise traps
+            type: bool
           ethernet:
             description: Allow ethernet traps
             suboptions:
@@ -393,6 +406,38 @@ options:
                   alarm:
                     description: Enable SNMP Ethernet CFM fault alarm trap
                     type: bool
+                  cc:
+                    description: Enable SNMP Ethernet CC trap
+                    type: dict
+                    suboptions:
+                      config:
+                        description: Enable SNMP Ethernet CFM configuration error traps
+                        type: bool
+                      cross_connect:
+                        description: Enable SNMP Ethernet CFM cross-connect traps
+                        type: bool
+                      loop:
+                        description: Enable SNMP Ethernet CFM loop traps
+                        type: bool
+                      mep_down:
+                        description: Enable SNMP Ethernet CFM CC Down traps
+                        type: bool
+                      mep_up:
+                        description: Enable SNMP Ethernet CFM CC Up traps
+                        type: bool
+                  crosscheck:
+                    description: Enable SNMP Ethernet CC crosscheck trap
+                    type: dict
+                    suboptions:
+                      mep_missing:
+                        description: Enable SNMP Ethernet CC crosscheck missing trap
+                        type: bool
+                      mep_unknown:
+                        description: Enable SNMP Ethernet CC crosscheck unknown traps
+                        type: bool
+                      service_up:
+                        description: Enable SNMP Ethernet CC crosscheck service traps
+                        type: bool
                 type: dict
               evc:
                 description: Enable SNMP Ethernet EVC traps
@@ -529,6 +574,9 @@ options:
           mvpn:
             description: Enable SNMP mvpn traps
             type: bool
+          mpls_vpn:
+            description: Enable SNMP mpls traps
+            type: bool
           ospf:
             description: Allow ospf related traps
             suboptions:
@@ -591,11 +639,33 @@ options:
                 description: Enable/disable PIM traps
                 type: bool
             type: dict
+          vrfmib:
+            description: Allow vrfmib traps
+            suboptions:
+              vrf_up:
+                description: Enable vrf-up trap
+                type: bool
+              vrf_down:
+                description: Enable vrf-down trap
+                type: bool
+              vnet_trunk_up:
+                description: Enable vnet-trunk-up trap
+                type: bool
+              vnet_trunk_down:
+                description: Enable vnet-trunk-down traps
+                type: bool
+            type: dict
           pki:
             description: Enable SNMP pki traps
             type: bool
           rsvp:
             description: Enable SNMP RSVP traps
+            type: bool
+          isis:
+            description: Enable SNMP isis traps
+            type: bool
+          pw_vc:
+            description: Enable SNMP pw vc traps
             type: bool
           snmp:
             description: Enable SNMP traps
@@ -711,4 +781,4 @@ options:
       - Refer to examples for more details.
     type: str
 short_description: snmp_server resource module
-version_added: 2.5.0
+version_added: 2.6.0
