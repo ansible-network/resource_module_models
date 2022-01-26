@@ -1,12 +1,13 @@
-module: vyos_snmp_server
-short_description: Manages snmp_server resource module
-description: This module configures and manages the attributes of snmp_server on
-  vyos platforms.
+module: vyos_snmp_serve
 version_added: 2.7.0
+short_description: Manages snmp_server resource module
+description: This module manages the snmp server attributes of Vyos network devices
 author: Gomathi Selvi Srinivasan (@GomathiselviS)
 notes:
-- Tested against Arista vyos 1.1.8
-- This module works with connection C(network_cli)
+  - Tested against vyos 1.1.8
+  - This module works with connection C(network_cli).
+  - The Configuration defaults of the Vyos network devices
+    are supposed to hinder idempotent behavior of plays
 options:
   config:
     description: SNMP server configuration.
@@ -20,10 +21,10 @@ options:
           name:
             description: Community name
             type: str
-          client:
+          clients:
             description: IP address of SNMP client allowed to contact system
             type: str
-          network:
+          networks:
             description: Subnet of SNMP client(s) allowed to contact system
             type: str
           authorization_type:
@@ -36,9 +37,10 @@ options:
       description:
         description: Description information
         type: str
-      listen_address:
+      listen_addresses:
         description: IP address to listen for incoming SNMP requests
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           address:
             description: IP address to listen for incoming SNMP requests.
@@ -68,11 +70,11 @@ options:
           port:
             description: Destination port used for trap notification
             type: int
-      v3:
+      snmp_v3:
         description: Simple Network Management Protocol (SNMP) v3
         type: dict
         suboptions:
-          engineid:
+          engine_id:
             description: Specifies the EngineID as a hex value
             type: str
           groups:
@@ -94,69 +96,66 @@ options:
               view:
                 description: Defines the name of view
                 type: str
-        trap_targets:
-          description: Defines SNMP target for inform or traps for IP
-          type: list
-          elements: dict
-          suboptions:
-            address:
-              description: IP/IPv6 address of trap target
-              type: str
-            auth:
-              description: Defines the authentication
-              type: dict
-              suboptions:
-                type:
-                  description: Defines the protocol using for authentication
-                  type: str
-                  choices: ['md5', 'sha']
-                encrypted_key:
-                  description: Defines the encrypted password for authentication
-                  type: str
-                plaintext_key:
-                  description: Defines the clear text password for authentication
-                  type: str
-            engineid:
-              description: Defines the engineID.
-              type: str
-            port:
-              description: Specifies the TCP/UDP port of a destination for SNMP traps/informs.
-              type: int
-            privacy:
-              description: Defines the privacy
-              type: dict
-              suboptions:
-                type:
-                  description: Defines the protocol using for privacy
-                  type: str
-                  choices: ['des', 'aes']
-                encrypted_key:
-                  description: Defines the encrypted password for privacy
-                  type: str
-                plaintext_key:
-                  description: Defines the clear text password for privacy
-                  type: str
-            protocol:
-              description: Defines protocol for notification between TCP and UDP
-              type: str
-              choices: ['tcp', 'udp']
-            type:
-              description: Specifies the type of notification between inform and trap
-              type: str
-              choices: ['inform', 'trap']
-            user:
-              description: Defines username for authentication
-              type: str
-         tsm:
-          description: Specifies that the snmpd uses encryption
-          type: dict
-          suboptions:
-            local_key:
-              description: Defines the server certificate fingerprint or key-file name.
-              type: str
-            port:
-              description: Defines the port for tsm.
-              type: int
+          trap_targets:
+            description: Defines SNMP target for inform or traps for IP
+            type: list
+            elements: dict
+            suboptions:
+              address:
+                description: IP/IPv6 address of trap target
+                type: str
+              authentication:
+                description: Defines the authentication
+                type: dict
+                suboptions:
+                  type:
+                    description: Defines the protocol using for authentication
+                    type: str
+                    choices: ['md5', 'sha']
+                  encrypted_key:
+                    description: Defines the encrypted password for authentication
+                    type: str
+                  plaintext_key:
+                    description: Defines the clear text password for authentication
+                    type: str
+              engine_id:
+                description: Defines the engineID.
+                type: str
+              port:
+                description: Specifies the TCP/UDP port of a destination for SNMP traps/informs.
+                type: int
+              privacy:
+                description: Defines the privacy
+                type: dict
+                suboptions:
+                  type:
+                    description: Defines the protocol using for privacy
+                    type: str
+                    choices: ['des', 'aes']
+                  encrypted_key:
+                    description: Defines the encrypted password for privacy
+                    type: str
+                  plaintext_key:
+                    description: Defines the clear text password for privacy
+                    type: str
+              protocol:
+                description: Defines protocol for notification between TCP and UDP
+                type: str
+                choices: ['tcp', 'udp']
+              type:
+                description: Specifies the type of notification between inform and trap
+                type: str
+                choices: ['inform', 'trap']
+          tsm:
+            description: Specifies that the snmpd uses encryption
+            type: dict
+            suboptions:
+              local_key:
+                description: Defines the server certificate fingerprint or key-file name.
+                type: str
+              port:
+                description: Defines the port for tsm.
+                type: int
           users:
             description: Defines username for authentication
             type: list
@@ -165,47 +164,41 @@ options:
               user:
                 description: Specifies the user with name username
                 type: str
-            auth:
-              description: Defines the authentication
-              type: dict
-              suboptions:
-                type:
-                  description: Defines the protocol using for authentication
-                  type: str
-                  choices: ['md5', 'sha']
-                encrypted_key:
-                  description: Defines the encrypted password for authentication
-                  type: str
-                plaintext_key:
-                  description: Defines the clear text password for authentication
-                  type: str
-            engineid:
-              description: Defines the engineID.
-              type: str
-            group:
-              description: Specifies group for user name
-              type: str
-            mode:
-              description: Specifies the mode for access rights of user, read only or write
-              type: str
-              choices: ['ro', 'rw']
-            privacy:
-              description: Defines the privacy
-              type: dict
-              suboptions:
-                type:
-                  description: Defines the protocol using for privacy
-                  type: str
-                  choices: ['des', 'aes']
-                encrypted_key:
-                  description: Defines the encrypted password for privacy
-                  type: str
-                plaintext_key:
-                  description: Defines the clear text password for privacy
-                  type: str
-            tsm_key:
-              description: Specifies finger print or file name of TSM certificate.
-              type: str
+              authentication:
+                description: Defines the authentication
+                type: dict
+                suboptions:
+                  type:
+                    description: Defines the protocol using for authentication
+                    type: str
+                    choices: ['md5', 'sha']
+                  encrypted_key:
+                    description: Defines the encrypted password for authentication
+                    type: str
+                  plaintext_key:
+                    description: Defines the clear text password for authentication
+                    type: str
+              engine_id:
+                description: Defines the engineID.
+                type: str
+              group:
+                description: Specifies group for user name
+                type: str
+              mode:
+                description: Specifies the mode for access rights of user, read only or write
+                type: str
+                choices: ['ro', 'rw']
+              privacy:
+                description: Defines the privacy
+                type: dict
+                suboptions:
+                  type:
+                    description: Defines the protocol using for privacy
+                    type: str
+                    choices: ['des', 'aes']
+              tsm_key:
+                description: Specifies finger print or file name of TSM certificate.
+                type: str
           views:
             desscription: Specifies the view with name viewname
             type: list
@@ -219,7 +212,7 @@ options:
                 type: str
               exclude:
                 description: Exclude is optional argument.
-                type: bool
+                type: str
               mask:
                 description: Defines a bit-mask that is indicating which subidentifiers of the associated subtree OID should be regarded as significant.
                 type: str
@@ -233,11 +226,15 @@ options:
       and the value is then returned in the I(parsed) key within the result.
     type: str
   state:
-    description:
-    - The state the configuration should be left in.
-    - The states I(replaced) and I(overridden) have identical
-       behaviour for this module.
-    - Please refer to examples for more details.
-    type: str
-    choices: [deleted, merged, overridden, replaced, gathered, rendered, parsed]
+    choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - gathered
+      - parsed
+      - rendered
     default: merged
+    description:
+      - The state the configuration should be left in
+    type: str
