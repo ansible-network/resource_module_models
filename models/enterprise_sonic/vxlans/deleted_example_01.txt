@@ -1,5 +1,19 @@
 # Using deleted
 #
+# This example illustrates usage of the "deleted" state for the
+# "vxlans" resource module, showing an exception enforced for
+# this resource module:
+# The example requests deletion of vlan and vrf mappings
+# for vni 101 (a valid request), while leaving the mappings in
+# place for vni 102. It also requests deletion of the evpn_nvo
+# configuration and deletion of the source-ip address
+# for the vtep. (The nvo and source-ip deletions are not
+# valid requests because the vlan and vrf mappings
+# for vni 102 are still present.) The expected result
+# is deletion of the vni 101 mapping configurations,
+# but no change in the evpn_nvo and source-ip
+# address configurations.  
+#
 # Before state:
 # -------------
 #
@@ -7,6 +21,7 @@
 #
 #interface vxlan vteptest1
 # source-ip 1.1.1.1
+# primary-ip 2.2.2.2
 # map vni 101 vlan 11
 # map vni 102 vlan 12
 # map vni 101 vrf Vrfcheck1
@@ -16,6 +31,7 @@
 #
 #VTEP Name        :  vteptest1
 #VTEP Source IP   :  1.1.1.1
+#VTEP Primary IP  :  2.2.2.2
 #EVPN NVO Name    :  nvo1
 #EVPN VTEP        :  vteptest1
 #
@@ -40,6 +56,7 @@
 #
 #interface vxlan vteptest1
 # source-ip 1.1.1.1
+# primary-ip 2.2.2.2
 # map vni 102 vlan 12
 # map vni 102 vrf Vrfcheck2
 #!
@@ -47,5 +64,6 @@
 #
 #VTEP Name        :  vteptest1
 #VTEP Source IP   :  1.1.1.1
+#VTEP Primary IP  :  2.2.2.2
 #EVPN NVO Name    :  nvo1
 #EVPN VTEP        :  vteptest1
