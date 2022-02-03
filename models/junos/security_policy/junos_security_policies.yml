@@ -1,0 +1,514 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+  {
+     'metadata_version': '1.1',
+     'status': ['preview'],
+     'supported_by': 'network'
+  }
+NETWORK_OS: junos
+RESOURCE: l3_interfaces
+COPYRIGHT: Copyright 2022 Red Hat
+LICENSE: gpl-3.0.txt
+
+DOCUMENTATION: |
+  module: junos_l3_interfaces
+  version_added: 2.12
+  short_description: Manage security policies on Juniper JUNOS devices
+  description: This module provides declarative management of security policies on Juniper JUNOS devices
+  author: Pranav Bhatt (pbhatt@redhat.com)
+  requirements:
+    - ncclient (>=v0.6.4)
+  notes:
+    - This module requires the netconf system service be enabled on the device being managed.
+    - This module works with connection C(netconf). See L(the Junos OS Platform Options,../network/user_guide/platform_junos.html).
+    - Tested against JunOS v18.4R1
+  options:
+    config:
+      description: A dictionary of security policies
+      type: list
+      elements: dict
+      suboptions:
+        type:
+          description:
+            - The type of firewall being used
+          choices:
+            - zone_pair
+            - unified
+            - user_role
+          required: true
+        policy_name:
+          description:
+            - Unique name of the policy being defined/refferred to 
+          type: str
+        from_zone:
+          description:
+            - The security zone from which the traffic originates from
+          type: str
+        to_zone:
+          description:
+            - The destination security zone of the traffic
+          type: str
+        description:
+          description:
+            - Description of the security policy
+          type: str
+        scheduler_name:
+          description:
+            - Name of the scheduler to run this policy
+          type: str
+        traceoptions:
+          description: A dictionary of security policies
+          type: dict
+          required: false
+          suboptions:
+            file:
+              description: A dictionary to configure the trace file options
+              type: dict
+              required: true
+              suboptions:
+                filename:
+                  description: 
+                    - Name of the file to receive the output of the tracing operation.
+                  type: str
+                  required: true
+                files:
+                  description: 
+                    - Maximum number of trace files
+                  type: int
+                match:
+                  description: Refine the output to include lines that contain the regular expression.
+                  type: str
+                size:
+                  description: 
+                    - Maximum size of each trace file, in kilobytes (KB), megabytes (MB),or gigabytes (GB)
+                  type: dict
+                  suboptions:
+                    amount:
+                      description: The numerical value of the max file size
+                      type: int
+                    unit:
+                      description: The unit of size; K to specify KB, m to specify MB, or g to specify GB
+                      choices:
+                        - K
+                        - m
+                        - g
+                world_readable:
+                  description: The world_readable option enables any user to read the file.
+                  type: bool
+                no_world_readable:
+                  description: Log files can be accessed only by the user who configures the tracing operation.
+                  type: bool
+            flag:
+              description:
+                - Trace operation to perform.
+              choices:
+                - all
+                - configuration
+                - compilation
+                - ipc
+                - lookup
+                - routing_socket
+                - rules
+            no_remote_trace:
+              description: Set remote tracing as disabled.
+              type: bool
+        
+        match:
+          description: A dictionary of match critera
+          type: list
+          elements: dict
+          suboptions:
+            application:
+              names:
+                description: Name of the predefined or custom application or application set used as match criteria.
+                type: list
+                elements: str
+              any:
+                description: Match any predefined or custom applications or application sets.
+                type: bool
+            dynamic_application:
+              names:
+                description: Specify dynamic applications or dynamic application groups.
+                type: list
+                elements: str
+              junos_all_new_apps:
+                description: 
+                  - Configure the application group of all newly added application signatures in the latest signature package.
+                type: bool
+              any:
+                description:
+                  - Configuring the dynamic application as any installs the policy with the application as a wildcard (default).
+                type: bool
+              none:
+                description:
+                  - Configuring the dynamic application as none ignores classification results from AppID and does not use the dynamic application in security policy lookups.
+                type: bool
+            destination_address:
+              address:
+                description:
+                  - IP address, IP address set, or address book entry, or wildcard address (represented as A.B.C.D/wildcard_mask). 
+                type: list
+                elements: str
+              any:
+                description: Any IPv4 or IPv6 address
+                type: bool
+              any_ipv4:
+                description: Any IPv4 address
+                type: bool
+              any_ipv6:
+                description: Any IPv6 address
+                type: bool
+            source_address:
+              address:
+                description:
+                  - IP address, IP address set, or address book entry, or wildcard address (represented as A.B.C.D/wildcard_mask). 
+                type: list
+                elements: str
+              any:
+                description: Any IPv4 or IPv6 address
+                type: bool
+              any_ipv4:
+                description: Any IPv4 address
+                type: bool
+              any_ipv6:
+                description: Any IPv6 address
+                type: bool
+            source_identity:
+              names:
+                description: A list of specific users and roles.
+                type: list
+                elements: str
+              any:
+                description: 
+                  - Any user or role, as well as the keywords authenticated_user, unauthenticated_user, 
+                    and unknown_user.
+                type: bool
+              authenticated_user:
+                description: All users and roles that have been authenticated.
+                type: bool
+              unauthenticated_user:
+                description: 
+                  - Any user or role that does not have an IP_address mapped to authentication sources and the authentication source is up and running.
+                type: bool
+              unknown_user:
+                description: 
+                  - Any user or role that does not have an IP address mapped to authentication sources, because the authentication source is disconnected from the SRX Series device. 
+                type: bool
+        then:
+          count:
+            description:
+              - Enable a count, in bytes or kilobytes, of all network traffic the policy allows to pass through the device in both directions: the originating traffic from the client to the server (from the from_zone to the to_zone), and the return traffic from the server to the originating client.
+            type: dict
+            suboptions:                  
+              alarm:
+                description:
+                  - The alarm for when a configured threshold is exceeded
+                type: dict
+                suboptions:
+                  per_minute_threshold:
+                    description:
+                      - threshold in kilobytes per minute
+                    type: int 
+                  per_second_threshold:
+                    description:
+                      - threshold in bytes per second
+                    type: int
+          
+          deny:
+            description: Block the service at the firewall. The device drops the packets.
+            type: bool
+            
+          reject:
+            description:
+              - Block the service at the firewall. The device drops the packet and sends a TCP reset (RST) segment to the source host for TCP traffic and an ICMP “destination unreachable, port unreachable” message (type 3, code 3) for UDP traffic.
+            type: dict
+            suboptions:
+              reject_enable:
+                description: flag to enable reject option
+                type: bool
+              reject_action:
+                description:
+                  - You can configure reject action with one of the following options for the dynamic_applications:
+                  - profile - You can chose to provide a notification to the clients or redirect client request to an informative Web page when a policy blocks HTTP or HTTPS traffic with a deny or reject action.
+                  - ssl_proxy - You can apply a redirect SSL proxy profile when a policy blocks HTTPS traffic with a reject action. When you apply am SSL proxy profile, SSL proxy decrypts the traffic and application identification functionality identifies the application. 
+                type: dict
+                suboptions:
+                  profile:
+                    description: You can chose to provide a notification to the clients or redirect client request to an informative Web page when a policy blocks HTTP or HTTPS traffic with a deny or reject action.
+                    type: str
+                  ssl_proxy:
+                    description: You can apply a redirect SSL proxy profile when a policy blocks HTTPS traffic with a reject action. When you apply am SSL proxy profile, SSL proxy decrypts the traffic and application identification functionality identifies the application.
+                    type: dict
+                    suboptions:
+                      profile_name:
+                        description: Name of ssl proxy profile
+                        type: str
+          
+          log:
+            description: Log traffic information for a specific policy. Traffic information is logged when a session begins (session_init) or closes (session_close).
+            choices:
+              - session_close
+              - session_init
+          
+          permit:
+            description: Block the service at the firewall. The device drops the packets.
+            type: dict
+            suboptions:
+              application_services:
+                description: 
+                  - Enable application services within a security policy.
+                type: dict
+                suboptions:
+                  advanced_anti_malware_policy:
+                    description:
+                      - Specify advanced_anti_malware policy name.
+                    type: str
+                  application_firewall:
+                    description:
+                      - Specify the rule sets configured as part of application firewall to be applied to the permitted traffic. 
+                    type: list
+                    elements: dict
+                    suboptions:
+                      rule_set:
+                        description: 
+                          - name of rule set to use
+                        type: str
+                  
+                  application_traffic_control:
+                    description:
+                      - Specify the rule sets configured as part of AppQoS, application_aware quality of service, to be applied to the permitted traffic. 
+                    type: list
+                    elements: dict
+                    suboptions:
+                      rule_set:
+                        description:
+                          - name of rule set to use
+                        type: str
+                  
+                  gprs_gtp_profile:
+                    description:
+                      - Specify GPRS tunneling protocol profile name.
+                    type: str
+                  gprs_sctp_profile:
+                    description:
+                      - Specify GPRS stream control protocol profile name.
+                    type: str
+                  idp:
+                    description:
+                      - Apply Intrusion detection and prevention (IDP) as application services.
+                    type: str
+                  packet_capture:
+                    description:
+                      - Option to enable or disable packet capture
+                    type: bool
+                  redirect_wx:
+                    description:
+                      - Specify the WX redirection needed for the packets that arrive from the LAN. 
+                    type: str
+                  reverse_redirect_wx:
+                    description:
+                      - Specify the WX redirection needed for the reverse flow of the packets that arrive from the WAN. 
+                    type: str
+                  security_intelligence_policy:
+                    description:
+                      - Specify security_intelligence policy name.
+                    type:
+                  security_intelligence:
+                    description: Specify the security intelligence feed post action.
+                    type: dict
+                    suboptions:
+                      add_destination_identity_to_feed:
+                        description: Add destination user identity to the security feed.
+                        type: str
+                      add_destination_ip_to_feed:
+                        description: Add the destination IP address to the security feed.
+                        type: str
+                      add_source_ip_to_feed:
+                        description: Add the source IP address to the security feed.
+                        type: str
+                      add_source_identity_to_feed:
+                        description: Add source user identity to the security feed.
+                        type: str
+
+                  ssl_proxy:
+                    description: You can apply a redirect SSL proxy profile when a policy blocks HTTPS traffic with a reject action.
+                    type: dict
+                    suboptions:
+                      profile_name:
+                        description: name of ssl proxy profile
+                        type: str
+                  
+                  uac_policy:
+                    description:
+                      - Enable Unified Access Control (UAC) for the security policy.
+                    type: dict
+                    suboptions:
+                      captive_portal:
+                        description:
+                          - Specify the preconfigured security policy for captive portal on the Junos OS Enforcer to enable the captive portal feature.
+                        type: str
+                  utm_policy:
+                    description:
+                      - Specify UTM policy name.
+                    type: str
+                  web_proxy:
+                    description:
+                      - Specify secure Web proxy profile name.
+                    type: dict
+                    suboptions:
+                      profile_name:
+                        description:
+                          - Specify secure Web proxy profile name.
+                        type: str
+
+            destination_address:
+              description: 
+                - Specify whether the traffic permitted by the security policy is limited to packets 
+                  where the destination IP address has been translated by means of a destination NAT rule 
+                  or to packets where the destination IP address has not been translated. 
+              choices:
+                - drop_translated
+                - drop_untranslated
+            
+            firewall_authentication:
+              description: Configure firewall authentication methods.
+              type: dict
+              suboptions:
+                pass_through:
+                  description:
+                  type: dict
+                  suboptions:
+                    access_profile:
+                      description:
+                        - Specify the name of the access profile.
+                      type: str
+                    client_match:
+                      description:
+                        - Specify the name of the users or user groups in a profile who are allowed access by this policy.
+                      type: str
+                    ssl_termination_profile:
+                      description:
+                        - Specify the SSL termination profile used for SSL offloading.
+                      type: str
+                    web_redirect:
+                      description:
+                        - Enable redirecting an HTTP request to the device and redirecting the client system to a webpage for authentication.
+                      type: bool
+                    web_redirect_to_https:
+                      description:
+                        - Redirect unauthenticated HTTP requests to the internal HTTPS Web server of the device.
+                      type: bool
+                    auth_only_browser:
+                      description:
+                      type: bool
+                    auth_user_agent:
+                      description:
+                      type: bool
+                push_to_identity_management:
+                  description: enables pushing to identity management devices
+                  type: bool
+                user_firewall:
+                  description:
+                    - Configure user role firewall authentication, and map the source IP address to the username and its associated roles (groups).
+                  type: dict
+                  suboptions:
+                    access_profile:
+                      description:
+                        - Specify the name of the access profile to be used for authentication.
+                      type: str
+                    domain:
+                      description:
+                        - Specify the name of the domain where firewall authentication occurs in the event that the Windows Management Instrumentation client (WMIC)
+                          is not available to get IP_to_user mapping for the integrated user firewall feature.
+                      type: str
+                    ssl_termination_profile:
+                      description:
+                        - For HTTPS traffic, specify the name of the SSL termination profile used for SSL offloading.
+                      type: str
+                    web_redirect:
+                      description:
+                        - enable web redirection
+                      type: bool
+                    web_redirect_to_https:
+                      description:
+                        - enable redirection to https
+                      type: bool
+                    auth_only_browser:
+                      description:
+                        - allow only browsers to be authenticated
+                      type: bool
+                web_authentication:
+                  description:
+                    - Specify that the policy allows access to users who have previously been authenticated by Web authentication.
+                  type: dict
+                  suboptions:
+                    client_match:
+                      description:
+                        - Username or user group name.
+                      type: str user_or_group_name
+                
+              services_offload:
+                description:
+                  - Enable services offloading within a security policy for SRX4600, SRX5400, SRX5600, and SRX5800 devices.
+                type: bool
+              tcp_options:
+                description:
+                  - Specify the TCP options for each policy. You can configure sync and sequence checks for each policy based on your requirements,
+                    and, because each policy has two directions, you can configure a TCP MSS value for both directions or for just one direction.
+                type: dict
+                suboptions:
+                  initial_tcp_mss:
+                    description:
+                      - Configure the TCP maximum segment size (MSS) for packets that arrive at the ingress interface (initial direction),
+                        match a specific policy, and for which a session is created. 
+                    type: int
+                  reverse_tcp_mss:
+                    description:
+                      - Configure the TCP maximum segment size (MSS) for packets that match a specific policy and travel in the reverse direction of a session.
+                    type: int
+                  sequence_check_required:
+                    description:
+                      - Enable sequence check per policy. The sequence_check_required value overrides the global value no_sequence_check.
+                    type: bool
+                  syn_check_required:
+                    description:
+                      - Enable sync check per policy. The syn_check_required value overrides the global value no_syn_check.
+                    type: bool
+                  window_scale:
+                    description:
+                      - Enable window_scale per policy.
+                    type: bool
+              tunnel:
+                description: Encapsulate outgoing IP packets and decapsulate incoming IP packets.
+                type: dict
+                suboptions:
+                  ipsec_group_vpn:
+                    description:
+                      - name of the ipsec group policy
+                    type: str
+                  ipsec_vpn:
+                    description:
+                      - name of the ipsec policy
+                    type: str
+                  pair_policy:
+                    description:
+                      - name of the pair policy
+                    type: str
+
+    state:
+      description:
+      - The state the configuration should be left in
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
