@@ -1,8 +1,8 @@
 ---
 module: junos_security_policies
 version_added: 2.12
-short_description: Manage security policies on Juniper JUNOS devices
-description: This module provides declarative management of security policies on Juniper JUNOS devices
+short_description: Create and manage security policies on Juniper JUNOS devices
+description: This module provides declarative creation and management of security policies on Juniper JUNOS devices
 author: Pranav Bhatt (pbhatt@redhat.com)
 requirements:
   - ncclient (>=v0.6.4)
@@ -16,14 +16,23 @@ options:
     type: list
     elements: dict
     suboptions:
-      firewall_type:
+      policy_type:
         description:
-          - The type of firewall being used
+          - The type of security policy being used
         choices:
-          - zone_pair
+          - global
+          - stateful-firewall-rule
           - unified
-          - user_role
+          - user-role
+          - zone-pair
         required: true
+      match_direction:
+        description:
+          - (Stateful Firewall Rule)The type of security policy being used
+        choices:
+          - input
+          - input-output
+          - output
       policy_name:
         description:
           - Unique name of the policy being defined/refferred to 
@@ -44,69 +53,16 @@ options:
         description:
           - Name of the scheduler to run this policy
         type: str
-      traceoptions:
-        description: A dictionary of security policies
-        type: dict
-        suboptions:
-          file:
-            description: A dictionary to configure the trace file options
-            type: dict
-            suboptions:
-              filename:
-                description: 
-                  - Name of the file to receive the output of the tracing operation.
-                type: str
-              files:
-                description: 
-                  - Maximum number of trace files
-                type: int
-              match:
-                description: Refine the output to include lines that contain the regular expression.
-                type: str
-              size:
-                description: 
-                  - Maximum size of each trace file, in kilobytes (KB), megabytes (MB),or gigabytes (GB)
-                type: dict
-                suboptions:
-                  amount:
-                    description: The numerical value of the max file size
-                    type: int
-                  unit:
-                    description: The unit of size; K to specify KB, m to specify MB, or g to specify GB
-                    choices:
-                      - K
-                      - m
-                      - g
-              world_readable:
-                description: The world_readable option enables any user to read the file.
-                type: bool
-              no_world_readable:
-                description: Log files can be accessed only by the user who configures the tracing operation.
-                type: bool
-          flag:
-            description:
-              - Trace operation to perform.
-            choices:
-              - all
-              - configuration
-              - compilation
-              - ipc
-              - lookup
-              - routing_socket
-              - rules
-          no_remote_trace:
-            description: Set remote tracing as disabled.
-            type: bool
       match:
         description: Configure security policy match criteria.
         type: dict
         suboptions:
           application:
             description:
-              - 
+              - Specify the IP or remote procedure call (RPC) application or set of applications to be used as match criteria.
             type: dict
             suboptions:
-              names:
+              application_names:
                 description: Name of the predefined or custom application or application set used as match criteria.
                 type: list
                 elements: str
@@ -115,10 +71,10 @@ options:
                 type: bool
           dynamic_application:
             description:
-              - 
+              - Specify the dynamic applications or dynamic application groups used as match criteria within a security policy.
             type: dict
             suboptions:
-              names:
+              dynamic_application_names:
                 description: Specify dynamic applications or dynamic application groups.
                 type: list
                 elements: str
@@ -136,7 +92,7 @@ options:
                 type: bool
           destination_address:
             description:
-              - 
+              - Define the matching criteria. You can specify one or more IP addresses, address sets, or wildcard addresses.
             type: dict
             suboptions:
               address:
@@ -155,7 +111,7 @@ options:
                 type: bool
           source_address:
             description:
-              - 
+              - Define the matching criteria. You can specify one or more IP addresses, address sets, or wildcard addresses.
             type: dict
             suboptions:
               address:
@@ -174,7 +130,7 @@ options:
                 type: bool
           source_identity:
             description:
-              - 
+              - Identifies users and roles to be used as match criteria for a policy. 
             type: dict
             suboptions:
               names:
@@ -197,6 +153,55 @@ options:
                 description: 
                   - Any user or role that does not have an IP address mapped to authentication sources, because the authentication source is disconnected from the SRX Series device. 
                 type: bool
+          source_identity_feed:
+            description: (Global) Source identity feed name.
+            type: str
+          source_end_user_profile:
+            description: Source end user profile name.
+            type: str
+          url_category:
+            description: URL category.
+            type: str
+          from_zone:
+            description: Identify a single source zone or multiple source zones to be used as a match criteria for a policy. 
+            type: dict
+            suboptions:
+              zone_names:
+                description: Name of single or multiple source zone
+                type: list
+                elements: str
+              any:
+                description: Match any zone 
+                type: bool
+          to_zone:
+            description: Identify a single destination zone or multiple destination zones to be used as a match criteria for a policy. 
+            type: dict
+            suboptions:
+              zone_names:
+                description: Name of single or multiple destination zone
+                type: list
+                elements: str
+              any:
+                description: Match any zone 
+                type: bool
+          source_vrf:
+            description: Traffic that originates from a VRF instance
+            type: str
+          destination_vrf:
+            description: Traffic that is destined to a VRF instance
+            type: str
+          source_l3vpn_vrf_group:
+            description: Traffic that originates from a VRF group
+            type: str
+          destination_l3vpn_vrf_group:
+            description: Traffic that is destined to a VRF group
+            type: str
+          destination_address_excluded:
+            description: Traffic with destination address excluded
+            type: bool
+          source_address_excluded:
+            description: Traffic with source address excluded
+            type: bool
       then:
         description: Specify the policy action to be performed when packets match the defined criteria.
         type: dict
@@ -227,7 +232,7 @@ options:
               - Block the service at the firewall. The device drops the packet and sends a TCP reset (RST) segment to the source host for TCP traffic and an ICMP “destination unreachable, port unreachable” message (type 3, code 3) for UDP traffic.
             type: dict
             suboptions:
-              reject_enable:
+              enable:
                 description: flag to enable reject option
                 type: bool
               reject_action:
@@ -250,8 +255,8 @@ options:
           log:
             description: Log traffic information for a specific policy. Traffic information is logged when a session begins (session_init) or closes (session_close).
             choices:
-              - session_close
-              - session_init
+              - session-close
+              - session-init
           permit:
             description: Block the service at the firewall. The device drops the packets.
             type: dict
@@ -295,7 +300,11 @@ options:
                     type: str
                   idp:
                     description:
-                      - Apply Intrusion detection and prevention (IDP) as application services.
+                      - Configure Intrusion Detection and Prevention (IDP) for application services.
+                    type: str
+                  idp_policy_name:
+                    description:
+                      - Specify IDP policy name.
                     type: str
                   packet_capture:
                     description:
@@ -334,7 +343,7 @@ options:
                     type: dict
                     suboptions:
                       profile_name:
-                        description: name of ssl proxy profile
+                        description: Name of SSL proxy profile
                         type: str
                   uac_policy:
                     description:
@@ -364,8 +373,8 @@ options:
                     where the destination IP address has been translated by means of a destination NAT rule 
                     or to packets where the destination IP address has not been translated. 
                 choices:
-                  - drop_translated
-                  - drop_untranslated
+                  - drop-translated
+                  - drop-untranslated
               firewall_authentication:
                 description: Configure firewall authentication methods.
                 type: dict
@@ -396,10 +405,21 @@ options:
                         type: bool
                       auth_only_browser:
                         description:
+                          - Configure firewall authentication to ignore non-browser HTTP/HTTPS traffic.
                         type: bool
+                      auth_only_browser_with_user_agent:
+                        description:
+                          - Use the auth-user-agent in conjunction with auth-only-browser.
+                        type: dict
+                        suboptions:
+                          auth_user_agent:
+                            description:
+                              - Specify a user-agent value to be used to verify that the user's browser traffic is HTTP/HTTPS traffic.
+                            type: str
                       auth_user_agent:
                         description:
-                        type: bool
+                          - Specify a user-agent value to be used to verify that the user's browser traffic is HTTP/HTTPS traffic.
+                        type: str
                   push_to_identity_management:
                     description: enables pushing to identity management devices
                     type: bool
@@ -423,16 +443,20 @@ options:
                         type: str
                       web_redirect:
                         description:
-                          - enable web redirection
+                          - Enable webpage redirection
                         type: bool
                       web_redirect_to_https:
                         description:
-                          - enable redirection to https
+                          - Enable redirection to HTTPS
                         type: bool
                       auth_only_browser:
                         description:
-                          - allow only browsers to be authenticated
+                          - Configure firewall authentication to ignore non-browser HTTP/HTTPS traffic.
                         type: bool
+                      auth_user_agent:
+                        description:
+                          - Specify a user-agent value to be used to verify that the user's browser traffic is HTTP/HTTPS traffic.
+                        type: str
                   web_authentication:
                     description:
                       - Specify that the policy allows access to users who have previously been authenticated by Web authentication.
@@ -442,58 +466,58 @@ options:
                         description:
                           - Username or user group name.
                         type: str user_or_group_name
-                services_offload:
-                  description:
-                    - Enable services offloading within a security policy for SRX4600, SRX5400, SRX5600, and SRX5800 devices.
-                  type: bool
-                tcp_options:
-                  description:
-                    - Specify the TCP options for each policy. You can configure sync and sequence checks for each policy based on your requirements,
-                      and, because each policy has two directions, you can configure a TCP MSS value for both directions or for just one direction.
-                  type: dict
-                  suboptions:
-                    initial_tcp_mss:
-                      description:
-                        - Configure the TCP maximum segment size (MSS) for packets that arrive at the ingress interface (initial direction),
-                          match a specific policy, and for which a session is created. 
-                      type: int
-                    reverse_tcp_mss:
-                      description:
-                        - Configure the TCP maximum segment size (MSS) for packets that match a specific policy and travel in the reverse direction of a session.
-                      type: int
-                    sequence_check_required:
-                      description:
-                        - Enable sequence check per policy. The sequence_check_required value overrides the global value no_sequence_check.
-                      type: bool
-                    syn_check_required:
-                      description:
-                        - Enable sync check per policy. The syn_check_required value overrides the global value no_syn_check.
-                      type: bool
-                    window_scale:
-                      description:
-                        - Enable window_scale per policy.
-                      type: bool
-                tunnel:
-                  description: Encapsulate outgoing IP packets and decapsulate incoming IP packets.
-                  type: dict
-                  suboptions:
-                    ipsec_group_vpn:
-                      description:
-                        - name of the ipsec group policy
-                      type: str
-                    ipsec_vpn:
-                      description:
-                        - name of the ipsec policy
-                      type: str
-                    pair_policy:
-                      description:
-                        - name of the pair policy
-                      type: str
+              services_offload:
+                description:
+                  - Enable services offloading within a security policy for SRX4600, SRX5400, SRX5600, and SRX5800 devices.
+                type: bool
+              tcp_options:
+                description:
+                  - Specify the TCP options for each policy. You can configure sync and sequence checks for each policy based on your requirements,
+                    and, because each policy has two directions, you can configure a TCP MSS value for both directions or for just one direction.
+                type: dict
+                suboptions:
+                  initial_tcp_mss:
+                    description:
+                      - Configure the TCP maximum segment size (MSS) for packets that arrive at the ingress interface (initial direction),
+                        match a specific policy, and for which a session is created. 
+                    type: int
+                  reverse_tcp_mss:
+                    description:
+                      - Configure the TCP maximum segment size (MSS) for packets that match a specific policy and travel in the reverse direction of a session.
+                    type: int
+                  sequence_check_required:
+                    description:
+                      - Enable sequence check per policy. The sequence_check_required value overrides the global value no_sequence_check.
+                    type: bool
+                  syn_check_required:
+                    description:
+                      - Enable sync check per policy. The syn_check_required value overrides the global value no_syn_check.
+                    type: bool
+                  window_scale:
+                    description:
+                      - Enable window_scale per policy.
+                    type: bool
+              tunnel:
+                description: Encapsulate outgoing IP packets and decapsulate incoming IP packets.
+                type: dict
+                suboptions:
+                  ipsec_group_vpn:
+                    description:
+                      - name of the ipsec group policy
+                    type: str
+                  ipsec_vpn:
+                    description:
+                      - name of the ipsec policy
+                    type: str
+                  pair_policy:
+                    description:
+                      - name of the pair policy
+                    type: str
   running_config:
     description:
       - This option is used only with state I(parsed).
       - The value of this option should be the output received from the JunOS device
-        by executing the command B(show security policies).
+        by executing the command B(show security policies global detail).
       - The state I(parsed) reads the configuration from C(running_config) option and
         transforms it into Ansible structured data as per the resource module's argspec
         and the value is then returned in the I(parsed) key within the result.
@@ -525,12 +549,7 @@ options:
         transforms it into JSON format as per the resource module parameters and the
         value is returned in the I(parsed) key within the result. The value of C(running_config)
         option should be the same format as the output of command
-        I(show security policies) executed on device. For state I(parsed) active
+        I(show security policies detail) executed on device. For state I(parsed) active
         connection to remote host is not required.
     type: str
-
-EXAMPLES:
-- deleted_example_01.txt
-- merged_example_01.txt
-- overridden_example_01.txt
-- replaced_example_01.txt
+...
