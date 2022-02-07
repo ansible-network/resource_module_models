@@ -1,0 +1,212 @@
+---
+module: junos_security_policies_global
+version_added: 2.12
+short_description: Manage global security policy settings on Juniper JUNOS devices
+description: This module provides declarative management of global security policy settings on Juniper JUNOS devices
+author: Pranav Bhatt (pbhatt@redhat.com)
+requirements:
+  - ncclient (>=v0.6.4)
+notes:
+  - This module requires the netconf system service be enabled on the device being managed.
+  - (to be revisited)This module works with connection C(netconf). See L(the Junos OS Platform Options,https://docs.ansible.com/ansible/latest/network/user_guide/platform_junos.html).
+  - (to be revisited)Tested against JunOS v18.4R1
+options:
+  config:
+    description: A dictionary of security policies
+    type: list
+    elements: dict
+    suboptions:
+      default_policy:
+        description:
+          - Configure the default security policy that defines the actions the device takes on a packet that does not match any user-defined policy.
+        choices:
+          - deny-all
+          - permit-all
+      policy_rematch:
+        description:
+          - Enable the device to reevaluate an active session when its associated security policy is modified. The session remains open if it still matches the policy that allowed the session initially.
+        type: dict
+        suboptions:
+          extensive:
+            description:
+              - When a policy is modified or deleted, extensive option checks if any suitable policy permit to keep these sessions alive.
+            type: bool
+      policy_stats:
+        description:
+          - Configure systemwide policies statistics.
+        type: dict
+        suboptions:
+          system_wide:
+            description:
+              - Configure systemwide policies statistics.s
+            type: bool
+      pre_id_default_policy:
+        description:
+          - During the initial policy lookup phase, which occurs prior to a dynamic application being identified, if there are multiple policies present in the potential policy list, the SRX Series device applies the default security policy until a more explicit match has occurred. Configures default policy actions that occur prior to dynamic application identification (AppID).
+        type: dict
+        suboptions:
+          policy_action:
+            description:
+              - Specifies the policy action that has to be taken when the packet matches the criteria.
+            type: dict
+            suboptions:
+              log:
+                description:
+                  - Specifies the log details at session close time and session initialization time.
+                choices:
+                  - session-init
+                  - session-close
+              session_timeout:
+                description:
+                  - When you update a session, the session timeout is configured, which specifies the session timeout details in seconds.
+                type: dict
+                suboptions:
+                  icmp:
+                    description:
+                      - Timeout value for ICMP sessions (seconds)
+                    type: int
+                  icmp6:
+                    description:
+                      - Timeout value for ICMP6 sessions (seconds)
+                    type: int
+                  ospf:
+                    description:
+                      - Timeout value for OSPF sessions (seconds)
+                    type: int
+                  others:
+                    description:
+                      - Timeout value for other sessions (seconds)
+                    type: int
+                  tcp:
+                    description:
+                      - Timeout value for TCP sessions (seconds)
+                    type: int
+                  udp:
+                    description:
+                      - Timeout value for UDP sessions (seconds)
+                    type: int
+      stateful_firewall_rule_set:
+        description:
+          - Specifies the policy action that has to be taken when the packet matches the criteria.
+        type: dict
+        suboptions:
+          name:
+            description:
+              - Name of the stateful firewall rule set
+          stateful_firewall_rule:
+            description:
+              - Specifies the policy action that has to be taken when the packet matches the criteria.
+            type: dict
+            suboptions: 
+              name:
+                description:
+                  - Name of the stateful firewall rule
+                type: str
+      traceoptions:
+        description: A dictionary of security policies
+        type: dict
+        suboptions:
+          file:
+            description: A dictionary to configure the trace file options
+            type: dict
+            required: true
+            suboptions:
+              filename:
+                description: 
+                  - Name of the file to receive the output of the tracing operation.
+                type: str
+                required: true
+              files:
+                description: 
+                  - Maximum number of trace files
+                type: int
+              match:
+                description: Refine the output to include lines that contain the regular expression.
+                type: str
+              size:
+                description: 
+                  - Maximum size of each trace file, in kilobytes (KB), megabytes (MB),or gigabytes (GB)
+                type: dict
+                suboptions:
+                  amount:
+                    description: The numerical value of the max file size
+                    type: int
+                  unit:
+                    description: The unit of size; K to specify KB, m to specify MB, or g to specify GB
+                    choices:
+                      - K
+                      - m
+                      - g
+              world_readable:
+                description: The world_readable option enables any user to read the file.
+                type: bool
+              no_world_readable:
+                description: Log files can be accessed only by the user who configures the tracing operation.
+                type: bool
+          flag:
+            description:
+              - Trace operation to perform.
+            choices:
+              - all
+              - configuration
+              - compilation
+              - ipc
+              - lookup
+              - routing_socket
+              - rules
+          no_remote_trace:
+            description: Set remote tracing as disabled.
+            type: bool
+      unified_policy:
+        description:
+          - Configure maximum number of policy lookups, when micro-applications reach the transaction final state, during the dynamic application classification process.
+        type: dict
+        suboptions:
+          max_lookups:
+            description:
+              - Maximum number of policy lookups.
+            type: int
+      unified_policy_explicit_match:
+        description:
+          - Enable explicit match in a unified policy.
+        type: bool
+  running_config:
+    description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the JunOS device
+        by executing the command B(show security policies).
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into Ansible structured data as per the resource module's argspec
+        and the value is then returned in the I(parsed) key within the result.
+    type: str
+  state:
+    choices:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    - rendered
+    - gathered
+    - parsed
+    default: merged
+    description:
+      - The state the configuration should be left in
+      - The states I(rendered), I(gathered) and I(parsed) does not perform any change
+        on the device.
+      - The state I(rendered) will transform the configuration in C(config) option to
+        platform specific CLI commands which will be returned in the I(rendered) key
+        within the result. For state I(rendered) active connection to remote host is
+        not required.
+      - The states I(replaced) and I(overridden) have identical
+        behaviour for this module.
+      - The state I(gathered) will fetch the running configuration from device and transform
+        it into structured data in the format as per the resource module argspec and
+        the value is returned in the I(gathered) key within the result.
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into JSON format as per the resource module parameters and the
+        value is returned in the I(parsed) key within the result. The value of C(running_config)
+        option should be the same format as the output of command
+        I(show security policies detail) executed on device. For state I(parsed) active
+        connection to remote host is not required.
+    type: str
+...
