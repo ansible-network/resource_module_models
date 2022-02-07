@@ -95,7 +95,7 @@ options:
               - Define the matching criteria. You can specify one or more IP addresses, address sets, or wildcard addresses.
             type: dict
             suboptions:
-              address:
+              addresses:
                 description:
                   - IP address, IP address set, or address book entry, or wildcard address (represented as A.B.C.D/wildcard_mask). 
                 type: list
@@ -114,7 +114,7 @@ options:
               - Define the matching criteria. You can specify one or more IP addresses, address sets, or wildcard addresses.
             type: dict
             suboptions:
-              address:
+              addresses:
                 description:
                   - IP address, IP address set, or address book entry, or wildcard address (represented as A.B.C.D/wildcard_mask). 
                 type: list
@@ -270,7 +270,7 @@ options:
                     description:
                       - Specify advanced_anti_malware policy name.
                     type: str
-                  application_firewall:
+                  application_firewalls:
                     description:
                       - Specify the rule sets configured as part of application firewall to be applied to the permitted traffic. 
                     type: list
@@ -280,7 +280,7 @@ options:
                         description: 
                           - name of rule set to use
                         type: str
-                  application_traffic_control:
+                  application_traffic_control_rules:
                     description:
                       - Specify the rule sets configured as part of AppQoS, application_aware quality of service, to be applied to the permitted traffic. 
                     type: list
@@ -517,7 +517,7 @@ options:
     description:
       - This option is used only with state I(parsed).
       - The value of this option should be the output received from the JunOS device
-        by executing the command B(show security policies global detail).
+        by executing the command B(show configuration security policies).
       - The state I(parsed) reads the configuration from C(running_config) option and
         transforms it into Ansible structured data as per the resource module's argspec
         and the value is then returned in the I(parsed) key within the result.
@@ -540,8 +540,6 @@ options:
         platform specific CLI commands which will be returned in the I(rendered) key
         within the result. For state I(rendered) active connection to remote host is
         not required.
-      - The states I(replaced) and I(overridden) have identical
-        behaviour for this module.
       - The state I(gathered) will fetch the running configuration from device and transform
         it into structured data in the format as per the resource module argspec and
         the value is returned in the I(gathered) key within the result.
