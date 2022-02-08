@@ -261,7 +261,7 @@ options:
                         description: 
                           - name of rule set to use
                         type: str
-                  application_traffic_control:
+                  application_traffic_control_rules:
                     description:
                       - Specify the rule sets configured as part of AppQoS, application_aware quality of service, to be applied to the permitted traffic 
                     type: list
