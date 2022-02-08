@@ -106,7 +106,7 @@ options:
                 type: bool
           destination_address_exclude:
             description:
-              - Exclude destination addresses.
+              - Exclude destination addresses
             type: bool
           source_address:
             description:
