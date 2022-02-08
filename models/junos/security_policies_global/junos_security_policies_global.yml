@@ -34,12 +34,7 @@ options:
       policy_stats:
         description:
           - Configure systemwide policies statistics.
-        type: dict
-        suboptions:
-          system_wide:
-            description:
-              - Configure systemwide policies statistics.
-            type: bool
+        type: bool
       pre_id_default_policy_action:
         description:
           - Configures default policy actions that occur prior to dynamic application identification (AppID) when the packet matches the criteria.
@@ -80,18 +75,6 @@ options:
                 description:
                   - Timeout value for UDP sessions (seconds)
                 type: int
-      stateful_firewall_rule_set:
-        description:
-          - Specifies the policy action that has to be taken when the packet matches the criteria.
-        type: dict
-        suboptions:
-          name:
-            description:
-              - Name of the stateful firewall rule set
-          stateful_firewall_rule_name:
-            description:
-              - Specifies the policy action that has to be taken when the packet matches the criteria.
-            type: str
       traceoptions:
         description: A dictionary of security policies
         type: dict
@@ -136,14 +119,6 @@ options:
           no_remote_trace:
             description: Set remote tracing as disabled.
             type: bool
-      unified_policy_max_lookups:
-        description:
-          - Configure maximum number of policy lookups, when micro-applications reach the transaction final state, during the dynamic application classification process.
-        type: int
-      unified_policy_explicit_match:
-        description:
-          - Enable explicit match in a unified policy.
-        type: bool
   running_config:
     description:
       - This option is used only with state I(parsed).
