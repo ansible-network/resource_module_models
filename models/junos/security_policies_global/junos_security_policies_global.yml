@@ -45,7 +45,7 @@ options:
           - During the initial policy lookup phase, which occurs prior to a dynamic application being identified, if there are multiple policies present in the potential policy list, the SRX Series device applies the default security policy until a more explicit match has occurred. Configures default policy actions that occur prior to dynamic application identification (AppID).
         type: dict
         suboptions:
-          policy_action:
+          then:
             description:
               - Specifies the policy action that has to be taken when the packet matches the criteria.
             type: dict
