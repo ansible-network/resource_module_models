@@ -7,6 +7,7 @@
 #
 #interface vxlan vteptest1
 # source-ip 1.1.1.1
+# primary-ip 2.2.2.2
 # map vni 102 vlan 12
 # map vni 102 vrf Vrfcheck2
 #!
@@ -14,6 +15,7 @@
 #
 #VTEP Name        :  vteptest1
 #VTEP Source IP   :  1.1.1.1
+#VTEP Primary IP  :  2.2.2.2
 #EVPN NVO Name    :  nvo1
 #EVPN VTEP        :  vteptest1
 #

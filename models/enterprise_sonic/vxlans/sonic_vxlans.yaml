@@ -32,7 +32,10 @@ DOCUMENTATION: |
             description: 'The name of the vxlans.'
             required: true
           source_ip:
-            description: 'The source ip of the vtep.'
+            description: 'The source ip address of the vtep.'
+            type: str
+          primary_ip:
+            description: 'The vtep mclag primary ip address for this node'
             type: str
           evpn_nvo:
             description: 'The evpn nvo name.'
