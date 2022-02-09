@@ -38,13 +38,7 @@ DOCUMENTATION: |
             - user-role
             - zone-pair
           required: true
-        match_direction:
-          description:
-            - (Stateful Firewall Rule)The type of security policy being used
-          choices:
-            - input
-            - input-output
-            - output
+          type: str
         policy_name:
           description:
             - Unique name of the policy being defined/refferred to 
@@ -251,6 +245,7 @@ DOCUMENTATION: |
               choices:
                 - session-close
                 - session-init
+              type: str
             permit:
               description: Block the service at the firewall The device drops the packets
               type: dict
@@ -385,6 +380,7 @@ DOCUMENTATION: |
                   choices:
                     - drop-translated
                     - drop-untranslated
+                  type: str
                 firewall_authentication:
                   description: Configure firewall authentication methods
                   type: dict
