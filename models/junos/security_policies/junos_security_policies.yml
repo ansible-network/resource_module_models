@@ -387,6 +387,7 @@ DOCUMENTATION: |
                   suboptions:
                     pass_through:
                       description:
+                        - Configure pass-through firewall user authentication
                       type: dict
                       suboptions:
                         access_profile:
