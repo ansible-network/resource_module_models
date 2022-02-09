@@ -35,6 +35,7 @@ DOCUMENTATION: |
           choices:
             - deny-all
             - permit-all
+          type: str
         policy_rematch:
           description:
             - Enable the device to reevaluate an active session when its associated security policy is modified. The session remains open if it still matches the policy that allowed the session initially.
@@ -59,6 +60,7 @@ DOCUMENTATION: |
               choices:
                 - session-init
                 - session-close
+              type: str
             session_timeout:
               description:
                 - When you update a session, the session timeout is configured, which specifies the session timeout details in seconds.
@@ -129,6 +131,7 @@ DOCUMENTATION: |
                 - lookup
                 - routing_socket
                 - rules
+              type: str
             no_remote_trace:
               description: Set remote tracing as disabled.
               type: bool
