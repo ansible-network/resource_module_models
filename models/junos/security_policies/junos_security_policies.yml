@@ -29,16 +29,6 @@ DOCUMENTATION: |
       type: list
       elements: dict
       suboptions:
-        policy_type:
-          description:
-            - The type of security policy being used
-          choices:
-            - global
-            - unified
-            - user-role
-            - zone-pair
-          required: true
-          type: str
         policy_name:
           description:
             - Unique name of the policy being defined/refferred to 
