@@ -7,7 +7,7 @@ ANSIBLE_METADATA: |
     'supported_by': 'network'
   }
 NETWORK_OS: junos
-RESOURCE: security_polices
+RESOURCE: security_policies
 COPYRIGHT: Copyright 2022 Red Hat
 
 DOCUMENTATION: |
