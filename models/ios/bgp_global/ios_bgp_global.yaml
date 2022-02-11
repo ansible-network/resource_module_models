@@ -978,7 +978,7 @@ options:
               allpaths:
                 description: Propagate next hop unchanged for all paths (iBGP and eBGP) to this neighbor
                 type: bool
-          password:
+          passwords:
             description: Set a password
             type: str
           path_attribute:
