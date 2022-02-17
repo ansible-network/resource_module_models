@@ -29,27 +29,23 @@ DOCUMENTATION: |
       type: list
       elements: dict
       suboptions:
-        policy_name:
+        from_zones:
           description:
-            - Unique name of the policy being defined/refferred to 
-          type: str
-        from_zone:
-          description:
-            - The security zone from which the traffic originates from
+            - List of security zones from which the traffic originates from
           type: list
           elements: dict
           suboptions:
-            from_zone_name:
+            name:
               description:
                 - The name of the security zone from which the traffic originates from
               type: str
-            to_zone:
+            to_zones:
               description:
-                - The destination security zone of the traffic
+                - List of destination security zones of the traffic
               type: list
               elements: dict
               suboptions:
-                to_zone_name:
+                name:
                   description:
                     - The name of the destination security zone of the traffic
                   type: str
@@ -58,8 +54,8 @@ DOCUMENTATION: |
                     - List of policies defined for the associated zone pair
                   type: list
                   elements: dict
-                  suboptions: &policy
-                    policy_name:
+                  suboptions: &policy_attributes
+                    name:
                       description:
                         - Name of the policy
                       type: str
@@ -529,7 +525,7 @@ DOCUMENTATION: |
             - List of global policies
           type: list
           elements: dict
-          suboptions: *policy
+          suboptions: *policy_attributes
     running_config:
       description:
         - This option is used only with state I(parsed)
