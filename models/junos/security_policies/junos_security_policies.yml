@@ -49,12 +49,12 @@ DOCUMENTATION: |
                   description:
                     - The name of the destination security zone of the traffic
                   type: str
-                policies:
+                policies: &policy_attributes
                   description:
-                    - List of policies defined for the associated zone pair
+                    - List of policies defined for the associated category
                   type: list
                   elements: dict
-                  suboptions: &policy_attributes
+                  suboptions:
                     name:
                       description:
                         - Name of the policy
