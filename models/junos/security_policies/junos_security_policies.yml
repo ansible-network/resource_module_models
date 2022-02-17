@@ -520,12 +520,13 @@ DOCUMENTATION: |
                                   description:
                                     - name of the pair policy
                                   type: str
-        global_policies:
+        global:
           description:
             - List of global policies
           type: list
           elements: dict
-          suboptions: *policy_attributes
+          suboptions: 
+            policies: *policy_attributes
     running_config:
       description:
         - This option is used only with state I(parsed)
