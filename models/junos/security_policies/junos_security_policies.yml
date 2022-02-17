@@ -26,8 +26,7 @@ DOCUMENTATION: |
   options:
     config:
       description: A dictionary of security policies
-      type: list
-      elements: dict
+      type: dict
       suboptions:
         from_zones:
           description:
