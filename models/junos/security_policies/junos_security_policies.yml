@@ -521,9 +521,8 @@ DOCUMENTATION: |
                                   type: str
         global:
           description:
-            - List of global policies
-          type: list
-          elements: dict
+            - List of global security policies
+          type: dict
           suboptions: 
             policies: *policy_attributes
     running_config:
