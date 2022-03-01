@@ -118,7 +118,7 @@ DOCUMENTATION: |
                             any_ipv6:
                               description: Any IPv6 address
                               type: bool
-                        destination_address_exclude:
+                        destination_address_excluded:
                           description:
                             - Exclude destination addresses
                           type: bool
@@ -141,7 +141,7 @@ DOCUMENTATION: |
                             any_ipv6:
                               description: Any IPv6 address
                               type: bool
-                        source_address_exclude:
+                        source_address_excluded:
                           description:
                             - Exclude source addresses
                           type: bool
