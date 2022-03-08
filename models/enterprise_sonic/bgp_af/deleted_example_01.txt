@@ -23,6 +23,7 @@
 # !
 # address-family l2vpn evpn
 #  advertise-svi-ip
+#  advertise ipv6 unicast route-map aa
 #  advertise-pip ip 1.1.1.1 peer-ip 2.2.2.2
 #!
 #
@@ -40,6 +41,9 @@
 #                advertise_svi_ip: True
 #                advertise_all_vni: False
 #                advertise_default_gw: False
+#                route_advertise_list:
+#                  - advertise_afi: ipv6
+#                    route_map: aa
 #              - afi: ipv4
 #                safi: unicast
 #              - afi: ipv6
