@@ -1,0 +1,44 @@
+# Using rendered
+#
+# Before state
+# ------------
+#
+- junipernetworks.junos.junos_security_policies:
+    config:
+      global:
+          policies:
+            - description: test update
+              match:
+                application:
+                  any: true
+                destination_address:
+                  any_ipv6: true
+                source_address:
+                  any: true
+              name: test_glob_3
+              then:
+                deny: true
+    state: rendered
+#
+# -------------------------
+# Module Execution Result
+# -------------------------
+#     "rendered": "<nc:security
+#                 xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+#                 <nc:policies>
+#                   <nc:global>
+#                     <nc:policy>
+#                       <nc:name>test_glob_3</nc:name>
+#                       <nc:description>test update</nc:description>
+#                       <nc:match>
+#                         <nc:source-address>any</nc:source-address>
+#                         <nc:destination-address>any-ipv6</nc:destination-address>
+#                         <nc:application>any</nc:application>
+#                       </nc:match>
+#                       <nc:then>
+#                         <nc:deny/>
+#                       </nc:then>
+#                     </nc:policy>
+#                   </nc:global>
+#                 </nc:policies>
+#               </nc:security>"
