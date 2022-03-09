@@ -41,14 +41,27 @@ DOCUMENTATION: |
             - Enable the device to reevaluate an active session when its associated security policy is modified. The session remains open if it still matches the policy that allowed the session initially.
           type: dict
           suboptions:
+            enable:
+              description:
+                - Enable the device to reevaluate an active session when its associated security policy is modified. The session remains open if it still matches the policy that allowed the session initially.
+              type: bool
             extensive:
               description:
                 - When a policy is modified or deleted, extensive option checks if any suitable policy permit to keep these sessions alive.
               type: bool
         policy_stats:
           description:
-            - Configure systemwide policies statistics.
-          type: bool
+            - Configure policies statistics.
+          type: dict
+          suboptions:
+            enable:
+              description:
+                - Enable policies statistics.
+              type: bool
+            system_wide:
+              description:
+                - Configure systemwide policies statistics.
+              type: bool
         pre_id_default_policy_action:
           description:
             - Configures default policy actions that occur prior to dynamic application identification (AppID) when the packet matches the criteria.
@@ -129,11 +142,11 @@ DOCUMENTATION: |
                 - compilation
                 - ipc
                 - lookup
-                - routing_socket
+                - routing-socket
                 - rules
               type: str
             no_remote_trace:
-              description: Set remote tracing as disabled.
+              description: Disable remote tracing.
               type: bool
     running_config:
       description:
