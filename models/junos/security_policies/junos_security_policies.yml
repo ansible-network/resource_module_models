@@ -256,10 +256,16 @@ DOCUMENTATION: |
                                   type: str
                         log:
                           description: Log traffic information for a specific policy Traffic information is logged when a session begins (session_init) or closes (session_close)
-                          choices:
-                            - session-close
-                            - session-init
-                          type: str
+                          type: dict
+                          suboptions:
+                            session_init:
+                              description:
+                                - Enable logging on session initialization time
+                              type: bool
+                            session_close:
+                              description:
+                                - Enable logging on session close time
+                              type: bool
                         permit:
                           description: Block the service at the firewall The device drops the packets
                           type: dict
