@@ -98,7 +98,7 @@ DOCUMENTATION: |
               description:
                 - Name of ids option object applied to the zone
               type: str
-        security_zone:
+        security_zones:
           description:
             - Security zones
           type: list
@@ -187,7 +187,7 @@ DOCUMENTATION: |
             host_inbound_traffic: *host_inbound_traffic
             interfaces: *interfaces
             screen: *screen
-            source_identiy_log:
+            source_identity_log:
               description:
                 - Show user and group info in session log for this zone
               type: bool
