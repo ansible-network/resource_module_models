@@ -1,0 +1,64 @@
+# Using gathered
+#
+# Before state
+# ------------
+#
+# vagrant@vsrx# show security policies
+# traceoptions {
+#     no-remote-trace;
+#     file size 10k files 4 no-world-readable match "/[A-Z]*/gm";
+#     flag all;
+# }
+# default-policy {
+#     deny-all;
+# }
+# policy-rematch;
+# policy-stats;
+# pre-id-default-policy {
+#     then {
+#         log {
+#             session-init;
+#         }
+#         session-timeout {
+#             icmp 10;
+#             others 10;
+#         }
+#     }
+# }
+#
+- name: Gather the running configuration
+  junipernetworks.junos.junos_security_policies_global:
+    config:
+    state: gathered
+#
+# -------------------------
+# Module Execution Result
+# -------------------------
+# "gathered": {
+#     "default_policy": "deny-all",
+#     "policy_rematch": {
+#         "enable": true
+#     },
+#     "policy_stats": {
+#         "enable": true
+#     },
+#     "pre_id_default_policy_action": {
+#         "log": {
+#             "session_init": true
+#         },
+#         "session_timeout": {
+#             "icmp": 10,
+#             "others": 10
+#         }
+#     },
+#     "traceoptions": {
+#         "file": {
+#             "files": 4,
+#             "match": "/[A-Z]*/gm",
+#             "no_world_readable": true,
+#             "size": "10k"
+#         },
+#         "flag": "all",
+#         "no_remote_trace": true
+#     }
+# }

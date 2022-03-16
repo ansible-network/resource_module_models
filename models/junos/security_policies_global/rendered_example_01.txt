@@ -1,0 +1,40 @@
+# Using rendered
+#
+# Before state
+# ------------
+#
+- name: Render the provided configuration
+  junipernetworks.junos.junos_security_policies_global:
+    config:
+      default_policy: deny-all
+      policy_rematch:
+        enable: true
+      policy_stats:
+        enable: true
+      pre_id_default_policy_action:
+        log:
+          session_init: true
+        session_timeout:
+          icmp: 10
+          others: 10
+      traceoptions:
+        file:
+          files: 4
+          match: /[A-Z]*/gm
+          size: 10k
+          no_world_readable: true
+        flag: all
+        no_remote_trace: true
+    state: replaced
+#
+# -------------------------
+# Module Execution Result
+# -------------------------
+#     "rendered": "<nc:security xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><nc:policies>
+#     <nc:default-policy><nc:deny-all/></nc:default-policy><nc:policy-rematch> </nc:policy-rematch>
+#     <nc:policy-stats> </nc:policy-stats><nc:pre-id-default-policy><nc:then><nc:log><nc:session-init/>
+#     </nc:log><nc:session-timeout><nc:icmp>10</nc:icmp><nc:others>10</nc:others></nc:session-timeout>
+#     </nc:then></nc:pre-id-default-policy><nc:traceoptions><nc:file><nc:files>4</nc:files>
+#     <nc:match>/[A-Z]*/gm</nc:match><nc:size>10k</nc:size><nc:no-world-readable/></nc:file><nc:flag>
+#     <nc:name>all</nc:name></nc:flag><nc:no-remote-trace/></nc:traceoptions></nc:policies>
+#     </nc:security>"
