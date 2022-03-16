@@ -15,7 +15,7 @@ DOCUMENTATION: |
   version_added: 2.9.0
   short_description: Manage security zones on Juniper JUNOS devices
   description: This module provides declarative management of security zones on Juniper JUNOS devices
-  author: Pranav Bhatt (pbhatt@redhat.com)
+  author: Pranav Bhatt (@pranav-bhatt)
   requirements:
     - ncclient (>=v0.6.4)
     - xmltodict (>=0.12.0)
