@@ -155,7 +155,7 @@ DOCUMENTATION: |
                   type: dict
                   suboptions:
                     address:
-                     description:
+                      description:
                         - Address to be included in this set
                       type: list
                       elements: str
