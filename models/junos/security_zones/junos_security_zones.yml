@@ -119,6 +119,10 @@ DOCUMENTATION: |
                   type: list
                   elements: dict
                   suboptions:
+                    name:
+                      description:
+                        - Name of address
+                      type: str
                     ip_addresses:
                       description:
                         - Numeric IPv4 or IPv6 address with prefix
@@ -154,6 +158,10 @@ DOCUMENTATION: |
                     - Define a security address set
                   type: dict
                   suboptions:
+                    name:
+                      description:
+                        - Name of address set
+                      type: str
                     address:
                       description:
                         - Address to be included in this set
