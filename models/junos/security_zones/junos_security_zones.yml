@@ -113,9 +113,9 @@ DOCUMENTATION: |
                 - Address book entries
               type: dict
               suboptions:
-                address:
+                addresses:
                   description:
-                    - Define a security address
+                    - Define security addresses
                   type: list
                   elements: dict
                   suboptions:
@@ -123,7 +123,7 @@ DOCUMENTATION: |
                       description:
                         - Name of address
                       type: str
-                    ip_addresses:
+                    ip_prefix:
                       description:
                         - Numeric IPv4 or IPv6 address with prefix
                       type: list
@@ -153,10 +153,11 @@ DOCUMENTATION: |
                       description:
                         - Numeric IPv4 wildcard address with in the form of a.d.d.r/netmask
                       type: str
-                address_set:
+                address_sets:
                   description:
-                    - Define a security address set
-                  type: dict
+                    - Define security address sets
+                  type: list
+                  elements: dict
                   suboptions:
                     name:
                       description:
