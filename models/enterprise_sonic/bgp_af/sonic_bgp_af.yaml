@@ -89,30 +89,40 @@ DOCUMENTATION: |
                       description:
                         - Specifies the route map reference.
                       type: str
-                advertise_prefix:
+                advertise_pip:
                   description:
-                    - Specifies the prefix of the advertise.
-                    - afi and safi are required together.
+                    - Enables advertise PIP
+                  type: bool
+                advertise_pip_ip:
+                  description:
+                    - PIP IPv4 address
+                  type: str
+                advertise_pip_peer_ip:
+                  description:
+                    - PIP peer IPv4 address
+                  type: str
+                advertise_svi_ip:
+                  description:
+                    - Enables advertise SVI MACIP routes
+                  type: bool
+                route_advertise_list:
+                  description:
+                    - List of advertise routes
                   type: list
                   elements: dict
-                  required_together: [['afi', 'safi']]
-                  suboptions:
-                    afi:
-                      description:
-                        - Specifies afi of the advertise.
-                      type: str
-                      choices:
-                        - ipv4
-                        - ipv6
-                        - l2vpn
-                    safi:
-                      description:
-                        - Specifies safi of the advertise.
-                      type: str
-                      choices:
-                        - unicast
-                        - evpn
-                      default: unicast
+                   suboptions:
+                     advertise_afi:
+                       required: True
+                       type: str
+                       choices:
+                       - ipv4
+                       - ipv6
+                       description:
+                         - Specifies the address family
+                     route_map:
+                       type: str
+                       description:
+                         - Specifies the route-map reference
                 advertise_default_gw:
                   description:
                     - Specifies the advertise default gateway flag.
