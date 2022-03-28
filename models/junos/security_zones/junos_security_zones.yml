@@ -175,6 +175,27 @@ DOCUMENTATION: |
               description:
                 - Enable Advance Policy Based Routing on this zone
               type: str
+            advanced_connection_tracking:
+              description:
+                - Enable Advance Policy Based Routing on this zone
+              type: dict
+              suboptions:
+                mode:
+                  description:
+                    - Set connection tracking mode
+                  type: str
+                  choices:
+                    - allow-any-host
+                    - allow-target-host
+                    - allow-target-host-port
+                timeout:
+                  description:
+                    - Timeout value in seconds for advanced-connection-tracking table for this zone
+                  type: int
+                track_all_policies_to_this_zone:
+                  description:
+                    - Mandate all policies with to-zone set to this zone to do connection track table lookup
+                  type: bool
             application_tracking:
               description:
                 - Enable Application tracking support for this zone
@@ -197,6 +218,10 @@ DOCUMENTATION: |
             tcp_rst:
               description:
                 - Send RST for NON-SYN packet not matching TCP session
+              type: bool
+            unidirectional_session_refreshing:
+              description:
+                - Enable unidirectional session refreshing on this zone
               type: bool
 
     running_config:
