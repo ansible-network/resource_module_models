@@ -18,42 +18,73 @@
 - name: "Add sonic_bgp_neighbors"
   sonic_bgp_neighbors:
     config:
-      - bgp_as: 51
-        vrf_name: VrfReg1
-        peer_group:
-          - name: SPINE
-            bfd: true
-            capability:
-              dynamic: true
-              extended_nexthop: true
-            remote_as:
-              peer_as: 4
-            address_family:
-              afis:
-                - afi: ipv4
-                  safi: unicast
-                  activate: true
-                  allowas_in:
-                    origin: true
-                - afi: ipv6
-                  safi: unicast
-                  activate: true
-                  allowas_in:
-                    value: 5
-        neighbors:
-          - neighbor: Eth1/3
-            remote_as:
-              peer_as: 10
-            peer_group: SPINE
-            advertisement_interval: 15
-            timers:
-              keepalive: 30
-              holdtime: 15
-            bfd: true
-            capability:
-              dynamic: true
-              extended_nexthop: true
-          - neighbor: 192.168.1.4
+     - bgp_as: 51
+       neighbors:
+         - neighbor: Eth1/2
+           auth_pwd:
+             pwd: 'pw123'
+             encrypted: false
+           dont_negotiate_capability: true
+           ebgp_multihop:
+             enabled: true
+             multihop_ttl: 1
+           enforce_first_as: true
+           enforce_multihop: true
+           local_address: 'Ethernet4'
+           local_as:
+             as: 2
+             no_prepend: true
+             replace_as: true
+           nbr_description: "description 1"
+           override_capability: true
+           passive: true
+           port: 3
+           solo: true
+         - neighbor: 1.1.1.1
+           disable_connected_check: true
+           ttl_security: 5
+     - bgp_as: 51
+       vrf_name: VrfReg1
+       peer_group:
+         - name: SPINE
+           bfd: true
+           capability:
+             dynamic: true
+             extended_nexthop: true
+           remote_as:
+             peer_as: 4
+           address_family:
+             afis:
+               - afi: ipv4
+                 safi: unicast
+                 activate: true
+                 allowas_in:
+                   origin: true
+               - afi: ipv6
+                 safi: unicast
+                 activate: true
+                 allowas_in:
+                   value: 5
+       neighbors:
+         - neighbor: Eth1/3
+           remote_as:
+             peer_as: 10
+           peer_group: SPINE
+           advertisement_interval: 15
+           timers:
+             keepalive: 30
+             holdtime: 15
+           bfd: true
+           capability:
+             dynamic: true
+             extended_nexthop: true
+           auth_pwd:
+               pwd: 'U2FsdGVkX199MZ7YOPkOR9O6wEZmtGSgiDfnlcN9hBg='
+               encrypted: true
+           nbr_description: 'description 2'
+           strict_capability_match: true
+           v6only: true
+         - neighbor: 192.168.1.4
     state: merged
 
 # After state:
@@ -83,17 +114,39 @@
 #   send-community both
 # !
 # neighbor interface Eth1/3
+#  description "description 2"
 #  peer-group SPINE
 #  remote-as 10
 #  timers 15 30
 #  advertisement-interval 15
-#  bfd 
+#  bfd
 #  capability extended-nexthop
 #  capability dynamic
+#  v6only
+#  password U2FsdGVkX199MZ7YOPkOR9O6wEZmtGSgiDfnlcN9hBg= encrypted
+#  strict-capability-match
 # !
 # neighbor 192.168.1.4
 #!
+# router bgp 51
+#  timers 60 180
+# neighbor interface Eth1/2
+#  description "description 1"
+#  ebgp-multihop 1
+#  remote-as external
+#  update-source interface Ethernet4
+#  dont-capability-negotiate
+#  enforce-first-as
+#  enforce-multihop
+#  local-as 2 no-prepend replace-as
+#  override-capability
+#  passive
+#  password U2FsdGVkX1+bxMf9TKOhaXRNNaHmywiEVDF2lJ2c000= encrypted
+#  port 3
+#  solo
+# neighbor 1.1.1.1
+#  disable-connected-check
+#  ttl-security hops 5
 #router bgp 11
 # network import-check
 # timers 60 180
-#
