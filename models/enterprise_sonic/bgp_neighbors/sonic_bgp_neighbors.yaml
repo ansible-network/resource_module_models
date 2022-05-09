@@ -98,6 +98,139 @@ DOCUMENTATION: |
                   description:
                     - Enable or disable advertise extended next-hop capability to the peer.
                   type: bool
+            address_family:
+              description:
+                - Holds of list of address families associated to the peergroup.
+              type: dict
+              suboptions:
+                afis:
+                  description:
+                    - List of address families with afi, safi, activate and allowas-in parameters.
+                    - afi and safi are required together.
+                  type: list
+                  elements: dict
+                  required_together: [['afi', 'safi']]
+                  suboptions:
+                    afi:
+                      description:
+                        - Holds afi mode.
+                      type: str
+                      choices:
+                        - ipv4
+                        - ipv6
+                        - l2vpn
+                    safi:
+                      description:
+                        - Holds safi mode.
+                      type: str
+                      choices:
+                        - unicast
+                        - evpn
+                    activate:
+                      description:
+                        - Enable or disable activate.
+                      type: bool
+                    allowas_in:
+                      description:
+                        - Holds AS value.
+                        - origin and value are mutually exclusive.
+                      type: dict
+                      mutually_exclusive: [['origin', 'value']]
+                      suboptions:
+                        origin:
+                          description:
+                             - Set AS as origin.
+                          type: bool
+                        value:
+                          description:
+                            - Holds AS number in the range 1-10.
+                          type: int
+        neighbors:
+          description:
+            - Specifies BGP neighbor related configurations.
+          type: list
+          elements: dict
+          suboptions:
+            neighbor:
+              description:
+                - Neighbor router address.
+              type: str
+              required: True
+            remote_as:
+              description:
+                - Remote AS of the BGP neighbor to configure.
+              type: dict
+              mutually_exclusive: [['peer_as','peer_type']]
+              suboptions:
+                peer_as:
+                  description:
+                    - Specifies remote AS number.
+                    - The range is from 1 to 4294967295.
+                  type: int
+                peer_type:
+                  description:
+                    - Specifies type of bgp peer.
+                  type: str
+                  choices: ['internal', 'external']
+            bfd:
+              description:
+                - Enables or disables BFD.
+              type: dict
+              suboptions:
+                enabled:
+                  description:
+                    - Enables BFD liveliness check for a BGP neighbor.
+                  type: bool
+                check_failure:
+                  description:
+                    - Link dataplane status with control plane.
+                  type: bool
+                profile:
+                  description:
+                    - BFD Profile name format.
+                  type: str
+            advertisement_interval:
+              description:
+                - Specifies the minimum interval between sending BGP routing updates.
+                - The range is from 0 to 600.
+              type: int
+            peer_group:
+              description:
+                - Name of the peer group that the neighbor is a member of.
+              type: str
+            timers:
+              description:
+                - Specifies BGP neighbor timer related configurations.
+              type: dict
+              suboptions:
+                keepalive:
+                  description:
+                    - Frequency (in seconds) with which the device sends keepalive messages to its peer.
+                    - The range is from 0 to 65535.
+                  type: int
+                holdtime:
+                  description:
+                    - Interval (in seconds) after not receiving a keepalive message that SONiC declares a peer dead.
+                    - The range is from 0 to 65535.
+                  type: int
+                connect_retry:
+                  description:
+                    - Time interval in seconds between attempts to establish a session with the peer.
+                    - The range is from 1 to 65535.
+                  type: int
+            capability:
+              description:
+                - Specifies capability attributes to this neighbor.
+              type: dict
+              suboptions:
+                dynamic:
+                  description:
+                    - Enable or disable dynamic capability to this neighbor.
+                  type: bool
+                extended_nexthop:
+                  description:
+                    - Enable or disable advertise extended next-hop capability to the peer.
+                  type: bool
             auth_pwd:
               description:
                 - Configuration for neighbor group authentication password.
@@ -181,6 +314,10 @@ DOCUMENTATION: |
               description:
                 - Neighbor's BGP port.
               type: int
+            shutdown_msg:
+              description:
+                - Add a shutdown message.
+              type: str
             solo:
               description:
                 - Indicates that routes advertised by the peer should not be reflected back to the peer.
@@ -197,121 +334,6 @@ DOCUMENTATION: |
               description:
                 - Enables BGP with v6 link-local only.
               type: bool
-            address_family:
-              description:
-                - Holds of list of address families associated to the peergroup.
-              type: dict
-              suboptions:
-                afis:
-                  description:
-                    - List of address families with afi, safi, activate and allowas-in parameters.
-                    - afi and safi are required together.
-                  type: list
-                  elements: dict
-                  required_together: [['afi', 'safi']]
-                  suboptions:
-                    afi:
-                      description:
-                        - Holds afi mode.
-                      type: str
-                      choices:
-                        - ipv4
-                        - ipv6
-                        - l2vpn
-                    safi:
-                      description:
-                        - Holds safi mode.
-                      type: str
-                      choices:
-                        - unicast
-                        - evpn
-                    activate:
-                      description:
-                        - Enable or disable activate.
-                      type: bool
-                    allowas_in:
-                      description:
-                        - Holds AS value.
-                        - origin and value are mutually exclusive.
-                      type: dict
-                      mutually_exclusive: [['origin', 'value']]
-                      suboptions:
-                        origin:
-                          description:
-                             - Set AS as origin.
-                          type: bool
-                        value:
-                          description:
-                            - Holds AS number in the range 1-10.
-                          type: int
-        neighbors:
-          description:
-            - Specifies BGP neighbor related configurations.
-          type: list
-          elements: dict
-          suboptions:
-            neighbor:
-              description:
-                - Neighbor router address.
-              type: str
-              required: True
-            remote_as:
-              description:
-                - Remote AS of the BGP neighbor to configure.
-              type: dict
-              mutually_exclusive: [['peer_as','peer_type']]
-              suboptions:
-                peer_as:
-                  description:
-                    - Specifies remote AS number.
-                    - The range is from 1 to 4294967295.
-                  type: int
-                peer_type:
-                  description:
-                    - Specifies type of bgp peer.
-                  type: str
-                  choices: ['internal', 'external']
-            bfd:
-              description:
-                - Enable or disable bfd.
-              type: bool
-            advertisement_interval:
-              description:
-                - Specifies the minimum interval between sending BGP routing updates.
-                - The range is from 0 to 600.
-              type: int
-            peer_group:
-              description:
-                - Name of the peer group that the neighbor is a member of.
-              type: str
-            timers:
-              description:
-                - Specifies BGP neighbor timer related configurations.
-              type: dict
-              suboptions:
-                keepalive:
-                  description:
-                    - Frequency (in seconds) with which the device sends keepalive messages to its peer.
-                    - The range is from 0 to 65535.
-                  type: int
-                holdtime:
-                  description:
-                    - Interval (in seconds) after not receiving a keepalive message that SONiC declares a peer dead.
-                    - The range is from 0 to 65535.
-                  type: int
-            capability:
-              description:
-                - Specifies capability attributes to this neighbor.
-              type: dict
-              suboptions:
-                dynamic:
-                  description:
-                    - Enable or disable dynamic capability to this neighbor.
-                  type: bool
-                extended_nexthop:
-                  description:
-                    - Enable or disable advertise extended next-hop capability to the peer.
-                  type: bool
     state:
       description:
         - Specifies the operation to be performed on the BGP process configured on the device.
