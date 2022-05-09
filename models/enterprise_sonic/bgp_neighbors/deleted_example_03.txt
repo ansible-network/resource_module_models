@@ -104,7 +104,7 @@
            timers:
              keepalive: 30
              holdtime: 15
-           bfd: true
+           bfd:
            capability:
            auth_pwd:
            nbr_description: 'description 2'

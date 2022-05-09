@@ -39,6 +39,7 @@
            override_capability: true
            passive: true
            port: 3
+           shutdown_msg: 'msg1'
            solo: true
          - neighbor: 1.1.1.1
            disable_connected_check: true
@@ -74,7 +75,11 @@
            timers:
              keepalive: 30
              holdtime: 15
-           bfd: true
+             connect_retry: 25
+           bfd:
+             check_failure: true
+             enabled: true
+             profile: 'profile 1'
            capability:
              dynamic: true
              extended_nexthop: true
@@ -118,8 +123,9 @@
 #  peer-group SPINE
 #  remote-as 10
 #  timers 15 30
+#  timers connect 25
+#  bfd check-control-plane-failure profile "profile 1"
 #  advertisement-interval 15
-#  bfd
 #  capability extended-nexthop
 #  capability dynamic
 #  v6only
@@ -132,6 +138,7 @@
 #  timers 60 180
 # neighbor interface Eth1/2
 #  description "description 1"
+#  shutdown message msg1
 #  ebgp-multihop 1
 #  remote-as external
 #  update-source interface Ethernet4
