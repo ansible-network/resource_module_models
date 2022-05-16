@@ -48,12 +48,42 @@
        vrf_name: VrfReg1
        peer_group:
          - name: SPINE
-           bfd: true
+           bfd:
+             check_failure: true
+             enabled: true
+             profile: 'profile 1'
            capability:
              dynamic: true
              extended_nexthop: true
+           auth_pwd:
+             pwd: 'U2FsdGVkX1/4sRsZ624wbAJfDmagPLq2LsGDOcW/47M='
+             encrypted: true
+           dont_negotiate_capability: true
+           ebgp_multihop:
+             enabled: true
+             multihop_ttl: 1
+           enforce_first_as: true
+           enforce_multihop: true
+           local_address: 'Ethernet4'
+           local_as:
+             as: 2
+             no_prepend: true
+             replace_as: true
+           pg_description: 'description 1'
+           override_capability: true
+           passive: true
+           solo: true
            remote_as:
              peer_as: 4
+         - name: SPINE1
+           disable_connected_check: true
+           shutdown_msg: "msg1"
+           strict_capability_match: true
+           timers:
+             keepalive: 30
+             holdtime: 15
+             connect_retry: 25
+           ttl_security: 5
            address_family:
              afis:
                - afi: ipv4
@@ -103,11 +133,31 @@
 # network import-check
 # timers 60 180
 # !
+# peer-group SPINE1
+#  timers 15 30
+#  timers connect 25
+#  shutdown message msg1
+#  disable-connected-check
+#  strict-capability-match
+#  ttl-security hops 5
+# !
 # peer-group SPINE
+#  description "description 1"
+#  ebgp-multihop 1
 #  remote-as 4
-#  bfd
+#  bfd check-control-plane-failure profile "profile 1"
+#  update-source interface Ethernet4
 #  capability dynamic
 #  capability extended-nexthop
+#  dont-capability-negotiate
+#  enforce-first-as
+#  enforce-multihop
+#  local-as 2 no-prepend replace-as
+#  override-capability
+#  passive
+#  password U2FsdGVkX1/4sRsZ624wbAJfDmagPLq2LsGDOcW/47M= encrypted
+#  solo
+# !
 #  address-family ipv4 unicast
 #   activate
 #   allowas-in origin

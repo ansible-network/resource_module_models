@@ -11,11 +11,31 @@
 # network import-check
 # timers 60 180
 # !
+# peer-group SPINE1
+#  timers 15 30
+#  timers connect 25
+#  shutdown message msg1
+#  disable-connected-check
+#  strict-capability-match
+#  ttl-security hops 5
+# !
 # peer-group SPINE
+#  description "description 1"
+#  ebgp-multihop 1
 #  remote-as 4
-#  bfd
+#  bfd check-control-plane-failure profile "profile 1"
+#  update-source interface Ethernet4
 #  capability dynamic
 #  capability extended-nexthop
+#  dont-capability-negotiate
+#  enforce-first-as
+#  enforce-multihop
+#  local-as 2 no-prepend replace-as
+#  override-capability
+#  passive
+#  password U2FsdGVkX1/4sRsZ624wbAJfDmagPLq2LsGDOcW/47M= encrypted
+#  solo
+# !
 #  address-family ipv4 unicast
 #   activate
 #   allowas-in origin
@@ -77,24 +97,22 @@
        vrf_name: VrfReg1
        peer_group:
          - name: SPINE
-           bfd: true
+           bfd:
            capability:
-             dynamic: true
-             extended_nexthop: true
+           auth_pwd:
+           dont_negotiate_capability: true
+           ebgp_multihop:
+           enforce_first_as: true
+           enforce_multihop: true
+           local_address: 'Ethernet4'
+           local_as:
+           pg_description: 'description 1'
+           override_capability: true
+           passive: true
+           solo: true
            remote_as:
              peer_as: 4
-           address_family:
-             afis:
-               - afi: ipv4
-                 safi: unicast
-                 activate: true
-                 allowas_in:
-                   origin: true
-               - afi: ipv6
-                 safi: unicast
-                 activate: true
-                 allowas_in:
-                   value: 5
+         - name: SPINE1
        neighbors:
          - neighbor: Eth1/3
            remote_as:
