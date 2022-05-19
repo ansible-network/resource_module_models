@@ -68,7 +68,7 @@ DOCUMENTATION: |
               suboptions:
                 enabled:
                   description:
-                    - Enables BFD liveliness check for a BGP peer.
+                    - Enables BFD liveness check for a BGP peer.
                   type: bool
                 check_failure:
                   description:
@@ -293,7 +293,7 @@ DOCUMENTATION: |
               suboptions:
                 enabled:
                   description:
-                    - Enables BFD liveliness check for a BGP neighbor.
+                    - Enables BFD liveness check for a BGP neighbor.
                   type: bool
                 check_failure:
                   description:
