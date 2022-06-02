@@ -19,7 +19,7 @@ Ethernet12          -                   down                          1000      
         description: 'Ethernet Twelve'
       - name: Ethernet16
         description: 'Ethernet Sixteen'
-        enable: True
+        enabled: True
         mtu: 3500
     state: merged
 
