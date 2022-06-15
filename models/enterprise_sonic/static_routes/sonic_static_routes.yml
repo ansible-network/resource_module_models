@@ -39,7 +39,7 @@ DOCUMENTATION: |
                 required: True
                 type: str
                 description:
-                  - List of locally configured static routes.
+                  - Destination prefix for the static route, either IPv4 or IPv6.
               next_hops:
                 type: list
                 elements: dict
@@ -56,12 +56,12 @@ DOCUMENTATION: |
                         type: bool
                         default: False
                         description:
-                          - Indicates if route is blackholed.
+                          - Indicates that packets matching this route should be discarded.
                       interface:
                         type: str
                         description:
                           - The reference to a base interface.
-                      network_instance:
+                      nexthop_vrf:
                         type: str
                         description:
                           - Name of the next-hop network instance for leaked routes.
@@ -92,3 +92,4 @@ DOCUMENTATION: |
 EXAMPLES:
   - deleted_example_01.txt
   - merged_example_01.txt
+  - merged_example_02.txt

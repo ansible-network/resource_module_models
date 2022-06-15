@@ -4,7 +4,7 @@
 # -------------
 #
 # sonic# show running-configuration | grep "ip route"
-#
+# (No "ip route" configuration present)
 
   - name: Merge static routes configurations
     dellemc.enterprise_sonic.sonic_static_routes:
@@ -29,11 +29,16 @@
             next_hops:
               - index:
                   interface: 'eth0'
-                  network_instance: '{{vrf_2}}'
+                  nexthop_vrf: '{{vrf_2}}'
                   next_hop: '4.0.0.0'
                 metric: 4
                 tag: 5
                 track: 6
+              - index:
+                  blackhole: True
+                metric: 10
+                tag: 20
+                track: 30
     state: merged
 
 # After State:
@@ -43,3 +48,4 @@
 # ip route 2.0.0.0/8 3.0.0.0 tag 4 track 8 2
 # ip route 2.0.0.0/8 interface Ethernet4 tag 2 track 3 1
 # ip route vrf VrfReg1 3.0.0.0/8 4.0.0.0 interface Management 0 nexthop-vrf VrfReg2 tag 5 track 6 4
+# ip route vrf VrfREg1 3.0.0.0/8 blackhole tag 20 track 30 10
