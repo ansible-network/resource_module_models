@@ -3,7 +3,7 @@
 # -------------
 #
 #sonic# show interface Vlan 70
-Description: Internal
+#Description: Internal
 #Vlan70 is up
 #Mode of IPV4 address assignment: not-set
 #Mode of IPV6 address assignment: not-set
