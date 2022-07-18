@@ -1,0 +1,28 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+sonic# show ntp global
+----------------------------------------------
+NTP Global Configuration
+----------------------------------------------
+NTP source-interfaces:  Ethernet0, Ethernet4, Ethernet8, Ethernet16
+
+- name: Delete NTP source-interface configuration
+  ntp:
+    config:
+      source_interfaces:
+        - Ethernet8
+        - Ethernet16
+    state: deleted
+
+# After state:
+# ------------
+#
+onic# show ntp global
+----------------------------------------------
+NTP Global Configuration
+----------------------------------------------
+NTP source-interfaces:  Ethernet0, Ethernet4
+
