@@ -1,0 +1,56 @@
+
+# Using overridden
+
+# Before state:
+# -------------
+#
+# DS-LIN-TEST-01>#info configure vlan
+# configure
+# #------------------------------------------------------------------------------------------------
+# echo "vlan"
+# #------------------------------------------------------------------------------------------------
+# vlan
+#   broadcast-frames
+#   priority-policy vlan-specific
+#   vmac-address-format
+#     host-id 0
+#   exit
+#   id 15 mode cross-connect
+#     name fifteen
+#     aging-time 360
+#   exit
+#   id 99 mode residential-bridge
+#     name ninetynine
+#   exit
+# exit
+
+
+- name: Merge existing vlan parameters with new settings
+  isam_vlans:
+    config:
+      - vlan_id: 15
+        name: sixteen
+        priority: 4
+    state: deleted
+
+# After state:
+# ------------
+#
+# DS-LIN-TEST-01>#info configure vlan
+# configure
+# #------------------------------------------------------------------------------------------------
+# echo "vlan"
+# #------------------------------------------------------------------------------------------------
+# vlan
+#   broadcast-frames
+#   priority-policy vlan-specific
+#   vmac-address-format
+#     host-id 0
+#   exit
+#   id 15 mode cross-connect
+#     name sixteen
+#     priority 4
+#   exit
+#   id 99 mode residential-bridge
+#   exit
+# exit
