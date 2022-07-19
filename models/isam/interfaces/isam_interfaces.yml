@@ -1,85 +1,70 @@
----
-GENERATOR_VERSION: '1.0'
-ANSIBLE_METADATA: |
-    {
-        'metadata_version': '1.1',
-        'status': ['preview'],
-        'supported_by': '@jahknem'
-    }
+module: isam_interfaces
+version_added: 2.9
+short_description: 'Manages interface attributes of Nokia ISAM MSAN devices.'
+description: 'This module manages interface attributes of Nokia ISAM MSAN devices'
+author: Jan Kuehnemund
+notes:
+- 'Tested against Nokia ISAM with OS Version R6.2.04m'
+options:
+  config:
+    description: A dictionary of options for interface ports
+    type: list
+    elements: dict
+    suboptions:
+      id:
+        type: str
+        description: 
+        - configure a specific interface port
+      admin-up:
+        type: bool
+        description: 
+        - If the interface has been activated administratevly
+      link-state-trap:
+        type: str
+        description:
+        - If link-up/link-down traps should be activated or disabled
+        choices:
+        - enable
+        - disable
+        - no-value
+        default: no-value
+      link-up-down-trap:
+        type: bool
+        description:
+        - If up/down state changes of the interface should be trapped     
+      severity:
+        type: str
+        description:
+        - How the 
+        choices:
+        - indetermiante
+        - warning
+        - minor
+        - major
+        - critical
+        - no-alarms
+        - default
+        - no-value
+        default: no-value
+      port-type:
+        description:
+        - The Type of port this port should be configured as
+        type: str
+        choices:
+        - uni
+        - nni
+        - hc-uni
+        - uplink
+        default: uni
 
-NETWORK_OS: isam
-RESOURCE: interfaces
-COPYRIGHT: left
-LICENSE: gpl-3.0.txt
+  state:
+    description:
+    - The state the configuration should be left in
+    type: str
+    choices:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    default: merged
 
-DOCUMENTATION: |
-  module: isam_interfaces
-  version_added: 2.9
-  short_description: 'Manages interface attributes of Nokia ISAM MSAN devices.'
-  description: 'This module manages interface attributes of Nokia ISAM MSAN devices'
-  author: Jan Kühnemund
-  notes:
-    - 'Tested against Nokia ISAM with OS Version R6.2.04m'
-  options:
-    config:
-      description: A dictionary of options for interface ports
-      type: list
-      elements: dict
-      suboptions:
-        id:
-          type: str
-          description: 
-          - configure a specific interface port
-        admin-up:
-          type: bool
-          description: 
-            - If the interface has been activated administratevly
-        link-state-trap:
-          type: str
-          description:
-            - If link-up/link-down traps should be activated or disabled
-          choices:
-            - enable
-            - disable
-            - no-value
-          default: no-value
-        link-up-down-trap:
-          type: bool
-          description: If the interface has been activated administratevly       
-        severity:
-          type: str
-          description:
-            - How the 
-          choices:
-            - indetermiante
-            - warning
-            - minor
-            - major
-            - critical
-            - no-alarms
-            - default
-            - no-value
-          default: no-value
-        port-type:
-          description:
-            - The Type of the port this port should be configured as
-          type: str
-          choices:
-            - uni
-            - nni
-            - hc-uni
-            - uplink
-          default: uni
-
-    state:
-      description:
-        - The state the configuration should be left in
-      type: str
-      choices:
-        - merged
-        - replaced
-        - overridden
-        - deleted
-      default: merged
-EXAMPLES:
-  - deleted_example_01.txt
