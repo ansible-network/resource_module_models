@@ -1,0 +1,10 @@
+# Using deleted
+#
+
+- name: Delete NTP key configuration
+  ntp:
+    config:
+      ntp_keys:
+        - key_id: 10
+        - key_id: 20
+    state: deleted

@@ -20,7 +20,7 @@ NTP source-interfaces:  Ethernet0, Ethernet4, Ethernet8, Ethernet16
 # After state:
 # ------------
 #
-onic# show ntp global
+sonic# show ntp global
 ----------------------------------------------
 NTP Global Configuration
 ----------------------------------------------

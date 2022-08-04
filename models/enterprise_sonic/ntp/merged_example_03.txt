@@ -1,0 +1,16 @@
+# Using merged
+#
+
+- name: Merge NTP key configuration
+  ntp:
+    config:
+      ntp_keys:
+        - key_id: 10
+          key_type: NTP_AUTH_MD5
+          key_value: dellemc10
+          encrypted: false
+        - key_id: 20
+          key_type: NTP_AUTH_SHA2_256
+          key_value: dellemc20
+          encrypted: false
+    state: merged
