@@ -10,7 +10,7 @@ NTP Global Configuration
 NTP source-interfaces:  Ethernet0, Ethernet4, Ethernet8, Ethernet16
 
 - name: Delete NTP source-interface configuration
-  ntp:
+  sonic_ntp:
     config:
       source_interfaces:
         - Ethernet8

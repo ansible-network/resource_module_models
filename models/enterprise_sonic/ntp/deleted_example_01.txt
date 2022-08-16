@@ -13,7 +13,7 @@ dell.com                        6       9
 dell.org                        7       10
 
 - name: Delete NTP server configuration
-  ntp:
+  sonic_ntp:
     config:
       servers:
         - address: 10.11.0.2
