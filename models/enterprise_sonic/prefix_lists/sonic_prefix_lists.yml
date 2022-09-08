@@ -1,0 +1,82 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+      'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: prefix_list
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: sonic_prefix_lists
+  version_added: "1.2.0"
+  author: "Kerry Meyer (@kerry-meyer)"
+  short_description: prefix list configuration handling for SONiC
+  description:
+    - This module provides configuration management for prefix list parameters on devices running SONiC.
+  options:
+    config:
+      description:
+        - Specifies a list of prefix set configuration dictionaries
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - Name of a prefix set (a list of prefix entries)
+          type: str
+          required: true
+        afi:
+          description:
+            - Specifies the Address Family for addresses in the prefix list entries
+          type: str
+          choices: ["ipv4", "ipv6"]
+          default: "ipv4"
+        prefixes:
+          description:
+            - A list of prefix entries
+          type: list
+          elements: dict
+          suboptions:
+            sequence:
+              description:
+                - Precedence for this prefix entry (unique within the prefix list)
+              type: int
+              required: true
+            action:
+              description:
+                  - Action to be taken for addresses matching this prefix entry
+              type: str
+              required: true
+              choices: ["permit", "deny"]
+            prefix:
+              description:
+                - IPv4 or IPv6 prefix in A.B.C.D/LEN or A:B::C:D/LEN format
+              type: str
+              required: true
+            ge:
+              description: Minimum prefix length to be matched
+              type: int
+            le:
+              description: Maximum prefix length to be matched
+              type: int
+    state:
+      description:
+        - Specifies the type of configuration update to be performed on the device.
+        - For "merged", merge specified attributes with existing configured attributes.
+        - For "deleted", delete the specified attributes from exiting configuration.
+      type: str
+      choices:
+        - merged
+        - deleted
+      default: merged
+EXAMPLES:
+  - merged_example_01.txt
+  - merged_example_02.txt
+  - deleted_example_01.txt
+
