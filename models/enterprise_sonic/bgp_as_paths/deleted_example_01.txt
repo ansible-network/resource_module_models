@@ -5,6 +5,7 @@
 #
 # show bgp as-path-access-list
 # AS path list test:
+#   action: permit
 #   members: 808.*,909.*
 
 - name: Delete BGP as path list.
@@ -13,6 +14,7 @@
       - name: test
         members: 
         - 909.*
+        permit: true
     state: deleted
 
 # After state:
@@ -20,4 +22,5 @@
 #
 # show bgp as-path-access-list
 # AS path list test:
+#   action:
 #   members: 808.*
