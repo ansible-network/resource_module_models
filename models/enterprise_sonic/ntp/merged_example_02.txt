@@ -1,0 +1,27 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+sonic# show ntp global
+----------------------------------------------
+NTP Global Configuration
+----------------------------------------------
+NTP source-interfaces:  Ethernet0, Ethernet4
+
+- name: Merge NTP source-interface configuration
+  sonic_ntp:
+    config:
+      source_interfaces:
+        - Ethernet8
+        - Ethernet16
+    state: merged
+
+# After state:
+# ------------
+#
+sonic# show ntp global
+----------------------------------------------
+NTP Global Configuration
+----------------------------------------------
+NTP source-interfaces:  Ethernet0, Ethernet4, Ethernet8, Ethernet16

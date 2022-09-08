@@ -1,0 +1,31 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+sonic# show ntp server
+----------------------------------------------------------------------
+NTP Servers                     minpoll maxpoll Authentication key ID
+----------------------------------------------------------------------
+10.11.0.1                       6       10
+10.11.0.2                       5       9
+dell.com                        6       9
+dell.org                        7       10
+
+- name: Delete NTP server configuration
+  sonic_ntp:
+    config:
+      servers:
+        - address: 10.11.0.2
+        - address: dell.org
+    state: deleted
+
+# After state:
+# ------------
+#
+sonic# show ntp server
+----------------------------------------------------------------------
+NTP Servers                     minpoll maxpoll Authentication key ID
+----------------------------------------------------------------------
+10.11.0.1                       6       10
+dell.com                        6       9
