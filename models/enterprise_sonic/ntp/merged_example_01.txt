@@ -30,6 +30,6 @@ sonic# show ntp server
 NTP Servers                     minpoll maxpoll Prefer Authentication key ID
 ----------------------------------------------------------------------------
 10.11.0.1                       6       10      False
-10.11.0.2                       5       9       False
+10.11.0.2                       5       10      False
 dell.com                        6       9       False
 dell.org                        7       10      True
