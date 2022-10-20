@@ -31,13 +31,9 @@
 #  ip dhcp-relay circuit-id %h:%p
 # !
 
-  - name: Delete all DHCP relay configurations for interface Eth1/1
+  - name: Delete all DHCP and DHCPv6 relay configurations
     dellemc.enterprise_sonic.sonic_dhcp_relay:
       config:
-        - name: 'Eth1/1'
-          ipv4:
-            server_addresses:
-              - address:
       state: deleted
 
 # After State:
@@ -52,8 +48,6 @@
 #  no shutdown
 #  ip address 81.1.1.1/24
 #  ipv6 address 81::1/24
-#  ipv6 dhcp-relay 91::1 92::1
-#  ipv6 dhcp-relay max-hop-count 5
 # !
 # interface Eth1/2
 #  mtu 9100
@@ -61,8 +55,4 @@
 #  fec RS
 #  no shutdown
 #  ip address 61.1.1.1/24
-#  ip dhcp-relay 71.1.1.1 72.1.1.1 73.1.1.1
-#  ip dhcp-relay source-interface Vlan100
-#  ip dhcp-relay link-select
-#  ip dhcp-relay circuit-id %h:%p
 # !
