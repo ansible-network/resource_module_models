@@ -67,6 +67,11 @@ DOCUMENTATION: |
                 description:
                   - Maximum poll interval to poll NTP server.
                   - maxpoll can not be deleted.
+              prefer:
+                type: bool
+                description:
+                  - Indicates whether this server should be preferred.
+                  - prefer can not be deleted.
           ntp_keys:
             type: list
             elements: dict
