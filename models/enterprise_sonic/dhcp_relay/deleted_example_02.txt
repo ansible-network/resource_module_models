@@ -31,7 +31,7 @@
 #  ip dhcp-relay circuit-id %h:%p
 # !
 
-  - name: Delete all DHCP relay configurations for interface Eth1/1
+  - name: Delete all IPv4 DHCP relay configurations for interface Eth1/1
     dellemc.enterprise_sonic.sonic_dhcp_relay:
       config:
         - name: 'Eth1/1'
