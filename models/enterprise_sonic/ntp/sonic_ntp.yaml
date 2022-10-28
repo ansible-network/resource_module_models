@@ -44,8 +44,10 @@ DOCUMENTATION: |
           servers:
             type: list
             elements: dict
+            required_together: [['minpoll', 'maxpoll']]
             description:
               - List of NTP servers.
+              - minpoll and maxpoll are required to configure together.
             suboptions:
               address:
                 type: str
