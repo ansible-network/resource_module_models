@@ -5,7 +5,7 @@
 #
 #sonic# show running-configuration interface
 #!
-#interface Ethernet0
+#interface Eth1/1
 # mtu 9100
 # speed 400000
 # fec RS
@@ -24,7 +24,7 @@
 # vip 81::3
 # vip 81::4
 #!
-#interface Ethernet8
+#interface Eth1/3
 # mtu 9100
 # speed 400000
 # fec RS
@@ -46,20 +46,18 @@
       config:
         - name: 'Eth1/1'
           group:
-            - vrrp_id: 1
-	      type: ipv4
-	      vip: 
-		- address: 81.1.1.5
+            - virtual_router_id: 15
+	      afi: ipv4
+	      virtual_address: 
+		- address: 81.1.1.15
 	      preempt: False
-	    - vrrp_id: 10
-	      type: ipv6
         - name: 'Eth1/3'
           group:
-            - vrrp_id: 5
-	      type: ipv4
-	    - vrrp_id: 15
-	      type: ipv4
-	      vip: 
+            - virtual_router_id: 5
+	      afi: ipv4
+	    - virtual_router_id: 15
+	      afi: ipv4
+	      virtual_address: 
 		- address: 61.1.1.5
       state: overriden
 
@@ -68,7 +66,7 @@
 #
 #sonic# show running-configuration interface
 #!
-#interface Ethernet0
+#interface Eth1/1
 # mtu 9100
 # speed 400000
 # fec RS
@@ -76,13 +74,11 @@
 # ip address 81.1.1.1/24
 # ipv6 address 81::1/24
 # !
-# vrrp 1 address-family ipv4
+# vrrp 15 address-family ipv4
 # no preempt
-# vip 81.1.1.5
-# !
-# vrrp 10 address-family ipv6
+# vip 81.1.1.15
 #!
-#interface Ethernet8
+#interface Eth1/3
 # mtu 9100
 # speed 400000
 # fec RS
