@@ -1,0 +1,58 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration interface
+# !
+# interface Eth1/1
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  ip address 81.1.1.1/24
+#  ip dhcp-relay 91.1.1.1 92.1.1.1 vrf VrfReg1
+#  ip dhcp-relay max-hop-count 5
+#  ip dhcp-relay vrf-select
+#  ip dhcp-relay policy-action append
+#  ipv6 address 81::1/24
+#  ipv6 dhcp-relay 91::1 92::1
+#  ipv6 dhcp-relay max-hop-count 5
+# !
+# interface Eth1/2
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  ip address 61.1.1.1/24
+#  ip dhcp-relay 71.1.1.1 72.1.1.1 73.1.1.1
+#  ip dhcp-relay source-interface Vlan100
+#  ip dhcp-relay link-select
+#  ip dhcp-relay circuit-id %h:%p
+# !
+
+  - name: Delete all DHCP and DHCPv6 relay configurations
+    dellemc.enterprise_sonic.sonic_dhcp_relay:
+      config:
+      state: deleted
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration interface
+# !
+# interface Eth1/1
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  ip address 81.1.1.1/24
+#  ipv6 address 81::1/24
+# !
+# interface Eth1/2
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  ip address 61.1.1.1/24
+# !
