@@ -48,9 +48,6 @@
           group:
 	    - virtual_router_id: 10
 	      afi: ipv6
-	      virtual_address:
-		- address: 81::3
-		- address: 81::4
 	      priority: 20
         - name: 'Eth1/3'
           group:
@@ -83,8 +80,6 @@
 # !
 # vrrp 10 address-family ipv6
 # priority 20
-# vip 81::3
-# vip 81::4
 #!
 #interface Eth1/3
 # mtu 9100
