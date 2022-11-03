@@ -22,7 +22,6 @@ DOCUMENTATION: |
       config:
         description:
           - A list of vxlans configurations.
-          - source_ip and evpn_nvo are required together.
         type: list
         elements: dict
         required_together: [['source_ip', 'evpn_nvo']]
