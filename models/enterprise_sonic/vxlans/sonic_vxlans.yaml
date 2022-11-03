@@ -24,7 +24,6 @@ DOCUMENTATION: |
           - A list of vxlans configurations.
         type: list
         elements: dict
-        required_together: [['source_ip', 'evpn_nvo']]
         suboptions:
           name:
             type: str
