@@ -79,7 +79,7 @@ DOCUMENTATION: |
                 - Configure track interface for priority change
               type: list
               elements: dict
-              required_together: [['name', 'weight']]
+              required_together: [['interface', 'priority_increment']]
               suboptions:
                 interface:
                   description:
