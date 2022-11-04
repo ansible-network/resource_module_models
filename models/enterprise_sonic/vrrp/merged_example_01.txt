@@ -1,0 +1,96 @@
+# Using merged
+#
+# Before State:
+# -------------
+#
+#sonic# show running-configuration interface
+#!
+#interface Eth1/1
+# mtu 9100
+# speed 400000
+# fec RS
+# no shutdown
+# ip address 81.1.1.1/24
+# ipv6 address 81::1/24
+#!
+#interface Eth1/3
+# mtu 9100
+# speed 400000
+# fec RS
+# no shutdown
+# ip address 61.1.1.1/24
+#!
+
+  - name: Add VRRP and VRRP6 configurations
+    sonic_vrrp:
+      config:
+        - name: 'Eth1/1'
+          group:
+            - virtual_router_id: 1
+	      afi: ipv4
+	      virtual_address: 
+		- address: 81.1.1.3
+		- address: 81.1.1.4
+	      preempt: True
+	    - virtual_router_id: 10
+	      afi: ipv6
+	      virtual_address: 
+		- address: 81::3
+		- address: 81::4
+	      advertisement_interval: 4
+	      priority: 10
+        - name: 'Eth1/3'
+          group:
+            - virtual_router_id: 5
+	      afi: ipv4
+	      virtual_address: 
+		- address: 61.1.1.3
+	      priority: 20
+	    - virtual_router_id: 15
+	      afi: ipv4
+	      virtual_address: 
+		- address: 61.1.1.4
+	      preempt: True
+	      priority: 20
+      state: merged
+
+# After State:
+# ------------
+#
+#sonic# show running-configuration interface
+#!
+#interface Eth1/1
+# mtu 9100
+# speed 400000
+# fec RS
+# no shutdown
+# ip address 81.1.1.1/24
+# ipv6 address 81::1/24
+# !
+# vrrp 1 address-family ipv4
+# preempt
+# vip 81.1.1.3
+# vip 81.1.1.4
+# !
+# vrrp 10 address-family ipv6
+# priority 10
+# advertisement-interval 4
+# vip 81::3
+# vip 81::4
+#!
+#interface Eth1/3
+# mtu 9100
+# speed 400000
+# fec RS
+# no shutdown
+# ip address 61.1.1.1/24
+# !
+# vrrp 5 address-family ipv4
+# priority 20
+# vip 61.1.1.3
+# !
+# vrrp 15 address-family ipv4
+# priority 20
+# preempt
+# vip 61.1.1.4
+#!
