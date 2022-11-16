@@ -5,13 +5,13 @@
 #
  show interface status | no-more
 ------------------------------------------------------------------------------------------
-Name                Description         Admin          Oper           Speed          MTU
+Name                Description         Admin     Oper      AutoNeg     Speed        MTU
 ------------------------------------------------------------------------------------------
-Ethernet0           -                   up                            100000         9100
-Ethernet4           -                   up                            100000         9100
-Ethernet8           -                   down                          100000         9100
-Ethernet12          -                   down                          1000           9100
-Ethernet16          -                   down                          100000         9100
+Ethernet0           -                   up                              100000       9100
+Ethernet4           -                   up                              100000       9100
+Ethernet8           -                   down                            100000       9100
+Ethernet12          -                   down                            1000         9100
+Ethernet16          -                   down                            100000       9100
 
 - name: Configure interfaces
   sonic_interfaces:
@@ -24,10 +24,10 @@ Ethernet16          -                   down                          100000    
 #
  show interface status | no-more
 ------------------------------------------------------------------------------------------
-Name                Description         Admin          Oper           Speed          MTU
+Name                Description         Admin     Oper      AutoNeg     Speed        MTU
 ------------------------------------------------------------------------------------------
-Ethernet0           -                   up                            100000         9100
-Ethernet4           -                   up                            100000         9100
-Ethernet8           -                   up                            100000         9100
-Ethernet12          -                   up                            100000         9100
-Ethernet16          -                   up                            100000         9100
+Ethernet0           -                   up                              100000       9100
+Ethernet4           -                   up                              100000       9100
+Ethernet8           -                   up                              100000       9100
+Ethernet12          -                   up                              100000       9100
+Ethernet16          -                   up                              100000       9100
