@@ -72,7 +72,6 @@ DOCUMENTATION: |
               type: list
               elements: int
           type: dict
-          
     state:
       description:
       - The state the configuration should be left in

@@ -55,8 +55,8 @@
 
 # After state:
 # ------------
-# 
-# vios# show vlan
+#
+# vios#show vlan
 # VLAN Name                             Status    Ports
 # ---- -------------------------------- --------- -------------------------------
 # 1    default                          active    Gi0/1, Gi0/2
