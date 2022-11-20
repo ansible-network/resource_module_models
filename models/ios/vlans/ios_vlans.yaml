@@ -55,11 +55,11 @@ DOCUMENTATION: |
           type: bool
         private_vlan:
           description:
-            - Private VLAN configuration options.
+          - Private VLAN configuration options.
           suboptions:
             type:
               description:
-                - Private VLAN type
+              - Private VLAN type
               type: str
               choices:
                 - primary
@@ -67,8 +67,8 @@ DOCUMENTATION: |
                 - community
             association:
               description:
-                - This option is used only with type I(primary)
-                - Isolated or community private VLANs that are associated with this VLAN
+              - This option is used only with type I(primary)
+              - Isolated or community private VLANs that are associated with this VLAN
               type: list
               elements: int
           type: dict
