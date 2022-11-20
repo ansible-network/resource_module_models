@@ -53,6 +53,26 @@ DOCUMENTATION: |
           description:
           - Shutdown VLAN switching.
           type: bool
+        private_vlan:
+          description:
+            - Private VLAN configuration options.
+          suboptions:
+            type:
+              description:
+                - Private VLAN type
+              type: str
+              choices:
+                - primary
+                - isolated
+                - community
+            association:
+              description:
+                - This option is used only with type I(primary)
+                - Isolated or community private VLANs that are associated with this VLAN
+              type: list
+              elements: int
+          type: dict
+          
     state:
       description:
       - The state the configuration should be left in
