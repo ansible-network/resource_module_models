@@ -1,0 +1,34 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+sonic# show running-configuration 
+!
+ip arp timeout 180
+ip drop-neighbor aging-time 300
+ipv6 drop-neighbor aging-time 300
+ip reserve local-neigh 0
+ipv6 nd cache expire 180
+! 
+- name: Configure IP neighbor global
+  sonic_ip_neighbor:
+    config:
+      ipv4_arp_timeout: 1200
+      ipv4_drop_neighbor_aging_time: 600
+      ipv6_drop_neighbor_aging_time: 600
+      ipv6_nd_cache_expiry: 1200
+      num_local_neigh: 1000
+    state: merged
+
+# After state:
+# ------------
+#
+sonic# show running-configuration 
+!
+ip arp timeout 1200
+ip drop-neighbor aging-time 600
+ipv6 drop-neighbor aging-time 600
+ip reserve local-neigh 1000
+ipv6 nd cache expire 1200
+! 
