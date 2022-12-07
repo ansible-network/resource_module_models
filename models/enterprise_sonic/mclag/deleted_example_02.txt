@@ -1,5 +1,5 @@
 # Using deleted
-
+#
 # Before state:
 # ------------
 #
@@ -14,28 +14,37 @@
 # Peer Link            : PortChannel1
 # Keepalive Interval   : 10 secs
 # Session Timeout      : 30 secs
+# Delay Restore        : 360 secs
 # System Mac           : 20:04:0f:37:bd:c9
+# Mclag System Mac     : 00:00:00:11:11:11
+# Gateway Mac          : 00:00:00:12:12:12
 #
 #
 # Number of MLAG Interfaces:1
------------------------------------------------------------
+#-----------------------------------------------------------
 # MLAG Interface       Local/Remote Status
------------------------------------------------------------
+#-----------------------------------------------------------
 # PortChannel10            down/down
 #
-# admin@sonic:~$ show runningconfiguration all
-# {
-# ...
-# "MCLAG_UNIQUE_IP": {
-#        "Vlan4": {
-#            "unique_ip": "enable"
-#        }
-#    },
-# ...
-# }
-        
-- name: Delete all device configuration.
-  sonic_mclag:
+# sonic# show mclag separate-ip-interfaces
+# Interface Name
+# ==============
+# Vlan4
+# ==============
+# Total count :    1
+# ==============
+# sonic#
+# sonic# show mclag peer-gateway-interfaces
+# Interface Name
+# ==============
+# Vlan4
+# ==============
+# Total count :    1
+# ==============
+# sonic#
+
+- name: Delete all device configuration
+  dellemc.enterprise_sonic.sonic_mclag:
     config:
     state: deleted
 
@@ -44,6 +53,8 @@
 #
 # sonic# show mclag brief
 # MCLAG Not Configured
-# 
-# admin@sonic:~$ show runningconfiguration all | grep MCLAG_UNIQUE_IP
-# admin@sonic:~$ 
+# sonic# show mclag separate-ip-interfaces
+# MCLAG separate IP interface not configured
+# sonic# show mclag peer-gateway-interfaces
+# MCLAG Peer Gateway interface not configured
+# sonic#
