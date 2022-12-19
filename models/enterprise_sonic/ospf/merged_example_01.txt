@@ -1,0 +1,105 @@
+# Using merged
+#
+# Before State:
+# -------------
+#
+#sonic# show running-configuration ospf
+#!
+#sonic# show running-configuration vrf Vrf_1
+#!
+#ip vrf Vrf_1
+#sonic# show running-configuration ip prefix-list
+#!
+#ip prefix-list PRF_LIST seq 1 permit 1.1.1.1/24
+#ip prefix-list PRF_LIST2 seq 1 permit 1.1.1.1/24
+#sonic# show running-configuration route-map
+#!
+#route-map RMAP permit 1
+#sonic#
+
+  - name: Add the OSPFv2 configurations
+    sonic_ospf:
+      config:
+        - vrf_name: 'default'
+          area:
+            - area_id: "1.1.1.1"
+              stub_default_cost: 20
+              filter_list_in: PRF_LIST
+              range:
+                - address_prefix: "1.1.1.1/24"
+                  metric: 15
+                - address_prefix: "2.2.2.2/12"
+                  substitute_prefix: "1.1.1.1/24"
+                  advertise: False
+            - area_id: "2.2.2.2"
+              authentication: "md5hmac"
+              virtual_links:
+                - remote_router_id: "15.15.15.15"
+                  dead_interval: 40
+                  transmit_delay: 15
+                - remote_router_id: "16.16.16.16"
+                  md_authentication:
+                    - authentication_key_id: 10
+                      key_value: "password"
+                      authentication_key_encrypted: True
+                    - authentication_key_id: 15
+                      key_value: "sonic"
+                      authentication_key_encrypted: True
+          network:
+            - address_prefix: "12.12.12.12/24"
+              area_id: "2.2.2.2"
+          router_id: "10.10.10.10"
+          distance:
+            external: 20
+        - vrf_name: "Vrf_1"
+          area:
+            - area_id: "11.11.11.11"
+          timers:
+            throttle_lsa_all: 300
+            throttle_spf:
+              delay_time: 10
+              initial_hold_time: 20
+              maximum_hold_time: 50
+          redistribute:
+            protocol: "bgp"
+            metric: 15
+            metric_type: 2
+            route_map: "RMAP"
+          passive_interface:
+            default: True
+            interfaces:
+              - interface: "Eth1/1"
+                non-passive: True
+                addresses:
+                  - address: "2.2.2.2"
+      state: merged
+
+# After State:
+# ------------
+#
+#sonic# show running-configuration ospf
+#router ospf vrf Vrf_1
+# passive-interface default
+# timers throttle spf 50 10 20
+# timers throttle lsa all 300
+# redistribute bgp metric 15 metric-type 2 route-map RMAP
+# area 11.11.11.11
+# passive-interface Eth1/1 2.2.2.2 non-passive
+#!
+#router ospf
+# ospf router-id 10.10.10.10
+# distance ospf external 20
+# area 1.1.1.1 default-cost 20
+# area 1.1.1.1 filter-list prefix PRF_LIST in
+# area 2.2.2.2 authentication message-digest
+# area 2.2.2.2 virtual-link 16.16.16.16
+# area 2.2.2.2 virtual-link 15.15.15.15
+# area 2.2.2.2 virtual-link 15.15.15.15 dead-interval 40
+# area 2.2.2.2 virtual-link 15.15.15.15 transmit-delay 15
+# area 2.2.2.2 virtual-link 16.16.16.16 message-digest-key 15 md5 U2FsdGVkX1/4bslR762v4mwg80LlZ9rWEt66lOxs4lw= encrypted
+# area 2.2.2.2 virtual-link 16.16.16.16 message-digest-key 10 md5 U2FsdGVkX19ymerugtlf7B/J4RfiZYZPqoEZYZoeYBM= encrypted
+# area 1.1.1.1 range 2.2.2.2/12 not-advertise
+# area 1.1.1.1 range 1.1.1.1/24 cost 15
+# network 12.12.12.12/24 area 2.2.2.2
+#!
+#sonic#

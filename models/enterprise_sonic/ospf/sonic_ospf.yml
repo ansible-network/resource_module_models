@@ -1,0 +1,526 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+      'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: ospf
+COPYRIGHT: Copyright 2022 Dell Inc. or its subsidiaries. All Rights Reserved
+
+DOCUMENTATION: |
+  module: sonic_ospf
+  author: 'Santhosh Kumar T(@santhosh-kt)'
+  version_added: '2.1.0'
+  short_description: Configure global OSPFv2 protocol settings on SONiC.
+  description:
+    - This module provides configuration management of global OSPFv2 parameters on devices running SONiC.
+    - Configure VRF instance before configuring OSPF in a VRF.
+  options:
+    config:
+      description:
+        - Specifies the OSPFv2 related configuration.
+      type: list
+      elements: dict
+      suboptions:
+        vrf_name:
+          description:
+            - Specifies the vrf name.
+          type: str
+          default: 'default'
+        area:
+          description:
+            - Configure OSPFv2 area parameters.
+          type: list
+          elements: dict
+          suboptions:
+            area_id:
+              description:
+                - OSPFv2 area identifier (A.B.C.D or 0 to 4294967295).
+              type: str
+              required: True
+            authentication:
+              description:
+                - Configure area level authentication options.
+              type: str
+              choices:
+                - text
+                - md5hmac
+              default: text
+            stub_default_cost:
+              description:
+                - Configure NSSA or stub area summary default cost (0 to 16777215).
+              type: int
+            filter_list_in:
+              description:
+                - Filter incoming prefixes into the area.
+                - Configure IP prefix list before.
+              type: str
+            filter_list_out:
+              description:
+                - Filter outgoing prefixes into the area.
+                - Configure IP prefix list before.
+              type: str
+            range:
+              description:
+                - Configure address range summarization on border routers.
+              type: list
+              elements: dict
+              suboptions:
+                address_prefix:
+                  description:
+                    - Summary route address range prefix.
+                  type: str
+                advertise:
+                  description:
+                    - Enable/Disable address range advertising.
+                  type: bool
+                metric:
+                  description:
+                    - Configure cost for the advertising address range (0 to 16777215).
+                  type: int
+                substitute_prefix:
+                  description:
+                    - Configure substitute prefix for the address range.
+                  type: str
+            shortcut:
+              description:
+                - Configure area shortcut mode.
+              type: str
+              choices:
+                - default
+                - disable
+                - enable
+            stub:
+              description:
+                - Configure area as stub area.
+              type: dict
+              suboptions:
+                enable:
+                  description:
+                    - Enable area as stub.
+                  type: bool
+                  required: true
+                no_summary:
+                  description:
+                    - Disable inter-area route injection into the stub.
+                  type: bool
+            virtual_links:
+              description:
+                - Configure a OSPFv2 virtual link.
+              type: list
+              elements: dict
+              suboptions:
+                remote_router_id:
+                  description:
+                    - Router ID of the remote ABR.
+                  type: str
+                  required: true
+                authentication_type:
+                  description:
+                    - Enable authentication type on the virtual link.
+                  type: str
+                  choices:
+                    - none
+                    - text
+                    - md5hmac
+                  default: none
+                authentication_key:
+                  description:
+                    - Simple text authentication password.
+                  type: dict
+                  suboptions:
+                    key_value:
+                      description:
+                        - Authentication password.
+                      type: str
+                      required: true
+                    encrypted:
+                      description:
+                        - authentication key_value is encrypted.
+                      type: bool
+                md_authentication:
+                  description:
+                    - Message digest authentication key identifier.
+                  type: list
+                  elements: dict
+                  required_together: [['authentication_key_id', 'key_value']]
+                  suboptions:
+                    authentication_key_id:
+                      description:
+                        - Key identifier (1 to 255).
+                      type: int
+                      required: true
+                    key_value:
+                      description:
+                        - Authentication password.
+                      type: str
+                    authentication_key_encrypted:
+                      description:
+                        - authentication key_value is encrypted.
+                      type: bool
+                dead_interval:
+                  description:
+                    - Configure adjacency dead interval (1 to 65535).
+                  type: int
+                hello_interval:
+                  description:
+                    - Configure neighbour hello interval (1 to 65535).
+                  type: int
+                transmit_delay:
+                  description:
+                    - Configure LSA transmit delay (1 to 65535).
+                  type: int
+                retransmit_interval:
+                  description:
+                    - Configure LSA retransmit interval (1 to 65535).
+                  type: int
+        auto_cost:
+          description:
+            - Configure interface auto cost reference bandwidth (1 to 4294967).
+          type: int
+        network:
+          description:
+            - Configure networks in an area.
+          type: list
+          elements: dict
+          required_together: [['address_prefix', 'area_id']]
+          suboptions:
+            address_prefix:
+              description:
+                - Network address prefix.
+              type: str
+              required: true
+            area_id:
+              description:
+                - Area ID of the network (A.B.C.D or 0 to 4294967295).
+              type: str
+              required: true
+        router_id:
+          description:
+            - Configure OSPFv2 router identifier.
+          type: str
+        distance:
+          description:
+            - Configure route administrative distance.
+          type: dict
+          suboptions:
+            all:
+              description:
+                - Distance value for all type of routes (1 to 255).
+              type: int
+            external:
+              description:
+                - External routes (1 to 255).
+              type: int
+            inter_area:
+              description:
+                - Inter area routes (1 to 255).
+              type: int
+            intra_area:
+              description:
+                - Intra area routes (1 to 255).
+              type: int
+        graceful_restart:
+          description:
+            - OSPF non stop forwarding (NSF) also known as OSPF Graceful Restart.
+          type: dict
+          suboptions:
+            graceful_restart_enable:
+              description:
+                - Enable graceful restart.
+              type: bool
+              required: true
+            grace_period:
+              description:
+                - Maximum length of the grace period (1 to 1800).
+              type: int
+            helper:
+              description:
+                - OSPF GR Helper.
+              type: dict
+              suboptions:
+                enable:
+                  description:
+                    - Enable Helper support.
+                  type: bool
+                neighbor_id:
+                  description:
+                    - Advertising Router ID.
+                  type: str
+                planned_only:
+                  description:
+                    - Supported only planned restart.
+                  type: bool
+                strict_lsa_checking:
+                  description:
+                    - Enable strict LSA check.
+                  type: bool
+                supported_grace_time:
+                  description:
+                    - Supported grace interval (10 to 1800).
+                  type: int
+        timers:
+          description:
+            - Configures router timers.
+          type: dict
+          suboptions:
+            lsa_min_arrival:
+              description:
+                - LSA minimum arrival timer (0 to 600000).
+              type: int
+            throttle_lsa_all:
+              description:
+                - LSA delay between transmissions (0 to 5000).
+              type: int
+            throttle_spf:
+              description:
+                - OSPFv2 SPF timers.
+              type: dict
+              required_together: [['delay_time', 'inital_hold_time', 'maximum_hold_time']]
+              suboptions:
+                delay_time:
+                  description:
+                    - SPF delay time in milliseconds (0 to 600000).
+                  type: int
+                  required: true
+                inital_hold_time:
+                  description:
+                    - SPF initial hold time in milliseconds (0 to 600000).
+                  type: int
+                  required: true
+                maximum_hold_time:
+                  description:
+                    - SPF maximum hold time in milliseconds (0 to 600000).
+                  type: int
+                  required: true
+        redistribute:
+          description:
+            - Configure route redistribution into OSPFv2 router.
+          type: list
+          elements: dict
+          suboptions:
+            protocol:
+              description:
+                - Configure the type of protocol to redistribute into OSPF.
+              type: str
+              choices:
+                - bgp
+                - kernel
+                - connected
+                - static
+              required: true
+            metric:
+              description:
+                - Metric value for redistributed routes (0 to 16777214).
+              type: int
+            metric_type:
+              description:
+                - Metric type for redistributed routes.
+              type: int
+              choices:
+                - 1
+                - 2
+            route_map:
+              description:
+                - Route map to filter redistributed routes.
+                - Configure route map before.
+              type: str
+        default_information:
+          description:
+            - Configure default information origination parameters.
+          type: dict
+          suboptions:
+            originate:
+              description:
+                - Enable default route redistribution.
+              type: bool
+              required: true
+            always:
+              description:
+                - Enable default route redistribution even if default route is removed.
+              type: bool
+            metric:
+              description:
+                - Metric value for redistributed routes (0 to 16777214).
+              type: int
+            metric_type:
+              description:
+                - Metric type for redistributed routes.
+              type: int
+              choices:
+                - 1
+                - 2
+            route_map:
+              description:
+                - Route map to filter redistributed routes.
+                - Configure route map before.
+              type: str
+        default_metric:
+          description:
+            - Configure metric for redistributed routes (0 to 16777214).
+          type: int
+        passive_interface:
+          description:
+            - Configure passive interface types.
+          type: dict
+          suboptions:
+            default:
+              description:
+                - Suppresses OSPFv2 routing updates on all interfaces.
+              type: bool
+            interfaces:
+              description:
+                - Configure passive interface for suppress OSPFv2 routing updates.
+              type: list
+              elements: dict
+              required_together: [['interface', 'non_passive']]
+              suboptions:
+                interface:
+                  description:
+                    - Full name of the Layer 3 interface, i.e. Eth1/1.
+                  type: str
+                  required: true
+                non_passive:
+                  description:
+                    - Interface shall be non passive.
+                    - Non Passive interface config allowed only with passive interface default.
+                  type: bool
+                  required: true
+                addresses:
+                  description:
+                    - Configure Interface IPv4 addresses.
+                  type: list
+                  elements: dict
+                  suboptions:
+                    address:
+                      description:
+                        - List of IP addresses to be set.
+                      type: str
+        max_metric:
+          description:
+            - Enables infinite metric advertising in OSPFv2 LSAs.
+          type: dict
+          suboptions:
+            router_lsa_all:
+              description:
+                - Configure router LSA all link max metric advertising.
+              type: dict
+              suboptions:
+                enable:
+                  description:
+                    - Enables router LSA all link max metric advertising.
+                  type: bool
+                  required: true
+                max_metric_value:
+                  description:
+                    - Configure the maximum metric value (1 to 16777215).
+                  type: int
+                  default: 16777215
+            router_lsa_stub:
+              description:
+                - Configure router LSA stub link max metric advertising.
+              type: dict
+              suboptions:
+                enable:
+                  description:
+                    - Enables router LSA stub link max metric advertising.
+                  type: bool
+                  required: true
+                max_metric_value:
+                  description:
+                    - Configure the maximum metric value (1 to 16777215).
+                  type: int
+                  default: 16777215
+            external_lsa_all:
+              description:
+                - Configure external LSA all prefix max metric advertising.
+              type: dict
+              suboptions:
+                enable:
+                  description:
+                    - Enables external LSA all prefix max metric advertising.
+                  type: bool
+                  required: true
+                max_metric_value:
+                  description:
+                    - Configure the maximum metric value (1 to 16777215).
+                  type: int
+                  default: 16777215
+            external_lsa_connected:
+              description:
+                - Configure external LSA connected prefix max metric advertising.
+              type: dict
+              suboptions:
+                enable:
+                  description:
+                    - Enables external LSA connected prefix max metric advertising.
+                  type: bool
+                  required: true
+                max_metric_value:
+                  description:
+                    - Configure the maximum metric value (1 to 16777215).
+                  type: int
+                  default: 16777215
+            on_startup:
+              description:
+                - Enables infinite metric advertising at OSPFv2 router startup (5 to 86400).
+              type: int
+            administrative:
+              description:
+                - Enables administrative type infinite metric advertising.
+              type: bool
+        write_multiplier:
+          description:
+            - Configure write multiplier (1 to 100).
+            - Maximum number of interfaces serviced per write.
+          type: int
+        refresh_timer:
+          description:
+            - Configures LSA refresh interval (10 to 1800).
+          type: int
+        log_adjacency_changes:
+          description:
+            - Enable OSPFv2 adjacency state logs.
+          type: str
+          choices:
+            - brief
+            - detail
+        abr_type:
+          description:
+            - Configure router ABR type.
+          type: str
+          choices:
+            - cisco
+            - ibm
+            - shortcut
+            - standard
+        opaque_lsa_capability:
+          description:
+            - Enables opaque LSA capability.
+          type: bool
+        rfc1583_compatible:
+          description:
+            - Enable OSPFv2 RFC compatibility.
+          type: bool
+    state:
+      description:
+        - Specifies the operation to be performed on the OSPFv2 process configured on the device.
+        - In case of merged, the input configuration will be merged with the existing OSPFv2 configuration on the device.
+        - In case of deleted, the existing OSPFv2 configuration will be removed from the device.
+        - In case of overridden, all the existing OSPFv2 configuration will be deleted and the specified input configuration will be installed.
+        - In case of replaced, the existing OSPFv2 configuration on the device will be replaced by the configuration in the playbook for each VRF group configured by the playbook.
+      type: str
+      default: merged
+      choices: ['merged', 'deleted', 'replaced', 'overridden']
+EXAMPLES:
+    - deleted_example_01.txt
+    - merged_example_01.txt
+    - merged_example_02.txt
+    - replaced_example_01.txt
+    - overridden_example_01.txt
+
