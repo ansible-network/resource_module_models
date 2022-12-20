@@ -1,0 +1,46 @@
+# Using overridden
+#
+# Before State:
+# -------------
+#
+# sonic# show mac access-group
+# Ingress MAC access-list mac-acl-1 on Eth1/1
+# Egress MAC access-list mac-acl-2 on Eth1/1
+# sonic#
+# sonic# show ip access-group
+# Egress IP access-list ip-acl-2 on Eth1/3
+# sonic#
+# sonic# show ipv6 access-group
+# Ingress IPV6 access-list ipv6-acl-1 on Eth1/1
+# Egress IPV6 access-list ipv6-acl-2 on Eth1/1
+# Egress IPV6 access-list ipv6-acl-2 on Eth1/2
+# sonic#
+
+  - name: Override all interfaces access-group device configuration with provided configuration
+    dellemc.enterprise_sonic.sonic_acl_interfaces:
+      config:
+        - name: 'Eth1/1'
+          access_groups:
+            - type: 'ip'
+              acls:
+                - name: 'ip-acl-2'
+                  direction: 'out'
+        - name: 'Eth1/2'
+          access_groups:
+            - type: 'ip'
+              acls:
+                - name: 'ip-acl-2'
+                  direction: 'out'
+      state: overridden
+
+# After State:
+# ------------
+#
+# sonic# show mac access-group
+# sonic#
+# sonic# show ip access-group
+# Egress IP access-list ip-acl-2 on Eth1/1
+# Egress IP access-list ip-acl-2 on Eth1/2
+# sonic#
+# sonic# show ipv6 access-group
+# sonic#

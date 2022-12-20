@@ -1,0 +1,87 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community',
+        'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: acl_interfaces
+COPYRIGHT: Copyright 2022 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_acl_interfaces
+    version_added: '2.1.0'
+    short_description: Manage access control list (ACL) to interface binding on SONiC
+    description:
+      - This module provides configuration management of applying access control lists (ACL)
+        to interfaces in devices running SONiC.
+      - ACL needs to be created earlier in the device.
+    author: 'Arun Saravanan Balachandran (@ArunSaravananBalachandran)'
+    options:
+      config:
+        description:
+          - Specifies interface access-group configurations.
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            description:
+              - Full name of the interface, i.e. Eth1/1.
+            type: str
+            required: true
+          access_groups:
+            description:
+              - Access-group configurations to be set for the interface.
+            type: list
+            elements: dict
+            suboptions:
+              type:
+                description:
+                  - Type of the ACLs to be applied on the interface.
+                type: str
+                required: true
+                choices:
+                  - mac
+                  - ipv4
+                  - ipv6
+              acls:
+                description:
+                  - List of ACLs for the given type.
+                type: list
+                elements: dict
+                suboptions:
+                  name:
+                    description:
+                      - Name of the ACL to be applied on the interface.
+                    type: str
+                    required: true
+                  direction:
+                    description:
+                      - Specifies the direction of the packets that the ACL will be applied on.
+                    type: str
+                    required: true
+                    choices:
+                      - in
+                      - out
+      state:
+        description:
+          - The state of the configuration after module completion.
+          - I(merged) - Merges provided interface access-group configuration with on-device configuration.
+          - I(replaced) - Replaces on-device access-group configuration of the specified interfaces with provided configuration.
+          - I(overridden) - Overrides all on-device interface access-group configurations with the provided configuration.
+          - I(deleted) - Deletes on-device interface access-group configuration.
+        type: str
+        choices:
+          - merged
+          - replaced
+          - overridden
+          - deleted
+        default: merged
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
+  - deleted_example_02.txt

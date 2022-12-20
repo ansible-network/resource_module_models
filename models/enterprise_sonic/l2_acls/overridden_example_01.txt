@@ -1,0 +1,53 @@
+# Using overridden
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration mac access-list
+# !
+# mac access-list test
+#  seq 1 permit host 22:22:22:22:22:22 any vlan 20
+#  seq 2 permit any any 0x88cc remark LLDP
+#  seq 3 permit any 00:00:10:00:00:00 00:00:ff:ff:00:00 pcp ca pcp-mask 3
+# !
+# mac access-list test1
+#  seq 1 permit any any arp vlan 200
+#  seq 2 discard any any
+# !
+# mac access-list test2
+#  seq 1 permit host 33:33:33:33:33:33 host 44:44:44:44:44:44
+# sonic#
+
+  - name: Override device configuration of all Layer 2 ACLs with provided configuration
+    dellemc.enterprise_sonic.sonic_l2_acls:
+      config:
+        - name: 'test1'
+          remark: 'test_mac_acl'
+          rules:
+            - sequence_num: 1
+              action: 'permit'
+              source:
+                host: '11:11:11:11:11:11'
+              destination:
+                any: true
+              vlan_id: 100
+            - sequence_num: 2
+              action: 'deny'
+              source:
+                any: true
+              destination:
+                any: true
+              ethertype:
+                ip: true
+      state: overridden
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration mac access-list
+# !
+# mac access-list test1
+#  remark test_mac_acl
+#  seq 1 permit host 11:11:11:11:11:11 any vlan 100
+#  seq 2 deny any any ip
+# sonic#

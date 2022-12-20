@@ -1,0 +1,173 @@
+# Using merged
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration ip access-list
+# !
+# ip access-list test
+#  seq 1 permit ip host 192.168.1.2 any
+# sonic#
+# sonic# show running-configuration ipv6 access-list
+# !
+# ipv6 access-list testv6
+#  seq 1 permit ipv6 host 192:168:1::2 any
+# sonic#
+
+  - name: Merge provided Layer 3 ACL configurations
+    dellemc.enterprise_sonic.sonic_l3_acls:
+      config:
+        - address_family: 'ipv4'
+          acls:
+          - name: 'test'
+            rules:
+            - sequence_num: 2
+              action: 'permit'
+              protocol:
+                icmp: true
+              source:
+                any: true
+              destination:
+                host: '192.168.1.2'
+              protocol_options:
+                icmp:
+                  type: 8
+            - sequence_num: 3
+              action: 'deny'
+              protocol:
+                protocol_number: 2
+              source:
+                any: true
+              destination:
+                any: true
+            - sequence_num: 4
+              action: 'deny'
+              protocol:
+                any: true
+              source:
+                any: true
+              destination:
+                any: true
+              vlan_id: 10
+              remark: 'Vlan10'
+          - name: 'test1'
+            remark: 'test_ip_acl'
+            rules:
+            - sequence_num: 1
+              action: 'permit'
+              protocol:
+                tcp: true
+              source:
+                prefix: '10.0.0.0/8'
+              destination:
+                any: true
+            - sequence_num: 2
+              action: 'deny'
+              protocol:
+                udp: true
+              source:
+                any: true
+              destination:
+                prefix: '20.1.0.0/16'
+                port_number:
+                  gt: 1024
+            - sequence_num: 3
+              action: 'deny'
+              protocol:
+                any: true
+              source:
+                any: true
+              destination:
+                any: true
+              dscp:
+                value: 63
+        - address_family: 'ipv6'
+          acls:
+          - name: 'testv6'
+            rules:
+            - sequence_num: 2
+              action: 'deny'
+              protocol:
+                icmpv6: true
+              source:
+                any: true
+              destination:
+                any: true
+          - name: 'testv6-1'
+            remark: 'test_ipv6_acl'
+            rules:
+            - sequence_num: 1
+              action: 'permit'
+              protocol:
+                any: true
+              source:
+                prefix: '1000::/16'
+              destination:
+                any: true
+              dscp:
+                af22: true
+            - sequence_num: 2
+              action: 'deny'
+              protocol:
+                tcp: true
+              source:
+                any: true
+              destination:
+                prefix: '2000::1000:0/112'
+                port_number:
+                  range:
+                    begin: 100
+                    end: 1000
+            - sequence_num: 3
+              action: 'permit'
+              protocol:
+                tcp: true
+              source:
+                any: true
+              destination:
+                any: true
+              protocol_options:
+                tcp:
+                  established: true
+            - sequence_num: 4
+              action: 'deny'
+              protocol:
+                udp: true
+              source:
+                any: true
+                port_number:
+                  eq: 3000
+              destination:
+                any: true
+      state: merged
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration ip access-list
+# !
+# ip access-list test
+#  seq 1 permit ip host 192.168.1.2 any
+#  seq 2 permit icmp any host 192.168.1.2 type 8
+#  seq 3 deny 2 any any
+#  seq 4 deny ip any any vlan 10 remark Vlan10
+# !
+# ip access-list test1
+#  remark test_ip_acl
+#  seq 1 permit tcp 10.0.0.0/8 any
+#  seq 2 deny udp any 20.1.0.0/16 gt 1024
+#  seq 3 deny ip any any dscp 63
+# sonic#
+# sonic# show running-configuration ipv6 access-list
+# !
+# ipv6 access-list testv6
+#  seq 1 permit ipv6 host 192:168:1::2 any
+#  seq 2 deny icmpv6 any any
+# !
+# ipv6 access-list testv6-1
+#  remark test_ipv6_acl
+#  seq 1 permit ipv6 1000::/16 any dscp af22
+#  seq 2 deny tcp any 2000::1000:0/112 range 100 1000
+#  seq 3 permit tcp any any established
+#  seq 4 deny udp any eq 3000 any
+# sonic#

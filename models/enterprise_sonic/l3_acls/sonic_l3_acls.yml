@@ -1,0 +1,445 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community',
+        'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: l3_acls
+COPYRIGHT: Copyright 2022 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_l3_acls
+    version_added: '2.1.0'
+    short_description: Manage Layer 3 access control lists (ACL) configurations on SONiC
+    description:
+      - This module provides configuration management of Layer 3 access control lists (ACL)
+        in devices running SONiC.
+    author: 'Arun Saravanan Balachandran (@ArunSaravananBalachandran)'
+    options:
+      config:
+        description:
+          - Specifies Layer 3 ACL configurations.
+        type: list
+        elements: dict
+        suboptions:
+          address_family:
+            description:
+              - Specifies the address family of the ACLs.
+            type: str
+            required: true
+            choices:
+              - ipv4
+              - ipv6
+          acls:
+            description:
+              - List of ACL configuration for the given address family.
+            type: list
+            elements: dict
+            suboptions:
+              name:
+                description:
+                  - Specifies the ACL name.
+                type: str
+                required: true
+              remark:
+                description:
+                  - Specifies remark for the ACL.
+                type: str
+              rules:
+                description:
+                  - List of rules with the ACL.
+                  - I(sequence_num), I(action), I(protocol), I(source) & I(destination) are required for adding a new rule.
+                type: list
+                elements: dict
+                suboptions:
+                  sequence_num:
+                    description:
+                      - Specifies the sequence number of the rule.
+                      - The range is from 1 to 65535.
+                    type: int
+                    required: true
+                  action:
+                    description:
+                      - Specifies the action taken on the matched packet.
+                    type: str
+                    choices:
+                      - deny
+                      - discard
+                      - do-not-nat
+                      - permit
+                      - transit
+                  protocol:
+                    description:
+                      - Specifies the protocol to match.
+                      - Only one suboption can be specified for protocol in a rule.
+                    type: dict
+                    mutually_exclusive: [[protocol_number, any, icmp, icmpv6, tcp, udp]]
+                    suboptions:
+                      protocol_number:
+                        description:
+                          - Match packets with given protocol number.
+                          - The range is from 0 to 255.
+                        type: int
+                      any:
+                        description:
+                          - Match any packet.
+                        type: bool
+                      icmp:
+                        description:
+                          - Match ICMP packets.
+                        type: bool
+                      icmpv6:
+                        description:
+                          - Match ICMPv6 packets.
+                        type: bool
+                      tcp:
+                        description:
+                          - Match TCP packets.
+                        type: bool
+                      udp:
+                        description:
+                          - Match UDP packets.
+                        type: bool
+                  source:
+                    description:
+                      - Specifies the source of the packet.
+                      - I(any), I(host) and I(prefix) are mutually exclusive.
+                    type: dict
+                    mutually_exclusive: [[any, host, prefix]]
+                    suboptions:
+                      any:
+                        description:
+                          - Match any source network address.
+                        type: bool
+                      host:
+                        description:
+                          - Network address of a single source host.
+                        type: str
+                      prefix:
+                        description:
+                          - Source network prefix in the format A.B.C.D/mask (ipv4) or A::B/mask (ipv6).
+                        type: str
+                      port_number:
+                        description:
+                          - Specifies the source port (valid only for TCP or UDP)
+                          - Only one suboption can be specified for port_number in a rule.
+                        type: dict
+                        mutually_exclusive: [[eq, gt, lt, range]]
+                        suboptions:
+                          eq:
+                            description:
+                              - Match packets with source port equal to the given port number.
+                              - The range is from 0 to 65535.
+                            type: int
+                          gt:
+                            description:
+                              - Match packets with source port greater than the given port number.
+                              - The range is from 0 to 65535.
+                            type: int
+                          lt:
+                            description:
+                              - Match packets with source port lesser than the given port number.
+                              - The range is from 0 to 65535.
+                            type: int
+                          range:
+                            description:
+                              - Match packets with source port in the given range.
+                              - I(begin) and I(end) are required together.
+                            type: dict
+                            required_together: [[begin, end]]
+                            suboptions:
+                              begin:
+                                description:
+                                  - Specifies the beginning of the port range.
+                                  - The range is from 0 to 65534.
+                                type: int
+                              end:
+                                description:
+                                  - Specifies the end of the port range.
+                                  - The range is from 1 to 65535.
+                                type: int
+                  destination:
+                    description:
+                      - Specifies the destination of the packet.
+                      - I(any), I(host) and I(prefix) are mutually exclusive.
+                    type: dict
+                    mutually_exclusive: [[any, host, prefix]]
+                    suboptions:
+                      any:
+                        description:
+                          - Match any destination network address.
+                        type: bool
+                      host:
+                        description:
+                          - Network address of a single destination host.
+                        type: str
+                      prefix:
+                        description:
+                          - Destination network prefix in the format A.B.C.D/mask (ipv4) or A::B/mask (ipv6).
+                        type: str
+                      port_number:
+                        description:
+                          - Specifies the destination port (valid only for TCP or UDP)
+                          - Only one suboption can be specified for port_number in a rule.
+                        type: dict
+                        mutually_exclusive: [[eq, gt, lt, range]]
+                        suboptions:
+                          eq:
+                            description:
+                              - Match packets with destination port equal to the given port number.
+                              - The range is from 0 to 65535.
+                            type: int
+                          gt:
+                            description:
+                              - Match packets with destination port greater than the given port number.
+                              - The range is from 0 to 65535.
+                            type: int
+                          lt:
+                            description:
+                              - Match packets with destination port lesser than the given port number.
+                              - The range is from 0 to 65535.
+                            type: int
+                          range:
+                            description:
+                              - Match packets with destination port in the given range.
+                              - I(begin) and I(end) are required together.
+                            type: dict
+                            required_together: [[begin, end]]
+                            suboptions:
+                              begin:
+                                description:
+                                  - Specifies the beginning of the port range.
+                                  - The range is from 0 to 65534.
+                                type: int
+                              end:
+                                description:
+                                  - Specifies the end of the port range.
+                                  - The range is from 1 to 65535.
+                                type: int
+                  protocol_options:
+                    description:
+                      - Specifies the additional packet match options for the chosen protocol.
+                    type: dict
+                    mutually_exclusive: [[icmp, icmpv6, tcp]]
+                    suboptions:
+                      icmp:
+                        description:
+                          - Packet match options for ICMP.
+                        type: dict
+                        suboptions:
+                          code:
+                            description:
+                              - Match packets with given ICMP code.
+                              - The range is from 0 to 255.
+                            type: int
+                          type:
+                            description:
+                              - Match packets with given ICMP type.
+                              - The range is from 0 to 255.
+                            type: int
+                      icmpv6:
+                        description:
+                          - Packet match options for ICMPv6.
+                        type: dict
+                        suboptions:
+                          code:
+                            description:
+                              - Match packets with given ICMPv6 code.
+                              - The range is from 0 to 255.
+                            type: int
+                          type:
+                            description:
+                              - Match packets with given ICMPv6 type.
+                              - The range is from 0 to 255.
+                            type: int
+                      tcp:
+                        description:
+                          - Packet match options for TCP.
+                          - I(established) and other TCP flag options are mutually exclusive.
+                        type: dict
+                        mutually_exclusive: [[established, ack, not_ack], [established, fin, not_fin], [established, psh, not_psh], [established, rst, not_rst], [established, syn, not_syn], [established, urg, not_urg]]
+                        suboptions:
+                          established:
+                            description:
+                              - Match packets which are part of established TCP session.
+                            type: bool
+                          ack:
+                            description:
+                              - Match packets with ACK flag set.
+                            type: bool
+                          not_ack:
+                            description:
+                              - Match packets with ACK flag cleared.
+                            type: bool
+                          fin:
+                            description:
+                              - Match packets with FIN flag set.
+                            type: bool
+                          not_fin:
+                            description:
+                              - Match packets with FIN flag cleared.
+                            type: bool
+                          psh:
+                            description:
+                              - Match packets with PSH flag set.
+                            type: bool
+                          not_psh:
+                            description:
+                              - Match packets with PSH flag cleared.
+                            type: bool
+                          rst:
+                            description:
+                              - Match packets with RST flag set.
+                            type: bool
+                          not_rst:
+                            description:
+                              - Match packets with RST flag cleared.
+                            type: bool
+                          syn:
+                            description:
+                              - Match packets with SYN flag set.
+                            type: bool
+                          not_syn:
+                            description:
+                              - Match packets with SYN flag cleared.
+                            type: bool
+                          urg:
+                            description:
+                              - Match packets with URG flag set.
+                            type: bool
+                          not_urg:
+                            description:
+                              - Match packets with URG flag cleared.
+                            type: bool
+                  vlan_id:
+                    description:
+                      - Match packets with the given VLAN ID value.
+                    type: int
+                  dscp:
+                    description:
+                      - Match packets using DSCP value.
+                      - Only one suboption can be specified for dscp in a rule.
+                    type: dict
+                    mutually_exclusive: [[value, af11, af12, af13, af21, af22, af23, af31, af32, af33, cs1, cs2, cs3, cs4, cs5, cs6, cs7, default, ef, voice_admit]]
+                    suboptions:
+                      value:
+                        description:
+                          - Match packets with given DSCP value.
+                          - The range is from 0 to 63.
+                        type: int
+                      af11:
+                        description:
+                          - Match packets with AF11 DSCP (001010 - Decimal value 10).
+                        type: bool
+                      af12:
+                        description:
+                          - Match packets with AF12 DSCP (001100 - Decimal value 12).
+                        type: bool
+                      af13:
+                        description:
+                          - Match packets with AF13 DSCP (001110 - Decimal value 14).
+                        type: bool
+                      af21:
+                        description:
+                          - Match packets with AF21 DSCP (010010 - Decimal value 18).
+                        type: bool
+                      af22:
+                        description:
+                          - Match packets with AF22 DSCP (010100 - Decimal value 20).
+                        type: bool
+                      af23:
+                        description:
+                          - Match packets with AF23 DSCP (010110 - Decimal value 22).
+                        type: bool
+                      af31:
+                        description:
+                          - Match packets with AF31 DSCP (011010 - Decimal value 26).
+                        type: bool
+                      af32:
+                        description:
+                          - Match packets with AF32 DSCP (011100 - Decimal value 28).
+                        type: bool
+                      af33:
+                        description:
+                          - Match packets with AF33 DSCP (011110 - Decimal value 30).
+                        type: bool
+                      af41:
+                        description:
+                          - Match packets with AF41 DSCP (100010 - Decimal value 34).
+                        type: bool
+                      af42:
+                        description:
+                          - Match packets with AF42 DSCP (100100 - Decimal value 36).
+                        type: bool
+                      af43:
+                        description:
+                          - Match packets with AF43 DSCP (100110 - Decimal value 38).
+                        type: bool
+                      cs1:
+                        description:
+                          - Match packets with CS1 DSCP (001000 - Decimal value 8).
+                        type: bool
+                      cs2:
+                        description:
+                          - Match packets with CS2 DSCP (010000 - Decimal value 16).
+                        type: bool
+                      cs3:
+                        description:
+                          - Match packets with CS3 DSCP (011000 - Decimal value 24).
+                        type: bool
+                      cs4:
+                        description:
+                          - Match packets with CS4 DSCP (100000 - Decimal value 32).
+                        type: bool
+                      cs5:
+                        description:
+                          - Match packets with CS5 DSCP (101000 - Decimal value 40).
+                        type: bool
+                      cs6:
+                        description:
+                          - Match packets with CS6 DSCP (110000 - Decimal value 48).
+                        type: bool
+                      cs7:
+                        description:
+                          - Match packets with CS7 DSCP (111000 - Decimal value 56).
+                        type: bool
+                      default:
+                        description:
+                          - Match packets with CS0 DSCP (000000 - Decimal value 0).
+                        type: bool
+                      ef:
+                        description:
+                          - Match packets with EF DSCP (101110 - Decimal value 46).
+                        type: bool
+                      voice_admit:
+                        description:
+                          - Match packets with VOICE-ADMIT DSCP (101100 - Decimal value 44).
+                        type: bool
+                  remark:
+                    description:
+                      - Specifies remark for the ACL rule.
+                    type: str
+      state:
+        description:
+          - The state of the configuration after module completion.
+          - I(merged) - Merges provided L3 ACL configuration with on-device configuration.
+          - I(replaced) - Replaces on-device configuration of the specified L3 ACLs with provided configuration.
+          - I(overridden) - Overrides all on-device L3 ACL configurations with the provided configuration.
+          - I(deleted) - Deletes on-device L3 ACL configuration.
+        type: str
+        choices:
+          - merged
+          - replaced
+          - overridden
+          - deleted
+        default: merged
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - deleted_example_03.txt
