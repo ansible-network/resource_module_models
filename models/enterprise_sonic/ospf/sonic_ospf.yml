@@ -75,6 +75,7 @@ DOCUMENTATION: |
                   description:
                     - Summary route address range prefix.
                   type: str
+                  required: true
                 advertise:
                   description:
                     - Enable/Disable address range advertising.
