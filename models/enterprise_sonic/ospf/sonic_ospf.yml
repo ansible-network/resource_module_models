@@ -252,7 +252,8 @@ DOCUMENTATION: |
                 neighbor_id:
                   description:
                     - Advertising Router ID.
-                  type: str
+                  type: list
+                  elements: str
                 planned_only:
                   description:
                     - Supported only planned restart.
