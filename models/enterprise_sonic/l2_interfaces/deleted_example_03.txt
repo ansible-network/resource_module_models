@@ -1,4 +1,4 @@
-# Using merged
+# Using deleted
 
 # Before state:
 # -------------
@@ -6,8 +6,8 @@
 do show Vlan
 Q: A - Access (Untagged), T - Tagged
 NUM        Status      Q Ports
-12         Inactive    A  Ethernet12
 11         Inactive    T  Ethernet12
+12         Inactive    A  Ethernet12
 13         Inactive    T  Ethernet12
 14         Inactive    T  Ethernet12
 15         Inactive    T  Ethernet12
@@ -31,3 +31,8 @@ do show Vlan
 Q: A - Access (Untagged), T - Tagged
 NUM        Status      Q Ports
 11         Inactive    T  Ethernet12
+12         Inactive
+13         Inactive
+14         Inactive
+15         Inactive
+16         Inactive
