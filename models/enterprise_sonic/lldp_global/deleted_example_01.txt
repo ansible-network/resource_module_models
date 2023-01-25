@@ -1,0 +1,33 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration
+# !
+# lldp receive
+# lldp timer 200
+# lldp multiplier 1
+# lldp system-name 8999_System
+# lldp system-description sonic_system
+# !
+
+  - name: Delete LLDP configurations
+    dellemc.enterprise_sonic.sonic_lldp_global:
+      config:
+        enable: false
+        mode: receive 
+        tlv_select : 'system-capabilities'  
+        multiplier: 1
+        system_name : 8999_System
+      state: deleted
+
+# After State:
+# ------------
+# sonic# show running-configuration
+# !
+# no lldp enable
+# lldp timer 200
+# lldp system-description sonic_system
+# no lldp tlv-select system-capabilities
+# !
