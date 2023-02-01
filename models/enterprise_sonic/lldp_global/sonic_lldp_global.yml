@@ -56,12 +56,18 @@ DOCUMENTATION: |
             type: int
           tlv_select:
             description:
-              - By default, management address and system capabilities TLV are advertised in LLDP frames. 
-              - This command can be used to enable sending of these TLVs to the Peer. 
-            type: str 
-            choices:
-               - 'management-address'
-               - 'system-capabilities'
+              - By default,management address and system capabilities TLV are advertised in LLDP frames.
+              - This command can be used to enable sending of these TLVs to the Peer.
+            type: dict
+            suboptions:
+              management_address:
+                description:
+                  - Enable or disable management address TLV.
+                type: bool
+              system_capabilities:
+                description:
+                  - Enable or disable system capabilities TLV.
+                type: bool
       state:
         description:
           - The state the configuration should be left in.
