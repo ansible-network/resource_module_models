@@ -42,8 +42,12 @@ DOCUMENTATION: |
         type: str
         choices:
         - merged
+        - replaced
+        - overridden
         - deleted
         default: merged
 EXAMPLES:
   - deleted_example_01.txt
   - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
