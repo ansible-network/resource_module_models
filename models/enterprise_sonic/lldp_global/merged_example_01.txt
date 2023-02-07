@@ -12,7 +12,7 @@
 # lldp system-description sonic_system
 # !
 
-  - name: Delete LLDP configurations
+  - name: Add LLDP configurations
     dellemc.enterprise_sonic.sonic_lldp_global:
       config:
         - multiplier: 9 
