@@ -18,15 +18,12 @@
         hello_time: 200
         system_description : sonic_system
         mode: receive 
-        tlv_select : 
-          'system_capabilities' : false 
         multiplier: 1
-        system_name : 8999_System
       state: deleted
 
 # After State:
 # ------------
 # sonic# show running-configuration
 # !
-# no lldp tlv-select system-capabilities
+# lldp system-name 8999_System 
 # !

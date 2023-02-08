@@ -1,0 +1,22 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration
+# !
+# !
+
+  - name: Delete default LLDP configurations
+    dellemc.enterprise_sonic.sonic_lldp_global:
+      config:
+        tlv_select : 
+          'system_capabilities' : false 
+      state: deleted
+
+# After State:
+# ------------
+# sonic# show running-configuration
+# !
+# no lldp tlv-select system-capabilities 
+# !
