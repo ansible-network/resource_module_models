@@ -15,7 +15,8 @@
   - name: Delete LLDP configurations
     dellemc.enterprise_sonic.sonic_lldp_global:
       config:
-        enable: false
+        hello_time: 200
+        system_description : sonic_system
         mode: receive 
         tlv_select : 
           'system_capabilities' : false 
@@ -27,8 +28,5 @@
 # ------------
 # sonic# show running-configuration
 # !
-# no lldp enable
-# lldp timer 200
-# lldp system-description sonic_system
 # no lldp tlv-select system-capabilities
 # !

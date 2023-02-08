@@ -15,12 +15,14 @@ DOCUMENTATION: |
     version_added: '2.1.0'
     short_description: Manage Global LLDP configurations on SONiC
     description:
-      - This module provides configuration management of LLDP 
+      - This module provides global configuration management of LLDP 
         parameters on Layer 2 interfaces of devices running SONiC.
+        It is intended for use in conjunction with LLDP Layer 2 interface
+        configuration applied on participating interfaces.
     author: 'Divya Balasubramanian(@divya-balasubramania)'
     options:
       config:
-        description: The list of link layer discovery protocol attribute configurations
+        description: To set link layer discovery protocol attribute configurations
         type: dict
         suboptions:
           enable:
@@ -34,7 +36,9 @@ DOCUMENTATION: |
             type: int 
           system_description:
             description:
-              -  Default system description can be overriden by configuring system description.
+              -  Description of this system to be sent in LLDP advertisements. 
+                 When configured, this value is used in the advertisements 
+                 instead of the default system description
             type: str 
           system_name:
             description:
@@ -47,8 +51,8 @@ DOCUMENTATION: |
               - This command can be used to configure either in receive only or transmit only mode.
             type: str
             choices:
-               - 'receive'
-               - 'transmit'
+               - receive
+               - transmit
           hello_time:
             description:
               - Frequency at which LLDP advertisements are sent (in seconds).
@@ -57,7 +61,8 @@ DOCUMENTATION: |
           tlv_select:
             description:
               - By default,management address and system capabilities TLV are advertised in LLDP frames.
-              - This command can be used to enable sending of these TLVs to the Peer.
+              - This configuration option can be used to selectively suppress sending of these TLVs 
+                to the Peer.
             type: dict
             suboptions:
               management_address:
@@ -70,7 +75,9 @@ DOCUMENTATION: |
                 type: bool
       state:
         description:
-          - The state the configuration should be left in.
+          - The state Specifies the type of configuration update to be performed on the device. 
+            If the state is "merged", merge specified attributes with existing configured attributes.
+            For "deleted", delete the specified attributes from existing configuration.
         type: str
         choices:
           - merged
@@ -79,5 +86,5 @@ DOCUMENTATION: |
 EXAMPLES:
   - deleted_example_01.txt
   - deleted_example_02.txt
-  - deleted_example_03.txt
   - merged_example_01.txt
+  - merged_example_02.txt

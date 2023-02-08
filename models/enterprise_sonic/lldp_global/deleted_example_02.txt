@@ -12,19 +12,12 @@
 # lldp system-description sonic_system
 # !
 
-  - name: Delete LLDP configurations
+  - name: Delete all LLDP configuration
     dellemc.enterprise_sonic.sonic_lldp_global:
       config:
-        hello_time: 200 
-        system_description : sonic_system
       state: deleted
 
-# After State:
+# After State:  (No LLDP global configuration present.)
 # ------------
-#
-# sonic# show running-configuration
-# !
-# lldp receive
-# lldp multiplier 1
-# lldp system-name 8999_System
+# sonic# show running-configuration 
 # !

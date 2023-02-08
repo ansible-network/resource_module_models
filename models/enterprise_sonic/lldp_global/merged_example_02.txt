@@ -1,4 +1,4 @@
-# Using deleted
+# Using Merged
 #
 # Before State:
 # -------------
@@ -12,15 +12,20 @@
 # lldp system-description sonic_system
 # !
 
-  - name: Delete LLDP configurations
+  - name: Modify LLDP configurations
     dellemc.enterprise_sonic.sonic_lldp_global:
       config:
-      state: deleted
+         multiplier: 9 
+         system_name : CR_sonic
+      state: merged 
 
 # After State:
 # ------------
 # sonic# show running-configuration
 # !
-# no lldp enable
-# no lldp tlv-select system-capabilities
+# lldp receive
+# lldp timer 200
+# lldp multiplier 9
+# lldp system-name CR_sonic
+# lldp system-description sonic_system
 # !

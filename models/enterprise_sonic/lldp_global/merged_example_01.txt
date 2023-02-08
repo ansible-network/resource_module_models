@@ -1,31 +1,35 @@
-# Using deleted
+# Using Merged
 #
 # Before State:
 # -------------
 #
-# sonic# show running-configuration
+# sonic# show running-configuration 
 # !
-# lldp receive
-# lldp timer 200
-# lldp multiplier 1
-# lldp system-name 8999_System
-# lldp system-description sonic_system
 # !
 
-  - name: Add LLDP configurations
+  - name: Modify LLDP configurations
     dellemc.enterprise_sonic.sonic_lldp_global:
       config:
-        - multiplier: 9 
-        - system_name : CR_sonic
+              enable: false
+              multiplier: 9
+              system_name : CR_sonic
+              hello_time: 18
+              mode: receive
+              system_description: Sonic_System
+              tlv_select: {
+                  "management_address": True,
+                  "system_capabilities": false,
+              }
       state: merged 
 
 # After State:
 # ------------
 # sonic# show running-configuration
 # !
+# no lldp enable
 # lldp receive
-# lldp timer 200
+# lldp timer 18
 # lldp multiplier 9
 # lldp system-name CR_sonic
-# lldp system-description sonic_system
+# lldp system-description Sonic_System
 # !
