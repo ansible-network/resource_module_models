@@ -34,7 +34,7 @@
 #  seq 4 deny udp any eq 3000 any
 # sonic#
 
-  - name: Delete specified Layer 3 ACLs and ACL rule entries
+  - name: Delete specified Layer 3 ACLs, ACL remark and ACL rule entries
     dellemc.enterprise_sonic.sonic_l3_acls:
       config:
         - address_family: 'ipv4'
@@ -46,6 +46,7 @@
         - address_family: 'ipv6'
           acls:
           - name: 'testv6-1'
+            remark: 'test_ipv6_acl'
             rules:
               - sequence_num: 3
       state: deleted
@@ -73,7 +74,6 @@
 #  seq 2 deny ipv6 any any
 # !
 # ipv6 access-list testv6-1
-#  remark test_ipv6_acl
 #  seq 1 permit ipv6 1000::/16 any dscp af22
 #  seq 2 deny tcp any 2000::1000:0/112 range 100 1000
 #  seq 4 deny udp any eq 3000 any

@@ -21,7 +21,7 @@
               destination:
                 any: true
               ethertype:
-                value: 0x88cc
+                value: '0x88cc'
               remark: 'LLDP'
             - sequence_num: 3
               action: 'permit'

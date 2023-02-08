@@ -68,10 +68,10 @@ DOCUMENTATION: |
       state:
         description:
           - The state of the configuration after module completion.
-          - I(merged) - Merges provided interface access-group configuration with on-device configuration.
-          - I(replaced) - Replaces on-device access-group configuration of the specified interfaces with provided configuration.
-          - I(overridden) - Overrides all on-device interface access-group configurations with the provided configuration.
-          - I(deleted) - Deletes on-device interface access-group configuration.
+          - C(merged) - Merges provided interface access-group configuration with on-device configuration.
+          - C(replaced) - Replaces on-device access-group configuration of the specified interfaces with provided configuration.
+          - C(overridden) - Overrides all on-device interface access-group configurations with the provided configuration.
+          - C(deleted) - Deletes on-device interface access-group configuration.
         type: str
         choices:
           - merged

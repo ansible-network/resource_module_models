@@ -41,7 +41,7 @@
             - sequence_num: 1
               action: 'permit'
               protocol:
-                tcp: true
+                name: 'tcp'
               source:
                 prefix: '192.168.1.0/24'
               destination:
@@ -53,7 +53,7 @@
             - sequence_num: 1
               action: 'permit'
               protocol:
-                tcp: true
+                name: 'tcp'
               source:
                 prefix: '3000::/16'
               destination:
@@ -61,7 +61,7 @@
             - sequence_num: 2
               action: 'deny'
               protocol:
-                any: true
+                name: 'any'
               source:
                 any: true
               destination:

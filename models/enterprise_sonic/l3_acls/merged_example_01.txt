@@ -24,7 +24,7 @@
             - sequence_num: 2
               action: 'permit'
               protocol:
-                icmp: true
+                name: 'icmp'
               source:
                 any: true
               destination:
@@ -35,7 +35,7 @@
             - sequence_num: 3
               action: 'deny'
               protocol:
-                protocol_number: 2
+                number: 2
               source:
                 any: true
               destination:
@@ -43,7 +43,7 @@
             - sequence_num: 4
               action: 'deny'
               protocol:
-                any: true
+                name: 'any'
               source:
                 any: true
               destination:
@@ -56,7 +56,7 @@
             - sequence_num: 1
               action: 'permit'
               protocol:
-                tcp: true
+                name: 'tcp'
               source:
                 prefix: '10.0.0.0/8'
               destination:
@@ -64,7 +64,7 @@
             - sequence_num: 2
               action: 'deny'
               protocol:
-                udp: true
+                name: 'udp'
               source:
                 any: true
               destination:
@@ -74,7 +74,7 @@
             - sequence_num: 3
               action: 'deny'
               protocol:
-                any: true
+                name: 'any'
               source:
                 any: true
               destination:
@@ -88,7 +88,7 @@
             - sequence_num: 2
               action: 'deny'
               protocol:
-                icmpv6: true
+                name: 'icmpv6'
               source:
                 any: true
               destination:
@@ -99,7 +99,7 @@
             - sequence_num: 1
               action: 'permit'
               protocol:
-                any: true
+                name: 'any'
               source:
                 prefix: '1000::/16'
               destination:
@@ -109,7 +109,7 @@
             - sequence_num: 2
               action: 'deny'
               protocol:
-                tcp: true
+                name: 'tcp'
               source:
                 any: true
               destination:
@@ -121,7 +121,7 @@
             - sequence_num: 3
               action: 'permit'
               protocol:
-                tcp: true
+                name: 'tcp'
               source:
                 any: true
               destination:
@@ -132,7 +132,7 @@
             - sequence_num: 4
               action: 'deny'
               protocol:
-                udp: true
+                name: 'udp'
               source:
                 any: true
                 port_number:

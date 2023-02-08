@@ -38,7 +38,7 @@
               destination:
                 any: true
               ethertype:
-                ip: true
+                ipv4: true
       state: overridden
 
 # After State:

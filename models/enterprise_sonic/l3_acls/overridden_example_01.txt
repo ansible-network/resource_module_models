@@ -44,7 +44,7 @@
             - sequence_num: 1
               action: 'permit'
               protocol:
-                any: true
+                name: 'any'
               source:
                 prefix: '100.1.1.0/24'
               destination:
@@ -52,7 +52,7 @@
             - sequence_num: 2
               action: 'deny'
               protocol:
-                udp: true
+                name: 'udp'
               source:
                 any: true
               destination:

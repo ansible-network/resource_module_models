@@ -52,8 +52,10 @@ DOCUMENTATION: |
                 description:
                   - List of rules with the ACL.
                   - I(sequence_num), I(action), I(protocol), I(source) & I(destination) are required for adding a new rule.
+                  - If I(state=deleted), options other than I(sequence_num) are not considered.
                 type: list
                 elements: dict
+                required_together: [[action, protocol, source, destination]]
                 suboptions:
                   sequence_num:
                     description:
@@ -76,38 +78,34 @@ DOCUMENTATION: |
                       - Specifies the protocol to match.
                       - Only one suboption can be specified for protocol in a rule.
                     type: dict
-                    mutually_exclusive: [[protocol_number, any, icmp, icmpv6, tcp, udp]]
+                    mutually_exclusive: [[name, number]]
                     suboptions:
-                      protocol_number:
+                      name:
+                        description:
+                          - Match packets with the given protocol.
+                          - C(any) - Match any packet.
+                          - C(icmp) - Match ICMP packets.
+                          - C(icmpv6) - Match ICMPv6 packets.
+                          - C(tcp) - Match TCP packets.
+                          - C(udp) - Match UDP packets.
+                        type: str
+                        choices:
+                          - any
+                          - icmp
+                          - icmpv6
+                          - tcp
+                          - udp
+                      number:
                         description:
                           - Match packets with given protocol number.
                           - The range is from 0 to 255.
                         type: int
-                      any:
-                        description:
-                          - Match any packet.
-                        type: bool
-                      icmp:
-                        description:
-                          - Match ICMP packets.
-                        type: bool
-                      icmpv6:
-                        description:
-                          - Match ICMPv6 packets.
-                        type: bool
-                      tcp:
-                        description:
-                          - Match TCP packets.
-                        type: bool
-                      udp:
-                        description:
-                          - Match UDP packets.
-                        type: bool
                   source:
                     description:
                       - Specifies the source of the packet.
                       - I(any), I(host) and I(prefix) are mutually exclusive.
                     type: dict
+                    required_one_of: [[any, host, prefix]]
                     mutually_exclusive: [[any, host, prefix]]
                     suboptions:
                       any:
@@ -166,6 +164,7 @@ DOCUMENTATION: |
                       - Specifies the destination of the packet.
                       - I(any), I(host) and I(prefix) are mutually exclusive.
                     type: dict
+                    required_one_of: [[any, host, prefix]]
                     mutually_exclusive: [[any, host, prefix]]
                     suboptions:
                       any:
@@ -222,6 +221,7 @@ DOCUMENTATION: |
                   protocol_options:
                     description:
                       - Specifies the additional packet match options for the chosen protocol.
+                      - I(icmp), I(icmpv6) and I(tcp) are mutually exclusive.
                     type: dict
                     mutually_exclusive: [[icmp, icmpv6, tcp]]
                     suboptions:
@@ -425,10 +425,10 @@ DOCUMENTATION: |
       state:
         description:
           - The state of the configuration after module completion.
-          - I(merged) - Merges provided L3 ACL configuration with on-device configuration.
-          - I(replaced) - Replaces on-device configuration of the specified L3 ACLs with provided configuration.
-          - I(overridden) - Overrides all on-device L3 ACL configurations with the provided configuration.
-          - I(deleted) - Deletes on-device L3 ACL configuration.
+          - C(merged) - Merges provided L3 ACL configuration with on-device configuration.
+          - C(replaced) - Replaces on-device configuration of the specified L3 ACLs with provided configuration.
+          - C(overridden) - Overrides all on-device L3 ACL configurations with the provided configuration.
+          - C(deleted) - Deletes on-device L3 ACL configuration.
         type: str
         choices:
           - merged

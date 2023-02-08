@@ -19,12 +19,14 @@
 #  seq 1 permit host 33:33:33:33:33:33 host 44:44:44:44:44:44
 # sonic#
 
-  - name: Delete specified Layer 2 ACLs and ACL rule entries
+  - name: Delete specified Layer 2 ACLs, ACL remark and ACL rule entries
     dellemc.enterprise_sonic.sonic_l2_acls:
       config:
         - name: 'test'
           rules:
             - sequence_num: 3
+        - name: 'test1'
+          remark: 'test_mac_acl'
         - name: 'test2'
       state: deleted
 
@@ -38,7 +40,6 @@
 #  seq 2 permit any any 0x88cc remark LLDP
 # !
 # mac access-list test1
-#  remark test_mac_acl
 #  seq 1 permit host 11:11:11:11:11:11 any vlan 100
 #  seq 2 deny any any ip
 # sonic#
