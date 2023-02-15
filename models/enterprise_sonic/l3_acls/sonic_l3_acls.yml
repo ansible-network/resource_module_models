@@ -78,16 +78,20 @@ DOCUMENTATION: |
                       - Specifies the protocol to match.
                       - Only one suboption can be specified for protocol in a rule.
                     type: dict
+                    required_one_of: [[name, number]]
                     mutually_exclusive: [[name, number]]
                     suboptions:
                       name:
                         description:
                           - Match packets with the given protocol.
-                          - C(any) - Match any packet.
+                          - C(ip) - Match any IPv4 packets.
+                          - C(ipv6) - Match any IPv6 packets.
                           - C(icmp) - Match ICMP packets.
                           - C(icmpv6) - Match ICMPv6 packets.
                           - C(tcp) - Match TCP packets.
                           - C(udp) - Match UDP packets.
+                          - C(ip) and C(icmp) are valid only for IPv4 ACLs.
+                          - C(ipv6) and C(icmpv6) are valid only for IPv6 ACLs.
                         type: str
                         choices:
                           - any
@@ -135,12 +139,12 @@ DOCUMENTATION: |
                           gt:
                             description:
                               - Match packets with source port greater than the given port number.
-                              - The range is from 0 to 65535.
+                              - The range is from 0 to 65534.
                             type: int
                           lt:
                             description:
                               - Match packets with source port lesser than the given port number.
-                              - The range is from 0 to 65535.
+                              - The range is from 1 to 65535.
                             type: int
                           range:
                             description:
@@ -194,12 +198,12 @@ DOCUMENTATION: |
                           gt:
                             description:
                               - Match packets with destination port greater than the given port number.
-                              - The range is from 0 to 65535.
+                              - The range is from 0 to 65534.
                             type: int
                           lt:
                             description:
                               - Match packets with destination port lesser than the given port number.
-                              - The range is from 0 to 65535.
+                              - The range is from 1 to 65535.
                             type: int
                           range:
                             description:

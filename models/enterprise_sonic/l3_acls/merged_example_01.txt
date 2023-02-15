@@ -43,7 +43,7 @@
             - sequence_num: 4
               action: 'deny'
               protocol:
-                name: 'any'
+                name: 'ip'
               source:
                 any: true
               destination:
@@ -74,7 +74,7 @@
             - sequence_num: 3
               action: 'deny'
               protocol:
-                name: 'any'
+                name: 'ip'
               source:
                 any: true
               destination:
@@ -99,7 +99,7 @@
             - sequence_num: 1
               action: 'permit'
               protocol:
-                name: 'any'
+                name: 'ipv6'
               source:
                 prefix: '1000::/16'
               destination:

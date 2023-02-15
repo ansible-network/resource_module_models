@@ -20,8 +20,9 @@
 # sonic# show running-configuration ipv6 access-list
 # !
 # ipv6 access-list testv6
-#  seq 1 permit ipv6 host 192:168:1::2 any
-#  seq 2 deny icmpv6 any any
+#  seq 1 permit tcp host 3000::1 any established
+#  seq 2 permit udp any any
+#  seq 3 deny icmpv6 any any
 # !
 # ipv6 access-list testv6-1
 #  remark test_ipv6_acl
@@ -55,13 +56,18 @@
               protocol:
                 name: 'tcp'
               source:
-                prefix: '3000::/16'
+                host: '3000::1'
               destination:
                 any: true
+              protocol_options:
+                tcp:
+                  ack: true
+                  syn: true
+                  fin: true
             - sequence_num: 2
               action: 'deny'
               protocol:
-                name: 'any'
+                name: 'ipv6'
               source:
                 any: true
               destination:
@@ -91,7 +97,7 @@
 # sonic# show running-configuration ipv6 access-list
 # !
 # ipv6 access-list testv6
-#  seq 1 permit tcp 3000::/16 any
+#  seq 1 permit tcp host 3000::1 any fin syn ack
 #  seq 2 deny ipv6 any any
 # !
 # ipv6 access-list testv6-1

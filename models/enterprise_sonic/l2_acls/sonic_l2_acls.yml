@@ -65,6 +65,7 @@ DOCUMENTATION: |
                   - I(address) and I(address_mask) are required together.
                   - I(any), I(host) and I(address) are mutually exclusive.
                 type: dict
+                required_one_of: [[any, host, address]]
                 mutually_exclusive: [[any, host, address]]
                 required_together: [[address, address_mask]]
                 suboptions:
@@ -90,6 +91,7 @@ DOCUMENTATION: |
                   - I(address) and I(address_mask) are required together.
                   - I(any), I(host) and I(address) are mutually exclusive.
                 type: dict
+                required_one_of: [[any, host, address]]
                 mutually_exclusive: [[any, host, address]]
                 required_together: [[address, address_mask]]
                 suboptions:
