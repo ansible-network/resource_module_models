@@ -15,14 +15,14 @@ DOCUMENTATION: |
     version_added: '2.1.0'
     short_description: Manage Global LLDP configurations on SONiC
     description:
-      - This module provides global configuration management of LLDP 
-        parameters on Layer 2 interfaces of devices running SONiC.
+      - This module provides configuration management of global LLDP parameters 
+        for use on LLDP enabled Layer 2 interfaces of devices running SONiC.
         It is intended for use in conjunction with LLDP Layer 2 interface
         configuration applied on participating interfaces.
     author: 'Divya Balasubramanian(@divya-balasubramania)'
     options:
       config:
-        description: To set link layer discovery protocol attribute configurations
+        description: The set of link layer discovery protocol attribute configurations
         type: dict
         suboptions:
           enable:
@@ -38,12 +38,12 @@ DOCUMENTATION: |
             description:
               -  Description of this system to be sent in LLDP advertisements. 
                  When configured, this value is used in the advertisements 
-                 instead of the default system description
+                 instead of the default system description.
             type: str 
           system_name:
             description:
               - Specifying a descriptive system name using this command, user may find it easier to distinguish the device with LLDP.  
-              - By default, the host name is used 
+              - By default, the host name is used. 
             type: str 
           mode:
             description:
@@ -60,7 +60,7 @@ DOCUMENTATION: |
             type: int
           tlv_select:
             description:
-              - By default,management address and system capabilities TLV are advertised in LLDP frames.
+              - By default, management address and system capabilities TLV are advertised in LLDP frames.
               - This configuration option can be used to selectively suppress sending of these TLVs 
                 to the Peer.
             type: dict
@@ -75,7 +75,7 @@ DOCUMENTATION: |
                 type: bool
       state:
         description:
-          - The state Specifies the type of configuration update to be performed on the device. 
+          - The state specifies the type of configuration update to be performed on the device. 
             If the state is "merged", merge specified attributes with existing configured attributes.
             For "deleted", delete the specified attributes from existing configuration.
         type: str

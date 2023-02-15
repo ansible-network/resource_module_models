@@ -11,7 +11,7 @@
     dellemc.enterprise_sonic.sonic_lldp_global:
       config:
         tlv_select : 
-          'system_capabilities' : false 
+          system_capabilities: True 
       state: deleted
 
 # After State:

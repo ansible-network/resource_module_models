@@ -16,7 +16,7 @@
               hello_time: 18
               mode: receive
               system_description: Sonic_System
-              tlv_select: {
+              suppress_tlv_select: {
                   "management_address": True,
                   "system_capabilities": false,
               }
@@ -27,6 +27,7 @@
 # sonic# show running-configuration
 # !
 # no lldp enable
+# no lldp tlv-select system_capabilities 
 # lldp receive
 # lldp timer 18
 # lldp multiplier 9
