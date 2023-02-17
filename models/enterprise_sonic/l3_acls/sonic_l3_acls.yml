@@ -94,7 +94,8 @@ DOCUMENTATION: |
                           - C(ipv6) and C(icmpv6) are valid only for IPv6 ACLs.
                         type: str
                         choices:
-                          - any
+                          - ip
+                          - ipv6
                           - icmp
                           - icmpv6
                           - tcp

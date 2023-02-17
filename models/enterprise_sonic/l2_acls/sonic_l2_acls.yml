@@ -157,31 +157,44 @@ DOCUMENTATION: |
                   - 1
               pcp:
                 description:
-                  - Match Ethernet frame with the given Priority Code Point (PCP) value.
-                  - C(be) - Match Ethernet frame with Best effort PCP (0).
-                  - C(bk) - Match Ethernet frame with Background PCP (1).
-                  - C(ee) - Match Ethernet frame with Excellent effort PCP (2).
-                  - C(ca) - Match Ethernet frame with Critical applications PCP (3).
-                  - C(vi) - Match Ethernet frame with Video, < 100 ms latency and jitter PCP (4).
-                  - C(vo) - Match Ethernet frame with Voice, < 10 ms latency and jitter PCP (5).
-                  - C(ic) - Match Ethernet frame with Internetwork control PCP (6).
-                  - C(nc) - Match Ethernet frame with Network control PCP (7).
-                type: str
-                choices:
-                  - be
-                  - bk
-                  - ee
-                  - ca
-                  - vi
-                  - vo
-                  - ic
-                  - nc
-              pcp_mask:
-                description:
-                  - Match Ethernet frame with given PCP value and mask.
-                  - The range is from 0 to 7.
-                  - Used only when I(pcp) is specified.
-                type: int
+                  - Match Ethernet frames using Priority Code Point (PCP) value.
+                  - I(mask) is valid only when I(value) is specified.
+                  - I(value) and I(traffic_type) are mutually exclusive.
+                type: dict
+                mutually_exclusive: [[value, traffic_type], [mask, traffic_type]]
+                required_by: {mask: [value]}
+                suboptions:
+                  value:
+                    description:
+                      - Match Ethernet frame with the given PCP value.
+                      - The range is from 0 to 7
+                    type: int
+                  mask:
+                    description:
+                      - Match Ethernet frame with given PCP value and mask.
+                      - The range is from 0 to 7.
+                    type: int
+                  traffic_type:
+                    description:
+                      - Match Ethernet frame with PCP value for the given traffic type.
+                      - C(be) - Match Ethernet frame with Best effort PCP (0).
+                      - C(bk) - Match Ethernet frame with Background PCP (1).
+                      - C(ee) - Match Ethernet frame with Excellent effort PCP (2).
+                      - C(ca) - Match Ethernet frame with Critical applications PCP (3).
+                      - C(vi) - Match Ethernet frame with Video, < 100 ms latency and jitter PCP (4).
+                      - C(vo) - Match Ethernet frame with Voice, < 10 ms latency and jitter PCP (5).
+                      - C(ic) - Match Ethernet frame with Internetwork control PCP (6).
+                      - C(nc) - Match Ethernet frame with Network control PCP (7).
+                    type: str
+                    choices:
+                      - be
+                      - bk
+                      - ee
+                      - ca
+                      - vi
+                      - vo
+                      - ic
+                      - nc
               remark:
                 description:
                   - Specifies remark for the ACL rule.

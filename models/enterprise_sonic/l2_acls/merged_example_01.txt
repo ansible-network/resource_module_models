@@ -30,8 +30,9 @@
               destination:
                 address: '00:00:10:00:00:00'
                 address_mask: '00:00:ff:ff:00:00'
-              pcp: 'ca'
-              pcp_mask: 3
+              pcp:
+                value: 4
+                mask: 6
             - sequence_num: 4
               action: 'deny'
               source:
@@ -75,7 +76,7 @@
 # mac access-list test
 #  seq 1 permit host 22:22:22:22:22:22 any vlan 20
 #  seq 2 permit any any 0x88cc remark LLDP
-#  seq 3 permit any 00:00:10:00:00:00 00:00:ff:ff:00:00 pcp ca pcp-mask 3
+#  seq 3 permit any 00:00:10:00:00:00 00:00:ff:ff:00:00 pcp vi pcp-mask 6
 #  seq 4 deny any any vlan-tag-format multi-tagged
 # !
 # mac access-list test1

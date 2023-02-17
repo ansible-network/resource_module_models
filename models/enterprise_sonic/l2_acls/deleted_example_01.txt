@@ -8,7 +8,7 @@
 # mac access-list test
 #  seq 1 permit host 22:22:22:22:22:22 any vlan 20
 #  seq 2 permit any any 0x88cc remark LLDP
-#  seq 3 permit any 00:00:10:00:00:00 00:00:ff:ff:00:00 pcp ca pcp-mask 3
+#  seq 3 permit any 00:00:10:00:00:00 00:00:ff:ff:00:00 pcp vi pcp-mask 6
 # !
 # mac access-list test1
 #  remark test_mac_acl
