@@ -1,0 +1,303 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+      'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: ldap
+COPYRIGHT: Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved
+
+DOCUMENTATION: |
+  module: sonic_ldap
+  author: 'Santhosh Kumar T(@santhosh-kt)'
+  version_added: '2.1.0'
+  short_description: Configure global LDAP server settings on SONiC.
+  description:
+    - This module provides configuration management of global LDAP server parameters on devices running SONiC.
+    - Configure VRF instance before configuring VRF to be used for LDAP server connection.
+  options:
+    config:
+      description:
+        - Specifies the LDAP server related configuration.
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - Specifies the LDAP type.
+          type: str
+          choices:
+            - global
+            - nss
+            - pam
+            - sudo
+          required: True
+        base:
+          description:
+            - Configure base distinguished name.
+          type: str
+        bind_timelimit:
+          description:
+            - Configure connect time limit (0 to 65535).
+          type: int
+          default: 10
+        binddn:
+          description:
+            - Configure distinguished name to bind.
+          type: str
+        bindpw:
+          description:
+            - Configure credentials to bind
+          type: str
+        servers:
+          description:
+            - Configure host name or IP address for a LDAP server.
+            - Only supported for global. Not supported for nss, pam and sudo.
+          type: list
+          elements: dict
+          suboptions:
+            address:
+              description:
+                - Hostname or IP address of LDAP server.
+              type: str
+              required: True
+            port:
+              description:
+                - Configure server port number (1 to 65535).
+              type: int
+            priority:
+              description:
+                - Configure priority (1 to 99).
+              type: int
+              default: 1
+            retry:
+              description:
+                - Configure retransmit attempt (0 to 10).
+              type: int
+              default: 0
+            ssl:
+              description:
+                - Configure TLS configuration.
+              type: str
+              choices:
+                - "on"
+                - "off"
+                - "start_tls"
+            server_type:
+              description:
+                - Configure server type.
+              type: str
+              choices:
+                - all
+                - nss
+                - sudo
+                - pam
+                - nss_sudo
+                - nss_pam
+                - sudo_pam
+              default: all
+        idle_timelimit:
+          description:
+           - Configure NSS idle time limit (0 to 65535).
+           - Only supported for global and nss. Not supported for pam and sudo.
+          type: int
+          default: 0
+        map:
+          description:
+            - Configure LDAP server for map.
+            - Only supported for global. Not supported for nss, pam and sudo.
+          type: dict
+          suboptions:
+            attribute:
+              description:
+                - Configure attribute map.
+              type: list
+              elements: dict
+              required_together: [['from', 'to']]
+              suboptions:
+                from:
+                  description:
+                    - Configure attribute map key.
+                  type: str
+                to:
+                  description:
+                    - Configure attribute map value.
+                  type: str
+            default_attribute:
+              description:
+                - Configure default attribute map.
+              type: list
+              elements: dict
+              required_together: [['from', 'to']]
+              suboptions:
+                from:
+                  description:
+                    - Configure default attribute map key.
+                  type: str
+                to:
+                  description:
+                    - Configure default attribute map value.
+                  type: str
+            objectclass:
+              description:
+                - Configure Objectclass map.
+              type: list
+              elements: dict
+              required_together: [['from', 'to']]
+              suboptions:
+                from:
+                  description:
+                    - Configure Objectclass map key.
+                  type: str
+                to:
+                  description:
+                    - Configure Objectclass map value.
+                  type: str
+            override_attribute:
+              description:
+                - Configure override attribute map.
+              type: list
+              elements: dict
+              required_together: [['from', 'to']]
+              suboptions:
+                from:
+                  description:
+                    - Configure override attribute map key.
+                  type: str
+                to:
+                  description:
+                    - Configure override attribute map value.
+                  type: str
+        nss_base_group:
+          description:
+            - Configure NSS search base for group map.
+            - Only supported for global and nss. Not supported for pam and sudo.
+          type: str
+        nss_base_netgroup:
+          description:
+            - Configure NSS search base for netgroup map.
+            - Only supported for global and nss. Not supported for pam and sudo.
+          type: str
+        nss_base_passwd:
+          description:
+            - Configure NSS search base for passwd map.
+            - Only supported for global, nss and pam. Not supported for sudo.
+          type: str
+        nss_base_shadow:
+          description:
+            - Configure NSS search base for shadow map.
+            - Only supported for global and nss. Not supported for pam and sudo.
+          type: str
+        nss_base_sudoers:
+          description:
+            - Configure NSS search base for sudoers map.
+            - Only supported for global and nss. Not supported for pam and sudo.
+          type: str
+        nss_initgroups_ignoreusers:
+          description:
+            - Configure NSS init groups ignore users.
+            - Only supported for global and nss. Not supported for pam and sudo.
+          type: str
+        pam_filter:
+          description:
+            - Configure PAM filter.
+            - Only supported for global and pam. Not supported for nss and sudo.
+          type: str
+        pam_group_dn:
+          description:
+            - Configure PAM Group Distinguished name.
+            - Only supported for global and pam. Not supported for nss and sudo.
+          type: str
+        pam_login_attribute:
+          description:
+            - Configure PAM Login attribute.
+            - Only supported for global and pam. Not supported for nss and sudo.
+          type: str
+        pam_member_attribute:
+          description:
+            - Configure PAM Member attribute.
+            - Only supported for global and pam. Not supported for nss and sudo.
+          type: str
+        port:
+          description:
+            - Configure server port (1 to 65535).
+          type: int
+          default: 389
+        retry:
+          description:
+            - Configure retransmit attempt (0 to 10).
+          type: int
+          default: 0
+        scope:
+          description:
+            - Configure the search scope.
+            - Only supported for global, nss and pam. Not supported for sudo.
+          type: str
+          choices:
+            - sub
+            - one
+            - base
+          default: sub
+        source_interface:
+          description:
+            - Configure source interface to be used as source IP for the LDAP packets.
+            - Only supported for global. Not supported for nss, pam and sudo.
+            - Full name of the Layer 3 interface, i.e. Eth1/1.
+          type: str
+        ssl:
+          description:
+            - Configure TLS configuration.
+          type: str
+          choices:
+            - "on"
+            - "off"
+            - "start_tls"
+        sudoers_base:
+          description:
+            - Configure sudo base distinguished name for queries.
+            - Only supported for global and sudo. Not supported for nss and pam.
+          type: str
+        sudoers_search_filter:
+          description:
+            - Configure sudo search filter for queries.
+            - Only supported for global and sudo. Not supported for nss and pam.
+          type: str
+        timelimit:
+          description:
+            - Configure search time limit (1 to 65535).
+          type: int
+          default: 0
+        version:
+          description:
+            - Configure LDAP version 2 or 3.
+          type: int
+          choices:
+            - 2
+            - 3
+          default: 3
+        vrf:
+          description:
+            - Configure VRF to be used for LDAP server connection.
+            - Only supported for global. Not supported for nss, pam and sudo.
+          type: str
+    state:
+      description:
+        - Specifies the operation to be performed on the LDAP server configured on the device.
+        - In case of merged, the input configuration will be merged with the existing LDAP server configuration on the device.
+        - In case of deleted, the existing LDAP server configuration will be removed from the device.
+        - In case of overridden, all the existing LDAP server configuration will be deleted and the specified input configuration will be installed.
+        - In case of replaced, the existing LDAP server configuration on the device will be replaced by the configuration in the playbook for each LDAP server group configured by the playbook.
+      default: merged
+      choices: ['merged', 'deleted', 'replaced', 'overridden']
+EXAMPLES:
+    - deleted_example_01.txt
+    - merged_example_01.txt
+    - merged_example_02.txt
+    - replaced_example_01.txt
+    - overridden_example_01.txt
+
