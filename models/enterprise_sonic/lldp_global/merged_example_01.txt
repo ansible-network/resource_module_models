@@ -3,9 +3,8 @@
 # Before State:
 # -------------
 #
-# sonic# show running-configuration 
-# !
-# !
+# sonic# show running-configuration | grep lldp
+# sonic#
 
   - name: Modify LLDP configurations
     dellemc.enterprise_sonic.sonic_lldp_global:
@@ -24,7 +23,7 @@
 
 # After State:
 # ------------
-# sonic# show running-configuration
+# sonic# show running-configuration | grep lldp
 # !
 # no lldp enable
 # no lldp tlv-select system_capabilities 

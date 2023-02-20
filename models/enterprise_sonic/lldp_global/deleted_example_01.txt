@@ -23,7 +23,8 @@
 
 # After State:
 # ------------
-# sonic# show running-configuration
+# sonic# show running-configuration | grep lldp
 # !
 # lldp system-name 8999_System 
 # !
+# sonic#

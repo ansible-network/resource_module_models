@@ -3,7 +3,7 @@
 # Before State:
 # -------------
 #
-# sonic# show running-configuration
+# sonic# show running-configuration | grep lldp
 # !
 # lldp receive
 # lldp timer 200
@@ -21,7 +21,7 @@
 
 # After State:
 # ------------
-# sonic# show running-configuration
+# sonic# show running-configuration | grep lldp
 # !
 # lldp receive
 # lldp timer 200

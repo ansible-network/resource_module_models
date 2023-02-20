@@ -22,7 +22,7 @@ DOCUMENTATION: |
     author: 'Divya Balasubramanian(@divya-balasubramania)'
     options:
       config:
-        description: The set of link layer discovery protocol attribute configurations
+        description: The set of link layer discovery protocol global attribute configurations
         type: dict
         suboptions:
           enable:
