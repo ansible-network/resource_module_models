@@ -15,10 +15,9 @@
               hello_time: 18
               mode: receive
               system_description: Sonic_System
-              suppress_tlv_select: {
-                  "management_address": True,
-                  "system_capabilities": false,
-              }
+              tlv_select: 
+                  management_address: True
+                  system_capabilities: false
       state: merged 
 
 # After State:
