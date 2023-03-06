@@ -1,0 +1,23 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration | grep lldp
+# !
+# lldp receive
+# lldp timer 200
+# lldp multiplier 1
+# lldp system-name 8999_System
+# lldp system-description sonic_system
+# !
+
+  - name: Delete all LLDP configuration
+    dellemc.enterprise_sonic.sonic_lldp_global:
+      config:
+      state: deleted
+
+# After State:  (No LLDP global configuration present.)
+# ------------
+# sonic# show running-configuration | grep lldp
+# sonic# 

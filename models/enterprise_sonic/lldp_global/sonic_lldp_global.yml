@@ -1,0 +1,91 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community',
+        'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: lldp_global
+COPYRIGHT: Copyright 2022 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_lldp_global
+    version_added: '2.1.0'
+    short_description: Manage Global LLDP configurations on SONiC
+    description:
+      - This module provides configuration management of global LLDP parameters 
+        for use on LLDP enabled Layer 2 interfaces of devices running SONiC.
+        It is intended for use in conjunction with LLDP Layer 2 interface
+        configuration applied on participating interfaces.
+    author: 'Divya Balasubramanian(@divya-balasubramania)'
+    options:
+      config:
+        description: The set of link layer discovery protocol global attribute configurations
+        type: dict
+        suboptions:
+          enable:
+            description:
+              - This argument is a boolean value to enable or disable LLDP.
+            type: bool
+          multiplier:
+            description:
+              - Multiplier value is used to determine the timeout interval (i.e. hello-time x multiplier value)
+              - The range is from 1 to 10 
+            type: int 
+          system_description:
+            description:
+              -  Description of this system to be sent in LLDP advertisements. 
+                 When configured, this value is used in the advertisements 
+                 instead of the default system description.
+            type: str 
+          system_name:
+            description:
+              - Specifying a descriptive system name using this command, user may find it easier to distinguish the device with LLDP.  
+              - By default, the host name is used. 
+            type: str 
+          mode:
+            description:
+              - By default both transmit and receive of LLDP frames is enabled. 
+              - This command can be used to configure either in receive only or transmit only mode.
+            type: str
+            choices:
+               - receive
+               - transmit
+          hello_time:
+            description:
+              - Frequency at which LLDP advertisements are sent (in seconds).
+              - The range is from 5 to 254 sec
+            type: int
+          tlv_select:
+            description:
+              - By default, management address and system capabilities TLV are advertised in LLDP frames.
+              - This configuration option can be used to selectively suppress sending of these TLVs 
+                to the Peer.
+            type: dict
+            suboptions:
+              management_address:
+                description:
+                  - Enable or disable management address TLV.
+                type: bool
+              system_capabilities:
+                description:
+                  - Enable or disable system capabilities TLV.
+                type: bool
+      state:
+        description:
+          - The state specifies the type of configuration update to be performed on the device. 
+            If the state is "merged", merge specified attributes with existing configured attributes.
+            For "deleted", delete the specified attributes from existing configuration.
+        type: str
+        choices:
+          - merged
+          - deleted
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - deleted_example_03.txt
+  - merged_example_01.txt
+  - merged_example_02.txt
