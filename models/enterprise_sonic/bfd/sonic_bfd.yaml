@@ -1,0 +1,207 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community',
+        'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: bfd
+COPYRIGHT: Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_bfd
+    version_added: 2.1.0
+    short_description: Manage BFD configuration on SONiC.
+    description:
+      - This module provides configuration management of BFD for devices running SONiC
+    author: "Shade Talabi (@stalabi1)"
+    options:
+      config:
+        description:
+          - Specifies BFD configurations
+        type: dict
+        suboptions:
+          profiles:
+            description:
+              - List of preconfiguration profiles
+            type: list
+            elements: dict
+            suboptions:
+              profile_name:
+                description:
+                  - BFD profile name
+                type: str
+                required: True
+              enabled:
+                description:
+                  - Enables BFD session when set to true
+                type: bool
+                default: True
+              transmit_interval:
+                description:
+                  - Specifies peer transmit interval
+                type: int
+                default: 300
+              receive_interval:
+                description:
+                  - Specifies peer receive interval
+                type: int
+                default: 300
+              detect_multiplier:
+                description:
+                  - Number of missed packets to bring down a BFD session
+                type: int
+                default: 3
+              passive_mode:
+                description:
+                  - Specifies BFD peer as passive when set to true
+                type: bool
+                default: False
+              min_ttl:
+                description:
+                  - Minimum expected TTL on received packets
+                type: int
+                default: 254
+              echo_interval:
+                description:
+                  - Specifies echo interval
+                type: int
+                default: 300
+              echo_mode:
+                description:
+                  - Echo mode is enabled when set to true
+                type: bool
+                default: False
+          single_hops:
+            description:
+              - List of single-hop sessions
+            type: list
+            elements: dict
+            suboptions:
+              remote_address:
+                description:
+                  - IP address used by the remote system for the BFD session
+                type: str
+                required: True
+              vrf:
+                description:
+                  - Name of the configured VRF on the device
+                type: str
+                required: True
+              interface:
+                description:
+                  - Interface to use to contact peer
+                type: str
+                required: True
+              local_address:
+                description:
+                  - Source IP address to be used for BFD sessions over the interface
+                type: str
+                required: True
+              enabled:
+                description:
+                  - Enables BFD session when set to true
+                type: bool
+                default: True
+              transmit_interval:
+                description:
+                  - Specifies peer transmit interval
+                type: int
+                default: 300
+              receive_interval:
+                description:
+                  - Specifies peer receive interval
+                type: int
+                default: 300
+              detect_multiplier:
+                description:
+                  - Number of missed packets to bring down a BFD session
+                type: int
+                default: 3
+              passive_mode:
+                description:
+                  - Specifies BFD peer as passive when set to true
+                type: bool
+                default: False
+              echo_interval:
+                description:
+                  - Specifies echo interval
+                type: int
+                default: 300
+              echo_mode:
+                description:
+                  - Echo mode is enabled when set to true
+                type: bool
+                default: False
+              profile_name:
+                description:
+                  - BFD profile name
+                type: str
+          multi_hops:
+            description:
+              - List of multi-hop sessions
+            type: list
+            elements: dict
+            suboptions:
+              remote_address:
+                description:
+                  - IP address used by the remote system for the BFD session
+                type: str
+                required: True
+              vrf:
+                description:
+                  - Name of the configured VRF on the device
+                type: str
+                required: True
+              local_address:
+                description:
+                  - Source IP address to be used for BFD sessions over the interface
+                type: str
+                required: True
+              enabled:
+                description:
+                  - Enables BFD session when set to true
+                type: bool
+                default: True
+              transmit_interval:
+                description:
+                  - Specifies peer transmit interval
+                type: int
+                default: 300
+              receive_interval:
+                description:
+                  - Specifies peer receive interval
+                type: int
+                default: 300
+              detect_multiplier:
+                description:
+                  - Number of missed packets to bring down a BFD session
+                type: int
+                default: 3
+              passive_mode:
+                description:
+                  - Specifies BFD peer as passive when set to true
+                type: bool
+                default: False
+              min_ttl:
+                description:
+                  - Minimum expected TTL on received packets
+                type: int
+                default: 254
+              profile_name:
+                description:
+                  - BFD profile name
+                type: str
+      state:
+        description:
+          - The state of the configuration after module completion.
+        type: str
+        choices: ['merged', 'deleted', 'replaced', 'overridden']
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt

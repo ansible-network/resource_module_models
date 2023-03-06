@@ -1,0 +1,41 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+# sonic# show mac dampening
+# MAC Move Dampening Threshold : 5
+# MAC Move Dampening Interval  : 5
+# sonic# show running-configuration | grep mac
+# (No mac configuration pressent)
+
+  - name: Merge MAC configurations
+    input:
+      - vrf_name: 'default'
+        mac:
+          aging_time: 50
+          dampening_interval: 20
+          dampening_threshold: 30
+          mac_table_entries:
+            - mac_address: '00:00:5e:00:53:af'
+              vlan_id: 1
+              interface: 'Ethernet20'
+            - mac_address: '00:33:33:33:33:33'
+              vlan_id: 2
+              interface: 'Ethernet24'
+            - mac_address: '00:00:4e:00:24:af'
+              vlan_id: 3
+              interface: 'Ethernet28'
+    state: merged
+
+# After state:
+# ------------
+#
+# sonic# show mac dampening
+# MAC Move Dampening Threshold : 30
+# MAC Move Dampening Interval  : 20
+# sonic# show running-configuration | grep mac
+# mac address-table 00:00:5e:00:53:af Vlan1 Ethernet20
+# mac address-table 00:33:33:33:33:33 Vlan2 Ethernet24
+# mac address-table 00:00:4e:00:24:af Vlan3 Ethernet28
+# mac address-table aging-time 50

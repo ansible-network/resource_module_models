@@ -1,0 +1,127 @@
+# Using overridden
+#
+# Before state:
+# -------------
+#
+# sonic# show bfd peers
+# BFD Peers:
+#
+#     peer 192.40.1.3 multihop local-address 3.3.3.3 vrf default
+#         ID: 989720421
+#         Remote ID: 0
+#         Passive mode: Enabled
+#         Profile: p1
+#         Minimum TTL: 125
+#         Status: down
+#         Downtime: 0 day(s), 0 hour(s), 1 min(s), 46 sec(s)
+#         Diagnostics: ok
+#         Remote diagnostics: ok
+#         Peer Type: configured
+#         Local timers:
+#             Detect-multiplier: 2
+#             Receive interval: 100ms
+#             Transmission interval: 75ms
+#             Echo transmission interval: ms
+#         Remote timers:
+#             Detect-multiplier: 3
+#             Receive interval: 1000ms
+#             Transmission interval: 1000ms
+#             Echo transmission interval: 0ms
+#
+#     peer 196.88.6.1 local-address 1.1.1.1 vrf default interface Ethernet20
+#         ID: 1134635660
+#         Remote ID: 0
+#         Passive mode: Enabled
+#         Profile: p1
+#         Status: down
+#         Downtime: 0 day(s), 1 hour(s), 50 min(s), 48 sec(s)
+#         Diagnostics: ok
+#         Remote diagnostics: ok
+#         Peer Type: configured
+#         Local timers:
+#             Detect-multiplier: 4
+#             Receive interval: 80ms
+#             Transmission interval: 50ms
+#             Echo transmission interval: 110ms
+#         Remote timers:
+#             Detect-multiplier: 3
+#             Receive interval: 1000ms
+#             Transmission interval: 1000ms
+#             Echo transmission interval: 0ms
+
+  - name: Override BFD configuration
+    input:
+      single_hops:
+        - remote_address: '172.68.2.1'
+          vrf: 'default'
+          interface: 'Ethernet16'
+          local_address: '2.2.2.2'
+          enabled: True
+          transmit_interval: 60
+          receive_interval: 88
+          detect_multiplier: 6
+          passive_mode: True
+          echo_interval: 112
+          echo_mode: True
+          profile_name: 'p3'
+      multi_hops:
+        - remote_address: '186.42.1.2'
+          vrf: 'default'
+          local_address: '1.1.1.1'
+          enabled: False
+          transmit_interval: 85
+          receive_interval: 122
+          detect_multiplier: 4
+          passive_mode: False
+          min_ttl: 120
+          profile_name: 'p3'
+    state: overridden
+
+# After state:
+# ------------
+#
+# sonic# show bfd peers
+# BFD Peers:
+#
+#     peer 186.42.1.2 multihop local-address 1.1.1.1 vrf default
+#         ID: 989720421
+#         Remote ID: 0
+#         Passive mode: Disabled
+#         Profile: p3
+#         Minimum TTL: 120
+#         Status: down
+#         Downtime: 0 day(s), 0 hour(s), 1 min(s), 46 sec(s)
+#         Diagnostics: ok
+#         Remote diagnostics: ok
+#         Peer Type: configured
+#         Local timers:
+#             Detect-multiplier: 4
+#             Receive interval: 122ms
+#             Transmission interval: 85ms
+#             Echo transmission interval: ms
+#         Remote timers:
+#             Detect-multiplier: 3
+#             Receive interval: 1000ms
+#             Transmission interval: 1000ms
+#             Echo transmission interval: 0ms
+#
+#     peer 172.68.2.1 local-address 2.2.2.2 vrf default interface Ethernet16
+#         ID: 1134635660
+#         Remote ID: 0
+#         Passive mode: Enabled
+#         Profile: p3
+#         Status: down
+#         Downtime: 0 day(s), 1 hour(s), 50 min(s), 48 sec(s)
+#         Diagnostics: ok
+#         Remote diagnostics: ok
+#         Peer Type: configured
+#         Local timers:
+#             Detect-multiplier: 6
+#             Receive interval: 88ms
+#             Transmission interval: 60ms
+#             Echo transmission interval: 112ms
+#         Remote timers:
+#             Detect-multiplier: 3
+#             Receive interval: 1000ms
+#             Transmission interval: 1000ms
+#             Echo transmission interval: 0ms

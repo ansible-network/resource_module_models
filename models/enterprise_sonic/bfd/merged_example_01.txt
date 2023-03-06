@@ -1,0 +1,107 @@
+# Using Merged
+#
+# Before state:
+# -------------
+#
+# sonic# show bfd profile
+# (No "bfd profile" configuration present)
+# sonic# show bfd peers
+# (No "bfd peers" configuration present)
+
+  - name: Merge BFD configuration
+    input:
+      profiles:
+        - profile_name: 'p1'
+          enabled: True
+          transmit_interval: 120
+          receive_interval: 200
+          detect_multiplier: 2
+          passive_mode: True
+          min_ttl: 140
+          echo_interval: 150
+          echo_mode: True
+      single_hops:
+        - remote_address: '196.88.6.1'
+          vrf: 'default'
+          interface: 'Ethernet20'
+          local_address: '1.1.1.1'
+          enabled: True
+          transmit_interval: 50
+          receive_interval: 80
+          detect_multiplier: 4
+          passive_mode: True
+          echo_interval: 110
+          echo_mode: True
+          profile_name: 'p1'
+      multi_hops:
+        - remote_address: '192.40.1.3'
+          vrf: 'default'
+          local_address: '3.3.3.3'
+          enabled: True
+          transmit_interval: 75
+          receive_interval: 100
+          detect_multiplier: 3
+          passive_mode: True
+          min_ttl: 125
+          profile_name: 'p1'
+    state: merged
+
+# After state:
+# ------------
+#
+# sonic# show bfd profile
+# BFD Profile:
+#     Profile-name: p1
+#         Enabled: True
+#         Echo-mode: Enabled
+#         Passive-mode: Enabled
+#         Minimum-Ttl: 140
+#         Detect-multiplier: 2
+#         Receive interval: 200ms
+#         Transmission interval: 120ms
+#         Echo transmission interval: 150ms
+# sonic# show bfd peers
+# BFD Peers:
+#
+#     peer 192.40.1.3 multihop local-address 3.3.3.3 vrf default
+#         ID: 989720421
+#         Remote ID: 0
+#         Passive mode: Enabled
+#         Profile: p1
+#         Minimum TTL: 125
+#         Status: down
+#         Downtime: 0 day(s), 0 hour(s), 1 min(s), 46 sec(s)
+#         Diagnostics: ok
+#         Remote diagnostics: ok
+#         Peer Type: configured
+#         Local timers:
+#             Detect-multiplier: 2
+#             Receive interval: 100ms
+#             Transmission interval: 75ms
+#             Echo transmission interval: ms
+#         Remote timers:
+#             Detect-multiplier: 3
+#             Receive interval: 1000ms
+#             Transmission interval: 1000ms
+#             Echo transmission interval: 0ms
+#
+#     peer 196.88.6.1 local-address 1.1.1.1 vrf default interface Ethernet20
+#         ID: 1134635660
+#         Remote ID: 0
+#         Passive mode: Enabled
+#         Profile: p1
+#         Status: down
+#         Downtime: 0 day(s), 1 hour(s), 50 min(s), 48 sec(s)
+#         Diagnostics: ok
+#         Remote diagnostics: ok
+#         Peer Type: configured
+#         Local timers:
+#             Detect-multiplier: 4
+#             Receive interval: 80ms
+#             Transmission interval: 50ms
+#             Echo transmission interval: 110ms
+#         Remote timers:
+#             Detect-multiplier: 3
+#             Receive interval: 1000ms
+#             Transmission interval: 1000ms
+#             Echo transmission interval: 0ms
