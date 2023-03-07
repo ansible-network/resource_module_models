@@ -56,7 +56,72 @@ options:
         - hc-uni
         - uplink
         default: uni
-
+      atm_pvc:
+        type: dict
+        description: This command allows the operator to configure extended interface management parameters.
+        suboptions:
+          pvc-index:
+            type: string
+            description: the ATM PVC interface index
+            required: true
+          customer-id:
+            type: string
+            description: 
+            - optional parameter with default value "available" 
+            - the customer ID of the customer to which this PVC belongs.
+            default: "available"
+      alarm:
+        type: dict
+        description: This command allows the operator to configure the default severity for an alarm on this type of interface.
+        suboptions:
+          index:
+            type: string
+            description: index of the IANA ifType
+            required: true
+          default-severity:
+            type: string
+            description: 
+            - optional parameter with default value "major" 
+            - set minimum severity for alarm to be reported.
+            choices:
+            - inderteminate
+            - warning
+            - minor
+            - major
+            - critical
+            default: "major"
+      statistics:
+        type: dict
+        description: This command allows the operator to configure sliding-window traffic statistics on related interface.
+        suboptions:
+          port:
+            type: string
+            description: the interface index
+            required: true
+          sliding-win-stats:
+            type: bool
+            description: 
+            - optional parameter 
+            - enable sliding-window traffic statistics on related interface.
+            default: false
+      cage:
+        type: dict
+        description: 
+        - "This command allows the operator to configure SLOT cage mode:" 
+        - "• The slot index of the cage"
+        - "• The number of the sfp cage"
+        - "• The index of rssi profile which would be configured on cage."
+        suboptions:
+          position:
+            type: int
+            description: 
+            - the physical cage position
+            required: true
+          operational-mode:
+            type: string
+            short_description:
+            - optional parameter
+            - oper-mode of the cage
   state:
     description:
     - The state the configuration should be left in
