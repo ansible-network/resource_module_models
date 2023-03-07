@@ -8,7 +8,7 @@ ANSIBLE_METADATA: |
     }
 
 NETWORK_OS: isam
-RESOURCE: interfaces
+RESOURCE: vlans
 COPYRIGHT: left
 LICENSE: gpl-3.0.txt
 
@@ -193,6 +193,23 @@ options:
     type: dict
     elements: dict
     suboptions:
+      # > configure vlan [ [ no ] broadcast-frames ] priority-policy <Vlan::PriorityMap>
+      broadcast_frames:
+        type: bool
+        description: |
+          Enable or disable broadcast frames on the VLAN. Default is enabled.
+
+      # DS-LIN-TEST-01>#configure vlan priority-policy ?3 pbit0
+      # vlan-specific         ! the priority of the vlan
+      # port-default          ! the default priority of the port
+      priority_policy:
+        type: str
+        description: |
+          Configure the priority policy for the VLAN.
+        choices:
+        - vlan_specific
+        - port_default
+
       vlan_address_format:
         type: dict
         description: configure vMac address related information
@@ -219,10 +236,10 @@ options:
             type: str
             description: VLAN mode
             choices:
-            - cross-connect
-            - residential-bridge
-            - qos-aware
-            - layer2-terminated
+            - cross_connect
+            - residential_bridge
+            - qos_aware
+            - layer2_terminated
             - mirror
           sntp_proxy:
             type: bool
@@ -232,7 +249,7 @@ options:
             description: |
               <Vlan::Priority>      ! priority of ethernet frames
               range: [0...7]
-          vmac-not-in-opt61:
+          vmac_not_in_opt61:
             type: bool
             description: skip vmac translation in dhcp option 61 even when vmac is enabled
           new_broadcast:
@@ -261,14 +278,14 @@ options:
             type: str
             description: control protocol group filters
             choices:
-            - pass-all
-            - pass-pppoe
-            - pass-ipoe
-            - pass-pppoe-ipoe
-            - pass-ipv6oe
-            - pass-pppoe-ipv6oe
-            - pass-ipoe-ipv6oe
-            - pass-pppoe-ipoe-ipv6oe
+            - pass_all
+            - pass_pppoe
+            - pass_ipoe
+            - pass_pppoe_ipoe
+            - pass_ipv6oe
+            - pass_pppoe_ipv6oe
+            - pass_ipoe_ipv6oe
+            - pass_pppoe_ipoe_ipv6oe
 
 
           # [no] pppoe-relay-tag  : configure the format of the PPPoE relay tag
@@ -399,7 +416,7 @@ options:
             description: enable C-VLAN 4095 tunneling behavior. Only applicable for S-VLAN CC forwarder
             choices:
             - passthru
-            - not-applicable
+            - not_applicable
 
           # [no] arp-snooping     : enable arp snooping
           arp_snooping:
@@ -422,32 +439,163 @@ options:
           mac_unauth:
             type: bool
             description: enable mac unauthorized default: forward the frame to this vlan if authorization failed
-      unicast_mac:
-        type: dict
+      # unicast_mac:
+      #   type: dict
+      #   description: |
+      #     configure filtering information for static unicast mac address
+      #     The unicast MAC address of the VLAN. Range: [0...16777215]
+      #   suboptions:
+      #     mac_address:
+      #       type: str
+      #       description: |
+      #         mac address (aa:bb:cc:a1:02:03) length: 6 unit: Byte
+      #     vlan_id:
+      #       type: int
+      #       description: |
+      #         stacked:<...>         ! stacked vlan identity
+      #         <Network::UVlanIndex> ! unstacked vlan identity range: [1...4093]
+      #     forward_port:
+      #       type: str
+      #       description: |
+      #         forward bridge port      
+      vlan_port:
+        type: list
+        elements: dict
         description: |
           configure filtering information for static unicast mac address
           The unicast MAC address of the VLAN. Range: [0...16777215]
         suboptions:
-          mac_address:
+          vlan_port:
+            type: str
+            description: |
+              bridge port name
+          unicast_mac:
             type: str
             description: |
               mac address (aa:bb:cc:a1:02:03) length: 6 unit: Byte
-          vlan_id:
-            type: int
-            description: |
-              stacked:<...>         ! stacked vlan identity
-              <Network::UVlanIndex> ! unstacked vlan identity range: [1...4093]
-          forward_port:
+
+      # > configure vlan ( no port-protocol (port) protocol-group <Vlan::GroupId> ) | ( port-protocol (port) protocol-group
+      # <Vlan::GroupId> vlan-id <Vlan::StackedVlan> priority <Vlan::Priority> )
+
+      port_protocol:
+        type: list
+        elements: dict
+        description: |
+          configure vlan ( no port-protocol (port) protocol-group <Vlan::GroupId> ) | ( port-protocol (port) protocol-group
+          <Vlan::GroupId> vlan-id <Vlan::StackedVlan> priority <Vlan::Priority> )
+        suboptions:
+          port:
             type: str
             description: |
-              forward bridge port      
-      vlan_port:
-      port_protocol:
+              bridge port name
+
+          # DS-LIN-TEST-01>#configure vlan port-protocol protocol-group ?
+          # pppoe                 ! PPPoE
+          # ipoe                  ! IPv4oE
+          # ipv6oe                ! IPv6oE
+          protocol_group:
+            type: str
+            description: |
+              protocol group
+            choices:
+            - pppoe
+            - ipoe
+            - ipv6oe
+      # > configure vlan pbit-statistics ( no port (vlan-port) min-dot1p <Vlan::Dot1pMin> max-dot1p <Vlan::Dot1pMax> )
+      # | ( port (vlan-port) min-dot1p <Vlan::Dot1pMin> max-dot1p <Vlan::Dot1pMax> )
+
       pbit_statistics:
+        type: list
+        elements: dict
+        description: |
+          configure vlan pbit-statistics ( no port (vlan-port) min-dot1p <Vlan::Dot1pMin> max-dot1p <Vlan::Dot1pMax> )
+          | ( port (vlan-port) min-dot1p <Vlan::Dot1pMin> max-dot1p <Vlan::Dot1pMax> )
+        suboptions:
+          vlan_port:
+            type: str
+            description: |
+              bridge port name
+          min_dot1p:
+            type: int
+            description: |
+              min dot1p value
+          max_dot1p:
+            type: int
+            description: |
+              max dot1p value
+      # > configure vlan ( no priority-regen (profile-idx) ) | ( priority-regen (profile-idx) profile-name <AsamProfileName>
+      # [ no pbit0 | pbit0 <Vlan::NibbleMaskRestricted_0> ] [ no pbit1 | pbit1 <Vlan::NibbleMaskRestricted_1> ] [ no
+      # pbit2 | pbit2 <Vlan::NibbleMaskRestricted_2> ] [ no pbit3 | pbit3 <Vlan::NibbleMaskRestricted_3> ] [ no pbit4 |
+      # pbit4 <Vlan::NibbleMaskRestricted_4> ] [ no pbit5 | pbit5 <Vlan::NibbleMaskRestricted_5> ] [ no pbit6 | pbit6
+      # <Vlan::NibbleMaskRestricted_6> ] [ no pbit7 | pbit7 <Vlan::NibbleMaskRestricted_7> ] )
+
       priority_regen:
+        type: list
+        elements: dict
+        description: |
+          configure vlan ( no priority-regen (profile-idx) ) | ( priority-regen (profile-idx) profile-name <AsamProfileName>
+          [ no pbit0 | pbit0 <Vlan::NibbleMaskRestricted_0> ] [ no pbit1 | pbit1 <Vlan::NibbleMaskRestricted_1> ] [ no
+          pbit2 | pbit2 <Vlan::NibbleMaskRestricted_2> ] [ no pbit3 | pbit3 <Vlan::NibbleMaskRestricted_3> ] [ no pbit4 |
+          pbit4 <Vlan::NibbleMaskRestricted_4> ] [ no pbit5 | pbit5 <Vlan::NibbleMaskRestricted_5> ] [ no pbit6 | pbit6
+          <Vlan::NibbleMaskRestricted_6> ] [ no pbit7 | pbit7 <Vlan::NibbleMaskRestricted_7> ] )
+        suboptions:
+          profile_idx:
+            type: int
+            description: |
+              profile index
+          profile_name:
+            type: str
+            description: |
+              unique profile name
+          pbit0:
+            type: int
+            description: |
+              pbit0 value
+          pbit1:
+            type: int
+            description: |
+              pbit1 value
+          pbit2:
+            type: int
+            description: |
+              pbit2 value
+          pbit3:
+            type: int
+            description: |
+              pbit3 value
+          pbit4:
+            type: int
+            description: |
+              pbit4 value
+          pbit5:
+            type: int
+            description: |
+              pbit5 value
+          pbit6:
+            type: int
+            description: |
+              pbit6 value
+          pbit7:
+            type: int
+            description: |
+              pbit7 value
+
+      # > configure vlan ( no tpid (tpid_idx) ) | ( tpid (tpid_idx) value <Vlan::Tpid> )
       tpid:
-      broadcast_frames:
-      priority_policy:
+        type: list
+        elements: dict
+        description: |
+          configure vlan ( no tpid (tpid_idx) ) | ( tpid (tpid_idx) value <Vlan::Tpid> )
+        suboptions:
+          tpid_idx:
+            type: int
+            description: |
+              tpid index
+          value:
+            type: int
+            description: |
+              tpid value
+
 
 
 EXAMPLES:

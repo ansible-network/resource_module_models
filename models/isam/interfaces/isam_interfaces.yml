@@ -11,51 +11,55 @@ options:
     type: list
     elements: dict
     suboptions:
-      id:
-        type: str
-        description: 
-        - configure a specific interface port
-      admin-up:
-        type: bool
-        description: 
-        - If the interface has been activated administratevly
-      link-state-trap:
-        type: str
-        description:
-        - If link-up/link-down traps should be activated or disabled
-        choices:
-        - enable
-        - disable
-        - no-value
-        default: no-value
-      link-up-down-trap:
-        type: bool
-        description:
-        - If up/down state changes of the interface should be trapped     
-      severity:
-        type: str
-        description:
-        - How the 
-        choices:
-        - indetermiante
-        - warning
-        - minor
-        - major
-        - critical
-        - no-alarms
-        - default
-        - no-value
-        default: no-value
-      port-type:
-        description:
-        - The Type of port this port should be configured as
-        type: str
-        choices:
-        - uni
-        - nni
-        - hc-uni
-        - uplink
-        default: uni
+      port:
+        type: dict
+        description: This command allows the operator to configure interface management parameters.
+        suboptions:
+          id:
+            type: str
+            description: 
+            - configure a specific interface port
+          admin_up:
+            type: bool
+            description: 
+            - If the interface has been activated administratevly
+          link_state_trap:
+            type: str
+            description:
+            - If link-up/link-down traps should be activated or disabled
+            choices:
+            - enable
+            - disable
+            - no-value
+            default: no-value
+          link_updown_trap:
+            type: bool
+            description:
+            - If up/down state changes of the interface should be trapped     
+          severity:
+            type: str
+            description:
+            - How the 
+            choices:
+            - indetermiante
+            - warning
+            - minor
+            - major
+            - critical
+            - no-alarms
+            - default
+            - no-value
+            default: no-value
+          port_type:
+            description:
+            - The Type of port this port should be configured as
+            type: str
+            choices:
+            - uni
+            - nni
+            - hc-uni
+            - uplink
+            default: uni
       atm_pvc:
         type: dict
         description: This command allows the operator to configure extended interface management parameters.
@@ -74,7 +78,7 @@ options:
         type: dict
         description: This command allows the operator to configure the default severity for an alarm on this type of interface.
         suboptions:
-          index:
+          interface_type:
             type: string
             description: index of the IANA ifType
             required: true
