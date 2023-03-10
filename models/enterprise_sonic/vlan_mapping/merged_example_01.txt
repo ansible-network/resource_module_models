@@ -1,0 +1,95 @@
+# Using merged
+#
+# Before State:
+# -------------
+#
+#sonic# show running-configuration interface
+#!
+#interface Ethernet8
+# mtu 9100
+# speed 400000
+# fec RS
+# unreliable-los auto
+# shutdown
+# switchport vlan-mapping 623 2411
+#!
+#interface Ethernet16
+# mtu 9100
+# speed 400000
+# fec RS
+# unreliable-los auto
+# shutdown
+#!
+#interface PortChannel 2
+# switchport vlan-mapping 345 2999 priority 0
+# switchport vlan-mapping 500,540 dot1q-tunnel 3000
+# no shutdown
+#!
+
+  - name: Add vlan mapping configurations
+    sonic_vlan_mapping:
+      config:
+        - name: Ethernet8
+          mapping:
+            - service_vlan: 2755
+              vlan_ids: 
+                - vlan_ids: 392
+              dot1q_tunnel: false
+              inner_vlan: 590 
+        - name: Ethernet16
+          mapping:
+            - service_vlan: 2567
+              vlan_ids: 
+                - vlan_ids: 300
+              dot1q_tunnel: true
+              priority: 3
+          mapping:
+            - service_vlan: 2436
+              vlan_ids: 
+                - vlan_ids: 400-402
+                  vlan_ids: 404
+                  vlan_ids: 406
+                  vlan_ids: 408
+                  vlan_ids: 410
+                  vlan_ids: 412
+                  vlan_ids: 420
+                  vlan_ids: 422
+                  vlan_ids: 430-431
+              dot1q_tunnel: true
+        - name: Portchannel 2
+          mapping:
+            - service_vlan: 3000
+              vlan_ids: 
+                - vlan_ids: 506-512
+                  vlan_ids: 561
+              priority: 5
+      state: merged
+
+# After State:
+# ------------
+#
+#sonic# show running-configuration interface
+#!
+#interface Ethernet8
+# mtu 9100
+# speed 400000
+# fec RS
+# unreliable-los auto
+# shutdown
+# switchport vlan-mapping 623 2411
+# switchport vlan-mapping 392 inner 590 2755
+#!
+#interface Ethernet16
+# mtu 9100
+# speed 400000
+# fec RS
+# unreliable-los auto
+# shutdown
+# switchport vlan-mapping 400-402,404,406,408,410,412,420,422,430-431 dot1q-tunnel 2436
+# switchport vlan-mapping 300 dot1q-tunnel 2567 priority 3
+#!
+#interface PortChannel 2
+# switchport vlan-mapping 345 2999 priority 0
+# switchport vlan-mapping 500,506-512,540,561 dot1q-tunnel 3000 priority 5
+# no shutdown
+#!

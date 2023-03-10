@@ -1,0 +1,94 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+      'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: vlan_mapping
+COPYRIGHT: Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved
+
+DOCUMENTATION: |
+  module: sonic_vlan_mapping
+  author: "Cypher Miller (@Cypher-Miller)"
+  version_added: "2.1.0"
+  short_description: Configure vlan mappings on SONiC.
+  description:
+    - This module provides configuration management for vlan mappings on devices running SONiC.
+    - Vlan mappings only available on TD3 and TD4 devices.
+    - For TD4 devices must enable vlan mapping first (can enable in config-switch-resource).
+  options:
+    config:
+      description:
+        - Specifies the vlan mapping related configurations.
+      type: list
+      elements: dict
+      suboptions:
+        name:
+          description:
+            - Full name of the interface, i.e. Ethernet8, PortChannel2, Eth1/2.
+          required: true
+          type: str
+        mapping:
+          description:
+            - Defining a single vlan mapping.
+          type: list
+          elements: dict
+          suboptions:
+            service_vlan:
+              description:
+                - Configure service provider VLAN ID. 
+                - VLAN ID range is 1-4094.
+              required: true
+              type: int
+            vlan_ids:
+              description:
+                - Configure customer VLAN IDs.
+                - If mode is double tagged translation then this VLAN ID represents the outer VLAN ID.
+                - If mode is set to stacking can pass ranges and/or multiple list entries.
+              type: list
+              elements: dict
+              suboptions:
+                vlan_ids:
+                  description:
+                    - Individual VLAN ID or (-) separated range of VLAN IDs.
+                  type: str
+            dot1q_tunnel:
+              description:
+                - Specify whether it is a vlan stacking or translation (false means translation; true means stacking).
+              required: false
+              type: bool
+              default: false
+            inner_vlan:
+              description:
+                - Configure inner customer VLAN ID.
+                - VLAN IDs range is 1-4094.
+                - Only available for double tagged translations.
+              required: false
+              type: int
+            priority:
+              description:
+                - Set priority level of the vlan mapping.
+                - Priority range is 0-7.
+              required: false
+              type: int
+
+  state:
+    description:
+      - Specifies the operation to be performed on the vlan mappings configured on the device.
+      - In case of merged, the input configuration will be merged with the existing vlan mappings on the device.
+      - In case of deleted, the existing vlan mapping configuration will be removed from the device.
+      - In case of overridden, all existing vlan mappings will be deleted and the specified input configuration will be added.
+      - In case of replaced, the existing vlan mappings on the device will be replaced by the configuration in the playbook for each vlan mapping configured by the playbook.
+    default: merged
+    choices: ['merged', 'deleted','replaced', 'overridden']
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt

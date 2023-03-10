@@ -1,0 +1,67 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+#sonic# show running-configuration interface
+#!
+#interface Ethernet8
+# mtu 9100
+# speed 400000
+# fec RS
+# unreliable-los auto
+# shutdown
+# switchport vlan-mapping 623 2411
+# switchport vlan-mapping 392 inner 590 2755
+#!
+#interface Ethernet16
+# mtu 9100
+# speed 400000
+# fec RS
+# unreliable-los auto
+# shutdown
+# switchport vlan-mapping 400-402,404,406,408,410,412,420,422,430-432 dot1q-tunnel 2436 priority: 3
+# switchport vlan-mapping 300 dot1q-tunnel 2567 priority 3
+#!
+
+
+  - name: Delete vlan mapping configurations
+    sonic_vlan_mapping:
+      config:
+        - name: Ethernet8
+          mapping:
+            - service_vlan: 2755
+        - name: Ethernet16
+          mapping:
+            - service_vlan: 2567
+          mapping:
+            - service_vlan: 2436
+              vlan_ids: 
+                - vlan_ids: 404 
+                  vlan_ids: 401
+                  vlan_ids: 412
+                  vlan_ids: 430-431
+              priority: 3
+      state: deleted
+
+# After State:
+# ------------
+#
+#sonic# show running-configuration interface
+#!
+#interface Ethernet8
+# mtu 9100
+# speed 400000
+# fec RS
+# unreliable-los auto
+# shutdown
+# switchport vlan-mapping 623 2411
+#!
+#interface Ethernet16
+# mtu 9100
+# speed 400000
+# fec RS
+# unreliable-los auto
+# shutdown
+# switchport vlan-mapping 400,402,406,408,410,420,422,432 dot1q-tunnel 2436
+#!
