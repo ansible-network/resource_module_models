@@ -99,7 +99,7 @@ options:
         description: This command allows the operator to configure sliding-window traffic statistics on related interface.
         suboptions:
           port:
-            type: string
+            type: str
             description: the interface index
             required: true
           sliding-win-stats:
@@ -121,7 +121,7 @@ options:
             description: 
             - the physical cage position
             required: true
-          operational-mode:
+          operational_mode:
             type: string
             short_description:
             - optional parameter
