@@ -35,20 +35,20 @@
           mapping:
             - service_vlan: 2755
               vlan_ids: 
-                - vlan_ids: 390
+                - 390
               dot1q_tunnel: false
               inner_vlan: 593
         - name: Ethernet16
           mapping:
-          - service_vlan: 2567
-            vlan_ids: 
-              - vlan_ids: 310
-                vlan_ids: 330-340
-            priority: 5
+            - service_vlan: 2567
+              vlan_ids: 
+                - 310
+                - 330-340
+              priority: 5
         - name: Portchannel 2
           mapping:
-          - service_vlan: 2999
-            priority: 1
+            - service_vlan: 2999
+              priority: 1
       state: replaced
 
 

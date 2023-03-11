@@ -50,17 +50,13 @@ DOCUMENTATION: |
                 - Configure customer VLAN IDs.
                 - If mode is double tagged translation then this VLAN ID represents the outer VLAN ID.
                 - If mode is set to stacking can pass ranges and/or multiple list entries.
+                - Individual VLAN ID or (-) separated range of VLAN IDs.
               type: list
-              elements: dict
-              suboptions:
-                vlan_ids:
-                  description:
-                    - Individual VLAN ID or (-) separated range of VLAN IDs.
-                  type: str
+              elements: str
+              required: true
             dot1q_tunnel:
               description:
                 - Specify whether it is a vlan stacking or translation (false means translation; true means stacking).
-              required: false
               type: bool
               default: false
             inner_vlan:
@@ -68,13 +64,11 @@ DOCUMENTATION: |
                 - Configure inner customer VLAN ID.
                 - VLAN IDs range is 1-4094.
                 - Only available for double tagged translations.
-              required: false
               type: int
             priority:
               description:
                 - Set priority level of the vlan mapping.
                 - Priority range is 0-7.
-              required: false
               type: int
 
   state:

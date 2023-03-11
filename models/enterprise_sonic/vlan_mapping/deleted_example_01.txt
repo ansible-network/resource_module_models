@@ -37,10 +37,10 @@
           mapping:
             - service_vlan: 2436
               vlan_ids: 
-                - vlan_ids: 404 
-                  vlan_ids: 401
-                  vlan_ids: 412
-                  vlan_ids: 430-431
+                - 404 
+                - 401
+                - 412
+                - 430-431
               priority: 3
       state: deleted
 

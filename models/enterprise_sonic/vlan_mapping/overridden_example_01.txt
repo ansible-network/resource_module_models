@@ -29,21 +29,21 @@
           mapping:
             - service_vlan: 2755
               vlan_ids: 
-                - vlan_ids: 392
+                - 392
               dot1q_tunnel: false
               inner_vlan: 590
         - name: Ethernet16
           mapping:
             - service_vlan: 2567
               vlan_ids: 
-                - vlan_ids: 300
+                - 300
               dot1q_tunnel: true
               priority: 3
         - name: Portchannel 2
           mapping:
             - service_vlan: 2999
               vlan_ids:
-                - vlan_ids: 345
+                - 345
               priority: 0
       state: overridden
 
