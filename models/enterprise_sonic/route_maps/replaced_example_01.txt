@@ -43,7 +43,7 @@
          sequence_num: 80
          set:
            community:
-             community.number:
+             community_number:
                - 15:30
                - 26:54
      state: replaced
