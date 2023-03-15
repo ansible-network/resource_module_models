@@ -1,0 +1,157 @@
+# Using "replaced" state to replace the contents of dictionaries
+#
+# Before state:
+# ------------
+# sonic# show running-configuration route-map
+# !
+# route-map rm1 permit 80
+#  match as-path bgp_as2
+#  match evpn default-route
+#  match evpn route-type prefix
+#  match evpn vni 850
+#  match ip address prefix-list ip_pfx_list2
+#  match ipv6 address prefix-list ipv6_pfx_list1
+#  match interface Vlan7
+#  match community bgp_comm_list3
+#  match ext-community bgp_ext_comm1
+#  match tag 7284
+#  match local-preference 8000
+#  match source-vrf Vrf1
+#  match ip next-hop prefix-list ip_pfx_list3
+#  match peer PortChannel 14
+#  match source-protocol bgp
+#  match metric 400
+#  match origin egp
+#  set as-path prepend 188,257
+#  set community 15:30 26:54 local-AS no-export no-peer additive
+#  set extcommunity rt 30:40
+#  set extcommunity soo 10.73.14.9:78
+#  set comm-list bgp_comm_list2 delete
+#  set metric +rtt
+#  set ip next-hop 10.48.16.18
+#  set ipv6 next-hop global 30::30
+#  set local-preference 635
+#  set origin egp
+#  set weight 93471
+# !
+# route-map rm1 deny 3047
+#  match as-path bgp_as3
+#  match evpn route-type multicast
+#  match ext-community bgp_ext_comm2
+#  match peer Ethernet6
+#  match source-protocol ospf
+#  match origin igp
+#  set metric -rtt
+#  set origin incomplete
+# !
+# route-map rm2 permit 100
+#  match interface Ethernet16
+#  set as-path prepend 200,300,400
+#  set ipv6 next-hop global 37::58
+#  set ipv6 next-hop prefer-global
+#  set metric 8000
+# !
+# route-map rm3 deny 285
+#  match evpn route-type macip
+#  match local-preference 14783
+#  call rm1
+#  match peer 87:95:15::53
+#  match source-protocol bgp
+#  match origin igp
+#  set community no-advertise
+#  set metric rtt
+#  set origin igp
+# !
+# route-map rm4 permit 480
+#  match evpn route-type prefix
+#  match source-protocol static
+#  set metric -rtt
+# ------------
+- name: Replace dictionaries
+  dellemc.enterprise_sonic.sonic_route_maps:
+     config:
+       - name: rm1
+         action: permit
+         sequence_num: 80
+         match:
+           evpn:
+             route-type: multicast
+           ip:
+             address: ip_pfx_list1
+         set:
+           community:
+             no-advertise: true
+           extcommunity:
+             rt: 20:20
+
+       - name: rm2
+         action: permit
+         sequence_num: 100
+         set:
+           ipv6-next-hop:
+             global-addr: 45::90
+     state: replaced
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration route-map
+# !
+# route-map rm1 permit 80
+#  match as-path bgp_as2
+#  match evpn route-type multicast
+#  match ip address prefix-list ip_pfx_list1
+#  match ipv6 address prefix-list ipv6_pfx_list1
+#  match interface Vlan7
+#  match community bgp_comm_list3
+#  match ext-community bgp_ext_comm1
+#  match tag 7284
+#  match local-preference 8000
+#  match source-vrf Vrf1
+#  match peer PortChannel 14
+#  match source-protocol bgp
+#  match metric 400
+#  match origin egp
+#  set as-path prepend 188,257
+#  set community no-advertise
+#  set extcommunity rt 30:40
+#  set extcommunity rt 20:20
+#  set comm-list bgp_comm_list2 delete
+#  set metric +rtt
+#  set ip next-hop 10.48.16.18
+#  set ipv6 next-hop global 30::30
+#  set local-preference 635
+#  set origin egp
+#  set weight 93471
+# !
+# route-map rm1 deny 3047
+#  match as-path bgp_as3
+#  match evpn route-type multicast
+#  match ext-community bgp_ext_comm2
+#  match peer Ethernet6
+#  match source-protocol ospf
+#  match origin igp
+#  set metric -rtt
+#  set origin incomplete
+# !
+# route-map rm2 permit 100
+#  match interface Ethernet16
+#  set as-path prepend 200,300,400
+#  set metric 8000
+#  set ipv6 next-hop global 45::90
+# !
+# route-map rm3 deny 285
+#  match evpn route-type macip
+#  match local-preference 14783
+#  call rm1
+#  match peer 87:95:15::53
+#  match source-protocol bgp
+#  match origin igp
+#  set community no-advertise
+#  set metric rtt
+#  set origin igp
+# !
+# route-map rm4 permit 480
+#  match evpn route-type prefix
+#  match source-protocol static
+#  set metric -rtt

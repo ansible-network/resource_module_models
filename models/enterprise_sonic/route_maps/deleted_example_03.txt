@@ -1,0 +1,52 @@
+# Using "deleted" state to remove all route map configuration
+#
+# Before state:
+# ------------
+#
+# sonic# show running-configuration route-map
+# !
+# route-map rm1 permit 80
+#  match ipv6 address prefix-list ipv6_pfx_list1
+#  match interface Vlan7
+#  match ext-community bgp_ext_comm1
+#  match tag 7284
+#  match local-preference 8000
+#  match source-vrf Vrf1
+#  match peer PortChannel 14
+#  match source-protocol bgp
+#  match metric 400
+#  match origin egp
+#  set comm-list bgp_comm_list2 delete
+#  set metric +rtt
+#  set ip next-hop 10.48.16.18
+#  set local-preference 635
+#  set origin egp
+#  set weight 93471
+# !
+# route-map rm3 deny 285
+#  match evpn route-type macip
+#  match local-preference 14783
+#  call rm1
+#  match peer 87:95:15::53
+#  match source-protocol bgp
+#  match origin igp
+#  set community no-advertise
+#  set metric rtt
+#  set origin igp
+# !
+# route-map rm4 permit 480
+#  match evpn route-type prefix
+#  match source-protocol static
+#  set metric -rtt
+# ------------
+- name: Delete all route map configuration
+  dellemc.enterprise_sonic.sonic_route_maps:
+     config:
+     state: deleted
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration route-map
+# sonic#
+# (no route map configuration present)
