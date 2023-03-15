@@ -35,25 +35,25 @@
 #  set origin egp
 #  set weight 93471
 # ------------
-- name: Delete selected route-map configuration
+- name: Delete selected route map configuration
   dellemc.enterprise_sonic.sonic_route_maps:
      config:
-       - name: rm1
+       - map_name: rm1
          action: permit
          sequence_num: 80
          match:
-           as-path:  bgp_as2
+           as_path:  bgp_as2
            community:  bgp_comm_list3
            evpn:
              vni: 850
            ip:
              address: ip_pfx_list2
          set:
-           as-path-prepend: 188,257
+           as_path_prepend: 188,257
            community:
-             community-number:
+             community_number:
                - 35:58
-             local-as: true
+             local_as: true
            extcommunity:
              rt: 30:40
      state: deleted

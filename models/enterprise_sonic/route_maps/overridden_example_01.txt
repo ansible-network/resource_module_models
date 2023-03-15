@@ -68,13 +68,13 @@
 - name: Override all route map configuration with new configuration
   dellemc.enterprise_sonic.sonic_route_maps:
      config:
-       - name: rm5
+       - map_name: rm5
          action: permit
          sequence_num: 250
          match:
            interface: Ethernet28
          set:
-           as-path-prepend: 150,275
+           as_path_prepend: 150,275
            metric: 7249
      state: overridden
 
