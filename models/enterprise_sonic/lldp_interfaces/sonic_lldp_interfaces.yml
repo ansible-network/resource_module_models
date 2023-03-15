@@ -69,22 +69,14 @@ DOCUMENTATION: |
              type: list
              elements: dict
              suboptions:
-               management_address:
+               ipv4_management_address:
                  description:
-                     - To configure management address for LLDP
+                     - To configure IPv4 management address for LLDP in A.B.C.D format
                  type: str
-                 required: true
-               afi:
+               ipv6_management_address:
                  description:
-                   - Specifies the address Family for Management address
+                   - To configure IPv6 management address for LLDP in A:B::C:D format
                  type: str
-                 choices: ["ipv4", "ipv6"]
-                 required: true
-               address:
-                 description:
-                   - IPv4 or IPv6 address in A.B.C.D or A:B::C:D format
-                 type: str
-                 required: true
       state:
         description:
           - The state specifies the type of configuration update to be performed on the device.

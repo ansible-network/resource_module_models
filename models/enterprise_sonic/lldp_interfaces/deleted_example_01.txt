@@ -19,9 +19,7 @@
         name : Ethernet1
         mode: transmit
         tlv_set:
-          management_address:
-            afi: ipv4
-            address: 10.1.1.2 
+          ipv4_management_address: 10.1.1.2
       state: deleted
 
 # After State:
