@@ -21,15 +21,13 @@
   - name: Modify LLDP Interface configurations
     dellemc.enterprise_sonic.sonic_lldp_interfaces:
       config:
-         name: Ethernet1 
+         name: Ethernet1
             enable: false
-            mode: transmit 
-            med_tlv_select: power-management 
+            mode: transmit
+            med_tlv_select: power-management
             tlv_set:
-               management_address:
-                 afi: ipv4
-                 address: 10.1.1.2
-      state: merged 
+               ipv4_management_address: 10.1.1.2
+      state: merged
 
 # After State:
 # ------------
