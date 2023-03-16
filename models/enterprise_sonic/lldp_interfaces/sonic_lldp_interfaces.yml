@@ -47,12 +47,21 @@ DOCUMENTATION: |
           med_tlv_select:
             description:
               - This command can be used to select whether to advertise the LLDP-MED TLVs or not.
-                By default the LLDP-MED TLVs are advertised
+                By default the LLDP-MED TLVs are advertised.
               - This command is supported only on physical interfaces and not on logical interfaces.
-            type: str
-            choices:
-               - 'network-policy'
-               - 'power-management'
+             type: list
+             elements: dict
+             suboptions:
+               network_policy:
+                 description:
+                     - This command can be used to select whether to advertise network-policy
+                       LLDP-MED TLVs or not.By default network-policy LLDP-MED TLVs are advertised.
+                 type: str
+               power_management:
+                 description:
+                     - This command can be used to select whether to advertise power-management
+                       LLDP-MED TLVs or not.By default power-management LLDP-MED TLVs are advertised.
+                 type: str
           tlv_select:
              description:
                - This command can be used to select whether to advertise the LLDP 802.3at or bt

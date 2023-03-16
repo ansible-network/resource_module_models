@@ -22,7 +22,8 @@
     dellemc.enterprise_sonic.sonic_lldp_interfaces:
       config:
         tlv_select: power-management
-        med_tlv_select: network-policy 
+        med_tlv_select:
+           network_policy: 'network-policy'
       state: deleted
 
 # After State:
