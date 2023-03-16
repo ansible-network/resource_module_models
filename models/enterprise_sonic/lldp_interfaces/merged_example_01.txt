@@ -24,7 +24,8 @@
          name: Ethernet1
             enable: false
             mode: transmit
-            med_tlv_select: power-management
+            med_tlv_select:
+              power_management: 'power-management'
             tlv_set:
                ipv4_management_address: 10.1.1.2
       state: merged
