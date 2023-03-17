@@ -25,7 +25,7 @@ DOCUMENTATION: |
         - Specifies a list of route map configuration dictionaries
       type: list
       elements: dict
-      options:
+      suboptions:
         map_name:
           description:
             - Name of a route map
@@ -47,7 +47,7 @@ DOCUMENTATION: |
         match:
           description: Criteria for matching the route map to a route
           type: dict
-          options:
+          suboptions:
             as_path:
               description:
                 - Name of a configured BGP AS path list to be checked for
@@ -64,14 +64,14 @@ DOCUMENTATION: |
                 - a match with the target route
               type: dict
               required_one_of: [['default_route', 'route_type', 'vni']]
-              options:
+              suboptions:
                 default_route:
                   description:
                     - Default EVPN type-5 route
                   type: bool
                 route_type:
                   description:
-                    - Non-default route type: One of the following:
+                    - "Non-default route type: One of the following:"
                     - mac-ip route, EVPN Type 3 Inclusive Multicast Ethernet
                     - Tag (IMET) route, or prefix route
                   type: str
@@ -86,16 +86,16 @@ DOCUMENTATION: |
                   type: int
             ext_comm:
               description:
-                - Name of a configured BGP "extended community" to be checked for
+                - Name of a configured BGP 'extended community' to be checked for
                 - a match with the target route
               type: str
             interface:
               description:
                 - Next hop interface name (type and number) to be checked for a
                 - match with the target route. The interface type can be any
-                - of the following; "Ethernet/Eth" interface or sub-interface,
-                - "Loopback" interface, "PortChannel" interface or
-                - sub-interface, "Vlan" interface.
+                - of the following; 'Ethernet/Eth' interface or sub-interface,
+                - "'Loopback' interface, 'PortChannel' interface or"
+                - "sub-interface, 'Vlan' interface."
               type: str
             ip:
               description:
@@ -103,7 +103,7 @@ DOCUMENTATION: |
                 - target route
               type: dict
               required_one_of: [['address', 'next_hop']]
-              options:
+              suboptions:
                 address:
                   description:
                     - name of an IPv4 prefix list containing a list of address
@@ -119,7 +119,7 @@ DOCUMENTATION: |
                 - IPv6 addresses to be checked for a match with the
                 - target route
               type: dict
-              options:
+              suboptions:
                 address:
                   description:
                     - name of an IPv6 prefix list containing a list of address
@@ -148,22 +148,22 @@ DOCUMENTATION: |
               description:
                 - BGP routing peer/neighbor required for a matching route
               type: dict
-                required_one_of: [['ip', 'ipv6', 'interface']]
-                mutually_exclusive: [['ip', 'ipv6', 'interface']]
-                options:
-                  ip:
-                    description: IPv4 address of a BGP peer
-                    type: str
-                  ipv6:
-                    description: IPv6 address of a BGP peer
-                    type: str
-                  interface:
-                    description:
-                      - Name (type and number) of a BGP peer interface.
-                      - Allowed interface types are Ethernet or Eth (depending
-                      - on the configured interface-naming mode),
-                      - Vlan, and Portchannel
-                    type: str
+              required_one_of: [['ip', 'ipv6', 'interface']]
+              mutually_exclusive: [['ip', 'ipv6', 'interface']]
+              suboptions:
+                ip:
+                  description: IPv4 address of a BGP peer
+                  type: str
+                ipv6:
+                  description: IPv6 address of a BGP peer
+                  type: str
+                interface:
+                  description:
+                    - Name (type and number) of a BGP peer interface.
+                    - Allowed interface types are Ethernet or Eth (depending
+                    - on the configured interface-naming mode),
+                    - Vlan, and Portchannel
+                  type: str
             source_protocol:
               description: Source protocol required for a matching route
               type: str
@@ -183,99 +183,101 @@ DOCUMENTATION: |
         set:
           description: Information to set into a matching route for re-distribution
           type: dict
-          options:
+          suboptions:
             as_path_prepend:
               description:
                 - String specifying a comma-separated list of AS-path numbers
-                - to prepend to the BGP AS-path attribute in a matched route.
+                - "to prepend to the BGP AS-path attribute in a matched route."
                 - AS-path values in the list must be in the range
-                - 1 through 4294967295; for example, 2000,3000
+                - "1-4294967295; for example, 2000,3000"
               type: str
             comm_list_delete:
               description:
                 - String specifying the name of a BGP community list containing
-                  BGP Community values to be deleted from matching routes.
+                - BGP Community values to be deleted from matching routes.
               type: str
             community:
               description:
                 - BGP community attributes to add to or replace the BGP
-                - community attributes in a matching route. Specifying
-                - the "additive" attribute can be specified only if one of
+                - community attributes in a matching route. Specifying the
+                - "'additive' attribute is allowed only if one of"
                 - the other attributes (other than 'none') is specified.
-                - It causes the specified "set community" attributes
+                - It causes the specified 'set community' attributes
                 - to be added to the already existing community
-                - attributes in the matching route. If the "additive" attribute
+                - "attributes in the matching route. If the 'additive' attribute"
                 - is not specified, the previously existing community attributes
                 - in the matching route are replaced by the configured
-                - "set community" attributes. Specifying a "set community" attribute
-                - of "none" is mutually exclusive with setting of other community
+                - "'set community' attributes. Specifying a 'set community' attribute"
+                - of 'none' is mutually exclusive with setting of other community
                 - attributes and causes any community attributes in the matching
                 - route to be removed.
-              type dict:
-                required_one_of: [['community_number', 'local_as', 'no_advertise',
-                    'no-export', 'no-peer', 'none']]
-                mutually_exclusive:[['community_number', 'none'],
-                                    ['local_as', 'none'],
-                                    ['no_advertise', 'none'],
-                                    ['no_export', 'none'],
-                                    ['no_peer', 'none']]
-                options:
-                  community_number:
-                    description:
-                      - A list of one or more BGP community numbers in the
-                      - form AA:NN where AA and NN are integers in the range
-                      - 0 through 65535.
-                    type: list
-                      elements: str
-                  local_as:
-                    description:
-                      - Do not send outside local AS (well-known community)
-                    type: bool
-                  no_advertise:
-                    description:
-                      - Do not advertise to any peer (well-known community)
-                    type: bool
-                  no_export:
-                    description:
-                      - Do not export to next AS (well-known community)
-                    type: bool
-                  no_peer:
-                    description:
-                      - The route does not need to be advertised to peers.
-                        (Advertisement of the route can be suppressed based
-                        on other criteria.)
-                    type: bool
-                  additive:
-                    description:
-                      - Add the configured "set community" attributes to
-                      - the matching route (if set to 'true'); Previously existing
-                      - attributes in the matching route are, instead, replaced
-                      - by the configured attributes if this attribute is
-                      - not specified or if it is set to 'false'.
-                    type: bool
-                  none:
-                    description:
-                      - Do not send any community attribute. This attribute
-                      - is mutually exclusive with all other "set community"
-                      - attributes. It causes all attributes to be removed
-                      - from the matching route.
-                    type: bool
+              type: dict
+              required_one_of: [['community_number', 'local_as', \
+                                 'no_advertise', 'no_export', 'no_peer', \
+                                 'none']]
+              mutually_exclusive: [[ \
+                'community_number', 'none'], [ \
+                'local_as', 'none'], [ \
+                'no_advertise', 'none'], [ \
+                'no_export', 'none'], [ \
+                'no_peer', 'none']]
+              suboptions:
+                community_number:
+                  description:
+                    - A list of one or more BGP community numbers in the
+                    - "form AA:NN where AA and NN are integers in the range"
+                    - 0-65535.
+                  type: list
+                  elements: str
+                local_as:
+                  description:
+                    - Do not send outside local AS (well-known community)
+                  type: bool
+                no_advertise:
+                  description:
+                    - Do not advertise to any peer (well-known community)
+                  type: bool
+                no_export:
+                  description:
+                    - Do not export to next AS (well-known community)
+                  type: bool
+                no_peer:
+                  description:
+                    -"The route does not need to be advertised to peers.
+                    - (Advertisement of the route can be suppressed based
+                    - on other criteria.)
+                  type: bool
+                additive:
+                  description:
+                    - Add the configured 'set community' attributes to
+                    - "the matching route (if set to 'true'); Previously existing"
+                    - attributes in the matching route are, instead, replaced
+                    - by the configured attributes if this attribute is
+                    - not specified or if it is set to 'false'.
+                  type: bool
+                none:
+                  description:
+                    - Do not send any community attribute. This attribute
+                    - is mutually exclusive with all other 'set community'
+                    - attributes. It causes all attributes to be removed
+                    - from the matching route.
+                  type: bool
             extcommunity:
               description:
                 - BGP extended community attributes to set into a matching route.
               type: dict
-                required_one_of: [['rt', 'soo']]
-                options:
-                  rt:
-                    description:
-                      - Route Target VPN extended community in the format
-                      - ASN:NN or IP-ADDRESS:NN
-                    type: str
-                  soo:
-                    description:
-                      - Site-of-Origin VPN extended community in the format
-                      - ASN:NN or IP-ADDRESS:NN
-                    type: str
+              required_one_of: [['rt', 'soo']]
+              options:
+                rt:
+                  description:
+                    - Route Target VPN extended community in the format
+                    - "ASN:NN or IP-ADDRESS:NN"
+                  type: str
+                soo:
+                  description:
+                    - "Site-of-Origin VPN extended community in the format"
+                    - "ASN:NN or IP-ADDRESS:NN"
+                  type: str
             ip_next_hop:
               description:
                 - IPv4 next hop address to set into a matching route in the
@@ -285,57 +287,58 @@ DOCUMENTATION: |
               description:
                 - IPv6 next hop address attributes to set into a matching route
               type: dict
-                required_one_of: [['global_addr', 'prefer_global']]
-                options:
-                  global_addr:
-                    description:
-                      - IPv6 global next hop address to set into a matching
-                      - route in the format A::B
-                    type: str
-                  prefer_global:
-                    description:
-                      - Set the corresponding attribute into a matching route
-                      - if the value of this Ansible attribute is "true";
-                      - Prefer global next-hop address over link-local if both
-                      - exist.
-                    type: bool
+              required_one_of: [['global_addr', 'prefer_global']]
+              suboptions:
+                global_addr:
+                  description:
+                    - IPv6 global next hop address to set into a matching
+                    - "route in the format A::B"
+                  type: str
+                prefer_global:
+                  description:
+                    - Set the corresponding attribute into a matching route
+                    - if the value of this Ansible attribute is 'true'.
+                    - The attribute indicates that the routing algorithm must
+                    - prefer the global next-hop address over the link-local
+                    - address if both exist.
+                  type: bool
             local_preference:
               description:
-                  - BGP local preference path attribute; integer value in
-                  - the range 0 through 4294967295
+                  - "BGP local preference path attribute; integer value in"
+                  - the range 0-4294967295
               type: int
             metric:
               description:
                 - route metric value actions
               type: dict
-                required_one_of: [['value', 'rtt_action']]
-                mutually_exclusive:[['value', 'rtt_action']]
-                options:
-                  value:
-                    description:
-                      - metric value to be set into a matching route;
-                      - value in the range 0 through 4294967295
-                    type: int
-                  rtt_action:
-                    description:
-                      - Action to take for modifying the metric for a matched
-                      - route using the Round Trip Time (rtt);
-                      - C(set) causes the route metric to be set to the
-                      - rtt value.
-                      - C(add) causes the rtt value to be added
-                      - to the route metric.
-                      - C(subtract) causes the rtt value to be
-                      - subtracted from route metric.
-                    type: str
-                    choices:
-                      - set
-                      - add
-                      - subtract
+              required_one_of: [['value', 'rtt_action']]
+              mutually_exclusive: [['value', 'rtt_action']]
+              options:
+                value:
+                  description:
+                    - "metric value to be set into a matching route;"
+                    - value in the range 0-4294967295
+                  type: int
+                rtt_action:
+                  description:
+                    - Action to take for modifying the metric for a matched
+                    - "route using the Round Trip Time (rtt);"
+                    - C(set) causes the route metric to be set to the
+                    - rtt value.
+                    - C(add) causes the rtt value to be added
+                    - to the route metric.
+                    - C(subtract) causes the rtt value to be
+                    - subtracted from route metric.
+                  type: str
+                  choices:
+                    - set
+                    - add
+                    - subtract
             origin:
               description:
-                - BGP route origin; One of the following must be selected.
-                - egp (External; remote EGP)
-                - igp (Internal; local IGP)
+                - "BGP route origin; One of the following must be selected."
+                - "egp (External; remote EGP)"
+                - "igp (Internal; local IGP)"
                 - incomplete (Unknown origin)
               type: str
               choices: 
@@ -345,12 +348,12 @@ DOCUMENTATION: |
             weight:
               description:
                 - BGP weight for the routing table. The weight must be an
-                - integer in the range 0 through 4294967295
+                - integer in the range 0-4294967295
               type: int
         call:
           description:
             - Name of a route map to jump to after executing 'match' and 'set'
-              statements for the current route map.
+            - statements for the current route map.
           type: str
 
     state:
