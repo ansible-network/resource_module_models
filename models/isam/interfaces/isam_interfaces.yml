@@ -64,11 +64,11 @@ options:
         type: dict
         description: This command allows the operator to configure extended interface management parameters.
         suboptions:
-          pvc-index:
+          pvc_index:
             type: string
             description: the ATM PVC interface index
             required: true
-          customer-id:
+          customer_id:
             type: string
             description: 
             - optional parameter with default value "available" 
