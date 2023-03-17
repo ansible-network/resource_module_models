@@ -79,11 +79,11 @@ options:
         description: This command allows the operator to configure the default severity for an alarm on this type of interface.
         suboptions:
           interface_type:
-            type: string
+            type: str            
             description: index of the IANA ifType
             required: true
-          default-severity:
-            type: string
+          default_severity:            
+          type: string
             description: 
             - optional parameter with default value "major" 
             - set minimum severity for alarm to be reported.
@@ -102,8 +102,8 @@ options:
             type: str
             description: the interface index
             required: true
-          sliding-win-stats:
-            type: bool
+          sliding_win_stats:            
+          type: bool
             description: 
             - optional parameter 
             - enable sliding-window traffic statistics on related interface.
