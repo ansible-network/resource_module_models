@@ -1,0 +1,105 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community',
+        'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: mirroring
+COPYRIGHT: Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved
+
+DOCUMENTATION: |
+    module: sonic_mirroring
+    version_added: '2.1.0'
+    short_description: Manage mirroring configurations on SONiC
+    description:
+      - This module provides configuration management for mirroring on devices running SONiC
+    author: 'Mohammed Nazeer(@m_nazeer)'
+    options:
+      config:
+        description:
+          - Specifies the Mirroring related configuration
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            description:
+              - Mirror session name.
+              - Max 24 characters.
+            type: str
+          destination:
+            description:
+              - Mirror session destination interface.
+            type: dict
+            suboptions:
+              destination_name:
+                description:
+                  - Mirror session destination types. CPU/ERSPAN/Ethernet.
+                  - For option Ethernet, use Full name of the Layer 3 ethernet interface only, i.e. Eth1/1
+                type: str
+              direction:
+                description:
+                  - Direction configuration for mirroring.
+                  - Supports rx/tx/both as direction config
+                type: str
+                choices:
+                  - rx
+                  - tx
+                  - both
+              source:
+                description:
+                  -  Supports mirroring to physical interface Ethernet and Port Channel only
+                  -  For option Ethernet, use Full name of the Layer 3 ethernet interface, i.e. Eth1/1 and similarly for PortChannel
+                type: str
+              dscp:
+                description:
+                  -  ERSPAN destination dscp. Mirrored frames will be sent with configured DSCP value.
+                  -  Range 0 to 63
+                  -  Only for ERSPAN
+                type: int
+              desination_ip:
+                description:
+                  -  ERSPAN destination ip address. Mirrored frames will be routed to this destination
+                  -  Only for ERSPAN
+                  -  Mandatory if ERSPAN is needed to be configured
+                type: str
+              gre:
+                description:
+                  -  ERSPAN GRE type. Mirrored frames will be sent with the configured GRE type
+                  -  Only for ERSPAN
+                type: str
+              queue:
+                description:
+                  -  ERSPAN destination queue number. Range <0..63>
+                  -  Only for ERSPAN
+                type: int
+              source_ip:
+                description:
+                  -  ERSPAN source ip. This IP will be set as source ip in outer header of mirrored frame
+                  -  Only for ERSPAN
+                type: str
+              ttl:
+                description:
+                  -  ERSPAN TTL value. Mirrored frames will be sent with configured TTL value. 
+                  -  Range 0 to 63
+                  -  Only for ERSPAN
+                type: int
+      state:
+        description:
+          - The state specifies the type of configuration update to be performed on the device. 
+          - If the state is "merged", merge specified attributes with existing configured attributes.
+          - For "deleted", delete the specified mirror session.
+        type: str
+        choices:
+          - merged
+          - deleted
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - merged_example_02.txt
+  - merged_example_03.txt

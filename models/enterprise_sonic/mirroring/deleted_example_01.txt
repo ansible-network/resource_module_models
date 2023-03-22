@@ -1,0 +1,21 @@
+# Using Deleted
+#
+# Before State:
+# -------------
+#
+#sonic1(config-mirror-mirror1)# do show running-configuration mirror-session
+#!
+#mirror-session mirror1
+# destination Ethernet1 direction tx
+
+  - name: Delete mirror session configurations
+    sonic_mirroring:
+      config:
+        name: mirror1
+      state: deleted
+#
+# After State:
+# -------------
+#
+#sonic1(config)# do show running-configuration mirror-session
+#
