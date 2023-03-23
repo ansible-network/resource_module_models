@@ -48,6 +48,9 @@
         - name: Portchannel 2
           mapping:
             - service_vlan: 2999
+              vlan_ids:
+                - 345
+              dot1q_tunnel: true
               priority: 1
       state: replaced
 
@@ -76,6 +79,6 @@
 # switchport vlan-mapping 310,330-340 dot1q-tunnel 2567 priority 5
 #!
 #interface PortChannel 2
-# switchport vlan-mapping 345 2999 priority 1
+# switchport vlan-mapping 345 dot1q_tunnel 2999 priority 1
 # no shutdown
 #!

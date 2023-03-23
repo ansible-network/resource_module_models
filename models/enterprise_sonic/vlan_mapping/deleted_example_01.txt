@@ -20,7 +20,7 @@
 # fec RS
 # unreliable-los auto
 # shutdown
-# switchport vlan-mapping 400-402,404,406,408,410,412,420,422,430-432 dot1q-tunnel 2436 priority: 3
+# switchport vlan-mapping 400-402,404,406,408,410,412,420,422,430-432 dot1q-tunnel 2436 priority 3
 # switchport vlan-mapping 300 dot1q-tunnel 2567 priority 3
 #!
 
@@ -34,7 +34,7 @@
         - name: Ethernet16
           mapping:
             - service_vlan: 2567
-          mapping:
+              priority: 3
             - service_vlan: 2436
               vlan_ids: 
                 - 404 
@@ -64,4 +64,5 @@
 # unreliable-los auto
 # shutdown
 # switchport vlan-mapping 400,402,406,408,410,420,422,432 dot1q-tunnel 2436
+# switchport vlan-mapping 300 dot1q-tunnel 2567
 #!

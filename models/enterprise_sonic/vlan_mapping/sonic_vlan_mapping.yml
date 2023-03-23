@@ -53,7 +53,6 @@ DOCUMENTATION: |
                 - Individual VLAN ID or (-) separated range of VLAN IDs.
               type: list
               elements: str
-              required: true
             dot1q_tunnel:
               description:
                 - Specify whether it is a vlan stacking or translation (false means translation; true means stacking).
@@ -77,9 +76,9 @@ DOCUMENTATION: |
       - In case of merged, the input configuration will be merged with the existing vlan mappings on the device.
       - In case of deleted, the existing vlan mapping configuration will be removed from the device.
       - In case of overridden, all existing vlan mappings will be deleted and the specified input configuration will be added.
-      - In case of replaced, the existing vlan mappings on the device will be replaced by the configuration in the playbook for each vlan mapping configured by the playbook.
+      - In case of replaced, the existing vlan mappings on the device will be replaced by the configuration in the playbook for each vlan mapping configured.
     default: merged
-    choices: ['merged', 'deleted','replaced', 'overridden']
+    choices: ['merged', 'deleted', 'replaced', 'overridden']
 EXAMPLES:
   - deleted_example_01.txt
   - deleted_example_02.txt

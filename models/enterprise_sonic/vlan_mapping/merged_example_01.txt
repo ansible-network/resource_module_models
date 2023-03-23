@@ -43,7 +43,6 @@
                 - 300
               dot1q_tunnel: true
               priority: 3
-          mapping:
             - service_vlan: 2436
               vlan_ids: 
                 - 400-402
@@ -58,6 +57,8 @@
               dot1q_tunnel: true
         - name: Portchannel 2
           mapping:
+            - service_vlan: 2999
+              priority: 4
             - service_vlan: 3000
               vlan_ids: 
                 - 506-512
@@ -89,7 +90,7 @@
 # switchport vlan-mapping 300 dot1q-tunnel 2567 priority 3
 #!
 #interface PortChannel 2
-# switchport vlan-mapping 345 2999 priority 0
+# switchport vlan-mapping 345 2999 priority 4
 # switchport vlan-mapping 500,506-512,540,561 dot1q-tunnel 3000 priority 5
 # no shutdown
 #!
