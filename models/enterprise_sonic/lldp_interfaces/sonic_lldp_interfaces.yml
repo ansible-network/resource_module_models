@@ -56,20 +56,25 @@ DOCUMENTATION: |
                 description:
                      - This command can be used to select whether to advertise network-policy
                        LLDP-MED TLVs or not.By default network-policy LLDP-MED TLVs are advertised.
-                type: str
+                type: bool
               power_management:
                 description:
                      - This command can be used to select whether to advertise power-management
                        LLDP-MED TLVs or not.By default power-management LLDP-MED TLVs are advertised.
-                type: str
+                type: bool
           tlv_select:
-             description:
+            description:
                - This command can be used to select whether to advertise the LLDP 802.3at or bt
                  power management TLVs or not. By default this TLV is advertised.
                - This command is supported only on physical interfaces and not on logical interfaces.
-             type: str
-             choices:
-                - 'power-management'
+            type: list
+            elements: dict
+            suboptions:
+              power_management:
+                description:
+                     - This command can be used to select whether to advertise power-management
+                       LLDP TLVs or not.By default power-management LLDP TLVs are advertised.
+                type: bool
           tlv_set:
              description:
                -   This command can be used to configure an IPv4 or IPv6 management address
