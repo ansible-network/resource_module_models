@@ -25,9 +25,9 @@
             enable: false
             mode: transmit
             med_tlv_select:
-              power_management: 'power-management'
+              power_management: True
             tlv_set:
-               ipv4_management_address: 10.1.1.2
+              ipv4_management_address: 10.1.1.2
       state: merged
 
 # After State:
