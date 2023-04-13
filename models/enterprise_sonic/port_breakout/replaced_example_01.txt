@@ -1,0 +1,31 @@
+# Using replaced
+#
+# Before state:
+# -------------
+#
+#do show interface breakout
+#-----------------------------------------------
+#Port  Breakout Mode  Status        Interfaces
+#-----------------------------------------------
+#1/49   4x25G         Completed     Eth1/49/1
+#                                   Eth1/49/2
+#                                   Eth1/49/3
+#                                   Eth1/49/4
+#
+#    - name: Replace users configurations
+#      sonic_port_breakout:
+#        config:
+#          - name: 1/49
+#            mode: 4x10G
+#        state: replaced
+# After state:
+# ------------
+#
+#do show interface breakout
+#-----------------------------------------------
+#Port  Breakout Mode  Status        Interfaces
+#-----------------------------------------------
+#1/49   4x10G         Completed     Eth1/49/1
+#                                   Eth1/49/2
+#                                   Eth1/49/3
+#                                   Eth1/49/4
