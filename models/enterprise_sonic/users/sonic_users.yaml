@@ -9,7 +9,7 @@ ANSIBLE_METADATA: |
     }
 NETWORK_OS: sonic
 RESOURCE: users
-COPYRIGHT: "© Copyright 2020 Dell Inc. or its subsidiaries. All Rights Reserved"
+COPYRIGHT: "© Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved"
 LICENSE: gpl-3.0.txt
 DOCUMENTATION: |
   module: sonic_users
@@ -39,6 +39,8 @@ DOCUMENTATION: |
           choices:
             - admin
             - operator
+            - netadmin
+            - secadmin  
         password:
           description:
             - Specifies the password of the user.
@@ -59,8 +61,10 @@ DOCUMENTATION: |
         - In case of merged, the input configuration will be merged with the existing users configuration on the device.
         - In case of deleted the existing users configuration will be removed from the device.
       default: merged
-      choices: ['merged', 'deleted']
+      choices: ['merged', 'deleted', 'overridden', 'replaced']
 EXAMPLES:
   - deleted_example_01.txt
   - deleted_example_02.txt
   - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt  

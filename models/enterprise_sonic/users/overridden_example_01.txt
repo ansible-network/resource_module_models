@@ -1,4 +1,4 @@
-# Using merged
+# Using Overridden
 #
 # Before state:
 # -------------
@@ -8,19 +8,17 @@
 # User                              Role(s)
 # ----------------------------------------------------------------------
 # admin                             admin
+# sysadmin                          admin
+# sysoperator                       operator
 
-- name: Merge users configurations
+- name: Override users configurations
   dellemc.enterprise_sonic.sonic_users:
     config:
-      - name: sysadmin
-        role: admin
-        password: admin
+      - name: user1
+        role: secadmin
+        password: 123abc
         update_password: always
-      - name: sysoperator
-        role: operator
-        password: operator
-        update_password: always
-    state: merged
+    state: overridden
 
 # After state:
 # ------------
@@ -30,5 +28,4 @@
 # User                              Role(s)
 # ----------------------------------------------------------------------
 # admin                             admin
-# sysadmin                          admin
-# sysoperator                       operator
+# user1                             secadmin
