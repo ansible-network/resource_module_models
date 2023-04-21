@@ -40,6 +40,45 @@ DOCUMENTATION: |
             description:
             - MTU.
             type: int
+          speed:
+            description:
+            - Interface speed.
+            - Supported speeds are dependent on the type of switch.
+            type: str
+            choices:
+            - SPEED_10MB
+            - SPEED_100MB
+            - SPEED_1GB
+            - SPEED_2500MB
+            - SPEED_5GB
+            - SPEED_10GB
+            - SPEED_20GB
+            - SPEED_25GB
+            - SPEED_40GB
+            - SPEED_50GB
+            - SPEED_100GB
+            - SPEED_400GB
+          auto_negotiate:
+            description:
+            - auto-negotiate transmission parameters with peer interface.
+            type: bool
+          advertised_speed:
+            description:
+            - Advertised speeds of the interface.
+            - Supported speeds are dependent on the type of switch.
+            - Speeds may be 10, 100, 1000, 2500, 5000, 10000, 20000, 25000, 40000, 50000, 100000 or 400000.
+            type: list
+            elements: str
+          fec:
+            description:
+            - Interface FEC (Forward Error Correction).
+            type: str
+            choices:
+            - FEC_RS
+            - FEC_FC
+            - FEC_DISABLED
+            - FEC_DEFAULT
+            - FEC_AUTO
       state:
         description:
         - The state of the configuration after module completion.

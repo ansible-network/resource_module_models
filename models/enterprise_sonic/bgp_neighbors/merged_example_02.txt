@@ -1,0 +1,42 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration bgp peer-group vrf default
+# (No bgp peer-group configuration present)
+
+- name: "Configure BGP peer-group prefix-list attributes"
+  dellemc.enterprise_sonic.sonic_bgp_neighbors:
+    config:
+     - bgp_as: 51
+       peer_group:
+         - name: SPINE
+           address_family:
+             afis:
+               - afi: ipv4
+                 safi: unicast
+                 ip_afi:
+                   default_policy_name: rmap_reg1
+                   send_default_route: true
+                 prefix_limit:
+                   max_prefixes: 1
+                   prevent_teardown: true
+                   warning_threshold: 80
+                 prefix_list_in: p1
+                 prefix_list_out: p2
+    state: merged
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration bgp peer-group vrf default
+# !
+# peer-group SPINE
+#  !
+#  address-family ipv4 unicast
+#   default-originate route-map rmap_reg1
+#   prefix-list p1 in
+#   prefix-list p2 out
+#   send-community both
+#   maximum-prefix 1 80 warning-only

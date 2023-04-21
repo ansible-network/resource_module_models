@@ -1,5 +1,4 @@
 # Using merged
-
 # Before state:
 # -------------
 #
@@ -10,13 +9,13 @@
 #30         Inactive
 #
 #sonic#
-
-- name: Merge given VLAN attributes with device configuration
-  sonic_vlans:
+#
+- name: Merges given VLAN attributes with the device configuration
+  dellemc.enterprise_sonic.sonic_vlans:
     config:
-      - vlan_id: 10    
+      - vlan_id: 10
+        description: "Internal"
     state: merged
-
 # After state:
 # ------------
 #
@@ -27,3 +26,10 @@
 #30         Inactive
 #
 #sonic#
+#
+#sonic# show interface Vlan 10
+#Description: Internal
+#Vlan10 is up
+#Mode of IPV4 address assignment: not-set
+#Mode of IPV6 address assignment: not-set
+#IP MTU 6000 bytes

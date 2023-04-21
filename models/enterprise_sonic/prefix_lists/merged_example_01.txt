@@ -1,0 +1,31 @@
+# Using "merged" state to create initial configuration
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration ip prefix-list
+# sonic#
+# (No configuration present)
+#
+# -------------
+#
+- name: Merge initial prefix-list configuration
+  dellemc.enterprise_sonic.sonic_prefix_lists:
+     config:
+       - name: pfx1
+         afi: "ipv4"
+         prefixes:
+           - sequence: 10
+             prefix: "1.2.3.4/24"
+             action: "permit"
+             ge: 26
+             le: 30
+     state: merged
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration ip prefix-list
+# !
+# ip prefix-list pfx1 seq 10 permit 1.2.3.4/24 ge 26 le 30
+# ------------

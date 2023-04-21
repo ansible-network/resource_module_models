@@ -144,6 +144,53 @@ DOCUMENTATION: |
                       description:
                         - Specify the count of the ebgp multi paths count.
                       type: int
+                rd:
+                  description:
+                    - Specifies the route distiguisher to be used by the VRF instance.
+                  type: str
+                rt_in:
+                  description:
+                    - Route-targets to be imported.
+                  type: list
+                  elements: str
+                rt_out:
+                  description:
+                    - Route-targets to be exported.
+                  type: list
+                  elements: str
+                vnis:
+                  description:
+                    - VNI configuration for the EVPN.
+                  type: list
+                  elements: dict
+                  suboptions:
+                    vni_number:
+                      description:
+                        - Specifies the VNI number.
+                      type: int
+                      required: True
+                    advertise_default_gw:
+                      description:
+                        - Specifies the advertise default gateway flag.
+                      type: bool
+                    advertise_svi_ip:
+                      description:
+                        - Enables advertise SVI MACIP routes
+                      type: bool
+                    rd:
+                      description:
+                        - Specifies the route distiguisher to be used by the VRF instance.
+                      type: str
+                    rt_in:
+                      description:
+                        - Route-targets to be imported.
+                      type: list
+                      elements: str
+                    rt_out:
+                      description:
+                        - Route-targets to be exported.
+                      type: list
+                      elements: str
     state:
       description:
         - Specifies the operation to be performed on the BGP_AF process configured on the device.

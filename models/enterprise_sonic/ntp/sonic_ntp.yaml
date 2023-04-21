@@ -1,0 +1,125 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community',
+        'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: ntp
+COPYRIGHT: Copyright 2022 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_ntp
+    version_added: 2.0.0
+    short_description: Manage NTP configuration on SONiC.
+    description:
+      - This module provides configuration management of NTP for devices running SONiC.
+    author: "M. Zhang (@mingjunzhang2019)"
+    options:
+      config:
+        description:
+          - Specifies NTP related configurations.
+        type: dict
+        suboptions:
+          source_interfaces:
+            type: list
+            elements: str
+            description:
+              - List of names of NTP source interfaces.
+          enable_ntp_auth:
+            type: bool
+            description:
+              - Enable or disable NTP authentication.
+          trusted_keys:
+            type: list
+            elements: int
+            description:
+              - List of trusted NTP authentication keys.
+          vrf:
+            type: str
+            description:
+              - VRF name on which NTP is enabled.
+          servers:
+            type: list
+            elements: dict
+            required_together: [['minpoll', 'maxpoll']]
+            description:
+              - List of NTP servers.
+              - minpoll and maxpoll are required to be configured together.
+            suboptions:
+              address:
+                type: str
+                description:
+                  - IPv4/IPv6 address or host name of NTP server.
+                required: true
+              key_id:
+                type: int
+                description:
+                  - NTP authentication key used by server.
+                  - Key_id can not be deleted.
+              minpoll:
+                type: int
+                description:
+                  - Minimum poll interval to poll NTP server.
+                  - minpoll can not be deleted.
+              maxpoll:
+                type: int
+                description:
+                  - Maximum poll interval to poll NTP server.
+                  - maxpoll can not be deleted.
+              prefer:
+                type: bool
+                description:
+                  - Indicates whether this server should be preferred.
+                  - prefer can not be deleted.
+          ntp_keys:
+            type: list
+            elements: dict
+            description:
+              - List of NTP authentication keys.
+            suboptions:
+              key_id:
+                type: int
+                description:
+                  - NTP authentication key identifier.
+                required: true
+              key_type:
+                type: str
+                description:
+                  - NTP authentication key type.
+                  - key_type can not be deleted.
+                  - When "state" is "merged", "key_type" is required.
+                choices:
+                  - NTP_AUTH_SHA1
+                  - NTP_AUTH_MD5
+                  - NTP_AUTH_SHA2_256
+              key_value:
+                type: str
+                description:
+                  - NTP authentication key value.
+                  - key_value can not be deleted.
+                  - When "state" is "merged", "key_value" is required.
+              encrypted:
+                type: bool
+                description:
+                  - NTP authentication key_value is encrypted.
+                  - encrypted can not be deleted.
+                  - When "state" is "merged", "encrypted" is required.
+
+      state:
+        description:
+          - The state of the configuration after module completion.
+        type: str
+        choices:
+        - merged
+        - deleted
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - deleted_example_03.txt
+  - merged_example_01.txt
+  - merged_example_02.txt
+  - merged_example_03.txt

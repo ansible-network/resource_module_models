@@ -32,6 +32,10 @@ DOCUMENTATION: |
           - ID of the VLAN. Range 1-4094
           type: int
           required: true
+        description:
+          description:
+          - Description about the VLAN
+          type: str
     state:
       description:
       - The state the configuration should be left in
@@ -45,6 +49,7 @@ DOCUMENTATION: |
 EXAMPLES:
   - deleted_example_01.txt
   - deleted_example_02.txt
+  - deleted_example_03.txt
   - merged_example_01.txt
   - overridden_example_01.txt
   - replaced_example_01.txt

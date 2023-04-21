@@ -1,0 +1,39 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration bgp peer-group vrf default
+# !
+# peer-group SPINE
+#  !
+#  address-family ipv6 unicast
+#   default-originate route-map rmap_reg2
+#   prefix-list p1 in
+#   prefix-list p2 out
+#   send-community both
+#   maximum-prefix 5 90 restart 2
+
+- name: "Delete BGP peer-group prefix-list attributes"
+  dellemc.enterprise_sonic.sonic_bgp_neighbors:
+    config:
+     - bgp_as: 51
+       peer_group:
+         - name: SPINE
+           address_family:
+             afis:
+               - afi: ipv6
+                 safi: unicast
+                 ip_afi:
+                   default_policy_name: rmap_reg2
+                   send_default_route: true
+                 prefix_limit:
+                   max_prefixes: 5
+                   warning_threshold: 90
+                   restart-timer: 2
+                 prefix_list_in: p1
+                 prefix_list_out: p2
+    state: deleted
+
+# sonic# show running-configuration bgp peer-group vrf default
+# (No bgp peer-group configuration present)

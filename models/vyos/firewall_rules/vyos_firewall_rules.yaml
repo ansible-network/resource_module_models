@@ -178,6 +178,11 @@ DOCUMENTATION: |
                           description:
                             - This is the time unit.
                           type: str
+                log:
+                  description:
+                    - Log matching packets.
+                  type: str
+                  choices: ['disable', 'enable']
                 p2p:
                   description:
                     - P2P application packets.
