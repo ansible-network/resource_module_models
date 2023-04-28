@@ -1,0 +1,27 @@
+# Using overridden
+
+# Before state:
+# -------------
+#
+# show bgp community-list
+# Standard community list test:  match: ANY
+#     101
+#     201
+# Standard community list test1:  match: ANY
+#     301
+
+- name: Override the entire list of BGP communities.
+  sonic_bgp_communities:
+    config:
+      - name: test3
+        members:
+          regex:
+          - 201
+    state: overridden
+
+# After state:
+# ------------
+#
+# show bgp community-list
+# Standard community list test3:  match: ANY
+#     201

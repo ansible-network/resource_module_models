@@ -43,7 +43,8 @@ DOCUMENTATION: |
             - Permit or Deny this Community.
           aann:
             required: False
-            type: str
+            type: list
+            elements: str
             description:
             - Community number aa:nn format 0..65535:0..65535. Applicable for standard bgp community type.
           local_as:
@@ -94,6 +95,8 @@ DOCUMENTATION: |
         choices:
         - merged
         - deleted
+        - replaced
+        - overridden
         default: merged
 EXAMPLES:
   - deleted_example_01.txt
@@ -101,3 +104,5 @@ EXAMPLES:
   - deleted_example_03.txt
   - deleted_example_04.txt
   - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
