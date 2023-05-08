@@ -9,7 +9,7 @@ ANSIBLE_METADATA: |
     }
 NETWORK_OS: sonic
 RESOURCE: lldp_interfaces
-COPYRIGHT: Copyright 2022 Dell Inc. or its subsidiaries. All Rights Reserved
+COPYRIGHT: Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved
 DOCUMENTATION: |
     module: sonic_lldp_interfaces
     version_added: '2.1.0'
@@ -17,7 +17,7 @@ DOCUMENTATION: |
     description:
       - This module provides configuration management of interface LLDP parameters
         in devices running SONiC.
-        It is intended for use in conjunction with global LLDP.
+      - It is intended for use in conjunction with global LLDP.
     author: 'Divya Balasubramanian(@divya-balasubramania)'
     options:
       config:
@@ -54,38 +54,38 @@ DOCUMENTATION: |
             suboptions:
               network_policy:
                 description:
-                     - This command can be used to select whether to advertise network-policy
-                       LLDP-MED TLVs or not.By default network-policy LLDP-MED TLVs are advertised.
+                  - This command can be used to select whether to advertise network-policy
+                    LLDP-MED TLVs or not.By default network-policy LLDP-MED TLVs are advertised.
                 type: bool
               power_management:
                 description:
-                     - This command can be used to select whether to advertise power-management
-                       LLDP-MED TLVs or not.By default power-management LLDP-MED TLVs are advertised.
+                  - This command can be used to select whether to advertise power-management
+                    LLDP-MED TLVs or not.By default power-management LLDP-MED TLVs are advertised.
                 type: bool
           tlv_select:
             description:
-               - This command can be used to select whether to advertise the LLDP 802.3at or bt
-                 power management TLVs or not. By default this TLV is advertised.
-               - This command is supported only on physical interfaces and not on logical interfaces.
-            type: list
+              - This command can be used to select whether to advertise the LLDP 802.3at or bt
+                power management TLVs or not. By default this TLV is advertised.
+              - This command is supported only on physical interfaces and not on logical interfaces.
+            type: dict
             elements: dict
             suboptions:
               power_management:
                 description:
-                     - This command can be used to select whether to advertise power-management
-                       LLDP TLVs or not.By default power-management LLDP TLVs are advertised.
+                  - This command can be used to select whether to advertise power-management
+                    LLDP TLVs or not.By default power-management LLDP TLVs are advertised.
                 type: bool
           tlv_set:
              description:
-               -   This command can be used to configure an IPv4 or IPv6 management address
+               - This command can be used to configure an IPv4 or IPv6 management address
                 that will be used to advertise by LLDP on an interface
                - This command is supported only on physical interfaces and not on logical interfaces.
-             type: list
+             type: dict
              elements: dict
              suboptions:
                ipv4_management_address:
                  description:
-                     - To configure IPv4 management address for LLDP in A.B.C.D format
+                   - To configure IPv4 management address for LLDP in A.B.C.D format
                  type: str
                ipv6_management_address:
                  description:
@@ -94,8 +94,8 @@ DOCUMENTATION: |
       state:
         description:
           - The state specifies the type of configuration update to be performed on the device.
-            If the state is "merged", merge specified attributes with existing configured attributes.
-            For "deleted", delete the specified attributes from existing configuration.
+          - If the state is "merged", merge specified attributes with existing configured attributes.
+          - For "deleted", delete the specified attributes from existing configuration.
         type: str
         choices:
           - merged
