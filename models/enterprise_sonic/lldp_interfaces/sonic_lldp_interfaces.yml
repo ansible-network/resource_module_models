@@ -49,8 +49,7 @@ DOCUMENTATION: |
               - This command can be used to select whether to advertise the LLDP-MED TLVs or not.
                 By default the LLDP-MED TLVs are advertised.
               - This command is supported only on physical interfaces and not on logical interfaces.
-            type: list
-            elements: dict
+            type: dict
             suboptions:
               network_policy:
                 description:
@@ -68,7 +67,6 @@ DOCUMENTATION: |
                 power management TLVs or not. By default this TLV is advertised.
               - This command is supported only on physical interfaces and not on logical interfaces.
             type: dict
-            elements: dict
             suboptions:
               power_management:
                 description:
@@ -81,7 +79,6 @@ DOCUMENTATION: |
                 that will be used to advertise by LLDP on an interface
                - This command is supported only on physical interfaces and not on logical interfaces.
              type: dict
-             elements: dict
              suboptions:
                ipv4_management_address:
                  description:
