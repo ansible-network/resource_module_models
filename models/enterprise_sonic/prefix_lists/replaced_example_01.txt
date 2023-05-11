@@ -1,0 +1,45 @@
+# Using "replaced" state to replace configuration
+#
+# Before state:
+# ------------
+#
+# sonic# show running-configuration ip prefix-list
+# !
+# ip prefix-list pfx2 seq 10 deny 10.20.30.128/24 ge 25 le 30
+#
+# sonic# show running-configuration ipv6 prefix-list
+# sonic#
+# (no IPv6 prefix-list configuration present)
+#
+# ------------
+#
+- name: Replace prefix-list configuration
+  dellemc.enterprise_sonic.sonic_prefix_lists:
+     config:
+       - name: pfx2
+         afi: "ipv4"
+         prefixes:
+           - sequence: 10
+             prefix: "10.20.30.128/24"
+             action: "permit"
+             ge: 25
+             le: 30
+       - name: pfx3
+         afi: "ipv6"
+         prefixes:
+           - sequence: 20
+             action: "deny"
+             prefix: "60::70/124"
+     state: replaced
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration ip prefix-list
+# !
+# ip prefix-list pfx2 seq 10 permit 10.20.30.128/24 ge 25 le 30
+#
+# sonic# show running-configuration ipv6 prefix-list
+# sonic#
+# !
+# ipv6 prefix-list pfx3 seq 20 deny 60::70/124
