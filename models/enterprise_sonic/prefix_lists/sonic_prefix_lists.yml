@@ -10,7 +10,7 @@ ANSIBLE_METADATA: |
     }
 NETWORK_OS: sonic
 RESOURCE: prefix_list
-COPYRIGHT: Copyright 2019 Red Hat
+COPYRIGHT: Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved
 
 DOCUMENTATION: |
   module: sonic_prefix_lists
