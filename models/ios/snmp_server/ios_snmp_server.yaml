@@ -397,6 +397,27 @@ options:
           energywise:
             description: Enable SNMP energywise traps
             type: bool
+          envmon:
+            description: Enable SNMP environmental monitor traps
+            suboptions:
+              enable:
+                description: Enable/disable envmon traps
+                type: bool
+              fan:
+                description: Enable SNMP envmon fan traps
+                type: bool
+              shutdown:
+                description: Enable SNMP environmental monitor shutdown traps
+                type: bool
+              status:
+                description: Enable SNMP environmental status change traps
+                type: bool
+              supply:
+                description: Enable SNMP environmental monitor supply traps
+                type: bool
+              temperature:
+                description: Enable SNMP environmental monitor temperature traps
+                type: bool
           ethernet:
             description: Allow ethernet traps
             suboptions:
