@@ -29,7 +29,7 @@ DOCUMENTATION: |
             description:
               - Interface name in which LLDP needs to be configured on.
             type: str
-            required: True
+            required: true
           enable:
             description:
               - This argument is a boolean value to enable or disable LLDP.
@@ -54,12 +54,12 @@ DOCUMENTATION: |
               network_policy:
                 description:
                   - This command can be used to select whether to advertise network-policy
-                    LLDP-MED TLVs or not.By default network-policy LLDP-MED TLVs are advertised.
+                    LLDP-MED TLVs or not. By default network-policy LLDP-MED TLVs are advertised.
                 type: bool
               power_management:
                 description:
                   - This command can be used to select whether to advertise power-management
-                    LLDP-MED TLVs or not.By default power-management LLDP-MED TLVs are advertised.
+                    LLDP-MED TLVs or not. By default power-management LLDP-MED TLVs are advertised.
                 type: bool
           tlv_select:
             description:
@@ -71,7 +71,7 @@ DOCUMENTATION: |
               power_management:
                 description:
                   - This command can be used to select whether to advertise power-management
-                    LLDP TLVs or not.By default power-management LLDP TLVs are advertised.
+                    LLDP TLVs or not. By default power-management LLDP TLVs are advertised.
                 type: bool
           tlv_set:
              description:
