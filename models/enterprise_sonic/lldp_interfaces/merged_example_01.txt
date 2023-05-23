@@ -26,14 +26,20 @@
         enable: true
         mode: transmit
         med_tlv_select:
-          power_management: True
+          power_management: true
         tlv_set:
           ipv4_management_address: 10.1.1.2
       state: merged
 
 # After State:
 # ------------
-# sonic# show running-configuration interface Ethernet 1
+# sonic# show running-configuration interface
+# !
+# interface Ethernet0
+#  mtu 9100
+#  speed 25000
+#  unreliable-los auto
+#  no shutdown
 # !
 # interface Ethernet1
 #  mtu 9100

@@ -12,7 +12,7 @@
 #  lldp transmit
 #  lldp tlv-set management-address ipv4 10.1.1.2
 # sonic#
-#
+
   - name: Delete LLDP interface configurations
     dellemc.enterprise_sonic.sonic_lldp_interfaces:
       config:

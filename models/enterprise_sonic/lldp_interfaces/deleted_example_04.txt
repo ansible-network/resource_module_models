@@ -9,26 +9,27 @@
 #  speed 25000
 #  unreliable-los auto
 #  no shutdown
+#  lldp receive
+#  lldp tlv-set management-address ipv4 20.1.1.2
+#  no lldp tlv-select power-management
 # !
 # interface Ethernet1
 #  mtu 9100
 #  speed 25000
 #  unreliable-los auto
 #  no shutdown
-# !
+#  lldp receive
+#  lldp tlv-set management-address ipv4 10.1.1.2
+#  no lldp med-tlv-select network-policy
+#  no lldp tlv-select power-management
 # sonic#
 
-  - name: Delete default LLDP Interface configurations
+  - name: Delete all LLDP Interface configuration
     dellemc.enterprise_sonic.sonic_lldp_interfaces:
       config:
-        name: Ethernet1
-        tlv_select:
-          power-management: true
-        med_tlv_select:
-          network_policy: true
       state: deleted
 
-# After State:
+# After State:  (No LLDP Interface configuration present.)
 # ------------
 # sonic# show running-configuration interface
 # !
@@ -43,6 +44,4 @@
 #  speed 25000
 #  unreliable-los auto
 #  no shutdown
-#  no lldp med-tlv-select network-policy
-#  no lldp tlv-select power-management
 # sonic#
