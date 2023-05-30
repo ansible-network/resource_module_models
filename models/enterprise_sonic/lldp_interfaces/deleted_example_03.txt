@@ -25,7 +25,7 @@
   - name: Delete default LLDP Interface configurations
     dellemc.enterprise_sonic.sonic_lldp_interfaces:
       config:
-        name: Ethernet1
+        - name: Ethernet1
       state: deleted
 
 # After State:

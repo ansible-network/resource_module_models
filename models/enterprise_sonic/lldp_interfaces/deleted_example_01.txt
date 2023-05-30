@@ -16,10 +16,10 @@
   - name: Delete LLDP interface configurations
     dellemc.enterprise_sonic.sonic_lldp_interfaces:
       config:
-        name: Ethernet1
-        mode: transmit
-        tlv_set:
-          ipv4_management_address: 10.1.1.2
+        - name: Ethernet1
+          mode: transmit
+          tlv_set:
+            ipv4_management_address: 10.1.1.2
       state: deleted
 
 # After State:
