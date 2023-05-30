@@ -21,11 +21,11 @@
   - name: Delete default LLDP Interface configurations
     dellemc.enterprise_sonic.sonic_lldp_interfaces:
       config:
-        name: Ethernet1
-        tlv_select:
-          power-management: true
-        med_tlv_select:
-          network_policy: true
+        - name: Ethernet1
+          tlv_select:
+            power-management: true
+          med_tlv_select:
+            network_policy: true
       state: deleted
 
 # After State:
