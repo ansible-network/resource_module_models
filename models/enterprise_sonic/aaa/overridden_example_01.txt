@@ -6,15 +6,16 @@
 # do show aaa
 # AAA Authentication Information
 # ---------------------------------------------------------
-# failthrough  : True
-# login-method : local, ldap
+# failthrough  : False
+# login-method : local, radius
 
 - name: Override aaa configurations
   dellemc.enterprise_sonic.sonic_aaa:
     config:
       authentication:
         data:
-          fail_through: False
+          group: tacacs+
+          fail_through: true
     state: overridden
 
 # After state:
@@ -23,5 +24,5 @@
 # do show aaa
 # AAA Authentication Information
 # ---------------------------------------------------------
-# failthrough  : False
-# login-method :
+# failthrough  : True
+# login-method : tacacs+

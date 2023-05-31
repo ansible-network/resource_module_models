@@ -7,15 +7,15 @@
 # AAA Authentication Information
 # ---------------------------------------------------------
 # failthrough  : False
-# login-method : ldap, radius
+# login-method : local, radius
 
 - name: Replace aaa configurations
   dellemc.enterprise_sonic.sonic_aaa:
     config:
       authentication:
         data:
-          default_auth:
-            - local
+          group: ldap
+          fail_through: true
     state: replaced
 
 # After state:
@@ -24,5 +24,5 @@
 # do show aaa
 # AAA Authentication Information
 # ---------------------------------------------------------
-# failthrough  : False
-# login-method : local
+# failthrough  : True
+# login-method : local, ldap

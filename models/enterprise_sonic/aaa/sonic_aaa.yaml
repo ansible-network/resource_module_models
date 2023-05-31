@@ -37,13 +37,15 @@ DOCUMENTATION: |
                     description:
                       - Specifies the state of failthrough
                     type: bool
-                  default_auth:
+                  local:
                     description:
-                      - Specifies order to authenticate aaa login methods
-                    type: list
-                    elements: str
+                      - Enable or Disable local authentication
+                    type: bool
+                  group:
+                    description:
+                      - Specifies the method of aaa authentication
+                    type: str
                     choices:
-                      - local
                       - ldap
                       - radius
                       - tacacs+

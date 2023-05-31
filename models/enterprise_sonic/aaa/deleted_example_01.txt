@@ -14,8 +14,7 @@
     config:
       authentication:
         data:
-          default_auth:
-            - local
+          local: True
     state: deleted
 
 # After state:

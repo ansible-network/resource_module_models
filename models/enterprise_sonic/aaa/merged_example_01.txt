@@ -14,9 +14,7 @@
     config:
       authentication:
         data:
-          default_auth:
-            - local
-            - tacacs+
+          local: true
           fail_through: true
     state: merged
 
@@ -27,4 +25,4 @@
 # AAA Authentication Information
 # ---------------------------------------------------------
 # failthrough  : True
-# login-method : local, tacacs+
+# login-method : local
