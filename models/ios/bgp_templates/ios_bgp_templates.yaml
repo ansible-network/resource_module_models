@@ -1,0 +1,217 @@
+# Router(config)#router  bgp 65000
+# Router(config-router)#temp
+# Router(config-router)#template ?
+#   peer-policy   Template configuration for policy parameters
+#   peer-session  Template configuration for session parameters
+# Router(config-router)#template peer-policy pp1
+
+module: nxos_bgp_templates
+short_description: Resource module to configure BGP Templates.
+description:
+- This module manages BGP templates on devices running Cisco IOSXE.
+version_added: 4.7.0
+  - Sagar Paul (@KB-petByte)
+notes:
+  - Tested against Cisco IOSXE Version 17.3 on CML.
+  - This module works with connection C(network_cli).
+    See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_ios.html)
+  - The module examples uses callback plugin (stdout_callback = yaml) to generate task
+    output in yaml format.
+options:
+  running_config:
+    description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the IOS device
+        by executing the command B(sh running-config | section template).
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into Ansible structured data as per the resource module's argspec
+        and the value is then returned in the I(parsed) key within the result.
+    type: str
+  config:
+    description: A list of BGP templates.
+    type: dict
+    suboptions:
+      as_number:
+        description: Autonomous System Number of the router.
+        type: str
+      neighbor:
+        description: Configure BGP peer templates.
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            description: Name of the BGP peer template.
+            type: str
+          accept_route_legacy:
+            description: Accept Legacy Route Target
+            type: bool
+
+      additional-paths:
+        description: Negotiate additional paths capabilities with this neighbor
+        type: dict
+        suboptions:
+          disable:
+            description: Disable additional paths for this neighbor
+            type: bool
+          receive:
+            description: Receive additional paths from neighbors
+            type: bool
+          send:
+            description: Send additional paths to this neighbor
+            type: bool
+      advertise_map:
+        description: specify route-map for conditional advertisement
+        type: dict
+        suboptions:
+          name:
+            description: Condition route-map name
+            type: str
+          exist-map:
+            description: Advertise prefix only if prefix is in the condition exists
+            type: str
+          non-exist-map:
+            description: Advertise prefix only if prefix in the condition does not exist
+            type: str
+      advertisement-interval:
+        description: Minimum interval between sending BGP routing updates
+        type: int
+      aigp:
+        description: Enable a AIGP on neighbor
+        type: dict
+        suboptions:
+          send:
+            description: Cost community or MED carrying AIGP VALUE
+            type: bool
+          cost_community:
+            description: Cost extended community carrying AIGP Value
+            type: dict
+            suboptions:
+              community_id:
+                description: Community ID
+                type: int
+              poi:
+                description: Point of Insertion
+                type: bool
+              igp-cost:
+                description: Point of Insertion After IGP
+                type: bool
+              pre-bestpath:
+                description: Point of Insertion At Beginning
+                type: bool
+              transitive:
+                description: Cost community is Transitive
+                type: bool
+          med:
+            description: Med carrying AIGP Value
+            type: bool
+      allow_policy: # allow-policy
+        description: Enable the policy support for this IBGP Neighbor
+        type: bool
+      allowas_in: # allowas-in 2
+        description: Accept as-path with my AS present in it
+        type: int
+      announce: # announce rpki state
+        description: Announce RPKI State using an Extended Community
+        type: bool
+      as_override: # as-override split-horizon
+        description: Override matching AS-number while sending update
+        type: bool
+      capability:
+        description: Advertise capability to the peer
+        type: dict
+        suboptions:
+          both: # capability orf prefix-list both
+            description: Capability to SEND and RECEIVE the ORF to/from this neighbor
+            type: bool
+          recive: # capability orf prefix-list receive
+            description: Capability to RECEIVE the ORF from this neighbor
+            type: bool
+          send: #capability orf prefix-list send
+            description: Capability to SEND the ORF to this neighbor
+            type: bool
+      default-originate:
+        description: Originate default route to this neighbor
+        type: dict
+        suboptions:
+          set: # default-originate
+            description: Set default-originate
+            type: bool
+          route_map: # default-originate route-map rm2
+            description: Route-map to specify criteria to originate default
+            type: str
+      distribute-list
+        description: Filter updates to/from this neighbor
+      dmzlink-bw: # dmzlink-bw
+        description: Propagate the DMZ link bandwidth
+        type: bool
+      encap: # encap vxlan
+        description: Preferred Encapsulation for Neighbor
+        type: bool
+      exit-peer-policy: # exit-peer-policy
+        description: Exit from template configuration mode
+        type: bool
+      filter-as
+        description: filter-as
+      filter-list
+        description: Establish BGP filters
+      inherit
+        description: Inherit a template
+      inter-as-hybrid
+        description: Inter AS Hybrid mode
+      internal-vpn-client
+        description: Stack iBGP-CE Neighbor Path in ATTR_SET for vpn update
+      long-lived-graceful-restart
+        description: Enable long lived graceful restart support for this neighbor
+      maximum-prefix
+        description: Maximum number of prefixes accepted from this peer
+      next-hop-self
+        description: Disable the next hop calculation for this neighbor
+      next-hop-unchanged
+        description: Propagate next hop unchanged for iBGP paths to this neighbor
+      no
+        description: Negate a command or set its defaults
+      prefix-length-size
+        description: Packet Level storage size for Prefixes
+      prefix-list
+        description: Filter updates to/from this neighbor
+      remove-private-as
+        description: Remove private AS number from outbound updates
+      route-map
+        description: Apply route map to neighbor
+      route-reflector-client
+        description: Configure a neighbor as Route Reflector client
+      send-community
+        description: Send Community attribute to this neighbor
+      slow-peer
+        description: Configure slow-peer
+      soft-reconfiguration
+        description: Per neighbor soft reconfiguration
+      soo
+        description: Site-of-Origin extended community
+      suppress-signaling-protocol
+        description: suppress VPLS signaling protocol
+      suppress-sr
+        description: Suppress Segment Routing for Neighbor
+      translate-topology
+        description: Translate topology id
+      unsuppress-map
+        description: Route-map to selectively unsuppress suppressed routes
+      validation
+        description: Validation of flowspec paths
+      weight
+        description: Set default weight for routes from this neighbor
+  state:
+    description:
+    - The state the configuration should be left in.
+    - Refer to examples for more details.
+    type: str
+    choices:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    - purged
+    - parsed
+    - gathered
+    - rendered
+    default: merged
