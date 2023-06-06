@@ -1,28 +1,13 @@
----
-ANSIBLE_METADATA: |
-    {
-      'metadata_version': '1.1',
-      'status': ['preview'],
-      'supported_by': 'network'
-    }
-
-NETWORK_OS: ios
-RESOURCE: ospfv2
-COPYRIGHT: Copyright 2020 Red Hat
-LICENSE: gpl-3.0.txt
-
-DOCUMENTATION: |
 module: ios_ospfv2
-version_added: 2.10
-short_description: Manages and configures Open Shortest Path First (OSPF) version 2 and it's attributes.
-description: This module configures and manages the Open Shortest Path First (OSPF) version 2 on IOS platforms.
+short_description: Resource module to configure OSPFv2.
+description: This module configures and manages the Open Shortest Path First (OSPF)
+  version 2 on IOS platforms.
+version_added: 1.0.0
 author: Sumit Jaiswal (@justjais)
-info:
-  network_os: ios
 notes:
-  - Tested against Cisco IOSv Version 15.2 on VIRL
+  - Tested against Cisco IOSXE Version 17.3 on CML.
   - This module works with connection C(network_cli).
-    See L(IOS Platform Options,../network/user_guide/platform_ios.html).
+    See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_ios.html)
 options:
   config:
     description: A dictionary of OSPF options.
@@ -76,7 +61,7 @@ options:
                 description:
                   - Initial number of adjacencies allowed to be forming in an area
                   - Please refer vendor documentation for valid values
-                type: int limit or minimum adjacencies forming in area
+                type: int
               max_adjacency:
                 description:
                   - Maximum number of adjacencies allowed to be forming
@@ -129,7 +114,7 @@ options:
                     description: The direction to apply on the filter networks sent to and from this area.
                     type: str
                     choices: ['in', 'out']
-                    required: True
+                    required: true
               nssa:
                 description: Specify a NSSA area
                 type: dict
@@ -172,6 +157,7 @@ options:
               ranges:
                 description: Summarize routes matching address/mask (border routers only)
                 type: list
+                elements: dict
                 suboptions:
                   address:
                     description: IP address to match
@@ -682,7 +668,8 @@ options:
                 type: int
           network:
             description: Enable routing on an IP network
-            type: dict
+            type: list
+            elements: dict
             suboptions:
               address:
                 description: Network number
@@ -722,9 +709,30 @@ options:
                     type: bool
           passive_interface:
             description:
+              - passive_interface param is deprecated and a newer param passive_interfaces
+                with added functionality's is introduced, please meke use of the new available
+                passive_interfaces instead.
               - Suppress routing updates on an interface (GigabitEthernet A/B)
               - Interface name with respective interface number
             type: str
+          passive_interfaces:
+            description: Suppress routing updates on an interface
+            type: dict
+            suboptions:
+              default:
+                description: Suppress routing updates on all interfaces
+                type: bool
+              interface:
+                description: Suppress/Un-Suppress routing updates on interface
+                type: dict
+                suboptions:
+                  set_interface:
+                    description: Suppress/Un-Suppress routing updates
+                    type: bool
+                  name:
+                    description: Name of interface (GigabitEthernet A/B)
+                    type: list
+                    elements: str
           prefix_suppression:
             description: Enable prefix suppression
             type: bool
@@ -878,9 +886,34 @@ options:
                   - Maximum number of IP hops allowed
                   - Note, refer vendor documentation for respective valid values
                 type: int
+  running_config:
+    description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the IOS
+        device by executing the command B(sh running-config | section ^router ospf).
+      - The state I(parsed) reads the configuration from C(running_config)
+        option and transforms it into Ansible structured data as per the
+        resource module's argspec and the value is then returned in the
+        I(parsed) key within the result.
+    type: str
   state:
     description:
-    - The state the configuration should be left in
+      - The state the configuration should be left in
+      - The states I(rendered), I(gathered) and I(parsed) does not perform any change
+        on the device.
+      - The state I(rendered) will transform the configuration in C(config) option to
+        platform specific CLI commands which will be returned in the I(rendered) key
+        within the result. For state I(rendered) active connection to remote host is
+        not required.
+      - The state I(gathered) will fetch the running configuration from device and transform
+        it into structured data in the format as per the resource module argspec and
+        the value is returned in the I(gathered) key within the result.
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into JSON format as per the resource module parameters and the
+        value is returned in the I(parsed) key within the result. The value of C(running_config)
+        option should be the same format as the output of command I(show running-config
+        | include ip route|ipv6 route) executed on device. For state I(parsed) active
+        connection to remote host is not required.
     type: str
     choices:
     - merged
@@ -888,14 +921,6 @@ options:
     - overridden
     - deleted
     - gathered
-    - rendered
     - parsed
+    - rendered
     default: merged
-EXAMPLES:
-- deleted_example_01.txt
-- merged_example_01.txt
-- replaced_example_01.txt
-- overridden_example_01.txt
-- gathered_example_01.txt
-- rendered_example_01.txt
-- parsed_example_01.txt
