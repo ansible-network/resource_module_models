@@ -1,0 +1,50 @@
+# Using merged
+#
+# Before State:
+# -------------
+#
+# sonic# show mac access-group
+# sonic#
+# sonic# show ip access-group
+# sonic#
+# sonic# show ipv6 access-group
+# Ingress IPV6 access-list ipv6-acl-1 on Eth1/1
+# sonic#
+
+  - name: Merge provided interface access-group configurations
+    dellemc.enterprise_sonic.sonic_acl_interfaces:
+      config:
+        - name: 'Eth1/1'
+          access_groups:
+            - type: 'mac'
+              acls:
+                - name: 'mac-acl-1'
+                  direction: 'in'
+                - name: 'mac-acl-2'
+                  direction: 'out'
+            - type: 'ipv6'
+              acls:
+                - name: 'ipv6-acl-2'
+                  direction: 'out'
+        - name: 'Eth1/2'
+          access_groups:
+            - type: 'ipv4'
+              acls:
+                - name: 'ip-acl-1'
+                  direction: 'in'
+      state: merged
+
+# After State:
+# ------------
+#
+# sonic# show mac access-group
+# Ingress MAC access-list mac-acl-1 on Eth1/1
+# Egress MAC access-list mac-acl-2 on Eth1/1
+# sonic#
+# sonic# show ip access-group
+# Ingress IP access-list ip-acl-1 on Eth1/2
+# sonic#
+# sonic# show ipv6 access-group
+# Ingress IPV6 access-list ipv6-acl-1 on Eth1/1
+# Egress IPV6 access-list ipv6-acl-2 on Eth1/1
+# sonic#

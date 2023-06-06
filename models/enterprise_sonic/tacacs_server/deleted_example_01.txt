@@ -1,0 +1,43 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+# do show tacacs-server
+#---------------------------------------------------------
+#TACACS Global Configuration
+#---------------------------------------------------------
+#source-interface  : Ethernet12
+#timeout    : 10
+#auth-type  : login
+#key        : login
+#------------------------------------------------------------------------------------------------
+#HOST                 AUTH-TYPE       KEY        PORT       PRIORITY   TIMEOUT    VRF
+#------------------------------------------------------------------------------------------------
+#1.2.3.4              pap             *****      50         2          10         mgmt
+#localhost            pap                        49         1          5          default
+#
+#    - name: Merge tacacs configurations
+#      sonic_tacacs_server:
+#        config:
+#          auth_type: login
+#          key: login
+#          source_interface: Ethernet 12
+#          timeout: 10
+#          servers:
+#            - host:
+#                name: 1.2.3.4
+#        state: deleted
+# After state:
+# ------------
+#
+#do show tacacs-server
+#---------------------------------------------------------
+#TACACS Global Configuration
+#---------------------------------------------------------
+#timeout    : 5
+#auth-type  : pap
+#------------------------------------------------------------------------------------------------
+#HOST                 AUTH-TYPE       KEY        PORT       PRIORITY   TIMEOUT    VRF
+#------------------------------------------------------------------------------------------------
+#localhost            pap                        49         1          5          default

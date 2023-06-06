@@ -1,0 +1,34 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+sonic# show logging servers
+--------------------------------------------------------------------------------
+HOST            PORT      SOURCE-INTERFACE    VRF            MESSGE-TYPE
+--------------------------------------------------------------------------------
+10.11.1.1       616       Ethernet8           -              log
+
+- name: Merge logging server configuration
+  sonic_logging:
+    config:
+      remote_servers:
+        - host: 10.11.0.2
+          remote_port: 5
+          source_interface: Ethernet24
+          message_type: event
+        - host: log1.dell.com
+          remote_port: 6
+          source_interface: Ethernet28
+    state: merged
+
+# After state:
+# ------------
+#
+sonic# show logging servers
+--------------------------------------------------------------------------------
+HOST            PORT      SOURCE-INTERFACE    VRF            MESSGE-TYPE
+--------------------------------------------------------------------------------
+10.11.0.2       5         Ethernet24          -              event
+10.11.1.1       616       Ethernet8           -              log
+log1.dell.com   6         Ethernet28          -              log

@@ -1,0 +1,66 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community'
+    }
+NETWORK_OS: sonic
+RESOURCE: l2_interfaces
+COPYRIGHT: "© Copyright 2020 Dell Inc. or its subsidiaries. All Rights Reserved"
+LICENSE: gpl-3.0.txt
+DOCUMENTATION: |
+    module: sonic_l2_interfaces
+    version_added: 2.10
+    short_description: 'Manages interface attributes of SONiC l2_interfaces.'
+    description: 'Manages interface attributes of SONiC l2_interfaces.'
+    author: 'Niraimadaiselvam M(@niraimadaiselvam-m)'
+    notes:
+      - 'Tested against SONiC-OS-3.0.1'
+    options:
+      config:
+        description: 'A list of l2_interfaces configurations.'
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            type: str
+            description: 'The name of the l2_interfaces'
+            required: true
+          trunk:
+            type: dict
+            description: 'It is a trunk mode configuration of the l2_interfaces'
+            suboptions:
+              allowed_vlans:
+                description: 'It is a list of allowed vlans of trunk mode of l2_interfaces'
+                type: list
+                elements: dict
+                suboptions:
+                  vlan:
+                    type: int
+                    description: 'This is a vlan in trunk mode'
+          access:
+            type: dict
+            description: 'It is a access mode configuration of the l2_interfaces'
+            suboptions:
+              vlan:
+                type: int
+                description: 'This is a vlan in access mode'
+      state:
+        type: str
+        description: 'The state of the configuration after module completion.'
+        choices:
+        - merged
+        - replaced
+        - overridden
+        - deleted
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - merged_example_02.txt
+  - merged_example_03.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt

@@ -1,0 +1,175 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+      'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: bgp_neighbors_af
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: sonic_bgp_neighbors_af
+  version_added: "2.10"
+  author: "Niraimadaiselvam M (@niraimadaiselvamm)"
+  short_description: Configure BGP neighbors address family configurations on SONiC.
+  description:
+    - This module provides configuration management of BGP neighbors addressfamily parameters on devices running SONiC.
+    - bgp_as, vrf_name and neighbors need be created earlier in the device.
+  notes:
+    - Tested against Enterprise SONiC, release 3.0.2.
+  options:
+    config:
+      description:
+        - Specifies the BGP neighbors address family related configuration.
+      type: list
+      elements: dict
+      suboptions:
+        bgp_as:
+          description:
+            - Specifies the BGP Autonomous System (AS) number which is already configured in the device.
+          type: str
+          required: true
+        vrf_name:
+          description:
+            - Specifies the vrf name which is already configured in the device.
+          type: str
+          default: 'default'
+        neighbors:
+          description:
+            - Specifies BGP neighbor related configurations in Address Family configuration mode.
+          type: list
+          elements: dict
+          suboptions:
+            neighbor:
+              description:
+                - Neighbor router address which is already configured in the device.
+              type: str
+              required: True
+            address_family:
+              description:
+                - Specifies BGP address family related configurations.
+                - afi and safi are required together.
+              type: list
+              elements: dict
+              required_together: [['afi', 'safi']]
+              suboptions:
+                afi:
+                  description:
+                    - Type of address family to configure.
+                  type: str
+                  choices:
+                    - ipv4
+                    - ipv6
+                    - l2vpn
+                  required: True
+                safi:
+                  description:
+                    - Specifies the type of cast for the address family.
+                  type: str
+                  choices:
+                    - unicast
+                    - evpn
+                  default: unicast
+                activate:
+                  description:
+                    - Enable the Address Family for this Neighbor.
+                  type: bool
+                allowas_in:
+                  description:
+                    - Specify the allow as in values.
+                  type: dict
+                  mutually_exclusive: [['origin','vlaue']]
+                  suboptions:
+                    value:
+                      description:
+                        - Specify the value of the allowas in.
+                      type: int
+                    origin:
+                      description:
+                        - Specify the origin value.
+                      type: bool
+                ip_afi:
+                  description:
+                    - Common configuration attributes for IPv4 and IPv6 unicast address families.
+                  type: dict
+                  suboptions:
+                    default_policy_name:
+                      description:
+                        - Specifies routing policy definition.
+                      type: str
+                    send_default_route:
+                      description:
+                        - Enable or disable sending of default-route to the neighbor.
+                      type: bool
+                      default: False
+                prefix_limit:
+                  description:
+                    - Specifies prefix limit attributes.
+                  type: dict
+                  suboptions:
+                    max_prefixes:
+                      description:
+                        - Maximum number of prefixes that will be accepted from the neighbor.
+                      type: int
+                    prevent_teardown:
+                      description:
+                        - Enable or disable teardown of BGP session when maximum prefix limit is exceeded.
+                      type: bool
+                      default: False
+                    warning_threshold:
+                      description:
+                        - Threshold on number of prefixes that can be received from a neighbor before generation of warning messages.
+                        - Expressed as a percentage of max-prefixes.
+                      type: int
+                    restart_timer:
+                      description:
+                        - Time interval in seconds after which the BGP session is re-established after being torn down.
+                      type: int
+                prefix_list_in:
+                  description:
+                    - Inbound route filtering policy for a neighbor.
+                  type: str
+                prefix_list_out:
+                  description:
+                    - Outbound route filtering policy for a neighbor.
+                  type: str
+                route_map:
+                  description:
+                    - Specify the route map.
+                  type: list
+                  elements: dict
+                  suboptions:
+                    name:
+                      description:
+                        - Specify the name of the route map.
+                      type: str
+                    direction:
+                      description:
+                        - Specify the direction of the route map.
+                      type: str
+                route_reflector_client:
+                  description:
+                    - Specify a neighbor as a route reflector client.
+                  type: bool
+                route_server_client:
+                  description:
+                    - Specify a neighbor as a route server client.
+                  type: bool
+    state:
+      description:
+        - Specifies the operation to be performed on the BGP process configured on the device.
+        - In case of merged, the input configuration will be merged with the existing BGP configuration on the device.
+        - In case of deleted the existing BGP configuration will be removed from the device.
+      default: merged
+      choices: ['merged', 'deleted']
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - deleted_example_03.txt
+  - merged_example_01.txt
+  - merged_example_02.txt

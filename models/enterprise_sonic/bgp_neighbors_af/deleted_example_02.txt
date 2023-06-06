@@ -1,0 +1,36 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+#!
+#router bgp 4
+# !
+# neighbor interface Ethernet12
+#  !
+#  address-family ipv4 unicast
+#   activate
+#   allowas-in 4
+#   route-map aa in
+#   route-map aa out
+#   route-reflector-client
+#   route-server-client
+#   send-community both
+#!
+# neighbor interface Ethernet24
+#  !
+#  address-family ipv4 unicast
+#   activate
+#   allowas-in origin
+#   send-community both
+#!
+#
+#- name: delete all neighbors address family configurations in device
+#    sonic_bgp_neighbors_af:
+#      config:
+#      state: deleted
+# After state:
+# ------------
+#!
+#router bgp 4
+#!

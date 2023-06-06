@@ -1,0 +1,92 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+#do show running-configuration bgp
+#!
+#router bgp 51
+# router-id 111.2.2.41
+# timers 60 180
+# !
+# address-family ipv4 unicast
+#  maximum-paths 1
+#  maximum-paths ibgp 1
+#  dampening
+# !
+# address-family ipv6 unicast
+#  redistribute connected route-map bb metric 21
+#  redistribute ospf route-map aa metric 27
+#  redistribute static route-map bb metric 26
+#  maximum-paths 4
+#  maximum-paths ibgp 5
+# !
+# address-family l2vpn evpn
+#  advertise-svi-ip
+#  advertise ipv6 unicast route-map aa
+#  rd 3.3.3.3:33
+#  route-target import 22:22
+#  route-target export 33:33
+#  advertise-pip ip 1.1.1.1 peer-ip 2.2.2.2
+#  !
+#  vni 1
+#   advertise-default-gw
+#   advertise-svi-ip
+#   rd 5.5.5.5:55
+#   route-target import 88:88
+#   route-target export 77:77
+#
+- name: Delete BGP Address family configuration from the device
+  dellemc.enterprise_sonic.sonic_bgp_af:
+     config:
+       - bgp_as: 51
+         address_family:
+           afis:
+             - afi: l2vpn
+               safi: evpn
+               advertise_pip: True
+               advertise_pip_ip: "1.1.1.1"
+               advertise_pip_peer_ip: "2.2.2.2"
+               advertise_svi_ip: True
+               advertise_all_vni: False
+               advertise_default_gw: False
+               route_advertise_list:
+                 - advertise_afi: ipv6
+                   route_map: aa
+               rd: "3.3.3.3:33"
+               rt_in:
+                 - "22:22"
+               rt_out:
+                 - "33:33"
+               vnis:
+                 - vni_number: 1
+             - afi: ipv4
+               safi: unicast
+             - afi: ipv6
+               safi: unicast
+               max_path:
+                 ebgp: 2
+                 ibgp: 5
+               redistribute:
+                 - metric: "21"
+                   protocol: connected
+                   route_map: bb
+                 - metric: "27"
+                   protocol: ospf
+                   route_map: aa
+                 - metric: "26"
+                   protocol: static
+                   route_map: bb
+     state: deleted
+# After state:
+# ------------
+#
+#do show running-configuration bgp
+#!
+#router bgp 51
+# router-id 111.2.2.41
+# timers 60 180
+# !
+# address-family ipv6 unicast
+# !
+# address-family l2vpn evpn

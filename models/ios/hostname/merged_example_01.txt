@@ -1,0 +1,30 @@
+# Using state: merged
+
+# Before state:
+# -------------
+
+# router-ios#show running-config | section ^hostname
+# hostname Router
+
+# Merged play:
+# ------------
+
+- name: Apply the provided configuration
+  cisco.ios.ios_hostname:
+    config:
+      hostname: Router1
+    state: merged
+
+# Commands Fired:
+# ---------------
+
+# "commands": [
+#         "hostname Router1",
+# ],
+
+
+# After state:
+# ------------
+
+# router-ios#show running-config | section ^hostname
+# hostname Router1

@@ -1,0 +1,509 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+    }
+
+NETWORK_OS: sonic
+RESOURCE: bgp_neighbors
+COPYRIGHT: Copyright 2019 Red Hat
+DOCUMENTATION: |
+  module: sonic_bgp_neighbors
+  version_added: 1.0.0
+  author: "Abirami N (@abirami-n)"
+  short_description: Configure BGP neighbors configurations on SONiC.
+  description:
+    - This module provides configuration management of BGP neighbor parameters on devices running SONiC
+    - bgp_as and vrf_name need be created earlier in the device.
+  options:
+    config:
+      description:
+        - Specifies the BGP neighbors related configuration.
+      type: list
+      elements: dict
+      suboptions:
+        bgp_as:
+          description:
+            -  Specifies the BGP Autonomous System (AS) number which is already configured in the device.
+          type: str
+          required: true
+        vrf_name:
+          description:
+            - Specifies the vrf name which is already configured in the device.
+          type: str
+          default: 'default'
+        peer_group:
+          description:
+            - Specifies the list of peer groups.
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description: name of the peer group.
+              type: str
+            remote_as:
+              description:
+                - Remote AS of the BGP peergroup to configure.
+              type: dict
+              mutually_exclusive: [['peer_as','peer_type']]
+              suboptions:
+                peer_as:
+                  description:
+                    - Specifies remote AS number.
+                    - The range is from 1 to 4294967295.
+                  type: int
+                peer_type:
+                  description:
+                    - Specifies type of bgp peer.
+                  type: str
+                  choices: ['internal', 'external']
+            bfd:
+              description:
+                - Enable or disable bfd.
+              type: dict
+              suboptions:
+                enabled:
+                  description:
+                    - Enables BFD liveness check for a BGP peer.
+                  type: bool
+                check_failure:
+                  description:
+                    - Link dataplane status with control plane.
+                  type: bool
+                profile:
+                  description:
+                    - BFD Profile name.
+                  type: str
+            advertisement_interval:
+              description:
+                - Specifies the minimum interval between sending BGP routing updates.
+                - The range is from 0 to 600.
+              type: int
+            timers:
+              description:
+                - Specifies BGP peergroup timer related configurations.
+              type: dict
+              suboptions:
+                keepalive:
+                  description:
+                    - Frequency (in seconds) with which the device sends keepalive messages to its peer.
+                    - The range is from 0 to 65535.
+                  type: int
+                holdtime:
+                  description:
+                    - Interval (in seconds) after not receiving a keepalive message that SONiC declares a peer dead.
+                    - The range is from 0 to 65535.
+                  type: int
+                connect_retry:
+                  description:
+                    - Time interval in seconds between attempts to establish a session with the peer.
+                    - The range is from 1 to 65535.
+                  type: int
+            capability:
+              description:
+                - Specifies capability attributes to this peergroup.
+              type: dict
+              suboptions:
+                dynamic:
+                  description:
+                    - Enable or disable dynamic capability to this peergroup.
+                  type: bool
+                extended_nexthop:
+                  description:
+                    - Enable or disable advertise extended next-hop capability to the peer.
+                  type: bool
+            auth_pwd:
+              description:
+                - Configuration for peer group authentication password.
+              type: dict
+              suboptions:
+                pwd:
+                  description:
+                    - Authentication password for the peer group.
+                  type: str
+                  required: True
+                encrypted:
+                  description:
+                    - Indicates whether the password is encrypted text.
+                  type: bool
+                  default: False
+            pg_description:
+              description:
+                - A textual description of the peer group.
+              type: str
+            disable_connected_check:
+              description:
+                - Disables EBGP conntected route check.
+              type: bool
+            dont_negotiate_capability:
+              description:
+                - Disables capability negotiation.
+              type: bool
+            ebgp_multihop:
+              description:
+                - Allow EBGP peers not on directly connected networks.
+              type: dict
+              suboptions:
+                enabled:
+                  description:
+                    - Enables the referenced group or peers to be indirectly connected.
+                  type: bool
+                  default: False
+                multihop_ttl:
+                  description:
+                    - Time-to-live value to use when packets are sent to the referenced group or peers and ebgp-multihop is enabled.
+                  type: int
+            enforce_first_as:
+              description:
+                - Enforces the first AS for EBGP routes.
+              type: bool
+            enforce_multihop:
+              description:
+                - Enforces EBGP multihop performance for peer.
+              type: bool
+            local_address:
+              description:
+                - Set the local IP address to use for the session when sending BGP update messages.
+              type: str
+            local_as:
+              description:
+                - Specifies local autonomous system number.
+              type: dict
+              suboptions:
+                as:
+                  description:
+                    - Local autonomous system number.
+                  type: int
+                  required: True
+                no_prepend:
+                  description:
+                    - Do not prepend the local-as number in AS-Path advertisements.
+                  type: bool
+                replace_as:
+                  description:
+                    - Replace the configured AS Number with the local-as number in AS-Path advertisements.
+                  type: bool
+            override_capability:
+              description:
+                - Override capability negotiation result.
+              type: bool
+            passive:
+              description:
+                - Do not send open messages to this peer.
+              type: bool
+              default: False
+            shutdown_msg:
+              description:
+                - Add a shutdown message.
+              type: str
+            solo:
+              description:
+                - Indicates that routes advertised by the peer should not be reflected back to the peer.
+              type: bool
+            strict_capability_match:
+              description:
+                - Enables strict capability negotiation match.
+              type: bool
+            ttl_security:
+              description:
+                - Enforces only the peers that are specified number of hops away will be allowed to become peers.
+              type: int
+            address_family:
+              description:
+                - Holds of list of address families associated to the peergroup.
+              type: dict
+              suboptions:
+                afis:
+                  description:
+                    - List of address families with afi, safi, activate and allowas-in parameters.
+                    - afi and safi are required together.
+                  type: list
+                  elements: dict
+                  required_together: [['afi', 'safi']]
+                  suboptions:
+                    afi:
+                      description:
+                        - Holds afi mode.
+                      type: str
+                      choices:
+                        - ipv4
+                        - ipv6
+                        - l2vpn
+                    safi:
+                      description:
+                        - Holds safi mode.
+                      type: str
+                      choices:
+                        - unicast
+                        - evpn
+                    activate:
+                      description:
+                        - Enable or disable activate.
+                      type: bool
+                    allowas_in:
+                      description:
+                        - Holds AS value.
+                        - origin and value are mutually exclusive.
+                      type: dict
+                      mutually_exclusive: [['origin', 'value']]
+                      suboptions:
+                        origin:
+                          description:
+                             - Set AS as origin.
+                          type: bool
+                        value:
+                          description:
+                            - Holds AS number in the range 1-10.
+                          type: int
+                    ip_afi:
+                      description:
+                        - Common configuration attributes for IPv4 and IPv6 unicast address families.
+                      type: dict
+                      suboptions:
+                        default_policy_name:
+                          description:
+                            - Specifies routing policy definition.
+                          type: str
+                        send_default_route:
+                          description:
+                            - Enable or disable sending of default-route to the peer.
+                          type: bool
+                          default: False
+                    prefix_limit:
+                      description:
+                        - Specifies prefix limit attributes.
+                      type: dict
+                      suboptions:
+                        max_prefixes:
+                          description:
+                            - Maximum number of prefixes that will be accepted from the peer.
+                          type: int
+                        prevent_teardown:
+                          description:
+                            - Enable or disable teardown of BGP session when maximum prefix limit is exceeded.
+                          type: bool
+                          default: False
+                        warning_threshold:
+                          description:
+                            - Threshold on number of prefixes that can be received from a peer before generation of warning messages.
+                            - Expressed as a percentage of max-prefixes.
+                          type: int
+                        restart_timer:
+                          description:
+                            - Time interval in seconds after which the BGP session is re-established after being torn down.
+                          type: int
+                    prefix_list_in:
+                      description:
+                        - Inbound route filtering policy for a peer.
+                      type: str
+                    prefix_list_out:
+                      description:
+                        - Outbound route filtering policy for a peer.
+                      type: str
+        neighbors:
+          description:
+            - Specifies BGP neighbor related configurations.
+          type: list
+          elements: dict
+          suboptions:
+            neighbor:
+              description:
+                - Neighbor router address.
+              type: str
+              required: True
+            remote_as:
+              description:
+                - Remote AS of the BGP neighbor to configure.
+              type: dict
+              mutually_exclusive: [['peer_as','peer_type']]
+              suboptions:
+                peer_as:
+                  description:
+                    - Specifies remote AS number.
+                    - The range is from 1 to 4294967295.
+                  type: int
+                peer_type:
+                  description:
+                    - Specifies type of bgp peer.
+                  type: str
+                  choices: ['internal', 'external']
+            bfd:
+              description:
+                - Enables or disables BFD.
+              type: dict
+              suboptions:
+                enabled:
+                  description:
+                    - Enables BFD liveness check for a BGP neighbor.
+                  type: bool
+                check_failure:
+                  description:
+                    - Link dataplane status with control plane.
+                  type: bool
+                profile:
+                  description:
+                    - BFD Profile name.
+                  type: str
+            advertisement_interval:
+              description:
+                - Specifies the minimum interval between sending BGP routing updates.
+                - The range is from 0 to 600.
+              type: int
+            peer_group:
+              description:
+                - Name of the peer group that the neighbor is a member of.
+              type: str
+            timers:
+              description:
+                - Specifies BGP neighbor timer related configurations.
+              type: dict
+              suboptions:
+                keepalive:
+                  description:
+                    - Frequency (in seconds) with which the device sends keepalive messages to its peer.
+                    - The range is from 0 to 65535.
+                  type: int
+                holdtime:
+                  description:
+                    - Interval (in seconds) after not receiving a keepalive message that SONiC declares a peer dead.
+                    - The range is from 0 to 65535.
+                  type: int
+                connect_retry:
+                  description:
+                    - Time interval in seconds between attempts to establish a session with the peer.
+                    - The range is from 1 to 65535.
+                  type: int
+            capability:
+              description:
+                - Specifies capability attributes to this neighbor.
+              type: dict
+              suboptions:
+                dynamic:
+                  description:
+                    - Enable or disable dynamic capability to this neighbor.
+                  type: bool
+                extended_nexthop:
+                  description:
+                    - Enable or disable advertise extended next-hop capability to the peer.
+                  type: bool
+            auth_pwd:
+              description:
+                - Configuration for neighbor group authentication password.
+              type: dict
+              suboptions:
+                pwd:
+                  description:
+                    - Authentication password for the neighbor group.
+                  type: str
+                encrypted:
+                  description:
+                    - Indicates whether the password is encrypted text.
+                  type: bool
+                  default: False
+            nbr_description:
+              description:
+                - A textual description of the neighbor.
+              type: str
+            disable_connected_check:
+              description:
+                - Disables EBGP conntected route check.
+              type: bool
+            dont_negotiate_capability:
+              description:
+                - Disables capability negotiation.
+              type: bool
+            ebgp_multihop:
+              description:
+                - Allow EBGP neighbors not on directly connected networks.
+              type: dict
+              suboptions:
+                enabled:
+                  description:
+                    - Enables the referenced group or neighbors to be indirectly connected.
+                  type: bool
+                  default: False
+                multihop_ttl:
+                  description:
+                    - Time-to-live value to use when packets are sent to the referenced group or neighbors and ebgp-multihop is enabled.
+                  type: int
+            enforce_first_as:
+              description:
+                - Enforces the first AS for EBGP routes.
+              type: bool
+            enforce_multihop:
+              description:
+                - Enforces EBGP multihop performance for neighbor.
+              type: bool
+            local_address:
+              description:
+                - Set the local IP address to use for the session when sending BGP update messages.
+              type: str
+            local_as:
+              description:
+                - Specifies local autonomous system number.
+              type: dict
+              suboptions:
+                as:
+                  description:
+                    - Local autonomous system number.
+                  type: int
+                  required: True
+                no_prepend:
+                  description:
+                    - Do not prepend the local-as number in AS-Path advertisements.
+                  type: bool
+                replace_as:
+                  description:
+                    - Replace the configured AS Number with the local-as number in AS-Path advertisements.
+                  type: bool
+            override_capability:
+              description:
+                - Override capability negotiation result.
+              type: bool
+            passive:
+              description:
+                - Do not send open messages to this neighbor.
+              type: bool
+              default: False
+            port:
+              description:
+                - Neighbor's BGP port.
+              type: int
+            shutdown_msg:
+              description:
+                - Add a shutdown message.
+              type: str
+            solo:
+              description:
+                - Indicates that routes advertised by the peer should not be reflected back to the peer.
+              type: bool
+            strict_capability_match:
+              description:
+                - Enables strict capability negotiation match.
+              type: bool
+            ttl_security:
+              description:
+                - Enforces only the neighbors that are specified number of hops away will be allowed to become neighbors.
+              type: int
+            v6only:
+              description:
+                - Enables BGP with v6 link-local only.
+              type: bool
+    state:
+      description:
+        - Specifies the operation to be performed on the BGP process configured on the device.
+        - In case of merged, the input configuration will be merged with the existing BGP configuration on the device.
+        - In case of deleted the existing BGP configuration will be removed from the device.
+      default: merged
+      choices: ['merged', 'deleted']
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - deleted_example_03.txt
+  - deleted_example_04.txt
+  - merged_example_01.txt
+  - merged_example_02.txt

@@ -1,0 +1,28 @@
+# Using merged
+#
+# Before state:
+# -------------
+#!
+#sonic(config)#do show running-configuration
+#!
+
+    - name: Merge provided configuration with device configuration.
+      sonic_system:
+        config:
+          hostname: SONIC
+          interface_naming: standard
+          anycast_address:
+            ipv6: true
+            ipv4: true
+            mac_address: aa:bb:cc:dd:ee:ff
+        state: merged
+
+# After state:
+# ------------
+#!
+#SONIC(config)#do show running-configuration
+#!
+#ip anycast-mac-address aa:bb:cc:dd:ee:ff
+#ip anycast-address enable
+#ipv6 anycast-address enable
+#interface-naming standard

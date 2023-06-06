@@ -1,0 +1,97 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community'
+    }
+NETWORK_OS: sonic
+RESOURCE: interfaces
+COPYRIGHT: "© Copyright 2020 Dell Inc. or its subsidiaries. All Rights Reserved"
+LICENSE: gpl-3.0.txt
+DOCUMENTATION: |
+    module: sonic_interfaces
+    version_added: 2.10
+    short_description: 'Manages interface attributes of SONiC interfaces.'
+    description: 'Manages interface attributes of SONiC interfaces.'
+    author: 'Niraimadaiselvam M(@niraimadaiselvamm)'
+    notes:
+      - 'Tested against SONiC-OS-3.0.1'
+    options:
+      config:
+        description: A list of interfaces configurations.
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            type: str
+            description: The name of the interfaces
+            required: true
+          description:
+            type: str
+            description:
+            - Description about the interface
+          enabled:
+            description:
+            - It is state of shutdown state of interface.
+            type: bool
+          mtu:
+            description:
+            - MTU.
+            type: int
+          speed:
+            description:
+            - Interface speed.
+            - Supported speeds are dependent on the type of switch.
+            type: str
+            choices:
+            - SPEED_10MB
+            - SPEED_100MB
+            - SPEED_1GB
+            - SPEED_2500MB
+            - SPEED_5GB
+            - SPEED_10GB
+            - SPEED_20GB
+            - SPEED_25GB
+            - SPEED_40GB
+            - SPEED_50GB
+            - SPEED_100GB
+            - SPEED_400GB
+          auto_negotiate:
+            description:
+            - auto-negotiate transmission parameters with peer interface.
+            type: bool
+          advertised_speed:
+            description:
+            - Advertised speeds of the interface.
+            - Supported speeds are dependent on the type of switch.
+            - Speeds may be 10, 100, 1000, 2500, 5000, 10000, 20000, 25000, 40000, 50000, 100000 or 400000.
+            type: list
+            elements: str
+          fec:
+            description:
+            - Interface FEC (Forward Error Correction).
+            type: str
+            choices:
+            - FEC_RS
+            - FEC_FC
+            - FEC_DISABLED
+            - FEC_DEFAULT
+            - FEC_AUTO
+      state:
+        description:
+        - The state of the configuration after module completion.
+        type: str
+        choices:
+          - merged
+          - replaced
+          - overridden
+          - deleted
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt

@@ -1,0 +1,530 @@
+module: eos_snmp_server
+short_description: Manages snmp_server resource module
+description: This module configures and manages the attributes of snmp_server on Arista
+  EOS platforms.
+version_added: 3.2.0
+author: Gomathi Selvi Srinivasan (@GomathiselviS)
+notes:
+- Tested against Arista EOS 4.24.6F
+- This module works with connection C(network_cli) and C(httpapi).
+options:
+  config:
+    description: SNMP server configuration.
+    type: dict
+    suboptions:
+      chassis_id:
+        description: SNMP chassis identifier.
+        type: str
+      communities:
+        description: Community name configuration.
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            description: Community name
+            type: str
+          acl_v4:
+            description: standard access_list name
+            type: str
+          acl_v6:
+            description: IPv6 access list name.
+            type: str
+          ro:
+            description: Only reads are permitted.
+            type: bool
+          rw:
+            description: Read_write access
+            type: bool
+          view:
+            description: MIB view name
+            type: str
+      contact:
+        description: Person to contact about the system.
+        type: str
+      traps:
+        description: Enable traps to all configured recipients.
+        type: dict
+        suboptions:
+          bgp:
+            description: Enable Bgp traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              arista_backward_transition:
+                description: arista_backward_transition
+                type: bool
+              arista_established:
+                description: arista_established
+                type: bool
+              backward_transition:
+                description: backward_transition
+                type: bool
+              established:
+                description: established.
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          bridge:
+            description: Enable Bridge traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              arista_mac_age:
+                description: arista_mac_age
+                type: bool
+              arista_mac_learn:
+                description: arista_mac_learn
+                type: bool
+              arista_mac_move:
+                description: arista_mac_move
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          capacity:
+            description: Enable Capacity traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              arista_hardware_utilization_alert:
+                description: arista_hardware_utilization_alert
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          entity:
+            description: Enable Entity traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              arista_ent_sensor_alarm:
+                description: arista_ent_sensor_alarm
+                type: bool
+              ent_config_change:
+                description: ent_config_change
+                type: bool
+              ent_state_oper:
+                description: ent_state_oper
+                type: bool
+              ent_state_oper_disabled:
+                description: ent_state_oper_disabled.
+                type: bool
+              ent_state_oper_enabled:
+                description: ent_state_oper_enabled.
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          external_alarm:
+            description: Enable external alarm traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              arista_external_alarm_asserted_notif:
+                description: arista_external_alarm_asserted_notif
+                type: bool
+              arista_external_alarm_deasserted_notif:
+                description: arista_external_alarm_deasserted_notif
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          isis:
+            description: Enable isis traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              adjacency_change:
+                description: adjacency_change
+                type: bool
+              area_mismatch:
+                description: area_mismatch
+                type: bool
+              attempt_to_exceed_max_sequence:
+                description: attempt_to_exceed_max_sequence
+                type: bool
+              authentication_type_failure:
+                description: authentication_type_failure.
+                type: bool
+              database_overload:
+                description: database_overload
+                type: bool
+              own_lsp_purge:
+                description: own_lsp_purge
+                type: bool
+              rejected_adjacency:
+                description: rejected_adjacency
+                type: bool
+              sequence_number_skip:
+                description: sequence_number_skip.
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          lldp:
+            description: Enable Lldp traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              rem_tables_change:
+                description: rem_tables_change
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          mpls_ldp:
+            description: Enable mpls_ldp traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              mpls_ldp_session_down:
+                description: mpls_ldp_session_down
+                type: bool
+              mpls_ldp_session_up:
+                description: mpls_ldp_session_up
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          msdp:
+            description: Enable msdp traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              backward_transition:
+                description: backward_transition.
+                type: bool
+              established:
+                description: established.
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          ospf:
+            description: Enable Ospf traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              if_config_error:
+                description: if_config_error
+                type: bool
+              if_auth_failure:
+                description: if_auth_failure
+                type: bool
+              if_state_change:
+                description: if_state_change
+                type: bool
+              nbr_state_change:
+                description: nbr_state_change.
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          ospfv3:
+            description: Enable Ospfv3 traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              if_config_error:
+                description: if_config_error
+                type: bool
+              if_rx_bad_packet:
+                description: if_rx_bad_packet
+                type: bool
+              if_state_change:
+                description: if_state_change
+                type: bool
+              nbr_state_change:
+                description: nbr_state_change.
+                type: bool
+              nbr_restart_helper_status_change:
+                description: Enable ospfv3NbrRestartHelperStatusChange trap
+                type: bool
+              nssa_translator_status_change:
+                description: Enable ospfv3NssaTranslatorStatusChange trap
+                type: bool
+              restart_status_change:
+                description: restart_status_change
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          pim:
+            description: Enable Pim traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              neighbor_loss:
+                description: neighbor_loss
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          snmp:
+            description: Enable snmp traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              authentication:
+                description: authentication
+                type: bool
+              link_down:
+                description: link_down
+                type: bool
+              link_up:
+                description: link_up
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          snmpConfigManEvent:
+            description: Enable snmpConfigManEvent traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              arista_config_man_event:
+                description: arista_config_man_event
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          switchover:
+            description: Enable switchover traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              arista_redundancy_switch_over_notif:
+                description: arista_redundancy_switch_over_notif
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          test:
+            description: Enable test traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              arista_test_notification:
+                description: arista_test_notification
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+          vrrp:
+            description: Enable vrrp traps. If set to enabled , all the traps are set.
+            type: dict
+            suboptions:
+              vrrp:
+                description: vrrp
+                type: bool
+              enabled:
+                description: All traps are set.
+                type: bool
+      engineid:
+        description: SNMPv3 engine ID configuration.
+        type: dict
+        suboptions:
+          local:
+            description:  Local SNMP agent
+            type: str
+          remote:
+            description: Remote SNMP agent
+            type: dict
+            suboptions:
+              host:
+                description: Hostname or IP address of remote SNMP notification host
+                type: str
+              udp_port:
+                description: The remote SNMP notification host's UDP port number.
+                type: int
+              id:
+                description: engine ID octet string
+                type: str
+      extension:
+        description: Configure extension script to serve an OID range
+        type: dict
+        suboptions:
+          root_oid:
+            description: Extension root oid 
+            type: int
+          script_location:
+            description: script location
+            type: str
+          oneshot:
+            description: Use inefficient one_shot interface
+            type: bool
+      groups:
+        description: SNMP USM group
+        type: list
+        elements: dict
+        suboptions:
+          group:
+            description: SNMP group for the user
+            type: str
+          version:
+            description: snmp security group version
+            type: str
+            choices: ['v1', 'v3', 'v2c']
+          auth_privacy:
+            description: auth and privacy config. Valid when version = v3.
+            type: str
+            choices: ['auth', 'noauth', 'priv']
+          context:
+            description: Specify a context to associate with the group
+            type: str
+          notify:
+            description: View to restrict notifications
+            type: str
+          read:
+            description: View to restrict read access
+            type: str
+          write:
+            description: View to restrict write access
+            type: str
+      hosts:
+        description: Notification destinations
+        type: list
+        elements: dict
+        suboptions:
+          host:
+            description: Hostname or IP address of SNMP notification host.
+            type: str
+          user:
+            description: Community or user name.
+            type: str
+          udp_port:
+            description: UDP destination port for notification messages.
+            type: int
+          informs:
+            description: Use SNMP inform messages.
+            type: bool
+          traps:
+            description: Use SNMP trap messages
+            type: bool
+          version:
+            description: Notification message SNMP version.
+            type: str
+            choices: ['1', '2c', '3']
+          vrf:
+            description: Specify the VRF in which the host is configured
+            type: str
+      acls:
+        description: ipv4/ipv6 access_lists
+        type: list
+        elements: dict
+        suboptions:
+          afi:
+            description: ipv4/ipv6
+            type: str
+            choices: ['ipv4', 'ipv6']
+          acl:
+            description: acl name
+            type: str
+          vrf:
+            description: vrf name
+            type: str
+      local_interface:
+        description: Configure the source interface for SNMP notifications.
+        type: str
+      location:
+        description: The sysLocation string.
+        type: str
+      notification:
+        description: Maximum number of notifications in the log
+        type: int
+      objects:
+        description: when True Disable implementation of a group of objects
+        type: dict
+        suboptions:
+          mac_address_tables:
+            description: dot1dTpFdbTable, dot1qTpFdbTable
+            type: bool
+          route_tables:
+            description: ipCidrRouteTable, ipCidrRouteNumber, aristaFIBStats*
+            type: bool
+      qos:
+        description: Configure QoS parameters.
+        type: int
+      qosmib:
+        description: Set QOS_MIB counter update interval
+        type: int
+      transmit:
+        description: Maximum number of bytes in SNMP message (UDP/TCP payload)
+        type: int
+      transport:
+        description: Enable snmpd transport layer protocol
+        type: str
+      users:
+        description: SNMP user configuration.
+        type: list
+        elements: dict
+        suboptions:
+          user:
+            description: SNMP user name
+            type: str
+          group:
+            description: SNMP group for the user.
+            type: str
+          remote:
+            description: System where an SNMPv3 user is hosted
+            type: str
+          udp_port:
+            description: UDP port used by the remote SNMP system
+            type: int
+          version:
+            description: snmp security version
+            type: str
+            choices: ['v1', 'v2c', 'v3']
+          auth:
+            description: User authentication settings
+            type: dict
+            suboptions: &auth
+              algorithm:
+                description: algorithm for authentication
+                type: str
+              auth_passphrase:
+                description: authentication passphrase hex string
+                type: str
+                no_log: True
+              encryption:
+                description: algorithm for encryption.
+                type: str
+              priv_passphrase:
+                description: privacy passphrase hexstring
+                type: str
+                no_log: True
+          localized:
+            description: localized auth and privacy passphrases.
+            type: dict
+            suboptions: *auth
+      views:
+        description: SNMPv2 MIB view configuration
+        type: list
+        elements: dict
+        suboptions:
+          view:
+            description: SNMP view name
+            type: str
+          mib:
+            description: SNMP MIB name
+            type: str
+          excluded:
+            description: Exclude the named MIB family from the view
+            type: bool
+          included:
+            description: Include the named MIB family from the view
+            type: bool
+      vrfs:
+        description: Specify the VRF in which the source address is used
+        type: list
+        elements: dict
+        suboptions:
+          vrf:
+            description: vrf name.
+            type: str
+          local_interface:
+            description: Configure the source interface for SNMP notifications
+            type: str
+  running_config:
+    description:
+    - This option is used only with state I(parsed).
+    - The value of this option should be the output received from the EOS device by
+      executing the command B(show running-config | section snmp-server).
+    - The state I(parsed) reads the configuration from C(running_config) option and
+      transforms it into Ansible structured data as per the resource module's argspec
+      and the value is then returned in the I(parsed) key within the result.
+    type: str
+  state:
+    description:
+    - The state the configuration should be left in.
+    - The states I(replaced) and I(overridden) have identical
+       behaviour for this module.
+    - Please refer to examples for more details.
+    type: str
+    choices: [deleted, merged, overridden, replaced, gathered, rendered, parsed]
+    default: merged

@@ -1,0 +1,35 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+sonic# show ntp server
+----------------------------------------------------------------------------
+NTP Servers                     minpoll maxpoll Prefer Authentication key ID
+----------------------------------------------------------------------------
+10.11.0.1                       6       10      False
+dell.com                        6       9       False
+
+- name: Merge NTP server configuration
+  sonic_ntp:
+    config:
+      servers:
+        - address: 10.11.0.2
+          minpoll: 5
+        - address: dell.org
+          minpoll: 7
+          maxpoll: 10
+          prefer: true
+    state: merged
+
+# After state:
+# ------------
+#
+sonic# show ntp server
+----------------------------------------------------------------------------
+NTP Servers                     minpoll maxpoll Prefer Authentication key ID
+----------------------------------------------------------------------------
+10.11.0.1                       6       10      False
+10.11.0.2                       5       10      False
+dell.com                        6       9       False
+dell.org                        7       10      True

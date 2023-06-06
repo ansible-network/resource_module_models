@@ -42,97 +42,101 @@
 # Module Execution Result:
 # ------------------------
 
-# "parsed": [
+# "parsed": {
+#     "buffered": {
+#         "severity": "notifications",
+#         "size": 5099,
+#         "xml": true
+#     },
+#     "cns_events": "warnings",
+#     "console": {
+#         "severity": "critical",
+#         "xml": true
+#     },
+#     "count": true,
+#     "discriminator": [
+#         "msglog01 severity includes 5"
+#     ],
+#     "dmvpn": {
+#         "rate_limit": 10
+#     },
+#     "exception": 4099,
+#     "facility": "local5",
+#     "filter": [
 #         {
-#             "buffered": {
-#                 "severity": "notifications",
-#                 "size": 5099,
-#                 "xml": true
-#             },
-#             "cns_events": "warnings",
-#             "console": {
-#                 "severity": "critical",
-#                 "xml": true
-#             },
-#             "count": true,
-#             "discriminator": [
-#                 "msglog01 severity includes 5"
-#             ],
-#             "dmvpn": {
-#                 "rate_limit": 10
-#             },
-#             "exception": 4099,
-#             "facility": "local5",
-#             "filter": [
-#                 {
-#                     "args": "TESTInst2 ",
-#                     "url": "tftp://172.16.2.18/ESM/elate.tcl"
-#                 },
-#                 {
-#                     "args": "TESTInst",
-#                     "url": "tftp://172.16.2.14/ESM/escalate.tcl"
-#                 }
-#             ],
-#             "history": {
-#                 "severity": "alerts"
-#             },
-#             "logging_on": true,
-#             "message_counter": [
-#                 "debug",
-#                 "log"
-#             ],
-#             "monitor": {
-#                 "severity": "warnings"
-#             },
-#             "origin_id": {
-#                 "tag": "hostname"
-#             },
-#             "persistent": {
-#                 "batch": 4444
-#             },
-#             "policy_firewall": {
-#                 "rate_limit": 10
-#             },
-#             "rate_limit": {
-#                 "all": true,
-#                 "except_severity": "warnings",
-#                 "size": 2
-#             },
-#             "reload": {
-#                 "severity": "alerts"
-#             },
-#             "snmp_trap": [
-#                 "errors"
-#             ],
-#             "source_interface": [
-#                 {
-#                     "interface": "GBit1/0"
-#                 },
-#                 {
-#                     "interface": "CTunnel2"
-#                 }
-#             ],
-#             "trap": "errors",
-#             "userinfo": true
+#             "args": "TESTInst2",
+#             "url": "tftp://172.16.2.18/ESM/elate.tcl"
 #         },
 #         {
-#             "hosts": [
-#                 {
-#                     "hostname": "172.16.1.1"
-#                 },
-#                 {
-#                     "hostname": "172.16.1.11",
-#                     "xml": true
-#                 },
-#                 {
-#                     "filtered": true,
-#                     "hostname": "172.16.1.25"
-#                 },
-#                 {
-#                     "filtered": true,
-#                     "hostname": "172.16.1.10",
-#                     "stream": 10
-#                 }
-#             ]
+#             "args": "TESTInst",
+#             "url": "tftp://172.16.2.14/ESM/escalate.tcl"
 #         }
-#     ]
+#     ],
+#     "history": {
+#         "severity": "alerts"
+#     },
+#     "hosts": [
+#         {
+#             "hostname": "172.16.1.1"
+#         },
+#         {
+#             "hostname": "172.16.1.11",
+#             "xml": true
+#         },
+#         {
+#             "filtered": true,
+#             "hostname": "172.16.1.25"
+#         },
+#         {
+#             "filtered": true,
+#             "hostname": "172.16.1.10",
+#             "stream": 10
+#         },
+#         {
+#             "hostname": "172.16.1.13",
+#             "transport": {
+#                 "tcp": {
+#                     "port": 514
+#                 }
+#             }
+#         }
+#     ],
+#     "logging_on": "enable",
+#     "message_counter": [
+#         "log",
+#         "debug"
+#     ],
+#     "monitor": {
+#         "severity": "warnings"
+#     },
+#     "origin_id": {
+#         "tag": "hostname"
+#     },
+#     "persistent": {
+#         "batch": 4444
+#     },
+#     "policy_firewall": {
+#         "rate_limit": 10
+#     },
+#     "rate_limit": {
+#         "all": true,
+#         "except_severity": "warnings",
+#         "size": 2
+#     },
+#     "reload": {
+#         "severity": "alerts"
+#     },
+#     "snmp_trap": [
+#         "errors"
+#     ],
+#     "source_interface": [
+#         {
+#             "interface": "GBit1/0"
+#         },
+#         {
+#             "interface": "CTunnel2"
+#         }
+#     ],
+#     "trap": "errors",
+#     "userinfo": true
+# }

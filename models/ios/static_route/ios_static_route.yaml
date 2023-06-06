@@ -1,21 +1,16 @@
----
-ANSIBLE_METADATA: |
-{
-  'metadata_version': '1.1',
-  'status': ['preview'],
-  'supported_by': 'network'
-}
-
-DOCUMENTATION: |
 module: ios_static_routes
-version_added: "2.10"
-short_description: Configure and manage static routes on IOS devices.
+short_description: Resource module to configure static routes.
 description: This module configures and manages the static routes on IOS platforms.
-author: Sumit Jaiswal (@justjais)
+version_added: 1.0.0
+author:
+  - Sagar Paul (@KB-perByte)
+  - Sumit Jaiswal (@justjais)
 notes:
-- Tested against Cisco IOSv Version 15.2 on VIRL
-- This module works with connection C(network_cli).
-  See L(IOS Platform Options,../network/user_guide/platform_ios.html).
+  - Tested against Cisco IOSXE Version 17.3 on CML.
+  - This module works with connection C(network_cli).
+    See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_ios.html)
+  - The module examples uses callback plugin (stdout_callback = yaml) to generate task
+    output in yaml format.
 options:
   config:
     description: A dictionary of static route options
@@ -25,10 +20,9 @@ options:
       vrf:
         description:
         - IP VPN Routing/Forwarding instance name.
-        - NOTE, In case of IPV4/IPV6 VRF routing table should pre-exist before
-          configuring.
-        - NOTE, if the vrf information is not provided then the routes shall be
-          configured under global vrf.
+        - NOTE, In case of IPV4/IPV6 VRF routing table should pre-exist before configuring.
+        - NOTE, if the vrf information is not provided then the routes shall be configured
+          under global vrf.
         type: str
       address_families:
         elements: dict
@@ -39,11 +33,11 @@ options:
           afi:
             description:
             - Top level address family indicator.
-            type: str
             required: true
+            type: str
             choices:
-              - ipv4
-              - ipv6
+            - ipv4
+            - ipv6
           routes:
             description: Configuring static route
             type: list
@@ -56,8 +50,8 @@ options:
               topology:
                 description:
                 - Configure static route for a Topology Routing/Forwarding instance
-                - NOTE, VRF and Topology can be used together only with Multicast and
-                  Topology should pre-exist before it can be used
+                - NOTE, VRF and Topology can be used together only with Multicast
+                  and Topology should pre-exist before it can be used
                 type: str
               next_hops:
                 description:
@@ -86,6 +80,9 @@ options:
                   multicast:
                     description: multicast route
                     type: bool
+                  unicast:
+                    description: unicast route (ipv6 specific)
+                    type: bool
                   permanent:
                     description: permanent route
                     type: bool
@@ -96,26 +93,39 @@ options:
                     type: int
                   track:
                     description:
-                    - Install route depending on tracked item with tracked object number.
+                    - Install route depending on tracked item with tracked object
+                      number.
                     - Tracking does not support multicast
                     - Refer to vendor documentation for valid values.
                     type: int
+  running_config:
+    description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the IOS
+        device by executing the command B(show running-config | include ip route|ipv6 route).
+      - The state I(parsed) reads the configuration from C(running_config)
+        option and transforms it into Ansible structured data as per the
+        resource module's argspec and the value is then returned in the
+        I(parsed) key within the result.
+    type: str
   state:
     description:
-    - The state the configuration should be left in
-    - The states I(rendered), I(gathered) and I(parsed) does not perform any change on the
-      device.
-    - The state I(rendered) will transform the configuration in C(config) option to platform
-      specific CLI commands which will be returned in the I(rendered) key within the result.
-      For state I(rendered) active connection to remote host is not required.
-    - The state I(gathered) will fetch the running configuration from device and transform
-      it into structured data in the format as per the resource module argspec and the
-      value is returned in the I(gathered) key within the result.
-    - The state I(parsed) reads the configuration from C(running_config) option and transforms
-      it into JSON format as per the resource module parameters and the value is returned in
-      the I(parsed) key within the result. The value of C(running_config) option should be the
-      same format as the output of command I(show running-config | include ip route|ipv6 route)
-      executed on device. For state I(parsed) active connection to remote host is not required.
+      - The state the configuration should be left in
+      - The states I(rendered), I(gathered) and I(parsed) does not perform any change
+        on the device.
+      - The state I(rendered) will transform the configuration in C(config) option to
+        platform specific CLI commands which will be returned in the I(rendered) key
+        within the result. For state I(rendered) active connection to remote host is
+        not required.
+      - The state I(gathered) will fetch the running configuration from device and transform
+        it into structured data in the format as per the resource module argspec and
+        the value is returned in the I(gathered) key within the result.
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into JSON format as per the resource module parameters and the
+        value is returned in the I(parsed) key within the result. The value of C(running_config)
+        option should be the same format as the output of command I(show running-config
+        | include ip route|ipv6 route) executed on device. For state I(parsed) active
+        connection to remote host is not required.
     type: str
     choices:
     - merged
@@ -126,10 +136,3 @@ options:
     - rendered
     - parsed
     default: merged
-EXAMPLES:
-  - deleted_example_01.txt
-  - merged_example_01.txt
-  - replaced_example_01.txt
-  - overridden_example_01.txt
-  - gathered_example_01.txt
-  - rendered_example_01.txt

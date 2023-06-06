@@ -1,0 +1,24 @@
+# Using merged
+
+# Before state:
+# -------------
+#
+# show bgp as-path-access-list
+# AS path list test:
+
+- name: Add 909.* to test as path list.
+  sonic_bgp_as_paths:
+    config:
+      - name: test
+        members: 
+        - 909.*
+        permit: true
+    state: merged
+
+# After state:
+# ------------
+#
+# show bgp as-path-access-list
+# AS path list test:
+#   action: permit
+#   members: 909.*

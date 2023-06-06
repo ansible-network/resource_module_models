@@ -1,0 +1,60 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+ show interface status | no-more
+------------------------------------------------------------------------------------------
+Name                Description         Admin     Oper      AutoNeg     Speed        MTU
+------------------------------------------------------------------------------------------
+Ethernet0           -                   up                              100000       9100
+Ethernet4           -                   up                              100000       9100
+Ethernet8           -                   down                            100000       9100
+Ethernet12          -                   down                            1000         9100
+Ethernet16          -                   down                            100000       9100
+
+ show running-configuration interface Ethernet 8
+!
+interface Ethernet8
+ mtu 9100
+ speed 100000
+ shutdown
+
+- name: Configure interfaces
+  sonic_interfaces:
+    config:
+      - name: Ethernet8
+        fec: FEC_AUTO
+      - name: Ethernet12
+        description: 'Ethernet Twelve'
+        mtu: 3500
+        enable: True
+        auto_negotiate: True
+      - name: Ethernet16
+        description: 'Ethernet Sixteen'
+        mtu: 3000
+        enable: False
+        speed: SPEED_40GB
+    state: replaced
+
+
+# After state:
+# ------------
+#
+ show interface status | no-more
+------------------------------------------------------------------------------------------
+Name                Description         Admin     Oper      AutoNeg     Speed        MTU
+------------------------------------------------------------------------------------------
+Ethernet0           -                   up                              100000       9100
+Ethernet4           -                   up                              100000       9100
+Ethernet8           -                   up                              100000       9100
+Ethernet12          Ethernet Twelve     up                  on          100000       3500
+Ethernet16          Ethernet Sixteen    down                            40000        3000
+
+ show running-configuration interface Ethernet 8
+!
+interface Ethernet8
+ mtu 9100
+ speed 100000
+ fec AUTO
+ no shutdown

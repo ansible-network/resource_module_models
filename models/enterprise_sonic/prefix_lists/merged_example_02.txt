@@ -1,0 +1,47 @@
+# Using "merged" state to update and add configuration
+#
+# Before state:
+# ------------
+#
+# sonic# show running-configuration ip prefix-list
+# !
+# ip prefix-list pfx1 seq 10 permit 1.2.3.4/24 ge 26 le 30
+#
+# sonic# show running-configuration ipv6 prefix-list
+# sonic#
+# (no ipv6 prefix-list configuration present)
+#
+# ------------
+#
+- name: Merge additional prefix-list configuration
+  dellemc.enterprise_sonic.sonic_prefix_lists:
+     config:
+       - name: pfx1
+         afi: "ipv4"
+         prefixes:
+           - sequence: 20
+             action: "deny"
+             prefix: "1.2.3.12/26"
+           - sequence: 30
+             action: "permit"
+             prefix: "7.8.9.0/24"
+       - name: pfx6
+         afi: "ipv6"
+         prefixes:
+           - sequence: 25
+             action: "permit"
+             prefix: "40::300/124"
+     state: merged
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration ip prefix-list
+# !
+# ip prefix-list pfx1 seq 10 permit 1.2.3.4/24 ge 26 le 30
+# ip prefix-list pfx1 seq 20 deny 1.2.3.12/26
+# ip prefix-list pfx1 seq 30 permit 7.8.9.0/24
+#
+# sonic# show running-configuration ipv6 prefix-list
+# !
+# ipv6 prefix-list pfx6 seq 25 permit 40::300/124

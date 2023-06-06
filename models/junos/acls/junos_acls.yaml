@@ -59,7 +59,7 @@ DOCUMENTATION: |
                   type: str
                   required: true
                 grant:
-                  desctiption:
+                  description:
                     - Action to take after matching condition (allow, discard/reject)
                   type: bool
                 port:

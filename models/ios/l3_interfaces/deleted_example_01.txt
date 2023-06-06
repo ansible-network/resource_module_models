@@ -1,9 +1,9 @@
-# Using Deleted
+# Using state Deleted
 
 # Before state:
 # -------------
-#
-# vios#show running-config | section ^interface
+
+# router-ios#show running-config | section ^interface
 # interface GigabitEthernet0/1
 #  ip address 192.0.2.10 255.255.255.0
 #  shutdown
@@ -23,18 +23,88 @@
 #  encapsulation dot1Q 20
 #  ip address 192.168.0.2 255.255.255.0
 
-- name: Delete attributes of given interfaces (Note: This won't delete the interface itself)
-  ios_interfaces:
+- name: "Delete attributes of given interfaces (NOTE: This won't delete the interfaces itself)"
+  cisco.ios.ios_l3_interfaces:
     config:
-      - name: GigabitEthernet0/2
-      - name: GigabitEthernet0/3
-      - name: GigabitEthernet0/3.100
-    operation: deleted
+    - name: GigabitEthernet0/2
+    - name: GigabitEthernet0/3.100
+    state: deleted
+
+# "commands": [
+#       "interface GigabitEthernet0/2",
+#       "no ip address 192.168.1.0 255.255.255.0",
+#       "GigabitEthernet0/3.100",
+#       "no ip address 192.168.0.2 255.255.255.0",
+#     ],
 
 # After state:
 # -------------
-#
-# vios#show running-config | section ^interface
+
+# router-ios#show running-config | section ^interface
+# interface GigabitEthernet0/1
+#  ip address 192.0.2.10 255.255.255.0
+#  shutdown
+#  duplex auto
+#  speed auto
+# interface GigabitEthernet0/2
+#  description Configured by Ansible Network
+#  no ip address
+# interface GigabitEthernet0/3
+#  description Configured by Ansible Network
+#  ip address 192.168.0.1 255.255.255.0
+#  shutdown
+#  duplex full
+#  speed 10
+#  ipv6 address FD5D:12C9:2201:1::1/64
+# interface GigabitEthernet0/3.100
+#  encapsulation dot1Q 20
+
+# Using state Deleted without any config passed
+#"(NOTE: This will delete all of configured L3 resource module attributes from each configured interface)"
+
+# Before state:
+# -------------
+
+# router-ios#show running-config | section ^interface
+# interface GigabitEthernet0/1
+#  ip address 192.0.2.10 255.255.255.0
+#  shutdown
+#  duplex auto
+#  speed auto
+# interface GigabitEthernet0/2
+#  description Configured by Ansible Network
+#  ip address 192.168.1.0 255.255.255.0
+# interface GigabitEthernet0/3
+#  description Configured by Ansible Network
+#  ip address 192.168.0.1 255.255.255.0
+#  shutdown
+#  duplex full
+#  speed 10
+#  ipv6 address FD5D:12C9:2201:1::1/64
+# interface GigabitEthernet0/3.100
+#  encapsulation dot1Q 20
+#  ip address 192.168.0.2 255.255.255.0
+
+- name: "Delete L3 attributes of ALL interfaces together (NOTE: This won't delete the interface itself)"
+  cisco.ios.ios_l3_interfaces:
+    state: deleted
+
+# "commands": [
+#       "interface GigabitEthernet0/1",
+#       "no ip address 192.0.2.10 255.255.255.0",
+#       "interface GigabitEthernet0/2",
+#       "no ip address 192.168.1.0 255.255.255.0",
+#       "interface GigabitEthernet0/3",
+#       "no ip address 192.168.0.1 255.255.255.0",
+#       "no ipv6 address FD5D:12C9:2201:1::1/64",
+#       "GigabitEthernet0/3.100",
+#       "no ip address 192.168.0.2 255.255.255.0",
+#     ],
+
+# After state:
+# -------------
+
+# router-ios#show running-config | section ^interface
 # interface GigabitEthernet0/1
 #  no ip address
 #  shutdown
@@ -45,7 +115,6 @@
 #  no ip address
 # interface GigabitEthernet0/3
 #  description Configured by Ansible Network
-#  no ip address
 #  shutdown
 #  duplex full
 #  speed 10

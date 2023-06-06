@@ -1,0 +1,63 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+    }
+NETWORK_OS: sonic
+RESOURCE: system
+COPYRIGHT: "Copyright 2021 Dell Inc. or its subsidiaries. All Rights Reserved"
+DOCUMENTATION: |
+  module: sonic_system
+  version_added: "1.0.0"
+  author: "Abirami N (@abirami-n)"
+  short_description: Configures system settings on Enterprise SONiC.
+  description:
+    - This module is used for configuration management of global system parameters on devices running Enterprise SONiC.
+  options:
+    config:
+      description:
+        - Specifies the system related configurations
+      type: dict
+      suboptions:
+        hostname:
+          description:
+            - Specifies the hostname of the SONiC device
+          type: str
+        interface_naming:
+          description:
+            - Specifies the type of interface-naming in device
+          type: str
+          choices:
+            - standard
+            - native
+        anycast_address:
+          description:
+            - Specifies different types of anycast address that can be configured on the device
+          type: dict
+          suboptions:
+            ipv4:
+              description:
+                - Enable or disable ipv4 anycast-address
+              type: bool
+            ipv6:
+              description:
+                - Enable or disable ipv6 anycast-address
+              type: bool
+            mac_address:
+              description:
+                - Specifies the mac anycast-address
+              type: str
+    state:
+      description:
+        - Specifies the operation to be performed on the system parameters configured on the device.
+        - In case of merged, the input configuration will be merged with the existing system configuration on the device.
+        - In case of deleted the existing system configuration will be removed from the device.
+      default: merged
+      choices: ['merged', 'deleted']
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt

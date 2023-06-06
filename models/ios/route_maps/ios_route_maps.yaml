@@ -1,13 +1,13 @@
 module: ios_route_maps
-short_description: Route maps resource module
+short_description: Resource module to configure route maps.
 description:
   - This module configures and manages the attributes of Route maps on Cisco IOS.
 version_added: 2.1.0
 author: Sumit Jaiswal (@justjais)
 notes:
-  - Tested against Cisco IOSv Version 15.2 on VIRL
+  - Tested against Cisco IOSXE Version 17.3 on CML.
   - This module works with connection C(network_cli).
-    See L(IOS Platform Options,../network/user_guide/platform_ios.html)
+    See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_ios.html)
 options:
   config:
     description: A list of configurations for Route maps.
@@ -1014,16 +1014,13 @@ options:
     description:
       - This option is used only with state I(parsed).
       - The value of this option should be the output received from the IOS
-        device by executing the command B(sh running-config | section ^router bgp).
+        device by executing the command B(sh running-config | section ^route-map).
       - The state I(parsed) reads the configuration from C(running_config)
         option and transforms it into Ansible structured data as per the
         resource module's argspec and the value is then returned in the
         I(parsed) key within the result.
     type: str
   state:
-    description:
-      - The state the configuration should be left in.
-    type: str
     choices:
       - merged
       - replaced
@@ -1033,12 +1030,21 @@ options:
       - parsed
       - rendered
     default: merged
-required_if:
-- ["state", "merged", ["config",]]
-- ["state", "replaced", ["config",]]
-- ["state", "overridden", ["config",]]
-- ["state", "rendered", ["config",]]
-- ["state", "parsed", ["running_config",]]
-mutually_exclusive:
-- ["config", "running_config"]
-supports_check_mode: True
+    description:
+      - The state the configuration should be left in
+      - The states I(rendered), I(gathered) and I(parsed) does not perform any change
+        on the device.
+      - The state I(rendered) will transform the configuration in C(config) option to
+        platform specific CLI commands which will be returned in the I(rendered) key
+        within the result. For state I(rendered) active connection to remote host is
+        not required.
+      - The state I(gathered) will fetch the running configuration from device and transform
+        it into structured data in the format as per the resource module argspec and
+        the value is returned in the I(gathered) key within the result.
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into JSON format as per the resource module parameters and the
+        value is returned in the I(parsed) key within the result. The value of C(running_config)
+        option should be the same format as the output of command I(sh running-config
+        | section ^route-map) executed on device. For state I(parsed) active
+        connection to remote host is not required.
+    type: str

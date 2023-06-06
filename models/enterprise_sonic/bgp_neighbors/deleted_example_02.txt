@@ -1,0 +1,62 @@
+# Using deleted
+#
+# Before state:
+# ------------
+#!
+#router bgp 11 vrf VrfCheck2
+# network import-check
+# timers 60 180
+#!
+#router bgp 51 vrf VrfReg1
+# network import-check
+# timers 60 180
+# !
+# peer-group SPINE
+#  bfd
+#  remote-as 4
+# !
+# neighbor interface Eth1/3
+#  peer-group SPINE
+#  remote-as 10
+#  timers 15 30
+#  advertisement-interval 15
+#  bfd 
+#  capability extended-nexthop
+#  capability dynamic
+# !
+# neighbor 192.168.1.4
+#!
+#router bgp 11
+# network import-check
+# timers 60 18
+# !
+# peer-group SP
+# !
+# neighbor interface Eth1/3
+
+- name: "Delete sonic_bgp_neighbors and peer-groups specific to vrfname"
+  sonic_bgp_neighbors:
+    config:
+      - bgp_as: 51
+        vrf_name: VrfReg1
+    state: deleted
+
+# After state:
+# ------------
+#!
+#router bgp 11 vrf VrfCheck2
+# network import-check
+# timers 60 180
+#!
+#router bgp 51 vrf VrfReg1
+# network import-check
+# timers 60 180
+# !
+#router bgp 11
+# network import-check
+# timers 60 18
+# !
+# peer-group SP
+# !
+# neighbor interface Eth1/3
+# network import-check

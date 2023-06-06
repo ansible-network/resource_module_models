@@ -1,0 +1,204 @@
+---
+GENERATOR_VERSION: '1.0'
+
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+      'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: bgp_af
+COPYRIGHT: Copyright 2019 Red Hat
+
+DOCUMENTATION: |
+  module: sonic_bgp_af
+  version_added: "2.10"
+  author: "Niraimadaiselvam M (@niraimadaiselvamm)"
+  short_description: Configure global BGP_AF protocol settings on SONiC.
+  description:
+    - This module provides configuration management of global BGP_AF parameters on devices running SONiC.
+    - bgp_as and vrf_name need be created earlier in the device.
+  notes:
+    - Tested against Enterprise SONiC, release 3.0.2.
+  options:
+    config:
+      description:
+        - Specifies the BGP_AF related configuration.
+      type: list
+      elements: dict
+      suboptions:
+        bgp_as:
+          description:
+            - Specifies the BGP Autonomous System (AS) number which is already configured in the device.
+          type: str
+          required: true
+        vrf_name:
+          description:
+            - Specifies the vrf name which is already configured in the device.
+          type: str
+          default: 'default'
+        address_family:
+          description:
+            - Specifies BGP address family related configurations.
+          type: dict
+          suboptions:
+            afis:
+              description:
+                - list of address families such as ipv4, ipv6 and l2vpn.
+                - afi and safi are required together.
+              type: list
+              elements: dict
+              required_together: [['afi', 'safi']]
+              suboptions:
+                afi:
+                  description:
+                    - Type of address family to configure.
+                  type: str
+                  choices:
+                    - ipv4
+                    - ipv6
+                    - l2vpn
+                  required: True
+                safi:
+                  description:
+                   - Specifies the type of cast for the address family.
+                  type: str
+                  choices:
+                    - unicast
+                    - evpn
+                  default: unicast
+                redistribute:
+                  description:
+                    - Specifies the redistribute information from another routing protocol.
+                  type: list
+                  elements: dict
+                  suboptions:
+                    protocol:
+                      description:
+                        - Specifies the protocol for configuring redistribute information.
+                      type: str
+                      choices: ['ospf', 'static', 'connected']
+                      required: True
+                    metric:
+                      description:
+                        - Specifies the metric for redistributed routes.
+                      type: str
+                    route_map:
+                      description:
+                        - Specifies the route map reference.
+                      type: str
+                advertise_pip:
+                  description:
+                    - Enables advertise PIP
+                  type: bool
+                advertise_pip_ip:
+                  description:
+                    - PIP IPv4 address
+                  type: str
+                advertise_pip_peer_ip:
+                  description:
+                    - PIP peer IPv4 address
+                  type: str
+                advertise_svi_ip:
+                  description:
+                    - Enables advertise SVI MACIP routes
+                  type: bool
+                route_advertise_list:
+                  description:
+                    - List of advertise routes
+                  type: list
+                  elements: dict
+                   suboptions:
+                     advertise_afi:
+                       required: True
+                       type: str
+                       choices:
+                       - ipv4
+                       - ipv6
+                       description:
+                         - Specifies the address family
+                     route_map:
+                       type: str
+                       description:
+                         - Specifies the route-map reference
+                advertise_default_gw:
+                  description:
+                    - Specifies the advertise default gateway flag.
+                  type: bool
+                advertise_all_vni:
+                  description:
+                    - Specifies the advertise all vni flag.
+                  type: bool
+                max_path:
+                  description:
+                    - Specifies the maximum paths of ibgp and ebgp count.
+                  type: dict
+                  options:
+                    ibgp:
+                      description:
+                        - Specify the count of the ibgp multi paths count.
+                      type: int
+                    ebgp:
+                      description:
+                        - Specify the count of the ebgp multi paths count.
+                      type: int
+                rd:
+                  description:
+                    - Specifies the route distiguisher to be used by the VRF instance.
+                  type: str
+                rt_in:
+                  description:
+                    - Route-targets to be imported.
+                  type: list
+                  elements: str
+                rt_out:
+                  description:
+                    - Route-targets to be exported.
+                  type: list
+                  elements: str
+                vnis:
+                  description:
+                    - VNI configuration for the EVPN.
+                  type: list
+                  elements: dict
+                  suboptions:
+                    vni_number:
+                      description:
+                        - Specifies the VNI number.
+                      type: int
+                      required: True
+                    advertise_default_gw:
+                      description:
+                        - Specifies the advertise default gateway flag.
+                      type: bool
+                    advertise_svi_ip:
+                      description:
+                        - Enables advertise SVI MACIP routes
+                      type: bool
+                    rd:
+                      description:
+                        - Specifies the route distiguisher to be used by the VRF instance.
+                      type: str
+                    rt_in:
+                      description:
+                        - Route-targets to be imported.
+                      type: list
+                      elements: str
+                    rt_out:
+                      description:
+                        - Route-targets to be exported.
+                      type: list
+                      elements: str
+    state:
+      description:
+        - Specifies the operation to be performed on the BGP_AF process configured on the device.
+        - In case of merged, the input configuration will be merged with the existing BGP_AF configuration on the device.
+        - In case of deleted the existing BGP_AF configuration will be removed from the device.
+      default: merged
+      choices: ['merged', 'deleted']
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt

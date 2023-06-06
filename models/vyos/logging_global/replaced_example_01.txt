@@ -1,0 +1,46 @@
+# Using state: replaced
+
+# Before state:
+# -------------
+
+# vyos:~$show configuration commands | grep syslog
+# set system syslog console facility all
+# set system syslog console facility local7 level 'err'
+# set system syslog console facility news level 'debug'
+# set system syslog file logFileNew
+# set system syslog global archive file '10'
+# set system syslog host 172.16.0.2 facility local5 level 'all'
+
+- name: Replace with the provided configuration
+  register: result
+  vyos.vyos.vyos_logging_global:
+    config:
+      console:
+        facilities:
+          - facility: local6
+      users:
+        - username: paul
+          facilities:
+          - facility: local7
+            severity: err
+    state: replaced
+
+# Commands Fired:
+# ---------------
+# "commands": [
+#     "delete system syslog console facility all",
+#     "delete system syslog console facility local7",
+#     "delete system syslog console facility news",
+#     "delete system syslog file logFileNew",
+#     "delete system syslog global archive file 10",
+#     "delete system syslog host 172.16.0.2",
+#     "set system syslog console facility local6",
+#     "set system syslog user paul facility local7 level err"
+# ],
+
+# After state:
+# ------------
+
+# vyos:~$show configuration commands | grep syslog
+# set system syslog console facility local6
+# set system syslog user paul facility local7 level 'err'

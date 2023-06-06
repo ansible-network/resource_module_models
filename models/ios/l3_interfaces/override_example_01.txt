@@ -1,9 +1,9 @@
-# Using overridden
+# Using state overridden
 
 # Before state:
 # -------------
-#
-# vios#show running-config | section ^interface
+
+# router-ios#show running-config | section ^interface
 # interface GigabitEthernet0/1
 #  description Configured by Ansible
 #  ip address 10.1.1.1 255.255.255.0
@@ -22,20 +22,36 @@
 #  ip address 192.168.0.2 255.255.255.0
 
 - name: Override device configuration of all interfaces with provided configuration
-  ios_interfaces:
+  cisco.ios.ios_l3_interfaces:
     config:
-      - name: GigabitEthernet0/2
-        ipv4:
-        - address: 192.168.0.1/24
-      - name: GigabitEthernet0/3.100
-        ipv6:
-        - autoconfig: True
-    operation: overridden
+    - name: GigabitEthernet0/2
+      ipv4:
+      - address: 192.168.0.1/24
+    - name: GigabitEthernet0/3.100
+      ipv6:
+      - autoconfig: true
+    state: overridden
+
+# Commands Fired:
+# ---------------
+
+# "commands": [
+#       "interface GigabitEthernet0/1",
+#       "no ip address 10.1.1.1 255.255.255.0",
+#       "interface GigabitEthernet0/2",
+#       "no ip address 192.168.2.1 255.255.255.0",
+#       "ip address 192.168.0.1 255.255.255.0",
+#       "interface GigabitEthernet0/3",
+#       "no ipv6 address FD5D:12C9:2201:1::1/64",
+#       "GigabitEthernet0/3.100",
+#       "no ip address 192.168.0.2 255.255.255.0",
+#       "ipv6 address autoconfig",
+#     ],
 
 # After state:
 # ------------
-#
-# vios#show running-config | section ^interface
+
+# router-ios#show running-config | section ^interface
 # interface GigabitEthernet0/1
 #  description Configured by Ansible
 #  no ip address
