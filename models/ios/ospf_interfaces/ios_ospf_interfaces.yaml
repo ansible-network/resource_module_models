@@ -1,89 +1,71 @@
----
-ANSIBLE_METADATA: |
-  {
-    'metadata_version': '1.1',
-    'status': ['preview'],
-    'supported_by': 'network'
-  }
-NETWORK_OS: ios
-RESOURCE: ospf_interfaces
-COPYRIGHT: Copyright 2020 Red Hat
-LICENSE: gpl-3.0.txt
-DOCUMENTATION: ''
 module: ios_ospf_interfaces
-version_added: 1.1.1
-short_description: OSPF_interfaces resource module.
-description: Manages and configures Open Shortest Path First (OSPF) version
-  2 and it's attributes over interface on IOS platforms.
+short_description: Resource module to configure OSPF interfaces.
+description: This module configures and manages the Open Shortest Path First (OSPF)
+  version 2 on IOS platforms.
+version_added: 1.0.0
 author: Sumit Jaiswal (@justjais)
-info:
-  network_os: ios
 notes:
-  - Tested against Cisco IOSv Version 15.2 on VIRL
-  - This module works with connection C(network_cli). See L(IOS Platform
-    Options,../network/user_guide/platform_ios.html).
+  - Tested against Cisco IOSXE Version 17.3 on CML.
+  - This module works with connection C(network_cli).
+    See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_ios.html)
 options:
   config:
     description: A dictionary of OSPF interfaces options.
-    type: dict
+    type: list
+    elements: dict
     suboptions:
-      processes:
+      name:
         description:
-          - List of OSPF interfaces instance configurations.
+          - Full name of the interface excluding any logical unit number,
+            i.e. GigabitEthernet0/1.
+        type: str
+        required: true
+      address_family:
+        description:
+          - OSPF interfaces settings on the interfaces in address-family
+            context.
         type: list
         elements: dict
         suboptions:
-          name:
+          afi:
             description:
-              - Full name of the interface excluding any logical unit number,
-                i.e. GigabitEthernet0/1.
+              - Address Family Identifier (AFI) for OSPF interfaces settings
+                on the interfaces.
             type: str
+            choices:
+              - ipv4
+              - ipv6
             required: true
-          address_family:
-            description:
-              - OSPF interfaces settings on the interfaces in address-family
-                context.
-            type: list
-            elements: dict
+          process:
+            description: OSPF interfaces process config
+            type: dict
             suboptions:
-              afi:
+              id:
                 description:
                   - Address Family Identifier (AFI) for OSPF interfaces settings
-                    on the interfaces.
+                    on the interfaces. Please refer vendor documentation of Valid
+                    values.
+                type: int
+              area_id:
+                description:
+                  - OSPF interfaces area ID as a decimal value. Please
+                    refer vendor documentation of Valid values.
+                  - OSPF interfaces area ID in IP address format(e.g.
+                    A.B.C.D)
                 type: str
-                choices:
-                  - ipv4
-                  - ipv6
-                required: true
-              process_id:
-                description: Process ID
-                required: true
-                type: dict
-                suboptions:
-                  area:
-                    description: OSPF interfaces area parameters.
-                    type: dict
-                    suboptions:
-                      area_id:
-                        description:
-                          - OSPF interfaces area ID as a decimal value. Please
-                            refer vendor documentation of Valid values.
-                          - OSPF interfaces area ID in IP address format(e.g.
-                            A.B.C.D)
-                        type: str
-                      secondaries:
-                        description:
-                          - Include or exclude secondary IP addresses.
-                          - Valid only with IPv4 config
-                        type: bool
-                      instance_id:
-                        description:
-                          - Set the OSPF instance based on ID
-                          - Valid only with IPv6 OSPF config
-                        type: int
-                  adjacency:
-                    description: Adjacency staggering
-                    type: bool
+              secondaries:
+                description:
+                  - Include or exclude secondary IP addresses.
+                  - Valid only with IPv4 config
+                type: bool
+              instance_id:
+                description:
+                  - Set the OSPF instance based on ID
+                  - Valid only with IPv6 OSPF config
+                type: int
+          adjacency:
+            description: Adjacency staggering
+            type: bool
           authentication:
             description: Enable authentication
             type: dict
@@ -94,14 +76,14 @@ options:
                 type: str
               message_digest:
                 description: Use message-digest authentication
-                type: str
+                type: bool
               'null':
                 description: Use no authentication
-                type: str
+                type: bool
           bfd:
             description:
               - BFD configuration commands
-              - Enable BFD on this interface
+              - Enable/Disable BFD on this interface
             type: bool
           cost:
             description: Interface cost
@@ -169,7 +151,7 @@ options:
           database_filter:
             description: Filter OSPF LSA during synchronization and flooding
             type: bool
-          dead-interval:
+          dead_interval:
             description: Interval after which a neighbor is declared dead
             type: dict
             suboptions:
@@ -178,16 +160,11 @@ options:
                 type: int
               minimal:
                 description:
-                  - Set to 1 second
+                  - Set to 1 second and set multiplier for Hellos
+                  - Number of Hellos sent within 1 second. Please refer
+                    vendor documentation of Valid values.
                   - Valid only with IP OSPF config
-                type: dict
-                suboptions:
-                  hello-multiplier:
-                    description:
-                      - Set multiplier for Hellos
-                      - Number of Hellos sent within 1 second. Please refer
-                        vendor documentation of Valid values.
-                    type: int
+                type: int
           demand_circuit:
             description: OSPF Demand Circuit, enable or disable
               the demand circuit'
@@ -250,8 +227,10 @@ options:
           mtu_ignore:
             description: Ignores the MTU in DBD packets
             type: bool
-          multi-area:
-            description: Set to 1 second
+          multi_area:
+            description:
+              - Set the OSPF multi-area ID
+              - Valid only with IP OSPF config
             type: dict
             suboptions:
               id:
@@ -259,14 +238,31 @@ options:
                   - OSPF multi-area ID as a decimal value. Please refer vendor
                     documentation of Valid values.
                   - OSPF multi-area ID in IP address format(e.g. A.B.C.D)
+                type: int
               cost:
                 description: Interface cost
-                type: bool
+                type: int
           neighbor:
             description:
-              - Neighbor link-local IPv6 address
+              - OSPF neighbor link-local IPv6 address (X:X:X:X::X)
               - Valid only with IPv6 OSPF config
-            type: str
+            type: dict
+            suboptions:
+              address:
+                description: Neighbor link-local IPv6 address
+                type: str
+              cost:
+                description: OSPF cost for point-to-multipoint neighbor
+                type: int
+              database_filter:
+                description: Filter OSPF LSA during synchronization and flooding for point-to-multipoint neighbor
+                type: bool
+              poll_interval:
+                description: OSPF dead-router polling interval
+                type: int
+              priority:
+                description: OSPF priority of non-broadcast neighbor
+                type: int
           network:
             description: Network type
             type: dict
@@ -307,12 +303,14 @@ options:
             description: Set OSPF protocol's state to disable under
               current interface
             type: bool
-          transmit-delay:
+          transmit_delay:
             description: Link state transmit delay.
               Please refer vendor documentation of Valid values.
             type: int
           ttl_security:
-            description: TTL security check
+            description:
+              - TTL security check
+              - Valid only with IPV4 OSPF config
             type: dict
             suboptions:
               set:
@@ -364,11 +362,3 @@ options:
       - rendered
       - parsed
     default: merged
-EXAMPLES:
-  - deleted_example_01.txt
-  - merged_example_01.txt
-  - replaced_example_01.txt
-  - overridden_example_01.txt
-  - gathered_example_01.txt
-  - rendered_example_01.txt
-  - parsed_example_01.txt

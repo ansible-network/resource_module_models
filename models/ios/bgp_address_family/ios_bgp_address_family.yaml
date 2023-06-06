@@ -1,13 +1,16 @@
-module: ios_bgp_af
-short_description: Address family BGP resource module
-description:
-  - This module configures and manages the attributes of Address family bgp on Cisco IOS.
+module: ios_bgp_address_family
+short_description: Resource module to configure BGP Address family.
+description: This module configures and manages the attributes of bgp address family on Cisco IOS.
 version_added: 1.2.0
-author: Sumit Jaiswal (@justjais)
+author:
+  - Sagar Paul (@KB-perByte)
+  - Sumit Jaiswal (@justjais)
 notes:
-  - Tested against Cisco IOSv Version 15.2 on VIRL
+  - Tested against Cisco IOSXE Version 17.3 on CML.
   - This module works with connection C(network_cli).
-    See L(IOS Platform Options,../network/user_guide/platform_ios.html)
+    See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_ios.html)
+  - The module examples uses callback plugin (stdout_callback = yaml) to generate task
+    output in yaml format.
 options:
   config:
     description: A list of configurations for bgp address family.
@@ -32,10 +35,12 @@ options:
           vrf:
             description: Specify parameters for a VPN Routing/Forwarding instance
             type: str
-          aggregate_address:
+          aggregate_addresses:
             description: Configure BGP aggregate entries
             type: list
             elements: dict
+            aliases:
+              - aggregate_address
             suboptions:
               address:
                 description: Aggregate address(A.B.C.D)
@@ -82,14 +87,23 @@ options:
                       all:
                         description: Select all available paths
                         type: bool
+                      backup:
+                        description: Select backup path
+                        type: bool
                       best:
                         description: Select best N paths (2-3).
                         type: int
+                      best_external:
+                        description: Select best-external path
+                        type: bool
                       group_best:
                         description: Select group-best path
                         type: bool
                   send:
                     description: Send additional paths to neighbors
+                    type: bool
+                  install:
+                    description: Additional paths to install into RIB
                     type: bool
               aggregate_timer:
                 description:
@@ -159,9 +173,39 @@ options:
                   - Please refer vendor documentation for valid values
                 type: int
               slow_peer:
-                description: Nexthop triggering
+                description:
+                - Nexthop triggering
+                - This option is DEPRECATED and replaced with slow_peer_options,
+                  this attribute will be removed after 2025-01-01.
                 type: list
                 elements: dict
+                suboptions:
+                  detection:
+                    description: Slow-peer detection
+                    type: dict
+                    suboptions:
+                      enable:
+                        description: Enable slow-peer detection
+                        type: bool
+                      threshold:
+                        description:
+                          - Set the slow-peer detection threshold
+                          - Threshold value (seconds)
+                          - Please refer vendor documentation for valid values
+                        type: int
+                  split_update_group:
+                    description: Configure slow-peer split-update-group
+                    type: dict
+                    suboptions:
+                      dynamic:
+                        description: Dynamically split the slow peer to slow-update group
+                        type: bool
+                      permanent:
+                        description: Keep the slow-peer permanently in slow-update group
+                        type: bool
+              slow_peer_options:
+                description: Nexthop triggering
+                type: dict
                 suboptions:
                   detection:
                     description: Slow-peer detection
@@ -219,20 +263,39 @@ options:
               local:
                 description: Distance for local routes
                 type: int
-          neighbor:
+          neighbors:
             description: Specify a neighbor router
             type: list
             elements: dict
+            aliases:
+              - neighbor
             suboptions:
+              neighbor_address:
+                description:
+                - Neighbor address (A.B.C.D)
+                - Neighbor tag
+                - Neighbor ipv6 address (X:X:X:X::X)
+                type: str
               address:
-                description: Neighbor address (A.B.C.D)
+                description:
+                - Neighbor address (A.B.C.D)
+                - This option is DEPRECATED and replaced with neighbor_address,
+                  this attribute will be removed after 2025-01-01.
                 type: str
               tag:
-                description: Neighbor tag
+                description:
+                - Neighbor tag
+                - This option is DEPRECATED and replaced with neighbor_address,
+                  this attribute will be removed after 2025-01-01.
                 type: str
-              ipv6_adddress:
-                description: Neighbor ipv6 address (X:X:X:X::X)
+              ipv6_address:
+                description:
+                - Neighbor ipv6 address (X:X:X:X::X)
+                - This option is DEPRECATED and replaced with neighbor_address,
+                  this attribute will be removed after 2025-01-01.
                 type: str
+                aliases:
+                  - ipv6_adddress
               activate:
                 description: Enable the Address Family for this Neighbor
                 type: bool
@@ -264,6 +327,36 @@ options:
                   group_best:
                     description: Select group-best path
                     type: bool
+              advertises:
+                description: Advertise to this neighbor
+                type: dict
+                suboptions:
+                  additional_paths:
+                    description: Advertise additional paths
+                    type: dict
+                    suboptions:
+                      all:
+                        description: Select all available paths
+                        type: bool
+                      best:
+                        description: Select best N paths (2-3).
+                        type: int
+                      group_best:
+                        description: Select group-best path
+                        type: bool
+                  best_external:
+                    description: Advertise best-external (at RRs best-internal) path
+                    type: bool
+                  diverse_path:
+                    description: Advertise additional paths
+                    type: dict
+                    suboptions:
+                      backup:
+                        description: Diverse path can be backup path
+                        type: bool
+                      mpath:
+                        description: Diverse path can be multipath
+                        type: bool
               advertise_map:
                 description: specify route-map for conditional advertisement
                 type: dict
@@ -526,14 +619,49 @@ options:
                     description: Only give warning message when limit is exceeded
                     type: bool
               next_hop_self:
+                description:
+                  - Disable the next hop calculation for this neighbor
+                  - This option is DEPRECATED and is replaced with nexthop_self which
+                    accepts dict as input this attribute will be removed after 2023-06-01.
+                type: bool
+              nexthop_self:
                 description: Disable the next hop calculation for this neighbor
-                type: bool
+                type: dict
+                suboptions:
+                  set:
+                    description: set the next hop self
+                    type: bool
+                  all:
+                    description: Enable next-hop-self for both eBGP and iBGP received paths
+                    type: bool
               next_hop_unchanged:
-                description: Propagate next hop unchanged for iBGP paths to this neighbor
-                type: bool
+                description:
+                  - Propagate next hop unchanged for iBGP paths to this neighbor
+                  - Propagate next hop unchanged for all paths (iBGP and eBGP) to this neighbor
+                type: dict
+                suboptions:
+                  set:
+                    description: Enable next-hop-unchanged
+                    type: bool
+                  allpaths:
+                    description: Propagate next hop unchanged for all paths (iBGP and eBGP) to this neighbor
+                    type: bool
               password:
-                description: Set a password
+                description:
+                - Set a password
+                - This option is DEPRECATED and is replaced with password_options which
+                  accepts dict as input, this attribute will be removed after 2024-06-01.
                 type: str
+              password_options:
+                description: Set a password with encryption type
+                type: dict
+                suboptions:
+                  encryption:
+                    description: Encryption type (0 to disable encryption, 7 for proprietary)
+                    type: int
+                  pass_key:
+                    description: The password
+                    type: str
               path_attribute:
                 description: BGP optional attribute filtering
                 type: dict
@@ -593,9 +721,29 @@ options:
               peer_group:
                 description: Member of the peer-group
                 type: bool
+              peer_group_name:
+                description: Member of the peer-group
+                type: str
               prefix_list:
-                description: Filter updates to/from this neighbor
+                description:
+                  - Filter updates to/from this neighbor
+                  - This option is DEPRECATED and is replaced with prefix_lists which
+                    accepts list of dict as input
                 type: dict
+                suboptions:
+                  name:
+                    description: Name of a prefix list
+                    type: str
+                  in:
+                    description: Filter incoming updates
+                    type: bool
+                  out:
+                    description: Filter outgoing updates
+                    type: bool
+              prefix_lists:
+                description: Filter updates to/from this neighbor
+                type: list
+                elements: dict
                 suboptions:
                   name:
                     description: Name of a prefix list
@@ -625,8 +773,25 @@ options:
                     description: Replace all private AS numbers with local AS
                     type: bool
               route_map:
-                description: Apply route map to neighbor
+                description:
+                  - Apply route map to neighbor
+                  - This option is DEPRECATED and is replaced with route_maps which
+                    accepts list of dict as input
                 type: dict
+                suboptions:
+                  name:
+                    description: Name of route map
+                    type: str
+                  in:
+                    description: Apply map to incoming routes
+                    type: bool
+                  out:
+                    description: Apply map to outbound routes
+                    type: bool
+              route_maps:
+                description: Apply route map to neighbor
+                type: list
+                elements: dict
                 suboptions:
                   name:
                     description: Name of route map
@@ -647,6 +812,11 @@ options:
                 description: Send Community attribute to this neighbor
                 type: dict
                 suboptions:
+                  set:
+                    description:
+                      - Send Standard Community attribute.
+                      - Maintains backwards compatibility for configurations that do not specify a send-community type.
+                    type: bool
                   both:
                     description: Send Standard and Extended Community attributes
                     type: bool
@@ -670,9 +840,49 @@ options:
                       - Please refer vendor documentation for valid values
                     type: int
               slow_peer:
-                description: Configure slow-peer
+                description:
+                - Configure slow-peer
+                - This option is DEPRECATED and replaced with slow_peer_options,
+                  this attribute will be removed after 2025-01-01.
                 type: list
                 elements: dict
+                suboptions:
+                  detection:
+                    description: Configure slow-peer
+                    type: dict
+                    suboptions:
+                      enable:
+                        description: Enable slow-peer detection
+                        type: bool
+                      disable:
+                        description: Disable slow-peer detection
+                        type: bool
+                      threshold:
+                        description: Set the slow-peer detection threshold
+                        type: int
+                  split_update_group:
+                    description: Configure slow-peer
+                    type: dict
+                    suboptions:
+                      dynamic:
+                        description: Configure slow-peer
+                        type: dict
+                        suboptions:
+                          enable:
+                            description: Configure slow-peer
+                            type: bool
+                          disable:
+                            description: Configure slow-peer
+                            type: bool
+                          permanent:
+                            description: Configure slow-peer
+                            type: bool
+                      static:
+                        description: Configure slow-peer
+                        type: bool
+              slow_peer_options:
+                description: Configure slow-peer options
+                type: dict
                 suboptions:
                   detection:
                     description: Configure slow-peer
@@ -773,10 +983,12 @@ options:
               weight:
                 description: Set default weight for routes from this neighbor
                 type: int
-          network:
+          networks:
             description: Specify a network to announce via BGP
             type: list
             elements: dict
+            aliases:
+              - network
             suboptions:
               address:
                 description: Network number (A.B.C.D)
@@ -787,11 +999,15 @@ options:
               backdoor:
                 description: Specify a BGP backdoor route
                 type: bool
+              evpn:
+                description: Advertise or Export to EVPN address-family
+                type: bool
               route_map:
                 description: Route-map to modify the attributes
                 type: str
           redistribute:
-            description: Redistribute information from another routing protocol
+            description:
+            - Redistribute information from another routing protocol
             type: list
             elements: dict
             suboptions:
@@ -825,6 +1041,11 @@ options:
                 description: Connected
                 type: dict
                 suboptions:
+                  set:
+                    description:
+                      - Redistribute automatically established IP connected routes.
+                      - This only needs to be set if metric or route_map aren't used.
+                    type: bool
                   metric:
                     description: Metric for redistributed routes
                     type: int
@@ -877,6 +1098,9 @@ options:
                 description: Locator ID Separation Protocol (LISP)
                 type: dict
                 suboptions:
+                  set:
+                    description: Set the top level attribute
+                    type: bool
                   metric:
                     description: Metric for redistributed routes
                     type: int
@@ -887,6 +1111,9 @@ options:
                 description: Mobile routes
                 type: dict
                 suboptions:
+                  set:
+                    description: Set the top level attribute
+                    type: bool
                   metric:
                     description: Metric for redistributed routes
                     type: int
@@ -897,6 +1124,9 @@ options:
                 description: On Demand stub Routes
                 type: dict
                 suboptions:
+                  set:
+                    description: Set the top level attribute
+                    type: bool
                   metric:
                     description: Metric for redistributed routes
                     type: int
@@ -910,25 +1140,60 @@ options:
                   process_id:
                     description: Process ID
                     type: int
+                  include_connected:
+                    description: Include connected. Only applicable under IPv6 AFI
+                    type: bool
                   match:
-                    description: On Demand stub Routes
+                    description: Redistribute matched routes
                     type: dict
                     suboptions:
                       external:
-                        description: Redistribute OSPF external routes
+                        description:
+                        - Redistribute OSPF external routes
+                        - This option is DEPRECATED and replaced with externals option,
+                          this attribute will be removed after 2025-01-01.
                         type: bool
+                      externals:
+                        description: Redistribute OSPF external routes
+                        type: dict
+                        suboptions:
+                          type_1:
+                            description: Redistribute OSPF External type 1 routes
+                            type: bool
+                          type_2:
+                            description: Redistribute OSPF External type 1 routes
+                            type: bool
                       internal:
                         description: Redistribute OSPF internal routes
                         type: bool
                       nssa_external:
-                        description: Redistribute OSPF NSSA external routes
+                        description:
+                        - Redistribute OSPF NSSA external routes
+                        - This option is DEPRECATED and replaced with nssa_externals option,
+                          this attribute will be removed after 2025-01-01.
                         type: bool
                       type_1:
-                        description: Redistribute NSSA external type 1 routes
+                        description:
+                        - Redistribute NSSA external type 1 routes
+                        - This option is DEPRECATED and replaced with nssa_externals.type_1 option,
+                          this attribute will be removed after 2025-01-01.
                         type: bool
                       type_2:
-                        description: Redistribute NSSA external type 2 routes
+                        description:
+                        - Redistribute NSSA external type 2 routes
+                        - This option is DEPRECATED and replaced with nssa_externals.type_2 option,
+                          this attribute will be removed after 2025-01-01.
                         type: bool
+                      nssa_externals:
+                        description: Redistribute OSPF NSSA external routes
+                        type: dict
+                        suboptions:
+                          type_1:
+                            description: Redistribute NSSA external type 1 routes
+                            type: bool
+                          type_2:
+                            description: Redistribute NSSA external type 2 routes
+                            type: bool
                   metric:
                     description: Metric for redistributed routes
                     type: int
@@ -946,24 +1211,56 @@ options:
                     description: Process ID
                     type: int
                   match:
-                    description: On Demand stub Routes
+                    description: Redistribute matched routes
                     type: dict
                     suboptions:
                       external:
-                        description: Redistribute OSPF external routes
+                        description:
+                        - Redistribute OSPF external routes
+                        - This option is DEPRECATED and replaced with externals,
+                          this attribute will be removed after 2025-01-01.
                         type: bool
+                      externals:
+                        description: Redistribute OSPF external routes
+                        type: dict
+                        suboptions:
+                          type_1:
+                            description: Redistribute OSPF External type 1 routes
+                            type: bool
+                          type_2:
+                            description: Redistribute OSPF External type 1 routes
+                            type: bool
                       internal:
                         description: Redistribute OSPF internal routes
                         type: bool
                       nssa_external:
-                        description: Redistribute OSPF NSSA external routes
+                        description:
+                        - Redistribute OSPF internal routes
+                        - This option is DEPRECATED and replaced with nssa_externals,
+                          this attribute will be removed after 2025-01-01.
                         type: bool
                       type_1:
-                        description: Redistribute NSSA external type 1 routes
+                        description:
+                        - Redistribute NSSA external type 1 routes
+                        - This option is DEPRECATED and replaced with nssa_externals.type_1 option,
+                          this attribute will be removed after 2025-01-01.
                         type: bool
                       type_2:
-                        description: Redistribute NSSA external type 2 routes
+                        description:
+                        - Redistribute NSSA external type 2 routes
+                        - This option is DEPRECATED and replaced with nssa_externals.type_2 option,
+                          this attribute will be removed after 2025-01-01.
                         type: bool
+                      nssa_externals:
+                        description: Redistribute OSPF NSSA external routes
+                        type: dict
+                        suboptions:
+                          type_1:
+                            description: Redistribute NSSA external type 1 routes
+                            type: bool
+                          type_2:
+                            description: Redistribute NSSA external type 2 routes
+                            type: bool
                   metric:
                     description: Metric for redistributed routes
                     type: int
@@ -974,6 +1271,9 @@ options:
                 description: Routing Information Protocol (RIP)
                 type: dict
                 suboptions:
+                  set:
+                    description: Set the top level attribute
+                    type: bool
                   metric:
                     description: Metric for redistributed routes
                     type: int
@@ -984,6 +1284,9 @@ options:
                 description: Static routes
                 type: dict
                 suboptions:
+                  set:
+                    description: Set the top level attribute
+                    type: bool
                   clns:
                     description: Redistribution of OSI static routes
                     type: bool
@@ -1083,6 +1386,18 @@ options:
                           des:
                             description: Use 56 bit DES algorithm for encryption
                             type: str
+                          des56:
+                            description: Use 56 bit DES algorithm for encryption
+                            type: str
+                          aes128:
+                            description: Use 128 bit AES algorithm for encryption
+                            type: str
+                          aes192:
+                            description: Use 192 bit 3DES algorithm for encryption
+                            type: str
+                          aes256:
+                            description: Use 256 bit DES algorithm for encryption
+                            type: str
                       credential:
                         description: If the user password is already configured and saved
                         type: bool
@@ -1110,24 +1425,30 @@ options:
         I(parsed) key within the result.
     type: str
   state:
-    description:
-      - The state the configuration should be left in.
-    type: str
     choices:
-      - merged
-      - replaced
-      - overridden
-      - deleted
-      - gathered
-      - parsed
-      - rendered
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    - gathered
+    - rendered
+    - parsed
     default: merged
-required_if:
-- ["state", "merged", ["config",]]
-- ["state", "replaced", ["config",]]
-- ["state", "overridden", ["config",]]
-- ["state", "rendered", ["config",]]
-- ["state", "parsed", ["running_config",]]
-mutually_exclusive:
-- ["config", "running_config"]
-supports_check_mode: True
+    description:
+      - The state the configuration should be left in
+      - The states I(rendered), I(gathered) and I(parsed) does not perform any change
+        on the device.
+      - The state I(rendered) will transform the configuration in C(config) option to
+        platform specific CLI commands which will be returned in the I(rendered) key
+        within the result. For state I(rendered) active connection to remote host is
+        not required.
+      - The state I(gathered) will fetch the running configuration from device and transform
+        it into structured data in the format as per the resource module argspec and
+        the value is returned in the I(gathered) key within the result.
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into JSON format as per the resource module parameters and the
+        value is returned in the I(parsed) key within the result. The value of C(running_config)
+        option should be the same format as the output of command I(show running-config
+        | include ip route|ipv6 route) executed on device. For state I(parsed) active
+        connection to remote host is not required.
+    type: str

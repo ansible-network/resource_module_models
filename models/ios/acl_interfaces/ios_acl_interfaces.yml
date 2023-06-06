@@ -1,0 +1,94 @@
+module: ios_acl_interfaces
+short_description: Resource module to configure ACL interfaces.
+description: This module configures and manages the access-control (ACL) attributes
+  of interfaces on IOS platforms.
+version_added: 1.0.0
+author:
+ - Sumit Jaiswal (@justjais)
+ - Sagar Paul (@KB-perByte)
+notes:
+  - Tested against Cisco IOSXE Version 17.3 on CML.
+  - This module works with connection C(network_cli).
+    See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_ios.html)
+options:
+  config:
+    description: A dictionary of ACL interfaces options
+    type: list
+    elements: dict
+    suboptions:
+      name:
+        description: Full name of the interface excluding any logical unit number,
+          i.e. GigabitEthernet0/1.
+        type: str
+        required: true
+      access_groups:
+        description: Specify access-group for IP access list (standard or extended).
+        type: list
+        elements: dict
+        suboptions:
+          afi:
+            description: Specifies the AFI for the ACLs to be configured on this interface.
+            type: str
+            required: true
+            choices:
+            - ipv4
+            - ipv6
+          acls:
+            description: Specifies the ACLs for the provided AFI.
+            type: list
+            elements: dict
+            suboptions:
+              name:
+                description: Specifies the name of the IPv4/IPv4 ACL for the interface.
+                type: str
+                required: true
+              direction:
+                description:
+                - Specifies the direction of packets that the ACL will be applied
+                  on.
+                - With one direction already assigned, other acl direction cannot
+                  be same.
+                type: str
+                required: true
+                choices:
+                - in
+                - out
+  running_config:
+    description:
+      - The module, by default, will connect to the remote device and retrieve the current
+        running-config to use as a base for comparing against the contents of source.
+        There are times when it is not desirable to have the task get the current running-config
+        for every task in a playbook.  The I(running_config) argument allows the implementer
+        to pass in the configuration to use as the base config for comparison. This
+        value of this option should be the output received from device by executing
+        command.
+    type: str
+  state:
+    description:
+      - The state the configuration should be left in
+      - The states I(rendered), I(gathered) and I(parsed) does not perform any change
+        on the device.
+      - The state I(rendered) will transform the configuration in C(config) option to
+        platform specific CLI commands which will be returned in the I(rendered) key
+        within the result. For state I(rendered) active connection to remote host is
+        not required.
+      - The state I(gathered) will fetch the running configuration from device and transform
+        it into structured data in the format as per the resource module argspec and
+        the value is returned in the I(gathered) key within the result.
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into JSON format as per the resource module parameters and the
+        value is returned in the I(parsed) key within the result. The value of C(running_config)
+        option should be the same format as the output of command I(show running-config |
+        include ^interface|ip access-group|ipv6 traffic-filter) executed on device.
+        For state I(parsed) active
+        connection to remote host is not required.
+    type: str
+    choices:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    - gathered
+    - parsed
+    - rendered
+    default: merged
