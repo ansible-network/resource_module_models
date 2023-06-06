@@ -5,7 +5,7 @@
 #   peer-session  Template configuration for session parameters
 # Router(config-router)#template peer-policy pp1
 
-module: nxos_bgp_templates
+module: ios_bgp_templates
 short_description: Resource module to configure BGP Templates.
 description:
 - This module manages BGP templates on devices running Cisco IOSXE.
