@@ -46,7 +46,7 @@ options:
             description: Accept Legacy Route Target
             type: bool
 
-      additional-paths:
+      additional_paths:
         description: Negotiate additional paths capabilities with this neighbor
         type: dict
         suboptions:
@@ -72,7 +72,7 @@ options:
           non-exist-map:
             description: Advertise prefix only if prefix in the condition does not exist
             type: str
-      advertisement-interval:
+      advertisement_interval:
         description: Minimum interval between sending BGP routing updates
         type: int
       aigp:
@@ -129,7 +129,7 @@ options:
           send: #capability orf prefix-list send
             description: Capability to SEND the ORF to this neighbor
             type: bool
-      default-originate:
+      default_originate:
         description: Originate default route to this neighbor
         type: dict
         suboptions:
@@ -147,37 +147,121 @@ options:
       encap: # encap vxlan
         description: Preferred Encapsulation for Neighbor
         type: bool
-      exit-peer-policy: # exit-peer-policy
+      exit_peer_policy: # exit-peer-policy
         description: Exit from template configuration mode
         type: bool
-      filter-as
-        description: filter-as
-      filter-list
-        description: Establish BGP filters
-      inherit
-        description: Inherit a template
-      inter-as-hybrid
+      filter_list: # filter-list 22 in
+        description: Name of filter-list.
+        type: dict
+        suboptions:
+          as_path:
+            description: AS path access list.
+            type: int
+          inbound:
+            description: Apply policy to incoming routes.
+            type: bool
+          outbound:
+            description: Apply policy to outgoing routes.
+            type: bool
+      inherit: # inherit peer-policy peer1
+        description: Inherit a peer-policy template.
+        type: dict
+        suboptions:
+          peer_policy:
+            description: Peer-policy template to inherit.
+            type: str
+      inter_as_hybrid: # inter-as-hybrid
         description: Inter AS Hybrid mode
-      internal-vpn-client
+      internal-vpn-client: # internal-vpn-client
         description: Stack iBGP-CE Neighbor Path in ATTR_SET for vpn update
-      long-lived-graceful-restart
+      long_lived_graceful_restart:
         description: Enable long lived graceful restart support for this neighbor
-      maximum-prefix
-        description: Maximum number of prefixes accepted from this peer
-      next-hop-self
-        description: Disable the next hop calculation for this neighbor
-      next-hop-unchanged
+        type: dict
+        suboptions:
+          accept: # long-lived-graceful-restart stale-time accept 22
+            description: Maximum stale-time acceptable from neighbor.
+            type: int
+          send: # long-lived-graceful-restart stale-time send 22
+            description: Stale-time sent in capability.
+            type: int
+      maximum_prefix:
+        description: Maximum number of prefixes from this neighbor.
+        type: dict
+        suboptions:
+          max_prefix_limit: # maximum-prefix 22 22 restart 22
+            description: Maximum prefix limit.
+            type: int
+          generate_warning_threshold:
+            description: Threshold percentage at which to generate a warning.
+            type: int
+          restart_interval:
+            description: Restart bgp connection after limit is exceeded.
+            type: int
+          warning_only: # maximum-prefix 22 warning-only
+            description: Only give a warning message when limit is exceeded.
+            type: bool
+      next_hop_self: # next-hop-self all
+        description: Set our address as nexthop (non-reflected).
+        type: dict
+        suboptions:
+          set:
+            description: Set next-hop-self attribute.
+            type: bool
+          all_routes:
+            description: Set our address as nexthop for all routes.
+            type: bool
+      next_hop_unchanged: # next-hop-unchanged allpaths
         description: Propagate next hop unchanged for iBGP paths to this neighbor
-      no
-        description: Negate a command or set its defaults
-      prefix-length-size
+        type: dict
+        suboptions:
+          set:
+            description: Set next-hop-unchanged attribute.
+            type: bool
+          all_paths:
+            description: Propagate next hop unchanged for all paths (iBGP and eBGP) to this neighbor.
+            type: bool
+      prefix_length_size: # prefix-length-size 2
         description: Packet Level storage size for Prefixes
-      prefix-list
-        description: Filter updates to/from this neighbor
-      remove-private-as
+        type: int
+      prefix_list: # prefix-list testList in
+        description: Apply prefix-list.
+        type: dict
+        suboptions:
+          name:
+            description: Prefix list name.
+            type: str
+          inbound:
+            description: Apply policy to incoming routes.
+            type: bool
+          outbound:
+            description: Apply policy to outgoing routes.
+            type: bool
+      remove-private-as: # remove-private-as all replace-as
         description: Remove private AS number from outbound updates
-      route-map
+        type: dict
+        suboptions:
+          set: # remove-private-as
+            description: Set remove-private-as.
+            type: str
+          all:
+            description: Remove all private AS numbers.
+            type: bool
+          replae_as:
+            description: Replace all private AS numbers with local AS.
+            type: bool
+      route_map: # #route-map ww in
         description: Apply route map to neighbor
+        type: dict
+        suboptions:
+          name:
+            description: Route-map name.
+            type: str
+          inbound:
+            description: Apply map to incoming routes.
+            type: bool
+          outbound:
+            description: Apply map to outbound routes.
+            type: bool
       route-reflector-client
         description: Configure a neighbor as Route Reflector client
       send-community
