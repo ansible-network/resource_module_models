@@ -41,16 +41,10 @@ options:
                     description:
                       - Enable or disable DHCPv4 snooping on a VLAN or range of VLANs.
                     type: bool
-              verify:
+              verify_mac:
                 description:
-                  - Configure DHCPv4 snooping verification.
-                type: list
-                elements: dict
-                suboptions:
-                  mac_address:
-                    description:
-                      - Enable or disable DHCPv4 snooping MAC verification.
-                    type: bool
+                  - Enable or disable DHCPv4 snooping MAC verification.
+                type: bool
               source_binding:
                 description:
                   - Configure DHCPv4 snooping binding entries.
@@ -98,16 +92,10 @@ options:
                     description:
                       - Enable or disable DHCPv6 snooping on a VLAN or range of VLANs.
                     type: bool
-              verify:
+              verify_mac:
                 description:
-                  - Configure DHCPv6 snooping verification.
-                type: list
-                elements: dict
-                suboptions:
-                  mac_address:
-                    description:
-                      - Enable or disable DHCPv6 snooping MAC verification.
-                    type: bool
+                  - Enable or disable DHCPv6 snooping MAC verification.
+                type: bool
               source_binding:
                 description:
                   - Configure DHCPv6 snooping binding entries.
