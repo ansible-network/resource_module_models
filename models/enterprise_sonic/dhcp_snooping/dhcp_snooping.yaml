@@ -1,0 +1,176 @@
+module: sonic_dhcp_snooping
+version_added: 1.0.0
+notes:
+  - "Tested against Enterprise SONiC Distribution by Dell Technologies."
+short_description: "Manage DHCP Snooping on SONiC"
+description: "This module provides configuration management of DHCP snooping for devices running SONiC."
+author: Simon Nathans (@simon-nathans)
+options:
+  config:
+    description: The DHCP snooping configuration.
+    type: list
+    elements: dict
+    suboptions:
+      global:
+        description:
+          - Configure DHCP snooping on the global level.
+        type: list
+        elements: dict
+        suboptions:
+          ipv4:
+            description:
+              - Configure DHCPv4 snooping.
+            type: dict
+            suboptions:
+              enabled:
+                description:
+                  - Enable or disable DHCPv4 snooping globally.
+                type: bool
+              vlans:
+                description:
+                  - Configure DHCPv4 snooping on a VLAN or range of VLANs.
+                type: list
+                elements: dict
+                suboptions:
+                  name:
+                    description:
+                      - VLAN ID or range of VLAN IDs.
+                    type: str
+                    required: true
+                  enabled:
+                    description:
+                      - Enable or disable DHCPv4 snooping on a VLAN or range of VLANs.
+                    type: bool
+              verify:
+                description:
+                  - Configure DHCPv4 snooping verification.
+                type: list
+                elements: dict
+                suboptions:
+                  mac_address:
+                    description:
+                      - Enable or disable DHCPv4 snooping MAC verification.
+                    type: bool
+              source_binding:
+                description:
+                  - Configure DHCPv4 snooping binding entries.
+                type: list
+                elements: dict
+                suboptions:
+                  ip_address:
+                    description:
+                      - Create a static DHCPv4 snooping binding entry for an IP address.
+                    type: str
+                  mac_address:
+                    description:
+                      - Create a static DHCPv4 snooping binding entry for a MAC address.
+                    type: str
+                  vlan:
+                    description:
+                      - Create a static DHCPv4 snooping binding entry for a VLAN ID.
+                    type: int
+                  interface_name:
+                    description:
+                      - Create a static DHCPv4 snooping binding entry for a physical interface name.
+                      - Can be either an Ethernet or PortChannel interface.
+                    type: str
+          ipv6:
+            description:
+              - Configure DHCPv6 snooping.
+            type: dict
+            suboptions:
+              enabled:
+                description:
+                  - Enable or disable DHCPv6 snooping globally.
+                type: bool
+              vlans:
+                description:
+                  - Configure DHCPv6 snooping on a VLAN or range of VLANs.
+                type: list
+                elements: dict
+                suboptions:
+                  name:
+                    description:
+                      - VLAN ID or range of VLAN IDs.
+                    type: str
+                    required: true
+                  enabled:
+                    description:
+                      - Enable or disable DHCPv6 snooping on a VLAN or range of VLANs.
+                    type: bool
+              verify:
+                description:
+                  - Configure DHCPv6 snooping verification.
+                type: list
+                elements: dict
+                suboptions:
+                  mac_address:
+                    description:
+                      - Enable or disable DHCPv6 snooping MAC verification.
+                    type: bool
+              source_binding:
+                description:
+                  - Configure DHCPv6 snooping binding entries.
+                type: list
+                elements: dict
+                suboptions:
+                  ip_address:
+                    description:
+                      - Create a static DHCPv6 snooping binding entry for an IP address.
+                    type: str
+                  mac_address:
+                    description:
+                      - Create a static DHCPv6 snooping binding entry for a MAC address.
+                    type: str
+                  vlan:
+                    description:
+                      - Create a static DHCPv6 snooping binding entry for a VLAN ID.
+                    type: int
+                  interface_name:
+                    description:
+                      - Create a static DHCPv6 snooping binding entry for a physical interface name.
+                      - Can be either an Ethernet or PortChannel interface.
+                    type: str
+      interfaces:
+        description:
+          - Configure DHCP snooping on the interface level.
+        type: list
+        elements: dict
+        suboptions:
+          names:
+            description:
+              - Name of the interface or range of interfaces.
+            type: str
+            required: true
+          ipv4:
+            description:
+              - Configure DHCPv4 snooping for the interface(s).
+            type: dict
+            suboptions:
+              enabled:
+                description:
+                  - Enable or disable DHCPv4 snooping for the interface(s).
+                type: bool
+              trust:
+                description:
+                  - Mark Trust mode for DHCPv4 snooping on the interface(s).
+                type: bool
+          ipv6:
+            description:
+              - Configure DHCPv6 snooping for the interface(s).
+            type: dict
+            suboptions:
+              enabled:
+                description:
+                  - Enable or disable DHCPv6 snooping for the interface(s).
+                type: bool
+              trust:
+                description:
+                  - Mark Trust mode for DHCPv6 snooping on the interface(s).
+                type: bool
+  state:
+    description:
+      - The state of the configuration after module completion.
+    default: merged
+    choices: ["merged", "deleted", "overridden", "replaced"]
+    type: str
