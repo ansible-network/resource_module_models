@@ -51,23 +51,24 @@ options:
                 type: list
                 elements: dict
                 suboptions:
+                  interface_name:
+                    description:
+                      - Create an entry in the DHCPv4 snooping binding database.
+                      - Can be either an Ethernet or PortChannel interface.
+                    type: str
+                    required: true
                   ip_address:
                     description:
-                      - Create a static DHCPv4 snooping binding entry for an IP address.
+                      - The IP address for the binding.
                     type: str
                   mac_address:
                     description:
-                      - Create a static DHCPv4 snooping binding entry for a MAC address.
+                      - The MAC address for the binding.
                     type: str
                   vlan:
                     description:
-                      - Create a static DHCPv4 snooping binding entry for a VLAN ID.
+                      - The VLAN ID for the binding.
                     type: int
-                  interface_name:
-                    description:
-                      - Create a static DHCPv4 snooping binding entry for a physical interface name.
-                      - Can be either an Ethernet or PortChannel interface.
-                    type: str
           ipv6:
             description:
               - Configure DHCPv6 snooping.
@@ -102,32 +103,40 @@ options:
                 type: list
                 elements: dict
                 suboptions:
+                  interface_name:
+                    description:
+                      - Create an entry in the DHCPv6 snooping binding database.
+                      - Can be either an Ethernet or PortChannel interface.
+                    type: str
+                    required: true
                   ip_address:
                     description:
-                      - Create a static DHCPv6 snooping binding entry for an IP address.
+                      - The IP address for the binding.
                     type: str
                   mac_address:
                     description:
-                      - Create a static DHCPv6 snooping binding entry for a MAC address.
+                      - The MAC address for the binding.
                     type: str
                   vlan:
                     description:
-                      - Create a static DHCPv6 snooping binding entry for a VLAN ID.
+                      - The VLAN ID for the binding.
                     type: int
-                  interface_name:
-                    description:
-                      - Create a static DHCPv6 snooping binding entry for a physical interface name.
-                      - Can be either an Ethernet or PortChannel interface.
-                    type: str
       interfaces:
         description:
           - Configure DHCP snooping on the interface level.
         type: list
         elements: dict
         suboptions:
-          names:
+          intf_type:
             description:
-              - Name of the interface or range of interfaces.
+              - The type of interface. Can be Ethernet or PortChannel.
+            type: str
+            choices: [Ethernet, PortChannel]
+            required: true
+          intf_number:
+            description:
+              - Interface number.
+              - If Ethernet, must be single number; if PortChannel, can be range.
             type: str
             required: true
           ipv4:
