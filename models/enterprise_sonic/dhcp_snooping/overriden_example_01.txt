@@ -1,4 +1,4 @@
-# Using replaced
+# Using override
 #
 # Before State:
 # -------------
@@ -22,7 +22,7 @@
               ip_addr: 192.0.2.146
               intf_name: Ethernet4
               vlan_id: 3
-    state: replaced
+    state: overriden
 
 # After State:
 # ------------
