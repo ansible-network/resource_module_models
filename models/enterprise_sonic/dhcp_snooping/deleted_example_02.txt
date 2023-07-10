@@ -24,7 +24,7 @@
 #
 # sonic# show ipv6 dhcp snooping
 # !
-# DHCPv6 snooping is Disabled
+# DHCPv6 snooping is Enabled
 # DHCPv6 snooping source MAC verification is Disabled
 # DHCPv6 snooping is enabled on the following VLANs: 
 # DHCPv6 snooping trusted interfaces: PortChannel1 PortChannel2 PortChannel3 PortChannel4

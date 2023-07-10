@@ -1,15 +1,8 @@
 ---
 GENERATOR_VERSION: "1.0"
-ANSIBLE_METADATA: |
-  {
-    'metadata_version': '1.1',
-    'status': ['preview'],
-    'supported_by': 'community',
-    'license': 'Apache 2.0'
-  }
 NETWORK_OS: sonic
 RESOURCE: dhcp_snooping
-COPYRIGHT: Copyright 2022 Dell Inc. or its subsidiaries. All Rights Reserved
+COPYRIGHT: Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved
 DOCUMENTATION: |
   module: sonic_dhcp_snooping
   version_added: 1.0.0
@@ -26,7 +19,7 @@ DOCUMENTATION: |
         afis:
           description:
             - List of address families to configure.
-            - There can be up to two items in this list: one where afi==ipv4 and one where afi==ipv6 to configure DHCPv4 and DHCPv6, respectively.
+            - "There can be up to two items in this list: one where afi==ipv4 and one where afi==ipv6 to configure DHCPv4 and DHCPv6, respectively."
           type: list
           elements: dict
           suboptions:
@@ -37,6 +30,10 @@ DOCUMENTATION: |
               type: str
               choices: ['ipv4', 'ipv6']
               required: true
+            enabled:
+              description:
+                - Enable or disable DHCP snooping on the AFI.
+              type: bool
             vlans:
               description:
                 - Enable or disable DHCP snooping on a VLAN or range of VLANs.
