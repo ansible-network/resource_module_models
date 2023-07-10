@@ -16,6 +16,7 @@
     config:
       afis:
         - afi: ipv6
+          enabled: true
           vlans:
             - 4
           trusted:
