@@ -13,7 +13,7 @@
 ---
 - name: PKI Replace Test
   hosts: datacenter
-  gather_facts: False
+  gather_facts: false
   connection: httpapi
   collections:
     - dellemc.enterprise_sonic
@@ -25,7 +25,7 @@
             - profile-name: rest
               ocsp-responder-list:
                 - http://localhost/ocsp
-              revocation-check: False
+              revocation-check: false
               trust-store: default-ts
               certificate-name: host
         state: replaced
@@ -38,4 +38,3 @@
 # crypto security-profile trust-store rest default-ts
 # crypto security-profile certificate rest host
 # crypto security-profile ocsp-list rest http://localhost/ocspa,http://localhost/ocspb
-

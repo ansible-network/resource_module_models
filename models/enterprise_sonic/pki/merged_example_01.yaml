@@ -9,7 +9,7 @@
 ---
 - name: PKI Config Test
   hosts: datacenter
-  gather_facts: False
+  gather_facts: false
   connection: httpapi
   collections:
     - dellemc.enterprise_sonic
@@ -39,4 +39,3 @@
 # crypto security-profile trust-store rest default-ts
 # crypto security-profile certificate rest host
 # crypto security-profile ocsp-list rest http://localhost/ocspa,http://localhost/ocspb
-

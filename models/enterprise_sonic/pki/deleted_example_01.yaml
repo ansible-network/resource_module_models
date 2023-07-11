@@ -13,7 +13,7 @@
 ---
 - name: PKI Delete Test
   hosts: datacenter
-  gather_facts: True
+  gather_facts: true
   connection: httpapi
   collections:
     - dellemc.enterprise_sonic
@@ -33,4 +33,3 @@
 # crypto security-profile rest
 # crypto security-profile certificate rest host
 # crypto security-profile ocsp-list rest http://example.com/ocsp
-

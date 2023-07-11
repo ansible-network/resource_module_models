@@ -13,7 +13,7 @@
 ---
 - name: PKI Overridden Test
   hosts: datacenter
-  gather_facts: False
+  gather_facts: false
   connection: httpapi
   collections:
     - dellemc.enterprise_sonic
@@ -25,7 +25,7 @@
             - profile-name: telemetry
               ocsp-responder-list:
                 - http://localhost/ocspb
-              revocation-check: True
+              revocation-check: true
               trust-store: telemetry-ts
               certificate-name: host
           trust-stores:
@@ -41,4 +41,3 @@
 # crypto security-profile trust-store telemetry telemetry-ts
 # crypto security-profile certificate telemetry host
 # crypto security-profile ocsp-list telemetry http://localhost/ocspb
-
