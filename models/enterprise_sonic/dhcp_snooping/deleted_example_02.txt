@@ -1,0 +1,31 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+# sonic# show ipv6 dhcp snooping
+# !
+# DHCPv6 snooping is Enabled
+# DHCPv6 snooping source MAC verification is Disabled
+# DHCPv6 snooping is enabled on the following VLANs: 4 
+# DHCPv6 snooping trusted interfaces: PortChannel1 PortChannel2 PortChannel3 PortChannel4
+# !
+
+- name: Disable DHCPv6 snooping on all VLANs
+  dellemc.enterprise_sonic.sonic_dhcp_snooping:
+    config:
+      afis:
+        - afi: ipv6
+          vlans:
+    state: deleted
+
+# After State:
+# ------------
+#
+# sonic# show ipv6 dhcp snooping
+# !
+# DHCPv6 snooping is Enabled
+# DHCPv6 snooping source MAC verification is Disabled
+# DHCPv6 snooping is enabled on the following VLANs: 
+# DHCPv6 snooping trusted interfaces: PortChannel1 PortChannel2 PortChannel3 PortChannel4
+# !

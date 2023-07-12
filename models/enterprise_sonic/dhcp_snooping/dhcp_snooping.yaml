@@ -1,0 +1,114 @@
+---
+GENERATOR_VERSION: "1.0"
+ANSIBLE_METADATA: |
+  {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community',
+    'license': 'Apache 2.0'
+  }
+NETWORK_OS: sonic
+RESOURCE: dhcp_snooping
+COPYRIGHT: Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+  module: sonic_dhcp_snooping
+  version_added: 1.0.0
+  notes:
+    - "Tested against Enterprise SONiC Distribution by Dell Technologies."
+  short_description: "Manage DHCP Snooping on SONiC"
+  description: "This module provides configuration management of DHCP snooping for devices running SONiC."
+  author: Simon Nathans (@simon-nathans)
+  options:
+    config:
+      description: The DHCP snooping configuration.
+      type: dict
+      suboptions:
+        afis:
+          description:
+            - List of address families to configure.
+            - "There can be up to two items in this list: one where afi==ipv4 and one where afi==ipv6 to configure DHCPv4 and DHCPv6, respectively."
+          type: list
+          elements: dict
+          suboptions:
+            afi:
+              description:
+                - The address family to configure.
+                - Can be either ipv4 or ipv6.
+              type: str
+              choices: ['ipv4', 'ipv6']
+              required: true
+            enabled:
+              description:
+                - Enable or disable DHCP snooping on the AFI.
+              type: bool
+            vlans:
+              description:
+                - Enable or disable DHCP snooping on a VLAN or range of VLANs.
+                - Give a single VLAN ID or hyphen-delimited range of VLAN IDs, e.g., "1" or "1-3".
+              type: list
+              elements: str
+            verify_mac:
+              description:
+                - Enable or disable DHCP snooping MAC verification.
+              type: bool
+            trusted:
+              description:
+                - Mark interfaces as trusted for DHCP snooping.
+              type: list
+              elements: dict
+              suboptions:
+                intf_number:
+                  description:
+                    - The interface number.
+                    - If the interface type is Ethernet, must be a single number; if the type is PortChannel, can be a single number or a hyphen-delimited range.
+                  type: str
+                  required: true
+                intf_type:
+                  description:
+                    - The type of interface.
+                    - Can be Ethernet or PortChannel.
+                  type: str
+                  choices: ['Ethernet', 'PortChannel']
+            source_bindings:
+              description:
+                - Create a static entry in the DHCP snooping binding database.
+              type: list
+              elements: dict
+              suboptions:
+                mac_addr:
+                  description:
+                    - The binding's MAC address.
+                  type: str
+                  required: true
+                ip_addr:
+                  description:
+                    - The bindings's IP address.
+                  type: str
+                  required: true
+                intf_name:
+                  description:
+                    - The binding's interface name.
+                    - Can be an Ethernet or a PortChannel interface.
+                  type: str
+                  required: true
+                vlan_id:
+                  description:
+                    - The binding's VLAN ID.
+                  type: int
+                  required: true
+    state:
+      description:
+        - The state of the configuration after module completion.
+      default: merged
+      choices: ['merged', 'deleted', 'overridden', 'replaced']
+      type: str
+EXAMPLES:
+  - merged_example_01.txt
+  - merged_example_02.txt
+  - merged_example_03.txt
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - deleted_example_03.txt
+  - deleted_example_04.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
