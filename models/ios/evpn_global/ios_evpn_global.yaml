@@ -1,0 +1,89 @@
+module: ios_evpn_global
+short_description: Resource module to configure L2VPN EVPN.
+description: This module provides declarative management of L2VPN EVPN on Cisco IOS network
+  devices.
+version_added: 1.0.0
+author: Padmini Priyadarshini Sivaraj (@PadminiSivaraj)
+notes:
+  - Tested against Cisco IOSl2 device with Version 15.2 on VIRL.
+  - Starting from v2.5.0, this module will fail when run against Cisco IOS devices that do
+    not support L2VPN EVPN. The offline states (C(rendered) and C(parsed)) will work as expected.
+  - This module works with connection C(network_cli).
+    See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_ios.html)
+options:
+  config:
+    description: A dictionary of L2VPN Ethernet Virtual Private Network (EVPN) configuration
+    type: dict
+    suboptions:
+      default_gateway:
+        description: Default gateway parameters
+        type: dict
+        suboptions:
+          advertise:
+            description: Advertise Default Gateway MAC/IP routes
+            type: bool
+      flooding_suppression:
+        description: Suppress flooding of broadcast, multicast, and/or unknown unicast packets
+        type: dict
+        suboptions:
+          address_resolution:
+            description: Suppress flooding of Address Resolution and Neighbor Discovery Protocol packets
+            type: dict
+            suboptions:
+              disable:
+                description: Disable flooding suppression
+                type: bool
+      ip:
+        description: IP parameters
+        type: dict
+        suboptions:
+          local_learning:
+            description: IP local learning
+            type: dict
+            suboptions:
+              disable:
+                description: Disable IP local learning
+                type: bool
+      replication_type:
+        description: Method for replicating BUM traffic
+        type: str
+        choices:
+        - ingress
+        - static
+      route_target:
+        description: Route Target VPN Extended Communities
+        type: dict
+        suboptions:
+          auto:
+            description: Automatically set a route-target
+            type: dict
+            suboptions:
+              vni:
+                description: Set vni-based route-target
+                type: bool
+      router_id:
+        description: EVPN router ID
+        type: str
+  running_config:
+    description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the IOS
+        device by executing the command B(sh running-config nve | section ^l2vpn evpn$).
+      - The state I(parsed) reads the configuration from C(running_config)
+        option and transforms it into Ansible structured data as per the
+        resource module's argspec and the value is then returned in the
+        I(parsed) key within the result.
+    type: str
+  state:
+    description:
+      - The state the configuration should be left in
+    type: str
+    choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - gathered
+      - rendered
+      - parsed
+    default: merged
