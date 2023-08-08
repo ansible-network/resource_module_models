@@ -15,6 +15,7 @@
       peer_link: 'Portchannel1'
       keepalive: 1
       session_timeout: 3
+      session_vrf: mgmt
       delay_restore: 240
       system_mac: '00:00:00:11:11:11'
       gateway_mac: '00:00:00:12:12:12'
@@ -40,6 +41,7 @@
 # Peer Link Status     : down
 # Source Address       : 2.2.2.2
 # Peer Address         : 1.1.1.1
+# Session Vrf          : mgmt
 # Peer Link            : PortChannel1
 # Keepalive Interval   : 1 secs
 # Session Timeout      : 3 secs

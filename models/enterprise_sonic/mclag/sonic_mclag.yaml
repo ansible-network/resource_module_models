@@ -57,6 +57,10 @@ DOCUMENTATION: |
           description:
             - MCLAG session timeout value in secs.
           type: int
+        session_vrf:
+          description:
+            - MCLAG session vrf
+          type: str
         delay_restore:
           description:
             - MCLAG delay restore time in secs.
