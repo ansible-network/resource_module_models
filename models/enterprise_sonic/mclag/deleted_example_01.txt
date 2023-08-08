@@ -11,6 +11,7 @@
 # Peer Link Status     : down
 # Source Address       : 3.3.3.3
 # Peer Address         : 1.1.1.1
+# Session Vrf          : mgmt
 # Peer Link            : PortChannel1
 # Keepalive Interval   : 10 secs
 # Session Timeout      : 30 secs
@@ -48,6 +49,7 @@
     config:
       domain_id: 1
       source_address: 3.3.3.3
+      session_vrf: mgmt
       keepalive: 10
       members:
         portchannels:
@@ -65,6 +67,7 @@
 # Peer Link Status     : down
 # Source Address       :
 # Peer Address         : 1.1.1.1
+# Session Vrf          : default
 # Peer Link            : PortChannel1
 # Keepalive Interval   : 1 secs
 # Session Timeout      : 30 secs

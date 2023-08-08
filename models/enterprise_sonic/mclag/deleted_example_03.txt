@@ -11,6 +11,7 @@
 # Peer Link Status     : down
 # Source Address       : 3.3.3.3
 # Peer Address         : 1.1.1.1
+# Session Vrf          : default
 # Peer Link            : PortChannel1
 # Keepalive Interval   : 10 secs
 # Session Timeout      : 30 secs
@@ -67,6 +68,7 @@
 # Peer Link Status     : down
 # Source Address       :
 # Peer Address         : 1.1.1.1
+# Session Vrf          : default
 # Peer Link            : PortChannel1
 # Keepalive Interval   : 1 secs
 # Session Timeout      : 30 secs
