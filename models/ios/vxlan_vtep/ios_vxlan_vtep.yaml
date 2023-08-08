@@ -1,0 +1,97 @@
+module: ios_vxlan_vtep
+short_description: Resource module to configure VXLAN VTEP interface.
+description: This module provides declarative management of VXLAN VTEP interface on Cisco IOS network
+  devices.
+version_added: 1.0.0
+author: Padmini Priyadarshini Sivaraj
+notes:
+  - Tested against Cisco IOSl2 device with Version 15.2 on VIRL.
+  - Starting from v2.5.0, this module will fail when run against Cisco IOS devices that do
+    not support VXLAN VTEP interface. The offline states (C(rendered) and C(parsed)) will work as expected.
+  - This module works with connection C(network_cli).
+    See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_ios.html)
+options:
+  config:
+    description: A dictionary of VXLAN VTEP interface option
+    type: list
+    elements: dict
+    suboptions:
+      interface:
+        description:
+        - VXLAN VTEP interface
+        type: int
+        required: true
+      source_interface:
+        description:
+        - Source interface for the VXLAN VTEP interface
+        type: str
+      host_reachability_protocol:
+        description:
+        - Host reachability using EVPN protocol
+        type: str
+        choices:
+        - bgp
+        default: bgp
+      member:
+        description:
+        - Configure VNI member
+        type: dict
+        suboptions:
+          vni:
+            description:
+            - Configure VNI information
+            type: dict
+            suboptions:
+              l2vni:
+                description:
+                - Associates L2VNI with the VXLAN VTEP interface
+                type: list
+                elements: dict
+                suboptions:
+                  vni:
+                    description: VNI number
+                    type: int
+                  replication:
+                    description: Replication type for the L2VNI
+                    type: dict
+                    suboptions:
+                      type:
+                        description: Replication type
+                        type: str
+                        choices: ['ingress', 'static']
+                      mcast:
+                        description: Configure multicast group for VNI(s)
+                        type: dict
+                        suboptions:
+                          ipv4:
+                            description: IPv4 multicast group
+                            type: str
+                          ipv6:
+                            description: IPv6 multicast group
+                            type: str
+              l3vni:
+                description:
+                - Associates L3VNI with the VXLAN VTEP interface
+                type: list
+                elements: dict
+                suboptions:
+                  vni:
+                    description: VNI number
+                    type: int
+                  vrf:
+                    description: VRF name of the L3VNI
+                    type: str
+
+  state:
+    description:
+      - The state the configuration should be left in
+    type: str
+    choices:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    - rendered
+    - gathered
+    - parsed
+    default: merged
