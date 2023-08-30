@@ -1,0 +1,72 @@
+# Using replaced
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration spanning-tree
+# no spanning-tree vlan 4-6
+# spanning-tree mode mst
+# spanning-tree edge-port bpdufilter default
+# spanning-tree loopguard default
+# spanning-tree mst hello-time 6
+# spanning-tree mst forward-time 12
+# spanning-tree mst max-age 9
+# spanning-tree mst max-hops 3
+# spanning-tree mst 1 priority 2048
+# !
+# spanning-tree mst configuration
+#  name mst1
+#  revision 1
+#  instance 1 vlan 1
+#  activate
+# !
+# interface Ethernet20
+#  spanning-tree portfast
+#  spanning-tree bpdufilter enable
+#  spanning-tree guard loop
+#  spanning-tree bpduguard port-shutdown
+#  spanning-tree cost 20
+#  spanning-tree link-type shared
+#  spanning-tree port-priority 30
+#  spanning-tree port type edge
+#  spanning-tree uplinkfast
+#  spanning-tree mst 1 cost 60
+#  spanning-tree mst 1 port-priority 65
+
+- name: Replace STP configurations
+  dellemc.enterprise_sonic.sonic_stp:
+    config:
+      interfaces:
+        - intf_name: Ethernet20
+          cost: 25
+          port_priority: 35
+      mstp:
+        mst_name: mst2
+        revision: 2
+        max_hop: 4
+        hello_time: 7
+        max_age: 10
+        fwd_delay: 13
+    state: replaced
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration spanning-tree
+# no spanning-tree vlan 4-6
+# spanning-tree mode mst
+# spanning-tree edge-port bpdufilter default
+# spanning-tree loopguard default
+# spanning-tree mst hello-time 7
+# spanning-tree mst forward-time 13
+# spanning-tree mst max-age 10
+# spanning-tree mst max-hops 4
+# !
+# spanning-tree mst configuration
+#  name mst2
+#  revision 2
+#  activate
+# !
+# interface Ethernet20
+#  spanning-tree cost 25
+#  spanning-tree port-priority 35

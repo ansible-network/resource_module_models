@@ -1,0 +1,44 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration spanning-tree
+# spanning-tree mode pvst
+# spanning-tree edge-port bpdufilter default
+# spanning-tree forward-time 20
+# spanning-tree guard root timeout 25
+# spanning-tree hello-time 5
+# spanning-tree max-age 10
+# spanning-tree priority 4096
+# spanning-tree portfast default
+# spanning-tree vlan 1 hello-time 4
+# spanning-tree vlan 1 forward-time 8
+# spanning-tree vlan 1 max-age 6
+
+
+- name: Delete STP configurations
+  dellemc.enterprise_sonic.sonic_stp:
+    config:
+      global:
+        bpdu_filter: true
+        root_guard_timeout: 25
+      pvst:
+        - vlan_id: 1
+          interfaces:
+            - intf_name: Ethernet20
+    state: deleted
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration spanning-tree
+# spanning-tree mode pvst
+# spanning-tree forward-time 20
+# spanning-tree hello-time 5
+# spanning-tree max-age 10
+# spanning-tree priority 4096
+# spanning-tree portfast default
+# spanning-tree vlan 1 hello-time 4
+# spanning-tree vlan 1 forward-time 8
+# spanning-tree vlan 1 max-age 6
