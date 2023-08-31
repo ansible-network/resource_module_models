@@ -1,0 +1,32 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+sonic# show interface vlan-mappings
+sonic# show interface vlan-mappings dot1q-tunnel
+--------------------------------------------------------------------
+Name            Vlan                     dot1q-tunnel Vlan  Priority
+--------------------------------------------------------------------
+Ethernet4       360-366,392              2755               3
+
+  - name: Delete dot1q_tunnel configuration
+    sonic_vlan_mapping:
+      config:
+        - name: Ethernet4
+          mapping:
+            - service_vlan: 2755
+              dot1q_tunnel:
+                vlan_ids:
+                  - 392
+                  - 360-362
+      state: deleted
+#
+# After state:
+# ------------
+#
+sonic# show interface vlan-mappings dot1q-tunnel
+--------------------------------------------------------------------
+Name            Vlan                     dot1q-tunnel Vlan  Priority
+--------------------------------------------------------------------
+Ethernet4       363-366                  2755               3
