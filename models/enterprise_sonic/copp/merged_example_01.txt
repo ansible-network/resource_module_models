@@ -7,7 +7,7 @@
 # (No "copp actions" configuration present)
 
   - name: Merge CoPP groups configuration
-    dellemc.enterprise_sonic.sonic_static_routes:
+    dellemc.enterprise_sonic.sonic_copp:
     config:
       copp_groups:
         - copp_name: 'copp-1'

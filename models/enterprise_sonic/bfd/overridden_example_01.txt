@@ -50,7 +50,8 @@
 #             Echo transmission interval: 0ms
 
   - name: Override BFD configuration
-    input:
+    dellemc.enterprise_sonic.sonic_bfd:
+    config:
       single_hops:
         - remote_address: '172.68.2.1'
           vrf: 'default'

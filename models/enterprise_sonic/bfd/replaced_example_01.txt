@@ -25,7 +25,8 @@
 #         Echo transmission interval: 300ms
 
   - name: Replace BFD configuration
-    input:
+    dellemc.enterprise_sonic.sonic_bfd:
+    config:
       profiles:
         - profile_name: 'p1'
           transmit_interval: 144

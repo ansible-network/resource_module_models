@@ -9,7 +9,8 @@
 # (No "bfd peers" configuration present)
 
   - name: Merge BFD configuration
-    input:
+    dellemc.enterprise_sonic.sonic_bfd:
+    config:
       profiles:
         - profile_name: 'p1'
           enabled: True

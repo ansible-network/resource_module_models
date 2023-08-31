@@ -15,7 +15,7 @@
 #    police cir 1000 cbs 1000
 
   - name: Override CoPP groups configuration
-    dellemc.enterprise_sonic.sonic_static_routes:
+    dellemc.enterprise_sonic.sonic_copp:
     config:
       copp_groups:
         - copp_name: 'copp-4'

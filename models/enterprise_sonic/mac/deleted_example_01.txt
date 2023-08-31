@@ -12,7 +12,8 @@
 # mac address-table aging-time 10
 
   - name: Delete MAC cofigurations
-    input:
+    dellemc.enterprise_sonic.sonic_mac:
+    config:
       - vrf_name: 'default'
         mac:
           aging_time: 10

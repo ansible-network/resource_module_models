@@ -61,7 +61,8 @@
 #             Echo transmission interval: 0ms
 
   - name: Delete BFD configuration
-    input:
+    dellemc.enterprise_sonic.sonic_bfd:
+    config:
       profiles:
         - profile_name: 'p1'
           enabled: True

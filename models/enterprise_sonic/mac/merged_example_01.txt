@@ -10,7 +10,8 @@
 # (No mac configuration pressent)
 
   - name: Merge MAC configurations
-    input:
+    dellemc.enterprise_sonic.sonic_mac:
+    config:
       - vrf_name: 'default'
         mac:
           aging_time: 50
