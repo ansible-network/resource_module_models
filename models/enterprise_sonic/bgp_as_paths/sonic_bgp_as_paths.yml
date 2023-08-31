@@ -33,6 +33,11 @@ DOCUMENTATION: |
             elements: str
             description:
             - Members of this Bgp as path. Regular expression string can be given here.
+          permit:
+            required: False
+            type: bool
+            description:
+            - Permits or denies this as path.
       state:
         description:
         - The state of the configuration after module completion.

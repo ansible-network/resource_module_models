@@ -259,6 +259,51 @@ DOCUMENTATION: |
                           description:
                             - Holds AS number in the range 1-10.
                           type: int
+                    ip_afi:
+                      description:
+                        - Common configuration attributes for IPv4 and IPv6 unicast address families.
+                      type: dict
+                      suboptions:
+                        default_policy_name:
+                          description:
+                            - Specifies routing policy definition.
+                          type: str
+                        send_default_route:
+                          description:
+                            - Enable or disable sending of default-route to the peer.
+                          type: bool
+                          default: False
+                    prefix_limit:
+                      description:
+                        - Specifies prefix limit attributes.
+                      type: dict
+                      suboptions:
+                        max_prefixes:
+                          description:
+                            - Maximum number of prefixes that will be accepted from the peer.
+                          type: int
+                        prevent_teardown:
+                          description:
+                            - Enable or disable teardown of BGP session when maximum prefix limit is exceeded.
+                          type: bool
+                          default: False
+                        warning_threshold:
+                          description:
+                            - Threshold on number of prefixes that can be received from a peer before generation of warning messages.
+                            - Expressed as a percentage of max-prefixes.
+                          type: int
+                        restart_timer:
+                          description:
+                            - Time interval in seconds after which the BGP session is re-established after being torn down.
+                          type: int
+                    prefix_list_in:
+                      description:
+                        - Inbound route filtering policy for a peer.
+                      type: str
+                    prefix_list_out:
+                      description:
+                        - Outbound route filtering policy for a peer.
+                      type: str
         neighbors:
           description:
             - Specifies BGP neighbor related configurations.
@@ -457,6 +502,8 @@ DOCUMENTATION: |
       choices: ['merged', 'deleted']
 EXAMPLES:
   - deleted_example_01.txt
-  - merged_example_01.txt
   - deleted_example_02.txt
   - deleted_example_03.txt
+  - deleted_example_04.txt
+  - merged_example_01.txt
+  - merged_example_02.txt

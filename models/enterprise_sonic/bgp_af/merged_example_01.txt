@@ -11,41 +11,59 @@
 # !
 # address-family l2vpn evpn
 #
-#- name: Merge provided BGP address family configuration in device.
-#    sonic_bgp_af:
-#      config:
-#        - bgp_as: 51
-#          address_family:
-#            afis:
-#              - afi: l2vpn
-#                safi: evpn
-#                advertise_pip: True
-#                advertise_pip_ip: "3.3.3.3"
-#                advertise_pip_peer_ip: "4.4.4.4"
-#                advertise_svi_ip: True
-#                advertise_all_vni: False
-#                advertise_default_gw: False
-#                route_advertise_list:
-#                  - advertise_afi: ipv4
-#                    route_map: bb
-#              - afi: ipv4
-#                safi: unicast
-#              - afi: ipv6
-#                safi: unicast
-#                max_path:
-#                  ebgp: 4
-#                  ibgp: 5
-#                redistribute:
-#                  - metric: "21"
-#                    protocol: connected
-#                    route_map: bb
-#                  - metric: "27"
-#                    protocol: ospf
-#                    route_map: aa
-#                  - metric: "26"
-#                    protocol: static
-#                    route_map: bb
-#      state: merged
+- name: Merge provided BGP address family configuration on the device.
+  dellemc.enterprise_sonic.sonic_bgp_af:
+     config:
+       - bgp_as: 51
+         address_family:
+           afis:
+             - afi: l2vpn
+               safi: evpn
+               advertise_pip: True
+               advertise_pip_ip: "3.3.3.3"
+               advertise_pip_peer_ip: "4.4.4.4"
+               advertise_svi_ip: True
+               advertise_all_vni: False
+               advertise_default_gw: False
+               route_advertise_list:
+                 - advertise_afi: ipv4
+                   route_map: bb
+               rd: "1.1.1.1:11"
+               rt_in:
+                 - "12:12"
+               rt_out:
+                 - "13:13"
+               vnis:
+                 - vni_number: 1
+                   advertise_default_gw: True
+                   advertise_svi_ip: True
+                   rd: "5.5.5.5:55"
+                   rt_in:
+                     - "88:88"
+                   rt_out:
+                     - "77:77"
+             - afi: ipv4
+               safi: unicast
+               network:
+                 - 2.2.2.2/16
+                 - 192.168.10.1/32
+               dampening: True
+             - afi: ipv6
+               safi: unicast
+               max_path:
+                 ebgp: 4
+                 ibgp: 5
+               redistribute:
+                 - metric: "21"
+                   protocol: connected
+                   route_map: bb
+                 - metric: "27"
+                   protocol: ospf
+                   route_map: aa
+                 - metric: "26"
+                   protocol: static
+                   route_map: bb
+     state: merged
 # After state:
 # ------------
 #
@@ -56,8 +74,8 @@
 # timers 60 180
 # !
 # address-family ipv4 unicast
-#  maximum-paths 1
-#  maximum-paths ibgp 1
+#  network 2.2.2.2/16
+#  network 192.168.10.1/32
 #  dampening
 # !
 # address-family ipv6 unicast
@@ -70,4 +88,14 @@
 # address-family l2vpn evpn
 #  advertise-svi-ip
 #  advertise ipv4 unicast route-map bb
+#  rd 1.1.1.1:11
+#  route-target import 12:12
+#  route-target import 13:13
 #  advertise-pip ip 3.3.3.3 peer-ip 4.4.4.4
+#  !
+#  vni 1
+#   advertise-default-gw
+#   advertise-svi-ip
+#   rd 5.5.5.5:55
+#   route-target import 88:88
+#   route-target export 77:77
