@@ -1,4 +1,4 @@
-module: ios_user_global
+module: ios_users
 short_description: Resource module to configure user and enable
 description:
   - This module provides declarative management of user and enable on Cisco IOS devices
