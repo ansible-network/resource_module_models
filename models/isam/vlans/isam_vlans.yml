@@ -1,5 +1,5 @@
 ---
-module: isam_interfaces
+module: isam_vlans
 version_added: 2.9
 short_description: 'Manages interface attributes of Nokia ISAM MSAN devices.'
 description: 'This module manages interface attributes of Nokia ISAM MSAN devices'

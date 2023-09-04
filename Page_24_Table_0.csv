@@ -1,0 +1,5 @@
+Resource Identifier,Type,Description
+,"Possible values:
+- pppoe : PPPoE
+- ipoe : IPv4oE
+- ipv6oe : IPv6oE",

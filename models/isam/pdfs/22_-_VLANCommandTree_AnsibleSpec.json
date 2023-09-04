@@ -1,0 +1,222 @@
+{
+    "configure": {
+        "type": "dict",
+        "options": {
+            "vlan": {
+                "type": "dict",
+                "options": {
+                    "broadcast-frames": {
+                        "type": "bool",
+                        "description": [],
+                        "required": false
+                    },
+                    "priority-policy": {
+                        "type": "str",
+                        "description": [],
+                        "required": false
+                    },
+                    "vmac-address-format": {
+                        "type": "dict",
+                        "options": {
+                            "host-id": {
+                                "type": "str",
+                                "description": [],
+                                "required": false
+                            }
+                        }
+                    },
+                    "[no]id": {
+                        "type": "dict",
+                        "options": {
+                            "(vlanid)": {
+                                "type": "str",
+                                "description": [],
+                                "required": false
+                            },
+                            "name": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "mode": {
+                                "type": "str",
+                                "description": [],
+                                "required": false
+                            },
+                            "sntp-proxy": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "priority": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "vmac-translation": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "vmac-dnstr-filter": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "vmac-not-in-opt61": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "new-broadcast": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "protocol-filter": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "pppoe-relay-tag": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "dhcp-opt82-ext": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "dhcp-opt82-nni": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "dhcp-opt82-uplink": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "circuit-id-dhcp": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "remote-id-dhcp": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "relay-id-dhcp": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "dhcp-linerate": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "pppoe-linerate": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "dhcpv6-linerate": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "pppoe-l2-encaps": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "dhcp-l2-encaps": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "dhcpv6-l2-encaps": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "l2-encaps1": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "pppoer-vlanaware": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "dhcpr-vlanaware": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "dhcpv6r-vlanaware": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "drly-srv-usr-side": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "circuit-id-pppoe": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "remote-id-pppoe": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "new-secure-fwd": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "aging-time": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "l2cp-transparent": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "dhcpv6-itf-id": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "dhcpv6-remote-id": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "dhcpv6-relay-id": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            },
+                            "dhcpv6-trst-port": {
+                                "type": "bool",
+                                "description": [],
+                                "required": false
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,28 @@
+Resource Identifier,Type,Description
+,"- vuni : virtual NGPON2 uni identifier
+Field type <Eqpt::OntSlotId>
+- the ONT SLOT identifier
+Field type <Eqpt::OntPortId>
+- the ONT PORT identifier
+Field type <Eqpt::Ng2OntSlotId>
+- the NGPON2 ONT SLOT identifier
+Field type <Eqpt::Ng2OntPortId>
+- the NGPON2 ONT PORT identifier
+Field type <Eqpt::LLId>
+- the LLID identifier,range 1 for EPON,range 1-8 for DPOE
+Possible values:
+- stacked : stacked vlan identity
+Field type <Eqpt::UnstackedVlan>
+- unstacked vlan id
+Field type <Eqpt::SVlan>
+- service vlan id
+Field type <Eqpt::CVlan>
+- customer vlan id",
+min-dot1p,"Parameter type: <Vlan::Dot1pMin>
+Format:
+- dot1p value range
+- range: [0...7]",min p-bit value
+max-dot1p,"Parameter type: <Vlan::Dot1pMax>
+Format:
+- dot1p value range
+- range: [0...7]",max p-bit value

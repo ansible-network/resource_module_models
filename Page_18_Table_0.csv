@@ -1,0 +1,6 @@
+Parameter,Type,Description
+,"- the NGPON2 ONT SLOT identifier
+Field type <Eqpt::Ng2OntPortId>
+- the NGPON2 ONT PORT identifier
+Field type <Eqpt::LLId>
+- the LLID identifier,range 1 for EPON,range 1-8 for DPOE",

@@ -1,0 +1,75 @@
+Parameter,Type,Description
+,,"skip vmac translation in dhcp
+option 61 even when vmac is
+enabled"
+[no] new-broadcast,"Parameter type: <Vlan::NewStaticBrdcastControl>
+Format:
+( inherit
+| enable
+| disable )
+Possible values:
+- inherit : for S+C VLAN: inherit from S VLAN level if
+existing; for S or C VLAN: inherit from default fixed system
+value (which is disable)
+- enable : new switch broadcast frames
+- disable : new disable broadcast frames","optional parameter with default
+value: ""inherit""
+switch downstream broadcast
+frames (On GPON and L2+ LT
+boards, broadcast control for S+C
+L2 Forwarders can only be
+controlled at S-VLAN level, not
+individually at S+C-VLAN
+level.)"
+[no] protocol-filter,"Parameter type: <Vlan::ProtGroup>
+Format:
+( pass-all
+| pass-pppoe
+| pass-ipoe
+| pass-pppoe-ipoe
+| pass-ipv6oe
+| pass-pppoe-ipv6oe
+| pass-ipoe-ipv6oe
+| pass-pppoe-ipoe-ipv6oe )
+Possible values:
+- pass-all : pass all traffic
+- pass-pppoe : pass traffic of PPPoE protocol group
+- pass-ipoe : pass traffic of IPv4oE protocol group
+- pass-pppoe-ipoe : pass PPPoE and IPv4oE protocol groups
+- pass-ipv6oe : pass traffic of IPv6oE protocol group
+- pass-pppoe-ipv6oe : pass PPPoE and IPv6oE protocol
+groups
+- pass-ipoe-ipv6oe : pass IPv4oE and IPv6oE protocol
+groups
+- pass-pppoe-ipoe-ipv6oe: pass PPPoE, IPv4oE and IPv6oE
+protocol groups","optional parameter with default
+value: ""pass-all""
+control protocol group filters"
+[no] pppoe-relay-tag,"Parameter type: <Vlan::PppoeRelayEnableR3.1>
+Format:
+( true
+| false
+| configurable )
+Possible values:
+- true : pppoe tag with the current fixed format
+- false : no pppoe tag
+- configurable : circuit-id-pppoe and remote-id-pppoe
+controlling format","optional parameter with default
+value: ""false""
+configure the format of the
+PPPoE relay tag"
+[no] dhcp-opt-82,Parameter type: boolean,"obsolete parameter replaced by
+parameter ""dhcp-opt82-ext""
+The parameter is not visible
+during creation.
+enable dhcp option 82 (relay)"
+[no] dhcp-opt82-ext,"Parameter type: <Vlan::DhcpOption82Ext>
+Format:
+( enable
+| disable
+| transparent
+| add-or-replace","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+control of DHCP option 82"

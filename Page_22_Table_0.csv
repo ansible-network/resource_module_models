@@ -1,0 +1,10 @@
+Resource Identifier,Type,Description
+(port),"Format:
+( <Eqpt::RackId> / <Eqpt::ShelfId> / <Eqpt::SlotId> /
+<Eqpt::PortId> : <Eqpt::VpiId> : <Eqpt::VciId>
+| <Eqpt::RackId> / <Eqpt::ShelfId> / <Eqpt::SlotId> /
+<Eqpt::PortId>
+| <Eqpt::RackId> / <Eqpt::ShelfId> / <Eqpt::SlotId> /
+<Eqpt::PonId> / <Eqpt::OntId> / <Eqpt::OntSlotId> /","identity of a port(e.g. uplink port,
+atm pvc, efm port, eth port, la
+group ...)"
