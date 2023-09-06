@@ -70,11 +70,12 @@ DOCUMENTATION: |
                 multi_tag:
                   description:
                     - Indicate if it is a multiple tags.
-                  type: int
+                  type: bool
                 match_single_tags:
                   description:
                     - Configure single tagged vlan translation.
                   type: list
+                  elements: dict
                   suboptions:
                     outer_vlan:
                       description:
@@ -91,6 +92,7 @@ DOCUMENTATION: |
                   description:
                     - Configure double tagged vlan translation.
                   type: list
+                  elements: dict
                   suboptions:
                     inner_vlan:
                       description:
