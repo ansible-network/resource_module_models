@@ -15,8 +15,8 @@
   dellemc.enterprise_sonic.sonic_dhcp_snooping:
     config:
       afis:
-        - afi: ipv6
-          vlans:
+        - afi: 'ipv6'
+          vlans: ['all]
     state: deleted
 
 # After State:

@@ -15,7 +15,7 @@
   dellemc.enterprise_sonic.sonic_dhcp_snooping:
     config:
       afis:
-        - afi: ipv6
+        - afi: 'ipv6'
     state: deleted
 
 # After State:

@@ -18,12 +18,12 @@
   dellemc.enterprise_sonic.sonic_dhcp_snooping:
     config:
       afis:
-        - afi: ipv4
+        - afi: 'ipv4'
           source_bindings:
-            - mac_addr: 00:b0:d0:63:c2:26
-              ip_addr: 192.0.2.146
-              intf_name: Ethernet4
-              vlan_id: 1
+            - mac_addr: '00:b0:d0:63:c2:26'
+              ip_addr: '192.0.2.146'
+              intf_name: 'Ethernet4'
+              vlan_id: '1'
     state: deleted
 
 # After State:
