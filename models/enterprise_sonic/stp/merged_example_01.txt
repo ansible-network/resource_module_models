@@ -15,9 +15,6 @@
         bpdu_filter: true
         disabled_vlans:
           - 4-6
-        hello_time: 5
-        max_age: 10
-        fwd_delay: 15
         bridge_priority: 4096
       interfaces:
         - intf_name: Ethernet20
