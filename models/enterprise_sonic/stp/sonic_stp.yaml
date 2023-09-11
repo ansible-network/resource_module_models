@@ -47,7 +47,7 @@ DOCUMENTATION: |
               disabled_vlans:
                 description:
                   - List of disabled STP VLANs. The value of a list item can be a single VLAN ID or a range of VLAN IDs
-                  - seperated by '-' or '..'; for example 70-100 or 70..100.
+                  - separated by '-' or '..'; for example 70-100 or 70..100.
                 type: list
                 elements: str
               root_guard_timeout:
@@ -200,7 +200,7 @@ DOCUMENTATION: |
                   vlans:
                     description:
                       - List of VLANs mapped to the MST instance. The value of a list item can be a single VLAN ID or a range of VLAN IDs
-                      - seperated by '-' or '..'; for example 70-100 or 70..100.
+                      - separated by '-' or '..'; for example 70-100 or 70..100.
                     type: list
                     elements: str
                   interfaces:
@@ -236,6 +236,7 @@ DOCUMENTATION: |
               hello_time:
                 description:
                   - Interval in seconds between periodic transmissions of configuration messages by designated ports
+                  - Range 1-10
                 type: int
               max_age:
                 description:
@@ -248,6 +249,7 @@ DOCUMENTATION: |
                bridge_priority:
                 description:
                   - The manageable component of the bridge identifier
+                  - Value must be a multiple of 4096
                 type: int
               interfaces:
                 description:
@@ -282,6 +284,7 @@ DOCUMENTATION: |
               hello_time:
                 description:
                   - Interval in seconds between periodic transmissions of configuration messages by designated ports
+                  - Range 1-10
                 type: int
               max_age:
                 description:
@@ -294,6 +297,7 @@ DOCUMENTATION: |
               bridge_priority:
                 description:
                   - The manageable component of the bridge identifier
+                  - Value must be a multiple of 4096
                 type: int
               interfaces:
                 description:

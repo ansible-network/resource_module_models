@@ -4,23 +4,23 @@
 # -------------
 #
 # sonic# show running-configuration spanning-tree
-# no spanning-tree vlan 4-6
-# spanning-tree mode mst
-# spanning-tree edge-port bpdufilter default
-# spanning-tree loopguard default
-# spanning-tree mst hello-time 7
-# spanning-tree mst forward-time 13
-# spanning-tree mst max-age 10
-# spanning-tree mst max-hops 4
-# !
-# spanning-tree mst configuration
-#  name mst2
-#  revision 2
-#  activate
-# !
-# interface Ethernet20
-#  spanning-tree cost 25
-#  spanning-tree port-priority 35
+#  no spanning-tree vlan 4-6
+#  spanning-tree mode mst
+#  spanning-tree edge-port bpdufilter default
+#  spanning-tree loopguard default
+#  spanning-tree mst hello-time 7
+#  spanning-tree mst forward-time 13
+#  spanning-tree mst max-age 10
+#  spanning-tree mst max-hops 4
+#  !
+#  spanning-tree mst configuration
+#   name mst2
+#   revision 2
+#   activate
+#  !
+#  interface Ethernet20
+#   spanning-tree cost 25
+#   spanning-tree port-priority 35
 
 - name: Override STP configurations
   dellemc.enterprise_sonic.sonic_stp:
@@ -50,14 +50,17 @@
 # ------------
 #
 # sonic# show running-configuration spanning-tree
-# spanning-tree mode pvst
-# spanning-tree edge-port bpdufilter default
-# spanning-tree forward-time 20
-# spanning-tree guard root timeout 25
-# spanning-tree hello-time 5
-# spanning-tree max-age 10
-# spanning-tree priority 4096
-# spanning-tree portfast default
-# spanning-tree vlan 1 hello-time 4
-# spanning-tree vlan 1 forward-time 8
-# spanning-tree vlan 1 max-age 6
+#  spanning-tree mode pvst
+#  spanning-tree edge-port bpdufilter default
+#  spanning-tree forward-time 20
+#  spanning-tree guard root timeout 25
+#  spanning-tree hello-time 5
+#  spanning-tree max-age 10
+#  spanning-tree priority 4096
+#  spanning-tree portfast default
+#  spanning-tree vlan 1 hello-time 4
+#  spanning-tree vlan 1 forward-time 8
+#  spanning-tree vlan 1 max-age 6
+# sonic# show running-configuration interface Ethernet 20 | grep spanning-tree
+#  spanning-tree vlan 1 cost 10
+#  spanning-tree vlan 1 port-priority 50
