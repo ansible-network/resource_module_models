@@ -244,10 +244,12 @@ DOCUMENTATION: |
               max_age:
                 description:
                   - Maximum age in seconds of the information transmitted by the bridge when it is the root bridge
+                  - Range 6-40
                 type: int
               fwd_delay:
                 description:
                   - Delay in seconds used by STP bridges to transition root and designated ports to forwarding
+                  - Range 4-30
                 type: int
                bridge_priority:
                 description:
@@ -292,10 +294,12 @@ DOCUMENTATION: |
               max_age:
                 description:
                   - Maximum age in seconds of the information transmitted by the bridge when it is the root bridge
+                  - Range 6-40
                 type: int
               fwd_delay:
                 description:
                   - Delay in seconds used by STP bridges to transition root and designated ports to forwarding
+                  - Range 4-30
                 type: int
               bridge_priority:
                 description:
