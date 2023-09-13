@@ -21,7 +21,6 @@
 #   activate
 #  !
 #  interface Ethernet20
-#   spanning-tree portfast
 #   spanning-tree bpdufilter enable
 #   spanning-tree guard loop
 #   spanning-tree bpduguard port-shutdown

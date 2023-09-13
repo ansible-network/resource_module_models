@@ -58,6 +58,7 @@ DOCUMENTATION: |
               portfast:
                 description:
                  - Enables PortFast globally on all access ports
+                 - Configurable for pvst protocol
                 type: bool
                 default: False
               hello_time:
@@ -126,6 +127,7 @@ DOCUMENTATION: |
               portfast:
                 description:
                   - Enable/Disable portfast on specified interface
+                  - Configurable for pvst protocol
                 type: bool
                 default: False
               uplink_fast:
