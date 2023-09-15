@@ -65,21 +65,18 @@ DOCUMENTATION: |
                 description:
                   - Interval in seconds between periodic transmissions of configuration messages by designated ports
                   - Range 1-10
-                  - Configurable for pvst and rapid-pvst protocols
                 type: int
                 default: 2
               max_age:
                 description:
                   - Maximum age in seconds of the information transmitted by the bridge when it is the root bridge
                   - Range 6-40
-                  - Configurable for pvst and rapid-pvst protocols
                 type: int
                 default: 20
               fwd_delay:
                 description:
                   - Delay in seconds used by STP bridges to transition root and designated ports to forwarding
                   - Range 4-30
-                  - Configurable for pvst and rapid-pvst protocols
                 type: int
                 default: 15
               bridge_priority:

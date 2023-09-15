@@ -15,6 +15,9 @@
         bpdu_filter: true
         disabled_vlans:
           - 4-6
+        hello_time: 5
+        max_age: 10
+        fwd_delay: 20
         bridge_priority: 4096
       interfaces:
         - intf_name: Ethernet20
@@ -53,6 +56,9 @@
 #  no spanning-tree vlan 4-6
 #  spanning-tree mode mst
 #  spanning-tree edge-port bpdufilter default
+#  spanning-tree forward-time 20
+#  spanning-tree hello-time 5
+#  spanning-tree max-age 10
 #  spanning-tree loopguard default
 #  spanning-tree mst hello-time 6
 #  spanning-tree mst forward-time 12
