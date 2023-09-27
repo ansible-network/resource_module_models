@@ -1,0 +1,40 @@
+# Examples using replaced state
+  # Before state:
+    config:
+      enabled: False
+      polling_interval: 50
+      collectors:
+        - address: 1.1.1.1
+          port: 6343
+          network-instance: default 
+      interfaces:
+        - name: Ethernet0
+          enabled: false
+        - name: Ethernet8
+          enabled: false
+        - name: Ethernet16
+          enabled: false
+        - name: Ethernet24
+          enabled: false
+
+  # Example:
+    - name: "replace interface subsection"
+      sonic_sFlow:
+        config:
+          interfaces:
+            - name: Ethernet0
+              enabled: true
+        state: replaced
+
+  # After state:
+    config:
+      enabled: False
+      polling_interval: 50
+      collectors:
+        - address: 1.1.1.1
+          port: 6343
+          network-instance: default 
+      interfaces:
+        - name: Ethernet0
+          enabled: true
+  -----------

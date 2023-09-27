@@ -1,0 +1,75 @@
+# Examples using merged state to add configuration
+  # Before state:
+    config:
+      enabled: False
+
+  # Example:
+    - name: "add sflow collector, defualt port and network instance"
+      sonic_sFlow:
+        config:
+          collectors:
+            - address: 1.1.1.2
+        state: merged
+  # note there can only be two collectors configured at a time
+
+  # After state:
+    config:
+      enabled: False
+      collectors:
+        - address: 1.1.1.2
+          port: 6343
+          network-instance: default
+  ------
+
+  # Before state:
+    config:
+      enabled: False
+      interfaces:
+        - name: Ethernet0
+          samplig_rate: 400002
+  
+  # Example
+    - name: "setting interface settings"
+      sonic_sFlow:
+        config:
+          interfaces:
+            - name: Ethernet0
+              enabled: True
+            - name: Ethernet8
+              enabled: false
+              sampling_rate: 400003
+        state: merged
+  # Note must set at least one of enabled or sampling_rate
+
+  # After state
+    config:
+      enabled: False
+      interfaces:
+        - name: Ethernet0
+          samplig_rate: 400002
+          enabled: True
+        - name: Ethernet8
+          enabled: false
+          sampling_rate: 400003
+  ------
+
+  # Before state:
+    config:
+      enabled: False
+
+  # Example
+    - name: "setting other settings"
+      sonic_sFlow:
+        config:
+          polling_interval: 50
+          enabled: true
+          agent: Ethernet0
+        state: merged
+
+  # After state
+    config:
+      enabled: true
+      polling_interval: 50
+      agent: Ethernet0
+
+-----------
