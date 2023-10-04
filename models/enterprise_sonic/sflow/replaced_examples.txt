@@ -1,4 +1,4 @@
-# Examples using overridden state to set configuration
+# Examples using replaced state
   # Before state:
     config:
       enabled: False
@@ -18,21 +18,23 @@
           enabled: false
 
   # Example:
-    - name: "override sets to passed in task"
-      sonic_sFlow:
+    - name: "replace interface subsection"
+      sonic_sflow:
         config:
-          enabled: True
-          agent: Ethernet0
           interfaces:
             - name: Ethernet0
-              enabled: True
-        state: overridden
+              enabled: true
+        state: replaced
 
   # After state:
     config:
-      enabled: True
-      agent: Ethernet0
+      enabled: False
+      polling_interval: 50
+      collectors:
+        - address: 1.1.1.1
+          port: 6343
+          network-instance: default 
       interfaces:
         - name: Ethernet0
           enabled: true
-------------
+  -----------

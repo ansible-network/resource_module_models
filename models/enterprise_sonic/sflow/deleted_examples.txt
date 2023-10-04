@@ -13,7 +13,7 @@
 
   # Example
     - name: "clear all sFlow config and disable"
-      sonic_sFlow:
+      sonic_sflow:
       config: {}
       state: deleted
 
@@ -38,7 +38,7 @@
 
   # Example
     - name: "clear all sFlow interfaces and collectors"
-      sonic_sFlow:
+      sonic_sflow:
       config:
         interfaces: []
         collectors: []
@@ -70,7 +70,7 @@
   # Example
   # note: to delete interfaces, only need to specify the name, doesn't care about other fields
     - name: "delete individual interfaces"
-      sonic_sFlow:
+      sonic_sflow:
       config:
         interfaces:
           - name: Ethernet8
@@ -111,7 +111,7 @@
   # Example:
   # note, need all three fields to identify a collector. port and network instance has default values
     - name: "delete individual collectors"
-      sonic_sFlow:
+      sonic_sflow:
       config:
         collectors:
           - address: 1.1.1.2
@@ -143,7 +143,7 @@
 
   # Example    
     - name: "clear other config if values match"
-      sonic_sFlow:
+      sonic_sflow:
       config:
         enabled: False
         polling_interval: 30

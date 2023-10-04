@@ -5,7 +5,7 @@
 
   # Example:
     - name: "add sflow collector, defualt port and network instance"
-      sonic_sFlow:
+      sonic_sflow:
         config:
           collectors:
             - address: 1.1.1.2
@@ -30,7 +30,7 @@
   
   # Example
     - name: "setting interface settings"
-      sonic_sFlow:
+      sonic_sflow:
         config:
           interfaces:
             - name: Ethernet0
@@ -59,7 +59,7 @@
 
   # Example
     - name: "setting other settings"
-      sonic_sFlow:
+      sonic_sflow:
         config:
           polling_interval: 50
           enabled: true
