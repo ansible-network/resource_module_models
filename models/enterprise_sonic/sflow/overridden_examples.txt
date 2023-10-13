@@ -1,21 +1,21 @@
-# Examples using overridden state to set configuration
+# using overridden to set to exactly given settings
   # Before state:
-    config:
-      enabled: False
-      polling_interval: 50
-      collectors:
-        - address: 1.1.1.1
-          port: 6343
-          network-instance: default 
-      interfaces:
-        - name: Ethernet0
-          enabled: false
-        - name: Ethernet8
-          enabled: false
-        - name: Ethernet16
-          enabled: false
-        - name: Ethernet24
-          enabled: false
+  # config:
+  #   enabled: False
+  #   polling_interval: 50
+  #   collectors:
+  #     - address: 1.1.1.1
+  #       port: 6343
+  #       network_instance: default
+  #   interfaces:
+  #     - name: Ethernet0
+  #       enabled: false
+  #     - name: Ethernet8
+  #       enabled: false
+  #     - name: Ethernet16
+  #       enabled: false
+  #     - name: Ethernet24
+  #       enabled: false
 
   # Example:
     - name: "override sets to passed in task"
@@ -29,10 +29,10 @@
         state: overridden
 
   # After state:
-    config:
-      enabled: True
-      agent: Ethernet0
-      interfaces:
-        - name: Ethernet0
-          enabled: true
-------------
+  # config:
+  #   enabled: True
+  #   agent: Ethernet0
+  #   interfaces:
+  #     - name: Ethernet0
+  #       enabled: true
+# ------------

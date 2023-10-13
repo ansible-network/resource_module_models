@@ -8,11 +8,11 @@ ANSIBLE_METADATA: |
     }
 COPYRIGHT: Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved
 DOCUMENTATION: |
-  module: sflow
-  description: This module provides configuration for sflow sampling on devices running SONiC 
-  version_added: "2.30"
+  module: sonic_sflow
+  description: This module provides configuration for sflow sampling on devices running SONiC
+  version_added: "2.3.0"
   short_description: configure sflow settings on SONiC
-  author: "Xiao Han @Xiao_Han2"
+  author: "Xiao Han (@Xiao_Han2)"
   options:
     config:
       description:
@@ -21,16 +21,15 @@ DOCUMENTATION: |
       suboptions:
         enabled:
           type: bool
-          default: false
           description: Enables or disables sflow sampling for the device.
         polling_interval:
           type: int
-          description: 
+          description:
             - sflow polling interval.
             - must be 0 or in range 5-300
-        agent: 
+        agent:
           type: str
-          description: The Agent interface 
+          description: The Agent interface
         collectors:
           description: Configuration data for sflow collectors.
           type: list

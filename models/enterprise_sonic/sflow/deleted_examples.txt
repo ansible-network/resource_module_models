@@ -1,163 +1,168 @@
-# Examples using Deleted State to remove configuration
+# Using deleted to clear all configuration
   # Before state:
-    config:
-      enabled: False
-      polling_interval: 40
-      collectors:
-        - address: 1.1.1.1
-          port: 6343
-          network-instance: default 
-      interfaces:
-        - name: Ethernet0
-          sampling_rate: 400000
+  # config:
+  #   enabled: False
+  #   polling_interval: 40
+  #   collectors:
+  #     - address: 1.1.1.1
+  #       port: 6343
+  #       network_instance: default
+  #   interfaces:
+  #     - name: Ethernet0
+  #       sampling_rate: 400000
 
   # Example
-    - name: "clear all sFlow config and disable"
+    - name: "clear all sflow config and disable"
       sonic_sflow:
-      config: {}
-      state: deleted
+        config: {}
+        state: deleted
 
   # After state:
   # Note, enabled can't be deleted. It's just set to default. everything that can be cleared are deleted
-    config:
-      enabled: False
-      (no other recorded config)
-  ------
+  # config:
+  #   enabled: False
+  #   (no other recorded config)
+  # ------
 
+# Using deleted to clear just the interfaces and collectors
   # Before state:
-    config:
-      enabled: True
-      polling_interval: 40
-      collectors:
-        - address: 1.1.1.1
-          port: 6343
-          network-instance: default 
-      interfaces:
-        - name: Ethernet0
-          sampling_rate: 400000
+  # config:
+  #   enabled: True
+  #   polling_interval: 40
+  #   collectors:
+  #     - address: 1.1.1.1
+  #       port: 6343
+  #       network_instance: default
+  #   interfaces:
+  #     - name: Ethernet0
+  #       sampling_rate: 400000
 
   # Example
-    - name: "clear all sFlow interfaces and collectors"
+    - name: "clear all sflow interfaces and collectors"
       sonic_sflow:
-      config:
-        interfaces: []
-        collectors: []
+        config:
+          interfaces: []
+          collectors: []
       state: deleted
 
   # After state:
-    config:
-      enabled: False
-      polling_interval: 40
+  # config:
+  #   enabled: False
+  #   polling_interval: 40
   # deletes items config if empty list is provided. The other fields need to be listed and values match to delete, see other Example
-  ------
+  # ------
 
+# Using deleted to delete individual interfaces
   # Before state:
-    config:
-      enabled: False
-      polling_interval: 40
-      collectors:
-        - address: 1.1.1.1
-          port: 6343
-          network-instance: default 
-      interfaces:
-        - name: Ethernet0
-          sampling_rate: 400000
-        - name: Ethernet8
-          enabled: False
-        - name: Ethernet16
-          sampling_rate: 400000
+  # config:
+  #   enabled: False
+  #   polling_interval: 40
+  #   collectors:
+  #     - address: 1.1.1.1
+  #       port: 6343
+  #       network_instance: default
+  #   interfaces:
+  #     - name: Ethernet0
+  #       sampling_rate: 400000
+  #     - name: Ethernet8
+  #       enabled: False
+  #     - name: Ethernet16
+  #       sampling_rate: 400000
 
   # Example
   # note: to delete interfaces, only need to specify the name, doesn't care about other fields
     - name: "delete individual interfaces"
       sonic_sflow:
-      config:
-        interfaces:
-          - name: Ethernet8
-          - name: Ethernet16
-            enabled: False
+        config:
+          interfaces:
+            - name: Ethernet8
+            - name: Ethernet16
+              enabled: False
 
       state: deleted
 
   # After state:
   # just listed interfaces deleted
-    config:
-      enabled: False
-      polling_interval: 40
-      collectors:
-        - address: 1.1.1.1
-          port: 6343
-          network-instance: default 
-      interfaces:
-        - name: Ethernet0
-          sampling_rate: 400000
-  ------
+  # config:
+  #   enabled: False
+  #   polling_interval: 40
+  #   collectors:
+  #     - address: 1.1.1.1
+  #       port: 6343
+  #       network_instance: default
+  #   interfaces:
+  #     - name: Ethernet0
+  #       sampling_rate: 400000
+  # ------
 
+# Using deleted to delete collectors
   # Before state:
-    config:
-      enabled: False
-      polling_interval: 40
-      collectors:
-        - address: 1.1.1.1
-          port: 6343
-          network-instance: default 
-        - address: 1.1.1.2
-          port: 6000
-          network_instance: "vrf_1"
-      interfaces:
-        - name: Ethernet0
-          sampling_rate: 400000
+  # config:
+  #   enabled: False
+  #   polling_interval: 40
+  #   collectors:
+  #     - address: 1.1.1.1
+  #       port: 6343
+  #       network_instance: default
+  #     - address: 1.1.1.2
+  #       port: 6000
+  #       network_instance: "vrf_1"
+  #   interfaces:
+  #     - name: Ethernet0
+  #       sampling_rate: 400000
 
   # Example:
-  # note, need all three fields to identify a collector. port and network instance has default values
+  # note, need all three fields to identify a collector. port and network instance has default values,
+  # so only need to specify if they are not default
     - name: "delete individual collectors"
       sonic_sflow:
-      config:
-        collectors:
-          - address: 1.1.1.2
-            port: 6000
-            network_instance: "vrf_1"
-          - address: 1.1.1.1
+        config:
+          collectors:
+            - address: 1.1.1.2
+              port: 6000
+              network_instance: "vrf_1"
+            - address: 1.1.1.1
       state: deleted
-  
+
   # After state:
-    config:
-      enabled: False
-      polling_interval: 40
-      interfaces:
-        - name: Ethernet0
-          sampling_rate: 400000
-  ------
+  # config:
+  #   enabled: False
+  #   polling_interval: 40
+  #   interfaces:
+  #     - name: Ethernet0
+  #       sampling_rate: 400000
+  # ------
 
+# Using deleted to clear individual values
   # Before state:
-    config:
-      enabled: True
-      polling_interval: 30
-      collectors:
-        - address: 1.1.1.1
-          port: 6343
-          network-instance: default 
-      interfaces:
-        - name: Ethernet0
-          sampling_rate: 400000
+  # config:
+  #   enabled: True
+  #   polling_interval: 30
+  #   collectors:
+  #     - address: 1.1.1.1
+  #       port: 6343
+  #       network_instance: default
+  #   interfaces:
+  #     - name: Ethernet0
+  #       sampling_rate: 400000
 
-  # Example    
+  # Example
     - name: "clear other config if values match"
       sonic_sflow:
-      config:
-        enabled: False
-        polling_interval: 30
+        config:
+          enabled: False
+          polling_interval: 30
       state: deleted
 
   # After state:
-    config:
-      enabled: True
-      collectors:
-        - address: 1.1.1.1
-          port: 6343
-          network-instance: default 
-      interfaces:
-        - name: Ethernet0
-          sampling_rate: 400000
+  # config:
+  #   enabled: True
+  #   collectors:
+  #     - address: 1.1.1.1
+  #       port: 6343
+  #       network_instance: default
+  #   interfaces:
+  #     - name: Ethernet0
+  #       sampling_rate: 400000
 
-------------
+# ------------

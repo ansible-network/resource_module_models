@@ -1,7 +1,7 @@
-# Examples using merged state to add configuration
+# Using merged to add sflow collector
   # Before state:
-    config:
-      enabled: False
+  # config:
+  #   enabled: False
 
   # Example:
     - name: "add sflow collector, defualt port and network instance"
@@ -10,24 +10,26 @@
           collectors:
             - address: 1.1.1.2
         state: merged
-  # note there can only be two collectors configured at a time
+  # note: there can only be two collectors configured at a time
+  # note: only port and and network instance have default values
 
   # After state:
-    config:
-      enabled: False
-      collectors:
-        - address: 1.1.1.2
-          port: 6343
-          network-instance: default
-  ------
+  # config:
+  #   enabled: False
+  #   collectors:
+  #     - address: 1.1.1.2
+  #       port: 6343
+  #       network_instance: default
+  # ------
 
+# Using merged to add interface configuration
   # Before state:
-    config:
-      enabled: False
-      interfaces:
-        - name: Ethernet0
-          samplig_rate: 400002
-  
+  # config:
+  #   enabled: False
+  #   interfaces:
+  #     - name: Ethernet0
+  #       samplig_rate: 400002
+
   # Example
     - name: "setting interface settings"
       sonic_sflow:
@@ -38,24 +40,30 @@
             - name: Ethernet8
               enabled: false
               sampling_rate: 400003
+            - name: Ethernet16
+            - name: Ethernet32
+              sampling_rate: 400001
         state: merged
-  # Note must set at least one of enabled or sampling_rate
+  # Note: must set at least one of enabled or sampling_rate for interface to be added
 
   # After state
-    config:
-      enabled: False
-      interfaces:
-        - name: Ethernet0
-          samplig_rate: 400002
-          enabled: True
-        - name: Ethernet8
-          enabled: false
-          sampling_rate: 400003
-  ------
+  # config:
+  #   enabled: False
+  #   interfaces:
+  #     - name: Ethernet0
+  #       samplig_rate: 400002
+  #       enabled: True
+  #     - name: Ethernet8
+  #       enabled: false
+  #       sampling_rate: 400003
+  #     - name: Ethernet32
+  #       sampling_rate: 400001
+  # ------
 
+# Using merged to configure other settings
   # Before state:
-    config:
-      enabled: False
+  # config:
+  #   enabled: False
 
   # Example
     - name: "setting other settings"
@@ -67,9 +75,9 @@
         state: merged
 
   # After state
-    config:
-      enabled: true
-      polling_interval: 50
-      agent: Ethernet0
+  # config:
+  #   enabled: true
+  #   polling_interval: 50
+  #   agent: Ethernet0
 
------------
+# -----------
