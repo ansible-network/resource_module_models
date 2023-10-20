@@ -39,7 +39,7 @@ DOCUMENTATION: |
                 description: Enable or disable PoE Auto Reset Mode
                 type: bool
           cards:
-            description: PoE card configuration (power controller hardware)
+            description: PoE card (power controller hardware) configuration
             type: list
             elements: dict
             suboptions:
@@ -62,17 +62,17 @@ DOCUMENTATION: |
                 description: Enable or disable PoE Auto Reset Mode
                 type: bool
           interfaces:
-            description: PoE ethernet interface configuration
+            description: PoE configuration for ethernet interfaces
             type: list
             elements: dict
             suboptions:
               name:
-                description: name of the interface
+                description: Name of the interface
                 type: str
                 required: True
               enabled:
                 description: enable PoE per port
-                type: str
+                type: bool
               priority:
                 description:
                   - PoE port priority in power management algorithm. 
@@ -83,7 +83,7 @@ DOCUMENTATION: |
                     critical to the operation of the network - like the E911
                     telephones ports - should be set to higher priority.
                 type: str
-                choices: ['invalid', 'low', 'medium', 'high', 'critical']
+                choices: ['low', 'medium', 'high', 'critical']
               detection:
                 description: 
                   - Device detection mechanism performed by this PSE port.
@@ -91,27 +91,27 @@ DOCUMENTATION: |
                   - Those schemes are IEEE 802 standard schemes.
                   - None cannot be forcibly set by adminstrator.
                 type: str
-                choices: ['None', '2pt-dot3af', '2pt-dot3af+legacy', '4pt-dot3af', '4pt-dot3af+legacy', 'dot3bt', 'dot3bt+legacy', 'legacy']
+                choices: ['2pt-dot3af', '2pt-dot3af+legacy', '4pt-dot3af', '4pt-dot3af+legacy', 'dot3bt', 'dot3bt+legacy', 'legacy']
               power_up_mode:
                 description: 
                   - The mode configured for a PSE port to deliver high power.
-                  - 'pre-dot3at' means that a port is powered in the IEEE 802.3af mode initially, switched to the high-power IEEE 802.3at mode
-                  - 'dot3at' means that a port is powered in the IEEE 802.3at mode.
-                  - 'dot3bt', type3 and 'pre-dot3bt' are to support 802.3bt interfaces.
+                  - pre-dot3at means that a port is powered in the IEEE 802.3af mode initially, switched to the high-power IEEE 802.3at mode
+                  - dot3at means that a port is powered in the IEEE 802.3at mode.
+                  - dot3bt, type3 and pre-dot3bt are to support 802.3bt interfaces.
                 type: str
-                choices: ['invalid', 'dot3af', 'dot3at', 'dot3bt', 'dot3bt-type3', 'dot3bt-type4', 'high-inrush', 'pre-dot3at', 'pre-dot3bt']
+                choices: ['dot3af', 'dot3at', 'dot3bt', 'dot3bt-type3', 'dot3bt-type4', 'high-inrush', 'pre-dot3at', 'pre-dot3bt']
               power_pairs:
                 description:
-                  - Controls the pairs in use.
+                  - PoE port power-pairs settings
                 type: str
-                choices: ['signal', 'spare', 'invalid']
+                choices: ['signal', 'spare']
               power_limit_type:
                 description:
                   - Controls the maximum power that a port can deliver.
-                  - Class based means means that the port power limit is as per the dot3af class of the PD attached.
+                  - Class based means means that the port power limit is as per the dot3af class of the powered device attached.
                   - User means specified by config
                 type: str
-                choices: ['none', 'class-based', 'user', 'invalid']
+                choices: ['class-based', 'user-defined']
               power_limit:
                 description:
                   - The configured maximum power this port can provide to an attached device measured in Milliwatts.
@@ -122,9 +122,9 @@ DOCUMENTATION: |
                   - Enables high power mode on a PSE port
                 type: bool
               disconnect_type:
-                description: Port disconnect type
+                description: PoE port disconnect type
                 type: str
-                choices: ['none', 'ac', 'dc']
+                choices: ['ac', 'dc']
               four_pair:
                 description:
                   - Enables four pair mode for port
@@ -134,9 +134,9 @@ DOCUMENTATION: |
                   - Enables spare pair power for port
                 type: bool
               power_classification:
-                description: PoE power-classification type for port
+                description: PoE power-classification mode for port
                 type: str
-                choices: ['normal', 'bypass', 'invalid']
+                choices: ['normal', 'bypass']
       state:
         description:
           - The state of the configuration after module completion
