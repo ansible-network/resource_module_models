@@ -75,7 +75,7 @@ DOCUMENTATION: |
                 type: bool
               priority:
                 description:
-                  - PoE port priority in power management algorithm. 
+                  - PoE port priority in power management algorithm.
                   - Priority could be used by a control mechanism
                     that prevents over current situations by disconnecting first
                     ports with lower power priority.
@@ -85,7 +85,7 @@ DOCUMENTATION: |
                 type: str
                 choices: ['low', 'medium', 'high', 'critical']
               detection:
-                description: 
+                description:
                   - Device detection mechanism performed by this PSE port.
                   - Legacy is capacitive detection scheme, which can be used alone or as a backup if other detection schemes fail.
                   - Those schemes are IEEE 802 standard schemes.
@@ -93,7 +93,7 @@ DOCUMENTATION: |
                 type: str
                 choices: ['2pt-dot3af', '2pt-dot3af+legacy', '4pt-dot3af', '4pt-dot3af+legacy', 'dot3bt', 'dot3bt+legacy', 'legacy']
               power_up_mode:
-                description: 
+                description:
                   - The mode configured for a PSE port to deliver high power.
                   - pre-dot3at means that a port is powered in the IEEE 802.3af mode initially, switched to the high-power IEEE 802.3at mode
                   - dot3at means that a port is powered in the IEEE 802.3at mode.
