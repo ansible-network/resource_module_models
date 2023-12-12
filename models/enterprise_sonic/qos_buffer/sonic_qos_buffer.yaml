@@ -24,7 +24,7 @@ DOCUMENTATION: |
         suboptions:
           buffer_pools:
             description:
-              - Buffer pool configuration      
+              - Buffer pools configuration
             type: list
             elements: dict
             suboptions:
@@ -57,7 +57,7 @@ DOCUMENTATION: |
                 type: int
           buffer_profiles:
             description:
-              - Buffer profile configuration      
+              - Buffer profiles configuration
             type: list
             elements: dict
             suboptions:
@@ -101,7 +101,7 @@ DOCUMENTATION: |
                 type: int      
           buffer_priority_groups:
             description:
-              - Priority group configuration      
+              - Buffer priority groups configuration
             type: list
             elements: dict
             suboptions:
@@ -122,7 +122,7 @@ DOCUMENTATION: |
                 type: str     
           buffer_queues:
             description:
-              - buffer queue configuration      
+              - Buffer queues configuration
             type: list
             elements: dict
             suboptions:
