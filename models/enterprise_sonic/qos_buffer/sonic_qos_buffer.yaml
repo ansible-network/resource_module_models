@@ -1,0 +1,153 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community'
+    }
+NETWORK_OS: sonic
+RESOURCE: qos_buffer
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_qos_buffer
+    version_added: "2.4.0"
+    short_description: Manage QoS buffer configuration on SONiC
+    description:
+      - This module provides configuration management of QoS buffer for devices running SONiC
+    author: "Shade Talabi (@stalabi1)"
+    options:
+      config:
+        description:
+          - QoS buffer configuration
+        type: dict
+        suboptions:
+          buffer_pools:
+            description:
+              - Buffer pool configuration      
+            type: list
+            elements: dict
+            suboptions:
+              name:
+                description:
+                  - Name of buffer pool     
+                type: str
+                required: True
+              buffer_type:
+                description:
+                  - Specifies buffer type, ingress or egress      
+                type: str
+                choices:
+                  - ingress
+                  - egress      
+              mode:
+                description:
+                  - Specifies buffer mode, static or dynamic      
+                type: str
+                choices:
+                  - static
+                  - dynamic      
+              size:
+                description:
+                  - Size of buffer pool, must be greater than xoff      
+                type: int      
+              xoff:
+                description:
+                  - Amount of shared buffer space in bytes, must be less than pool size      
+                type: int
+          buffer_profiles:
+            description:
+              - Buffer profile configuration      
+            type: list
+            elements: dict
+            suboptions:
+              name:
+                description:
+                  - Name of buffer profile      
+                type: str
+                required: True      
+              pool:
+                description:
+                  - Name of buffer pool      
+                type: str      
+              buffer_type:
+                description:
+                  - Specifies buffer type, ingress or egress      
+                type: str     
+              size:
+                description:
+                  - Size of reserved buffer in bytes      
+                type: int     
+              static_threshold:
+                description:
+                  - Static threshold for the shared usage in bytes      
+                type: int     
+              dynamic_threshold:
+                description:
+                  - Dynamic threshold value
+                  - Range -6-3      
+                type: int      
+              pause_threshold:
+                description:
+                  - Threshold value at which to stop traffic from peer
+                type: int      
+              resume_threshold:
+                description:
+                  - Threshold value at which to resume traffic from peer      
+                type: int      
+              resume_offset_threshold:
+                description:
+                  - Resume offset threshold value       
+                type: int      
+          buffer_priority_groups:
+            description:
+              - Priority group configuration      
+            type: list
+            elements: dict
+            suboptions:
+              ifname:
+                description:
+                  - Name of interface      
+                type: str
+                required: True        
+              priority_group:
+                description:
+                  - Priority group number
+                  - Range 0-7      
+                type: int
+                required: True        
+              profile:
+                description:
+                  - Name of buffer profile      
+                type: str     
+          buffer_queues:
+            description:
+              - buffer queue configuration      
+            type: list
+            elements: dict
+            suboptions:
+              ifname:
+                description:
+                  - Name of interface      
+                type: str
+                required: True        
+              queue:
+                description:
+                  - Queue number      
+                type: int
+                required: True        
+              profile:
+                description:
+                  - Name of buffer profile      
+                type: str      
+      state:
+        description:
+          - The state of the configuration after module completion
+        type: str
+        choices: 
+          - merged
+          - deleted
+          - replaced
+          - overidden  
+        default: merged
+
