@@ -30,6 +30,11 @@ DOCUMENTATION: |
         agent:
           type: str
           description: The Agent interface
+        sampling_rate:
+          type: int
+          description:
+            - Sets global packet sampling rate.
+            - Intended rate is 1 over this setting's value packets.
         collectors:
           description: Configuration data for sflow collectors.
           type: list
@@ -53,6 +58,7 @@ DOCUMENTATION: |
           elements: dict
           suboptions:
             name:
+              required: true
               type: str
               description: Reference to the interface
             enabled:
