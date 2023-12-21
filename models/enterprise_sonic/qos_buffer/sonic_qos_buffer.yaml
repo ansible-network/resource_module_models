@@ -32,25 +32,9 @@ DOCUMENTATION: |
                 description:
                   - Name of buffer pool     
                 type: str
+                choices:
+                   - ingress_lossless_pool
                 required: True
-              buffer_type:
-                description:
-                  - Specifies buffer type, ingress or egress      
-                type: str
-                choices:
-                  - ingress
-                  - egress      
-              mode:
-                description:
-                  - Specifies buffer mode, static or dynamic      
-                type: str
-                choices:
-                  - static
-                  - dynamic      
-              size:
-                description:
-                  - Size of buffer pool, must be greater than xoff      
-                type: int      
               xoff:
                 description:
                   - Amount of shared buffer space in bytes, must be less than pool size      
@@ -68,12 +52,13 @@ DOCUMENTATION: |
                 required: True      
               pool:
                 description:
-                  - Name of buffer pool      
-                type: str      
-              buffer_type:
-                description:
-                  - Specifies buffer type, ingress or egress      
-                type: str     
+                  - Name of buffer pool
+                type: str
+                choices:
+                  - ingress_lossless_pool
+                  - egress_lossless_pool
+                  - egress_lossy_pool
+                required: True
               size:
                 description:
                   - Size of reserved buffer in bytes      
@@ -91,55 +76,6 @@ DOCUMENTATION: |
                 description:
                   - Threshold value at which to stop traffic from peer
                 type: int      
-              resume_threshold:
-                description:
-                  - Threshold value at which to resume traffic from peer      
-                type: int      
-              resume_offset_threshold:
-                description:
-                  - Resume offset threshold value       
-                type: int      
-          buffer_priority_groups:
-            description:
-              - Buffer priority groups configuration
-            type: list
-            elements: dict
-            suboptions:
-              ifname:
-                description:
-                  - Name of interface      
-                type: str
-                required: True        
-              priority_group:
-                description:
-                  - Priority group number
-                  - Range 0-7      
-                type: int
-                required: True        
-              profile:
-                description:
-                  - Name of buffer profile      
-                type: str     
-          buffer_queues:
-            description:
-              - Buffer queues configuration
-            type: list
-            elements: dict
-            suboptions:
-              ifname:
-                description:
-                  - Name of interface      
-                type: str
-                required: True        
-              queue:
-                description:
-                  - Queue number      
-                type: int
-                required: True        
-              profile:
-                description:
-                  - Name of buffer profile      
-                type: str      
       state:
         description:
           - The state of the configuration after module completion
