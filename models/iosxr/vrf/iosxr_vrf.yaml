@@ -1,14 +1,14 @@
 module: iosxr_vrf
 short_description: Manages global VRF configuration.
 description:
-  _ This module manages VRF definitions on Cisco IOS_XR devices. It enables playbooks to handle either individual VRFs or the complete VRF collection. It also permits removing non_explicitly stated VRF definitions from the setup.
+  - This module manages VRF definitions on Cisco IOS_XR devices. It enables playbooks to handle either individual VRFs or the complete VRF collection. It also permits removing non_explicitly stated VRF definitions from the setup.
 version_added: 7.2.0
 author: Ruchi Pakhle (@Ruchip16)
 notes:
-  _ Tested against Cisco IOS_XR Version 17.3 on CML.
-  _ This module works with connection C(network_cli). See L(the IOS_XR Platform Options,../network/user_guide/platform_iosxr.html)
-  _ For more information on using Ansible to manage network devices see the :ref:`Ansible Network Guide <network_guide>`
-  _ For more information on using Ansible to manage Cisco devices see the `Cisco integration page <https://www.ansible.com/integrations/networks/cisco>`_.
+  - Tested against Cisco IOS_XR Version 17.3 on CML.
+  - This module works with connection C(network_cli). See L(the IOS_XR Platform Options,../network/user_guide/platform_iosxr.html)
+  - For more information on using Ansible to manage network devices see the :ref:`Ansible Network Guide <network_guide>`
+  - For more information on using Ansible to manage Cisco devices see the `Cisco integration page <https://www.ansible.com/integrations/networks/cisco>`_.
 options:
   config:
     vrfs:
@@ -46,7 +46,6 @@ options:
             from:
               description: Import routes from a VRF
               type: dict
-              suboptions:
             bridge_domain:
               description: VRF import
               type: dict
@@ -70,7 +69,7 @@ options:
                   description:  Set table's maximum prefix limit.  eg - <32-10000000>
                   type: int
                 threshold:
-                  description: mid-thresh (% of max)  eg - <1-100>
+                  description: mid-thresh (% of max).eg - <1-100>
                   type: int
         description:
           description: Provides a short description of the VRF definition in the current active configuration.
@@ -106,18 +105,18 @@ options:
               description: VPN ID for the VRF. eg - <0-ffffff> VPN ID, (OUI:VPN-Index) format(hex), 3 bytes OUI Part
               type: int
   running_config:
-      description: The state the configuration should be left in.
-        - State I(purged) removes all the VRF configurations from the
-        target device. Use caution with this state.
-        - State I(deleted) only removes VRF attributes that this modules
-        manages and does not negate the VRF process completely. Thereby, preserving
-        address_family related configurations under VRF context.
-        - Running states I(deleted) and I(replaced) will result in an error if there
-        are address_family configuration lines present under a neighbor,
-        or a vrf context that is to be removed. Please use the
-        M(cisco.iosxr.iosxr_vrf) modules for prior cleanup.
-        - Refer to examples for more details.
-      type: str
+    description: The state the configuration should be left in.
+      - State I(purged) removes all the VRF configurations from the
+      target device. Use caution with this state.
+      - State I(deleted) only removes VRF attributes that this modules
+      manages and does not negate the VRF process completely. Thereby, preserving
+      address_family related configurations under VRF context.
+      - Running states I(deleted) and I(replaced) will result in an error if there
+      are address_family configuration lines present under a neighbor,
+      or a vrf context that is to be removed. Please use the
+      M(cisco.iosxr.iosxr_vrf) modules for prior cleanup.
+      - Refer to examples for more details.
+    type: str
   state:
     description: The state the configuration should be left in.
     type: str
