@@ -1,358 +1,125 @@
 module: iosxr_vrf
 short_description: Manages global VRF configuration.
 description:
-  - This module manages VRF definitions on Cisco IOS-XR devices. It enables playbooks to handle either individual VRFs or the complete VRF collection. It also permits removing non-explicitly stated VRF definitions from the setup.
+  _ This module manages VRF definitions on Cisco IOS_XR devices. It enables playbooks to handle either individual VRFs or the complete VRF collection. It also permits removing non_explicitly stated VRF definitions from the setup.
 version_added: 7.2.0
 author: Ruchi Pakhle (@Ruchip16)
 notes:
-  - Tested against Cisco IOS-XR Version 17.3 on CML.
-  - This module works with connection C(network_cli). See L(the IOS-XR Platform Options,../network/user_guide/platform_iosxr.html)
-  - For more information on using Ansible to manage network devices see the :ref:`Ansible Network Guide <network_guide>`
-  - For more information on using Ansible to manage Cisco devices see the `Cisco integration page <https://www.ansible.com/integrations/networks/cisco>`_.
+  _ Tested against Cisco IOS_XR Version 17.3 on CML.
+  _ This module works with connection C(network_cli). See L(the IOS_XR Platform Options,../network/user_guide/platform_iosxr.html)
+  _ For more information on using Ansible to manage network devices see the :ref:`Ansible Network Guide <network_guide>`
+  _ For more information on using Ansible to manage Cisco devices see the `Cisco integration page <https://www.ansible.com/integrations/networks/cisco>`_.
 options:
   config:
     vrfs:
-      description:
-        - A list of device configurations for VRF.
+      description: A list of device configurations for VRF.
       type: dict
       suboptions:
-        address-families:
+        address_families:
           description: Enable address family and enter its config mode - AFI/SAFI configuration
           type: list
           elements: dict
           suboptions:
-            ipv4:
-              description: IPV4 address family
-              type: dict
-              suboptions:
-                flowspec:
-                  description: Enable flowspec address family
-                  type: dict
-                  suboptions:
-                    export:
-                      description: VRF export
-                      type: dict
-                      suboptions:
-                        route-policy:
-                          description: Name of the Route policy
-                          type: str
-                        route-target:
-                          description: Route target
-                          type: str
-                        to:
-                          description: Export routes to a VRF
-                          type: dict
-                          suboptions:
-                            vrf:
-                              description: Name of the VRF
-                              type: str
-                              suboptions:
-                                allow-imported-vpn:
-                                  description: Allow export of imported VPN routes to non-default VRF
-                                  type: bool
-                            default-vrf:
-                              description: Export routes to default VRF
-                              type: dict
-                              suboptions:
-                                route-policy:
-                                  description: Name of the Route policy
-                                  type: str
-                multicast:
-                  description: Enable multicast address family
-                  type: dict
-                  suboptions:
-                    export:
-                      description: VRF export
-                      type: dict
-                      suboptions:
-                        route-policy:
-                          description: Use route-policy for export
-                          type: str
-                        route-target:
-                          description: Specify export route target extended communities
-                          type: str
-                        to:
-                          description: Export routes to a VRF
-                          type: dict
-                          suboptions:
-                            vrf:
-                              description: Name of the VRF
-                              type: str
-                              suboptions:
-                                allow-imported-vpn:
-                                  description: Allow export of imported VPN routes to non-default VRF
-                                  type: bool
-                            default-vrf:
-                              description: Export routes to default VRF
-                              type: dict
-                              suboptions:
-                                route-policy:
-                                  description: Name of the Route policy
-                                  type: str
-                    import:
-                      description: VRF import
-                      type: dict
-                      suboptions:
-                        from:
-                          description: Import routes from a VRF
-                          type: dict
-                          suboptions:
-                            bridge-domain:
-                              description: VRF import
-                              type: dict
-                              suboptions:
-                                advertise-as-vpn:
-                                  description: Advertise local EVPN imported routes to PEs
-                                  type: bool
-                            vrf:
-                              description: Name of the VRF
-                              type: str
-                              suboptions:
-                                allow-imported-vpn:
-                                  description: Allow export of imported VPN routes to non-default VRF
-                                  type: bool
-                            default-vrf:
-                              description: Import routes from default VRF
-                              type: dict
-                              suboptions:
-                                route-policy:
-                                  description: Name of the Route policy
-                                  type: str
-                        route-policy:
-                          description: Use route-policy for import filtering
-                          type: str
-                        route-target:
-                          description: Specify import route target extended communities
-                          type: str
-                    maximum:
-                      description: Set maximum prefix limit
-                      type: int
-                      suboptions:
-                        prefix:
-                          description: Set table's maximum prefix limit
-                          type: int
-                unicast:
-                  description: Enable unicast sub-address family
-                  type: dict
-                  suboptions:
-                    export:
-                      description: VRF export
-                      type: dict
-                      suboptions:
-                        route-policy:
-                          description: Name of route-policy for export
-                          type: str
-                        route-target:
-                          description: Specify export route target extended communities
-                          type: str
-                        to:
-                          description: Export routes to a VRF
-                          type: dict
-                          suboptions:
-                            vrf:
-                              description: Name of the VRF
-                              type: str
-                              suboptions:
-                                allow-imported-vpn:
-                                  description: Allow export of imported VPN routes to non-default VRF
-                                  type: bool
-                            default-vrf:
-                              description: Export routes to default VRF
-                              type: dict
-                              suboptions:
-                                route-policy:
-                                  description: Name of the Route policy
-                                  type: str
-                    import:
-                      description: VRF import
-                      type: dict
-                      suboptions:
-                        from:
-                          description: Import routes from a VRF
-                          type: dict
-                          suboptions:
-                            bridge-domain:
-                              description: VRF import
-                              type: dict
-                              suboptions:
-                                advertise-as-vpn:
-                                  description: Advertise local EVPN imported routes to PEs
-                                  type: bool
-                            vrf:
-                              description: Name of the VRF
-                              type: str
-                              suboptions:
-                                allow-imported-vpn:
-                                  description: Allow export of imported VPN routes to non-default VRF
-                                  type: bool
-                            default-vrf:
-                              description: Import routes from default VRF
-                              type: dict
-                              suboptions:
-                                route-policy:
-                                  description: Name of the Route policy
-                                  type: str
-                        route-policy:
-                          description: Use route-policy for import filtering
-                          type: str
-                        route-target:
-                          description: Specify import route target extended communities
-                          type: str
-                    maximum:
-                      description: Set maximum prefix limit
-                      type: int
-                      suboptions:
-                        prefix:
-                          description: Set table's maximum prefix limit
-                          type: int
-            ipv6:
-              description: IPV6 address family
-              type: dict
-              suboptions:
-                flowspec:
-                  description: Enable flowspec sub-address family
-                  type: dict
-                  suboptions:
-                    export:
-                      description: VRF export
-                      type: dict
-                      suboptions:
-                        route-policy:
-                          description: Name of the Route policy
-                          type: str
-                        route-target:
-                          description: Route target
-                          type: str
-                        to:
-                          description: Export routes to a VRF
-                          type: dict
-                          suboptions:
-                            vrf:
-                              description: Name of the VRF
-                              type: str
-                              suboptions:
-                                allow-imported-vpn:
-                                  description: Allow export of imported VPN routes to non-default VRF
-                                  type: bool
-                            default-vrf:
-                              description: Export routes to default VRF
-                              type: dict
-                              suboptions:
-                                route-policy:
-                                  description: Name of the Route policy
-                                  type: str
-                    import:
-                      description: VRF import
-                      type: dict
-                      suboptions:
-                        from:
-                          description: Import routes from a VRF
-                          type: dict
-                          suboptions:
-                            bridge-domain:
-                              description: VRF import
-                              type: dict
-                              suboptions:
-                                advertise-as-vpn:
-                                  description: Advertise local EVPN imported routes to PEs
-                                  type: bool
-                            vrf:
-                              description: Name of the VRF
-                              type: str
-                              suboptions:
-                                allow-imported-vpn:
-                                  description: Allow export of imported VPN routes to non-default VRF
-                                  type: bool
-                            default-vrf:
-                              description: Import routes from default VRF
-                              type: dict
-                              suboptions:
-                                route-policy:
-                                  description: Name of the Route policy
-                                  type: str
-                        route-policy:
-                          description: Use route-policy for import filtering
-                          type: str
-                        route-target:
-                          description: Specify import route target extended communities
-                          type: str
-                multicast:
-                  description: Enable multicast topology
-                unicast:
-                  description: Enable unicast sub-address family
             afi:
               description: Address Family Identifier (AFI)
               type: str
-              choices: ['ipv4', 'ipv6', 'l2vpn', 'link-state', 'vpnv4', 'vpnv6']
+              choices: ['ipv4', 'ipv6']
             safi:
               description: Address Family modifier
               type: str
-              choices: [ 'flowspec', 'mdt', 'multicast', 'mvpn', 'rt-filter', 'tunnel', 'unicast', 'evpn', 'mspw', 'vpls-vpws', 'link-state' ]
+              choices: [ 'flowspec', 'multicast', 'unicast']
+            export:
+              description: VRF export
+              type: dict
+            import:
+              description: VRF import
+              type: dict
+            route_policy:
+              description: Use route_policy for export
+              type: str
+            route_target:
+              description: Specify export route target extended communities eg. <1-65535> 2-byte AS number; <65536-4294967295> 4-byte AS number in asplain format; A.B.C.D -> IPv4 address
+              type: str
+            to:
+              description: Export routes to a VRF
+              type: dict
+            from:
+              description: Import routes from a VRF
+              type: dict
+              suboptions:
+            bridge_domain:
+              description: VRF import
+              type: dict
+            advertise_as_vpn:
+              description: Advertise local EVPN imported routes to PEs
+              type: bool
+            default_vrf:
+              description: Export routes to default VRF
+              type: bool
+            vrf:
+              description: Export routes to a VRF
+              type: str
+            allow_imported_vpn:
+              description: Allow export of imported VPN routes to non-default VRF
+              type: bool
+            maximum:
+              description: Set maximum prefix limit
+              type: dict
+              suboptions:
+                prefix:
+                  description:  Set table's maximum prefix limit.  eg - <32-10000000>
+                  type: int
+                threshold:
+                  description: mid-thresh (% of max)  eg - <1-100>
+                  type: int
         description:
-          description: Provides a short description of the VRF definition in the current active configuration.  The
-            VRF definition value accepts alphanumeric characters used to provide additional
-            information about the VRF.
+          description: Provides a short description of the VRF definition in the current active configuration.
           type: str
-        evpn-route-sync:
-          description: Configures the EVPN Instance VPN ID for route synchronization.
+        evpn_route_sync:
+          description: EVPN Instance VPN ID used to synchronize the VRF route(s). eg - <1-65534>
           type: int
-        fallback-vrf:
-          description: Configures the fallback VRF for a VRF.
+        fallback_vrf:
+          description: Fallback VRF name
           type: str
         mhost:
           description: Multicast host stack options
           type: dict
           suboptions:
-            ipv4:
-              description: Enable IPv4 multicast host stack
-              type: dict
-              suboptions:
-                default-interface:
-                  description: Default interface for multicast
-                  type: str
-                  choices: ['Loopback', 'Null', 'BVI', 'Bundle-Ether', 'GigabitEthernet', 'TenGigE', 'HundredGigE', 'FortyGigE', 'SRP', 'FastEthernet', 'Serial', 'nve', 'tunnel-ip', 'tunnel-ipsec']
-            ipv6:
-              description: Enable IPv6 multicast host stack
-              type: dict
-              suboptions:
-                default-interface:
-                  description: Default interface for multicast
-                  type: str
-                  choices: ['Loopback', 'Null', 'BVI', 'Bundle-Ether', 'GigabitEthernet', 'TenGigE', 'HundredGigE', 'FortyGigE', 'SRP', 'FastEthernet', 'Serial', 'nve', 'tunnel-ip', 'tunnel-ipsec']
+            afi:
+              description: Address Family Identifier (AFI)
+              type: str
+              choices: ['ipv4', 'ipv6']
+            default_interface:
+              description: Default interface for multicast. eg - Loopback0
+              type: str
         rd:
-          description: VPN Route Distinguisher (RD). Valid values are a string in one of the route-distinguisher formats (ASN2:NN, ASN4:NN, or IPV4:NN); the keyword 'auto', or the keyword 'default'.
-          type: dict
-          suboptions:
-            dfa-regex:
-              description: Configures the DFA style regular expression.
-              type: str
-            ios-regex:
-              description: Configures the IOS style regular expression.
-              type: str
-        remote-route-filtering:
+          description: VPN Route Distinguisher (RD). eg <1-65535>.<0-65535>:<0-65535>  4-byte AS number in asdot (X.Y) format; <1-65535> 2-byte AS number; <65536-4294967295> 4-byte AS number in asplain format; A.B.C.D - IPv4 address
+          type: str
+        remote_route_filtering:
           description: Enable/Disable remote route filtering per VRF
           type: bool
         vpn:
           description: VPN ID for the VRF
-          type: int
+          type: dict
+          suboptions:
+            id:
+              description: VPN ID for the VRF. eg - <0-ffffff> VPN ID, (OUI:VPN-Index) format(hex), 3 bytes OUI Part
+              type: int
   running_config:
-      description:
-        The state the configuration should be left in.
+      description: The state the configuration should be left in.
         - State I(purged) removes all the VRF configurations from the
         target device. Use caution with this state.
         - State I(deleted) only removes VRF attributes that this modules
         manages and does not negate the VRF process completely. Thereby, preserving
-        address-family related configurations under VRF context.
+        address_family related configurations under VRF context.
         - Running states I(deleted) and I(replaced) will result in an error if there
-        are address-family configuration lines present under a neighbor,
+        are address_family configuration lines present under a neighbor,
         or a vrf context that is to be removed. Please use the
-        M(cisco.iosxr.iosxr_vrf) or M(cisco.iosxr.iosxr_vrf)
-        modules for prior cleanup.
+        M(cisco.iosxr.iosxr_vrf) modules for prior cleanup.
         - Refer to examples for more details.
       type: str
   state:
-    description:
-    - The state the configuration should be left in.
+    description: The state the configuration should be left in.
     type: str
     choices: [deleted, merged, replaced, gathered, rendered, parsed, purged]
     default: merged
