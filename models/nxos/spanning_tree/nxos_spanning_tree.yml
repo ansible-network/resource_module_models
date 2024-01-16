@@ -1,12 +1,13 @@
 module: nxos_spanning_tree
-short_description: Resource module to configure spanning tree.
+short_description:
+  - Resource module to configure spanning tree.
 description:
   - This module configures and manages the attributes of Spanning-tree on Cisco NXOS.
 version_added: 6.2.0
 author: Vinay Mulugund (@roverflow)
 notes:
-  - Tested against Cisco IOSXE Version 17.3 on CML.
-  - This module works with connection C(network_cli).
+  - Tested against NX-OS 9.3.6.
+  - This module works with connection C(network_cli) and C(httpapi).
     See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_nxos.html)
 options:
   config:
@@ -17,7 +18,7 @@ options:
         description: Enable bridge assurance.
         type: bool
       bridge_domain:
-        decsription: Bridge-Domain Switch Spanning Trees range, e.g., 2,4-5,7,9-11
+        decsription: Bridge-Domain Spanning Trees range, e.g., 2,4-5,7,9-11
         type: str
       fcoe:
         description: Enable STP for FCoE VLANs.
@@ -53,3 +54,43 @@ options:
       vlan:
         description: Spanning tree VLAN range, e.g., 2,4-5,7,9-11
         type: str
+  running_config:
+    description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the NXOS device by
+        executing the command B(show running-config | section ^spanning-tree).
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into Ansible structured data as per the resource module's argspec
+        and the value is then returned in the I(parsed) key within the result.
+    type: str
+  state:
+    choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - rendered
+      - gathered
+      - purged
+      - parsed
+    default: merged
+    description:
+      - The state the configuration should be left in
+      - The states I(rendered), I(gathered) and I(parsed) does not perform any change
+        on the device.
+      - The state I(rendered) will transform the configuration in C(config) option to
+        platform specific CLI commands which will be returned in the I(rendered) key
+        within the result. For state I(rendered) active connection to remote host is
+        not required.
+      - The state I(gathered) will fetch the running configuration from device and transform
+        it into structured data in the format as per the resource module argspec and
+        the value is returned in the I(gathered) key within the result.
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into JSON format as per the resource module parameters and the
+        value is returned in the I(parsed) key within the result. The value of C(running_config)
+        option should be the same format as the output of command I(show running-config
+        | include ip route|ipv6 route) executed on device. For state I(parsed) active
+        connection to remote host is not required.
+      - The state I(purged) negates virtual/logical interfaces that are specified in task
+        from running-config.
+    type: str
