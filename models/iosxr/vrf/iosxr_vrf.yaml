@@ -1,5 +1,5 @@
 module: iosxr_vrf
-short_description: Manages global VRF configuration.
+short_description: Resource module to manage global VRF configuration.
 description:
   - This module manages VRF definitions on Cisco IOS_XR devices. It enables playbooks to handle either individual VRFs or the complete VRF collection. It also permits removing non_explicitly stated VRF definitions from the setup.
 version_added: 7.2.0
@@ -38,7 +38,7 @@ options:
               description: Use route_policy for export
               type: str
             route_target:
-              description: Specify export route target extended communities eg. <1-65535> 2-byte AS number; <65536-4294967295> 4-byte AS number in asplain format; A.B.C.D -> IPv4 address
+              description: Specify export route target extended communities.
               type: str
             to:
               description: Export routes to a VRF
@@ -66,16 +66,16 @@ options:
               type: dict
               suboptions:
                 prefix:
-                  description:  Set table's maximum prefix limit.  eg - <32-10000000>
+                  description:  Set table's maximum prefix limit.
                   type: int
                 threshold:
-                  description: mid-thresh (% of max).eg - <1-100>
+                  description: mid-thresh (% of max).
                   type: int
         description:
           description: Provides a short description of the VRF definition in the current active configuration.
           type: str
         evpn_route_sync:
-          description: EVPN Instance VPN ID used to synchronize the VRF route(s). eg - <1-65534>
+          description: EVPN Instance VPN ID used to synchronize the VRF route(s).
           type: int
         fallback_vrf:
           description: Fallback VRF name
@@ -89,10 +89,10 @@ options:
               type: str
               choices: ['ipv4', 'ipv6']
             default_interface:
-              description: Default interface for multicast. eg - Loopback0
+              description: Default interface for multicast.
               type: str
         rd:
-          description: VPN Route Distinguisher (RD). eg <1-65535>.<0-65535>:<0-65535>  4-byte AS number in asdot (X.Y) format; <1-65535> 2-byte AS number; <65536-4294967295> 4-byte AS number in asplain format; A.B.C.D - IPv4 address
+          description: VPN Route Distinguisher (RD).
           type: str
         remote_route_filtering:
           description: Enable/Disable remote route filtering per VRF
@@ -102,7 +102,7 @@ options:
           type: dict
           suboptions:
             id:
-              description: VPN ID for the VRF. eg - <0-ffffff> VPN ID, (OUI:VPN-Index) format(hex), 3 bytes OUI Part
+              description: VPN ID for the VRF.
               type: int
   running_config:
     description: The state the configuration should be left in.
