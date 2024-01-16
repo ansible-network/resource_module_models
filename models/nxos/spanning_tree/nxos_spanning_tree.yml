@@ -1,0 +1,55 @@
+module: nxos_spanning_tree
+short_description: Resource module to configure spanning tree.
+description:
+  - This module configures and manages the attributes of Spanning-tree on Cisco NXOS.
+version_added: 6.2.0
+author: Vinay Mulugund (@roverflow)
+notes:
+  - Tested against Cisco IOSXE Version 17.3 on CML.
+  - This module works with connection C(network_cli).
+    See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_nxos.html)
+options:
+  config:
+    description: A dict of Spanning-tree options.
+    type: dict
+    suboptions:
+      bridge_assurance:
+        description: Enable bridge assurance.
+        type: bool
+      bridge_domain:
+        decsription: Bridge-Domain Switch Spanning Trees range, e.g., 2,4-5,7,9-11
+        type: str
+      fcoe:
+        description: Enable STP for FCoE VLANs.
+        type: bool
+      lc_issu:
+        description: Configure Linecard ISSU type.
+        type: str
+        choices:
+          - auto
+          - disruptive
+          - non-disruptive
+      loopguard_default:
+        description: Spanning tree loopguard .
+        type: bool
+      mode:
+        description: Spanning tree mode.
+        type: str
+        choices:
+          - mst
+          - rapid-pvst
+      pathcost_method:
+        description: Spanning tree pathcost options.
+        type: str
+        choices:
+          - long
+          - short
+      port_type:
+        description: Spanning tree port type.
+        type: str
+        choices:
+          - edge
+          - network
+      vlan:
+        description: Spanning tree VLAN range, e.g., 2,4-5,7,9-11
+        type: str
