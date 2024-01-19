@@ -1,0 +1,46 @@
+# Using replaced to replace sections of poe config
+  # Before state:
+  # config:
+  #   global:
+  #     auto_reset: true
+  #     power_mgmt_model: 'class'
+  #     usage_threshold: 300
+  #   interfaces:
+  #     - name: Ethernet1
+  #       power_classification: normal
+  #       enabled: true
+  #     - name: Ethernet0
+  #       enabled: true
+  #       power_limit_type: class-based
+  #   cards:
+  #     - card_id: 0
+  #       usage_threshold: 60
+  #       power_mgmt_model: dymanic
+
+  # Example:
+    - name: "replace sections of config to exactly specified"
+      sonic_poe:
+        config:
+          global:
+            auto_reset: false
+          interfaces:
+            - name: Ethernet0
+              enabled: true
+              disconnect_type: ac
+        state: repalced
+
+  # After state:
+  # config:
+  #   global:
+  #     auto_reset: false
+  #     power_mgmt_model: 'class'
+  #     usage_threshold: 300
+  #   interfaces:
+  #     - name: Ethernet0
+  #       disconnect_type: ac
+  #       enabled: true
+  #   cards:
+  #     - card_id: 0
+  #       usage_threshold: 60
+  #       power_mgmt_model: dymanic
+  # ------

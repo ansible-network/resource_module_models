@@ -143,4 +143,4 @@ DOCUMENTATION: |
         type: str
         choices: ['merged', 'deleted', 'replaced', 'overridden']
         default: merged
-EXAMPLES: []
+EXAMPLES: ["poe_merged_examples.txt", "poe_deleted_examples.txt", "poe_overridden_examples.txt", "poe_replaced_examples.txt"]
