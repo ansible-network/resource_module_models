@@ -1,7 +1,7 @@
-module: iosxr_vrf
+module: iosxr_vrfs
 short_description: Resource module to manage global VRF configuration.
 description:
-  - This module manages VRF definitions on Cisco IOS_XR devices. It enables playbooks to handle either individual VRFs or the complete VRF collection. It also permits removing non_explicitly stated VRF definitions from the setup.
+  - This module manages VRF definitions on Cisco IOS-XR devices. It enables playbooks to handle either individual VRFs or the complete VRF collection. It also permits removing non-explicitly stated VRF definitions from the setup.
 version_added: 7.2.0
 author: Ruchi Pakhle (@Ruchip16)
 notes:
@@ -11,114 +11,125 @@ notes:
   - For more information on using Ansible to manage Cisco devices see the `Cisco integration page <https://www.ansible.com/integrations/networks/cisco>`_.
 options:
   config:
-    vrfs:
-      description: A list of device configurations for VRF.
-      type: dict
-      suboptions:
-        address_families:
-          description: Enable address family and enter its config mode - AFI/SAFI configuration
-          type: list
-          elements: dict
-          suboptions:
-            afi:
-              description: Address Family Identifier (AFI)
-              type: str
-              choices: ['ipv4', 'ipv6']
-            safi:
-              description: Address Family modifier
-              type: str
-              choices: [ 'flowspec', 'multicast', 'unicast']
-            export:
-              description: VRF export
-              type: dict
-            import:
-              description: VRF import
-              type: dict
-            route_policy:
-              description: Use route_policy for export
-              type: str
-            route_target:
-              description: Specify export route target extended communities.
-              type: str
-            to:
-              description: Export routes to a VRF
-              type: dict
-            from:
-              description: Import routes from a VRF
-              type: dict
-            bridge_domain:
-              description: VRF import
-              type: dict
-            advertise_as_vpn:
-              description: Advertise local EVPN imported routes to PEs
-              type: bool
-            default_vrf:
-              description: Export routes to default VRF
-              type: bool
-            vrf:
-              description: Export routes to a VRF
-              type: str
-            allow_imported_vpn:
-              description: Allow export of imported VPN routes to non-default VRF
-              type: bool
-            maximum:
-              description: Set maximum prefix limit
-              type: dict
-              suboptions:
-                prefix:
-                  description:  Set table's maximum prefix limit.
-                  type: int
-                threshold:
-                  description: mid-thresh (% of max).
-                  type: int
-        description:
-          description: Provides a short description of the VRF definition in the current active configuration.
-          type: str
-        evpn_route_sync:
-          description: EVPN Instance VPN ID used to synchronize the VRF route(s).
-          type: int
-        fallback_vrf:
-          description: Fallback VRF name
-          type: str
-        mhost:
-          description: Multicast host stack options
-          type: dict
-          suboptions:
-            afi:
-              description: Address Family Identifier (AFI)
-              type: str
-              choices: ['ipv4', 'ipv6']
-            default_interface:
-              description: Default interface for multicast.
-              type: str
-        rd:
-          description: VPN Route Distinguisher (RD).
-          type: str
-        remote_route_filtering:
-          description: Enable/Disable remote route filtering per VRF
-          type: bool
-        vpn:
-          description: VPN ID for the VRF
-          type: dict
-          suboptions:
-            id:
-              description: VPN ID for the VRF.
-              type: int
+    description: A list of device configurations for VRF.
+    type: dict
+    suboptions:
+      address_families:
+        description: Enable address family and enter its config mode - AFI/SAFI configuration
+        type: list
+        elements: dict
+        suboptions:
+          afi:
+            description: Address Family Identifier (AFI)
+            type: str
+            choices: ['ipv4', 'ipv6']
+          safi:
+            description: Address Family modifier
+            type: str
+            choices: [ 'flowspec', 'multicast', 'unicast']
+          export:
+            description: VRF export
+            type: dict
+            suboptions:
+              route_policy: &route_policy
+                description: Use route_policy for export
+                type: str
+              route_target: &route_target
+                description: Specify export route target extended communities.
+                type: str
+              to:
+                description: Export routes to a VRF
+                type: dict
+                suboptions:
+                  default_vrf: &default_vrf
+                    description: Export routes to default VRF
+                    type: dict
+                    suboptions:
+                      route_policy:
+                        description: Use route_policy for export
+                        type: str
+                  vrf:
+                    description: Export routes to a VRF
+                    type: dict
+                    suboptions:
+                      allow_imported_vpn:
+                        description: Allow export of imported VPN routes to non-default VRF
+                        type: bool
+          import:
+            description: VRF import
+            type: dict
+            suboptions:
+              route_policy: *route_policy
+              route_target: *route_target
+              from:
+                description: Import routes from a VRF
+                type: dict
+                suboptions:
+                  bridge_domain:
+                    description: VRF import
+                    type: dict
+                    suboptions:
+                      advertise_as_vpn: &advertise_as_vpn
+                        description: Advertise local EVPN imported routes to PEs
+                        type: bool
+                  default_vrf: *default_vrf
+                  vrf:
+                    description: Import routes from a VRF
+                    type: dict
+                    suboptions:
+                      advertise_as_vpn: *advertise_as_vpn
+          maximum:
+            description: Set maximum prefix limit
+            type: dict
+            suboptions:
+              prefix:
+                description:  Set table's maximum prefix limit.
+                type: int
+              threshold:
+                description: mid-thresh (% of max).
+                type: int
+      description:
+        description: Provides a short description of the VRF definition in the current active configuration.
+        type: str
+      evpn_route_sync:
+        description: EVPN Instance VPN ID used to synchronize the VRF route(s).
+        type: int
+      fallback_vrf:
+        description: Fallback VRF name
+        type: str
+      mhost:
+        description: Multicast host stack options
+        type: dict
+        suboptions:
+          afi:
+            description: Address Family Identifier (AFI)
+            type: str
+            choices: ['ipv4', 'ipv6']
+          default_interface:
+            description: Default interface for multicast.
+            type: str
+      rd:
+        description: VPN Route Distinguisher (RD).
+        type: str
+      remote_route_filtering:
+        description: Enable/Disable remote route filtering per VRF
+        type: bool
+      vpn:
+        description: VPN ID for the VRF
+        type: dict
+        suboptions:
+          id:
+            description: VPN ID for the VRF.
+            type: int
   running_config:
     description: The state the configuration should be left in.
-      - State I(purged) removes all the VRF configurations from the
-      target device. Use caution with this state.
       - State I(deleted) only removes VRF attributes that this modules
       manages and does not negate the VRF process completely. Thereby, preserving
       address_family related configurations under VRF context.
-      - Running states I(deleted) and I(replaced) will result in an error if there
-      are address_family configuration lines present under a neighbor,
-      or a vrf context that is to be removed. Please use the
-      M(cisco.iosxr.iosxr_vrf) modules for prior cleanup.
       - Refer to examples for more details.
     type: str
   state:
     description: The state the configuration should be left in.
     type: str
-    choices: [deleted, merged, replaced, gathered, rendered, parsed, purged]
-    default: merged
+    choices: [deleted, merged, replaced, gathered, rendered, parsed]
+    default: mergedk
