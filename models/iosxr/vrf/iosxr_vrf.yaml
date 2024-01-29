@@ -17,6 +17,7 @@ options:
       name:
         description: Name of the VRF.
         type: str
+        required: true
       description:
         description: A description for the VRF.
         type: str
