@@ -1,11 +1,11 @@
 module: iosxr_vrfs
-short_description: Resource module to manage global VRF configuration.
+short_description: Module to manage global VRF configuration.
 description:
-  - This module manages VRF definitions on Cisco IOS-XR devices. It enables playbooks to handle either individual VRFs or the complete VRF collection. It also permits removing non-explicitly stated VRF definitions from the setup.
+  - This module manages VRF configurations on Cisco IOS-XR devices. It enables playbooks to handle either individual VRFs or the complete VRF collection. It also permits removing non-explicitly stated VRF definitions from the setup.
 version_added: 7.2.0
 author: Ruchi Pakhle (@Ruchip16)
 notes:
-  - Tested against Cisco IOS_XR Version 17.3 on CML.
+  - Tested against Cisco IOSXE Version 17.3 on CML.
   - This module works with connection C(network_cli). See L(the IOS_XR Platform Options,../network/user_guide/platform_iosxr.html)
   - For more information on using Ansible to manage network devices see the :ref:`Ansible Network Guide <network_guide>`
   - For more information on using Ansible to manage Cisco devices see the `Cisco integration page <https://www.ansible.com/integrations/networks/cisco>`_.
@@ -14,6 +14,12 @@ options:
     description: A list of device configurations for VRF.
     type: dict
     suboptions:
+      name:
+        description: Name of the VRF.
+        type: str
+      description:
+        description: A description for the VRF.
+        type: str
       address_families:
         description: Enable address family and enter its config mode - AFI/SAFI configuration
         type: list
@@ -45,9 +51,7 @@ options:
                     description: Export routes to default VRF
                     type: dict
                     suboptions:
-                      route_policy:
-                        description: Use route_policy for export
-                        type: str
+                      route_policy: *route_policy
                   vrf:
                     description: Export routes to a VRF
                     type: dict
@@ -88,9 +92,6 @@ options:
               threshold:
                 description: mid-thresh (% of max).
                 type: int
-      description:
-        description: Provides a short description of the VRF definition in the current active configuration.
-        type: str
       evpn_route_sync:
         description: EVPN Instance VPN ID used to synchronize the VRF route(s).
         type: int
@@ -131,5 +132,5 @@ options:
   state:
     description: The state the configuration should be left in.
     type: str
-    choices: [deleted, merged, replaced, gathered, rendered, parsed]
+    choices: [parsed, gathered, deleted, merged, replaced, rendered]
     default: merged
