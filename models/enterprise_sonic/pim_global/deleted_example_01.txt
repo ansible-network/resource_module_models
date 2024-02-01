@@ -1,0 +1,32 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration | grep "ip pim"
+# ip pim vrf VrfReg1 join-prune-interval 60
+# ip pim vrf VrfReg1 keep-alive-timer 60
+# ip pim vrf VrfReg1 ssm prefix-list prefix-list-1
+# ip pim vrf VrfReg2 ecmp
+# ip pim vrf VrfReg2 ssm prefix-list prefix-list-2
+# ip pim vrf default ecmp
+# ip pim vrf default ecmp rebalance
+# sonic#
+
+  - name: Delete specified global PIM configurations
+    dellemc.enterprise_sonic.sonic_pim_global:
+      config:
+        - vrf_name: 'VrfReg1'
+          join_prune_interval: 60
+          keepalive_timer: 60
+        - vrf_name: 'VrfReg2'
+      state: deleted
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration | grep "ip pim"
+# ip pim vrf VrfReg1 ssm prefix-list prefix-list-1
+# ip pim vrf default ecmp
+# ip pim vrf default ecmp rebalance
+# sonic#
