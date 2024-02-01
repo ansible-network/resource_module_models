@@ -1,0 +1,76 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community',
+        'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: pim_global
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_pim_global
+    version_added: '2.5.0'
+    short_description: Manage global PIM configurations on SONiC
+    description:
+      - This module provides configuration management of global PIM
+        parameters for devices running SONiC.
+      - VRF and prefix-list need to be created earlier in the device.
+    author: 'Arun Saravanan Balachandran (@ArunSaravananBalachandran)'
+    options:
+      config:
+        description:
+          - Specifies global PIM configurations.
+        type: list
+        elements: dict
+        suboptions:
+          vrf_name:
+            description:
+              - Name of the VRF to which the PIM configurations belong.
+            type: str
+            default: 'default'
+          join_prune_interval:
+            description:
+              - Specifies the PIM Join Prune Interval in seconds.
+              - The range is from 60 to 600.
+            type: int
+          keepalive_timer:
+            description:
+              - Specifies the PIM Keepalive timer in seconds.
+              - The range is from 31 to 60000.
+            type: int
+          ssm_prefix_list:
+            description:
+              - Specifies the SSM prefix-list.
+            type: str
+          ecmp_enable:
+            description:
+              - Enable PIM ECMP.
+            type: bool
+          ecmp_rebalance_enable:
+            description:
+              - Enable PIM ECMP rebalance.
+              - ECMP has to be enabled for configuring ECMP rebalance.
+            type: bool
+      state:
+        description:
+          - The state of the configuration after module completion.
+          - C(merged) - Merges provided global PIM configuration with on-device configuration.
+          - C(replaced) - Replaces on-device PIM configuration of the specified VRFs with provided configuration.
+          - C(overridden) - Overrides all on-device global PIM configurations with the provided configuration.
+          - C(deleted) - Deletes on-device global PIM configuration.
+        type: str
+        choices:
+          - merged
+          - deleted
+          - replaced
+          - overridden
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt

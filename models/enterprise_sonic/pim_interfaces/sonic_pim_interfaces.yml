@@ -1,0 +1,76 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community',
+        'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: pim_interfaces
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_pim_interfaces
+    version_added: '2.5.0'
+    short_description: Manage interface-specific PIM configurations on SONiC
+    description:
+      - This module provides configuration management of interface-specific
+        PIM parameters for devices running SONiC.
+      - BFD profile need to be created earlier in the device.
+    author: 'Arun Saravanan Balachandran (@ArunSaravananBalachandran)'
+    options:
+      config:
+        description:
+          - Specifies interface-specific PIM configurations.
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            description:
+              - Full name of the interface.
+            type: str
+            required: true
+          sparse_mode:
+            description:
+              - Enable PIM sparse-mode.
+            type: bool
+          drpriority:
+            description:
+              - Specifies the Designated Router Priority.
+              - The range is from 1 to 4294967295.
+            type: int
+          hello_interval:
+            description:
+              - Specifies the Hello interval in seconds.
+              - The range is from 1 to 255.
+            type: int
+          bfd_enable:
+            description:
+              - Enable BFD support for PIM.
+            type: bool
+          bfd_profile:
+            description:
+              - Specifies the BFD profile to be enabled.
+              - BFD support for PIM has to be enabled for configuring BFD profile.
+            type: str
+      state:
+        description:
+          - The state of the configuration after module completion.
+          - C(merged) - Merges provided interface-specific PIM configuration with on-device configuration.
+          - C(replaced) - Replaces on-device PIM configuration of the specified interfaces with provided configuration.
+          - C(overridden) - Overrides all on-device interface-specific PIM configurations with the provided configuration.
+          - C(deleted) - Deletes on-device interface-specific PIM configuration.
+        type: str
+        choices:
+          - merged
+          - deleted
+          - replaced
+          - overridden
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt

@@ -1,0 +1,27 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration interface Eth 1/1 | grep "ip pim"
+#  ip pim sparse-mode
+#  ip pim drpriority 10
+#  ip pim hello 60
+#  ip pim bfd
+#  ip pim bfd profile profile_1
+# sonic# show running-configuration interface Eth 1/2 | grep "ip pim"
+#  ip pim hello 60
+#  ip pim bfd
+# sonic#
+
+  - name: Delete all interface-specific PIM configurations
+    dellemc.enterprise_sonic.sonic_pim_interfaces:
+      config:
+      state: deleted
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration interface Eth 1/1 | grep "ip pim"
+# sonic# show running-configuration interface Eth 1/2 | grep "ip pim"
+# sonic#
