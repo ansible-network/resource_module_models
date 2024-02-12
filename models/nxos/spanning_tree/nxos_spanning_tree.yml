@@ -18,7 +18,7 @@ options:
         description: Enable bridge assurance.
         type: bool
       bridge_domain:
-        decsription: Bridge-Domain Spanning Trees range, e.g., 2,4-5,7,9-11
+        decsription: Bridge-Domain Spanning Trees range.
         type: str
       fcoe:
         description: Enable STP for FCoE VLANs.
@@ -47,12 +47,26 @@ options:
           - short
       port_type:
         description: Spanning tree port type.
-        type: str
-        choices:
-          - edge
-          - network
+        type: dict
+        suboptions:
+          edge:
+            description: Enable edge port type.
+            type: str
+            choices:
+              - bpdufilter
+              - bpduguard
+              - default
+          network:
+            description: Enable network port type.
+            type: bool
+          default:
+            description: Enable default port type.
+            type: bool
+      pseudo_information:
+        description: Enable pseudo information.
+        type: bool
       vlan:
-        description: Spanning tree VLAN range, e.g., 2,4-5,7,9-11
+        description: Spanning tree VLAN range.
         type: str
   running_config:
     description:
