@@ -62,9 +62,6 @@ options:
           default:
             description: Enable default port type.
             type: bool
-      pseudo_information:
-        description: Enable pseudo information.
-        type: bool
       vlan:
         description: Spanning tree VLAN range.
         type: str
