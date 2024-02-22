@@ -1,0 +1,51 @@
+# Using Merged
+#
+# Before State:
+# -------------
+# sonic# show running-configuration interface
+# !
+# interface Ethernet0
+#  mtu 9100
+#  speed 25000
+#  unreliable-los auto
+#  no shutdown
+# !
+# interface Ethernet1
+#  mtu 9100
+#  speed 25000
+#  unreliable-los auto
+#  no shutdown
+#  no lldp enable
+# !
+# sonic#
+
+  - name: Modify LLDP Interface configurations
+    dellemc.enterprise_sonic.sonic_lldp_interfaces:
+      config:
+        - name: Ethernet1
+          enable: true
+          mode: transmit
+          med_tlv_select:
+            power_management: true
+          tlv_set:
+            ipv4_management_address: 10.1.1.2
+      state: merged
+
+# After State:
+# ------------
+# sonic# show running-configuration interface
+# !
+# interface Ethernet0
+#  mtu 9100
+#  speed 25000
+#  unreliable-los auto
+#  no shutdown
+# !
+# interface Ethernet1
+#  mtu 9100
+#  speed 25000
+#  unreliable-los auto
+#  no shutdown
+#  lldp transmit
+#  lldp tlv-set management-address ipv4 10.1.1.2
+# sonic#
