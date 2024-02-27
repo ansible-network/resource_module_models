@@ -3,7 +3,7 @@ short_description:
   - Resource module to configure spanning tree.
 description:
   - This module configures and manages the attributes of Spanning-tree on Cisco NXOS.
-version_added: 6.2.0
+version_added: 6.0.3
 author: Vinay Mulugund (@roverflow)
 notes:
   - Tested against NX-OS 9.3.6.
