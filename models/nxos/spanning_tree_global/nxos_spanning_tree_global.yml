@@ -48,6 +48,7 @@ options:
       port_type:
         description: Spanning tree port type.
         type: dict
+        mutually_exclusive: [["edge", "network", "default"]]
         suboptions:
           edge:
             description: Enable edge port type.
