@@ -1,4 +1,4 @@
-module: nxos_spanning_tree
+module: nxos_spanning_tree_global
 short_description:
   - Resource module to configure spanning tree.
 description:
