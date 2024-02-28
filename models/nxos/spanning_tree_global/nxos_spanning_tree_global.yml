@@ -14,12 +14,33 @@ options:
     description: A dict of Spanning-tree options.
     type: dict
     suboptions:
-      bridge_assurance:
-        description: Enable bridge assurance.
-        type: bool
-      bridge_domain:
-        decsription: Bridge-Domain Spanning Trees range.
-        type: str
+      bridge:
+        description: Bridge options in spanning-tree.
+        type: dict
+        suboptions:
+          bridge_assurance:
+            description: Enable bridge assurance.
+            type: bool
+          bridge_domain:
+            decsription: Bridge-Domain Spanning Trees range.
+            type: str
+      domain:
+        description: Spanning tree domain options.
+        type: dict
+        mutually_exclusive: [["identifier", "disable", "enable"]]
+        suboptions:
+          identifier:
+            description: Spanning tree domain identifier.
+            type: int
+          disable:
+            description: Disable spanning tree domain.
+            type: bool
+          enable:
+            description: Enable spanning tree domain.
+            type: bool
+          clear:
+            description: Clear spanning tree domain statistics.
+            type: bool
       fcoe:
         description: Enable STP for FCoE VLANs.
         type: bool
