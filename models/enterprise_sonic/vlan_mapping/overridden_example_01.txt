@@ -1,0 +1,40 @@
+# Using overridden
+#
+# Before state:
+# -------------
+#
+sonic# show interface vlan-mappings
+Flags: M - Multi-tag
+---------------------------------------------------------
+Name            Outer  Inner  Mapped Vlan  Priority Flags
+---------------------------------------------------------
+Ethernet8       610    600    2567         -        -
+Ethernet8       611    601    2567         1        -
+Ethernet8       612    602    2567         2        -
+
+  - name: Merge vlan translation configuration
+    sonic_vlan_mapping:
+      config:
+        - name: Ethernet8
+          mapping:
+          - service_vlan: 2567
+            vlan_translation:
+              match_double_tags:
+                - inner_vlan: 701
+                  outer_vlan: 711
+                  priority: 5
+                - inner_vlan: 702
+                  outer_vlan: 712
+                  priority: 6
+      state: overridden
+#
+# After state:
+# ------------
+#
+sonic# show interface vlan-mappings
+Flags: M - Multi-tag
+---------------------------------------------------------
+Name            Outer  Inner  Mapped Vlan  Priority Flags
+---------------------------------------------------------
+Ethernet8       711    701    2567         5        -
+Ethernet8       712    702    2567         6        -
