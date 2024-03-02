@@ -1,0 +1,20 @@
+# Using Merged
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration | grep fips
+# sonic#
+
+  - name: Modify FIPS configurations
+    dellemc.enterprise_sonic.sonic_fips:
+      config:
+        enable: true
+      state: merged 
+
+# After State:
+# ------------
+# sonic# show running-configuration | grep fips
+# !
+# crypto fips enable
+# !

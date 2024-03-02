@@ -1,0 +1,20 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration | grep fips
+# !
+# crypto fips enable
+# !
+
+  - name: Delete FIPS mode configuration
+    dellemc.enterprise_sonic.sonic_fips:
+      config:
+        enable: false
+      state: deleted
+
+# After State:
+# ------------
+# sonic# show running-configuration | grep fips
+# sonic#
