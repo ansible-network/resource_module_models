@@ -1,0 +1,273 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+  {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'network'
+  }
+NETWORK_OS: junos
+RESOURCE: security_zones
+COPYRIGHT: Copyright 2022 Red Hat
+
+DOCUMENTATION: |
+  module: junos_security_zones
+  version_added: 2.9.0
+  short_description: Manage security zones on Juniper JUNOS devices
+  description: This module provides declarative management of security zones on Juniper JUNOS devices
+  author: Pranav Bhatt (@pranav-bhatt)
+  requirements:
+    - ncclient (>=v0.6.4)
+    - xmltodict (>=0.12.0)
+  notes:
+  - This module requires the netconf system service be enabled on the device being managed.
+  - This module works with connection C(netconf). 
+  - See L(the Junos OS Platform Options,https://docs.ansible.com/ansible/latest/network/user_guide/platform_junos.html).
+  - Tested against JunOS v18.4R1
+  options:
+    config:
+      description: Dictionary of security zone parameters
+      type: dict
+      suboptions:
+        functional_zone_management:
+          description:
+            - Functional zone to configure host for out of band management interfaces
+          type: dict
+          suboptions:
+            description:
+              description:
+                - Text description of zone
+              type: str
+            host_inbound_traffic: &host_inbound_traffic
+              description:
+                - Allowed system services & protocols
+              type: dict
+              suboptions:
+                protocols:
+                  description:
+                    - Protocol type of incoming traffic to accept
+                  type: list
+                  elements: dict
+                  suboptions:
+                    name:
+                      description:
+                        - Type of incoming protocol to accept
+                      type: str
+                    except:
+                      description:
+                        - Disallow the specified protocol traffic
+                      type: bool
+                system_services:
+                  description:
+                    - Type of incoming system-service traffic to accept
+                  type: list
+                  elements: dict
+                  suboptions:
+                    name:
+                      description:
+                        - Type of incoming system-service traffic to accept
+                      type: str
+                    except:
+                      description:
+                        - Disallow the specified incoming system-service traffic
+                      type: bool
+            interfaces: &interfaces
+              description:
+                - Interfaces that are part of this zone
+              type: list
+              elements: str
+            screen: &screen
+              description:
+                - Name of ids option object applied to the zone
+              type: str
+        security_zones:
+          description:
+            - Security zones
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description:
+                - Name of the security zone
+              type: str
+            address_book:
+              description:
+                - Address book entries
+              type: dict
+              suboptions:
+                addresses:
+                  description:
+                    - Define security addresses
+                  type: list
+                  elements: dict
+                  suboptions:
+                    name:
+                      description:
+                        - Name of address
+                      type: str
+                    ip_prefix:
+                      description:
+                        - Numeric IPv4 or IPv6 address with prefix
+                      type: str
+                    description:
+                      description:
+                        - Text description of address
+                      type: str
+                    dns_name:
+                      description:
+                        - DNS address name
+                      type: dict
+                      suboptions:
+                        name:
+                          description:
+                            - Fully qualified hostname
+                          type: str
+                        ipv4_only:
+                          description:
+                            - IPv4 dns address
+                          type: bool
+                        ipv6_only:
+                          description:
+                            - IPv6 dns address
+                          type: bool
+                    range_address:
+                      description:
+                        - Address range
+                      type: dict
+                      suboptions:
+                        from:
+                          description:
+                            - Start of address range
+                          type: str
+                        to:
+                          description:
+                            - End of address range
+                          type: str
+                    wildcard_address:
+                      description:
+                        - Numeric IPv4 wildcard address with in the form of a.d.d.r/netmask
+                      type: str
+                address_sets:
+                  description:
+                    - Define security address sets
+                  type: list
+                  elements: dict
+                  suboptions:
+                    name:
+                      description:
+                        - Name of address set
+                      type: str
+                    addresses:
+                      description:
+                        - Addresses to be included in this set
+                      type: list
+                      elements: str
+                    address_sets:
+                      description:
+                        - Define an address-set name
+                      type: list
+                      elements: str
+                    description:
+                      description:
+                        - Text description of address set
+                      type: str
+            advance_policy_based_routing_profile:
+              description:
+                - Enable Advance Policy Based Routing on this zone
+              type: str
+            advanced_connection_tracking:
+              description:
+                - Enable Advance Policy Based Routing on this zone
+              type: dict
+              suboptions:
+                mode:
+                  description:
+                    - Set connection tracking mode
+                  type: str
+                  choices:
+                    - allow-any-host
+                    - allow-target-host
+                    - allow-target-host-port
+                timeout:
+                  description:
+                    - Timeout value in seconds for advanced-connection-tracking table for this zone
+                  type: int
+                track_all_policies_to_this_zone:
+                  description:
+                    - Mandate all policies with to-zone set to this zone to do connection track table lookup
+                  type: bool
+            application_tracking:
+              description:
+                - Enable Application tracking support for this zone
+              type: bool
+            description:
+              description:
+                - Text description of zone
+              type: str
+            enable_reverse_reroute:
+              description:
+                - Enable Reverse route lookup when there is change in ingress interface
+              type: bool
+            host_inbound_traffic: *host_inbound_traffic
+            interfaces: *interfaces
+            screen: *screen
+            source_identity_log:
+              description:
+                - Show user and group info in session log for this zone
+              type: bool
+            tcp_rst:
+              description:
+                - Send RST for NON-SYN packet not matching TCP session
+              type: bool
+            unidirectional_session_refreshing:
+              description:
+                - Enable unidirectional session refreshing on this zone
+              type: bool
+
+    running_config:
+      description:
+        - This option is used only with state I(parsed).
+        - The value of this option should be the output received from the JunOS device
+          by executing the command B(show security policies).
+        - The state I(parsed) reads the configuration from C(running_config) option and
+          transforms it into Ansible structured data as per the resource module's argspec
+          and the value is then returned in the I(parsed) key within the result.
+      type: str
+    state:
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - rendered
+      - gathered
+      - parsed
+      default: merged
+      description:
+        - The state the configuration should be left in
+        - The states I(rendered), I(gathered) and I(parsed) does not perform any change
+          on the device.
+        - The state I(rendered) will transform the configuration in C(config) option to
+          platform specific CLI commands which will be returned in the I(rendered) key
+          within the result. For state I(rendered) active connection to remote host is
+          not required.
+          behaviour for this module.
+        - The state I(gathered) will fetch the running configuration from device and transform
+          it into structured data in the format as per the resource module argspec and
+          the value is returned in the I(gathered) key within the result.
+        - The state I(parsed) reads the configuration from C(running_config) option and
+          transforms it into JSON format as per the resource module parameters and the
+          value is returned in the I(parsed) key within the result. The value of C(running_config)
+          option should be the same format as the output of command
+          I(show security policies detail) executed on device. For state I(parsed) active
+          connection to remote host is not required.
+      type: str
+EXAMPLES:
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+  - deleted_example_01.txt
+  - parsed_example_01.txt
+  - gathered_example_01.txt
+  - rendered_example_01.txt
+...
