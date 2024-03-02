@@ -1,0 +1,54 @@
+# Using overridden
+#
+# Before state:
+# -------------
+#
+#sonic(config)# do show tacacs-server
+#---------------------------------------------------------
+#TACACS Global Configuration
+#---------------------------------------------------------
+#source-interface  : Ethernet12
+#timeout           : 10
+#auth-type         : pap
+#key configured    : Yes
+#--------------------------------------------------------------------------------------
+#HOST                 AUTH-TYPE    KEY-CONFIG PORT       PRIORITY   TIMEOUT    VRF
+#--------------------------------------------------------------------------------------
+#1.2.3.4              pap          No         49         1          5          default
+#11.12.13.14          chap         Yes        49         10         5          default
+#
+- name: Overridden tacacs configurations
+  sonic_tacacs_server:
+    config:
+      auth_type: mschap
+      key: mschap
+      source_interface: Ethernet12
+      timeout: 20
+      servers:
+        - host:
+            name: 1.2.3.4
+            auth_type: mschap
+            key: mschap
+        - host:
+            name: 10.10.11.12
+            auth_type: chap
+            timeout: 30
+            priority: 2
+    state: overridden
+#
+# After state:
+# ------------
+#
+#sonic(config)# do show tacacs-server
+#---------------------------------------------------------
+#TACACS Global Configuration
+#---------------------------------------------------------
+#source-interface  : Ethernet12
+#timeout           : 20
+#auth-type         : mschap
+#key configured    : Yes
+#--------------------------------------------------------------------------------------
+#HOST                 AUTH-TYPE    KEY-CONFIG PORT       PRIORITY   TIMEOUT    VRF
+#--------------------------------------------------------------------------------------
+#1.2.3.4              mschap       Yes        49         1          5          default
+#10.10.11.12          chap         No         49         2          30         default
