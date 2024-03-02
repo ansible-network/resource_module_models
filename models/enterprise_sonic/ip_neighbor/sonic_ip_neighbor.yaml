@@ -1,0 +1,67 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community',
+        'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: ip_neighbor
+COPYRIGHT: Copyright 2022 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_ip_neighbor
+    version_added: 2.10
+    short_description: Manage IP neighbor global configuration on SONiC.
+    description:
+      - This module provides configuration management of IP neighbor global for devices running SONiC.
+    author: "M. Zhang (@mingjunzhang2019)"
+    options:
+      config:
+        description:
+          - Specifies IP neighbor global configurations.
+        type: dict
+        suboptions:
+          ipv4_arp_timeout:
+            type: int
+            description:
+              - IPv4 ARP timeout.
+              - The range is from 60 to 14400.
+          ipv6_nd_cache_expiry:
+            type: int
+            description:
+              - IPv6 ND cache expiry.
+              - The range is from 60 to 14400.
+          num_local_neigh:
+            type: int
+            description:
+              - The number of reserved local neighbors.
+              - The range is from 0 to 32000.
+          ipv4_drop_neighbor_aging_time:
+            type: int
+            description:
+              - IPv4 drop neighbor aging time.
+              - The range is from 60 to 14400.
+          ipv6_drop_neighbor_aging_time:
+            type: int
+            description:
+              - IPv6 drop neighbor aging time.
+              - The range is from 60 to 14400.
+      state:
+        description:
+          - The state of the configuration after module completion.
+        type: str
+        choices:
+          - merged
+          - replaced
+          - overridden
+          - deleted
+        default: merged
+EXAMPLES:
+  - merged_example_01.txt
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
+
