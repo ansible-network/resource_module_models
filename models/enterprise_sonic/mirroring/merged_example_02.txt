@@ -1,0 +1,33 @@
+# Using Merged
+#
+# Before State:
+# -------------
+#
+#sonic1(config-mirror-mirror2)# do show running-configuration mirror-session
+#!
+#mirror-session mirror1
+#!
+#mirror-session mirror2
+# destination erspan dst-ip 10.1.1.1 src-ip 11.1.1.1 dscp 10 gre 0x88ee ttl 10 queue 0 source Eth1/4 direction rx
+
+  - name: Modify mirror configurations
+    sonic_mirroring:
+      config:
+        name: "mirror1"
+        destination:
+          destination_name: "CPU"
+          direction:
+            choices: "both"
+      state: merged
+#
+# After State:
+# -------------
+#
+#sonic1(config-mirror-mirror1)# destination CPU direction both
+#sonic1(config-mirror-mirror1)# do show running-configuration mirror-session
+#!
+#mirror-session mirror1
+# destination CPU direction both
+#!
+#mirror-session mirror2
+# destination erspan dst-ip 10.1.1.1 src-ip 11.1.1.1 dscp 10 gre 0x88ee ttl 10 queue 0 source Eth1/4 direction rx
