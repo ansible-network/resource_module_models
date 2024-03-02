@@ -47,19 +47,19 @@
         - name: 'Eth1/1'
           group:
             - virtual_router_id: 15
-	      afi: ipv4
-	      virtual_address: 
-		- address: 81.1.1.15
-	      preempt: False
+              afi: ipv4
+              virtual_address: 
+                - address: 81.1.1.15
+              preempt: False
         - name: 'Eth1/3'
           group:
             - virtual_router_id: 5
-	      afi: ipv4
-	    - virtual_router_id: 15
-	      afi: ipv4
-	      virtual_address: 
-		- address: 61.1.1.5
-      state: overriden
+              afi: ipv4
+            - virtual_router_id: 15
+              afi: ipv4
+              virtual_address: 
+                - address: 61.1.1.5
+      state: overridden
 
 # After State:
 # ------------

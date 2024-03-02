@@ -1,0 +1,85 @@
+# Using replaced
+#
+# Before State:
+# -------------
+#
+#sonic# show running-configuration vrf Vrf_1
+#!
+#ip vrf Vrf_1
+#sonic# show running-configuration ip prefix-list
+#!
+#ip prefix-list PRF_LIST seq 1 permit 1.1.1.1/24
+#ip prefix-list PRF_LIST2 seq 1 permit 1.1.1.1/24
+#sonic# show running-configuration route-map
+#!
+#route-map RMAP permit 1
+#sonic#
+#sonic# show running-configuration ospf
+#router ospf vrf Vrf_1
+# timers throttle lsa all 250
+# timers lsa min-arrival 20
+# area 11.11.11.11
+#!
+#router ospf
+# ospf router-id 10.10.10.10
+# distance 20
+# distance ospf external 20
+# max-metric router-lsa external-lsa all
+# default-information originate always
+# area 2.2.2.2
+# area 1.1.1.1 default-cost 20
+# area 3.3.3.3 filter-list prefix PRF_LIST2 out
+# area 2.2.2.2 virtual-link 16.16.16.16
+# area 2.2.2.2 virtual-link 16.16.16.16 hello-interval 14
+# area 2.2.2.2 virtual-link 15.15.15.15
+# area 2.2.2.2 virtual-link 15.15.15.15 dead-interval 20
+# area 2.2.2.2 virtual-link 16.16.16.16 message-digest-key 15 md5 U2FsdGVkX1/4bslR762v4mwg80LlZ9rWEt66lOxs4lw= encrypted
+# area 1.1.1.1 range 2.2.2.2/12 not-advertise
+# network 12.12.12.12/24 area 3.3.3.3
+#!
+#sonic#
+
+  - name: Replace the OSPFv2 configurations
+    sonic_ospf:
+      config:
+        - vrf_name: 'default'
+          area:
+            - area_id: "5.5.5.5"
+            - area_id: "7.7.7.7"
+              filter_list_out: PRF_LIST
+            - area_id: "12.12.12.12"
+              range:
+                - address_prefix: "1.1.1.1/24"
+                  metric: 15
+              virtual_links:
+                - remote_router_id: "12.12.12.12"
+                  authentication_type: "md5hmac"
+          network:
+            - address_prefix: "12.12.12.12/24"
+              area_id: "2.2.2.2"
+          graceful_restart:
+            helper:
+              supported_grace_time: 12
+      state: replaced
+
+# After State:
+# ------------
+#
+#sonic# show running-configuration ospf
+#router ospf vrf Vrf_1
+# timers throttle lsa all 250
+# timers lsa min-arrival 20
+# area 11.11.11.11
+#!
+#router ospf
+# graceful-restart helper supported-grace-time 12
+# area 7.7.7.7 filter-list prefix PRF_LIST out
+# area 2.2.2.2
+# area 12.12.12.12
+# area 5.5.5.5
+# area 12.12.12.12 virtual-link 12.12.12.12
+# area 12.12.12.12 virtual-link 12.12.12.12 authentication message-digest
+# area 12.12.12.12 range 1.1.1.1/24 cost 15
+# network 12.12.12.12/24 area 2.2.2.2
+#!
+#sonic#
