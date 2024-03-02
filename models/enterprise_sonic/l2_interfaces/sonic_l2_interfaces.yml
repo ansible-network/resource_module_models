@@ -38,8 +38,8 @@ DOCUMENTATION: |
                 elements: dict
                 suboptions:
                   vlan:
-                    type: int
-                    description: 'This is a vlan in trunk mode'
+                    type: str
+                    description: 'This is a vlan 'x' or vlan range 'x-y' in trunk mode'
           access:
             type: dict
             description: 'It is a access mode configuration of the l2_interfaces'
