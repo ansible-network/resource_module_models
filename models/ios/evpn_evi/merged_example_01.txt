@@ -1,0 +1,76 @@
+# Using state merged
+
+# Before state:
+# -------------
+# l2vpn evpn instance 101 vlan-based
+#  encapsulation vxlan
+#  replication-type static
+# !
+# l2vpn evpn instance 102 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+# !
+# l2vpn evpn instance 201 vlan-based
+#  encapsulation vxlan
+#  replication-type static
+# !
+# l2vpn evpn instance 202 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+
+- name: Merge provided configuration with device configuration
+  cisco.ios.ios_evpn_evi:
+    config:
+      - evi: 101
+        replication_type: ingress
+        route_distinguisher: '1:1'
+        default_gateway:
+          advertise:
+            enable: False
+        ip:
+          local_learning:
+            enable: True
+      - evi: 202
+        replication_type: static
+        default_gateway:
+          advertise:
+            enable: True
+        ip:
+          local_learning:
+            disable: True
+    state: merged
+
+# Commands Fired:
+# ---------------
+# "commands": [
+#     "l2vpn evpn instance 101 vlan-based",
+#     "ip local-learning enable",
+#     "replication-type ingress",
+#     "rd 1:1",
+#     "l2vpn evpn instance 202 vlan-based",
+#     "default-gateway advertise enable",
+#     "ip local-learning disable",
+#     "replication-type static"
+#     ],
+
+# After state:
+# ------------
+# l2vpn evpn instance 101 vlan-based
+#  encapsulation vxlan
+#  rd 1:1
+#  replication-type ingress
+#  ip local-learning enable
+# !
+# l2vpn evpn instance 102 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+# !
+# l2vpn evpn instance 201 vlan-based
+#  encapsulation vxlan
+#  replication-type static
+# !
+# l2vpn evpn instance 202 vlan-based
+#  encapsulation vxlan
+#  replication-type static
+#  ip local-learning disable
+#  default-gateway advertise enable

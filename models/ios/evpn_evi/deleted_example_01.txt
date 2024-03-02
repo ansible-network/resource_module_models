@@ -1,0 +1,37 @@
+# Using state Deleted
+
+# Before state:
+# -------------
+# l2vpn evpn instance 101 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+#  default-gateway advertise enable
+# l2vpn evpn instance 102 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+# l2vpn evpn instance 202 vlan-based
+#  encapsulation vxlan
+#  replication-type static
+#  default-gateway advertise enable
+
+- name: "Delete the given EVI(s)"
+  cisco.ios.ios_evpn_evi:
+    config:
+      - evi: 101
+    state: deleted
+
+# Commands Fired:
+# ---------------
+# "commands": [
+#       "no l2vpn evpn instance 101 vlan-based"
+#       ],
+
+# After state:
+# -------------
+# l2vpn evpn instance 102 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+# l2vpn evpn instance 202 vlan-based
+#  encapsulation vxlan
+#  replication-type static
+#  default-gateway advertise enable

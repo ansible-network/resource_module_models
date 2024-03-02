@@ -1,0 +1,57 @@
+# Using state overridden
+
+# Before state:
+# -------------
+# l2vpn evpn instance 101 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+#  default-gateway advertise enable
+# !
+# l2vpn evpn instance 102 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+# !
+# l2vpn evpn instance 201 vlan-based
+#  encapsulation vxlan
+#  replication-type static
+# !
+# l2vpn evpn instance 202 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+
+- name: Override the device configuration with provided configuration
+  cisco.ios.ios_evpn_evi:
+    config:
+      - evi: 101
+        replication_type: ingress
+        default_gateway:
+          advertise:
+            enable: True
+      - evi: 202
+        replication_type: static
+        default_gateway:
+          advertise:
+            enable: True
+    state: overridden
+
+# Commands Fired:
+# ---------------
+# "commands": [
+#     "no l2vpn evpn instance 102 vlan-based",
+#     "no l2vpn evpn instance 201 vlan-based",
+#     "l2vpn evpn instance 202 vlan-based",
+#     "default-gateway advertise enable",
+#     "replication-type static"
+#     ],
+
+# After state:
+# ------------
+# l2vpn evpn instance 101 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+#  default-gateway advertise enable
+# !
+# l2vpn evpn instance 202 vlan-based
+#  encapsulation vxlan
+#  replication-type static
+#  default-gateway advertise enable
