@@ -1,0 +1,17 @@
+Router#show running-config | section template
+ template peer-policy pp1
+  distribute-list 22 in
+  distribute-list ap1 out
+  filter-list 22 in
+  advertise-map map1 exist-map rm1
+  aigp send med
+  default-originate route-map rm2
+  soo 11:11
+  remove-private-as all replace-as
+  maximum-prefix 22 warning-only
+  send-community extended
+  capability orf prefix-list both
+  additional-paths disable
+  accept-route-legacy-rt
+  long-lived-graceful-restart stale-time send 22 accept 11
+ template peer-session ss1
