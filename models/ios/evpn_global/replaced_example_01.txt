@@ -1,0 +1,41 @@
+# Using state replaced
+
+# Before state:
+# -------------
+# l2vpn evpn
+#  replication-type ingress
+#  router-id Loopback1
+#  ip local-learning disable
+#  route-target auto vni
+
+- name: Replaces device configuration for EVPN global with provided configuration
+  cisco.ios.ios_evpn_global:
+    config:
+        replication_type: static
+        router_id: Loopback2
+        default_gateway:
+          advertise: true
+        flooding_suppression:
+          address_resolution:
+            disable: true
+    state: replaced
+
+# Commands Fired:
+# ---------------
+#   "commands": [
+#       "l2vpn evpn",
+#       "default-gateway advertise",
+#       "flooding-suppression address-resolution disable",
+#       "no ip local-learning disable",
+#       "replication-type static",
+#       "no route-target auto vni",
+#       "router-id Loopback2"
+#   ],
+
+# After state:
+# ------------
+# l2vpn evpn
+#  replication-type static
+#  flooding-suppression address-resolution disable
+#  router-id Loopback2
+#  default-gateway advertise
