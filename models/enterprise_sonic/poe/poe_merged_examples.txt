@@ -1,0 +1,116 @@
+# Using merged to set poe global settings
+  # Before state:
+  # config:
+  #   global:
+  #     auto_reset: false
+
+  # Example:
+    - name: "add poe global settings"
+      sonic_poe:
+        config:
+          global:
+            auto_reset: true
+            power_mgmt_model: 'class'
+            usage_threshold: 300
+        state: merged
+
+  # After state:
+  # config:
+  #   global:
+  #     auto_reset: true
+  #     power_mgmt_model: 'class'
+  #     usage_threshold: 300
+  # ------
+
+# Using merged to add cards
+  # Before state:
+  # config:
+  #   global:
+  #     auto_reset: true
+
+  # Example:
+    - name: "add poe cards"
+      sonic_poe:
+        config:
+          cards:
+            - card_id: 0
+              usage_threshold: 39
+        state: merged
+
+  # After state:
+  # config:
+  #   global:
+  #     auto_reset: true
+  #   cards:
+  #     - card_id: 0
+  #       usage_threshold: 39
+  # ------
+
+# Using merged to add card settings
+  # Before state:
+  # config:
+  #   cards:
+  #     - card_id: 0
+  #       usage_threshold: 39
+
+  # Example:
+    - name: "add poe cards settings"
+      sonic_poe:
+        config:
+          cards:
+            - card_id: 0
+              usage_threshold: 60
+              power_mgmt_model: dymanic
+        state: merged
+
+  # After state:
+  # config:
+  #   cards:
+  #     - card_id: 0
+  #       usage_threshold: 60
+  #       power_mgmt_model: dymanic
+  # ------
+
+# Using merged to add interfaces
+  # Before state:
+  # config: {}
+
+  # Example:
+    - name: "add poe interfaces"
+      sonic_poe:
+        config:
+          interfaces:
+            - name: Ethernet0
+              enabled: true
+        state: merged
+
+  # After state:
+  # config:
+  #   interfaces:
+  #     - name: Ethernet0
+  #       enabled: true
+  # ------
+
+# Using merged to add interface settings
+  # Before state:
+  # config:
+  #   interfaces:
+  #     - name: Ethernet0
+  #       enabled: true
+
+  # Example:
+    - name: "add poe interface settings"
+      sonic_poe:
+        config:
+          interfaces:
+            - name: Ethernet0
+              disconnect_type: ac
+        state: merged
+
+  # After state:
+  # config:
+  #   interfaces:
+  #     - name: Ethernet0
+  #       disconnect_type: ac
+  #       enabled: true
+  # ------

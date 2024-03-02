@@ -1,0 +1,87 @@
+# Using deleted to remove poe global settings
+  # Before state:
+  # config:
+  #   global:
+  #     auto_reset: true
+  #     power_mgmt_model: 'class'
+  #     usage_threshold: 300
+
+  # Example:
+    - name: "delete matching poe global settings"
+      sonic_poe:
+        config:
+          global:
+            auto_reset: false
+            usage_threshold: 300
+        state: deleted
+
+  # After state:
+  # config:
+  #   global:
+  #     power_mgmt_model: 'class'
+  #     auto_reset: true
+  # ------
+
+# Using deleted to delete cards
+  # Before state:
+  # config:
+  #   global:
+  #     auto_reset: true
+  #   cards:
+  #     - card_id: 0
+  #       usage_threshold: 39
+
+  # Example:
+    - name: "delete poe cards"
+      sonic_poe:
+        config:
+          cards:
+            - card_id: 0
+        state: deleted
+
+  # After state:
+  # config:
+  #   global:
+  #     auto_reset: true
+  # ------
+
+# Using deleted to delete interfaces
+  # Before state:
+  # config:
+  #   interfaces:
+  #     - name: Ethernet0
+  #       enabled: true
+
+  # Example:
+    - name: "delete poe interfaces"
+      sonic_poe:
+        config:
+          interfaces:
+            - name: Ethernet0
+        state: deleted
+
+  # After state:
+  # config: {}
+  # ------
+
+# Using deleted to clear lists of interfaces or cards
+  # Before state:
+  # config:
+  #   cards:
+  #     - card_id: 0
+  #       usage_threshold: 39
+  #   interfaces:
+  #     - name: Ethernet0
+  #       enabled: true
+
+  # Example:
+    - name: "clear poe interfaces and cards"
+      sonic_poe:
+        config:
+          interfaces: []
+          cards: []
+        state: deleted
+
+  # After state:
+  # config: {}
+  # ------
