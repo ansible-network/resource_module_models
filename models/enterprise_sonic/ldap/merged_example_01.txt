@@ -1,0 +1,50 @@
+# Using merged
+#
+# Before State:
+# -------------
+#
+#sonic# show running-configuration vrf Vrf_1
+#!
+#ip vrf Vrf_1
+#!
+#sonic# show running-configuration | grep ldap
+#sonic#
+
+  - name: Add the LDAP server configurations
+    sonic_ldap:
+      config:
+        - name: "global"
+          servers:
+            - address: "example.com"
+              priority: 10
+              ssl: on
+            - address: "10.10.10.1"
+              priority: 5
+              port: 1550
+          port: 389
+          version: 2
+          nss_base_passwd: password
+        - name: "pam"
+          base: "admin"
+          binddn: "CN=example.com"
+          pam_login_attribute: "loginattrstring"
+        - name: "sudo"
+          bind_timelimit: 20
+          retry: 10
+      state: merged
+
+# After State:
+# ------------
+#
+#sonic# show running-configuration | grep ldap
+#ldap-server port 389
+#ldap-server version 2
+#ldap-server nss-base-passwd password
+#ldap-server pam base admin
+#ldap-server pam binddn CN=example.com
+#ldap-server pam pam-login-attribute loginattrstring
+#ldap-server sudo retry 10
+#ldap-server sudo bind-timelimit 20
+#ldap-server host 10.10.10.1 port 1550 priority 5
+#ldap-server host example.com priority 10 ssl on
+#sonic#
