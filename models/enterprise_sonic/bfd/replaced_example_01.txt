@@ -1,0 +1,66 @@
+# Using replaced
+#
+# Before state:
+# -------------
+#
+# sonic# show bfd profile
+# BFD Profile:
+#     Profile-name: p1
+#         Enabled: True
+#         Echo-mode: Enabled
+#         Passive-mode: Enabled
+#         Minimum-Ttl: 140
+#         Detect-multiplier: 2
+#         Receive interval: 200ms
+#         Transmission interval: 120ms
+#         Echo transmission interval: 150ms
+#     Profile-name: p2
+#         Enabled: True
+#         Echo-mode: Disabled
+#         Passive-mode: Disabled
+#         Minimum-Ttl: 254
+#         Detect-multiplier: 3
+#         Receive interval: 300ms
+#         Transmission interval: 300ms
+#         Echo transmission interval: 300ms
+
+  - name: Replace BFD configuration
+    dellemc.enterprise_sonic.sonic_bfd:
+    config:
+      profiles:
+        - profile_name: 'p1'
+          transmit_interval: 144
+        - profile_name: 'p2'
+          enabled: False
+          transmit_interval: 110
+          receive_interval: 235
+          detect_multiplier: 5
+          passive_mode: True
+          min_ttl: 155
+          echo_interval: 163
+          echo_mode: True
+    state: replaced
+
+# After state:
+# ------------
+#
+# sonic# show bfd profile
+# BFD Profile:
+#     Profile-name: p1
+#         Enabled: True
+#         Echo-mode: Enabled
+#         Passive-mode: Enabled
+#         Minimum-Ttl: 140
+#         Detect-multiplier: 2
+#         Receive interval: 200ms
+#         Transmission interval: 144ms
+#         Echo transmission interval: 150ms
+#     Profile-name: p2
+#         Enabled: False
+#         Echo-mode: Enabled
+#         Passive-mode: Enabled
+#         Minimum-Ttl: 155
+#         Detect-multiplier: 5
+#         Receive interval: 235ms
+#         Transmission interval: 110ms
+#         Echo transmission interval: 163ms
