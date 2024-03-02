@@ -1,0 +1,81 @@
+module: ios_banners
+version_added: 2.3.0
+short_description: Manages banner attributes of Cisco IOS network devices
+description: This module manages the banner attributes of Cisco IOS network devices
+author: Sagar Paul (@KB-perByte)
+notes:
+  - Tested against Cisco IOSv Version 15.6
+  - This module works with connection C(network_cli).
+  - The Configuration defaults of the Cisco IOS network devices
+    are supposed to hinder idempotent behavior of plays
+options:
+  config:
+    description: A list containing dictionary of banner options
+    type: dict
+    suboptions:
+      config_save:
+        description: Set message for saving configuration
+        type: dict
+        suboptions: &suboptions_config
+          delimiting_char:
+            description: delimiting character, character should not be in main text
+            type: str
+            default: "@"
+          text:
+            description: banner text
+            type: str
+      exec:
+        description: Set EXEC process creation banner
+        type: dict
+        suboptions: *suboptions_config
+      incoming:
+        description: Set incoming terminal line banner
+        type: dict
+        suboptions: *suboptions_config
+      login:
+        description: Set login banner
+        type: dict
+        suboptions: *suboptions_config
+      motd:
+        description: Set Message of the Day banner
+        type: dict
+        suboptions: *suboptions_config
+      prompt-timeout:
+        description: Set Message for login authentication timeout
+        type: dict
+        suboptions: *suboptions_config
+      slip_ppp:
+        description: Set Message for SLIP/PPP
+        type: dict
+        suboptions: *suboptions_config
+  running_config:
+    description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the IOS device by
+        executing the command B(show running-config | begin banner).
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into Ansible structured data as per the resource module's argspec
+        and the value is then returned in the I(parsed) key within the result.
+    type: str
+  state:
+    choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - gathered
+      - parsed
+      - rendered
+    default: merged
+    description:
+      - The state the configuration should be left in
+    type: str
+required_if:
+  - ["state", "merged", ["config"]]
+  - ["state", "replaced", ["config"]]
+  - ["state", "overridden", ["config"]]
+  - ["state", "rendered", ["config"]]
+  - ["state", "parsed", ["running_config"]]
+mutually_exclusive:
+  - ["config", "running_config"]
+supports_check_mode: True
