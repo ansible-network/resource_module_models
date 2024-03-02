@@ -1,0 +1,58 @@
+Resource Identifier,Type,Description
+,"stacked : <Eqpt::SVlan> : <Eqpt::CVlan>
+| vlan-port : <Eqpt::RackId> / <Eqpt::ShelfId> /
+<Eqpt::SlotId> / <Eqpt::PonId> / <Eqpt::OntId> / voip :
+<Eqpt::UnstackedVlan>
+| vlan-port : <Eqpt::RackId> / <Eqpt::ShelfId> /
+<Eqpt::SlotId> / <Eqpt::PonId> / <Eqpt::OntId> / vuni :
+<Eqpt::UnstackedVlan>
+| vlan-port : <Eqpt::RackId> / <Eqpt::ShelfId> /
+<Eqpt::SlotId> / <Eqpt::PonId> / <Eqpt::OntId> /
+<Eqpt::LLId> : <Eqpt::UnstackedVlan>
+| vlan-port : <Eqpt::RackId> / <Eqpt::ShelfId> /
+<Eqpt::SlotId> / <Eqpt::PonId> / <Eqpt::OntId> /
+<Eqpt::LLId> : stacked : <Eqpt::SVlan> : <Eqpt::CVlan>
+| vlan-port:ng2 : <Eqpt::ChannelGroupId> /
+<Eqpt::SubChannelGroupId> / <Ng2::OntId> /
+<Eqpt::Ng2OntSlotId> / <Eqpt::Ng2OntPortId> : stacked :
+<Eqpt::SVlan> : <Eqpt::CVlan>
+| vlan-port:ng2 : <Eqpt::ChannelGroupId> /
+<Eqpt::SubChannelGroupId> / <Ng2::OntId> /
+<Eqpt::Ng2OntSlotId> / <Eqpt::Ng2OntPortId> :
+<Eqpt::UnstackedVlan>
+| vlan-port:ng2 : <Eqpt::ChannelGroupId> /
+<Eqpt::SubChannelGroupId> / <Ng2::OntId> / vuni :
+stacked : <Eqpt::SVlan> : <Eqpt::CVlan>
+| vlan-port:ng2 : <Eqpt::ChannelGroupId> /
+<Eqpt::SubChannelGroupId> / <Ng2::OntId> / vuni :
+<Eqpt::UnstackedVlan> )
+Possible values:
+- vlan-port : vlan port
+- vlan-port:ng2 : ngpon2 vlan port
+Field type <Eqpt::RackId>
+- the rack number
+Field type <Eqpt::ShelfId>
+- the shelf number
+Field type <Eqpt::SlotId>
+- the LT slot number
+Field type <Eqpt::PortId>
+- the port number
+Field type <Eqpt::VpiId>
+- atm VPI
+Field type <Eqpt::VciId>
+- atm VCI
+Field type <Eqpt::PonId>
+- the PON identifier
+Field type <Eqpt::OntId>
+- the ONT identifier
+Field type <Eqpt::ChannelGroupId>
+- the channel group identifier
+Field type <Eqpt::SubChannelGroupId>
+- the subchannel group identifier
+Field type <Ng2::OntId>
+- the ONT identifier
+Possible values:
+- voip : virtual uni identifier
+obsolete alternative replaced by vuni
+- vuni : virtual uni identifier
+Possible values:",

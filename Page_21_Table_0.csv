@@ -1,0 +1,31 @@
+Resource Identifier,Type,Description
+,"- the ONT identifier
+Possible values:
+- voip : virtual uni identifier
+obsolete alternative replaced by vuni
+- vuni : virtual uni identifier
+Possible values:
+- vuni : virtual NGPON2 uni identifier
+Field type <Eqpt::OntSlotId>
+- the ONT SLOT identifier
+Field type <Eqpt::OntPortId>
+- the ONT PORT identifier
+Field type <Eqpt::Ng2OntSlotId>
+- the NGPON2 ONT SLOT identifier
+Field type <Eqpt::Ng2OntPortId>
+- the NGPON2 ONT PORT identifier
+Field type <Eqpt::LLId>
+- the LLID identifier,range 1 for EPON,range 1-8 for DPOE
+Possible values:
+- stacked : stacked vlan identity
+Field type <Eqpt::UnstackedVlan>
+- unstacked vlan id
+Field type <Eqpt::SVlan>
+- service vlan id
+Field type <Eqpt::CVlan>
+- customer vlan id",
+unicast-mac,"Parameter type: <Vlan::MacAddr>
+Format:
+- mac address (aa:bb:cc:a1:02:03)
+- unit: Byte
+- length: 6",unicast mac address
