@@ -1,0 +1,36 @@
+# Using Merged
+#
+# Before state:
+# -------------
+#
+# sonic# show qos scheduler-policy
+# (No qos scheduler-policy configuration present)
+
+- name: Merge QoS scheduler configurations
+  dellemc.enterprise_sonic.sonic_qos_scheduler:
+    config:
+      - name: policy1
+        schedulers:
+          - sequence: 0
+            scheduler_type: dwrr
+            weight: 10
+            meter_type: packets
+            cir: 32000
+            pir: 40000
+            cbs: 30000
+            pbs: 35000
+    state: merged
+
+# After state:
+# ------------
+#
+# sonic# show qos scheduler-policy
+# Scheduler Policy: policy1
+#   Queue: 0
+#              type: dwrr
+#              weight: 10
+#              meter-type: packets
+#              cir: 32000       Pps
+#              cbs: 30000       Packets
+#              pir: 40000       Pps
+#              pbs: 35000       Packets
