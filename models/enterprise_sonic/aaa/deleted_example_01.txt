@@ -1,0 +1,27 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+# do show aaa
+# AAA Authentication Information
+# ---------------------------------------------------------
+# failthrough  : True
+# login-method : local
+
+- name: Delete aaa configurations
+  dellemc.enterprise_sonic.sonic_aaa:
+    config:
+      authentication:
+        data:
+          local: True
+    state: deleted
+
+# After state:
+# ------------
+#
+# do show aaa
+# AAA Authentication Information
+# ---------------------------------------------------------
+# failthrough  : True
+# login-method :

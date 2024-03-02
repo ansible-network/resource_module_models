@@ -1,0 +1,28 @@
+# Using overridden
+#
+# Before state:
+# -------------
+#
+# do show aaa
+# AAA Authentication Information
+# ---------------------------------------------------------
+# failthrough  : False
+# login-method : local, radius
+
+- name: Override aaa configurations
+  dellemc.enterprise_sonic.sonic_aaa:
+    config:
+      authentication:
+        data:
+          group: tacacs+
+          fail_through: true
+    state: overridden
+
+# After state:
+# ------------
+#
+# do show aaa
+# AAA Authentication Information
+# ---------------------------------------------------------
+# failthrough  : True
+# login-method : tacacs+

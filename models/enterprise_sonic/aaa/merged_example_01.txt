@@ -1,0 +1,28 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+# do show aaa
+# AAA Authentication Information
+# ---------------------------------------------------------
+# failthrough  : False
+# login-method :
+
+- name: Merge aaa configurations
+  dellemc.enterprise_sonic.sonic_aaa:
+    config:
+      authentication:
+        data:
+          local: true
+          fail_through: true
+    state: merged
+
+# After state:
+# ------------
+#
+# do show aaa
+# AAA Authentication Information
+# ---------------------------------------------------------
+# failthrough  : True
+# login-method : local
