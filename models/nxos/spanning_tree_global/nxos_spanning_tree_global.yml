@@ -43,6 +43,7 @@ options:
               root:
                 description: Configure switch as root.
                 type: dict
+                mutually_exclusive: [["primary", "secondary"]]
                 suboptions:
                   primary:
                     description: Configure primary root.
@@ -59,7 +60,17 @@ options:
                         type: int
                   secondary:
                     description: Configure secondary root.
-                    type: bool
+                    type: dict
+                    suboptions:
+                      enable:
+                        description: Enable primary root.
+                        type: bool
+                      diameter:
+                        description: Priority for primary root.
+                        type: int
+                      hello_time:
+                        description: Configure secondary root.
+                        type: int
       domain:
         description: Spanning tree domain options.
         type: dict
@@ -97,7 +108,51 @@ options:
           - mst
           - rapid-pvst
       mst:
-
+        description: Multiple spanning tree configuration.
+        type: dict
+        suboptions:
+          forward-time:
+            description: Forward time for MST.
+            type: int
+          hello-time:
+            description: Hello time for MST.
+            type: int
+          max_age:
+            description: Max age for MST.
+            type: int
+          max_hops:
+            description: Max hops for MST.
+            type: int
+          simulate_pvst_global:
+            description: Enable Simulate PVST global.
+            type: bool
+          configure_mst:
+            description: MST configuration submode options.
+            type: list
+            elements: dict
+            suboptions:
+              enable:
+                description: MST configuration submode enable.
+                type: bool
+              name:
+                description: MST configuration submode instance name.
+                type: str
+              revision:
+                description: MST configuration submode instance revision.
+                type: int
+              private_vlan_sync:
+                description: MST configuration submode private vlan sync.
+                type: bool
+              instance_vlan:
+                description: MST configuration submode instance.
+                type: dict
+                suboptions:
+                  instance_id:
+                    description: MST configuration submode instance id.
+                    type: int
+                  vlan_range:
+                    description: MST configuration submode instance vlan range.
+                    type: str
       pathcost_method:
         description: Spanning tree pathcost options.
         type: str
@@ -123,8 +178,55 @@ options:
             description: Enable default port type.
             type: bool
       vlan:
-        description: Spanning tree VLAN range.
-        type: str
+        description: VLAN Switch Spanning Trees.
+        type: dict
+        suboptions:
+          vlan_range:
+            description: VLAN range for spanning tree.
+            type: str
+          forward_time:
+            description: Forward time for VLAN.
+            type: int
+          hello_time:
+            description: Hello time for VLAN.
+            type: int
+          max_age:
+            description: Max age for VLAN.
+            type: int
+          priority:
+            description: Priority for VLAN.
+            type: int
+          root:
+            description: Configure switch as root.
+            type: dict
+            mutually_exclusive: [["primary", "secondary"]]
+            suboptions:
+              primary:
+                description: Configure primary root.
+                type: dict
+                suboptions:
+                  enable:
+                    description: Enable primary root.
+                    type: bool
+                  diameter:
+                    description: Priority for primary root.
+                    type: int
+                  hello_time:
+                    description: Configure secondary root.
+                    type: int
+              secondary:
+                description: Configure secondary root.
+                type: dict
+                suboptions:
+                  enable:
+                    description: Enable primary root.
+                    type: bool
+                  diameter:
+                    description: Priority for primary root.
+                    type: int
+                  hello_time:
+                    description: Configure secondary root.
+                    type: int
   running_config:
     description:
       - This option is used only with state I(parsed).
