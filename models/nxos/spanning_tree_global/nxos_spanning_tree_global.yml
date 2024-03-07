@@ -131,9 +131,6 @@ options:
             type: list
             elements: dict
             suboptions:
-              enable:
-                description: MST configuration submode enable.
-                type: bool
               name:
                 description: MST configuration submode instance name.
                 type: str
@@ -177,6 +174,52 @@ options:
           default:
             description: Enable default port type.
             type: bool
+      pseudo_info:
+        description: Configure spanning tree pseudo information
+        type: dict
+        suboptions:
+          bridge_domain_info:
+            description: Pseudo information bridge domain.
+            type: dict
+            mutually_exclusive: [["designated", "root"]]
+            suboptions:
+              range:
+                description: Pseudo information bridge domain range.
+                type: str
+              designated_priority:
+                description: Pseudo information bridge domain designated priority.
+                type: int
+              root_priority:
+                description: Pseudo information bridge domain root priority.
+                type: int\
+          mst_info:
+            description: Pseudo information MST.
+            type: dict
+            mutually_exclusive: [["designated", "root"]]
+            suboptions:
+              range:
+                description: Pseudo information MST range.
+                type: str
+              designated_priority:
+                description: Pseudo information MST designated priority.
+                type: int
+              root_priority:
+                description: Pseudo information MST root priority.
+                type: int
+          vlan_info:
+            description: Pseudo information MST.
+            type: dict
+            mutually_exclusive: [["designated", "root"]]
+            suboptions:
+              range:
+                description: Pseudo information MST range.
+                type: str
+              designated_priority:
+                description: Pseudo information MST designated priority.
+                type: int
+              root_priority:
+                description: Pseudo information MST root priority.
+                type: int
       vlan:
         description: VLAN Switch Spanning Trees.
         type: dict
