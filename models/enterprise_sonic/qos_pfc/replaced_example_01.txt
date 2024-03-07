@@ -1,0 +1,27 @@
+# Using Replaced
+#
+# Before state:
+# -------------
+#
+# sonic# show priority-flow-control watchdog
+#
+# Watchdog Summary
+# ----------------
+# Polling Interval:   : 150
+# Flex Counters:      : enabled
+
+- name: Replace QoS PFC configurations
+  dellemc.enterprise_sonic.sonic_qos_pfc:
+    config:
+      poll_interval: 365
+    state: replaced
+
+# After state:
+# ------------
+#
+# sonic# show priority-flow-control watchdog
+#
+# Watchdog Summary
+# ----------------
+# Polling Interval:   : 365
+# Flex Counters:      : Not Available

@@ -1,0 +1,28 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+# sonic# show priority-flow-control watchdog
+#
+# Watchdog Summary
+# ----------------
+# Polling Interval:   : 400
+# Flex Counters:      : disabled
+
+- name: Delete QoS PFC configurations
+  dellemc.enterprise_sonic.sonic_qos_pfc:
+    config:
+      counter_poll: disable
+      poll_interval: 400
+    state: deleted
+
+# After state:
+# ------------
+#
+# sonic# show priority-flow-control watchdog
+#
+# Watchdog Summary
+# ----------------
+# Polling Interval:   : Not Available
+# Flex Counters:      : Not Available

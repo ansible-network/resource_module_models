@@ -1,0 +1,28 @@
+# Using Merged
+#
+# Before state:
+# -------------
+#
+# sonic# show priority-flow-control watchdog
+#
+# Watchdog Summary
+# ----------------
+# Polling Interval:   : Not Available
+# Flex Counters:      : Not Available
+
+- name: Merge QoS PFC configurations
+  dellemc.enterprise_sonic.sonic_qos_pfc:
+    config:
+      counter_poll: enabled
+      poll_interval: 150
+    state: merged
+
+# After state:
+# ------------
+#
+# sonic# show priority-flow-control watchdog
+#
+# Watchdog Summary
+# ----------------
+# Polling Interval:   : 150
+# Flex Counters:      : enabled

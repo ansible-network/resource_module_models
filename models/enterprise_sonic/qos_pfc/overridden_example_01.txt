@@ -1,0 +1,27 @@
+# Using Overridden
+# Before state:
+# -------------
+#
+# sonic# show priority-flow-control watchdog
+#
+# Watchdog Summary
+# ----------------
+# Polling Interval:   : 365
+# Flex Counters:      : Not Available
+
+- name: Override QoS PFC configurations
+  dellemc.enterprise_sonic.sonic_qos_pfc:
+    config:
+      counter_poll: disable
+      poll_interval: 400
+    state: overridden
+
+# After state:
+# ------------
+#
+# sonic# show priority-flow-control watchdog
+#
+# Watchdog Summary
+# ----------------
+# Polling Interval:   : 400
+# Flex Counters:      : disabled
