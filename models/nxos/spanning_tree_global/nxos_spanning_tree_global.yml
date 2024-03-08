@@ -23,7 +23,8 @@ options:
             type: bool
           bridge_domain:
             decsription: Bridge-Domain Spanning Trees range.
-            type: dict
+            type: list
+            elements: dict
             suboptions:
               bd_list_range:
                 description: Bridge-Domain Spanning Trees range.
@@ -128,8 +129,7 @@ options:
             type: bool
           configure_mst:
             description: MST configuration submode options.
-            type: list
-            elements: dict
+            type: dict
             suboptions:
               name:
                 description: MST configuration submode instance name.
@@ -222,7 +222,8 @@ options:
                 type: int
       vlan:
         description: VLAN Switch Spanning Trees.
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           vlan_range:
             description: VLAN range for spanning tree.
