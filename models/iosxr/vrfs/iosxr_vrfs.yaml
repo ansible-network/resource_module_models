@@ -67,7 +67,7 @@ options:
             suboptions:
               route_policy: *route_policy
               route_target: *route_target
-              from:
+              from_config:
                 description: Import routes from a VRF
                 type: dict
                 suboptions:
