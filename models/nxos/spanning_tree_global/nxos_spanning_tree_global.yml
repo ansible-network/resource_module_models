@@ -14,64 +14,9 @@ options:
     description: A dict of Spanning-tree options.
     type: dict
     suboptions:
-      bridge:
-        description: Bridge options in spanning-tree.
-        type: dict
-        suboptions:
-          bridge_assurance:
-            description: Enable bridge assurance.
-            type: bool
-          bridge_domain:
-            decsription: Bridge-Domain Spanning Trees range.
-            type: list
-            elements: dict
-            suboptions:
-              bd_list_range:
-                description: Bridge-Domain Spanning Trees range.
-                type: str
-              forward_time:
-                description: Forward time for bridge domain.
-                type: int
-              hello_time:
-                description: Hello time for bridge domain.
-                type: int
-              max_age:
-                description: Max age for bridge domain.
-                type: int
-              priority:
-                description: Priority for bridge domain.
-                type: int
-              root:
-                description: Configure switch as root.
-                type: dict
-                mutually_exclusive: [["primary", "secondary"]]
-                suboptions:
-                  primary:
-                    description: Configure primary root.
-                    type: dict
-                    suboptions:
-                      enable:
-                        description: Enable primary root.
-                        type: bool
-                      diameter:
-                        description: Priority for primary root.
-                        type: int
-                      hello_time:
-                        description: Configure secondary root.
-                        type: int
-                  secondary:
-                    description: Configure secondary root.
-                    type: dict
-                    suboptions:
-                      enable:
-                        description: Enable primary root.
-                        type: bool
-                      diameter:
-                        description: Priority for primary root.
-                        type: int
-                      hello_time:
-                        description: Configure secondary root.
-                        type: int
+      bridge_assurance:
+        description: Enable bridge assurance.
+        type: bool
       domain:
         description: Spanning tree domain options.
         type: dict
