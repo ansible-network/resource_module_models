@@ -1,0 +1,171 @@
+module: ios_vrfs
+short_description: Manages global VRF configuration.
+description:
+  - This module manages VRF configurations on Cisco IOS devices.
+  - It enables playbooks to handle either individual VRFs or the complete VRF collection.
+  - It also permits removing non-explicitly stated VRF definitions from the setup.
+version_added: 7.2.0
+author: Ruchi Pakhle (@Ruchip16)
+notes:
+  - This module works with connection C(network_cli). See L(the IOS Platform Options,../network/user_guide/platform_ios.html)
+  - For more information on using Ansible to manage network devices see the :ref:`Ansible Network Guide <network_guide>`
+  - For more information on using Ansible to manage Cisco devices see the `Cisco integration page <https://www.ansible.com/integrations/networks/cisco>`_.
+options:
+  config:
+    description: A list of device configurations for VRF.
+    type: list
+    elements: dict
+    suboptions:
+      definition:
+        description: VRF definition to be configured.
+        type: str
+        suboptions:
+          name:
+            description: Name of the VRF.
+            type: str
+        required: true
+      description:
+        description: VRF specific description
+        type: str
+      address_families:
+        description: Enable address family and enter its config mode - AFI/SAFI configuration
+        type: list
+        elements: dict
+        suboptions:
+          afi:
+            description: Address Family Identifier (AFI)
+            type: str
+            choices: ['ipv4', 'ipv6']
+          safi:
+            description: Address Family modifier
+            type: str
+            choices: [ 'flowspec', 'multicast', 'unicast']
+          export:
+            description: VRF export
+            type: dict
+            suboptions:
+              route_policy: &route_policy
+                description: Use route_policy for export
+                type: str
+              route_target: &route_target
+                description: Specify export route target extended communities.
+                type: str
+              to:
+                description: Export routes to a VRF
+                type: dict
+                suboptions:
+                  default_vrf: &default_vrf
+                    description: Export routes to default VRF
+                    type: dict
+                    suboptions:
+                      route_policy: *route_policy
+                  vrf:
+                    description: Export routes to a VRF
+                    type: dict
+                    suboptions:
+                      allow_imported_vpn:
+                        description: Allow export of imported VPN routes to non-default VRF
+                        type: bool
+          import_config:
+            description: VRF import
+            type: dict
+            suboptions:
+              route_policy: *route_policy
+              route_target: *route_target
+              from_config:
+                description: Import routes from a VRF
+                type: dict
+                suboptions:
+                  bridge_domain:
+                    description: VRF import
+                    type: dict
+                    suboptions:
+                      advertise_as_vpn: &advertise_as_vpn
+                        description: Advertise local EVPN imported routes to PEs
+                        type: bool
+                  default_vrf: *default_vrf
+                  vrf:
+                    description: Import routes from a VRF
+                    type: dict
+                    suboptions:
+                      advertise_as_vpn: *advertise_as_vpn
+          maximum:
+            description: Set maximum prefix limit
+            type: dict
+            suboptions:
+              prefix:
+                description:  Set table's maximum prefix limit.
+                type: int
+      ipv4:
+        description: VRF IPv4 configuration
+        type: dict
+        suboptions:
+          multicast:
+            description: IP Multicast configuration
+            type: bool
+      ipv6:
+        description: VRF IPv6 configuration
+        type: dict
+        suboptions:
+          multicast:
+            description: IP Multicast configuration
+            type: bool
+      rd:
+        description: Specify Route Distinguisher (RD).
+        type: str
+      route_target:
+        description: Specify Target VPN Extended Communities.
+        type: dict
+        suboptions:
+          export:
+            description: Export Target-VPN community.
+            type: str
+          import:
+            description: Export Target-VPN community.
+            type: str
+          both:
+            description: Both export and import Target-VPN community
+            type: str
+      vnet:
+        description: Virtual NETworking configuration.
+        type: dict
+        suboptions:
+          tag:
+            description: Identifier used to tag packets associated with this VNET
+            type: int
+      vpn:
+        description: Configure VPN ID for the VRF as specified in RFC 2685
+        type: dict
+        suboptions:
+          id:
+            description: Configure VPN ID in RFC 2685 format
+            type: str
+  running_config:
+    description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the IOS-XR device by
+        executing the command B(do show running-config vrf).
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into Ansible structured data as per the resource module's argspec
+        and the value is then returned in the I(parsed) key within the result.
+    type: str
+  state:
+    choices: [parsed, gathered, deleted, merged, replaced, rendered, overridden]
+    default: merged
+    description:
+      - The state the configuration should be left in
+      - The states I(rendered), I(gathered) and I(parsed) does not perform any change
+        on the device.
+      - The state I(rendered) will transform the configuration in C(config) option to
+        platform specific CLI commands which will be returned in the I(rendered) key
+        within the result. For state I(rendered) active connection to remote host is
+        not required.
+      - The state I(gathered) will fetch the running configuration from device and transform
+        it into structured data in the format as per the resource module argspec and
+        the value is returned in the I(gathered) key within the result.
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into JSON format as per the resource module parameters and the
+        value is returned in the I(parsed) key within the result. The value of C(running_config)
+        option should be the same format as the output of command I(do show running-config vrf).
+        connection to remote host is not required.
+    type: str
