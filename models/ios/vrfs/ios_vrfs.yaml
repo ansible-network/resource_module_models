@@ -446,6 +446,10 @@ options:
                               all: *all
                               bgp: *bgp
                               connected:
+                                description: Connected routes
+                                type: dict
+                                suboptions:
+                                  route_map: *route_map
                               eigrp: *eigrp
                               isis: *isis
                               mobile: *mobile
