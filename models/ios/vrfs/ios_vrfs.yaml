@@ -701,19 +701,7 @@ options:
       rd:
         description: Specify Route Distinguisher (RD).
         type: str
-      route_target:
-        description: Specify Target VPN Extended Communities.
-        type: dict
-        suboptions:
-          export:
-            description: Export Target-VPN community.
-            type: str
-          import_config:
-            description: Export Target-VPN community.
-            type: str
-          both:
-            description: Both export and import Target-VPN community
-            type: str
+      route_target: *route_target
       vnet:
         description: Virtual NETworking configuration.
         type: dict
