@@ -1,5 +1,5 @@
-module: ios_vrfs
-short_description: Resource module toconfigure VRF definitions.
+module: ios_vrf_global
+short_description: Resource module to configure VRF definitions.
 description:
   - This module provides declarative management of VRF definitions on Cisco IOS devices.
   - It allows playbooks to manage individual or the entire VRF collection.
@@ -45,7 +45,7 @@ options:
             description: Commands pertaining to BGP configuration.
             type: dict
             suboptions:
-              next-hop:
+              next_hop:
                 description: Next-hop for the routes of a VRF in the backbone.
                 type: dict
                 suboptions:
@@ -120,7 +120,7 @@ options:
                             description: VRF import route-map name
                             type: dict
                             suboptions:
-                              allow-evpn:
+                              allow_evpn:
                                 description: allow Global->VRF routes into EVPN
                                 type: bool
               map:
@@ -163,84 +163,70 @@ options:
                 description: Carrier Supporting Carrier
                 type: dict
                 suboptions:
-                  next-hop:
+                  next-hop: &next_hop
                     description: Next-hop for the routes of a VRF in the backbone.
                     type: dict
                     suboptions:
                       ip_address:
                         description: Next-hop IP address
                         type: str
-              next-hop:
-                description: Set next-hop address.
-                type: dict
-                suboptions:
-                  ip_address:
-                    description: Next-hop IP address
-                    type: str
+              next_hop: *next_hop
           mdt:
             description: Backbone Multicast Distribution Tree
             type: dict
             suboptions:
-              auto-discovery:
+              auto_discovery:
                 description: BGP auto-discovery for MVPN
                 type: dict
                 suboptions:
-                  ingress-replication:
+                  ingress_replication:
                     description: BGP auto-discovery for Ingress-Replication
                     type: dict
                     suboptions:
-                      inter-as:
+                      inter_as:
                         description: Enable Inter-AS BGP auto-discovery
                         type: dict
                         suboptions:
-                          mdt-hello-enable:
+                          mdt_hello_enable: &mdt_hello_enable
                             description: Enable PIM Hellos over MDT interface
                             type: bool
-                      mdt-hello-enable:
-                        description: Enable PIM Hellos over MDT interface
-                        type: bool
+                      mdt_hello_enable: *mdt_hello_enable
                   pim:
                     description: BGP auto-discovery for PIM
                     type: dict
                     suboptions:
-                      inter-as:
+                      inter_as:
                         description: Enable Inter-AS BGP auto-discovery
                         type: dict
                         suboptions:
-                          mdt-hello-enable:
-                            description: Enable PIM Hellos over MDT interface
-                            type: bool
-                          pim-tlv-announce:
+                          mdt_hello_enable: *mdt_hello_enable
+                          pim_tlv_announce:
                             description: Announce PIM TLV for data MDT
                             type: dict
                             suboptions:
-                              mdt-hello-enable:
-                                description: Enable PIM Hellos over MDT interface
-                                type: bool
-                      mdt-hello-enable:
-                        description: Enable PIM Hellos over MDT interface
-                        type: bool
-                      pim-tlv-announce:
+                              mdt_hello_enable: *mdt_hello_enable
+                      mdt_hello_enable: *mdt_hello_enable
+                      pim_tlv_announce:
                         description: Announce PIM TLV for data MDT
                         type: bool
-                  receiver-site:
+                  receiver_site:
                     description: BGP receiver only site for MVPN
                     type: bool
               data:
                 description: MDT data trees
                 type: dict
                 suboptions:
-                  ingress-replication:
+                  ingress_replication:
                     description: Use Ingress-Replication to create the data MDT
                     type: dict
                     suboptions:
                       number:
                         description: Number of data MDT
                         type: int
-                      immediate-swich:
+                      immediate_swich:
                         description: Switch immediately to Data MDT tree
                         type: bool
-                      list:
+                      list: &list
                         description: Access-list
                         type: dict
                         suboptions:
@@ -250,16 +236,7 @@ options:
                           name:
                             description: IP Named Extended Access list
                             type: str
-                  list:
-                    description: Access-list
-                    type: dict
-                    suboptions:
-                      access_list_number:
-                        description: Access-list number
-                        type: int
-                      name:
-                        description: IP Named Extended Access list
-                        type: str
+                  list: *list
                   threshold:
                     description: MDT switching threshold
                     type: int
@@ -267,13 +244,13 @@ options:
                 description: Default MDT configuration
                 type: dict
                 suboptions:
-                  ingress-replication:
+                  ingress_replication:
                     description: Use Ingress-Replication for the default MDT
                     type: bool
               direct:
                 description: Direct MDT's
                 type: bool
-              log-reuse:
+              log_reuse:
                 description: Event logging for data MDT reuse
                 type: bool
               mode:
@@ -349,7 +326,7 @@ options:
                         description: All routes
                         type: dict
                         suboptions:
-                          route-map:
+                          route_map: &route_map
                             description: Route-map reference
                             type: str
                       bgp: &bgp
@@ -359,9 +336,7 @@ options:
                           as_number:
                             description: Autonomous System Number
                             type: int
-                          route-map:
-                            description: Route-map reference
-                            type: str
+                          route_map: *route_map
                       eigrp: &eigrp
                         description: Enhanced Interior Gateway Routing Protocol (EIGRP)
                         type: dict
@@ -369,9 +344,7 @@ options:
                           as_number:
                             description: Autonomous System Number
                             type: int
-                          route-map:
-                            description: Route-map reference
-                            type: str
+                          route_map: *route_map
                       isis: &isis
                         description: Intermediate System-to-Intermediate System (ISIS)
                         type: dict
@@ -379,9 +352,7 @@ options:
                           iso_tag:
                             description: ISO routing area tag
                             type: str
-                          route-map:
-                            description: Route-map reference
-                            type: str
+                          route_map: *route_map
                       mobile: &mobile
                         description: Mobile routes
                         type: dict
@@ -393,9 +364,7 @@ options:
                         description: On-Demand Stub routes
                         type: dict
                         suboptions:
-                          route-map:
-                            description: Route-map reference
-                            type: str
+                          route_map: *route_map
                       ospf: &ospf
                         description: Open Shortest Path First (OSPF)
                         type: dict
@@ -403,23 +372,17 @@ options:
                           process_id:
                             description: OSPF process ID
                             type: int
-                          route-map:
-                            description: Route-map reference
-                            type: str
+                          route_map: *route_map
                       rip: &rip
                         description: Routing Information Protocol (RIP)
                         type: dict
                         suboptions:
-                          route-map:
-                            description: Route-map reference
-                            type: str
+                          route_map: *route_map
                       static: &static
                         description: Static routes
                         type: dict
                         suboptions:
-                          route-map:
-                            description: Route-map reference
-                            type: str
+                          route_map: *route_map
                       topology: &topology
                         description: Topology name
                         type: dict
@@ -691,7 +654,7 @@ options:
               name:
                 description: Topology name
                 type: str
-              all-interfaces:
+              all_interfaces:
                 description: Associate a non-base routing topology with all interfaces
                 type: bool
               bgp: *bgp01
@@ -703,7 +666,7 @@ options:
               route_replicate_distance: *route_replicate_distance
               route_target: *route_target
               inter_as_hybrid: *inter_as_hybrid
-              use-topology:
+              use_topology:
                 description: Configure the unicast topology to be used
                 type: dict
                 suboptions:
