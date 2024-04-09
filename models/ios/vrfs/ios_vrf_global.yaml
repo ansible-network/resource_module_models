@@ -1,16 +1,12 @@
 module: ios_vrf_global
 short_description: Resource module to configure VRF definitions.
-description:
-  - This module provides declarative management of VRF definitions on Cisco IOS devices.
-  - It allows playbooks to manage individual or the entire VRF collection.
-  - It also supports purging VRF definitions from the configuration that are not explicitly defined.
+description: This module provides declarative management of VRF definitions on Cisco IOS.
 version_added: 7.0.0
 author: Ruchi Pakhle (@Ruchip16)
 notes:
-  - Tested against Cisco IOSv 7.0.0
-  - This module works with connection C(network_cli). See L(the IOS Platform Options,../network/user_guide/platform_ios.html)
-  - For more information on using Ansible to manage network devices see the :ref:`Ansible Network Guide <network_guide>`
-  - For more information on using Ansible to manage Cisco devices see the `Cisco integration page <https://www.ansible.com/integrations/networks/cisco>`_.
+  - Tested against Cisco IOSXE version 17.3 on CML.
+  - This module works with connection C(network_cli).
+    See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_ios.html)
 options:
   config:
     description: A list of device configurations for VRF.
@@ -255,7 +251,7 @@ options:
                 type: bool
               mode:
                 description: The type of encapsulation
-                type: str
+                type: bool
                 choices: ['gre', 'GRE']
               mtu:
                 description: The MTU
@@ -322,7 +318,7 @@ options:
                     description: Multicast SAFI
                     type: dict
                     suboptions:
-                      all:
+                      all: &all
                         description: All routes
                         type: dict
                         suboptions:
@@ -719,8 +715,8 @@ options:
   running_config:
     description:
       - This option is used only with state I(parsed).
-      - The value of this option should be the output received from the IOS-XR device by
-        executing the command B(do show running-config vrf).
+      - The value of this option should be the output received from the IOS device by
+        executing the command B(show running-config vrf).
       - The state I(parsed) reads the configuration from C(running_config) option and
         transforms it into Ansible structured data as per the resource module's argspec
         and the value is then returned in the I(parsed) key within the result.
@@ -742,6 +738,6 @@ options:
       - The state I(parsed) reads the configuration from C(running_config) option and
         transforms it into JSON format as per the resource module parameters and the
         value is returned in the I(parsed) key within the result. The value of C(running_config)
-        option should be the same format as the output of command I(do show running-config vrf).
+        option should be the same format as the output of command I(show running-config vrf).
         connection to remote host is not required.
     type: str
