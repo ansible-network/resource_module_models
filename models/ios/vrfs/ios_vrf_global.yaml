@@ -13,14 +13,10 @@ options:
     type: list
     elements: dict
     suboptions:
-      definition:
-        description: VRF definition to be configured.
-        type: dict
-        suboptions:
-          name:
-            description: Name of the VRF.
-            type: str
-            required: true
+      name:
+        description: Name of the VRF.
+        type: str
+        required: true
       description:
         description: VRF specific description
         type: str
@@ -151,7 +147,7 @@ options:
                 description: Carrier Supporting Carrier
                 type: dict
                 suboptions:
-                  next-hop: &next_hop
+                  next_hop: &next_hop
                     description: Next-hop for the routes of a VRF in the backbone.
                     type: dict
                     suboptions:
