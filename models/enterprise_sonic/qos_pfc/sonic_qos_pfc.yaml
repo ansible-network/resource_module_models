@@ -19,10 +19,8 @@ DOCUMENTATION: |
           counter_poll:
             description:
               - Enable or disable use of flex-counters for PFC watchdog
-            type: str
-            choices:
-              - enable
-              - disable
+            type: bool
+            default: True
           poll_interval:
             description:
               - Polling interval for PFC watchdog

@@ -8,12 +8,12 @@
 # Watchdog Summary
 # ----------------
 # Polling Interval:   : Not Available
-# Flex Counters:      : Not Available
+# Flex Counters:      : enabled
 
 - name: Merge QoS PFC configurations
   dellemc.enterprise_sonic.sonic_qos_pfc:
     config:
-      counter_poll: enabled
+      counter_poll: True
       poll_interval: 150
     state: merged
 

@@ -24,4 +24,4 @@
 # Watchdog Summary
 # ----------------
 # Polling Interval:   : 365
-# Flex Counters:      : Not Available
+# Flex Counters:      : enabled

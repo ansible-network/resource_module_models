@@ -7,12 +7,12 @@
 # Watchdog Summary
 # ----------------
 # Polling Interval:   : 365
-# Flex Counters:      : Not Available
+# Flex Counters:      : enabled
 
 - name: Override QoS PFC configurations
   dellemc.enterprise_sonic.sonic_qos_pfc:
     config:
-      counter_poll: disable
+      counter_poll: False
       poll_interval: 400
     state: overridden
 

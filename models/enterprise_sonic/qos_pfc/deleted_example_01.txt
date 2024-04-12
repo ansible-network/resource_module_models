@@ -13,7 +13,7 @@
 - name: Delete QoS PFC configurations
   dellemc.enterprise_sonic.sonic_qos_pfc:
     config:
-      counter_poll: disable
+      counter_poll: False
       poll_interval: 400
     state: deleted
 
@@ -25,4 +25,4 @@
 # Watchdog Summary
 # ----------------
 # Polling Interval:   : Not Available
-# Flex Counters:      : Not Available
+# Flex Counters:      : enabled
