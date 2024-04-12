@@ -1,0 +1,46 @@
+# Using Replaced
+#
+# Before state:
+# -------------
+#
+# sonic# show qos map dscp-tc
+# DSCP-TC-MAP: dscp_map1
+# ----------------------------
+#     DSCP TC
+# ----------------------------
+#     0    0
+#     1    7
+# ----------------------------
+# DSCP-TC-MAP: dscp_map2
+# ----------------------------
+#     DSCP TC
+# ----------------------------
+#     2    4
+# ----------------------------
+
+- name: Replace QoS maps configurations
+  dellemc.enterprise_sonic.sonic_qos_maps:
+    config:
+      dscp_maps:
+        - name: dscp_map1
+          entries:
+            - dscp: 3
+              fwd_group: 5
+    state: replaced
+
+# After state:
+# ------------
+#
+# sonic# show qos map dscp-tc
+# DSCP-TC-MAP: dscp_map1
+# ----------------------------
+#     DSCP TC
+# ----------------------------
+#     3    5
+# ----------------------------
+# DSCP-TC-MAP: dscp_map2
+# ----------------------------
+#     DSCP TC
+# ----------------------------
+#     2    4
+# ----------------------------

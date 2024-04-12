@@ -1,0 +1,223 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community',
+        'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: qos_maps
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_qos_maps
+    version_added: 2.5.0
+    short_description: Manage QoS maps configuration on SONiC
+    description:
+      - This module provides configuration management of QoS maps for devices running SONiC
+    author: "Shade Talabi (@stalabi1)"
+    options:
+    config:
+      description:
+        - QoS maps configuration
+      type: dict
+      suboptions:
+        dscp_maps:
+          description:
+            - DSCP maps configuration
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description:
+                - Name of DSCP map
+              type: str
+              required: True
+            entries:
+              description:
+                - DSCP map entries configuration
+              type: list
+              elements: dict
+              suboptions:
+                dscp:
+                  description:
+                    - DSCP value, range 0-63
+                  type: int
+                  required: True
+                fwd_group:
+                  description:
+                    - Forwarding group value, range 0-7
+                  type: str
+        dot1p_maps:
+          description:
+            - DOT1P maps configuration
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description:
+                - Name of DOT1P map
+              type: str
+              required: True
+            entries:
+              description:
+                - DOT1P map entries configuration
+              type: list
+              elements: dict
+              suboptions:
+                dot1p:
+                  description:
+                    - DOT1P value, range 0-7
+                  type: int
+                  required: True
+                fwd_group:
+                  description:
+                    - Forwarding group value, range 0-7
+                  type: str
+        fwd_group_queue_maps:
+          description:
+            - Forwarding group queue maps configuration
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description:
+                - Name of forwarding group queue map
+              type: str
+              required: True
+            entries:
+              description:
+                - Forwarding group queue map entries configuration
+              type: list
+              elements: dict
+              suboptions:
+                fwd_group:
+                  description:
+                    - Forwarding group value, range 0-7
+                  type: str
+                  required: True
+                queue_index:
+                  description:
+                    - Output queue index value, range 0-7
+                  type: int
+        fwd_group_dscp_maps:
+          description:
+            - Forwarding group DSCP maps configuration
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description:
+                - Name of forwarding group DSCP map
+              type: str
+              required: True
+            entries:
+              description:
+                - Forwarding group DSCP map entries configuration
+              type: list
+              elements: dict
+              suboptions:
+                fwd_group:
+                  description:
+                    - Forwarding group value, range 0-7
+                  type: str
+                  required: True
+                dscp:
+                  description:
+                    - DSCP value, range 0-63
+                  type: int
+        fwd_group_dot1p_maps:
+          description:
+            - Forwarding group DOT1P maps configuration
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description:
+                - Name of forwarding group DOT1P map
+              type: str
+              required: True
+            entries:
+              description:
+                - Forwarding group DOT1P map entries configuration
+              type: list
+              elements: dict
+              suboptions:
+                fwd_group:
+                  description:
+                    - Forwarding group value, range 0-7
+                  type: str
+                  required: True
+                dot1p:
+                  description:
+                    - DOT1P value, range 0-7
+                  type: int
+        fwd_group_pg_maps:
+          description:
+            - Forwarding group priority group maps configuration
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description:
+                - Name of forwarding group priority group map
+              type: str
+              required: True
+            entries:
+              description:
+                - Forwarding group priority group entries configuration
+              type: list
+              elements: dict
+              suboptions:
+                fwd_group:
+                  description:
+                    - Forwarding group value, range 0-7
+                  type: str
+                  required: True
+                pg_index:
+                  description:
+                    - Priority group index value, range 0-7
+                  type: int
+        pfc_priority_queue_maps:
+          description:
+            - PFC priority queue maps configuration
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description:
+                - Name of PFC priority queue map
+                - SONiC currently only supports configuration of a single PFC priority queue map
+              type: str
+              required: True
+            entries:
+              description:
+                - PFC priority queue map entries configuration
+              type: list
+              elements: dict
+              suboptions:
+                dot1p:
+                  description:
+                    - DOT1P value, range 0-7
+                  type: int
+                  required: True
+                queue_index:
+                  description:
+                    - Output queue index value, range 0-7
+                  type: int
+    state:
+      description:
+        - The state of the configuration after module completion.
+      type: str
+      choices:
+        - merged
+        - deleted
+        - overridden
+        - replaced
+      default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
