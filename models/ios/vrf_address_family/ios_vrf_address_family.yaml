@@ -1,4 +1,4 @@
-module: ios_vrf_global
+module: ios_vrf_address_family
 short_description: Resource module to configure VRF definitions.
 description: This module provides declarative management of VRF definitions on Cisco IOS.
 version_added: 7.0.0
@@ -17,9 +17,6 @@ options:
         description: Name of the VRF.
         type: str
         required: true
-      description:
-        description: VRF specific description
-        type: str
       address_families:
         description: Enable address family and enter its config mode - AFI/SAFI configuration
         type: list
@@ -670,38 +667,6 @@ options:
                       name:
                         description: Topology name
                         type: str
-      ipv4:
-        description: VRF IPv4 configuration
-        type: dict
-        suboptions:
-          multicast:
-            description: IP Multicast configuration
-            type: bool
-      ipv6:
-        description: VRF IPv6 configuration
-        type: dict
-        suboptions:
-          multicast:
-            description: IP Multicast configuration
-            type: bool
-      rd:
-        description: Specify Route Distinguisher (RD).
-        type: str
-      route_target: *route_target
-      vnet:
-        description: Virtual NETworking configuration.
-        type: dict
-        suboptions:
-          tag:
-            description: Identifier used to tag packets associated with this VNET
-            type: int
-      vpn:
-        description: Configure VPN ID for the VRF as specified in RFC 2685
-        type: dict
-        suboptions:
-          id:
-            description: Configure VPN ID in RFC 2685 format
-            type: str
   running_config:
     description:
       - This option is used only with state I(parsed).
