@@ -9,7 +9,7 @@ notes:
     See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_ios.html)
 options:
   config:
-    description:  A dictionary containing device configurations for VRF, including a list of VRF definitions.
+    description: A dictionary containing device configurations for VRF, including a list of VRF definitions.
     type: dict
     suboptions:
       vrfs:
