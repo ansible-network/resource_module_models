@@ -13,7 +13,7 @@
     dellemc.enterprise_sonic.sonic_login_lockout:
       config:
         period: 12
-        max-retries : 5
+        max_retries : 5
       state: deleted
 
 # After State:
