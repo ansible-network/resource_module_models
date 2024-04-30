@@ -12,12 +12,12 @@ RESOURCE: login_lockout
 COPYRIGHT: Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved
 DOCUMENTATION: |
     module: sonic_login_lockout
-    version_added: '2.4.0'
+    version_added: '2.5.0'
     short_description: Manage Global Login Lockout configurations on SONiC
     description:
       - This module provides configuration management of login lockout parameters.
-        Login Lockout feature is to lock out the user account for user-lockout-period
-        after the max-retry failed attempts. Console exempt option can be enabled 
+      - Login Lockout feature is to lock out the user account for user-lockout-period
+        after the max-retry failed attempts. The console exempt option can be enabled
         to skip the login lockout validations for console users.
     author: 'Arul Kumar Shankara Narayanan(@arulkumar9690)'
     options:
@@ -25,7 +25,7 @@ DOCUMENTATION: |
         description: The set of login lockout attribute configurations
         type: dict
         suboptions:
-          console-exempt:
+          console_exempt:
             description:
               - Exempt console logins from account lockout.
             type: bool
@@ -34,21 +34,27 @@ DOCUMENTATION: |
               - Account lockout period in minutes
               - The range is from 0 to 43200
             type: int
-          max-retries:
+          max_retries:
             description:
               -  The number of maximum password retries.
               - The range is from 0 to 16
-            type: int 
+            type: int
       state:
         description:
-          - Specifies the operation to be performed on the login attributes configured on the device. 
-            If the state is "merged", merge specified attributes with existing configured login attributes.
-            For "deleted", delete the specified login attributes from existing configuration.
+          - Specifies the operation to be performed on the login attributes configured on the device.
+          - If the state is "merged", merge specified attributes with existing configured login attributes.
+          - For "deleted", delete the specified login attributes from the existing configuration.
+          - For "overridden", Overrides all on-device login lockout configurations with the provided configuration.
+          - For "replaced", Replaces on-device login lockout configurations with the provided configuration.
         type: str
         choices:
           - merged
           - deleted
+          - overridden
+          - replaced
         default: merged
 EXAMPLES:
   - deleted_example_01.txt
   - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
