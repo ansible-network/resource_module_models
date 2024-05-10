@@ -1,0 +1,60 @@
+# Using deleted
+
+# Before state:
+# -------------
+#
+#sonic# show running-configuration interface
+#!
+#interface Eth1/1
+# ip ospf area 2.2.2.2
+# ip ospf bfd
+# ip ospf bfd profile profile2
+# ip ospf cost 30
+# ip ospf dead-interval 40
+# ip ospf hello-interval 10
+# ip ospf mtu-ignore
+# ip ospf network point-to-point
+# ip ospf priority 20
+# ip ospf authentication null 10.10.120.1
+# ip ospf authentication-key U2FsdGVkX1/Ml24vwe6RSjUUqI+54BdDyDL0eKUezJw= encrypted 10.10.120.1
+# ip ospf dead-interval minimal hello-multiplier 5 10.10.120.1
+# ip ospf authentication null 10.19.119.1
+# ip ospf message-digest-key 10 md5 U2FsdGVkX1/Bq/+x8a3fsBo9ZrAX56ynmPKnRM87kfQ= encrypted 10.19.119.1
+#!
+#interface Eth1/2
+# ip ospf bfd
+# ip ospf network point-to-point
+#!
+#interface Eth1/3
+# ip ospf bfd
+# ip ospf network point-to-point
+# ip ospf area 3.3.3.3 10.19.120.2
+# ip ospf authentication message-digest 10.19.120.2
+# ip ospf authentication-key U2FsdGVkX19HqGCcf2pzGur9MDnb0VzLNRvoFij3Os0= encrypted 10.19.120.2
+# ip ospf dead-interval minimal hello-multiplier 5 10.19.120.2
+#!
+#sonic#
+
+  - name: Delete the OSPFv2_interface configurations
+    sonic_ospfv2_interfaces:
+      config:
+        - name: 'Eth1/1'
+        - name: 'Eth1/2'
+          bfd:
+            enable: True
+        - name: 'Eth1/3'
+      state: deleted
+
+# After state:
+# ------------
+#
+#sonic# show running-configuration interface
+#!
+#interface Eth1/1
+#!
+#interface Eth1/2
+# ip ospf network point-to-point
+#!
+#interface Eth1/3
+#!
+#sonic#
