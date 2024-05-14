@@ -12,7 +12,8 @@ notes:
 options:
   config:
     description: VRF address family configuration.
-    type: dict
+    type: list
+    elements: dict
     suboptions:
       name:
         description: Name of the VRF.
