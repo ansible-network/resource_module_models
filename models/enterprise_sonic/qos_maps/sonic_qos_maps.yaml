@@ -1,18 +1,11 @@
 ---
 GENERATOR_VERSION: '1.0'
-ANSIBLE_METADATA: |
-    {
-        'metadata_version': '1.1',
-        'status': ['preview'],
-        'supported_by': 'community',
-        'license': 'Apache 2.0'
-    }
 NETWORK_OS: sonic
 RESOURCE: qos_maps
 COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
 DOCUMENTATION: |
     module: sonic_qos_maps
-    version_added: 2.5.0
+    version_added: 3.0.0
     short_description: Manage QoS maps configuration on SONiC
     description:
       - This module provides configuration management of QoS maps for devices running SONiC
