@@ -5,7 +5,7 @@ RESOURCE: qos_buffer
 COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
 DOCUMENTATION: |
     module: sonic_qos_buffer
-    version_added: "2.5.0"
+    version_added: "3.0.0"
     short_description: Manage QoS buffer configuration on SONiC
     description:
       - This module provides configuration management of QoS buffer for devices running SONiC
