@@ -1,0 +1,60 @@
+# Using deleted
+#
+# Before state
+# ------------
+#
+# vagrant@vsrx> show security policies
+# Default policy: deny-all
+# Pre ID default policy: permit-all
+# Global policies:
+# Policy: test_glob_3, State: enabled, Index: 10, Scope Policy: 0, Sequence number: 1
+# From zones: any
+# To zones: any
+# Source addresses: any
+# Destination addresses: any-ipv6
+# Applications: any
+# Action: deny
+#
+- junipernetworks.junos.junos_security_policies:
+    config:
+    state: deleted
+#
+# -------------------------
+# Module Execution Result
+# -------------------------
+#
+#   "after": {},
+#   "before": {
+#     "global": {
+#       "policies": [
+#         {
+#           "description": "test update",
+#           "match": {
+#             "application": {
+#               "any": true
+#             },
+#             "destination_address": {
+#               "any_ipv6": true
+#             },
+#             "source_address": {
+#               "any": true
+#             }
+#           },
+#           "name": "test_glob_3",
+#           "then": {
+#             "deny": true
+#           }
+#         }
+#       ]
+#     }
+#   },
+#   "changed": true,
+#   "commands": "<nc:security xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+#   <nc:policies delete="delete"/></nc:security>"
+#
+# After state
+# -----------
+#
+# vagrant@vsrx> show security policies
+# Default policy: deny-all
+# Pre ID default policy: permit-all
