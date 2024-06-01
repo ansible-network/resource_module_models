@@ -69,10 +69,28 @@ DOCUMENTATION: |
                       - IPv6 address to be set in the address format is <ipv6 address>/<mask>
                         for example, 2001:db8:2201:1::1/64.
                     type: str
+                  eui64:
+                    description:
+                      - Flag to indicate whether it is eui64 address
+                    type: bool  
+                    default: 'False'
               enabled:
                 description:
                   - enabled flag of the ipv6.
                 type: bool
+              autoconf:
+                description:
+                  - autoconfiguration flag
+                type: bool  
+                default: 'False'
+              dad:
+                description:
+                  - IPv6 nd dad related configs.
+                type: str
+                choices:
+                  - ENABLE
+                  - DISABLE
+                  - DISABLE_IPV6_ON_FAILURE
       state:
         description:
           - The state of the configuration after module completion.
