@@ -3,32 +3,34 @@
 # Before state:
 # -------------
 #
-#!
-#router bgp 10 vrf VrfCheck1
-# router-id 10.2.2.32
-# log-neighbor-changes
-#!
-#router bgp 11 vrf VrfCheck2
-# log-neighbor-changes
-# bestpath as-path ignore
-# bestpath med missing-as-worst confed
-# bestpath compare-routerid
-#!
-#router bgp 4
-# router-id 10.2.2.4
-# bestpath as-path ignore
-# bestpath as-path confed
-# bestpath med missing-as-worst confed
-# bestpath compare-routerid
-#!
-#
-#- name: Delete all the bgp global configurations
-#    sonic_bgp:
-#      config:
-#      state: deleted
-#
+# !
+# router bgp 10 vrf VrfCheck1
+#  router-id 10.2.2.32
+#  route-map delay-timer 20
+#  log-neighbor-changes
+# !
+# router bgp 11 vrf VrfCheck2
+#  log-neighbor-changes
+#  bestpath as-path ignore
+#  bestpath med missing-as-worst confed
+#  bestpath compare-routerid
+# !
+# router bgp 4
+#  router-id 10.2.2.4
+#  route-map delay-timer 10
+#  bestpath as-path ignore
+#  bestpath as-path confed
+#  bestpath med missing-as-worst confed
+#  bestpath compare-routerid
+# !
+
+- name: Deletes all the bgp global configurations
+  dellemc.enterprise_sonic.sonic_bgp:
+     config:
+     state: deleted
+
 # After state:
 # ------------
 #
-#!
-#!
+# !
+# !

@@ -3,63 +3,79 @@
 # Before state:
 # -------------
 #
-#!
-#router bgp 4
-# router-id 10.1.1.4
-#!
+# !
+# router bgp 4
+#  router-id 10.1.1.4
+# !
 #
-#- name: Merge provided BGP Global configuration in device
-#    sonic_bgp:
-#      config:
-#        - bgp_as: 4
-#          router_id: 10.2.2.4
-#          log_neighbor_changes: False
-#          bestpath:
-#            as_path:
-#              confed: True
-#              ignore: True
-#              multipath_relax: False
-#              multipath_relax_as_set: True
-#            compare_routerid: True
-#            med:
-#              confed: True
-#              missing_as_worst: True
-#        - bgp_as: 10
-#          router_id: 10.2.2.32
-#          log_neighbor_changes: True
-#          vrf_name: 'VrfCheck1'
-#        - bgp_as: 11
-#          log_neighbor_changes: True
-#          vrf_name: 'VrfCheck2'
-#          bestpath:
-#            as_path:
-#              confed: False
-#              ignore: True
-#              multipath_relax_as_set: True
-#            compare_routerid: True
-#            med:
-#              confed: True
-#              missing_as_worst: True
-#      state: merged
+- name: Merges provided configuration with device configuration
+  dellemc.enterprise_sonic.sonic_bgp:
+     config:
+       - bgp_as: 4
+         router_id: 10.2.2.4
+         rt_delay: 10
+         log_neighbor_changes: False
+         timers:
+           holdtime: 20
+           keepalive_interval: 30
+         bestpath:
+           as_path:
+             confed: True
+             ignore: True
+             multipath_relax: False
+             multipath_relax_as_set: True
+           compare_routerid: True
+           med:
+             confed: True
+             missing_as_worst: True
+             always_compare_med: True
+         max_med:
+           on_startup:
+             timer: 667
+             med_val: 7878
+       - bgp_as: 10
+         router_id: 10.2.2.32
+         rt_delay: 20
+         log_neighbor_changes: True
+         vrf_name: 'VrfCheck1'
+       - bgp_as: 11
+         log_neighbor_changes: True
+         vrf_name: 'VrfCheck2'
+         bestpath:
+           as_path:
+             confed: False
+             ignore: True
+             multipath_relax_as_set: True
+           compare_routerid: True
+           med:
+             confed: True
+             missing_as_worst: True
+     state: merged
 #
 # After state:
 # ------------
 #
-#!
-#router bgp 10 vrf VrfCheck1
-# router-id 10.2.2.32
-# log-neighbor-changes
-#!
-#router bgp 11 vrf VrfCheck2
-# log-neighbor-changes
-# bestpath as-path ignore
-# bestpath med missing-as-worst confed
-# bestpath compare-routerid
-#!
-#router bgp 4
-# router-id 10.2.2.4
-# bestpath as-path ignore
-# bestpath as-path confed
-# bestpath med missing-as-worst confed
-# bestpath compare-routerid
-#!
+# !
+# router bgp 10 vrf VrfCheck1
+#  router-id 10.2.2.32
+#  route-map delay-timer 20
+#  log-neighbor-changes
+# !
+# router bgp 11 vrf VrfCheck2
+#  log-neighbor-changes
+#  bestpath as-path ignore
+#  bestpath med missing-as-worst confed
+#  bestpath compare-routerid
+# !
+# router bgp 4
+#  router-id 10.2.2.4
+#  route-map delay-timer 10
+#  bestpath as-path ignore
+#  bestpath as-path confed
+#  bestpath med missing-as-worst confed
+#  bestpath compare-routerid
+#  always-compare-med
+#  max-med on-startup 667 7878
+#  timers 20 30
+#
+# !
