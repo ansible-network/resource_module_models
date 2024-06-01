@@ -1,0 +1,41 @@
+# Using Merged
+#
+# Before state:
+# -------------
+#
+# sonic# show qos map dscp-tc
+# (No qos map dscp-tc configuration present)
+
+- name: Merge QoS maps configurations
+  dellemc.enterprise_sonic.sonic_qos_maps:
+    config:
+      dscp_maps:
+        - name: dscp_map1
+          entries:
+            - dscp: 0
+              fwd_group: 0
+            - dscp: 1
+              fwd_group: 7
+        - name: dscp_map2
+          entries:
+            - dscp: 2
+              fwd_group: 4
+    state: merged
+
+# After state:
+# ------------
+#
+# sonic# show qos map dscp-tc
+# DSCP-TC-MAP: dscp_map1
+# ----------------------------
+#     DSCP TC
+# ----------------------------
+#     0    0
+#     1    7
+# ----------------------------
+# DSCP-TC-MAP: dscp_map2
+# ----------------------------
+#     DSCP TC
+# ----------------------------
+#     2    4
+# ----------------------------

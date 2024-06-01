@@ -1,0 +1,41 @@
+# Using Overridden
+# Before state:
+# -------------
+#
+# sonic# show qos map dscp-tc
+# DSCP-TC-MAP: dscp_map1
+# ----------------------------
+#     DSCP TC
+# ----------------------------
+#     3    5
+# ----------------------------
+# DSCP-TC-MAP: dscp_map2
+# ----------------------------
+#     DSCP TC
+# ----------------------------
+#     2    4
+# ----------------------------
+
+- name: Override QoS maps configurations
+  dellemc.enterprise_sonic.sonic_qos_maps:
+    config:
+      pfc_priority_queue_maps:
+        - name: pfc_map1
+          entries:
+            - dot1p: 0
+              queue_index: 0
+            - dot1p: 4
+              queue_index: 5
+    state: overridden
+
+# After state:
+# ------------
+#
+# sonic# show qos map pfc-priority-queue
+# PFC-Priority-Queue-MAP: pfc_map1
+# ----------------------------
+#     PFC Priority   Queue
+# ----------------------------
+#     0              0
+#     4              5
+# ----------------------------

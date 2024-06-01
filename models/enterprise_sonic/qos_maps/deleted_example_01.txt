@@ -1,0 +1,37 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+# sonic# show qos map dot1p-tc
+# DOT1P-TC-MAP: dot1p_map1
+# ----------------------------
+#     DOT1P  TC
+# ----------------------------
+#     0      0
+#     1      6
+# ----------------------------
+# DOT1P-TC-MAP: dot1p_map2
+# ----------------------------
+#     DOT1P  TC
+# ----------------------------
+#     2      5
+# ----------------------------
+
+- name: Delete QoS maps configurations
+  dellemc.enterprise_sonic.sonic_qos_maps:
+    config:
+      dot1p_maps:
+        - name: dot1p_map1
+          entries:
+            - dot1p: 0
+            - dot1p: 1
+              fwd_group: 6
+        - name: dot1p_map2
+    state: deleted
+
+# After state:
+# ------------
+#
+# sonic# show qos map dot1p-tc
+# (No qos map dot1p-tc configuration present)
