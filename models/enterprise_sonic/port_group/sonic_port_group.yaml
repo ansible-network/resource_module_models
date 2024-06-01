@@ -1,0 +1,66 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community',
+        'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: port_group
+COPYRIGHT: "© Copyright 2022 Dell Inc. or its subsidiaries. All Rights Reserved"
+DOCUMENTATION: |
+    module: sonic_port_group
+    version_added: 2.10
+    short_description: Manages port group configuration on SONiC.
+    description:
+      - This module provides configuration management of port group for devices running SONiC.
+    author: 'M. Zhang (@mingjunzhang2019)'
+    options:
+      config:
+        description:
+          - A list of port group configurations.
+        type: list
+        elements: dict
+        suboptions:
+          id:
+            type: str
+            description:
+              - The index of the port group.
+            required: true
+          speed:
+            description:
+              - Speed for the port group.
+              - This configures the speed for all the memebr ports of the prot group.
+              - Supported speeds are dependent on the type of switch.
+            type: str
+            choices:
+              - SPEED_10MB
+              - SPEED_100MB
+              - SPEED_1GB
+              - SPEED_2500MB
+              - SPEED_5GB
+              - SPEED_10GB
+              - SPEED_20GB
+              - SPEED_25GB
+              - SPEED_40GB
+              - SPEED_50GB
+              - SPEED_100GB
+              - SPEED_400GB
+      state:
+        description:
+          - The state of the configuration after module completion.
+        type: str
+        choices:
+          - merged
+          - replaced
+          - overridden
+          - deleted
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
