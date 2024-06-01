@@ -41,26 +41,29 @@ DOCUMENTATION: |
               description:
                 - Enable or disable DHCP snooping on the AFI.
               type: bool
+              default: false
             vlans:
               description:
-                - Enable or disable DHCP snooping on a VLAN or range of VLANs.
-                - Give a single VLAN ID or hyphen-delimited range of VLAN IDs, e.g., "1" or "1-3".
+                - Enable or disable DHCP snooping on a list of VLANs.
+                - Provide an array of strings of VLAN IDs, e.g., ['1', '2', '4'].
+                - To delete all VLANs, provide ['all'] as the array.
               type: list
               elements: str
             verify_mac:
               description:
                 - Enable or disable DHCP snooping MAC verification.
               type: bool
+              default: true
             trusted:
               description:
                 - Mark interfaces as trusted for DHCP snooping.
+                - To delete the entire dict, provide one interface with intf_number = 'all' and intf_type = 'Ethernet' (it will still delete both Ethernet and PortChannel interfaces).
               type: list
               elements: dict
               suboptions:
                 intf_number:
                   description:
                     - The interface number.
-                    - If the interface type is Ethernet, must be a single number; if the type is PortChannel, can be a single number or a hyphen-delimited range.
                   type: str
                   required: true
                 intf_type:
@@ -69,9 +72,11 @@ DOCUMENTATION: |
                     - Can be Ethernet or PortChannel.
                   type: str
                   choices: ['Ethernet', 'PortChannel']
+                  required: true
             source_bindings:
               description:
                 - Create a static entry in the DHCP snooping binding database.
+                - To delete all entries, provide one entry with mac_addr = 'all'.
               type: list
               elements: dict
               suboptions:
@@ -84,18 +89,15 @@ DOCUMENTATION: |
                   description:
                     - The bindings's IP address.
                   type: str
-                  required: true
                 intf_name:
                   description:
                     - The binding's interface name.
                     - Can be an Ethernet or a PortChannel interface.
                   type: str
-                  required: true
                 vlan_id:
                   description:
                     - The binding's VLAN ID.
                   type: int
-                  required: true
     state:
       description:
         - The state of the configuration after module completion.
