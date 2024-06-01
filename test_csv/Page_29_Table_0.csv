@@ -1,0 +1,50 @@
+Parameter,Type,Description
+[no] pbit0,"Parameter type: <Vlan::NibbleMaskRestricted_0>
+Format:
+- nibble mask
+- range: [0...8]","optional parameter with default
+value: 8
+pbit mapping corresponding to
+pbit0"
+[no] pbit1,"Parameter type: <Vlan::NibbleMaskRestricted_1>
+Format:
+- nibble mask
+- range: [0...8]","optional parameter with default
+value: 8
+pbit mapping corresponding to
+pbit1"
+[no] pbit2[no] pbit3,"Parameter type: <Vlan::NibbleMaskRestricted_2>Parameter type: <Vlan::NibbleMaskRestricted_3>
+Format:
+- nibble mask
+- range: [0...8]","optional parameter with defaultoptional parameter with default
+value: 8
+pbit mapping corresponding to
+pbit3"
+[no] pbit4,"Parameter type: <Vlan::NibbleMaskRestricted_4>
+Format:
+- nibble mask
+- range: [0...8]","optional parameter with default
+value: 8
+pbit mapping corresponding to
+pbit4"
+[no] pbit5,"Parameter type: <Vlan::NibbleMaskRestricted_5>
+Format:
+- nibble mask
+- range: [0...8]","optional parameter with default
+value: 8
+pbit mapping corresponding to
+pbit5"
+[no] pbit6,"Parameter type: <Vlan::NibbleMaskRestricted_6>
+Format:
+- nibble mask
+- range: [0...8]","optional parameter with default
+value: 8
+pbit mapping corresponding to
+pbit6"
+[no] pbit7,"Parameter type: <Vlan::NibbleMaskRestricted_7>
+Format:
+- nibble mask
+- range: [0...8]","optional parameter with default
+value: 8
+pbit mapping corresponding to
+pbit7"

@@ -1,0 +1,9 @@
+Resource Identifier,Type,Description
+min-dot1p,"Parameter type: <Vlan::Dot1pMin>
+Format:
+- dot1p value range
+- range: [0...7]",min p-bit value
+max-dot1p,"Parameter type: <Vlan::Dot1pMax>
+Format:
+- dot1p value range
+- range: [0...7]",max p-bit value

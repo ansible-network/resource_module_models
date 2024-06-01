@@ -1,0 +1,22 @@
+Parameter,Type,Description
+vlan-id,"Parameter type: <Vlan::StackedVlan>
+Format:
+( <Vlan::UVlanIndex>
+| stacked : <Vlan::SVlanIndex> : <Vlan::CVlanIndex> )
+Possible values:
+- stacked : stacked vlan identity
+Field type <Vlan::UVlanIndex>
+- unstacked vlan identity
+- range: [1...4093,4096]
+Field type <Vlan::SVlanIndex>
+- service vlan identity
+- range: [2...4093]
+Field type <Vlan::CVlanIndex>
+- customer vlan identity
+- range: [0...4093]","mandatory parameter
+protocol group vlan id"
+priority,"Parameter type: <Vlan::Priority>
+Format:
+- priority of ethernet frames
+- range: [0...7]","mandatory parameter
+priority of protocol based vlan"

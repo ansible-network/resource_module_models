@@ -1,0 +1,15 @@
+Parameter,Type,Description
+,- not-applicable : Legacy behavior,
+[no] arp-snooping,Parameter type: boolean,"optional parameter
+enable arp snooping"
+[no] arp-polling,Parameter type: boolean,"optional parameter
+enable arp polling"
+[no] arp-polling-ip,"Parameter type: <Ip::V4Address>
+Format:
+- IPv4-address","optional parameter with default
+value: ""0.0.0.0""
+configure ARP polling ip address"
+[no] mac-unauth,Parameter type: boolean,"optional parameter
+enable mac unauthorized default:
+forward the frame to this vlan if
+authorization failed"

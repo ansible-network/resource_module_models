@@ -1,0 +1,422 @@
+---
+module: isam_vlans
+version_added: 2.9
+short_description: 'Manages interface attributes of Nokia ISAM MSAN devices.'
+description: 'This module manages interface attributes of Nokia ISAM MSAN devices'
+author: Jan Kuehnemund
+notes:
+- 'Tested against Nokia ISAM with OS Version R6.2.04m'
+options:
+  config:
+    description: A dictionary of options for vlans
+    type: dict
+    elements: dict
+    suboptions:
+      # > configure vlan [ [ no ] broadcast-frames ] priority-policy <Vlan::PriorityMap>
+      broadcast_frames:
+        type: bool
+        description: |
+          Enable or disable broadcast frames on the VLAN. Default is enabled.
+
+      # DS-LIN-TEST-01>#configure vlan priority-policy ?3 pbit0
+      # vlan-specific         ! the priority of the vlan
+      # port-default          ! the default priority of the port
+      priority_policy:
+        type: str
+        description: |
+          Configure the priority policy for the VLAN.
+        choices:
+        - vlan_specific
+        - port_default
+
+      vlan_address_format:
+        type: dict
+        description: configure vMac address related information
+        suboptions:
+          host_id:
+            type: int
+            description: |
+              A unique host Id within an EMAN connected to the same IP
+              edges. Maximum supported value in GPON is 65535.
+              range: [1...524287]
+      id:
+        type: list
+        elements: dict
+        description: Configure a VLAN
+        suboptions:
+          vlan_id:
+            type: int
+            description: VLAN ID
+            required: true
+          name:
+            type: str
+            description: VLAN name     
+          mode:
+            type: str
+            description: VLAN mode
+            choices:
+            - cross_connect
+            - residential_bridge
+            - qos_aware
+            - layer2_terminated
+            - mirror
+          sntp_proxy:
+            type: bool
+            description: enable SNTP proxy
+          priority:
+            type: int
+            description: |
+              <Vlan::Priority>      ! priority of ethernet frames
+              range: [0...7]
+          vmac_not_in_opt61:
+            type: bool
+            description: skip vmac translation in dhcp option 61 even when vmac is enabled
+          new_broadcast:
+            type: str
+            description: |
+              switch downstream broadcast frames (On GPON and L2+ LT boards, broadcast control for S+C L2 Forwarders can only be controlled at S-VLAN level, not individually at S+C-VLAN level.)
+              inherit               ! for S+C VLAN: inherit from S VLAN level if existing; for S or C VLAN: inherit from default fixed system value(which is disable)
+              enable                ! new switch broadcast frames
+              disable               ! new disable broadcast frames
+            choices:
+            - inherit
+            - enable
+            - disable
+          # [no] protocol-filter  : control protocol group filters
+          #                         default = pass-all
+          # DS-LIN-TEST-01>#configure vlan id 1 protocol-filter ?
+          # pass-all              ! pass all traffic
+          # pass-pppoe            ! pass traffic of PPPoE protocol group
+          # pass-ipoe             ! pass traffic of IPv4oE protocol group
+          # pass-pppoe-ipoe       ! pass PPPoE and IPv4oE protocol groups
+          # pass-ipv6oe           ! pass traffic of IPv6oE protocol group
+          # pass-pppoe-ipv6oe     ! pass PPPoE and IPv6oE protocol groups
+          # pass-ipoe-ipv6oe      ! pass IPv4oE and IPv6oE protocol groups
+          # pass-pppoe-ipoe-ipv6oe! pass PPPoE, IPv4oE and IPv6oE protocol groups
+          protocol_filter:
+            type: str
+            description: control protocol group filters
+            choices:
+            - pass_all
+            - pass_pppoe
+            - pass_ipoe
+            - pass_pppoe_ipoe
+            - pass_ipv6oe
+            - pass_pppoe_ipv6oe
+            - pass_ipoe_ipv6oe
+            - pass_pppoe_ipoe_ipv6oe
+
+
+          # [no] pppoe-relay-tag  : configure the format of the PPPoE relay tag
+          #                         default = false
+          # DS-LIN-TEST-01>#configure vlan id 1 pppoe-relay-tag ?
+          # true                  ! pppoe tag with the current fixed format
+          # false                 ! no pppoe tag
+          # configurable          ! circuit-id-pppoe and remote-id-pppoe controlling format
+          pppoe_relay_tag:
+            type: str
+            description: configure the format of the PPPoE relay tag
+            choices:
+            - true
+            - false
+            - configurable
+
+          # [no] drly-srv-usr-side: enable DHCP(v4/v6) server transparency at the user side
+          #                         when DHCP(v4/v6) relay is enabled.Only applicable for CC
+          #                         forwarder
+          #                         default = disable
+          # DS-LIN-TEST-01>#configure vlan id 1 drly-srv-usr-side ?
+          # enable                ! enable DHCP(v4/v6) server transparency at the user side
+          #                         when DHCP(v4/v6) relay is enabled.
+          # disable               ! disable DHCP(v4/v6) server transparency at the user side
+          #                         when DHCP(v4/v6) relay is enabled.
+          drly_srv_usr_side:
+            type: str
+            description: enable DHCP(v4/v6) server transparency at the user side when DHCP(v4/v6) relay is enabled.Only applicable for CC forwarder
+            choices:
+            - enable
+            - disable
+
+          # [no] new-secure-fwd   : enable secure forwarding for the VLAN (On GPON and L2+
+          #                         LT boards, secure forwarding for S+C L2 Forwarders can
+          #                         only be controlled at S-VLAN level, not individually at
+          #                         S+C-VLAN level.)
+          #                         default = inherit
+          # DS-LIN-TEST-01>#configure vlan id 1 new-secure-fwd ?
+          # inherit               ! inherit new-secure-forwarding
+          # disable               ! disable new-secure-forwarding
+          # enable                ! enable new-secure-forwarding
+          new_secure_fwd:
+            type: str
+            description: enable secure forwarding for the VLAN (On GPON and L2+ LT boards, secure forwarding for S+C L2 Forwarders can only be controlled at S-VLAN level, not individually at S+C-VLAN level.)
+            choices:
+            - inherit
+            - disable
+            - enable
+
+          # [no] aging-time       : configure MAC aging time in seconds; in case of
+          #                         default,the system-level value is applicable.
+          #                         default = -1
+          # DS-LIN-TEST-01>#configure vlan id 1 aging-time ?
+          # <Vlan::MacAgingTime>  ! mac aging time in seconds
+          #                         range: [-1,10...1000000]  unit: sec
+          aging_time:
+            type: int
+            description: configure MAC aging time in seconds; in case of default,the system-level value is applicable.
+
+          # [no] l2cp-transparent : enable l2cp-transparent
+          l2cp_transparent:
+            type: bool
+            description: enable l2cp-transparent
+
+          # [no] in-qos-prof-name : QoS ingress profile name
+          #                         default = default
+          in_qos_prof_name:
+            type: str
+            description: QoS ingress profile name
+
+          # [no] ipv4-mcast-ctrl  : enable ipv4 multicast control: forward ipv4 multicast
+          #                         frames in this vlan
+          ipv4_mcast_ctrl:
+            type: bool
+            description: enable ipv4 multicast control: forward ipv4 multicast frames in this vlan
+
+          # [no] ipv6-mcast-ctrl  : enable ipv6 multicast control: forward ipv6 multicast
+          #                         frames in this vlan
+          ipv6_mcast_ctrl:
+            type: bool
+            description: enable ipv6 multicast control: forward ipv6 multicast frames in this vlan
+
+          # [no] mac-mcast-ctrl   : enable mac multicast control: forward mac multicast
+          #                         frames in this vlan
+          mac_mcast_ctrl:
+            type: bool
+            description: enable mac multicast control: forward mac multicast frames in this vlan
+
+          # [no] dis-proto-rip    : disable RIP-IPv4 protocol
+          dis_proto_rip:
+            type: bool
+            description: disable RIP-IPv4 protocol
+
+          # [no] proto-ntp        : enable ntp protocol
+          proto_ntp:
+            type: bool
+            description: enable ntp protocol
+
+          # [no] dis-ip-antispoof : disable IP anti-spoofing
+          dis_ip_antispoof:
+            type: bool
+            description: disable IP anti-spoofing
+
+          # [no] unknown-unicast  : enable unknown unicast flooding
+          unknown_unicast:
+            type: bool
+            description: enable unknown unicast flooding
+
+          # [no] pt2ptgem-flooding: enable flooding on unicast GEM port
+          pt2ptgem_flooding:
+            type: bool
+            description: enable flooding on unicast GEM port
+
+          # [no] mac-movement-ctrl: enable mac movement in this vlan
+          mac_movement_ctrl:
+            type: bool
+            description: enable mac movement in this vlan
+
+          # [no] cvlan4095passthru: enable C-VLAN 4095 tunneling behavior. Only applicable
+          #                         for S-VLAN CC forwarder
+          #                         default = not-applicable
+          # DS-LIN-TEST-01>#configure vlan id 1 cvlan4095passthru ?
+          # passthru              ! Allow passthru of cvlan 4095 - applicable only for
+          #                         SVLANCC
+          # not-applicable        ! Legacy behavior
+          cvlan4095passthru:
+            type: str
+            description: enable C-VLAN 4095 tunneling behavior. Only applicable for S-VLAN CC forwarder
+            choices:
+            - passthru
+            - not_applicable
+
+          # [no] arp-snooping     : enable arp snooping
+          arp_snooping:
+            type: bool
+            description: enable arp snooping
+
+          # [no] arp-polling      : enable arp polling
+          arp_polling:
+            type: bool
+            description: enable arp polling
+
+          # [no] arp-polling-ip   : configure ARP polling ip address
+          #                         default = 0.0.0.0
+          arp_polling_ip:
+            type: str
+            description: configure ARP polling ip address
+
+          # [no] mac-unauth       : enable mac unauthorized default: forward the frame to
+          #                         this vlan if authorization failed
+          mac_unauth:
+            type: bool
+            description: enable mac unauthorized default: forward the frame to this vlan if authorization failed
+      # unicast_mac:
+      #   type: dict
+      #   description: |
+      #     configure filtering information for static unicast mac address
+      #     The unicast MAC address of the VLAN. Range: [0...16777215]
+      #   suboptions:
+      #     mac_address:
+      #       type: str
+      #       description: |
+      #         mac address (aa:bb:cc:a1:02:03) length: 6 unit: Byte
+      #     vlan_id:
+      #       type: int
+      #       description: |
+      #         stacked:<...>         ! stacked vlan identity
+      #         <Network::UVlanIndex> ! unstacked vlan identity range: [1...4093]
+      #     forward_port:
+      #       type: str
+      #       description: |
+      #         forward bridge port      
+      vlan_port:
+        type: list
+        elements: dict
+        description: |
+          configure filtering information for static unicast mac address
+          The unicast MAC address of the VLAN. Range: [0...16777215]
+        suboptions:
+          vlan_port:
+            type: str
+            description: |
+              bridge port name
+          unicast_mac:
+            type: str
+            description: |
+              mac address (aa:bb:cc:a1:02:03) length: 6 unit: Byte
+
+      # > configure vlan ( no port-protocol (port) protocol-group <Vlan::GroupId> ) | ( port-protocol (port) protocol-group
+      # <Vlan::GroupId> vlan-id <Vlan::StackedVlan> priority <Vlan::Priority> )
+
+      port_protocol:
+        type: list
+        elements: dict
+        description: |
+          configure vlan ( no port-protocol (port) protocol-group <Vlan::GroupId> ) | ( port-protocol (port) protocol-group
+          <Vlan::GroupId> vlan-id <Vlan::StackedVlan> priority <Vlan::Priority> )
+        suboptions:
+          port:
+            type: str
+            description: |
+              bridge port name
+
+          # DS-LIN-TEST-01>#configure vlan port-protocol protocol-group ?
+          # pppoe                 ! PPPoE
+          # ipoe                  ! IPv4oE
+          # ipv6oe                ! IPv6oE
+          protocol_group:
+            type: str
+            description: |
+              protocol group
+            choices:
+            - pppoe
+            - ipoe
+            - ipv6oe
+      # > configure vlan pbit-statistics ( no port (vlan-port) min-dot1p <Vlan::Dot1pMin> max-dot1p <Vlan::Dot1pMax> )
+      # | ( port (vlan-port) min-dot1p <Vlan::Dot1pMin> max-dot1p <Vlan::Dot1pMax> )
+
+      pbit_statistics:
+        type: list
+        elements: dict
+        description: |
+          configure vlan pbit-statistics ( no port (vlan-port) min-dot1p <Vlan::Dot1pMin> max-dot1p <Vlan::Dot1pMax> )
+          | ( port (vlan-port) min-dot1p <Vlan::Dot1pMin> max-dot1p <Vlan::Dot1pMax> )
+        suboptions:
+          vlan_port:
+            type: str
+            description: |
+              bridge port name
+          min_dot1p:
+            type: int
+            description: |
+              min dot1p value
+          max_dot1p:
+            type: int
+            description: |
+              max dot1p value
+      # > configure vlan ( no priority-regen (profile-idx) ) | ( priority-regen (profile-idx) profile-name <AsamProfileName>
+      # [ no pbit0 | pbit0 <Vlan::NibbleMaskRestricted_0> ] [ no pbit1 | pbit1 <Vlan::NibbleMaskRestricted_1> ] [ no
+      # pbit2 | pbit2 <Vlan::NibbleMaskRestricted_2> ] [ no pbit3 | pbit3 <Vlan::NibbleMaskRestricted_3> ] [ no pbit4 |
+      # pbit4 <Vlan::NibbleMaskRestricted_4> ] [ no pbit5 | pbit5 <Vlan::NibbleMaskRestricted_5> ] [ no pbit6 | pbit6
+      # <Vlan::NibbleMaskRestricted_6> ] [ no pbit7 | pbit7 <Vlan::NibbleMaskRestricted_7> ] )
+
+      priority_regen:
+        type: list
+        elements: dict
+        description: |
+          configure vlan ( no priority-regen (profile-idx) ) | ( priority-regen (profile-idx) profile-name <AsamProfileName>
+          [ no pbit0 | pbit0 <Vlan::NibbleMaskRestricted_0> ] [ no pbit1 | pbit1 <Vlan::NibbleMaskRestricted_1> ] [ no
+          pbit2 | pbit2 <Vlan::NibbleMaskRestricted_2> ] [ no pbit3 | pbit3 <Vlan::NibbleMaskRestricted_3> ] [ no pbit4 |
+          pbit4 <Vlan::NibbleMaskRestricted_4> ] [ no pbit5 | pbit5 <Vlan::NibbleMaskRestricted_5> ] [ no pbit6 | pbit6
+          <Vlan::NibbleMaskRestricted_6> ] [ no pbit7 | pbit7 <Vlan::NibbleMaskRestricted_7> ] )
+        suboptions:
+          profile_idx:
+            type: int
+            description: |
+              profile index
+          profile_name:
+            type: str
+            description: |
+              unique profile name
+          pbit0:
+            type: int
+            description: |
+              pbit0 value
+          pbit1:
+            type: int
+            description: |
+              pbit1 value
+          pbit2:
+            type: int
+            description: |
+              pbit2 value
+          pbit3:
+            type: int
+            description: |
+              pbit3 value
+          pbit4:
+            type: int
+            description: |
+              pbit4 value
+          pbit5:
+            type: int
+            description: |
+              pbit5 value
+          pbit6:
+            type: int
+            description: |
+              pbit6 value
+          pbit7:
+            type: int
+            description: |
+              pbit7 value
+
+      # > configure vlan ( no tpid (tpid_idx) ) | ( tpid (tpid_idx) value <Vlan::Tpid> )
+      tpid:
+        type: list
+        elements: dict
+        description: |
+          configure vlan ( no tpid (tpid_idx) ) | ( tpid (tpid_idx) value <Vlan::Tpid> )
+        suboptions:
+          tpid_idx:
+            type: int
+            description: |
+              tpid index
+          value:
+            type: int
+            description: |
+              tpid value
+
+EXAMPLES:
+- deleted_example_01.txt
+- merged_example_01.txt
+- overridden_example_01.txt
+- replaced_example_01.txt

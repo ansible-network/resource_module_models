@@ -1,0 +1,6 @@
+Parameter,Type,Description
+priority,"Parameter type: <Vlan::Priority>
+Format:
+- priority of ethernet frames
+- range: [0...7]","mandatory parameter
+priority of protocol based vlan"
