@@ -1,0 +1,172 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community',
+        'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: ospfv2_interfaces
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_ospfv2_interfaces
+    version_added: '3.0.0'
+    short_description: Configure OSPFv2 interface mode protocol settings on SONiC.
+    description:
+      - This module provides configuration management of OSPFv2 interface mode parameters on devices running SONiC.
+      - Configure VRF instance before configuring OSPF in a VRF.
+      - Configure OSPF instance before configuring OSPF in interfaces.
+    author: "Santhosh kumar T (@santhosh-kt)"
+    options:
+      config:
+        description:
+          - Specifies the OSPFv2 interface mode related configuration.
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            required: True
+            type: str
+            description:
+              - Full name of the interface, i.e. Ethernet1.
+          ospf_attributes:
+            description:
+              - Configure OSPFv2 attributes based on Interface IPv4 address.
+              - In case if IP address is not specified, default value will be set.
+              - I(dead_interval) and I(hello_multiplier) are mutually exclusive.
+            type: list
+            elements: dict
+            mutually_exclusive: [[dead_interval, hello_multiplier]]
+            suboptions:
+              address:
+                description:
+                  - Interface IPv4 address to be set.
+                  - If no address is set, default value is considered.
+                type: str
+              area_id:
+                description:
+                  - OSPFv2 Area ID of the network (A.B.C.D or 0 to 4294967295).
+                type: str
+              authentication_type:
+                description:
+                  - Enable OSPFv2 authentication and its type.
+                  - C(MD5HMAC) - Enable Message digest authentication type.
+                  - C(null) - Enable null authentication.
+                  - C(text) - Enable plain text authentication.
+                type: str
+                choices:
+                  - MD5HMAC
+                  - null
+                  - text
+              authentication_key:
+                description:
+                  - Configure OSPFv2 plain text authentication type password.
+                  - Authentication key shall be max 8 charater long.
+                type: dict
+                suboptions:
+                  pwd:
+                    description:
+                      - Configure authentication password.
+                      - Plain text passwords i.e. password with encrypted=False will be encrypted in running-config, so idempotency will
+                        not be maintained and every time the output will come as changed=True.
+                    type: str
+                    required: true
+                  encrypted:
+                    description:
+                      - Indicates whether the password is encrypted text.
+                    type: bool
+                    default: False
+              cost:
+                description:
+                  - Configure OSPFv2 interface cost (1 to 65535).
+                type: int
+              dead_interval:
+                description:
+                  - Configure OSPFv2 adjacency dead interval (1 to 65535).
+                type: int
+              hello_multiplier:
+                description:
+                  - Minimal 1s dead-interval with fast sub-second hellos.
+                  - Number of Hellos to send each second (1 to 10).
+                type: int
+              hello_interval:
+                description:
+                  - Configure OSPFv2 neighbour hello interval (1 to 65535).
+                type: int
+              message_digest_keys:
+                description:
+                  - Configure OSPFv2 message digest keys and passwords.
+                  - Uses MD5 algorithm.
+                type: list
+                elements: dict
+                suboptions:
+                  key_id:
+                    description:
+                      - Configure OSPFv2 message digest key ID (1 to 255).
+                    type: int
+                  pwd:
+                    description:
+                      - Configure OSPFv2 message digest password.
+                      - Plain text passwords i.e. password with encrypted=False will be encrypted in running-config, so idempotency will
+                        not be maintained and every time the output will come as changed=True.
+                    type: str
+                  encrypted:
+                    description:
+                      - Indicates whether the password is encrypted text.
+                    type: bool
+              mtu_ignore:
+                description:
+                  - Disable OSPFv2 MTU mismatch detection.
+                type: bool
+              priority:
+                description:
+                  - Configure OSPFv2 adjacency router priority (0 to 255).
+                type: int
+              retransmit_interval:
+                description:
+                  - Configure OSPFv2 retransmit interval (2 to 65535).
+                type: int
+              transmit_delay:
+                description:
+                  - Configure OSPFv2 transmit delay (1 to 65535).
+                type: int
+          bfd:
+            description:
+              - Configure OSPFv2 interface BFD.
+            type: dict
+            suboptions:
+              enable:
+                description:
+                  - Enable BFD support for OSPFv2.
+                type: bool
+                required: true
+              bfd_profile:
+                description:
+                  - Configure BFD profile.
+                type: str
+          network:
+            description:
+              - Configure OSPFv2 interface network type
+            type: str
+            choices:
+              - broadcast
+              - point_to_point
+      state:
+        description:
+          - Specifies the operation to be performed on the OSPFv2 interfaces configured on the device.
+          - In case of merged, the input configuration will be merged with the existing OSPFv2 interfaces configuration on the device.
+          - In case of deleted, the existing OSPFv2 interfaces configuration will be removed from the device.
+          - In case of overridden, all the existing OSPFv2 interfaces configuration will be deleted and the specified input configuration will be installed.
+          - In case of replaced, the existing OSPFv2 interface configuration on the device will be replaced by the configuration in the playbook for each interface group configured by the playbook.
+        type: str
+        default: merged
+        choices: ['merged', 'deleted', 'replaced', 'overridden']
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - merged_example_02.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
