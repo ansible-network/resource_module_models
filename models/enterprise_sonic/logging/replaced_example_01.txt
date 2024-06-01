@@ -1,0 +1,31 @@
+# Using replaced
+#
+# Before state:
+# -------------
+#
+sonic# show logging servers
+--------------------------------------------------------------------------------
+HOST            PORT      SOURCE-INTERFACE    VRF            MESSGE-TYPE
+--------------------------------------------------------------------------------
+10.11.1.1       616       Ethernet8           -              log
+10.11.1.2       626       Ethernet16          -              event
+
+- name: Replace logging server configuration
+  sonic_logging:
+    config:
+      remote_servers:
+        - host: 10.11.1.2
+          remote_port: 622
+    state: replaced
+
+# After state:
+# ------------
+#
+# "MESSAGE-TYPE" has default value of "log"
+#
+sonic# show logging servers
+--------------------------------------------------------------------------------
+HOST            PORT      SOURCE-INTERFACE    VRF            MESSGE-TYPE
+--------------------------------------------------------------------------------
+10.11.1.1       616       Ethernet8           -              log
+10.11.1.2       622       -                   -              log
