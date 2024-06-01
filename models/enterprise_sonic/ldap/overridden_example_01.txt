@@ -1,0 +1,60 @@
+# Using overridden
+#
+# Before State:
+# -------------
+#
+#sonic# show running-configuration vrf Vrf_1
+#!
+#ip vrf Vrf_1
+#sonic# show running-configuration | grep ldap
+#ldap-server port 389
+#ldap-server version 2
+#ldap-server nss scope one
+#ldap-server nss bindpw U2FsdGVkX1+t8PR9IIi+qjZpYoNwjmd78D1WDBdkLxs= encrypted
+#ldap-server pam version 3
+#ldap-server pam port 2000
+#ldap-server pam timelimit 20
+#ldap-server pam pam-group-dn DNAME
+#ldap-server sudo version 3
+#ldap-server sudo base base_name
+#ldap-server sudo sudoers-search-filter filter1
+#ldap-server host 10.10.10.1 port 1550 priority 5
+#ldap-server host 20.20.20.10 retry 1
+#ldap-server map default-attribute-value attr1 to attr2
+#ldap-server map default-attribute-value attr3 to attr4
+#ldap-server map objectclass attr1 to attr3
+#sonic#
+
+  - name: Override the LDAP server configurations
+    sonic_ldap:
+      config:
+        - name: "global"
+          source_interface: "Eth1/1"
+          vrf: "Vrf_1"
+          servers:
+            - address: "client.com"
+            - address: "host.com"
+              server_type: "sudo_pam"
+          map:
+            override_attribute:
+              - from: "attr1"
+                to: "attr2"
+          idle_timelimit: 20
+        - name: "pam"
+          ssl: "off"
+          scope: "base"
+      state: overridden
+
+# After State:
+# ------------
+#
+#sonic# show running-configuration | grep ldap
+#ldap-server idle-timelimit 20
+#ldap-server pam ssl off
+#ldap-server pam scope base
+#ldap-server source-interface Eth1/1
+#ldap-server vrf Vrf_1
+#ldap-server host client.com
+#ldap-server host host.com use-type sudo_pam
+#ldap-server map override-attribute-value attr1 to attr2
+#sonic#
