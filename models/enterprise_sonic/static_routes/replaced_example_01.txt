@@ -1,0 +1,27 @@
+# Using Replaced
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration | grep "ip route"
+# ip route 4.0.0.0/8 2.0.0.0 tag 4 track 8 2
+
+  - name: Replace static routes configurations
+    dellemc.enterprise_sonic.sonic_static_routes:
+    config:
+      - vrf_name: 'default'
+        static_list:
+          - prefix: '4.0.0.0/8'
+            next_hops:
+              - index:
+                  blackhole: True
+                metric: 5
+                tag: 10
+                track: 15
+    state: replaced
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration | grep "ip route"
+# ip route 4.0.0.0/8 blackhole tag 10 track 15 5
