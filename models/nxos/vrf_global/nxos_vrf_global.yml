@@ -142,6 +142,34 @@ options:
                   source_address:
                     description: source address for configuring name server.
                     type: str
+          route:
+            description: Configure static routes.
+            type: list
+            elements: dict
+            mutually_exclusive: [["tags", "vrf", "track"]]
+            suboptions:
+              source:
+                description: Destination prefix.
+                type: str
+              destination:
+                description: Next-hop address.
+                type: str
+              tags:
+                description: Route tag.
+                type: dict
+                suboptions:
+                  tag_value:
+                    description: Route tag value.
+                    type: int
+                  route_pref:
+                    description: Route preference.
+                    type: int
+              vrf:
+                description: add vrf to the route.
+                type: str
+              track:
+                description: Configure track object.
+                type: str
       vni:
         description: Virtual Network Identifier.
         type: dict
