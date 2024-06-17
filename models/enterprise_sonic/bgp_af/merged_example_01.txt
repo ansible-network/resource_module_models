@@ -5,6 +5,10 @@
 #
 #do show running-configuration bgp
 #!
+#router bgp 51 vrf VrfReg1
+# log-neighbor-changes
+# timers 60 180
+#!
 #router bgp 51
 # router-id 111.2.2.41
 # timers 60 180
@@ -48,6 +52,8 @@
                  - 2.2.2.2/16
                  - 192.168.10.1/32
                dampening: True
+               aggregate_address_config:
+                 - prefix: 1.1.1.1/1
              - afi: ipv6
                safi: unicast
                max_path:
@@ -63,11 +69,32 @@
                  - metric: "26"
                    protocol: static
                    route_map: bb
+       - bgp_as: 51
+         vrf_name: VrfReg1
+         address_family:
+           afis:
+             - afi: ipv4
+               safi: unicast
+               import:
+                 vrf:
+                   vrf_list:
+                     - default
+                   route_map: rmap-1
      state: merged
 # After state:
 # ------------
 #
 #do show running-configuration bgp
+#!
+#router bgp 51 vrf VrfReg1
+# log-neighbor-changes
+# timers 60 180
+# !
+# address-family ipv4 unicast
+#  maximum-paths 1
+#  maximum-paths ibgp 1
+#  import vrf route-map rmap-1
+#  import vrf default
 #!
 #router bgp 51
 # router-id 111.2.2.41
@@ -76,6 +103,7 @@
 # address-family ipv4 unicast
 #  network 2.2.2.2/16
 #  network 192.168.10.1/32
+#  aggregate-address 1.1.1.1/1
 #  dampening
 # !
 # address-family ipv6 unicast
