@@ -9,6 +9,7 @@
 #ip anycast-address enable
 #ipv6 anycast-address enable
 #interface-naming standard
+#ip load-share hash algorithm JENKINS_HASH_HI
 
     - name: Delete all system related configs in device configuration.
       sonic_system:
