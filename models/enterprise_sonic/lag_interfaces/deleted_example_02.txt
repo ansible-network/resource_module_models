@@ -17,6 +17,12 @@
 #  mtu 9100
 #  speed 100000
 #  no shutdown
+ !
+# interface PortChannel0
+#  no shutdown
+#  !
+#  evpn ethernet-segment auto-lacp
+#  df-preference 2222
 
 - name: Deletes all LAGs and LAG attributes of all interfaces.
   sonic_lag_interfaces:
