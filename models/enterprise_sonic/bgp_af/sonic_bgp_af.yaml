@@ -196,12 +196,24 @@ DOCUMENTATION: |
                     - Aggregate address configuration
                   type: list
                   elements: dict
-                   suboptions:
-                     prefix:
-                       description:
-                         - Specifies an aggregate address
-                       type: str
-                       required: True
+                  suboptions:
+                    prefix:
+                      description:
+                        - Aggregate address prefix
+                      type: str
+                      required: True
+                    as_set:
+                      description:
+                        - Enables/disables generation of AS set path information
+                      type: bool
+                    policy_name:
+                      description:
+                        - Preconfigured routing policy to be applied to aggregate network
+                      type: str
+                    summary_only:
+                      description:
+                        - Enables/disables restriction of route information included in updates
+                      type: bool
     state:
       description:
         - Specifies the operation to be performed on the BGP_AF process configured on the device.

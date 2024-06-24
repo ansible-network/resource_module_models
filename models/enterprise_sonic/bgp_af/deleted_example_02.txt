@@ -13,7 +13,7 @@
 #  maximum-paths 1
 #  maximum-paths ibgp 1
 #  network 3.3.3.3/16
-#  aggregate-address 5.5.5.5/5
+#  aggregate-address 5.5.5.5/5 as-set summary-only route-map rmap-1
 #  dampening
 #  import vrf route-map rmap-1
 #  import vrf default

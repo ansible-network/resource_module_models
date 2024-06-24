@@ -96,6 +96,9 @@
                   metric: 30
               aggregate_address_config:
                 - prefix: 4.4.4.4/4
+                  as_set: True
+                  policy_name: bb
+                  summary_only: True
     state: overridden
 
 # After state:
@@ -119,7 +122,7 @@
 #  maximum-paths ibgp 1
 #  network 2.2.2.2/16
 #  network 192.168.10.1/32
-#  aggregate-address 4.4.4.4/4
+#  aggregate-address 4.4.4.4/4 as-set summary-only route-map bb
 #  dampening
 # !
 # address-family l2vpn evpn

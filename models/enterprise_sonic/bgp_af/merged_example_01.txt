@@ -54,6 +54,9 @@
                dampening: True
                aggregate_address_config:
                  - prefix: 1.1.1.1/1
+                   as_set: True
+                   policy_name: bb
+                   summary_only: True
              - afi: ipv6
                safi: unicast
                max_path:
@@ -103,7 +106,7 @@
 # address-family ipv4 unicast
 #  network 2.2.2.2/16
 #  network 192.168.10.1/32
-#  aggregate-address 1.1.1.1/1
+#  aggregate-address 1.1.1.1/1 as-set summary-only route-map bb
 #  dampening
 # !
 # address-family ipv6 unicast
