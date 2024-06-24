@@ -15,6 +15,9 @@
 	members:
           interfaces:
 	    - member: Eth1/6
+        ethernet_segment:
+          esi_type: auto_lacp
+          df_preference: 2222
     state: overridden
 
 # After state:
@@ -25,3 +28,9 @@
     no channel-group
 # interface Eth1/6
 #   channel-group 20
+# !
+# interface PortChannel0
+#  no shutdown
+#  !
+#  evpn ethernet-segment auto-lacp
+#  df-preference 2222
