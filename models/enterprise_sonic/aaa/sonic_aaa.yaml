@@ -6,47 +6,58 @@ COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
 DOCUMENTATION: |
     module: sonic_aaa
     version_added: 1.1.0
-    short_description: Manage AAA and its parameters
+    author: Shade Talabi (@stalabi1)
+    short_description: Manage AAA configuration on SONiC
     description:
-      - This module is used for configuration management of aaa parameters on devices running Enterprise SONiC.
-    author: "Abirami N (@abirami-n)"
+      - This module provides configuration management of AAA for devices running SONiC.
     options:
       config:
         description:
-          - Specifies the aaa related configurations
+          - AAA configuration
         type: dict
         suboptions:
           authentication:
             description:
-              - Specifies the configurations required for aaa authentication
+              - AAA authentication configuration
             type: dict
             suboptions:
-              data:
+              auth_method:
                 description:
-                  - Specifies the data required for aaa authentication
-                type: dict
-                suboptions:
-                  fail_through:
-                    description:
-                      - Specifies the state of failthrough
-                    type: bool
-                  default_auth:
-                    description:
-                      - Specifies order to authenticate aaa login methods
-                    type: list
-                    elements: str
-                    choices:
-                      - local
-                      - ldap
-                      - radius
-                      - tacacs+
+                  - Specifies the order of the methods in which to authenticate login
+                type: list
+                elements: str
+                choices: ['ldap', 'local', 'radius', 'tacacs+']
+              console_auth_local :
+                description:
+                  Enable/disable local authentication on console
+                type: bool
+                default: False
+              failthrough:
+                description:
+                  - Enable/disable failthrough
+                type: bool
+          authorization:
+            description:
+              - AAA authorization configuration
+            type: dict
+            suboptions:
+              commands_auth_method:
+                description:
+                  - Specifies the order of the methods in which to authorize commands
+                type: list
+                elements: str
+                choices: ['local', 'tacacs+']
+              login_auth_method:
+                description:
+                  - Specifies the order of the methods in which to authorize login
+                type: list
+                elements: str
+                choices: ['ldap', 'local']
       state:
         description:
-          - Specifies the operation to be performed on the aaa parameters configured on the device.
-          - In case of merged, the input configuration will be merged with the existing aaa configuration on the device.
-          - In case of deleted the existing aaa configuration will be removed from the device.
-        default: merged
+          - The state of the configuration after module completion
         choices: ['merged', 'deleted', 'overridden', 'replaced']
+        default: merged
         type: str
 EXAMPLES:
   - deleted_example_01.txt

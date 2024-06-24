@@ -1,30 +1,43 @@
-# Using merged
+# Using Merged
 #
 # Before state:
 # -------------
 #
-# do show aaa
-# AAA Authentication Information
-# ---------------------------------------------------------
-# failthrough  : False
-# login-method :
+# sonic# show aaa
+# (No AAA configuration present)
 
-- name: Merge aaa configurations
+- name: Merge AAA configuration
   dellemc.enterprise_sonic.sonic_aaa:
     config:
       authentication:
-        data:
-          default_auth:
-            - local
-            - tacacs+
-          fail_through: true
+        auth_method:
+          - local
+          - ldap
+          - radius
+          - tacacs+
+        console_auth_local: True
+        failthrough: True
+      authorization:
+        commands_auth_method:
+          - local
+          - tacacs+
+        login_auth_method:
+          - local
+          - ldap
     state: merged
 
 # After state:
 # ------------
 #
-# do show aaa
+# sonic# show aaa
+# ---------------------------------------------------------
 # AAA Authentication Information
 # ---------------------------------------------------------
 # failthrough  : True
-# login-method : local, tacacs+
+# login-method : local, ldap, radius, tacacs+
+# console authentication  : local
+# ---------------------------------------------------------
+# AAA Authorization Information
+# ---------------------------------------------------------
+# login        : local, ldap
+# commands     : local, tacacs+

@@ -1,24 +1,28 @@
-# Using deleted
+# Using Deleted
 #
 # Before state:
 # -------------
 #
-# do show aaa
+# sonic# show aaa
+# ---------------------------------------------------------
 # AAA Authentication Information
 # ---------------------------------------------------------
 # failthrough  : True
-# login-method : local
+# login-method : local, ldap, radius, tacacs+
+# console authentication  : local
+# ---------------------------------------------------------
+# AAA Authorization Information
+# ---------------------------------------------------------
+# login        : local, ldap
+# commands     : local, tacacs+
 
-- name: Delete aaa configurations
+- name: Delete all AAA configuration
   dellemc.enterprise_sonic.sonic_aaa:
-    config:
+    config: {}
     state: deleted
 
 # After state:
 # ------------
 #
-# do show aaa
-# AAA Authentication Information
-# ---------------------------------------------------------
-# failthrough  :
-# login-method :
+# sonic# show aaa
+# (No AAA configuration present)

@@ -1,27 +1,38 @@
-# Using overridden
+# Using Overridden
 #
 # Before state:
 # -------------
 #
-# do show aaa
+# sonic# show aaa
+# ---------------------------------------------------------
 # AAA Authentication Information
 # ---------------------------------------------------------
 # failthrough  : True
-# login-method : local, ldap
+# login-method : local, ldap, radius, tacacs+
+# console authentication  : local
+# ---------------------------------------------------------
+# AAA Authorization Information
+# ---------------------------------------------------------
+# login        : local, ldap
+# commands     : local, tacacs+
 
-- name: Override aaa configurations
+- name: Override AAA configuration
   dellemc.enterprise_sonic.sonic_aaa:
     config:
       authentication:
-        data:
-          fail_through: False
+        auth_method:
+          - tacacs+
+        console_auth_local: True
+        failthrough: True
     state: overridden
 
 # After state:
 # ------------
 #
-# do show aaa
+# sonic# show aaa
+# ---------------------------------------------------------
 # AAA Authentication Information
 # ---------------------------------------------------------
-# failthrough  : False
-# login-method :
+# failthrough  : True
+# login-method : tacacs+
+# console authentication  : local

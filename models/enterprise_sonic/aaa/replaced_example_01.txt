@@ -1,28 +1,43 @@
-# Using replaced
+# Using Replaced
 #
 # Before state:
 # -------------
 #
-# do show aaa
+# sonic# show aaa
+# ---------------------------------------------------------
 # AAA Authentication Information
 # ---------------------------------------------------------
-# failthrough  : False
-# login-method : ldap, radius
+# failthrough  : True
+# login-method : local, ldap, radius, tacacs+
+# console authentication  : local
+# ---------------------------------------------------------
+# AAA Authorization Information
+# ---------------------------------------------------------
+# login        : local, ldap
+# commands     : local, tacacs+
 
-- name: Replace aaa configurations
+- name: Replace AAA configuration
   dellemc.enterprise_sonic.sonic_aaa:
     config:
       authentication:
-        data:
-          default_auth:
-            - local
+        console_auth_local: True
+        failthrough: False
+      authorization:
+        commands_auth_method:
+          - local
     state: replaced
 
 # After state:
 # ------------
 #
-# do show aaa
+# sonic# show aaa
+# ---------------------------------------------------------
 # AAA Authentication Information
 # ---------------------------------------------------------
 # failthrough  : False
-# login-method : local
+# login-method :
+# console authentication  : local
+# ---------------------------------------------------------
+# AAA Authorization Information
+# ---------------------------------------------------------
+# login        : local
