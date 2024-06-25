@@ -73,6 +73,43 @@ DOCUMENTATION: |
                   - This command can be used to select whether to advertise power-management
                     LLDP TLVs or not. By default power-management LLDP TLVs are advertised.
                 type: bool
+              port_vlan_id:
+                description:
+                  - This command can be used to select whether to advertise port-vlan-id
+                    LLDP TLVs or not. By default port-vlan-id LLDP TLVs are advertised.
+                type: bool
+              vlan_name:
+                description:
+                  - This command can be used to select whether to advertise vlan-name
+                    LLDP TLVs or not. By default vlan-name LLDP TLVs are advertised.
+                type: bool
+              link_aggregation:
+                description:
+                  - This command can be used to select whether to advertise link-aggregation
+                    LLDP TLVs or not. By default link-aggregation LLDP TLVs are advertised.
+                type: bool
+              max_frame_size:
+                description:
+                  - This command can be used to select whether to advertise max-frame-size
+                    LLDP TLVs or not. By default max-frame-size LLDP TLVs are advertised.
+                type: bool
+          vlan_name_tlv:
+            description:
+              - This command can be used to configure the vlan list for the Vlan name TLV advertisement.
+              - This command is supported only on physical interfaces and not on logical interfaces.
+            type: dict
+            suboptions:
+              max_tlv_count:
+                description:
+                  - This command can be used to configure the maximum number of Vlan name TLVs
+                    that can be advertised. Range is 1-128 and the default value is 10.
+                type: int
+              allowed_vlans:
+                description:
+                  - This command can be used to configure the vlan list for the Vlan name TLV advertisement.
+                  - Multiple Vlans can be configured with comma separated values and the range can be specified with a hyphen.
+                  - Vlans configured should be in the range 1-4094.
+                type: str
           tlv_set:
              description:
                - This command can be used to configure an IPv4 or IPv6 management address

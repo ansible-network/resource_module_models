@@ -24,6 +24,10 @@
         - name: Ethernet1
           tlv_select:
             power-management: true
+            port-vlan-id: true
+            vlan-name: true
+            link-aggregation: true
+            max-frame-size: true
           med_tlv_select:
             network_policy: true
       state: deleted
@@ -45,4 +49,9 @@
 #  no shutdown
 #  no lldp med-tlv-select network-policy
 #  no lldp tlv-select power-management
+#  no lldp tlv-select port-vlan-id
+#  no lldp tlv-select vlan-name
+#  no lldp tlv-select link-aggregation
+#  no lldp tlv-select max-frame-size
+ 
 # sonic#
