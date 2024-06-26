@@ -24,6 +24,17 @@
         login_auth_method:
           - local
           - ldap
+      name_service:
+        group:
+          - ldap
+        netgroup:
+          - local
+        passwd:
+          - login
+        shadow:
+          - ldap
+        sudoers:
+          - local
     state: merged
 
 # After state:
@@ -41,3 +52,11 @@
 # ---------------------------------------------------------
 # login        : local, ldap
 # commands     : local, tacacs+
+# ---------------------------------------------------------
+# AAA Name-Service Information
+# ---------------------------------------------------------
+# group-method    : ldap
+# netgroup-method : local
+# passwd-method   : login
+# shadow-method   : ldap
+# sudoers-method  : local

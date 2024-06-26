@@ -15,6 +15,14 @@
 # ---------------------------------------------------------
 # login        : local, ldap
 # commands     : local, tacacs+
+# ---------------------------------------------------------
+# AAA Name-Service Information
+# ---------------------------------------------------------
+# group-method    : ldap
+# netgroup-method : local
+# passwd-method   : login
+# shadow-method   : ldap
+# sudoers-method  : local
 
 - name: Replace AAA configuration
   dellemc.enterprise_sonic.sonic_aaa:
@@ -25,6 +33,9 @@
       authorization:
         commands_auth_method:
           - local
+      name_service:
+        group:
+          - ldap
     state: replaced
 
 # After state:
@@ -41,3 +52,7 @@
 # AAA Authorization Information
 # ---------------------------------------------------------
 # login        : local
+# ---------------------------------------------------------
+# AAA Name-Service Information
+# ---------------------------------------------------------
+# group-method    : ldap

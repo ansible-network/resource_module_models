@@ -15,6 +15,14 @@
 # ---------------------------------------------------------
 # login        : local, ldap
 # commands     : local, tacacs+
+# ---------------------------------------------------------
+# AAA Name-Service Information
+# ---------------------------------------------------------
+# group-method    : ldap
+# netgroup-method : local
+# passwd-method   : login
+# shadow-method   : ldap
+# sudoers-method  : local
 
 - name: Override AAA configuration
   dellemc.enterprise_sonic.sonic_aaa:

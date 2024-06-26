@@ -53,6 +53,41 @@ DOCUMENTATION: |
                 type: list
                 elements: str
                 choices: ['ldap', 'local']
+          name_service:
+            description:
+              - AAA name-service configuration
+            type: dict
+            suboptions:
+              group:
+                description:
+                  - Name-service source for group method
+                type: list
+                elements: str
+                choices: ['ldap', 'local', 'login']
+              netgroup:
+                description:
+                  - Name-service source for netgroup method
+                type: list
+                elements: str
+                choices: ['ldap', 'local']
+              passwd:
+                description:
+                  - Name-service source for passwd method
+                type: list
+                elements: str
+                choices: ['ldap', 'local', 'login']
+              shadow:
+                description:
+                  - Name-service source for shadow method
+                type: list
+                elements: str
+                choices: ['ldap', 'local', 'login']
+              sudoers:
+                description:
+                  - Name-service source for sudoers method
+                type: list
+                elements: str
+                choices: ['ldap', 'local']
       state:
         description:
           - The state of the configuration after module completion
