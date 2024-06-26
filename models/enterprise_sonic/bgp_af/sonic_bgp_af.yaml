@@ -208,7 +208,7 @@ DOCUMENTATION: |
                       type: bool
                     policy_name:
                       description:
-                        - Preconfigured routing policy to be applied to aggregate network
+                        - Preconfigured routing policy (route map name) to be applied to aggregate network
                       type: str
                     summary_only:
                       description:

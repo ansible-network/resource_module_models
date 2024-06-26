@@ -160,7 +160,6 @@
 #  dampening
 # !
 # address-family l2vpn evpn
-#  advertise-all-vni
 #  advertise-svi-ip
 #  advertise ipv4 unicast route-map bb
 #  rd 1.1.1.1:11
