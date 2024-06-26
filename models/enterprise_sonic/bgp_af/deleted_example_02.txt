@@ -5,6 +5,19 @@
 #
 #do show running-configuration bgp
 #!
+#router bgp 51 vrf VrfReg1
+# log-neighbor-changes
+# timers 60 180
+# !
+# address-family ipv4 unicast
+#  maximum-paths 1
+#  maximum-paths ibgp 1
+#  network 3.3.3.3/16
+#  aggregate-address 5.5.5.5/5 as-set summary-only route-map rmap-1
+#  dampening
+#  import vrf route-map rmap-1
+#  import vrf default
+#!
 #router bgp 51
 # router-id 111.2.2.41
 # timers 60 180
@@ -13,14 +26,20 @@
 # !
 # address-family l2vpn evpn
 #
-#- name: Delete All BGP address family configurations
-#    sonic_bgp_af:
-#      config:
-#      state: deleted
+- name: Delete All BGP address family configurations
+  dellemc.enterprise_sonic.sonic_bgp_af:
+     config:
+     state: deleted
+
+
 # After state:
 # ------------
 #
 #do show running-configuration bgp
+#!
+#router bgp 51 vrf VrfReg1
+# log-neighbor-changes
+# timers 60 180
 #!
 #router bgp 51
 # router-id 111.2.2.41
