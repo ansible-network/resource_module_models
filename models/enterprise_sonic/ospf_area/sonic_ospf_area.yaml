@@ -1,0 +1,167 @@
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community'
+    }
+NETWORK_OS: sonic
+RESOURCE: ospf_area
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_ospf_area
+    description: This module provides configuration for the area settings of OSPF running on SONiC switches
+    version_added: "2.5.0"
+    short_description: configure OSPF area settings on SONiC
+    author: "Xiao Han (@Xiao_Han2)"
+    options:
+      config:
+        description:
+          - Specifies configuration for OSPFv2 areas
+        type: list
+        elements: dict
+        suboptions:
+          area_id:
+            type: str
+            required: True
+            description:
+              - Area ID of the network (A.B.C.D or 0 to 4294967295).
+          vrf_name:
+            type: str
+            required: True
+            description: name of the vrf this area belongs to
+          authentication_type:
+            type: str
+            choices:
+              - message_digest
+              - text
+            description: authentication type for area
+          default_cost:
+            description: Configure NSSA or stub area summary default cost
+            type: int
+          filter_list_in:
+            type: str
+            description:
+              - inter area prefix filter list.
+              - Filter incoming prefixes into the area.
+              - expects name of a prefix list.
+          filter_list_out:
+            type: str
+            description:
+              - inter area prefix filter list.
+              - Filter outgoing prefixes from the area.
+              - expects name of a prefix list.
+          networks:
+            type: list
+            elements: str
+            description: Configure networks in an area
+          ranges:
+            type: list
+            elements: dict
+            description: Configure address range summarization on border routers
+            suboptions:
+              prefix:
+                type: str
+                required: True
+                description: address range prefix
+              advertise:
+                type: bool
+                description: enable address range advertising
+              cost:
+                type: int
+                description: configure cost of address range
+              substitute:
+                type: str
+                description: Configure substitute prefix for the address range
+          shortcut:
+            type: str
+            choices:
+              - default
+              - disable
+              - enable
+            description: Configure area's shortcut mode
+          stub:
+            type: dict
+            description: configuration for stub type area
+            suboptions:
+              enabled:
+                type: bool
+                description: configure area as stub type area
+              no_summary:
+                type: bool
+                description: disable inter-area route injection into the stub
+          virtual_links:
+            type: list
+            elements: dict
+            description: configuration for virtual links
+            suboptions:
+              enabled:
+                type: bool
+                description: enable virtual link
+              router_id:
+                type: str
+                required: True
+                description: router id of the remote ABR
+              dead_interval:
+                type: int
+                description:
+                  - configure adjacency dead interval
+                  - value is in seconds
+              hello_interval:
+                type: int
+                description:
+                  - configure neighbor hello interval
+                  - value is in seconds
+              retransmit_interval:
+                type: int
+                description:
+                  - configure LSA retransmit interval
+                  - value is in seconds
+              transmit_delay:
+                type: int
+                description:
+                  - configure LSA transmit delay
+                  - value is in seconds
+              authentication:
+                type: dict
+                description: configure authentication settings for virtual link
+                suboptions:
+                  auth_type:
+                    type: str
+                    choices:
+                      - message_digest
+                      - text
+                      - none
+                    description: authentication type for virtual link
+                  key:
+                    type: str
+                    description: text authentication password for virtual link
+                  key_encrypted:
+                    type: bool
+                    description: password is in encrypted format
+              message_digest_keys:
+                type: list
+                elements: dict
+                description: configure message-digest authentication keys
+                suboptions:
+                  key_id:
+                    type: int
+                    required: True
+                    description: message-digest authentication key id
+                  key:
+                    type: str
+                    description: authentication password
+                  key_encrypted:
+                    type: bool
+                    description: password is in encrypted format
+      state:
+        description:
+          - Specifies the type of configuration update to be performed on the device.
+        type: str
+        choices:
+          - merged
+          - replaced
+          - overridden
+          - deleted
+        default: merged
+EXAMPLES: ["ospf_area_merged_examples.txt", "ospf_area_deleted_examples.txt", "ospf_area_replaced_examples.txt", "ospf_area_overridden_examples.txt"]
