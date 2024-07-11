@@ -52,6 +52,14 @@ DOCUMENTATION: |
                 choices:
                   - log
                   - event
+              protocol:
+                type: str
+                description:
+                  - Type of the protocol for sending the  messages
+                  - protocol can not be deleted.
+                choices:
+                  - TCP
+                  - UDP
               vrf:
                 type: str
                 description:
