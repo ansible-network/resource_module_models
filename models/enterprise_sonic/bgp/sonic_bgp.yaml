@@ -46,6 +46,11 @@ DOCUMENTATION: |
           description:
             - Enable/disable logging neighbor up/down and reset reason.
           type: bool
+        as_annotation:
+          description:
+            - Specify the AS number notation format
+          type: str
+          choices: [ 'asdot', 'asdot+' ]
         bestpath:
           description:
             - Configures the BGP bestpath.
