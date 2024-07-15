@@ -1,0 +1,41 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+#sonic(config)# do show mirror-session 
+#No sessions configured
+#---------------------------------------------------------
+#RADIUS Global Configuration
+#---------------------------------------------------------
+#
+#  - name: Merge some configuration
+#    sonic_mirroring:
+#      config:
+#        span:
+#          - name: dell-1
+#            dst_port: CPU
+#            source: Ethernet24
+#            direction: both
+#        erspan:
+#          - name: dell-2
+#            dst_ip: 100.11.11.11
+#            src_ip: 200.22.22.22
+#            source: Ethernet28
+#            direction: both
+#            queue: 0
+#      state: merged
+#
+# After state:
+# ------------
+#sonic(config)# do show mirror-session 
+#ERSPAN Sessions
+#-----------------------------------------------------------------------------------------------------------------------------------------
+#Name                     Status     SRC-IP           DST-IP           GRE    DSCP   TTL    Queue    Policer    SRC-Port         Direction 
+#-----------------------------------------------------------------------------------------------------------------------------------------
+#dell-2                   inactive   200.22.22.22     100.11.11.11                          0                   Ethernet28       both      
+#SPAN Sessions
+#-------------------------------------------------------------------------------
+#Name                     Status     DST-Port         SRC-Port         Direction 
+#-------------------------------------------------------------------------------
+#dell-1                   active     CPU              Ethernet24       both  

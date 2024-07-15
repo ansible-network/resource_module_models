@@ -1,0 +1,129 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+      'metadata_version': '1.1',
+      'status': ['preview'],
+      'supported_by': 'community',
+      'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: vlan_mapping
+COPYRIGHT: "© Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved"
+LICENSE: gpl-3.0.txt
+DOCUMENTATION: |
+  module: sonic_mirroring
+  version_added: "3.0.0"
+  author: "M. Zhang (@mingjunzhang2019)"
+  short_description: port mirroring configuration handling for SONiC.
+  description:
+    - This module provides configuration management for mirroring on devices running SONiC.
+  options:
+    config:
+      description:
+        - Specifies port mirroring configuration.
+      type: dict
+      suboptions:
+        span:
+          description:
+            - SPAN mirroring sessions.
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description:
+                - SPAN mirroring session name.
+              required: true
+              type: str
+            dst_port:
+              description:
+                - Mirror session destination interface.
+                - It may be CPU or an Ethernet interface.
+              type: str
+            source:
+              description:
+                - Mirror session source interface.
+                - It may be an Ethernet interface or a PortChannel interface.
+              type: str
+            direction:
+              description:
+                - Mirror session direction.
+              type: str
+              choices:
+                - rx
+                - tx
+                - both
+        erspan:
+          description:
+            - ERSPAN mirroring sessions.
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              description:
+                - ERSPAN mirroring session name.
+              required: true
+              type: str
+            dst_ip:
+              description:
+                - ERSPAN destination IP address.
+              type: str
+            src_ip:
+              description:
+                - ERSPAN source IP address.
+              type: str
+            source:
+              description:
+                - Mirror session source interface.
+                - It may be an Ethernet interface or a PortChannel interface.
+              type: str
+            direction:
+              description:
+                - Mirror session direction.
+              type: str
+              choices:
+                - rx
+                - tx
+                - both
+            dscp:
+              description:
+                - ERSPAN destination DSCP.
+                - The range of values is 0-63
+              type: int
+            gre:
+              description:
+                - ERSPAN destination GRE type.
+                - A Hexadecimal string which must be quoted.
+              type: str
+            ttl:
+              description:
+                - ERSPAN destination TTL.
+                - The range of values is 0-63.
+              type: int
+            queue:
+              description:
+                - ERSPAN destination queue number.
+                - The range of values is 0-63.
+                - Only queue 0 is supported.
+              type: int
+    state:
+      description:
+        - Specifies the operation to be performed on the mirroring configured on the device.
+        - In case of merged, the input configuration will be merged with the existing mirroring on the device.
+        - In case of deleted, the existing mirroring configuration will be removed from the device.
+        - In case of overridden, all existing mirroring will be deleted and the specified input configuration will be add.
+        - In case of replaced, the existing mirroring on the device will be replaced by the configuration for
+        - each mirroring.
+      type: str
+      choices:
+        - merged
+        - deleted
+        - replaced
+        - overridden
+      default: merged
+
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
