@@ -8,7 +8,7 @@ ANSIBLE_METADATA: |
       'license': 'Apache 2.0'
     }
 NETWORK_OS: sonic
-RESOURCE: vlan_mapping
+RESOURCE: mirroring
 COPYRIGHT: "© Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved"
 LICENSE: gpl-3.0.txt
 DOCUMENTATION: |
