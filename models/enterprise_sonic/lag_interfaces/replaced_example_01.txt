@@ -5,33 +5,58 @@
 #
 # interface Eth1/5
 #   channel-group 10
-# interface Eth1/6
-#   channel-group 20
+# !
+# interface Eth1/7
+#   no channel-group
+#   mtu 9100
+#   speed 100000
+#   no shutdown
+# !
+# interface PortChannel10
+#  no shutdown
+#  !
+#  evpn ethernet-segment auto-lacp
+#   df-preference 2222
 
 - name: Replace device configuration of specified LAG attributes of given interfaces with provided configuration.
   sonic_lag_interfaces:
     config:
+      - name: PortChannel20
+        members:
+          interfaces:
+            - member: Eth1/6
+        ethernet_segment:
+          esi_type: auto_system_mac
+          df_preference: 6666
       - name: PortChannel10
 	members:
           interfaces:
 	    - member: Eth1/7
         ethernet_segment:
-          esi_type: auto_lacp
-          df_preference: 2222
+          esi_type: auto_system-mac
+          df_preference: 3333
     state: replaced
 
 # After state:
 # ------------
 #
-# interface Eth1/7
-#   channel-group 10
+# interface Eth1/5
+# !
 # interface Eth1/6
 #   channel-group 20
-# interface Eth1/5
-#   no channel-group
 # !
-# interface PortChannel0
+# interface Eth1/7
+#   channel-group 10
+# !
+# interface PortChannel10
 #  no shutdown
 #  !
-#  evpn ethernet-segment auto-lacp
-#  df-preference 2222
+#  evpn ethernet-segment auto-system-mac
+#  df-preference 3333
+# !
+# interface PortChannel20
+#  no shutdown
+#  !
+#  evpn ethernet-segment auto-system-mac
+#  df-preference 6666
+#

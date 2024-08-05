@@ -8,13 +8,7 @@
 #  speed 100000
 #  no shutdown
 # !
-# interface Eth1/15
-#  channel-group 12
-#  mtu 9100
-#  speed 100000
-#  no shutdown
-# !
-# interface PortChannel0
+# interface PortChannel10
 #  no shutdown
 
 - name: Merges provided configuration with device configuration.
@@ -27,6 +21,10 @@
         ethernet_segment:
           esi_type: auto_lacp
           df_preference: 2222
+      - name: PortChannel12
+        members:
+          interfaces:
+            - member: Eth1/15
     state: merged
 
 # After state:
@@ -44,8 +42,11 @@
 #  speed 100000
 #  no shutdown
 # !
-# interface PortChannel0
+# interface PortChannel10
 #  no shutdown
 #  !
 #  evpn ethernet-segment auto-lacp
 #  df-preference 2222
+# !
+# interface PortChannel12
+#  no shutdown
