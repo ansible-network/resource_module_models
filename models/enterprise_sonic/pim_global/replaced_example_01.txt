@@ -1,0 +1,35 @@
+# Using replaced
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration | grep "ip pim"
+# ip pim vrf VrfReg1 join-prune-interval 60
+# ip pim vrf VrfReg1 keep-alive-timer 180
+# ip pim vrf VrfReg1 ssm prefix-list prefix-list-1
+# ip pim vrf VrfReg2 ecmp
+# ip pim vrf VrfReg2 ssm prefix-list prefix-list-2
+# ip pim vrf default ecmp
+# ip pim vrf default ecmp rebalance
+# sonic#
+
+  - name: Replace global PIM configurations of specified VRFs
+    dellemc.enterprise_sonic.sonic_pim_global:
+      config:
+        - vrf_name: 'default'
+          ecmp_enable: true
+        - vrf_name: 'VrfReg1'
+          join_prune_interval: 120
+          keepalive_timer: 360
+      state: replaced
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration | grep "ip pim"
+# ip pim vrf VrfReg1 join-prune-interval 120
+# ip pim vrf VrfReg1 keep-alive-timer 360
+# ip pim vrf VrfReg2 ecmp
+# ip pim vrf VrfReg2 ssm prefix-list prefix-list-2
+# ip pim vrf default ecmp
+# sonic#

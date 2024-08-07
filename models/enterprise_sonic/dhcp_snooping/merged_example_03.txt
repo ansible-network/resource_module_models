@@ -1,0 +1,43 @@
+# Using merged
+#
+# Before State:
+# -------------
+#
+# sonic# show ip dhcp snooping binding
+# !
+# Total number of Dynamic bindings: 0
+# Total number of Static bindings: 0
+# Total number of Tentative bindings: 0
+# MAC Address        IP Address       VLAN   Interface    Type     Lease (Secs)
+# -----------------  ---------------  ----   -----------  -------  -----------
+# !
+
+- name: Add DHCPv4 snooping bindings
+  dellemc.enterprise_sonic.sonic_dhcp_snooping:
+    config:
+      afis:
+        - afi: ipv4
+          source_bindings:
+            - mac_addr: 00:b0:d0:63:c2:26
+              ip_addr: 192.0.2.146
+              intf_name: Ethernet4
+              vlan_id: 1
+            - mac_addr: aa:f7:67:fc:f4:9a
+              ip_addr: 156.33.90.167
+              intf_name: PortChannel1
+              vlan_id: 2
+    state: merged
+
+# After State:
+# ------------
+#
+# sonic# show ip dhcp snooping binding
+# !
+# Total number of Dynamic bindings: 0
+# Total number of Static bindings: 2
+# Total number of Tentative bindings: 0
+# MAC Address        IP Address       VLAN   Interface    Type     Lease (Secs)
+# -----------------  ---------------  ----   -----------  -------  -----------
+# 00:b0:d0:63:c2:26  192.0.2.146      1      Ethernet4    static   NA         
+# aa:f7:67:fc:f4:9a  156.33.90.167    2      PortChannel1  static   NA         
+# !

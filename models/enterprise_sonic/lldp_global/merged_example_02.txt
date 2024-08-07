@@ -1,0 +1,31 @@
+# Using Merged
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration | grep lldp
+# !
+# lldp receive
+# lldp timer 200
+# lldp multiplier 1
+# lldp system-name 8999_System
+# lldp system-description sonic_system
+# !
+
+  - name: Modify LLDP configurations
+    dellemc.enterprise_sonic.sonic_lldp_global:
+      config:
+         multiplier: 9 
+         system_name : CR_sonic
+      state: merged 
+
+# After State:
+# ------------
+# sonic# show running-configuration | grep lldp
+# !
+# lldp receive
+# lldp timer 200
+# lldp multiplier 9
+# lldp system-name CR_sonic
+# lldp system-description sonic_system
+# !

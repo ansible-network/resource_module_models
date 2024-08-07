@@ -14,10 +14,13 @@ COPYRIGHT: Copyright 2020 Dell Inc. or its subsidiaries. All Rights Reserved
 
 DOCUMENTATION: |
   module: sonic_mclag
-  version_added: 2.10
-  short_description: Manages multi-chassis link aggregation groups of SONiC domain.
-  description: 
-    - This module manages mclag domian attributes of SONiC.
+  version_added: 1.0.0
+  notes:
+    - Tested against Enterprise SONiC Distribution by Dell Technologies.
+    - Supports C(check_mode).
+  short_description: Manage multi chassis link aggregation groups domain (MCLAG) and its parameters
+  description:
+    - Manage multi chassis link aggregation groups domain (MCLAG) and its parameters.
   author: Abirami N (@abirami-n)
 
   options:
@@ -36,53 +39,82 @@ DOCUMENTATION: |
           type: str
         source_address:
           description:
-            - The IPV4 source-ip for coresponding MCLAG.
+            - The IPV4 source-ip for corresponding MCLAG.
           type: str
         peer_link:
-          description: 
+          description:
             - Peer-link for corresponding MCLAG.
           type: str
+        system_mac:
+          description:
+            - MAC address of MCLAG.
+          type: str
         keepalive:
-          description: 
-            - MCLAG session keepalive-interval in secs
+          description:
+            - MCLAG session keepalive-interval in secs.
           type: int
         session_timeout:
-          description: 
-            - MCLAG session timeout value in secs
+          description:
+            - MCLAG session timeout value in secs.
           type: int
+        session_vrf:
+          description:
+            - MCLAG session vrf
+          type: str
+        delay_restore:
+          description:
+            - MCLAG delay restore time in secs.
+          type: int
+        gateway_mac:
+          description:
+            - Gateway MAC address for router ports over MCLAG.
+          type: str
         unique_ip:
-          description: Holds Vlan dictionary for mclag unique ip
+          description: Holds Vlan dictionary for MCLAG unique IP.
           suboptions:
             vlans:
-              description: 
-                - Holds list of vlans for which separate ip is enabled for L3 protocol support over MCLAG
+              description:
+                - Holds a list of VLANs for which a separate IP address is enabled for Layer 3 protocol support over MCLAG.
               type: list
               elements: dict
               suboptions:
-                 vlan: 
-                   description: Holds Vlan id 
-                   type: str
+                vlan:
+                  description: Holds a VLAN ID.
+                  type: str
+          type: dict
+        peer_gateway:
+          description: Holds Vlan dictionary for MCLAG peer gateway.
+          suboptions:
+            vlans:
+              description:
+                - Holds a list of VLANs for which MCLAG peer gateway functionality is enabled.
+              type: list
+              elements: dict
+              suboptions:
+                vlan:
+                  description: Holds a VLAN ID.
+                  type: str
           type: dict
         members:
-          description: Holds portchannels dictionary for mclag domain
+          description: Holds portchannels dictionary for an MCLAG domain.
           suboptions:
             portchannels:
               description:
-               - Holds list of portchannels for configuring as MCLAG interface
+                - Holds a list of portchannels for configuring as an MCLAG interface.
               type: list
               elements: dict
               suboptions:
-                 lag:
-                   description: Holds PortChannel id
-                   type: str
+                lag:
+                  description: Holds a PortChannel ID.
+                  type: str
           type: dict
     state:
       description:
-        - The state the configuration should be left in.
+        - The state that the configuration should be left in.
       type: str
       choices:
-       - merged
-       - deleted
+        - merged
+        - deleted
       default: merged
 
 EXAMPLES:

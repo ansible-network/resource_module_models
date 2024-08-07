@@ -1,0 +1,48 @@
+# Using deleted
+#
+# Before State:
+# -------------
+# sonic# show running-configuration interface
+# !
+# interface Ethernet0
+#  mtu 9100
+#  speed 25000
+#  unreliable-los auto
+#  no shutdown
+#  lldp receive
+#  lldp tlv-set management-address ipv4 20.1.1.1
+# !
+# interface Ethernet1
+#  mtu 9100
+#  speed 25000
+#  unreliable-los auto
+#  no shutdown
+#  lldp transmit
+#  lldp tlv-set management-address ipv4 21.1.1.1
+# !
+# sonic#
+
+  - name: Delete default LLDP Interface configurations
+    dellemc.enterprise_sonic.sonic_lldp_interfaces:
+      config:
+        - name: Ethernet1
+      state: deleted
+
+# After State:
+# ------------
+# sonic# show running-configuration interface
+# !
+# interface Ethernet0
+#  mtu 9100
+#  speed 25000
+#  unreliable-los auto
+#  no shutdown
+#  lldp receive
+#  lldp tlv-set management-address ipv4 20.1.1.1
+# !
+# interface Ethernet1
+#  mtu 9100
+#  speed 25000
+#  unreliable-los auto
+#  no shutdown
+# sonic#

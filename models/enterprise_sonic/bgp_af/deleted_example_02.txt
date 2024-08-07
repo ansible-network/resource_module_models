@@ -25,4 +25,3 @@
 #router bgp 51
 # router-id 111.2.2.41
 # timers 60 180
-#
