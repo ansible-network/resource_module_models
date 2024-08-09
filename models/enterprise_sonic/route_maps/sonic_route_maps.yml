@@ -76,7 +76,7 @@ DOCUMENTATION: |
               suboptions:
                 default_route:
                   description:
-                    - "Default EVPN type-5 route
+                    - "Default EVPN type-5 route"
                   type: bool
                 route_type:
                   description:
