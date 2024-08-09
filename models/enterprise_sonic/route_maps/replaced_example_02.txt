@@ -33,6 +33,7 @@
 #  set local-preference 635
 #  set origin egp
 #  set weight 93471
+#  set tag 65
 # !
 # route-map rm1 deny 3047
 #  match as-path bgp_as3
@@ -80,9 +81,11 @@
              address: ip_pfx_list1
          set:
            community:
-             no_advertise: true
+             community_attributes:
+               - no_advertise
            extcommunity:
-             rt: 20:20
+             rt:
+               - "20:20"
 
        - map_name: rm2
          action: permit
@@ -114,7 +117,6 @@
 #  match origin egp
 #  set as-path prepend 188,257
 #  set community no-advertise
-#  set extcommunity rt 30:40
 #  set extcommunity rt 20:20
 #  set comm-list bgp_comm_list2 delete
 #  set metric +rtt
@@ -123,6 +125,7 @@
 #  set local-preference 635
 #  set origin egp
 #  set weight 93471
+#  set tag 65
 # !
 # route-map rm1 deny 3047
 #  match as-path bgp_as3

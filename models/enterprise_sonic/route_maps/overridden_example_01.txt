@@ -32,6 +32,7 @@
 #  set local-preference 635
 #  set origin egp
 #  set weight 93471
+#  set tag 65
 # !
 # route-map rm1 deny 3047
 #  match as-path bgp_as3
