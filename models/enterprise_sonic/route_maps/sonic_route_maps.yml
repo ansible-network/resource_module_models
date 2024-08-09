@@ -293,7 +293,7 @@ DOCUMENTATION: |
             ip_next_hop:
               description:
                 - IPv4 next hop address to set into a matching route in the
-                - dotted cimal format A.B.CD
+                - dotted decimal format A.B.C.D
               type: str
             ipv6_next_hop:
               description:
