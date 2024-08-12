@@ -16,9 +16,9 @@ DOCUMENTATION: |
   module: sonic_route_maps
   version_added: "2.1.0"
   author: "Kerry Meyer (@kerry-meyer)"
-  short_description: route map configuration handling for SONiC
   notes:
     - Supports C(check_mode).
+  short_description: route map configuration handling for SONiC
   description:
     - This module provides configuration management for route map parameters on devices running SONiC.
   options:
@@ -50,9 +50,8 @@ DOCUMENTATION: |
             - "unique number in the range 1-66535 to specify priority of the map"
             - This value is required for creation and modification of a route
             - map or route map attributes as well as for deletion of route map
-            - attributes. It can be omitted only when requesting deletion of a
-            - route map statement or all route map statements for a given route
-            - map map_name.
+            - attributes. It can be omitted only when requesting deletion of all
+            - route map "statements" for a given route map "map_name".
           type: int
         match:
           description: Criteria for matching the route map to a route
