@@ -1,0 +1,205 @@
+---
+module: ios_service
+short_description: Resource module to configure service.
+description:
+  - This module configures and manages service attributes on IOS platforms
+version_added: 4.6.0-dev
+author:
+  - Ambroise Rosset (@earendilfr)
+notes:
+  - Tested against Cisco IOS-XE Version 17.06.05
+  - This module works with connection C(network_cli).
+    See U(https://docs.ansible.com/ansible/latest/network/user_guide/platform_ios.html)
+options:
+  config:
+    description: A dictionnary of service configuration
+    suboptions:
+      call_home:
+        description: Cisco call-home service
+        type: bool
+      compress_config:
+        description: Compress the nvram configuration file
+        type: bool
+      config:
+        description: TFTP load config files
+        type: bool
+      counters:
+        description:
+          - Control aging of interface counters by setting the maximum counter aging threshold
+        type: int
+        default: 0
+      dhcp:
+        description: Enable DHCP server and relay agent
+        type: bool
+        default: true
+      disable_ip_fast_frag:
+        description: Disable IP particle-based fast fragmentation
+        type: bool
+      exec_callback:
+        description: Enable exec callback
+        type: bool
+      exec_wait:
+        description: Delay EXEC startup on noisy lines
+        type: bool
+      hide_telnet_addresses:
+        description: Hide destination addresses in telnet command
+        type: bool
+      internal:
+        description: Enable/Disable Internal commands
+        type: bool
+      linenumber:
+        description: enable line number banner for each exec
+        type: bool
+      log:
+        description: log backtrace
+        type: bool
+      log_hidden:
+        description: Enable syslog msgs for hidden/internal commands
+        type: bool
+      nagle:
+        description: Enable Nagle's congestion control algorithm
+        type: bool
+      old_slip_prompts:
+        description: Allow old scripts to operate with slip/ppp
+        type: bool
+      pad:
+        description: Enable PAD commands
+        type: bool
+      pad_cmns:
+        description: Enable PAD over CMNS connections
+        type: bool
+      pad_from_xot:
+        description: Accept XOT to PAD connections
+        type: bool
+      pad_to_xot:
+        description: Allow outgoing PAD over XOT connections
+        type: bool
+      password_encryption:
+        description: Encrypt system passwords
+        type: bool
+      password_recovery:
+        description: Password recovery
+        type: bool
+        default: true
+      prompt:
+        description: Enable mode specific prompt
+        type: bool
+        default: true
+      private_config_encryption:
+        description: Enable private config file encryption
+        type: bool
+      pt_vty_logging:
+        description: Log significant VTY-Async events
+        type: bool
+      scripting:
+        description: scripting
+        type: bool
+      sequence_numbers:
+        description: Stamp logger messages with a sequence number
+        type: bool
+      slave_coredump:
+        description: slave-coredump
+        type: bool
+      slave_log:
+        description: Enable log capability of slave IPs
+        type: bool
+        default: true
+      tcp_keepalives_in:
+        description: Generate keepalives on idle incoming network connections
+        type: bool
+      tcp_keepalives_out:
+        description: Generate keepalives on idle outgoing network connections
+        type: bool
+      tcp_small_servers:
+        description:
+          - TCP and UDP small servers are servers (daemons, in Unix parlance) that run in the
+            router which are useful for diagnostics.
+        suboptions:
+          enable:
+            description: Enable small TCP servers (e.g., ECHO)
+            type: bool
+          max_servers:
+            description:
+              - Set number of allowable TCP small servers
+              - 1 to 2147483647 or no-limit
+            type: str
+        type: dict
+      telnet_zeroidle:
+        description: Set TCP window 0 when connection is idle
+        type: bool
+      timestamps:
+        description: Timestamp debug/log messages
+        elements: dict
+        suboptions:
+          msg:
+            description: Timestamp log or debug messages
+            choices:
+              - debug
+              - log
+            type: str
+          enable:
+            description: Enable timestamp for the choosen message
+            type: bool
+          timestamp:
+            description: Timestamp with date and time or with system uptime
+            choices:
+              - datetime
+              - uptime
+            type: str
+          datetime_options:
+            description: Options for date and time timestamp
+            suboptions:
+              localtime:
+                description: Use local time zone for timestamps
+                type: bool
+              msec:
+                description: Include milliseconds in timestamp
+                type: bool
+              show_timezone:
+                description: Add time zone information to timestamp
+                type: bool
+              year:
+                description: Include year in timestam
+                type: bool
+            type: dict
+        type: list
+      udp_small_servers:
+        description:
+          - TCP and UDP small servers are servers (daemons, in Unix parlance) that run in the
+            router which are useful for diagnostics.
+        suboptions:
+          enable:
+            description: Enable small UDP servers (e.g., ECHO)
+            type: bool
+          max_servers:
+            description:
+              - Set number of allowable TCP small servers
+              - 1 to 2147483647 or no-limit
+            type: str
+        type: dict
+      unsupported_transceiver:
+        description: enable support for third-party transceivers
+        type: bool
+    type: dict
+  running_config:
+    description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the IOS device by
+        executing the command B(show running-config | section ^service|^no service).
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into Ansible structured data as per the resource module's argspec
+        and the value is then returned in the I(parsed) key within the result.
+    type: str
+  state:
+    choices:
+      - merged
+      - replaced
+      - deleted
+      - gathered
+      - rendered
+      - parsed
+    default: merged
+    description:
+      - The state the configuration should be left in.
+      - Refer to examples for more details.
+    type: str
