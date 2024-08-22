@@ -11,6 +11,7 @@
 # Peer Link Status     : down
 # Source Address       : 2.2.2.2
 # Peer Address         : 1.1.1.1
+# Session Vrf          : mgmt
 # Peer Link            : PortChannel1
 # Keepalive Interval   : 1 secs
 # Session Timeout      : 3 secs
@@ -50,6 +51,7 @@
       source_address: 3.3.3.3
       keepalive: 10
       session_timeout: 30
+      session_vrf: VrfRed
       delay_restore: 360
       unique_ip:
         vlans:
@@ -73,6 +75,7 @@
 # Peer Link Status     : down
 # Source Address       : 3.3.3.3
 # Peer Address         : 1.1.1.1
+# Session Vrf          : VrfRed
 # Peer Link            : PortChannel1
 # Keepalive Interval   : 10 secs
 # Session Timeout      : 30 secs

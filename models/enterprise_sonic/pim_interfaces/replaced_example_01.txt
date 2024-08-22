@@ -1,0 +1,36 @@
+# Using replaced
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration interface Eth 1/1 | grep "ip pim"
+#  ip pim sparse-mode
+#  ip pim drpriority 10
+#  ip pim hello 45
+#  ip pim bfd
+#  ip pim bfd profile profile_1
+# sonic# show running-configuration interface Eth 1/2 | grep "ip pim"
+#  ip pim hello 60
+#  ip pim bfd
+# sonic#
+
+  - name: Replace PIM configurations for specified interfaces
+    dellemc.enterprise_sonic.sonic_pim_interfaces:
+      config:
+        - name: 'Eth1/1'
+          hello_interval: 60
+          bfd_enable: true
+          bfd_profile: profile_1
+      state: replaced
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration interface Eth 1/1 | grep "ip pim"
+#  ip pim hello 60
+#  ip pim bfd
+#  ip pim bfd profile profile_1
+# sonic# show running-configuration interface Eth 1/2 | grep "ip pim"
+#  ip pim hello 60
+#  ip pim bfd
+# sonic#
