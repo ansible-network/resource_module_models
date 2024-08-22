@@ -1,0 +1,40 @@
+#
+# Using overridden
+#
+# Before state:
+# -------------
+#
+#sonic# show running-configuration | grep load-share
+#ip load-share hash seed 8888
+#ip load-share hash ipv4 ipv4-dst-ip
+#ip load-share hash ipv4 ipv4-src-ip
+#ip load-share hash algorithm CRC
+#
+- name: Merge some configuration
+  sonic_loadshare_mode:
+    config:
+      hash_algorithm: CRC_32LO
+      hash_ingress_port: True
+      hash_offset:
+        flow_based: True
+      hash_seed: 9999
+      ipv4:
+        ipv4_src_ip: True
+        ipv4_ip_proto: True
+        ipv4_l4_dst_port: True
+        ipv4_l4_src_port: True
+    state: overridden
+#
+# After state:
+# ------------
+#
+#sonic# show running-configuration | grep load-share
+#ip load-share hash offset flow-based
+#ip load-share hash seed 9999
+#ip load-share hash ipv4 ipv4-src-ip
+#ip load-share hash ipv4 ipv4-ip-proto
+#ip load-share hash ipv4 ipv4-l4-src-port
+#ip load-share hash ipv4 ipv4-l4-dst-port
+#ip load-share hash algorithm CRC_32LO
+#ip load-share hash ingress-port
+#

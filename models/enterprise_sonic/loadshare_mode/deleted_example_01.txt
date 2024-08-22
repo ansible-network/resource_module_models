@@ -1,0 +1,39 @@
+#
+# Using deleted
+#
+# Before state:
+# -------------
+#
+#sonic# show running-configuration | grep load-share
+#ip load-share hash seed 8888
+#ip load-share hash ipv4 ipv4-dst-ip
+#ip load-share hash ipv4 ipv4-src-ip
+#ip load-share hash ipv4 ipv4-ip-proto
+#ip load-share hash ipv4 ipv4-l4-src-port
+#ip load-share hash ipv4 ipv4-l4-dst-port
+#ip load-share hash algorithm CRC
+#ip load-share hash ingress-port
+#
+- name: Merge some configuration
+  sonic_loadshare_mode:
+    config:
+      hash_algorithm: CRC
+      hash_offset:
+        offset: 12
+        flow_based: True
+      hash_roce_qpn: True
+      hash_seed: 8888
+      ipv4:
+        ipv4_l4_dst_port: True
+        ipv4_l4_src_port: True
+    state: deleted
+#
+# After state:
+# ------------
+#
+#sonic# show running-configuration | grep load-share
+#ip load-share hash ipv4 ipv4-dst-ip
+#ip load-share hash ipv4 ipv4-src-ip
+#ip load-share hash ipv4 ipv4-ip-proto
+#ip load-share hash ingress-port
+#
