@@ -1,0 +1,53 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration
+# (No IP neighbor configuration present)
+
+- name: Merge IP neighbor configuration
+  sonic_ip_neighbor:
+    config:
+      ipv4_arp_timeout: 1200
+      ipv4_drop_neighbor_aging_time: 600
+      ipv6_drop_neighbor_aging_time: 600
+      ipv6_nd_cache_expiry: 1200
+      num_local_neigh: 1000
+      intf_ipv6_neighbors:
+        - interface: Ethernet20
+          adv_interval_option: True
+          dad: enable
+          dnssl:
+            - name: abc.com
+              valid_lifetime: 1000
+          lifetime: 4500
+          managed_config: True
+          min_ra_interval_msec: 12000
+          mtu: 725
+          neighbors:
+            - ip: 1::1
+              link_layer_address: A1:B4:C5:C1:DD:3E
+    state: merged
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration
+# !
+# ip arp timeout 1200
+# ip drop-neighbor aging-time 600
+# ipv6 drop-neighbor aging-time 600
+# ip reserve local-neigh 1000
+# ipv6 nd cache expire 1200
+# !
+# !
+# interface Ethernet20
+#  ipv6 neighbor 1::1 A1:B4:C5:C1:DD:3E
+#  ipv6 nd dad enable
+#  ipv6 nd managed-config-flag
+#  ipv6 nd adv-interval-option
+#  ipv6 nd mtu 725
+#  ipv6 nd min ra-interval msec 12000
+#  ipv6 nd ra-lifetime 4500
+#  ipv6 nd dnssl abc.com 1000
