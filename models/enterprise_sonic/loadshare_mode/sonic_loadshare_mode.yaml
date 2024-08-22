@@ -131,7 +131,7 @@ DOCUMENTATION: |
         - In case of overridden, all existing load share mode will be deleted and
         - the specified input configuration will be add.
         - In case of replaced, the existing load share mode on the device will be replaced
-        - by the configuration for each mirroring.
+        - by the specified input configuration.
       type: str
       choices:
         - merged
