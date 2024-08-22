@@ -29,7 +29,7 @@
       ipv4_drop_neighbor_aging_time: 600
       intf_ipv6_neighbors:
         - interface: Ethernet20
-          adv_interval_option: True
+          adv_interval_option: true
           dad: enable
           dnssl:
             - name: abc.com

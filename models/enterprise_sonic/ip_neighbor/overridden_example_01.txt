@@ -19,13 +19,13 @@
       ipv4_drop_neighbor_aging_time: 700
       intf_ipv6_neighbors:
         - interface: Ethernet20
-          adv_interval_option: True
+          adv_interval_option: true
           dad: enable
           dnssl:
             - name: abc.com
               valid_lifetime: 1000
           lifetime: 4500
-          managed_config: True
+          managed_config: true
           min_ra_interval_msec: 12000
           mtu: 725
           neighbors:
