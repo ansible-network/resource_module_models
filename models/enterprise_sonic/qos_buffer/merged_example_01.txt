@@ -10,6 +10,7 @@
   - name: Merge QoS buffer configuration
     dellemc.enterprise_sonic.sonic_qos_buffer:
       config:
+	buffer_init: true
         buffer_pools:
           - name: ingress_lossless_pool
             xoff: 3500000
