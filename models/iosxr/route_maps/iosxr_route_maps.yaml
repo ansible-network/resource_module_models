@@ -414,8 +414,7 @@ options:
         type: dict
         suboptions:
           conditions:
-            type: list
-            elements: dict
+            type: dict
             suboptions:
               aigp-metric:
                 description: AIGP metric attribute
@@ -547,7 +546,7 @@ options:
                     description: extcommunity input and requires a match input (supports matches-any/matches-every/matches-within member or set)
                     type: str
               extcommunity_soo:
-                description: BGP extended community attribute,  BGP Site of Origin (SoO) extended community
+                description: BGP extended community attribute, BGP Site of Origin (SoO) extended community
                 type: dict
                 suboptions:
                   match:
@@ -625,7 +624,7 @@ options:
                   - ibgp
                   - incomplete
                 type: str
-              path-type:
+              path_type:
                 description: BGP path type (supports is Exact Match)
                 choices:
                   - ebgp
@@ -646,10 +645,10 @@ options:
               rd:
                 description: BGP VPN route-distinguisher (RD) attribute (supports in member or set)
                 type: str
-              rib-has-route:
+              rib_has_route:
                 description: Look in the rib for a route (supports in member or set)
                 type: str
-              rib-metric:
+              rib_metric:
                 description: RIB metric for table-policy
                 type: dict
                 suboptions:
@@ -712,7 +711,7 @@ options:
                     type: str
                   input_number:
                     type: int
-                    description: <0-4294967295>  32-bit decimal number
+                    description: <0-4294967295> 32-bit decimal number
               validation_state:
                 description: Validation-State (supports is Exact Match)
                 choices:
@@ -720,9 +719,9 @@ options:
                   - not-found
                   - valid
                 type: str
-              vpn-distinguisher:
-              description: BGP VPN distinguisher (VD) attribute (supports is Exact Match)
-              type: int
+              vpn_distinguisher:
+                description: BGP VPN distinguisher (VD) attribute (supports is Exact Match)
+                type: int
           add: *add
           apply: *apply
           drop: *drop
