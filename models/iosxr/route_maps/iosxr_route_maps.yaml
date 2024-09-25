@@ -14,6 +14,9 @@ options:
     type: list
     elements: dict
     suboptions:
+      name:
+        description: Name of the route policy.
+        type: str
       global: &global
         description: A list of global configurations for route policy.
         type: dict
