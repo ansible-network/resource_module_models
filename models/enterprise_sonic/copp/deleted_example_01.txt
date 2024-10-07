@@ -1,0 +1,38 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+# sonic# show copp actions
+# CoPP action group copp-1
+#    trap-action drop
+#    trap-priority 1
+#    trap-queue 1
+#    police cir 45 cbs 45
+# CoPP action group copp-2
+#    trap-action forward
+#    trap-priority 2
+#    trap-queue 2
+#    police cir 90 cbs 90
+# Class-map trap-1 match-type copp
+
+  - name: Delete CoPP configuration
+    dellemc.enterprise_sonic.sonic_copp:
+    config:
+      copp_groups:
+        - copp_name: 'copp-1'
+          trap_action: 'DROP'
+          cir: '45'
+          cbs: '45'
+        - copp_name: 'copp-2'
+      copp_traps:
+        - name: 'trap-1'
+    state: deleted
+
+# After state:
+# ------------
+#
+# sonic# show copp actions
+# CoPP action group copp-1
+#    trap-action drop
+#    police cir 45 cbs 45
