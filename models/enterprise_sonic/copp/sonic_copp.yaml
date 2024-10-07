@@ -9,10 +9,13 @@ ANSIBLE_METADATA: |
     }
 NETWORK_OS: sonic
 RESOURCE: copp
-COPYRIGHT: Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
 DOCUMENTATION: |
     module: sonic_copp
     version_added: 2.1.0
+    notes:
+      - Tested against Enterprise SONiC Distribution by Dell Technologies.
+      - Supports C(check_mode).
     short_description: Manage CoPP configuration on SONiC.
     description:
       - This module provides configuration management of CoPP for devices running SONiC
@@ -33,7 +36,7 @@ DOCUMENTATION: |
                 description:
                   - Name of CoPP classifier
                 type: str
-                required: True
+                required: true
               trap_priority:
                 description:
                   - CoPP trap priority
@@ -42,6 +45,7 @@ DOCUMENTATION: |
                 description:
                   - CoPP trap action
                 type: str
+                choices: ['copy', 'copy_cancel', 'deny', 'drop', 'forward', 'log', 'transit', 'trap']
               queue:
                 description:
                   - CoPP queue ID
@@ -53,6 +57,25 @@ DOCUMENTATION: |
               cbs:
                 description:
                   - Committed bucket size in packets or bytes
+                type: str
+          copp_traps:
+            description:
+              - List of CoPP entries that comprise a CoPP trap
+            type: list
+            elements: dict
+            suboptions:
+              name:
+                description:
+                  - Name of CoPP trap
+                type: str
+                required: true
+              trap_ids:
+                description:
+                  - Comma separated string of trap IDs
+                type: str
+              trap_group:
+                description:
+                  - Name of CoPP group
                 type: str
       state:
         description:

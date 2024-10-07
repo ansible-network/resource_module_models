@@ -13,8 +13,10 @@
 #    trap-priority 3
 #    trap-queue 3
 #    police cir 1000 cbs 1000
+# Class-map trap-1 match-type copp
+#   protocol id1
 
-  - name: Override CoPP groups configuration
+  - name: Override CoPP configuration
     dellemc.enterprise_sonic.sonic_copp:
     config:
       copp_groups:
