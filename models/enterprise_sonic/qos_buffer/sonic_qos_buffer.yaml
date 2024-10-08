@@ -1,0 +1,96 @@
+---
+GENERATOR_VERSION: '1.0'
+NETWORK_OS: sonic
+RESOURCE: qos_buffer
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_qos_buffer
+    version_added: "2.5.0"
+    notes:
+      - Tested against Enterprise SONiC Distribution by Dell Technologies.
+      - Supports C(check_mode).
+    short_description: Manage QoS buffer configuration on SONiC
+    description:
+      - This module provides configuration management of QoS buffer for devices running SONiC
+    author: "Shade Talabi (@stalabi1)"
+    options:
+      config:
+        description:
+          - QoS buffer configuration
+        type: dict
+        suboptions:
+          buffer_init:
+            description:
+              - Initialize QoS buffer based on system defaults
+            type: bool
+          buffer_pools:
+            description:
+              - Buffer pools configuration
+            type: list
+            elements: dict
+            suboptions:
+              name:
+                description:
+                  - Name of buffer pool
+                type: str
+                choices:
+                  - ingress_lossless_pool
+                required: True
+              xoff:
+                description:
+                  - Amount of shared buffer space in bytes, must be less than pool size
+                  - Required non-key attribute
+                type: int
+          buffer_profiles:
+            description:
+              - Buffer profiles configuration
+              - I(static_threshold) and I(dynamic_threshold) are mutually exclusive required non-key attributes
+            type: list
+            elements: dict
+            suboptions:
+              name:
+                description:
+                  - Name of buffer profile
+                type: str
+                required: True
+              pool:
+                description:
+                  - Name of buffer pool
+                  - Required non-key attribute
+                type: str
+                choices:
+                  - ingress_lossless_pool
+                  - egress_lossless_pool
+                  - egress_lossy_pool
+              size:
+                description:
+                  - Size of reserved buffer in bytes
+                  - Required non-key attribute
+                type: int
+              static_threshold:
+                description:
+                  - Static threshold for the shared usage in bytes
+                type: int
+              dynamic_threshold:
+                description:
+                  - Dynamic threshold value
+                  - Range -6-3
+                type: int
+              pause_threshold:
+                description:
+                  - Threshold value at which to stop traffic from peer
+                  - Range 46080-8388608
+                  - Configurable for ingress lossless pool
+                type: int
+      state:
+        description:
+          - The state of the configuration after module completion
+          - Replaced and overridden states are not supported for this module due to configuration constraints
+        type: str
+        choices:
+          - merged
+          - deleted
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
