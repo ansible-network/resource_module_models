@@ -1,0 +1,62 @@
+# Using Replaced
+#
+# Before state:
+# -------------
+#
+# sonic# show ip rest
+#
+# Log level is 6
+# Port is 443, disabled
+# Request limit is 100
+# Read timeout is 60 seconds
+# Client authentication mode is password
+# Security profile is profile1
+# API timeout is 120 seconds
+# vrf is mgmt
+#
+# sonic# show ip telemetry
+#
+# Log level is 10
+# JWT valid is 300 seconds
+# JWT refresh is 80 seconds
+# Port is 1234
+# Client authentication mode is cert,jwt
+# Security profile is profile2
+# API timeout is 45 seconds
+# vrf is mgmt
+
+- name: Replace mgmt servers configuration
+  dellemc.enterprise_sonic.sonic_mgmt_servers:
+    config:
+      rest:
+        api_timeout: 180
+        vrf: mgmt
+      telemetry:
+        log_level: 25
+        security_profile: profile2
+    state: replaced
+
+# After state:
+# ------------
+#
+# sonic# show ip rest
+#
+# Log level is 0
+# Port is 443
+# Request limit is not-set
+# Read timeout is 15 seconds
+# Client authentication mode is password,jwt
+# Security profile is not-set
+# API timeout is 180 seconds
+# vrf is mgmt
+#
+# sonic# show ip telemetry
+#
+# Log level is 25
+# JWT valid is 3600 seconds
+# JWT refresh is 900 seconds
+# Port is 8080
+# Client authentication mode is password,jwt
+# Security profile is profile2
+# API timeout is 0 seconds
+# vrf is not-set
