@@ -33,6 +33,7 @@
 #  set local-preference 635
 #  set origin egp
 #  set weight 93471
+#  set tag 65
 # !
 # route-map rm1 deny 3047
 #  match evpn route-type multicast
@@ -80,8 +81,7 @@
            as_path_prepend: 188,257
            community:
              community_number:
-               - 45:736
-             no_advertise: false
+               - "45:736"
            ipv6_next_hop:
              prefer_global: false
            metric:
@@ -115,7 +115,8 @@
            source_protocol: bgp
          set:
            community:
-             no_advertise: true
+             community_attributes:
+               - no_advertise
      state: merged
 
 # After state:
@@ -142,7 +143,7 @@
 #  match metric 400
 #  match origin egp
 #  set as-path prepend 188,257
-#  set community 35:58 79:150 308:650 45:736 local-AS no-export no-peer additive
+#  set community 35:58 79:150 308:650 45:736 local-AS no-advertise no-export no-peer additive
 #  set extcommunity rt 30:40
 #  set extcommunity soo 10.73.14.9:78
 #  set comm-list bgp_comm_list2 delete
@@ -152,6 +153,7 @@
 #  set local-preference 635
 #  set origin egp
 #  set weight 93471
+#  set tag 65
 # !
 # route-map rm1 deny 3047
 #  match as-path bgp_as3
