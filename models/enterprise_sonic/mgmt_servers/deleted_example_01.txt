@@ -13,6 +13,7 @@
 # Security profile is profile1
 # API timeout is 120 seconds
 # vrf is mgmt
+# Cipher suite is ecdhe-ecdsa-with-aes-128-gcm-SHA256,ecdhe-ecdsa-with-aes-256-gcm-SHA384
 #
 # sonic# show ip telemetry
 #
@@ -38,6 +39,7 @@
         security_profile: profile1
         shutdown: True
         vrf: mgmt
+        cipher_suite: ecdhe-ecdsa-with-aes-256-gcm-SHA384,ecdhe-ecdsa-with-aes-128-gcm-SHA256
       telemetry:
         api_timeout: 45
         client_auth: cert,jwt
@@ -62,6 +64,7 @@
 # Security profile is not-set
 # API timeout is 900 seconds
 # vrf is not-set
+# Cipher suite is ecdhe-ecdsa-with-aes-256-gcm-SHA384,ecdhe-ecdsa-with-chacha20-poly1305-SHA256,ecdhe-ecdsa-with-aes-128-gcm-SHA256
 #
 # sonic# show ip telemetry
 #
