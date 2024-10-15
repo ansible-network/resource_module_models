@@ -1,0 +1,54 @@
+module: ios_vrf_global
+short_description: Resource module to configure VRF definitions.
+description: This module provides declarative management of VRF definitions on Arista EOS platforms.
+version_added: 10.0.0
+author: Ruchi Pakhle (@Ruchip16)
+notes:
+- Tested against Arista EOS 4.23.0F
+- This module works with connection C(network_cli). See the L(EOS Platform Options,eos_platform_options).
+options:
+  config:
+    description: A dictionary containing device configurations for VRF, including a list of VRF definitions.
+    options:
+    type: list
+    elements: dict
+    suboptions:
+      name:
+        description: Name of the VRF Instance.
+        type: str
+        required: true
+      description:
+        description: A description for the VRF.
+        type: str
+      rd:
+        description: BGP Route Distinguisher (RD).
+        type: str
+  running_config:
+    description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the IOS device by
+        executing the command B(show running-config vrf).
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into Ansible structured data as per the resource module's argspec
+        and the value is then returned in the I(parsed) key within the result.
+    type: str
+  state:
+    choices: [parsed, gathered, deleted, merged, replaced, rendered, overridden]
+    default: merged
+    description:
+      - The state the configuration should be left in
+      - The states I(rendered), I(gathered) and I(parsed) does not perform any change
+        on the device.
+      - The state I(rendered) will transform the configuration in C(config) option to
+        platform specific CLI commands which will be returned in the I(rendered) key
+        within the result. For state I(rendered) active connection to remote host is
+        not required.
+      - The state I(gathered) will fetch the running configuration from device and transform
+        it into structured data in the format as per the resource module argspec and
+        the value is returned in the I(gathered) key within the result.
+      - The state I(parsed) reads the configuration from C(running_config) option and
+        transforms it into JSON format as per the resource module parameters and the
+        value is returned in the I(parsed) key within the result. The value of C(running_config)
+        option should be the same format as the output of command I(show running-config vrf).
+        connection to remote host is not required.
+    type: str
