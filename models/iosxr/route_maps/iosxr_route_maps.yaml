@@ -1,4 +1,3 @@
----
 module: iosxr_route_maps
 short_description: Resource module to configure route maps.
 description:
@@ -340,6 +339,35 @@ options:
               ospf_metric:
                 description: OSPF metric attribute
                 type: int
+              path_selection:
+                description: BGP path selection
+                type: dict
+                suboptions:
+                  all:
+                    type: bool
+                    description: BGP all advertise
+                  backup:
+                    description: BGP backup
+                    type: dict
+                    suboptions:
+                      backup_decimal:
+                        type: int
+                        description: <1>, decimal number 1
+                      advertise:
+                        type: bool
+                        description: Advertise the path
+                      install:
+                        type: bool
+                        description: Install the path
+                  best_path:
+                    type: bool
+                    description: BGP best path
+                  group_best:
+                    type: bool
+                    description: BGP group-best advertise
+                  multiplath:
+                    type: bool
+                    description: BGP multipath advertise
               path_color:
                 description: BGP Path Color for RIB (path-color external-reach)
                 type: bool
@@ -412,13 +440,15 @@ options:
               weight:
                 description: Weight attribute for route selection
                 type: int
-      if:
+      if_section:
         description: A dictionary of configurations for route policy for the top level if condition for the policy
         type: dict
         suboptions: &ifcondition
           condition:
             type: str
-            description: the condition string, eg - aigp-metric eq 23 and as-path in tmp1 and community is-empty and community matches-any test1 (don't add then at end)
+            description:
+              - the condition string, eg - aigp-metric eq 23 and as-path in tmp1 and
+                community is-empty and community matches-any test1 (don't add then at end)
           add: *add
           apply: *apply
           drop: *drop
@@ -428,22 +458,22 @@ options:
           unsuppress_route: *unsuppess
           remove: *remove
           set: *set
-      elseif: &elifmodel
+      elseif_section: &elifmodel
         description: A list of elif configurations that would follow along with the top level if
         type: list
         elements: dict
         suboptions: *ifcondition
-      else:
+      else_section:
         description: A dictionary of configurations that would be considered in the else block
         type: dict
         suboptions:
           global: *global
-          if:
+          if_section:
             description: A dictionary of configurations for route policy for the nested if condition, under top level else
             type: dict
             suboptions: *ifcondition
-          elseif: *elifmodel
-          else:
+          elseif_section: *elifmodel
+          else_section:
             description: A dictionary of configurations for nested else, does not support if/ elseif
             type: dict
             suboptions:
@@ -490,7 +520,7 @@ options:
       - merged
       - replaced
       - overridden
-      - deleted
+      - purged
       - rendered
       - gathered
       - parsed
