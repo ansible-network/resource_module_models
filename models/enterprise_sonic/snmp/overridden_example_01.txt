@@ -10,12 +10,34 @@
 #private                          ro
 #public                           ro
 #
+#rno-dctor-1ar01c01sw02# show snmp-server host
+#Target Address      Port    Type       Community    Ver     T-Out     Retries   VRF   Source-Interface
+#--------------      -----   -----     -----------   ----    --------  --------------------------------
+#1001::1             inform  comm1     auth-priv     v3      200       10              Eth1/1
+#
 
 - name: Override device configuration of all SNMP communities with provided configuration
   sonic_snmp:
     config:
-      - community: "public123"
-        access: "ro"
+      - index: "public123"
+        securityName: "ro"
+      - hosts: 
+          host: 2002::2
+          community: "community"
+          community-name: "comm1"
+          source-interface: "Eth1/11"
+          vrf: None
+          port: 162
+          informs: "noauth"
+          timeout: 20
+          retries: 10
+          traps:
+            auth-fail: enabled
+            bgd: enabled
+            config-change: enabled
+            link-down: enabled
+            link-up: enabled
+            ospf: enabled
     state: overridden
 
 # After state:
@@ -27,3 +49,7 @@
 #-------------------------------- --------------------------------
 #public123                        ro
 #
+#rno-dctor-1ar01c01sw02# show snmp-server host
+#Target Address      Port    Type       Community    Ver     T-Out     Retries   VRF   Source-Interface
+#--------------      -----   -----     -----------   ----    --------  --------------------------------
+#2002::2             inform  comm1     auth-priv     v3      20       10              Eth1/11

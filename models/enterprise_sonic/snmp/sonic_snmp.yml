@@ -10,13 +10,13 @@ ANSIBLE_METADATA: |
 
 NETWORK_OS: sonic
 RESOURCE: snmp
-COPYRIGHT: Copyright 2020 Dell Inc. or its subsidiaries. All Rights Reserved
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
 DOCUMENTATION: |
   module: sonic_snmp
-  version_added: 2.10
+  version_added: 4.5.0
   short_description: 'Manages snmp attributes on SONiC.'
   description: 'This module provides configuration management of SNMP parameters on devices running SONiC'
-  author: "Kumaraguru Narayanan (@nkumaraguru)"
+  author: "Kumaraguru Narayanan (@nkumaraguru), Aida Shumburo (@aida-shumburo)"
   notes:
     - 'Tested against SONiC Version 3.0.1'
   options:
@@ -36,6 +36,161 @@ DOCUMENTATION: |
           choices:
           - ro
           - rw
+        hosts:
+          description: Managment station that receives notifications
+          type: dict
+          suboptions:
+            host:
+              description: The hostname or IP address of the notification server
+              type: str
+              required: true
+            user:
+              description: the user of SNMPv3
+              type: str
+              required: true
+            username:
+              description: The username of the SNMPv3 user
+              type: str
+              required: true
+            informs:
+              description: informs
+              type: str
+              choices:
+                - auth
+                - noauth
+                - priv
+            timout:
+              description: Number of seconds before an idle session times out
+              type: int
+            retries:
+              description: Number of times that the agent re-sends an SNMP
+              notification after timing out
+              type: int
+            source-interface:
+              description: source interface
+              type: str
+          traps:
+            description: Trap configuration
+            type: dict
+            suboptions:
+              auth-fail:
+                description: SNMP authentication failure traps
+                type: str
+                choices:
+                - enable
+                - disable
+              bgd:
+                description: SNMP BGP traps
+                type: str
+                choices:
+                - enable
+                - disable
+              config-change:
+                description: SNMP configuration-change traps
+                type: str
+                choices:
+                - enable
+                - disable
+              link-down:
+                description: SNMP link-down traps
+                type: str
+                choices:
+                - enable
+                - disable
+              link-up:
+                description: SNMP link-up traps
+                type: str
+                choices:
+                - enable
+                - disable
+              ospf:
+                description: SNMP OSPF traps
+                type: str
+                choices:
+                - enable
+                - disable
+        groups:
+          description: SNMP access groups
+          type: dict
+          suboptions:
+            group:
+              description: The name of the group
+              type: str
+            version:
+              description: version of SNMP used
+              type: str
+              options:
+                - v2c
+                - v3
+            security:
+              description: level of security for SNMPv3
+              type: str
+              options:
+                - noauth
+                - priv
+                - auth
+            read:
+              description: read view name
+              type: str
+            write:
+              description: write view name
+              type: str
+            notify:
+              description: notify view name
+              type: str
+        views:
+          description: View of the MIB tree structure allowed
+          for Get and Set requests from a management station
+          type: dict
+          suboptions:
+            view:
+              description: The name of the view
+              type: str
+            oid_tree:
+              description: The oid of the view
+       users:
+          description: Remote SNMPv3 user access to the local agent on the switch
+          type: dict
+          suboptions:
+            user:
+              description:Name of the remote SNMPv3 user that connects to the local agent
+              type: string
+            group:
+              description: Name of the group to which the remote SNMPv3 user belongs
+              type: string
+            encrpyted:
+              description: Whether the remote SNMPv3 user is encrypted
+              type: bool
+            auth:
+              description: the authentication protocol used for SNMPv3
+              type: str
+              options:
+                - md5
+                - sha
+                - noauth
+            auth_password:
+              description: the authentication password used for SNMPv3
+              type: str
+            priv:
+              description: the privacy protocol used for SNMPv3
+              type: str
+              options:
+                - DES
+                - AES-128
+            priv_password:
+              description: the privacy password used for SNMPv3
+              type: str
+        communities:
+          description: Community string to authenticate users in SNPv2c communication with stations
+          type: dict
+          suboptions:
+            community:
+              description: The name of the community
+              type: str
+            group:
+              description: The name of the group to use a community string to authenticate an individual
+              or group of users
+              type: str
     state:
       description: The state the configuration should be left in
       type: str
@@ -49,5 +204,6 @@ EXAMPLES:
   - deleted_example_01.txt
   - deleted_example_02.txt  
   - merged_example_01.txt
+  - merged_example_02.txt
   - overridden_example_01.txt
   - replaced_example_01.txt

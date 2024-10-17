@@ -9,12 +9,37 @@
 #-------------------------------- --------------------------------
 #private                          ro
 #public                           ro
+#public123                        ro
 #
-- name: Delete a single SNMP community
+#
+#rno-dctor-1ar01c01sw02# show snmp-server host
+#Target Address      Port    Type       Community    Ver     T-Out     Retries   VRF   Source-Interface
+#--------------      -----   -----     -----------   ----    --------  --------------------------------
+#1001::1             inform  comm1     auth-priv     v3      200       10              Eth1/1
+#
+
+- name: Delete a single SNMPv2c community
   sonic_snmp:
     config:
-      - index: "private"
+      - index: "public123"
         securityName: "ro"
+      - hosts:
+          host: 1001::1
+          community: "community"
+          community-name: "comm1"
+          source-interface: "Eth1/1"
+          vrf: None
+          port: 162
+          informs: "noauth"
+          timeout: 15
+          retries: 3
+          traps:
+            auth-fail: enabled
+            bgd: enabled
+            config-change: enabled
+            link-down: enabled
+            link-up: enabled
+            ospf: enabled
     state: delete
 
 # After state:
@@ -24,5 +49,8 @@
 #
 #         Community Name                     Group Name
 #-------------------------------- --------------------------------
+#private                          ro
 #public                           ro
 #
+#
+#rno-dctor-1ar01c01sw02# show snmp-server host

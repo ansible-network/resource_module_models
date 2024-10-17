@@ -1,0 +1,89 @@
+# Using deleted
+
+# Before state:
+# -------------
+#
+# Using deleted
+#
+#rno-dctor-1ar01c01sw02# show snmp-server view
+#
+#View Name    OID                       Tree Type
+#---------     ---------------------     --------
+#view1         1.2.3.4.5.6.7.8.9.1       included
+#view2         1.2.3.4.5.6.7.8.9.5.1     excluded
+
+#rno-dctor-1ar01c01sw02# show snmp-server group
+#
+#Group Name      Model: Security        Read View    Write View    Notify View
+#----------      -------------------    ----------  ----------    -----------
+#group-floor1    v2c: no-auth-no-priv    ro_view     wr_view       None
+#group-floor2    v3: auth-priv           r_view      None          None
+#
+#
+#rno-dctor-1ar01c01sw02# show snmp-server user
+#
+#User Name    Group Name    Auth    Privacy
+#---------    ----------    -----   -------
+#user1       group-lab     md5     aes-128
+#
+#
+#
+#rno-dctor-1ar01c01sw02# show snmp-server host
+#Target Address      Port    Type       Community    Ver     T-Out     Retries   VRF   Source-Interface
+#--------------      -----   -----     -----------   ----    --------  --------------------------------
+#1001::1             inform  user1     auth-priv     v3      200       10              Eth1/2
+
+- name: Delete all SNMP communities
+  sonic_snmp:
+    config:
+      - views:
+          view: "view1"
+          oid_tree: "1.2.3.4.5.6.7.8.9.1"
+          type: "included"
+      - groups:
+          group: "group-floor2"
+          version: "v3"
+          security: "priv"
+          read: "r_view"
+          write: "w_view"
+          notify: "n_view"
+      - users:
+          user: "user1"
+          group: "group-lab"
+          auth: "md5"
+          privacy: "aes-128"
+      - hosts:
+          host: 1001::1
+          username: "user1"
+          informs: "noauth"
+          timeout: 200
+          retries: 10
+          source-interface: "Eth1/2"
+          vrf: None
+          port: "inform"
+          traps:
+            auth-fail: enable 
+            bgd: enable
+            config-change: enable
+            link-down: enable
+            link-up: enable
+            ospf: enable
+    state: deleted
+
+# After state:
+# ------------
+# 
+#rno-dctor-1ar01c01sw02# show snmp-server view
+#
+#View Name             OID               Tree Type
+#---------     ---------------------     --------
+#view2         1.2.3.4.5.6.7.8.9.5.1     excluded
+#
+#rno-dctor-1ar01c01sw02# show snmp-server group
+#
+#Group Name      Model: Security        Read View    Write View    Notify View
+#----------      -------------------    ----------  ----------    -----------
+#group-floor1    v2c: no-auth-no-priv    ro_view     wr_view       None
+#
+#rno-dctor-1ar01c01sw02# show snmp-server user
+#rno-dctor-1ar01c01sw02# show snmp-server host
