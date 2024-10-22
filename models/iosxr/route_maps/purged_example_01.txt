@@ -1,0 +1,123 @@
+# Using purged
+
+# Before state:
+# -------------
+#
+# viosxr#show running-config | include route-policy
+# route-policy SIMPLE_GLOBAL_ROUTE_POLICY
+# route-policy SIMPLE_CONDITION_ROUTE_POLICY
+# route-policy COMPLEX_ROUTE_POLICY
+#
+# viosxr#show running-config route-policy SIMPLE_GLOBAL_ROUTE_POLICY
+# route-policy SIMPLE_GLOBAL_ROUTE_POLICY
+#   set weight 20000
+#   set local-preference 200
+#   set community (11011:1001) additive
+#   apply A_NEW_ROUTE_POLICY
+# end-policy
+# viosxr#show running-config route-policy SIMPLE_CONDITION_ROUTE_POLICY
+# route-policy SIMPLE_CONDITION_ROUTE_POLICY
+#   if destination in SIMPLE_CONDITION_ROUTE_POLICY then
+#     pass
+#   else
+#     drop
+#   endif
+# end-policy
+# viosxr#show running-config route-policy COMPLEX_ROUTE_POLICY
+# route-policy COMPLEX_ROUTE_POLICY
+#   if as-path in (ios-regex '_3117_', ios-regex '_600_') then
+#     drop
+#   else
+#     if destination in A_RANDOM_POLICY then
+#       pass
+#       set community (101010:1) additive
+#       set local-preference 200
+#     else
+#       drop
+#     endif
+#   endif
+# end-policy
+
+- name: Purge or remove route-policy configuration
+  cisco.iosxr.iosxr_route_maps:
+    state: purged
+    config:
+      - name: COMPLEX_ROUTE_POLICY_NO_EXIST
+      - name: COMPLEX_ROUTE_POLICY
+
+# Task Output
+# -----------
+#
+# before:
+# - global:
+#     apply:
+#       - route_policy: A_NEW_ROUTE_POLICY
+#     set:
+#       community:
+#         additive: true
+#         community_name: (11011:1001)
+#       weight: 20000
+#   name: SIMPLE_GLOBAL_ROUTE_POLICY
+# - else_section:
+#     global:
+#       drop: true
+#   if_section:
+#     condition: destination in SIMPLE_CONDITION_ROUTE_POLICY
+#     pass: true
+#   name: SIMPLE_CONDITION_ROUTE_POLICY
+# - else_section:
+#     else_section:
+#       drop: true
+#     if_section:
+#       condition: destination in A_RANDOM_POLICY
+#       pass: true
+#       set:
+#         community:
+#           additive: true
+#           community_name: (101010:1)
+#   if_section:
+#     condition: as-path in (ios-regex '_3117_', ios-regex '_600_')
+#     drop: true
+#   name: COMPLEX_ROUTE_POLICY
+# commands:
+# - no route-policy COMPLEX_CONDITION_ROUTE_POLICY
+# after:
+# - global:
+#     apply:
+#       - route_policy: A_NEW_ROUTE_POLICY
+#     set:
+#       community:
+#         additive: true
+#         community_name: (11011:1001)
+#       weight: 20000
+#   name: SIMPLE_GLOBAL_ROUTE_POLICY
+# - else_section:
+#     global:
+#       drop: true
+#   if_section:
+#     condition: destination in SIMPLE_CONDITION_ROUTE_POLICY
+#     pass: true
+#   name: SIMPLE_CONDITION_ROUTE_POLICY
+
+# After state:
+# -------------
+#
+# viosxr#show running-config | include route-policy
+# route-policy SIMPLE_GLOBAL_ROUTE_POLICY
+# route-policy SIMPLE_CONDITION_ROUTE_POLICY
+#
+# viosxr#show running-config route-policy SIMPLE_GLOBAL_ROUTE_POLICY
+# route-policy SIMPLE_GLOBAL_ROUTE_POLICY
+#   set weight 20000
+#   set local-preference 200
+#   set community (11011:1001) additive
+#   apply A_NEW_ROUTE_POLICY
+# end-policy
+# viosxr#show running-config route-policy SIMPLE_CONDITION_ROUTE_POLICY
+# route-policy SIMPLE_CONDITION_ROUTE_POLICY
+#   if destination in SIMPLE_CONDITION_ROUTE_POLICY then
+#     pass
+#   else
+#     drop
+#   endif
+# end-policy
