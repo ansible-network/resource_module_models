@@ -1,0 +1,20 @@
+# Using Merged
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration | grep dcbx
+# sonic#
+
+  - name: Modify DCBX configurations
+    dellemc.enterprise_sonic.sonic_dcbx_global:
+      config:
+        enable: true
+      state: merged 
+
+# After State:
+# ------------
+# sonic# show running-configuration | grep dcbx
+# !
+# dcbx enable
+# !
