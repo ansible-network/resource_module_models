@@ -47,38 +47,38 @@ DOCUMENTATION: |
                     type: int
               tag:
                 description:
-                  - List of tags
+                  - List of tag values used to select target addresses
                 type: list
                 elements: str
               timeout:
                 description:
-                  - timeout
+                  - Inform acknowledgement timeout period in seconds, range 1-300
                 type: int
               retries:
                 description:
-                  - number of retries
+                  - Number of retry attempts per inform, range 1-255
                 type: int
               target_params:
                 description:
-                  - target parameters
+                  - Target parameters
                 type: string
               source_interface:
                 description:
-                  - source interface
+                  - Source interface IP for sending SNMP traps
                 type: str
           target_params:
             description:
-              - list of target parameters
+              - List of target parameters
             type: list
             elements: dict
             suboptions:
               name:
                 description:
-                  -  name of target parameter
+                  -  Name of target parameter
                 type: str
               v2c:
                 description:
-                  - v2c
+                  - SNMPv2c configuration
                 type: dict:
                 suboptions:
                   security_name:
@@ -87,112 +87,116 @@ DOCUMENTATION: |
                     type: str
               usm:
                 description:
+                  - USM configuration
                 type: dict
                 suboptions:
                   user_name:
                     description:
-                      - user name
+                      - Name of user
                     type: str
                   security_level:
                     description:
-                      - the security level
+                      - The security level
                     type: str
                     choices:
-                      - noauth
-                      - auth
-                      - priv
+                      - no-auth-no-priv
+                      - auth-no-priv
+                      - auth-priv
                     required: true
-          community:
+          communities:
             description:
-              - list of communities
+              - List of communities
             type: list
             elements: dict
             suboptions:
               index:
                 description:
-                  - index
+                  - Index
                 type: str
+                required: true
               security_name:
                 description:
-                  - security name
+                  - Security name
                 type: str
           engine:
             description:
-              - SNMP engine
+              - SNMP engine configuration
             type: dict
             suboptions:
               listen:
                 description:
-                  -  UDP port on which a device listens for requests from other devices
+                  -  List of configurations for the transport endpoints on which the engine listens
                 type: list
                 elements: dict
                 suboptions:
                   name:
                     description:
-                      - name
+                      - Name of listen entry
                     type: str
+                    required: true
                   udp:
                     description:
-                      - UDP port
+                      - UDP configuration
                     type: dict
                     suboptions:
                       ip:
                         description:
-                          - IP address
+                          - IP address on which the engine listens
                         type: str
                       port:
                         description:
-                          -  port number
+                          -  UDP port number on which the engine listens, range 1024-65535
                         type: int
                       interface:
                         description:
-                          - interface
+                          - iName of interface
                         type: str
               engine_id:
                 description:
-                  - engine id
+                  - Engine's administratively assigned unique identifier
                 type: str
-              interface_trap:
+              interface_traps:
                 description:
-                  - interface trap
+                  - List of interface traps
                 type: list
                 elements: dict
                 suboptions:
                   ifname:
                     description:
-                      - interface name
+                      - Interface name
                     type: str
+                    required: true
                   trap_status:
                     description:
-                      - whether the interface has a trap status
+                      - Enable/disable traps on the interface
                     type: bool
-          user:
+          users:
             description:
-              - list of users
+              - List of users
             type: list
             elements: dict
             suboption:
               name:
                 description:
-                  - name
+                  - Name of user
                 type: str
+                required: true
               auth:
                 description:
-                  - authentication
+                  - User authentication configuration
                 type: dict
                 suboptions:
-                  md5:
-                    description:
-                      - md5
-                    type: dict
-                    suboptions:
-                      key:
-                        description:
-                          - key
-                        type: str
+                  md5_key: 
+                    description: 
+                      - MD5 authentication
+                    type: str
+                  sha_key:
+                  description:
+                    - SHA authentication 
+                  type: str
                   sha:
                     description:
-                      - sha authentication
+                      - Sha authentication
                     type: dict
                     suboptions:
                       key:
@@ -201,156 +205,160 @@ DOCUMENTATION: |
                         type: str
                priv:
                 description:
-                  - privacy
+                  - Privacy configuration
                 type: dict
                 suboptions:
                   des:
                     description:
-                      - des
+                      - Des
                     type: dict
                     suboptions:
                       key:
                         description:
-                          - key to be used
+                          - Key to be used
                         type: str
               encrypted:
                 description:
-                  - whether the user is encrypted
+                  - Enable/disable encryption
                 type: bool       
           vacm:
             description:
-              - vacm
+              - VACM configuration
             type: dict
-            elements: list
             suboptions:
-              group:
+              groups:
                 description:
-                  - group
+                  - List of VACM groups
                 type: list
                 elements: dict
                 suboptions:
                   name:
                     description:
-                      - name of the group
+                      - Name of the group
                     type: str
-                  member:
+                    required: true
+                  members:
                     description:
-                      - list of members of the group
+                      - List of members of the group
                     type: list
                     elements: dict
                     suboptions:
                       security_name:
                         description:
-                          - name of the security
+                          - Security name of member
                         type: str
+                        required: true
                       security_model:
                         description:
-                          - security model used for user authentication
+                          - Security model used for user authentication
                         type: list
                         elements: str
+                        choices:
+                          - v2
+                          - v3
                   access:
                     description:
-                      - access the group has
+                      - List of access rights configuration for groups
                     type: list
                     elements: dict
                     suboptions:
                       context:
                         description:
-                          - context
+                          - Context under which access rights apply
                         type: str
-                      context_match:
-                        description:
-                          - context match
-                        type: exact
+                        required: true
                       security_model:
                         description:
-                          - security model used for user authentication
+                          - Security model used for user authentication
                         type: str
+                        required: true
                       security_level:
                         description:
-                          - security level
+                          - Minimum security level under which the access rights apply
                         type: str
+                        required: true
                         choices:
-                          - noauth
-                          - auth
-                          - priv
+                          - no-auth-no-priv
+                          - auth-no-priv
+                          - auth-priv
                       read_view:
                         description:
-                          - name of the read view
+                          - Name of the read view
                         type: str
                       write_view:
                         description:
-                          - name of the write view
+                          - Name of the write view
                         type: str
                       notify_view:
                         description:
-                          - name of the notify view
+                          - Name of the notify view
                         type: str  
-              view:
+              views:
                 description:
-                  - list of views
+                  - List of views
                 type: list
                 elements: dict
                 suboptions:
                   name:
                     description:
-                      - name of the view
+                      - Name of the view
                     type: str
+                    required: true
                   include:
                     description:
-                      - what the view includes
+                      - List of subtrees included in the view
                     type: list
                     elements: str
                   exclude:
                     description:
-                      - what the view does not include
+                      - List of subtrees excluded from the view
                     type: list
                     elements: str
           system:
             description:
-              - system used
+              - System configuration
             type: dict
             suboptions:
               contact:
                 description:
-                  - contact information
+                  - Description of the system contact information
                 type: str
               location:
                 description:
-                  - location
+                  - Description of the system location information
                 type: str
               trap_enable:
                 description:
-                  - whether the trap should be enabled or not
+                  - Enable/disable trap
                 type: bool
               notifications:
                 description:
-                  - types of notifications on the system
+                  - Notifications configuration
                 type: dict
                 suboptions:
                   authentication_failure_trap:
                     description:
-                      - True if there is an authenitcation failure trap on the system
+                      - Enable/disable authentication failure trap, only configurable when trap_enable is disabled
                     type: bool
                   link_down_trap:
                     description:
-                      - True if there is a link down trap on the system
+                      - Enable/disable link-down trap, only configurable when trap_enable is disabled
                     type: bool
                   link_up_trap:
                     description:
-                      - True if there is a link up trap on the system
+                      - Enable/disable link-up trap, only configurable when trap_enable is disabled
                     type: bool
                   config_change_trap:
                     description:
-                      - True if there is a config change trap on the system
+                      - Enable/disable configuration change trap, only configurable when trap_enable is disabled
                     type: bool
                   ospf_traps:
                     description:
-                      - True if there are ospf traps on the system
+                      - Enable/disable OSPF module traps, only configurable when trap_enable is disabled
                     type: bool
                   bgp_traps:
                     description:
-                      - True if there are bgp traps on the system
+                      - Enable/disable BGP module traps, only configurable when trap_enable is disabled
                     type: bool
       state:
         description:
