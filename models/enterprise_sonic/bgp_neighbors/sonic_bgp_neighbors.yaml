@@ -54,8 +54,8 @@ DOCUMENTATION: |
                 peer_as:
                   description:
                     - Specifies remote AS number.
-                    - The range is from 1 to 4294967295.
-                  type: int
+                    - The range is from 1 to 4294967295 or asdot notation.
+                  type: str
                 peer_type:
                   description:
                     - Specifies type of bgp peer.
@@ -177,7 +177,8 @@ DOCUMENTATION: |
                 as:
                   description:
                     - Local autonomous system number.
-                  type: int
+                    - The range is from 1 to 4294967295 or asdot notation.
+                  type: str
                   required: True
                 no_prepend:
                   description:
@@ -324,8 +325,8 @@ DOCUMENTATION: |
                 peer_as:
                   description:
                     - Specifies remote AS number.
-                    - The range is from 1 to 4294967295.
-                  type: int
+                    - The range is from 1 to 4294967295 or asdot notation.
+                  type: str
                 peer_type:
                   description:
                     - Specifies type of bgp peer.
@@ -450,7 +451,8 @@ DOCUMENTATION: |
                 as:
                   description:
                     - Local autonomous system number.
-                  type: int
+                    - The range is from 1 to 4294967295 or asdot notation.
+                  type: str
                   required: True
                 no_prepend:
                   description:
