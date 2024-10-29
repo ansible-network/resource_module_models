@@ -83,7 +83,7 @@ DOCUMENTATION: |
                 suboptions:
                   security_name:
                     description:
-                      - security name
+                      - Security name
                     type: str
               usm:
                 description:
@@ -149,7 +149,7 @@ DOCUMENTATION: |
                         type: int
                       interface:
                         description:
-                          - iName of interface
+                          - Name of interface
                         type: str
               engine_id:
                 description:
@@ -188,21 +188,12 @@ DOCUMENTATION: |
                 suboptions:
                   md5_key: 
                     description: 
-                      - MD5 authentication
+                      - MD5 authentication key
                     type: str
                   sha_key:
                   description:
-                    - SHA authentication 
+                    - SHA authentication key
                   type: str
-                  sha:
-                    description:
-                      - Sha authentication
-                    type: dict
-                    suboptions:
-                      key:
-                        description:
-                          - key
-                        type: str
                priv:
                 description:
                   - Privacy configuration
