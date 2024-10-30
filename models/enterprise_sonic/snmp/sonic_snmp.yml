@@ -76,6 +76,7 @@ DOCUMENTATION: |
                 description:
                   -  Name of target parameter
                 type: str
+                required: true
               v2c:
                 description:
                   - SNMPv2c configuration
@@ -125,7 +126,7 @@ DOCUMENTATION: |
             suboptions:
               listen:
                 description:
-                  -  List of configurations for the transport endpoints on which the engine listens
+                  - List of configurations for the transport endpoints on which the engine listens
                 type: list
                 elements: dict
                 suboptions:
@@ -191,23 +192,22 @@ DOCUMENTATION: |
                       - MD5 authentication key
                     type: str
                   sha_key:
-                  description:
-                    - SHA authentication key
-                  type: str
-               priv:
+                    description:
+                      - SHA authentication key
+                    type: str
+              priv:
                 description:
                   - Privacy configuration
                 type: dict
                 suboptions:
-                  des:
+                  des_key:
                     description:
-                      - Des
-                    type: dict
-                    suboptions:
-                      key:
-                        description:
-                          - Key to be used
-                        type: str
+                      - DES ecryption
+                    type: str
+                    aes_key:
+                    description:
+                      - AES encryption
+                    type: str
               encrypted:
                 description:
                   - Enable/disable encryption
