@@ -29,9 +29,7 @@ DOCUMENTATION: |
             suboptions:
               name:
                 description:
-                  - The name associated to the target parameters
-                  - This needs to match targetParams from the associated entry
-                    in the SNMP_SERVER_TARGET list
+                  - Name of the target
                 type: str
                 required: true
               udp:
@@ -50,24 +48,19 @@ DOCUMENTATION: |
               tag:
                 description:
                   - List of tag values used to select target addresses
-                  - Tag values used to select target addresses
-                  - Should be one of TrapNotify or InformNotif
                 type: list
                 elements: str
               timeout:
                 description:
                   - Inform acknowledgement timeout period in seconds, range 1-300
-                  - Needed only if this target can receive InformRequest-PDUs
                 type: int
               retries:
                 description:
                   - Number of retry attempts per inform, range 1-255
-                  - Needed only if this target can receive InformRequest-PDUs
                 type: int
               target_params:
                 description:
-                  - The name associated to the target parameters. This needs to match 
-                    the name from the associated entry in the SNMP_SERVER_PARAMS list
+                  - Target parameters
                 type: string
               source_interface:
                 description:
@@ -160,11 +153,7 @@ DOCUMENTATION: |
                         type: str
               engine_id:
                 description:
-                  - The engine ID specified as a list of colon-specified
-                    hexadecimal octets, e.g., '80:00:02:b8:04:61:62:63'
-                  - The local SNMP engine's administratively assigned unique
-                    identifier. If this leaf is not set, the device automatically
-                    calculates an engine ID, as described in RFC 3411
+                  - Engine's administratively assigned unique identifier
                 type: str
               interface_traps:
                 description:
@@ -199,21 +188,26 @@ DOCUMENTATION: |
                 suboptions:
                   md5_key: 
                     description: 
-                      - The presence of this key enables MD5 authentication for the user
+                      - MD5 authentication key
                     type: str
                   sha_key:
                   description:
-                    - The presence of this key enables SHA authentication for the user
+                    - SHA authentication key
                   type: str
                priv:
                 description:
                   - Privacy configuration
                 type: dict
                 suboptions:
-                  des_key:
+                  des:
                     description:
-                      - The presence of this key enables DES encryption for the user
-                    type: str
+                      - Des
+                    type: dict
+                    suboptions:
+                      key:
+                        description:
+                          - Key to be used
+                        type: str
               encrypted:
                 description:
                   - Enable/disable encryption
@@ -226,9 +220,6 @@ DOCUMENTATION: |
               groups:
                 description:
                   - List of VACM groups
-                  - Groups are explicitly defined in this list. Group members are defined
-                    in the 'member' list and access for the group is defined in the
-                    'access' list
                 type: list
                 elements: dict
                 suboptions:
@@ -240,15 +231,12 @@ DOCUMENTATION: |
                   members:
                     description:
                       - List of members of the group
-                      - A specific combination of securityName and securityModel MUST NOT be
-                        present in more than one group
                     type: list
                     elements: dict
                     suboptions:
                       security_name:
                         description:
-                          - The group this community is a member of. For communities with no
-                            group association, securityName should be set to 'None'
+                          - Security name of member
                         type: str
                         required: true
                       security_model:
@@ -290,8 +278,7 @@ DOCUMENTATION: |
                         type: str
                       write_view:
                         description:
-                          - The name of the MIB view authorizing write access
-                          - As the MIBs are currently read-only, the value of this view-name is immaterial
+                          - Name of the write view
                         type: str
                       notify_view:
                         description:
@@ -315,7 +302,7 @@ DOCUMENTATION: |
                     elements: str
                   exclude:
                     description:
-                      - A list of subtrees excluded in this MIB view
+                      - List of subtrees excluded from the view
                     type: list
                     elements: str
           system:
@@ -342,32 +329,27 @@ DOCUMENTATION: |
                 suboptions:
                   authentication_failure_trap:
                     description:
-                      - Enable/disable authentication failure trap, This is valid only if 'traps' field is
-                        disabled or not configured
+                      - Enable/disable authentication failure trap, only configurable when trap_enable is disabled
                     type: bool
                   link_down_trap:
                     description:
-                      - Enable/disable link down trap, This is valid only if 'traps' field is
-                        disabled or not configured
+                      - Enable/disable link-down trap, only configurable when trap_enable is disabled
                     type: bool
                   link_up_trap:
                     description:
-                      - Enable/disable link-up trap, This is valid only if 'traps' field is
-                        disabled or not configured
+                      - Enable/disable link-up trap, only configurable when trap_enable is disabled
                     type: bool
                   config_change_trap:
                     description:
-                      - Enable/disable configure change trap, This is valid only if 'traps' field is
-                        disabled or not configured
+                      - Enable/disable configuration change trap, only configurable when trap_enable is disabled
                     type: bool
                   ospf_traps:
                     description:
-                      - Enable/disable OSPF module traps, This is valid only if 'traps' field is
-                        disabled or not configured
+                      - Enable/disable OSPF module traps, only configurable when trap_enable is disabled
+                    type: bool
                   bgp_traps:
                     description:
-                      - Enable/disable BGP module traps, This is valid only if 'traps' field is
-                        disabled or not configured
+                      - Enable/disable BGP module traps, only configurable when trap_enable is disabled
                     type: bool
       state:
         description:
@@ -376,3 +358,5 @@ DOCUMENTATION: |
         choices: ['merged', 'deleted', 'replaced', 'overridden']
         default: merged
 EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
