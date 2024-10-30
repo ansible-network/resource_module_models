@@ -204,7 +204,7 @@ DOCUMENTATION: |
                     description:
                       - DES ecryption
                     type: str
-                    aes_key:
+                  aes _key:
                     description:
                       - AES encryption
                     type: str
