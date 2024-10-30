@@ -1,0 +1,32 @@
+# Using deleted
+#
+# Before state:
+#---------------
+#
+# do show snmp-server users
+#
+# User Name       Auth        Priv
+#------------    ---------     --------
+# user1           md5         aes-128
+#
+
+# - name: Merge snmp-server configuration
+#   sonic_snmp:
+#       config:
+#           users:
+#               - name: user1
+#                 auth: 
+#                   md5_key: md5
+#                 priv:
+#                   des_key: aes-128
+#                 encrypted: False
+#       state: deleted
+
+# After State:
+#---------------
+#
+# do show snmp-server users
+#
+# User Name       Auth        Priv
+#------------    ---------     --------
+#
