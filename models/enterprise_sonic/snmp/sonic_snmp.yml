@@ -61,7 +61,7 @@ DOCUMENTATION: |
               target_params:
                 description:
                   - Target parameters
-                type: string
+                type: str
               source_interface:
                 description:
                   - Source interface IP for sending SNMP traps
@@ -80,7 +80,7 @@ DOCUMENTATION: |
               v2c:
                 description:
                   - SNMPv2c configuration
-                type: dict:
+                type: dict
                 suboptions:
                   security_name:
                     description:
