@@ -45,6 +45,10 @@ DOCUMENTATION: |
                     description:
                       - Port number
                     type: int
+                  source_interface:
+                    description:
+                      - Source interface IP for sending SNMP traps
+                    type: str
               tag:
                 description:
                   - List of tag values used to select target addresses
@@ -61,10 +65,6 @@ DOCUMENTATION: |
               target_params:
                 description:
                   - Target parameters
-                type: str
-              source_interface:
-                description:
-                  - Source interface IP for sending SNMP traps
                 type: str
           target_params:
             description:
@@ -124,6 +124,9 @@ DOCUMENTATION: |
               - SNMP engine configuration
             type: dict
             suboptions:
+              enabled:
+                description:
+                type: bool
               listen:
                 description:
                   - List of configurations for the transport endpoints on which the engine listens
@@ -156,20 +159,17 @@ DOCUMENTATION: |
                 description:
                   - Engine's administratively assigned unique identifier
                 type: str
-              interface_traps:
+              version:
                 description:
-                  - List of interface traps
-                type: list
-                elements: dict
-                suboptions:
-                  ifname:
+                type: dict
+                options:
+                  v2c:
                     description:
-                      - Interface name
-                    type: str
-                    required: true
-                  trap_status:
+                      - If v2c is enabled
+                    type: bool
+                  v3:
                     description:
-                      - Enable/disable traps on the interface
+                      - If v3 is enabled
                     type: bool
           users:
             description:
@@ -258,6 +258,10 @@ DOCUMENTATION: |
                           - Context under which access rights apply
                         type: str
                         required: true
+                      context_match:
+                        description:
+                          - Context match
+                        type: str
                       security_model:
                         description:
                           - Security model used for user authentication
@@ -322,35 +326,6 @@ DOCUMENTATION: |
                 description:
                   - Enable/disable trap
                 type: bool
-              notifications:
-                description:
-                  - Notifications configuration
-                type: dict
-                suboptions:
-                  authentication_failure_trap:
-                    description:
-                      - Enable/disable authentication failure trap, only configurable when trap_enable is disabled
-                    type: bool
-                  link_down_trap:
-                    description:
-                      - Enable/disable link-down trap, only configurable when trap_enable is disabled
-                    type: bool
-                  link_up_trap:
-                    description:
-                      - Enable/disable link-up trap, only configurable when trap_enable is disabled
-                    type: bool
-                  config_change_trap:
-                    description:
-                      - Enable/disable configuration change trap, only configurable when trap_enable is disabled
-                    type: bool
-                  ospf_traps:
-                    description:
-                      - Enable/disable OSPF module traps, only configurable when trap_enable is disabled
-                    type: bool
-                  bgp_traps:
-                    description:
-                      - Enable/disable BGP module traps, only configurable when trap_enable is disabled
-                    type: bool
       state:
         description:
           - The state of the configuration after module completion
