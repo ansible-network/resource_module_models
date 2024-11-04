@@ -1,53 +1,337 @@
----
 GENERATOR_VERSION: '1.0'
 ANSIBLE_METADATA: |
     {
-        'metadata_version': '1.0',
+        'metadata_version': '1.1',
         'status': ['preview'],
-        'supported_by': 'community',
-        'license': 'Apache 2.0'
+        'supported_by': 'community'
     }
-
 NETWORK_OS: sonic
 RESOURCE: snmp
-COPYRIGHT: Copyright 2020 Dell Inc. or its subsidiaries. All Rights Reserved
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved.
 DOCUMENTATION: |
-  module: sonic_snmp
-  version_added: 2.10
-  short_description: 'Manages snmp attributes on SONiC.'
-  description: 'This module provides configuration management of SNMP parameters on devices running SONiC'
-  author: "Kumaraguru Narayanan (@nkumaraguru)"
-  notes:
-    - 'Tested against SONiC Version 3.0.1'
-  options:
-    config:
-      description: A dictionary of snmp configurations
-      type: list
-      elements: dict
-      suboptions:
-        community:
-          type: str
-          description: The name or community of the snmp 
-          required: true
-        access:
-          type: str
-          description: The securityName of this community ex.:ro, rw 
-          required: false
-          choices:
-          - ro
-          - rw
-    state:
-      description: The state the configuration should be left in
-      type: str
-      choices:
-      - merged
-      - replaced
-      - overridden
-      - deleted
-      default: merged
+    module: sonic_snmp
+    version_added: 3.3.1
+    short_description: Manage SNMP configuration on SONiC
+    description:
+      - This module provides configuration management of SNMP for devices running SONiC
+    author: Aida Shumburo (@aida-shumburo)
+    options:
+      config:
+        description:
+          - SNMP configuration
+        type: dict
+        suboptions:
+          targets:
+            description:
+              - List of targets
+            type: list
+            elements: dict
+            suboptions:
+              name:
+                description:
+                  - Name of the target
+                type: str
+                required: true
+              udp:
+                description:
+                  - UDP port
+                type: dict
+                suboptions:
+                  ip:
+                    description:
+                      - IP address
+                    type: str
+                  port:
+                    description:
+                      - Port number
+                    type: int
+                  source_interface:
+                    description:
+                      - Source interface IP for sending SNMP traps
+                    type: str
+              tag:
+                description:
+                  - List of tag values used to select target addresses
+                type: list
+                elements: str
+              timeout:
+                description:
+                  - Inform acknowledgement timeout period in seconds, range 1-300
+                type: int
+              retries:
+                description:
+                  - Number of retry attempts per inform, range 1-255
+                type: int
+              target_params:
+                description:
+                  - Target parameters
+                type: str
+          target_params:
+            description:
+              - List of target parameters
+            type: list
+            elements: dict
+            suboptions:
+              name:
+                description:
+                  -  Name of target parameter
+                type: str
+                required: true
+              v2c:
+                description:
+                  - SNMPv2c configuration
+                type: dict
+                suboptions:
+                  security_name:
+                    description:
+                      - Security name
+                    type: str
+              usm:
+                description:
+                  - USM configuration
+                type: dict
+                suboptions:
+                  user_name:
+                    description:
+                      - Name of user
+                    type: str
+                  security_level:
+                    description:
+                      - The security level
+                    type: str
+                    choices:
+                      - no-auth-no-priv
+                      - auth-no-priv
+                      - auth-priv
+                    required: true
+          communities:
+            description:
+              - List of communities
+            type: list
+            elements: dict
+            suboptions:
+              index:
+                description:
+                  - Index
+                type: str
+                required: true
+              security_name:
+                description:
+                  - Security name
+                type: str
+          engine:
+            description:
+              - SNMP engine configuration
+            type: dict
+            suboptions:
+              enabled:
+                description:
+                type: bool
+              listen:
+                description:
+                  - List of configurations for the transport endpoints on which the engine listens
+                type: list
+                elements: dict
+                suboptions:
+                  name:
+                    description:
+                      - Name of listen entry
+                    type: str
+                    required: true
+                  udp:
+                    description:
+                      - UDP configuration
+                    type: dict
+                    suboptions:
+                      ip:
+                        description:
+                          - IP address on which the engine listens
+                        type: str
+                      port:
+                        description:
+                          -  UDP port number on which the engine listens, range 1024-65535
+                        type: int
+                      interface:
+                        description:
+                          - Name of interface
+                        type: str
+              engine_id:
+                description:
+                  - Engine's administratively assigned unique identifier
+                type: str
+              version:
+                description:
+                type: dict
+                options:
+                  v2c:
+                    description:
+                      - If v2c is enabled
+                    type: bool
+                  v3:
+                    description:
+                      - If v3 is enabled
+                    type: bool
+          users:
+            description:
+              - List of users
+            type: list
+            elements: dict
+            suboption:
+              name:
+                description:
+                  - Name of user
+                type: str
+                required: true
+              auth:
+                description:
+                  - User authentication configuration
+                type: dict
+                suboptions:
+                  md5_key: 
+                    description: 
+                      - MD5 authentication key
+                    type: str
+                  sha_key:
+                    description:
+                      - SHA authentication key
+                    type: str
+              priv:
+                description:
+                  - Privacy configuration
+                type: dict
+                suboptions:
+                  des_key:
+                    description:
+                      - DES ecryption
+                    type: str
+                  aes _key:
+                    description:
+                      - AES encryption
+                    type: str
+              encrypted:
+                description:
+                  - Enable/disable encryption
+                type: bool       
+          vacm:
+            description:
+              - VACM configuration
+            type: dict
+            suboptions:
+              groups:
+                description:
+                  - List of VACM groups
+                type: list
+                elements: dict
+                suboptions:
+                  name:
+                    description:
+                      - Name of the group
+                    type: str
+                    required: true
+                  members:
+                    description:
+                      - List of members of the group
+                    type: list
+                    elements: dict
+                    suboptions:
+                      security_name:
+                        description:
+                          - Security name of member
+                        type: str
+                        required: true
+                      security_model:
+                        description:
+                          - Security model used for user authentication
+                        type: list
+                        elements: str
+                        choices:
+                          - v2
+                          - v3
+                  access:
+                    description:
+                      - List of access rights configuration for groups
+                    type: list
+                    elements: dict
+                    suboptions:
+                      context:
+                        description:
+                          - Context under which access rights apply
+                        type: str
+                        required: true
+                      context_match:
+                        description:
+                          - Context match
+                        type: str
+                      security_model:
+                        description:
+                          - Security model used for user authentication
+                        type: str
+                        required: true
+                      security_level:
+                        description:
+                          - Minimum security level under which the access rights apply
+                        type: str
+                        required: true
+                        choices:
+                          - no-auth-no-priv
+                          - auth-no-priv
+                          - auth-priv
+                      read_view:
+                        description:
+                          - Name of the read view
+                        type: str
+                      write_view:
+                        description:
+                          - Name of the write view
+                        type: str
+                      notify_view:
+                        description:
+                          - Name of the notify view
+                        type: str  
+              views:
+                description:
+                  - List of views
+                type: list
+                elements: dict
+                suboptions:
+                  name:
+                    description:
+                      - Name of the view
+                    type: str
+                    required: true
+                  include:
+                    description:
+                      - List of subtrees included in the view
+                    type: list
+                    elements: str
+                  exclude:
+                    description:
+                      - List of subtrees excluded from the view
+                    type: list
+                    elements: str
+          system:
+            description:
+              - System configuration
+            type: dict
+            suboptions:
+              contact:
+                description:
+                  - Description of the system contact information
+                type: str
+              location:
+                description:
+                  - Description of the system location information
+                type: str
+              trap_enable:
+                description:
+                  - Enable/disable trap
+                type: bool
+      state:
+        description:
+          - The state of the configuration after module completion
+        type: str
+        choices: ['merged', 'deleted', 'replaced', 'overridden']
+        default: merged
 EXAMPLES:
   - deleted_example_01.txt
-  - deleted_example_02.txt  
   - merged_example_01.txt
-  - overridden_example_01.txt
-  - replaced_example_01.txt

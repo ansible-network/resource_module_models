@@ -1,31 +1,29 @@
 # Using merged
-
+#
 # Before state:
-# -------------
+#---------------
 #
-#rno-dctor-1ar01c01sw02# show snmp-server community
-#
-#         Community Name                     Group Name
-#-------------------------------- --------------------------------
-#private                          ro
-#public                           ro
+# do show snmp-server config
+# (no snmp-server configuration present)
 #
 
-- name: Merge a single SNMP community
-  sonic_snmp:
-    config:
-      - community: "public123"
-        access: "ro"
-    state: merged
+# - name: Merge snmp-server configuration
+#   sonic_snmp:
+#       config:
+#           users:
+#               - name: user1
+#                 auth: 
+#                   md5_key: md5
+#                 priv:
+#                   des_key: aes-128
+#                 encrypted: False
+#       state: merged
 
-# After state:
-# ------------
+# After State:
+#---------------
 #
-#rno-dctor-1ar01c01sw02# show snmp-server community
+# do show snmp-server users
 #
-#         Community Name                     Group Name
-#-------------------------------- --------------------------------
-#private                          ro
-#public                           ro
-#public123                        ro
-#
+# User Name       Auth        Priv
+#------------    ---------     --------
+# user1           md5         aes-128

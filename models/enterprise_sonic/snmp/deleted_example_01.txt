@@ -1,28 +1,32 @@
 # Using deleted
-
+#
 # Before state:
-# -------------
+#---------------
 #
-#rno-dctor-1ar01c01sw02# show snmp-server community
+# do show snmp-server users
 #
-#         Community Name                     Group Name
-#-------------------------------- --------------------------------
-#private                          ro
-#public                           ro
+# User Name       Auth        Priv
+#------------    ---------     --------
+# user1           md5         aes-128
 #
-- name: Delete a single SNMP community
-  sonic_snmp:
-    config:
-      - index: "private"
-        securityName: "ro"
-    state: delete
 
-# After state:
-# ------------
+# - name: Merge snmp-server configuration
+#   sonic_snmp:
+#       config:
+#           users:
+#               - name: user1
+#                 auth: 
+#                   md5_key: md5
+#                 priv:
+#                   des_key: aes-128
+#                 encrypted: False
+#       state: deleted
+
+# After State:
+#---------------
 #
-#rno-dctor-1ar01c01sw02# show snmp-server community
+# do show snmp-server users
 #
-#         Community Name                     Group Name
-#-------------------------------- --------------------------------
-#public                           ro
+# User Name       Auth        Priv
+#------------    ---------     --------
 #
