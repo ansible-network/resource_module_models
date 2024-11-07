@@ -9,7 +9,6 @@ notes:
 options:
   config:
     description: A dictionary containing device configurations for VRF, including a list of VRF definitions.
-    options:
     type: list
     elements: dict
     suboptions:
@@ -33,7 +32,7 @@ options:
         and the value is then returned in the I(parsed) key within the result.
     type: str
   state:
-    choices: [parsed, gathered, deleted, merged, replaced, rendered, overridden]
+    choices: [parsed, gathered, deleted, merged, replaced, rendered, overridden, purged]
     default: merged
     description:
       - The state the configuration should be left in
