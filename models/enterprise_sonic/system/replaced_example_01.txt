@@ -1,0 +1,24 @@
+# Using replaced
+#
+# Before state:
+# -------------
+#!
+#sonic(config)#do show running-configuration
+#!
+#ip anycast-mac-address aa:bb:cc:dd:ee:ff
+#ip anycast-address enable
+#ipv6 anycast-address enable
+
+    - name: Replace system configuration.
+      sonic_system:
+        config:
+          hostname: sonic
+          interface_naming: standard
+        state: replaced
+
+# After state:
+# ------------
+#!
+#SONIC(config)#do show running-configuration
+#!
+#interface-naming standard

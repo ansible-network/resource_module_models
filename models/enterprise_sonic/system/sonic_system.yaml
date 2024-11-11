@@ -56,8 +56,11 @@ DOCUMENTATION: |
         - In case of merged, the input configuration will be merged with the existing system configuration on the device.
         - In case of deleted the existing system configuration will be removed from the device.
       default: merged
-      choices: ['merged', 'deleted']
+      choices: ['merged', 'replaced', 'overridden', 'deleted']
 EXAMPLES:
   - deleted_example_01.txt
   - deleted_example_02.txt
   - merged_example_01.txt
+  - replaced_example_01.txt
+  - replaced_example_02.txt
+  - overridden_example_01.txt
