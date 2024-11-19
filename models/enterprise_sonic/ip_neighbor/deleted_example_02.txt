@@ -1,0 +1,28 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration
+# !
+# ipv6 drop-neighbor aging-time 600
+# ip reserve local-neigh 1000
+# ipv6 nd cache expire 1200
+# !
+# !
+# interface Ethernet20
+#  ipv6 neighbor 1::1 A1:B4:C5:C1:DD:3E
+#  ipv6 nd managed-config-flag
+#  ipv6 nd mtu 725
+#  ipv6 nd min ra-interval msec 12000
+
+- name: Delete all IP neighbor configuration
+  sonic_ip_neighbor:
+    config: {}
+    state: deleted
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration
+# (No IP neighbor configuration present)
