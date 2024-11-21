@@ -201,3 +201,5 @@ DOCUMENTATION: |
         choices: ['merged', 'deleted', 'replaced', 'overridden']
         default: merged
 EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
