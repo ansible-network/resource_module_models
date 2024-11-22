@@ -134,6 +134,7 @@ DOCUMENTATION: |
               - link-down
               - link-up
               - ospf
+              - all
           group:
             description:
               - SNMP group
