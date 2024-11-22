@@ -123,18 +123,17 @@ DOCUMENTATION: |
             description:
               - Description of the system location information
             type: str
-          enable:
+          enable_trap:
             description:
-              - What to enable (i.e trap)
+              - Specify trap(s) to enable
             type: list
             choices:
-              - trap
-              - trap auth-fail
-              - trap bgp
-              - trap config-change
-              - trap link-down
-              - trap link-up
-              - trap ospf
+              - auth-fail
+              - bgp
+              - config-change
+              - link-down
+              - link-up
+              - ospf
           group:
             description:
               - SNMP group
