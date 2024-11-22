@@ -126,7 +126,15 @@ DOCUMENTATION: |
           enable:
             description:
               - What to enable (i.e trap)
-            type: str
+            type: list
+            choices:
+              - trap
+              - trap auth-fail
+              - trap bgp
+              - trap config-change
+              - trap link-down
+              - trap link-up
+              - trap ospf
           group:
             description:
               - SNMP group
@@ -138,62 +146,69 @@ DOCUMENTATION: |
                   - Name of the group
                 type: str
               access:
-                  description:
-                    - List of access rights configuration for groups
-                  type: list
-                  elements: dict
-                  suboptions:
-                      security_level:
-                        description:
-                          - Minimum security level under which the access rights apply
-                        type: str
-                        required: true
-                        choices:
-                          - no-auth-no-priv
-                          - auth-no-priv
-                          - auth-priv
-                      read_view:
-                        description:
-                          - Name of the read view
-                        type: str
-                      write_view:
-                        description:
-                          - Name of the write view
-                        type: str
-                      notify_view:
-                        description:
-                          - Name of the notify view
-                        type: str  
+                description:
+                  - List of access rights configuration for groups
+                type: list
+                elements: dict
+                suboptions:
+                    security_level:
+                      description:
+                        - Minimum security level under which the access rights apply
+                      type: str
+                      required: true
+                      choices:
+                        - no-auth-no-priv
+                        - auth-no-priv
+                        - auth-priv
+                    read_view:
+                      description:
+                        - Name of the read view
+                      type: str
+                    write_view:
+                      description:
+                        - Name of the write view
+                      type: str
+                    notify_view:
+                      description:
+                        - Name of the notify view
+                      type: str  
           host:
-              description:
-                - SNMP host
-              type: list
-              elements: dict
-              suboptions:
-                host-addr:
-                  description:
-                    - Host address (IPv4 or IPv6)
-                  type: str
-                community:
-                  description:
-                    - Community for v2c
-                  type: str
-                community-name:
-                  description:
-                    - Unique SNMP community name (4-32 chars: except space, comma and @)
-                  type: str
-                traps:
-                  description:
-                    - Specify traps
-                  type: str
-                timeout:
-                  description:
-                    - Specify timeout
-                  type: int
-                retries:
-                  description:
-                    - Specify retries
-                  type: int
+            description:
+              - SNMP host
+            type: list
+            elements: dict
+            suboptions:
+              host-addr:
+                description:
+                  - Host address (IPv4 or IPv6)
+                type: str
+              community:
+                description:
+                  - Community for v2c
+                type: str
+              community_name:
+                description:
+                  - Unique SNMP community name (4-32 chars: except space, comma and @)
+                type: str
+              traps:
+                description:
+                  - Specify traps
+                type: str
+                choices:
+                  - auth-fail
+                  - bgp
+                  - config-change
+                  - link-down
+                  - link-up
+                  - all
+              timeout:
+                description:
+                  - Specify timeout
+                type: int
+              retries:
+                description:
+                  - Specify retries
+                type: int
       state:
         description:
           - The state of the configuration after module completion
