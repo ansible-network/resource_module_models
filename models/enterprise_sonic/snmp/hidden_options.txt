@@ -30,10 +30,6 @@ options:
                     - UDP port
                     type: dict
                     suboptions:
-                    ip:
-                        description:
-                        - IP address
-                        type: str
                     port:
                         description:
                         - Port number
@@ -43,14 +39,6 @@ options:
                     - List of tag values used to select target addresses
                     type: list
                     elements: str
-                timeout:
-                description:
-                  - Inform acknowledgement timeout period in seconds, range 1-300
-                type: int
-              retries:
-                description:
-                  - Number of retry attempts per inform, range 1-255
-                type: int
               target_params:
                 description:
                   - Target parameters
@@ -103,10 +91,16 @@ options:
               type: list
               elements: dict
               suboptions:
-                security_model:
+                group:
                   description:
-                    - the version. Automatically set to 'v2c'
-                  type: str
+                    - SNMP group
+                  type: list
+                  elements: dict
+                  suboptions:
+                    security_model:
+                      description:
+                      - the version. Automatically set to 'v2c'
+                      type: str  
             engine:
               description:
                 - SNMP engine configuration
@@ -190,5 +184,4 @@ options:
                       description:
                         - Security model used for user authentication
                       type: str
-                      required: true
-                    
+                      required: true      
