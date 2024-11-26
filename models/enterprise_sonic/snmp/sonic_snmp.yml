@@ -154,7 +154,7 @@ DOCUMENTATION: |
                 type: str
               access:
                 description:
-                  - List of access rights configuration for groups
+                  - List of access rights configuration for a group
                 type: list
                 elements: dict
                 suboptions:
@@ -208,12 +208,12 @@ DOCUMENTATION: |
                 suboptions:
                   name:
                     description:
-                    - Name of the host
+                    - Name of the user
                     type: str
                     required: true
                   security_level:
                     description:
-                      - Security level of the host
+                      - Security level of the user
                     type: str
                     choices:
                       - auth
@@ -221,7 +221,7 @@ DOCUMENTATION: |
                       - priv
             port:
               description:
-                - LDP destination port, range 1024-65535
+                - UDP destination port, range 1024-65535
               type: int
             source_interface:
               description:
