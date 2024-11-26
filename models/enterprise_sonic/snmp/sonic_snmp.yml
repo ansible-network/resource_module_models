@@ -18,48 +18,53 @@ DOCUMENTATION: |
         suboptions:
           agentaddress:
             description:
-              - SNMP agent access configuration
+              - List of SNMP agent address configuration
             type: list
             elements: dict
             suboptions:
               suboptions:
                 ip:
                   description:
-                    - IP address
+                    - IPv4 or IPv6 address
                   type: str
+                  required: true
               port:
                 description:
-                  - SNMP agent access port
+                  - UDP listening port, range 1024-65535
                 type: int
               interface:
                 description:
-                  - SNMP agent access interface
+                  - Name of interface
                 type: str
-          communities:
+          community:
             description:
-              - List of communities
+              - List of SNMP community configuration
             type: list
             elements: dict
             suboptions:
               group:
                 description:
-                  - SNMP group
+                  - Name of community group
                 type: str
               name:
                 descripton:
-                  - Name of group
+                  - Name of community
                 type: str
                 required: true
           engine:
             description:
-              - SNMP engine configuration
+              - SNMP engine ID
             type: str
-          users:
+          user:
             description:
-              - List of users
+              - List of SNMP user configuration
             type: list
             elements: dict
             suboption:
+              group:
+                description:
+                  - Name of user group
+                type: str
               name:
                 description:
                   - Name of user
@@ -95,9 +100,9 @@ DOCUMENTATION: |
                 description:
                   - Enable/disable encryption
                 type: bool       
-          views:
+          view:
             description:
-             - List of views
+             - List of SNMP view configuration
             type: list
             elements: dict
             suboptions:
@@ -118,11 +123,11 @@ DOCUMENTATION: |
                 elements: str
           contact:
             description:
-              - Description of the system contact information
+              - SNMP server contact information
             type: str
           location:
             description:
-              - Description of the system location information
+              -SNMP server location information
             type: str
           enable_trap:
             description:
@@ -139,7 +144,7 @@ DOCUMENTATION: |
               - all
           group:
             description:
-              - SNMP group
+              - List of SNMP group configuration
             type: list
             elements: dict
             suboptions:
@@ -165,7 +170,6 @@ DOCUMENTATION: |
                     description:
                       - Minimum security level under which the access rights apply
                     type: str
-                    required: true
                     choices:
                       - no-auth-no-priv
                       - auth-no-priv
@@ -184,13 +188,13 @@ DOCUMENTATION: |
                     type: str  
           host: 
             description:
-              - SNMP host
+              - List of SNMP host configuration
             type: list
             elements: dict
             suboptions:
-              address/ip:
+              ip:
                 description:
-                  - IP address
+                  - IPv4 or IPv6 address
                 type: str
                 required: true
               community:
@@ -201,25 +205,27 @@ DOCUMENTATION: |
                 description:
                   - SNMP user
                 type: dict
-              name:
-                description:
-                  - Name of the host
-                type: str
-            security_level:
-              description:
-                - Security level of the host
-              type: str
-              choices:
-                - auth
-                - noauth
-                - priv
+                suboptions:
+                  name:
+                    description:
+                    - Name of the host
+                    type: str
+                    required: true
+                  security_level:
+                    description:
+                      - Security level of the host
+                    type: str
+                    choices:
+                      - auth
+                      - noauth
+                      - priv
             port:
               description:
-                - SNMP access port
+                - LDP destination port, range 1024-65535
               type: int
             source_interface:
               description:
-                - SNMP access interface
+                - Name of source interface
               type: str
             tag:
               description: 
@@ -230,11 +236,11 @@ DOCUMENTATION: |
                 - trap
             timeout:
               description:
-                - SNMP access timeout
+                - Inform acknowledgement timeout period in seconds, range 1-300
               type: int
             vrf:
               description:
-                - SNMP access VRF
+                - Name of VRF to be used for sending notifications
               type: str
       state:
         description:
