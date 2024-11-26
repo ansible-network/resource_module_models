@@ -44,23 +44,12 @@ DOCUMENTATION: |
               group:
                 description:
                   - SNMP group
-                type: list
-                elements: dict
-                suboptions:
-                  member:
-                    description:
-                      - Member of the group
-                    type: dict
-                    suboptions:
-                      security_name:
-                        description:
-                          - Name of the community
-                        type: str
-                  name:
-                    descripton:
-                    - Name of group
-                    type: str
-                    required: true
+                type: str
+              name:
+                descripton:
+                  - Name of group
+                type: str
+                required: true
           engine:
             description:
               - SNMP engine configuration
@@ -193,52 +182,60 @@ DOCUMENTATION: |
                     description:
                       - Name of the notify view
                     type: str  
-          host: !!!!!!!!!
+          host: 
             description:
               - SNMP host
             type: list
             elements: dict
             suboptions:
-              timeout:
+              address/ip:
                 description:
-                  - Specify timeout
-                type: int
-              retries:
-                description:
-                  - Specify retries
-                type: int
-              udp:
-                description:
-                  - UDP details
-                type: dict
-                suboptions:
-                  ip:
-                    description:
-                      - IP address
-                    type: str
-              host-addr:
-                description:
-                  - Host address (IPv4 or IPv6)
+                  - IP address
                 type: str
+                required: true
               community:
                 description:
-                  - Community for v2c
+                  - SNMP community for the host
                 type: str
-              community_name:
+              user:
                 description:
-                  - Unique SNMP community name (4-32 chars: except space, comma and @)
-                type: str
-              traps:
+                  - SNMP user
+                type: dict
+              name:
                 description:
-                  - Specify traps
+                  - Name of the host
                 type: str
-                choices:
-                  - auth-fail
-                  - bgp
-                  - config-change
-                  - link-down
-                  - link-up
-                  - all
+            security_level:
+              description:
+                - Security level of the host
+              type: str
+              choices:
+                - auth
+                - noauth
+                - priv
+            port:
+              description:
+                - SNMP access port
+              type: int
+            source_interface:
+              description:
+                - SNMP access interface
+              type: str
+            tag:
+              description: 
+                - Notification type
+              type: str
+              choices:
+                - inform
+                - trap
+            timeout:
+              description:
+                - SNMP access timeout
+              type: int
+            vrf:
+              description:
+                - SNMP access VRF
+              type: str
       state:
         description:
           - The state of the configuration after module completion
