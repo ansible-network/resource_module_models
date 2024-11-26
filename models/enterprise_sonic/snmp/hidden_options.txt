@@ -179,9 +179,4 @@ options:
                         - Context under which access rights apply
                         - Set to 'default' as value
                       type: str
-                      required: true
-                    security_model:
-                      description:
-                        - Security model used for user authentication
-                      type: str
-                      required: true      
+                      required: true    
