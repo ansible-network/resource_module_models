@@ -9,6 +9,7 @@
 #ip anycast-address enable
 #ipv6 anycast-address enable
 #interface-naming standard
+#ip load-share hash algorithm JENKINS_HASH_HI
 
     - name: Merge provided configuration with device configuration.
       sonic_system:
@@ -17,6 +18,7 @@
           interface_naming: standard
           anycast_address:
             ipv6: true
+          load_share_hash_algo: JENKINS_HASH_HI
         state: deleted
 
 # After state:

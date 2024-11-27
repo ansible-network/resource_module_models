@@ -15,6 +15,7 @@
             ipv6: true
             ipv4: true
             mac_address: aa:bb:cc:dd:ee:ff
+          load_share_hash_algo: JENKINS_HASH_HI
         state: merged
 
 # After state:
@@ -26,3 +27,4 @@
 #ip anycast-address enable
 #ipv6 anycast-address enable
 #interface-naming standard
+#ip load-share hash algorithm JENKINS_HASH_HI
