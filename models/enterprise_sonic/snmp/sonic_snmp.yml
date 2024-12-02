@@ -22,24 +22,23 @@ DOCUMENTATION: |
             type: list
             elements: dict
             suboptions:
-              suboptions:
-                ip:
-                  description:
-                    - IPv4 or IPv6 address
-                  type: str
-                  required: true
-                port:
-                  description:
-                    - UDP listening port, range 1024-65535
-                  type: int
-                interface:
-                  description:
-                    - Name of interface
-                  type: str
-                vrf:
-                  description:
-                    - Name of VRF
-                  type: str
+              ip:
+                description:
+                  - IPv4 or IPv6 address
+                type: str
+                required: true
+              port:
+                description:
+                  - UDP listening port, range 1024-65535
+                type: int
+              interface:
+                description:
+                  - Name of interface
+                type: str
+              vrf:
+                description:
+                  - Name of VRF
+                type: str
           community:
             description:
               - List of SNMP community configuration
@@ -135,7 +134,7 @@ DOCUMENTATION: |
             type: str
           enable_trap:
             description:
-              - Specify trap(s) to enable
+              - Specify trap(s) to enable. THe all choice indicates all traps should be enabled
             type: list
             elements: str
             choices:
@@ -145,7 +144,7 @@ DOCUMENTATION: |
               - link-down
               - link-up
               - ospf
-              - all (all of the above traps)
+              - all
           group:
             description:
               - List of SNMP group configuration
