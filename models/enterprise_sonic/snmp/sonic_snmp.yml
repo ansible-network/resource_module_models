@@ -28,14 +28,18 @@ DOCUMENTATION: |
                     - IPv4 or IPv6 address
                   type: str
                   required: true
-              port:
-                description:
-                  - UDP listening port, range 1024-65535
-                type: int
-              interface:
-                description:
-                  - Name of interface
-                type: str
+                port:
+                  description:
+                    - UDP listening port, range 1024-65535
+                  type: int
+                interface:
+                  description:
+                    - Name of interface
+                  type: str
+                vrf:
+                  description:
+                    - Name of VRF
+                  type: str
           community:
             description:
               - List of SNMP community configuration
@@ -111,14 +115,14 @@ DOCUMENTATION: |
                   - Name of the view
                 type: str
                 required: true
-              include:
+              included:
                 description:
-                  - List of subtrees included in the view
+                  - List of OID trees included in the view
                 type: list
                 elements: str
-              exclude:
+              excluded:
                 description:
-                  - List of subtrees excluded from the view
+                  - List of OID trees excluded from the view
                 type: list
                 elements: str
           contact:
@@ -141,7 +145,7 @@ DOCUMENTATION: |
               - link-down
               - link-up
               - ospf
-              - all
+              - all (all of the above traps)
           group:
             description:
               - List of SNMP group configuration
@@ -168,7 +172,7 @@ DOCUMENTATION: |
                       - v3
                   security_level:
                     description:
-                      - Minimum security level under which the access rights apply
+                      - Minimum security level under which the access rights apply. Only used if security model is v3
                     type: str
                     choices:
                       - no-auth-no-priv
@@ -219,29 +223,29 @@ DOCUMENTATION: |
                       - auth
                       - noauth
                       - priv
-            port:
-              description:
-                - UDP destination port, range 1024-65535
-              type: int
-            source_interface:
-              description:
-                - Name of source interface
-              type: str
-            tag:
-              description: 
-                - Notification type
-              type: str
-              choices:
-                - inform
-                - trap
-            timeout:
-              description:
-                - Inform acknowledgement timeout period in seconds, range 1-300
-              type: int
-            vrf:
-              description:
-                - Name of VRF to be used for sending notifications
-              type: str
+              port:
+                description:
+                  - UDP destination port, range 1024-65535
+                type: int
+              source_interface:
+                description:
+                  - Name of source interface
+                type: str
+              tag:
+                description: 
+                  - Notification type
+                type: str
+                choices:
+                  - inform
+                  - trap
+              timeout:
+                description:
+                  - Inform acknowledgement timeout period in seconds, range 1-300
+                type: int
+              vrf:
+                description:
+                  - Name of VRF to be used for sending notifications
+                type: str
       state:
         description:
           - The state of the configuration after module completion
@@ -251,3 +255,5 @@ DOCUMENTATION: |
 EXAMPLES:
   - deleted_example_01.txt
   - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt

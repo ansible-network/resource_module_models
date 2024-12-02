@@ -3,7 +3,7 @@
 # Before state:
 #---------------
 #
-# do show snmp-server config
+# show running-configuration | grep snmp
 # (no snmp-server configuration present)
 #
 
@@ -15,15 +15,15 @@
 #                 auth: 
 #                   md5_key: md5
 #                 priv:
-#                   des_key: aes-128
-#                 encrypted: False
+#                   aes_key: aes-128
+#                 encrypted: True
 #       state: merged
 
 # After State:
 #---------------
 #
-# do show snmp-server users
+# show running-configuration | grep snmp
 #
-# User Name       Auth        Priv
-#------------    ---------     --------
-# user1           md5         aes-128
+# snmp-server user user1 group group-lab encrypted
+# auth md5 auth-password U2FsdGVkX18J+L+L9OyQYWpAkGUrTgcg/6xzZoDjCbQw1ISHJ5mxmxrYZgQypEUXDeNe6rBupsc9sVDJBKxrwA==
+# priv aes-128 priv-password U2FsdGVkX1/Xs+ffZvdV9YzfyGHgIJ+zkLRPfF3/WgYIE1S4Ribvbzhu5chpHHI7ooCBpcVxYZotAXDzgetxvQ==

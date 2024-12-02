@@ -1,30 +1,30 @@
-# Using deleted
+# Using replaced
 #
 # Before state:
 #---------------
 #
 # show running-configuration | grep snmp
 #
+# snmp-server agentaddress 1.2.3.5 port 1024 interface Eth1/10
 # snmp-server user user1 group group-lab encrypted auth
 # md5 auth-password
 # U2FsdGVkX18J+L+L9OyQYWpAkGUrTgcg/6xzZoDjCbQw1ISHJ5mxmxrYZgQypEUXDeNe6rBupsc9sVDJBKxrwA==
 # priv aes-128 priv-password U2FsdGVkX1/Xs+ffZvdV9YzfyGHgIJ+zkLRPfF3/WgYIE1S4Ribvbzhu5chpHHI7ooCBpcVxYZotAXDzgetxvQ==
 #
 
-# - name: Delete snmp-server configuration
+# - name: Replace snmp-server configuration
 #   sonic_snmp:
 #       config:
-#           users:
-#               - name: user1
-#                 auth: 
-#                   md5_key: md5
-#                 priv:
-#                   aes_key: aes-128
-#                 encrypted: True
-#       state: deleted
+#           agentaddress:
+#               - ip: 1.2.3.5
+#                 port: 1024 
+#                 interface: Eth1/30
+#       state: replaced
 
 # After State:
 #---------------
 #
 # show running-configuration | grep snmp
-# (no snmp-server configuration present)
+#
+# snmp-server agentaddress 1.2.3.5 port 1024 interface Eth1/30
+#
