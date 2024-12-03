@@ -34,10 +34,12 @@ DOCUMENTATION: |
               interface:
                 description:
                   - Name of interface
+                  - interface and VRF are mutually exclusive
                 type: str
               vrf:
                 description:
                   - Name of VRF
+                  - VRF and interface are mutually exclusive
                 type: str
           community:
             description:
