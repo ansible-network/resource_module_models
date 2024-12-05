@@ -1,0 +1,125 @@
+---
+GENERATOR_VERSION: '1.0'
+NETWORK_OS: sonic
+RESOURCE: mgmt_servers
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_fbs_groups
+    version_added: 3.1.0
+    notes:
+      - Tested against Enterprise SONiC Distribution by Dell Technologies.
+      - Supports C(check_mode).
+    short_description: Manage flow based services (FBS) groups configuration on SONiC
+    description:
+      - This module provides configuration management of FBS groups for devices running SONiC
+    author: Shade Talabi (@stalabi1)
+    options:
+      config:
+        description:
+          - FBS groups configuration
+        type: dict
+        suboptions:
+          next_hop_groups:
+            description:
+              - Next hop groups configuration
+            type: list
+            elements: dict
+            suboptions:
+              group_name:
+                description:
+                  - Name of next hop group
+                type: str
+                required: true
+              group_description:
+                description:
+                  - Description of group
+                type: str
+              group_type:
+                description:
+                  - Type of next hop group
+                type: str
+                choices: ['ipv4', 'ipv6']
+              next_hops:
+                description:
+                  - Next hops configuration for forwarding
+                type: list
+                elements: dict
+                suboptions:
+                  entry_id:
+                    description:
+                      - Entry ID, range 1-65535
+                    type: int
+                    required: true
+                  ip_address:
+                    description:
+                      - Forwarding IP address
+                    type: str
+                  network_instance:
+                    description:
+                      - Forwarding network instance
+                    type: str
+                  next_hop_type:
+                    description:
+                      - Type of next hop
+                    type: str
+                    choices: ['non_recursive', 'overlay', 'recursive']
+          replication_groups:
+            description:
+              - Replication groups configuration
+            type: list
+            elements: dict
+            suboptions:
+              group_name:
+                description:
+                  - Name of replication group
+                type: str
+                required: true
+              group_description:
+                description:
+                  - Description of group
+                type: str
+              group_type:
+                description:
+                  - Type of replication group
+                type: str
+                choices: ['ipv4', 'ipv6']
+              next_hops:
+                description:
+                  - Next hops configuration for forwarding
+                type: list
+                elements: dict
+                suboptions:
+                  entry_id:
+                    description:
+                      - Entry ID, range 1-65535
+                    type: int
+                    required: true
+                  ip_address:
+                    description:
+                      - Forwarding IP address
+                    type: str
+                  network_instance:
+                    description:
+                      - Forwarding network instance
+                    type: str
+                  next_hop_type:
+                    description:
+                      - Type of next hop
+                    type: str
+                    choices: ['non_recursive', 'overlay', 'recursive']
+                  single_copy:
+                    description:
+                      - Enable/disable single path to create copy
+                    type: bool
+      state:
+        description:
+          - The state of the configuration after module completion
+          - Replaced state is not supported for this module due to configuration constraints
+        type: str
+        choices: ['merged', 'deleted', 'overridden']
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
