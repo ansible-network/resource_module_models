@@ -1,0 +1,54 @@
+# Using Merged
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration link state tracking
+# (No link state tracking configuration present)
+# sonic# show running-configuration interface Ethernet 20
+# !
+# interface Ethernet20
+# (No link state tracking configuration present for interface Ethernet20)
+# sonic# show running-configuration interface Ethernet 24
+# !
+# interface Ethernet24
+# (No link state tracking configuration present for interface Ethernet24)
+
+- name: Merge LST configuration
+  dellemc.enterprise_sonic.sonic_lst:
+    config:
+      lst_groups:
+        - name: lst
+          all_evpn_es_downstream: true
+          group_description: abc
+          group_type: l3
+          threshold_down: 20
+          threshold_type: percentage
+          threshold_up: 40
+          timeout: 120
+      interfaces:
+        - id: Ethernet20
+          downstream_group: lst
+        - id: Ethernet24
+          upstream_groups:
+            - group_name: lst
+    state: merged
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration link state tracking
+# !
+# link state track lst
+#   timeout 120
+#   description abc
+#   downstream all-evpn-es
+#   threshold type percentage up 40 down 20
+# sonic# show running-configuration interface Ethernet 20
+# !
+# interface Ethernet20
+#  link state track lst downstream
+# sonic# show running-configuration interface Ethernet 24
+# !
+# interface Ethernet24
+#  link state track lst upstream
