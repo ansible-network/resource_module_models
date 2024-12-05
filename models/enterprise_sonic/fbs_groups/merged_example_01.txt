@@ -1,0 +1,49 @@
+# Using Merged
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration pbf next-hop-group
+# (No 'pbf next-hop-group' configuration present)
+# sonic# show running-configuration pbf replication-group
+# (No 'pbf replication-group' configuration present)
+
+- name: Merge FBS groups configuration
+  dellemc.enterprise_sonic.sonic_fbs_groups:
+    config:
+      next_hop_groups:
+        - group_name: hop1
+          group_description: abc
+          group_type: ipv4
+          next_hops:
+            - entry_id: 1
+              ip_address: 1.1.1.1
+              network_instance: VrfReg1
+              next_hop_type: non_recursive
+      replication_groups:
+        - group_name: rep1
+          group_description: xyz
+          group_type: ipv6
+          next_hops:
+            - entry_id: 2
+              ip_address: 1::1
+              network_instance: VrfReg2
+              next_hop_type: overlay
+              single_copy: true
+    state: merged
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration pbf next-hop-group
+# !
+# pbf next-hop-group hop1 type ip
+#   description abc
+#   entry 1 next-hop 1.1.1.1 vrf VrfReg1 non-recursive
+# !
+# sonic# show running-configuration pbf replication-group
+# !
+# pbf replication-group rep1 type ipv6
+#   description xyz
+#   entry 2 next-hop 1::1 vrf VrfReg2 overlay single-copy
+# !
