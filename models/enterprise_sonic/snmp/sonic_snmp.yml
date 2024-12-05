@@ -64,6 +64,7 @@ DOCUMENTATION: |
           engine:
             description:
               - SNMP engine ID
+              - Octet (hex) string with colon separated, 5 to 32 octets
             type: str
           user:
             description:
@@ -124,11 +125,13 @@ DOCUMENTATION: |
               included:
                 description:
                   - List of OID trees included in the view
+                  - This command should be used at the end of the OID tree
                 type: list
                 elements: str
               excluded:
                 description:
                   - List of OID trees excluded from the view
+                  - This command should be used at the end of the OID tree
                 type: list
                 elements: str
           contact:
@@ -162,6 +165,7 @@ DOCUMENTATION: |
                 description:
                   - Name of the group
                 type: str
+                required: true
               access:
                 description:
                   - List of access rights configuration for a group
@@ -172,6 +176,7 @@ DOCUMENTATION: |
                     description:
                       - Security model used for user authentication
                     type: str
+                    required: true
                     choices:
                       - any
                       - v2c
@@ -240,6 +245,7 @@ DOCUMENTATION: |
               tag:
                 description: 
                   - Notification type
+                  - If "inform" is selected, a "retries" value/option between 1 and 255 can be specified
                 type: str
                 choices:
                   - inform
