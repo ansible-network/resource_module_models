@@ -1,0 +1,176 @@
+---
+GENERATOR_VERSION: '1.0'
+NETWORK_OS: sonic
+RESOURCE: mgmt_servers
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_fbs_classifiers
+    version_added: 3.1.0
+    notes:
+      - Tested against Enterprise SONiC Distribution by Dell Technologies.
+      - Supports C(check_mode).
+    short_description: Manage flow based services (FBS) classifiers configuration on SONiC
+    description:
+      - This module provides configuration management of FBS classifiers for devices running SONiC
+    author: "Shade Talabi (@stalabi1)"
+    options:
+      config:
+        description:
+          - FBS classifiers configuration
+          - I(match_acl) and I(match_hdr_fields) are mutually exclusive.
+        type: list
+        elements: dict
+        suboptions:
+          class_name:
+            description:
+              - Name of classifier
+            type: str
+            required: true
+          class_description:
+            description:
+              - Description of classifier
+            type: str
+          match_type:
+            description:
+              - Classifier match type
+            type: str
+            choices: ['acl', 'fields']
+          match_acl:
+            description:
+              - Match ACL configuration
+            type: dict
+            suboptions:
+              acl_name:
+                description:
+                  - Name of ACL to be used as match criteria
+                type: str
+                required: true
+              acl_type:
+                description:
+                  - Type of ACL to be used as match criteria
+                type: str
+                choices: ['ip', 'ipv6', 'mac']
+                required: true
+          match_hdr_fields:
+            description:
+              - Match header fields configuration
+              - I(ipv4) and I(ipv6) are mutually exclusive.
+            type: dict
+            suboptions:
+              ip:
+                description:
+                  - IP field configuration
+                type: dict
+                suboptions:
+                  dscp:
+                    description:
+                      - Value of diffserv code point, range 0-63
+                    type: int
+                  protocol:
+                    description:
+                      - IP protocol
+                    type: str
+                    choices: ['auth', 'gre', 'icmp', 'icmpv6', 'igmp', 'l2tp', 'pim', 'rsvp', 'tcp', 'udp']
+              ipv4:
+                description:
+                  - IPv4 field configuration
+                type: dict
+                suboptions:
+                  source_address:
+                    description:
+                      - Source IPv4 address prefix
+                    type: str
+                  destination_address:
+                    description:
+                      - Destination IPv4 address prefix
+                    type: str
+              ipv6:
+                description:
+                  - IPv6 field configuration
+                type: dict
+                suboptions:
+                  source_address:
+                    description:
+                      - Source IPv6 address prefix
+                    type: str
+                  destination_address:
+                    description:
+                      - Destination IPv6 address prefix
+                    type: str
+              l2:
+                description:
+                  - Ethernet field configuration
+                type: dict
+                suboptions:
+                  source_mac:
+                    description:
+                      - Source MAC address
+                    type: str
+                  source_mac_mask:
+                    description:
+                      - Source MAC address mask
+                    type: str
+                  destination_mac:
+                    description:
+                      - Destination MAC address
+                    type: str
+                  destination_mac_mask:
+                    description:
+                      - Destination MAC address mask
+                    type: str
+                  dei:
+                    description:
+                      - Drop eligible indicator, range 0-1
+                    type: int
+                  ethertype:
+                    description:
+                      - Ethertype field to match in ethernet packets
+                    type: str
+                    choices: ['arp', 'ipv4', 'ipv6', 'lldp', 'mpls', 'roce', 'vlan']
+                  pcp:
+                    description:
+                      - Priority code point, range 0-7
+                    type: int
+                  vlanid:
+                    description:
+                      - VLAN ID, range 1-4094
+                    type: int
+              transport:
+                description:
+                  - Transport field configuration
+                type: dict
+                suboptions:
+                  source_port:
+                    description:
+                      - Source port or range
+                    type: str
+                  destination_port:
+                    description:
+                      - Destination port or range
+                    type: str
+                  icmp_code:
+                    description:
+                      - ICMP or ICMPv6 code, range 0-255
+                    type: int
+                  icmp_type:
+                    description:
+                      - ICMP or ICMPv6 type, range 0-255
+                    type: int
+                  tcp_flags:
+                    description:
+                      - List of TCP flags to match
+                    type: list
+                    elements: str
+                    choices: ['ack', 'fin', 'psh', 'rst', 'syn', 'urg']
+      state:
+        description:
+          - The state of the configuration after module completion
+        type: str
+        choices: ['merged', 'deleted', 'replaced', 'overridden']
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
