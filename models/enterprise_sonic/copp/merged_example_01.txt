@@ -1,6 +1,6 @@
-# Using merged
+# Using Merged
 #
-# Before state:
+# Before State:
 # -------------
 #
 # sonic# show copp actions
@@ -30,7 +30,7 @@
           trap_group: 'copp-1'
     state: merged
 
-# After state:
+# After State:
 # ------------
 #
 # sonic# show copp actions

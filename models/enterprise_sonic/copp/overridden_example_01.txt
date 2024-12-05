@@ -1,6 +1,6 @@
-# Using overridden
+# Using Overridden
 #
-# Before state:
+# Before State:
 # -------------
 #
 # sonic# show copp actions
@@ -28,7 +28,7 @@
           cbs: 200
     state: overridden
 
-# After state:
+# After State:
 # ------------
 #
 # sonic# show copp actions

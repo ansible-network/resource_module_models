@@ -1,6 +1,6 @@
-# Using replaced
+# Using Replaced
 #
-# Before state:
+# Before State:
 # -------------
 #
 # sonic# show copp actions
@@ -40,7 +40,7 @@
           trap_group: 'copp-2'
     state: replaced
 
-# After state:
+# After State:
 # ------------
 #
 # sonic# show copp actions

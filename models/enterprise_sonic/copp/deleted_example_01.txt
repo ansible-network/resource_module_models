@@ -1,6 +1,6 @@
-# Using deleted
+# Using Deleted
 #
-# Before state:
+# Before State:
 # -------------
 #
 # sonic# show copp actions
@@ -29,7 +29,7 @@
         - name: 'trap-1'
     state: deleted
 
-# After state:
+# After State:
 # ------------
 #
 # sonic# show copp actions
