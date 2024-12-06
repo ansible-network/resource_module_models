@@ -86,13 +86,16 @@ DOCUMENTATION: |
                   - User authentication configuration
                 type: dict
                 suboptions:
-                  md5_key: 
-                    description: 
-                      - MD5 authentication key
-                    type: str
-                  sha_key:
+                  auth_type:
                     description:
-                      - SHA authentication key
+                      - Authentication type
+                    type: str
+                    choices:
+                      - md5
+                      - sha
+                  key: 
+                    description: 
+                      - Authentication key
                     type: str
               priv:
                 description:
@@ -125,13 +128,15 @@ DOCUMENTATION: |
               included:
                 description:
                   - List of OID trees included in the view
-                  - This command should be used at the end of the OID tree
+                  - Each string in the list should contain a combination of up to 255 digits and dots ('.')
+                  - Example: 1.27..367.80..8
                 type: list
                 elements: str
               excluded:
                 description:
                   - List of OID trees excluded from the view
-                  - This command should be used at the end of the OID tree
+                  - Each string in the list should contain a combination of up to 255 digits and dots ('.')
+                  - Example: 1.27..367.80..8
                 type: list
                 elements: str
           contact:
@@ -250,6 +255,10 @@ DOCUMENTATION: |
                 choices:
                   - inform
                   - trap
+              retries:
+                description:
+                  - Number of retries that is only used when "inform" choice is speccified.
+                  - Has a range between 1 and 255
               timeout:
                 description:
                   - Inform acknowledgement timeout period in seconds, range 1-300
