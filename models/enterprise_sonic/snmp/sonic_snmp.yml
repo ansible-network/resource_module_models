@@ -259,6 +259,7 @@ DOCUMENTATION: |
                 description:
                   - Number of retries that is only used when "inform" choice is speccified.
                   - Has a range between 1 and 255
+                type: int
               timeout:
                 description:
                   - Inform acknowledgement timeout period in seconds, range 1-300
