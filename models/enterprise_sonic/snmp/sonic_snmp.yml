@@ -149,7 +149,7 @@ DOCUMENTATION: |
             type: str
           enable_trap:
             description:
-              - Specify trap(s) to enable. THe all choice indicates all traps should be enabled
+              - Specify trap(s) to enable. The all choice indicates all traps should be enabled
             type: list
             elements: str
             choices:
