@@ -1,0 +1,32 @@
+# Using merged
+#
+# Before state:
+#---------------
+#
+# show running-configuration | grep snmp
+# (no snmp-server configuration present)
+#
+
+# - name: Merge specific option snmp-server configuration
+#   sonic_snmp:
+#       config:
+#           group:
+#               - name:
+#                 access:
+#                   security_model: v3
+#                   security_level: auth-priv
+#                   read_view: r_view
+#                   write_view: w_view
+#                   notify_view: n_view
+#           community:
+#               - group: group-lab
+#                 name: comm1
+#       state: merged
+
+# After State:
+#---------------
+#
+# show running-configuration | grep snmp
+#
+# snmp-server community comm1 group group-lab
+# snmp-server group group-floor2 v3 priv read r_view write w_view notify n_view

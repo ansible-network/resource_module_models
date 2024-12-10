@@ -25,6 +25,7 @@ DOCUMENTATION: |
           agentaddress:
             description:
               - List of SNMP agent address configuration
+              - I(interface) and I(vrf) are mutually exclusive.
             type: list
             elements: dict
             suboptions:
@@ -40,12 +41,10 @@ DOCUMENTATION: |
               interface:
                 description:
                   - Name of interface
-                  - interface and VRF are mutually exclusive
                 type: str
               vrf:
                 description:
                   - Name of VRF
-                  - VRF and interface are mutually exclusive
                 type: str
           community:
             description:
@@ -189,8 +188,7 @@ DOCUMENTATION: |
                       - v3
                   security_level:
                     description:
-                      - Minimum security level under which the access rights apply. Only used if security model is v3
-                    type: str
+                      -  When I(security_model=v3), specifies the minimum security level under which the access rights apply.
                     choices:
                       - no-auth-no-priv
                       - auth-no-priv
@@ -277,6 +275,8 @@ DOCUMENTATION: |
         default: merged
 EXAMPLES:
   - deleted_example_01.txt
+  - deleted_example_02.txt
   - merged_example_01.txt
+  - merged_example_02.txt
   - replaced_example_01.txt
   - overridden_example_01.txt
