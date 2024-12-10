@@ -12,14 +12,14 @@
 # priv aes-128 priv-password U2FsdGVkX1/Xs+ffZvdV9YzfyGHgIJ+zkLRPfF3/WgYIE1S4Ribvbzhu5chpHHI7ooCBpcVxYZotAXDzgetxvQ==
 #
 
-# - name: Override snmp-server configuration
-#   sonic_snmp:
-#       config:
-#           agentaddress:
-#               - ip: 1.2.3.5
-#                 port: 1024 
-#                 interface: Eth1/30
-#       state: overridden
+- name: Override snmp-server configuration
+  sonic_snmp:
+      config:
+          agentaddress:
+              - ip: 1.2.3.5
+                port: 1024 
+                interface: Eth1/30
+      state: overridden
 
 # After State:
 #---------------

@@ -7,18 +7,18 @@
 # (no snmp-server configuration present)
 #
 
-# - name: Merge specific option snmp-server configuration
-#   sonic_snmp:
-#       config:
-#           user:
-#               - name: user1
-#                 auth:
-#                   auth_type: md5
-#                   key: U2FsdGVkX18J+L+L9OyQYWpAkGUrTgcg/6xzZoDjCbQw1ISHJ5mxmxrYZgQypEUXDeNe6rBupsc9sVDJBKxrwA==
-#                 priv:
-#                   aes_key: aes-128
-#                 encrypted: False
-#       state: merged
+- name: Merge specific option snmp-server configuration
+  sonic_snmp:
+      config:
+          user:
+              - name: user1
+                auth:
+                  auth_type: md5
+                  key: U2FsdGVkX18J+L+L9OyQYWpAkGUrTgcg/6xzZoDjCbQw1ISHJ5mxmxrYZgQypEUXDeNe6rBupsc9sVDJBKxrwA==
+                priv:
+                  aes_key: aes-128
+                encrypted: False
+      state: merged
 
 # After State:
 #---------------

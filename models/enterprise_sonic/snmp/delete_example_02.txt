@@ -12,10 +12,10 @@
 # snmp-server group group-floor2 v3 priv read r_view write w_view notify n_view
 # snmp-server community comm1 group group-lab
 
-# - name: Delete all SNMP server configuration
-#   sonic_snmp:
-#       config:
-#       state: deleted
+- name: Delete all SNMP server configuration
+  sonic_snmp:
+      config:
+      state: deleted
 
 # After State:
 #---------------

@@ -7,21 +7,21 @@
 # (no snmp-server configuration present)
 #
 
-# - name: Merge specific option snmp-server configuration
-#   sonic_snmp:
-#       config:
-#           group:
-#               - name:
-#                 access:
-#                   security_model: v3
-#                   security_level: auth-priv
-#                   read_view: r_view
-#                   write_view: w_view
-#                   notify_view: n_view
-#           community:
-#               - group: group-lab
-#                 name: comm1
-#       state: merged
+- name: Merge specific option snmp-server configuration
+  sonic_snmp:
+      config:
+          group:
+              - name:
+                access:
+                  security_model: v3
+                  security_level: auth-priv
+                  read_view: r_view
+                  write_view: w_view
+                  notify_view: n_view
+          community:
+              - group: group-lab
+                name: comm1
+      state: merged
 
 # After State:
 #---------------
