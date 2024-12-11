@@ -11,13 +11,14 @@
   sonic_snmp:
       config:
           user:
-              - name: user1
+              - name: user2
                 auth:
-                  auth_type: md5
-                  key: U2FsdGVkX18J+L+L9OyQYWpAkGUrTgcg/6xzZoDjCbQw1ISHJ5mxmxrYZgQypEUXDeNe6rBupsc9sVDJBKxrwA==
+                  auth_type: sha
+                  key: shakey5
                 priv:
-                  aes_key: aes-128
-                encrypted: False
+                  priv_type: aes
+                  key: aes-128
+                encrypted: false
       state: merged
 
 # After State:
@@ -25,6 +26,6 @@
 #
 # show running-configuration | grep snmp
 #
-# snmp-server user user1 group group-lab encrypted
-# auth md5 auth-password U2FsdGVkX18J+L+L9OyQYWpAkGUrTgcg/6xzZoDjCbQw1ISHJ5mxmxrYZgQypEUXDeNe6rBupsc9sVDJBKxrwA==
+# snmp-server user user2 group group-lab
+# auth sha auth-password U2FsdGVkX18J+L+L9OyQYWpAkGUrTgcg/6xzZoDjCbQw1ISHJ5mxmxrYZgQypEUXDeNe6rBupsc9sVDJBKxrwA==
 # priv aes-128 priv-password U2FsdGVkX1/Xs+ffZvdV9YzfyGHgIJ+zkLRPfF3/WgYIE1S4Ribvbzhu5chpHHI7ooCBpcVxYZotAXDzgetxvQ==

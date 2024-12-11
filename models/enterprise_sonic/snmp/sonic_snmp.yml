@@ -102,17 +102,20 @@ DOCUMENTATION: |
                   - Privacy configuration
                 type: dict
                 suboptions:
-                  des_key:
+                  priv_type:
                     description:
-                      - DES ecryption
+                      - Type of encryption
+                      - Choices are 'aes' or 'des' 
                     type: str
-                  aes_key:
+                  key:
                     description:
-                      - AES encryption
+                      - Key for the priv_type
                     type: str
               encrypted:
                 description:
-                  - Enable/disable encryption
+                  - Enable/disable encryption for auth and priv keys. The type specified for
+                  - these keys (encrypted or unencrypted) must be consistent with the value
+                  - of the "encrypted" option.
                 type: bool       
           view:
             description:
