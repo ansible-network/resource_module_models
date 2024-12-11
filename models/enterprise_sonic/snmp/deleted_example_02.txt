@@ -17,9 +17,9 @@
 
 - name: Delete all SNMP server configuration
   sonic_snmp:
-      config:
-        user:
-      state: deleted
+    config:
+      user:
+    state: deleted
 
 # After State:
 #---------------

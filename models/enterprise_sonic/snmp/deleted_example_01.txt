@@ -16,10 +16,10 @@
 
 - name: Delete specific option from snmp-server configuration
   sonic_snmp:
-      config:
-          user:
-              - name: user1
-      state: deleted
+    config:
+      user:
+        - name: user1
+    state: deleted
 
 # After State:
 #---------------

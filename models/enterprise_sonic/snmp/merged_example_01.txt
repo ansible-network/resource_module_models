@@ -9,17 +9,17 @@
 
 - name: Merge specific option snmp-server configuration
   sonic_snmp:
-      config:
-          user:
-              - name: user2
-                auth:
-                  auth_type: sha
-                  key: shakey5
-                priv:
-                  priv_type: aes
-                  key: aes-128
-                encrypted: false
-      state: merged
+    config:
+      user:
+        - name: user2
+          auth:
+            auth_type: sha
+            key: shakey5
+          priv:
+            priv_type: aes
+            key: aes-128
+          encrypted: false
+    state: merged
 
 # After State:
 #---------------

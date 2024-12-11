@@ -14,12 +14,12 @@
 
 - name: Override snmp-server configuration
   sonic_snmp:
-      config:
-          agentaddress:
-              - ip: 1.2.3.5
-                port: 1024 
-                interface: Eth1/30
-      state: overridden
+    config:
+      agentaddress:
+        - ip: 1.2.3.5
+          port: 1024 
+          interface: Eth1/30
+    state: overridden
 
 # After State:
 #---------------
