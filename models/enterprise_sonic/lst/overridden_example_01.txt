@@ -30,9 +30,9 @@
           threshold_up: 50
           timeout: 130
       interfaces:
-        - id: Ethernet20
+        - name: Ethernet20
           downstream_group: lst2
-        - id: Ethernet24
+        - name: Ethernet24
           upstream_groups:
             - group_name: lst2
     state: overridden

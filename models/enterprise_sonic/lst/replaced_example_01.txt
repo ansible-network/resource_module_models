@@ -27,10 +27,10 @@
           all_mclags_downstream: true
           timeout: 75
       interfaces:
-        - id: Ethernet20
+        - name: Ethernet20
           upstream_groups:
             - group_name: lst
-        - id: Ethernet24
+        - name: Ethernet24
           downstream_group: lst
     state: replaced
 

@@ -73,7 +73,7 @@ DOCUMENTATION: |
             type: list
             elements: dict
             suboptions:
-              id:
+              name:
                 description:
                   - Name of interface
                 type: str

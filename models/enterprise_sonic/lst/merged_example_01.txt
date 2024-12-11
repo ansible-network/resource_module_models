@@ -27,9 +27,9 @@
           threshold_up: 40
           timeout: 120
       interfaces:
-        - id: Ethernet20
+        - name: Ethernet20
           downstream_group: lst
-        - id: Ethernet24
+        - name: Ethernet24
           upstream_groups:
             - group_name: lst
     state: merged
