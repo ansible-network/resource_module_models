@@ -105,8 +105,10 @@ DOCUMENTATION: |
                   priv_type:
                     description:
                       - Type of encryption
-                      - Choices are 'aes' or 'des' 
                     type: str
+                    choices:
+                      - aes
+                      - des
                   key:
                     description:
                       - Key for the priv_type
