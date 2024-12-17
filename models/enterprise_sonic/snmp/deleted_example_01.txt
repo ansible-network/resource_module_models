@@ -1,28 +1,31 @@
 # Using deleted
-
+#
 # Before state:
-# -------------
+#---------------
 #
-#rno-dctor-1ar01c01sw02# show snmp-server community
+# show running-configuration | grep snmp
 #
-#         Community Name                     Group Name
-#-------------------------------- --------------------------------
-#private                          ro
-#public                           ro
+# snmp-server user user1 group group-lab auth
+# md5 auth-password
+# U2FsdGVkX18J+L+L9OyQYWpAkGUrTgcg/6xzZoDjCbQw1ISHJ5mxmxrYZgQypEUXDeNe6rBupsc9sVDJBKxrwA==
+# priv aes-128 priv-password U2FsdGVkX1/Xs+ffZvdV9YzfyGHgIJ+zkLRPfF3/WgYIE1S4Ribvbzhu5chpHHI7ooCBpcVxYZotAXDzgetxvQ==
 #
-- name: Delete a single SNMP community
+# snmp-server user user2 group group-lab
+# auth sha auth-password U2FsdGVkX18J+L+L9OyQYWpAkGUrTgcg/6xzZoDjCbQw1ISHJ5mxmxrYZgQypEUXDeNe6rBupsc9sVDJBKxrwA==
+# priv aes-128 priv-password U2FsdGVkX1/Xs+ffZvdV9YzfyGHgIJ+zkLRPfF3/WgYIE1S4Ribvbzhu5chpHHI7ooCBpcVxYZotAXDzgetxvQ==
+
+- name: Delete specific option from snmp-server configuration
   sonic_snmp:
     config:
-      - index: "private"
-        securityName: "ro"
-    state: delete
+      user:
+        - name: user1
+    state: deleted
 
-# After state:
-# ------------
+# After State:
+#---------------
 #
-#rno-dctor-1ar01c01sw02# show snmp-server community
+# show running-configuration | grep snmp
 #
-#         Community Name                     Group Name
-#-------------------------------- --------------------------------
-#public                           ro
-#
+# snmp-server user user2 group group-lab
+# auth sha auth-password U2FsdGVkX18J+L+L9OyQYWpAkGUrTgcg/6xzZoDjCbQw1ISHJ5mxmxrYZgQypEUXDeNe6rBupsc9sVDJBKxrwA==
+# priv aes-128 priv-password U2FsdGVkX1/Xs+ffZvdV9YzfyGHgIJ+zkLRPfF3/WgYIE1S4Ribvbzhu5chpHHI7ooCBpcVxYZotAXDzgetxvQ==

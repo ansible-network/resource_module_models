@@ -1,30 +1,30 @@
 # Using replaced
-
+#
 # Before state:
-# -------------
+#---------------
 #
-#rno-dctor-1ar01c01sw02# show snmp-server community
+# show running-configuration | grep snmp
 #
-#         Community Name                     Group Name
-#-------------------------------- --------------------------------
-#private                          ro
-#public                           ro
+# snmp-server agentaddress 1.2.3.5 port 1024 interface Eth1/10
+# snmp-server user user1 group group-lab encrypted auth
+# md5 auth-password
+# U2FsdGVkX18J+L+L9OyQYWpAkGUrTgcg/6xzZoDjCbQw1ISHJ5mxmxrYZgQypEUXDeNe6rBupsc9sVDJBKxrwA==
+# priv aes-128 priv-password U2FsdGVkX1/Xs+ffZvdV9YzfyGHgIJ+zkLRPfF3/WgYIE1S4Ribvbzhu5chpHHI7ooCBpcVxYZotAXDzgetxvQ==
 #
 
-- name: Replace a SNMP community
+- name: Replace snmp-server configuration
   sonic_snmp:
     config:
-      - community: "public"
-        access: "rw"
+      agentaddress:
+        - ip: 1.2.3.5
+          port: 1024 
+          interface: Eth1/30
     state: replaced
 
-# After state:
-# ------------
+# After State:
+#---------------
 #
-#rno-dctor-1ar01c01sw02# show snmp-server community
+# show running-configuration | grep snmp
 #
-#         Community Name                     Group Name
-#-------------------------------- --------------------------------
-#private                          ro
-#public                           rw
+# snmp-server agentaddress 1.2.3.5 port 1024 interface Eth1/30
 #
