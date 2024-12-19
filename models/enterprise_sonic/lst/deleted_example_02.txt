@@ -1,0 +1,39 @@
+# Using Deleted
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration link state tracking
+# !
+# link state track lst
+#   timeout 120
+#   description abc
+#   downstream all-evpn-es
+#   threshold type percentage up 40 down 20
+# sonic# show running-configuration interface Ethernet 20
+# !
+# interface Ethernet20
+#  link state track lst downstream
+# sonic# show running-configuration interface Ethernet 24
+# !
+# interface Ethernet24
+#  link state track lst upstream
+
+- name: Delete LST configuration
+  dellemc.enterprise_sonic.sonic_lst:
+    config: {}
+    state: deleted
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration link state tracking
+# (No link state tracking configuration present)
+# sonic# show running-configuration interface Ethernet 20
+# !
+# interface Ethernet20
+# (No link state tracking configuration present for interface Ethernet20)
+# sonic# show running-configuration interface Ethernet 24
+# !
+# interface Ethernet24
+# (No link state tracking configuration present for interface Ethernet24)

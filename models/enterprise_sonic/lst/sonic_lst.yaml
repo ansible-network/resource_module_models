@@ -1,0 +1,107 @@
+---
+GENERATOR_VERSION: '1.0'
+NETWORK_OS: sonic
+RESOURCE: lst
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved.
+DOCUMENTATION: |
+    module: sonic_lst
+    version_added: 3.1.0
+    notes:
+      - Tested against Enterprise SONiC Distribution by Dell Technologies.
+      - Supports C(check_mode).
+    short_description: Manage link state tracking (LST) configuration on SONiC
+    description:
+      - This module provides configuration management of LST for devices running SONiC
+    author: Shade Talabi (@stalabi1)
+    options:
+      config:
+        description:
+          - LST configuration
+        type: dict
+        suboptions:
+          lst_groups:
+            description:
+              - LST groups configuration
+            type: list
+            elements: dict
+            suboptions:
+              name:
+                description:
+                  - Name of LST group
+                type: str
+                required: true
+              all_evpn_es_downstream:
+                description:
+                  - Indicates that the LST group tracks all EVPN ethernet segments as downstream interfaces
+                type: bool
+              all_mclags_downstream:
+                description:
+                  - Indicates that the LST group tracks all MCLAGs as downstream interfaces
+                type: bool
+              group_description:
+                description:
+                  - Description of LST group
+                type: str
+              group_type:
+                description:
+                  - LST group type
+                type: str
+                choices: ['l3']
+              threshold_down:
+                description:
+                  - Downstream ports will shut down if the threshold falls below this value
+                  - Range 0-100
+                type: int
+              threshold_type:
+                description:
+                  - Type of threshold calculation scheme to use
+                type: str
+                choices: ['percentage']
+              threshold_up:
+                description:
+                  - Downstream ports will go online if the threshold is greater than or equal to this value
+                  - Range 0-100
+                type: int
+              timeout:
+                description:
+                  - Time in seconds to wait to bring up the downstream ports after the first upstream port is online
+                  - Range 1-1800
+                type: int
+          interfaces:
+            description:
+              - LST configuration for interfaces
+            type: list
+            elements: dict
+            suboptions:
+              name:
+                description:
+                  - Name of interface
+                type: str
+                required: true
+              downstream_group:
+                description:
+                  - LST group name used to track the interface as downstream
+                type: str
+              upstream_groups:
+                description:
+                  - Upstream groups configuration
+                type: list
+                elements: dict
+                suboptions:
+                  group_name:
+                    description:
+                      - LST group name used to track the interface as upstream
+                    type: str
+                    required: true
+      state:
+        description:
+          - The state of the configuration after module completion
+        type: str
+        choices: ['merged', 'deleted', 'replaced', 'overridden']
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
