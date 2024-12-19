@@ -61,7 +61,7 @@ DOCUMENTATION: |
                 description:
                   - Downstream ports will go online if the threshold is greater than or equal to this value
                   - Range 0-100
-                type: str
+                type: int
               timeout:
                 description:
                   - Time in seconds to wait to bring up the downstream ports after the first upstream port is online

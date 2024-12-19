@@ -32,9 +32,6 @@
       interfaces:
         - name: Ethernet20
           downstream_group: lst2
-        - name: Ethernet24
-          upstream_groups:
-            - group_name: lst2
     state: overridden
 
 # After state:
@@ -54,4 +51,4 @@
 # sonic# show running-configuration interface Ethernet 24
 # !
 # interface Ethernet24
-#  link state track lst2 upstream
+# (No link state configuration present for interface Ethernet24)
