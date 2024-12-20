@@ -1,0 +1,52 @@
+# Using Replaced
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration link state tracking
+# !
+# link state track lst
+#   timeout 120
+#   description abc
+#   downstream all-evpn-es
+#   threshold type percentage up 40 down 20
+# sonic# show running-configuration interface Ethernet 20
+# !
+# interface Ethernet20
+#  link state track lst downstream
+# sonic# show running-configuration interface Ethernet 24
+# !
+# interface Ethernet24
+#  link state track lst upstream
+
+- name: Replace LST configuration
+  dellemc.enterprise_sonic.sonic_lst:
+    config:
+      lst_groups:
+        - name: lst
+          all_mclags_downstream: true
+          timeout: 75
+      interfaces:
+        - name: Ethernet20
+          upstream_groups:
+            - group_name: lst
+        - name: Ethernet24
+          downstream_group: lst
+    state: replaced
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration link state tracking
+# !
+# link state track lst
+#   timeout 75
+#   downstream all-mclag
+# sonic# show running-configuration interface Ethernet 20
+# !
+# interface Ethernet20
+#  link state track lst upstream
+# sonic# show running-configuration interface Ethernet 24
+# !
+# interface Ethernet24
+#  link state track lst downstream
