@@ -1,0 +1,82 @@
+# Using overridden
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration interface
+# !
+# interface Eth1/1
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  no ipv6 nd suppress-ra
+#  ipv6 nd ra-hop-limit 10
+#  ipv6 nd ra-interval 180
+#  ipv6 nd min-ra-interval 60
+#  ipv6 nd ra-lifetime 360
+#  ipv6 nd router-preference high
+# !
+# interface Eth1/2
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  no ipv6 nd suppress-ra
+#  ipv6 nd ra-interval 300
+#  ipv6 nd router-preference high
+#  ipv6 nd prefix 2000:0:0:1000::/64 3600 3600 router-address
+# !
+# interface Eth1/3
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+# !
+
+- name: Override all IPv6 Router Advertisement configurations
+  dellemc.enterprise_sonic.sonic_ipv6_router_advertisement:
+    config:
+      - name: 'Eth1/1'
+        suppress: false
+        home_agent_config: true
+        home_agent_lifetime: 7200
+        home_agent_preference: 100
+      - name: 'Eth1/3'
+        suppress: false
+        managed_config: true
+        other_config: true
+        ra_retrans_interval: 30000
+    state: overridden
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration interface
+# !
+# interface Eth1/1
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  no ipv6 nd suppress-ra
+#  ipv6 nd home-agent-config-flag
+#  ipv6 nd home-agent-lifetime 7200
+#  ipv6 nd home-agent-preference 100
+# !
+# interface Eth1/2
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+# !
+# interface Eth1/3
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  no ipv6 nd suppress-ra
+#  ipv6 nd managed-config-flag
+#  ipv6 nd other-config-flag
+#  ipv6 nd ra-retrans-interval 30000
+# !
