@@ -1,0 +1,35 @@
+# Using merged
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration interface Vlan 10 | grep "arp|neighbor"
+#  ip arp 10.1.1.4 00:01:02:03:44:55
+# sonic# show running-configuration interface Vlan 20 | grep "arp|neighbor"
+# sonic#
+
+- name: Merge provided interface IP neighbor configurations
+  dellemc.enterprise_sonic.sonic_ip_neighbor_interfaces:
+    config:
+      - name: 'Vlan10'
+        ipv6_neighbors:
+          - ip: '10::2'
+            mac: '00:01:02:03:04:22'
+      - name: 'Vlan20'
+        ipv4_neighbors:
+    - ip: '20.1.1.4'
+      mac: '00:01:02:03:22:44'
+    - ip: '20.1.1.5'
+      mac: '00:01:02:03:22:55'
+    state: merged
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration interface Vlan 10 | grep "arp|neighbor"
+#  ip arp 10.1.1.4 00:01:02:03:44:55
+#  ipv6 neighbor 10::2 00:01:02:03:04:22
+# sonic# show running-configuration interface Vlan 20 | grep "arp|neighbor"
+#  ip arp 20.1.1.4 00:01:02:03:22:44
+#  ip arp 20.1.1.5 00:01:02:03:22:55
+# sonic#
