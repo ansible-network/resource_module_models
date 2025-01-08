@@ -1,0 +1,60 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration mfa
+# mfa key-seed U2FsdGVkX1/caD7u0ZGRnb981G2DKyML/Gvyfexsurg= encrypted
+# mfa client-secret U2FsdGVkX1+WlquxtZRbsgQhfS1lQBFbJKflxGAp6S3u+Ox5Hi+O16NmprjMVb3HQn1pNSgaaa0Cz1MHeTfDWhFR0WqdENbLU2PqkiRDHv0iVfl72xNPzhnGeO01kAu0 encrypted
+# mfa security-profile mSecurityProfile
+# mfa rsa-server security-profile rSecProfile
+# mfa rsa-server host rsaserver.che-lab.it client-id sonicdevtest.che-lab.it client-key U2FsdGVkX18QFJoB9dp8GJN92eP79FGOZDLgQakBmAasGYX77p6PtiiAfS/nGoOb2uEocUkryc+BLLYsg+Wz0gO+c1QsIbIhXk5Pt+aECoVgoFQ9QpxO9od9cTik+3Ot encrypted
+#
+# sonic# show mfa
+# ---------------------------------------------------------
+# Multi-factor Authentication Information
+# ---------------------------------------------------------
+# MFA Authentication             : None 
+# Console Exempted               : None
+# MFA Service Security Profile   : mSecurityProfile
+# RSA SecurID Security Profile   : rSecProfile
+#
+# sonic# show mfa rsa-servers
+# ------------------------------------------------------------------------------------------------------------
+# HOST                          PORT     CONNECTION_TIMEOUT   READ_TIMEOUT    CLIENT_ID      
+# ------------------------------------------------------------------------------------------------------------
+# rsaserver.che-lab.it          5555     20                   120             sonicdevtest.che-lab.it
+#
+# sonic# show running-configuration | grep "cac-piv"
+# aaa cac-piv cert-user common-name
+# aaa cac-piv cert-user-match 10digit-username
+# aaa cac-piv security-profile cSecurityProfile
+# sonic#
+
+
+- name: Delete all mfa configurations
+  dellemc.enterprise_sonic.sonic_mfa:
+    config:
+    state: deleted
+
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration mfa
+# sonic#
+#
+# sonic# show mfa
+# ---------------------------------------------------------
+# Multi-factor Authentication Information
+# ---------------------------------------------------------
+# MFA Authentication             : None
+# Console Exempted               : None
+# MFA Service Security Profile   : None
+# RSA SecurID Security Profile   : None
+#
+# sonic# show mfa rsa-servers
+# sonic#
+# 
+# sonic# show running-configuration | grep "cac-piv"
+# sonic#
