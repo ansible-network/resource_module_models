@@ -15,8 +15,7 @@
             ipv6: true
             ipv4: true
             mac_address: aa:bb:cc:dd:ee:ff
-          login:
-            concurrent_session_limit: 4
+          concurrent_session_limit: 4
         state: merged
 
 # After state:

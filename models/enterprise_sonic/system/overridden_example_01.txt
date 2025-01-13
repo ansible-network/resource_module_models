@@ -16,8 +16,7 @@
           anycast_address:
             ipv4: true
             mac_address: bb:aa:cc:dd:ee:ff
-          login:
-            concurrent_session_limit: 4
+          concurrent_session_limit: 4
         state: overridden
 
 # After state:

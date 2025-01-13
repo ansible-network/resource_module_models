@@ -17,8 +17,7 @@
           hostname: SONIC
           anycast_address:
             ipv6: true
-	  login:
-            concurrent_session_limit: 5
+          concurrent_session_limit: 5
         state: replaced
 
 # After state:

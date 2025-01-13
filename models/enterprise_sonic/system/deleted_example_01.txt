@@ -18,8 +18,7 @@
           interface_naming: standard
           anycast_address:
             ipv6: true
-	  login:
-            concurrent_session_limit: 4
+          concurrent_session_limit: 4
         state: deleted
 
 # After state:

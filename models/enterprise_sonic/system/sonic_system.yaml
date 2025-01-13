@@ -50,17 +50,11 @@ DOCUMENTATION: |
               description:
                 - Specifies the mac anycast-address
               type: str
-        login:
+        concurrent_session_limit:
           description:
-            - Specifies login related attributes which can be configured on the device
-          type: dict
-          suboptions:
-            concurrent_session_limit:
-              description:
-                - Specifies limit on number of concurrent sessions
-                - Range 1-12
-              type: int
-              default: 10
+            - Specifies limit on number of concurrent sessions
+            - Range 1-12
+          type: int
     state:
       description:
         - Specifies the operation to be performed on the system parameters configured on the device.
