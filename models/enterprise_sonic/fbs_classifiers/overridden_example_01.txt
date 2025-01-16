@@ -1,6 +1,6 @@
-# Using Overridden
+# Using "overridden" state
 #
-# Before State:
+# Before state:
 # -------------
 #
 # sonic# show class-map
@@ -24,7 +24,7 @@
           acl_name: acl1
           acl_type: ip
 
-# After State:
+# After state:
 # ------------
 #
 # sonic# show class-map

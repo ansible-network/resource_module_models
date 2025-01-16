@@ -2,7 +2,7 @@
 GENERATOR_VERSION: '1.0'
 NETWORK_OS: sonic
 RESOURCE: fbs_classifiers
-COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+COPYRIGHT: Copyright 2025 Dell Inc. or its subsidiaries. All Rights Reserved
 DOCUMENTATION: |
     module: sonic_fbs_classifiers
     version_added: 3.1.0
@@ -33,6 +33,7 @@ DOCUMENTATION: |
           match_type:
             description:
               - Classifier match type
+              - The classifier match type is required for classifier creation and corresponds to either 'match_acl' or 'match_hdr_fields' configuration.
             type: str
             choices: ['acl', 'fields']
           match_acl:
@@ -143,10 +144,12 @@ DOCUMENTATION: |
                   source_port:
                     description:
                       - Source port or range
+                      - For specifying a range use '..' as a delimeter, e.g. '1..3'.
                     type: str
                   destination_port:
                     description:
                       - Destination port or range
+                      - For specifying a range use '..' as a delimeter, e.g. '1..3'.
                     type: str
                   icmp_code:
                     description:

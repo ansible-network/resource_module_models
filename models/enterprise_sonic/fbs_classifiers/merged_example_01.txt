@@ -1,6 +1,6 @@
-# Using Merged
+# Using "merged" state
 #
-# Before State:
+# Before state:
 # -------------
 #
 # sonic# show class-map
@@ -37,7 +37,7 @@
               - psh
     state: merged
 
-# After State:
+# After state:
 # ------------
 #
 # sonic# show class-map

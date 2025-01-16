@@ -1,6 +1,6 @@
-# Using Replaced
+# Using "replaced" state
 #
-# Before State:
+# Before state:
 # -------------
 #
 # sonic# show class-map
@@ -21,6 +21,12 @@
 #     dst-port 4-6
 #     tcp-flags fin psh ack
 #   Referenced in flows:
+#
+# Class-map class2 match-type acl
+#   Description: abc
+#   Match:
+#     ip access-group acl1
+#   Referenced in flows:
 
 - name: Replace FBS classifiers configuration
   dellemc.enterprise_sonic.sonic_fbs_classifiers:
@@ -37,7 +43,7 @@
             vlanid: 2
     state: replaced
 
-# After State:
+# After state:
 # ------------
 #
 # sonic# show class-map
@@ -49,4 +55,10 @@
 #     dst-mac 1a:6c:3c:4f:40:22/26:44:8c:9d:4b:6f
 #     vlan 2
 #     pcp ic
+#   Referenced in flows:
+#
+# Class-map class2 match-type acl
+#   Description: abc
+#   Match:
+#     ip access-group acl1
 #   Referenced in flows:

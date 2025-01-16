@@ -1,6 +1,6 @@
-# Using Deleted
+# Using "deleted" state
 #
-# Before State:
+# Before state:
 # -------------
 #
 # sonic# show class-map
@@ -25,7 +25,7 @@
     config:
     state: deleted
 
-# After State:
+# After state:
 # ------------
 #
 # sonic# show class-map
