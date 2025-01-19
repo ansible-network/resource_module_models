@@ -32,10 +32,10 @@
 # sonic#
 
 
-- name: Delete all mfa configurations
-  dellemc.enterprise_sonic.sonic_mfa:
-    config:
-    state: deleted
+  - name: Delete all mfa configurations
+    dellemc.enterprise_sonic.sonic_mfa:
+      config:
+      state: deleted
 
 
 # After state:

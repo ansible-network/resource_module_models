@@ -32,25 +32,25 @@
 # sonic#
 
 
-- name: Delete specified mfa configuration
-  dellemc.enterprise_sonic.sonic_mfa:
-    config:
-      mfa_global:
-        key_seed: 'U2FsdGVkX1/caD7u0ZGRnb981G2DKyML/Gvyfexsurg='
-        client_secret: 'U2FsdGVkX1+WlquxtZRbsgQhfS1lQBFbJKflxGAp6S3u+Ox5Hi+O16NmprjMVb3HQn1pNSgaaa0Cz1MHeTfDWhFR0WqdENbLU2PqkiRDHv0iVfl72xNPzhnGeO01kAu0'
-      rsa_global:
-        rsa_security_profile: 'rSecProfile'
-      rsa_servers:
-        hostname: 'rsaserver.che-lab.it'
-        server_port: 5555
-        client_id: 'sonicdevtest.che-lab.it'
-        client_key: 'U2FsdGVkX18QFJoB9dp8GJN92eP79FGOZDLgQakBmAasGYX77p6PtiiAfS/nGoOb2uEocUkryc+BLLYsg+Wz0gO+c1QsIbIhXk5Pt+aECoVgoFQ9QpxO9od9cTik+3Ot'
-        connection_timeout: 20
-        read_timeout: 120
-      cac_piv_global:
-        cacpiv_security_profile: 'cSecurityProfile'
-        cert_username_field: 'common-name'
-    state: deleted
+  - name: Delete specified mfa configuration
+    dellemc.enterprise_sonic.sonic_mfa:
+      config:
+        mfa_global:
+          key_seed: 'U2FsdGVkX1/caD7u0ZGRnb981G2DKyML/Gvyfexsurg='
+          client_secret: 'U2FsdGVkX1+WlquxtZRbsgQhfS1lQBFbJKflxGAp6S3u+Ox5Hi+O16NmprjMVb3HQn1pNSgaaa0Cz1MHeTfDWhFR0WqdENbLU2PqkiRDHv0iVfl72xNPzhnGeO01kAu0'
+        rsa_global:
+          rsa_security_profile: 'rSecProfile'
+        rsa_servers:
+          hostname: 'rsaserver.che-lab.it'
+          server_port: 5555
+          client_id: 'sonicdevtest.che-lab.it'
+          client_key: 'U2FsdGVkX18QFJoB9dp8GJN92eP79FGOZDLgQakBmAasGYX77p6PtiiAfS/nGoOb2uEocUkryc+BLLYsg+Wz0gO+c1QsIbIhXk5Pt+aECoVgoFQ9QpxO9od9cTik+3Ot'
+          connection_timeout: 20
+          read_timeout: 120
+        cac_piv_global:
+          cacpiv_security_profile: 'cSecurityProfile'
+          cert_username_field: 'common-name'
+      state: deleted
 
 
 # After state:

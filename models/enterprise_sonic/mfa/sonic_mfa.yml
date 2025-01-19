@@ -35,6 +35,10 @@ DOCUMENTATION: |
                 description:
                   - Encrypted seed for generating secure key in MFA service
                 type: str
+              key_seed_encrypted:
+                description:
+                  - Indicates whether the seed is plain text or encrypted
+                type: bool
               mfa_security_profile:
                 description:
                   - Security profile contains the certificate for MFA service
@@ -43,6 +47,10 @@ DOCUMENTATION: |
                 description:
                   - Encrypted password used in basic authorization header for MFA REST API
                 type: str
+              client_secret_encrypted:
+                description:
+                  - Indicates whether the client-secret is plain text or encrypted
+                type: bool
           rsa_global:
             description:
               - RSA Global configuration
@@ -76,6 +84,10 @@ DOCUMENTATION: |
                 description:
                   - Encrypted Key associated with the client-id, assigned by SecurID service
                 type: str
+              client_key_encrypted:
+                description:
+                  - Indicates whether the client-key is plain text or encrypted
+                type: bool
               connection_timeout:
                 description:
                   - Timeout in seconds for connection to the SecurID server
@@ -93,11 +105,11 @@ DOCUMENTATION: |
             suboptions:
               cacpiv_security_profile:
                 description:
-                  - Configures security profile for SSH client user cert
+                  - Security profile for SSH access with CAC-PIV
                 type: str
               cert_username_field:
                 description:
-                  - Certificate field that represents username for matching with SSH login username
+                  - SSH user certificate field for matching with SSH login username
                 type: str
               cert_username_match:
                 description:
