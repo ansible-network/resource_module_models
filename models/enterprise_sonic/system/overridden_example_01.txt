@@ -8,7 +8,7 @@
 #ipv6 anycast-address enable
 #login concurrent-session limit 5
 
-    - name: Modify System configuration.
+    - name: Override System configuration.
       sonic_system:
         config:
       	  hostname: SONIC

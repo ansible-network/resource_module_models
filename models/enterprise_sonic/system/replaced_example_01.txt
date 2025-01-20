@@ -11,7 +11,7 @@
 #interface-naming standard
 #login concurrent-session limit 4
 
-    - name: Modify System configuration.
+    - name: Replace System configuration.
       sonic_system:
         config:
           hostname: SONIC
