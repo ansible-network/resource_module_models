@@ -1,6 +1,6 @@
-# Using Overridden
+# Using "overridden" state
 #
-# Before State:
+# Before state:
 # -------------
 #
 # sonic# show running-configuration pbf next-hop-group
@@ -25,7 +25,7 @@
           group_type: ipv4
     state: overridden
 
-# After State:
+# After state:
 # ------------
 #
 # sonic# show running-configuration pbf next-hop-group

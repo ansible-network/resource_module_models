@@ -1,6 +1,6 @@
-# Using Merged
+# Using "merged" state
 #
-# Before State:
+# Before state:
 # -------------
 #
 # sonic# show running-configuration pbf next-hop-group
@@ -32,7 +32,7 @@
               single_copy: true
     state: merged
 
-# After State:
+# After state:
 # ------------
 #
 # sonic# show running-configuration pbf next-hop-group
