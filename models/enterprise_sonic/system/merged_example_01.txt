@@ -15,6 +15,7 @@
             ipv6: true
             ipv4: true
             mac_address: aa:bb:cc:dd:ee:ff
+	  auto_breakout: ENABLE
         state: merged
 
 # After state:
@@ -26,3 +27,4 @@
 #ip anycast-address enable
 #ipv6 anycast-address enable
 #interface-naming standard
+#auto-breakout
