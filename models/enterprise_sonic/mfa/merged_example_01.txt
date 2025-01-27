@@ -27,7 +27,9 @@
         mfa_global:
           mfa_security_profile: 'mSecurityProfile'
           key_seed: 'sonic'
+          key_seed_encrypted: true
           client_secret: 'U2FsdGVkX18mPdwkM1z24i7lxMtqNZR9p2q3aa6YXR16OfDxQXCR9z9I0lQZpVjE!'
+          client_secret_encrypted: true
         rsa_global:
           rsa_security_profile: 'rSecProfile'
         rsa_servers:
@@ -35,6 +37,7 @@
           server_port: 5555
           client_id: 'sonicdevtest.che-lab.it'
           client_key: 'aplr05825jshusp80699scuv62u5l3lu63wxf66b0y883w92677ac0c9m0lwv6o8'
+          client_key_encrypted: true
           connection_timeout: 20
           read_timeout: 120
         cac_piv_global:

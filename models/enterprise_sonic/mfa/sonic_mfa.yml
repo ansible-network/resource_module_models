@@ -19,6 +19,8 @@ DOCUMENTATION: |
     description:
       - This module provides configuration management of MFA
         parameters for devices running SONiC.
+      - Pre-configured host cert is required for MFA security profile, and
+        ca-cert for RSA/CAC-PIV security profiles.
     author: 'Divya Narendran (@Divya-N3)'
     options:
       config:
