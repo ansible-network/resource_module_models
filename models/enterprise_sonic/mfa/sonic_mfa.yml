@@ -140,15 +140,18 @@ DOCUMENTATION: |
           - The state of the configuration after module completion.
           - C(merged) - Merges provided MFA configuration with on-device configuration.
           - C(replaced) - Replaces on-device MFA configuration with provided configuration.
+          - C(overridden) - Overrides all on-device MFA configurations with the provided configuration.
           - C(deleted) - Deletes on-device MFA configuration.
         type: str
         choices:
           - merged
           - deleted
           - replaced
+          - overridden
         default: merged
 EXAMPLES:
   - deleted_example_01.txt
   - deleted_example_02.txt
   - merged_example_01.txt
   - replaced_example_01.txt
+  - overridden_example_01.txt
