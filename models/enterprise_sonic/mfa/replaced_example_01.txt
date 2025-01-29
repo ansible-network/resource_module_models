@@ -3,13 +3,8 @@
 # Before state:
 # -------------
 #
-# sonic# show mfa rsa-servers
-# ------------------------------------------------------------------------------------------------------------
-# HOST                          PORT     CONNECTION_TIMEOUT   READ_TIMEOUT    CLIENT_ID
-# ------------------------------------------------------------------------------------------------------------
-# rsaserver.che-lab.it          5555     20                   120             sonicdevtest.che-lab.it
-# sonicrsaserver.che-lab.it     5555     29                   125             sonic.che-lab.it 
-#
+# sonic# show running-configuration mfa
+# mfa rsa-server host rsaserver.che-lab.it client-id sonicdevtest.che-lab.it client-key U2FsdGVkX1+xnsxfUrqCvBQg0KkPUm11R8Vpn2cXLHCWzL59k3Jm4/OrRiMOemPJccnEa8sMuynOAaySpHkaMOePtpedW0aApp+qicIF2Hz32LR4vB07b7OSx7OaEZBj encrypted
 
 
   - name: Replace specified mfa rsa-server configuration
@@ -29,10 +24,6 @@
 # After state:
 # ------------
 #
-# sonic# show mfa rsa-servers
-# ------------------------------------------------------------------------------------------------------------
-# HOST                          PORT     CONNECTION_TIMEOUT   READ_TIMEOUT    CLIENT_ID
-# ------------------------------------------------------------------------------------------------------------
-# rsaserver.che-lab.it          5555     29                   149             sonicdevtest.che-lab.it
-# sonicrsaserver.che-lab.it     5555     29                   125             sonic.che-lab.it
+# sonic# show running-configuration mfa
+# mfa rsa-server host rsaserver.che-lab.it client-id sonicdevtest.che-lab.it client-key U2FsdGVkX1/b1Tjka6pWv1BjwGd1I8cfjXxBIIJ6ZK/JaZpGgPbNAnw6WmdstRWJz49A+bymj6gJfkGjbzlWQhGCGi4VofPStOdNktqDcIyk33AaDkO+awkzyi7HRxcB encrypted connection-timeout 29 read-timeout 149
 
