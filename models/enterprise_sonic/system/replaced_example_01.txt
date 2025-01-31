@@ -25,5 +25,6 @@
 #!
 #SONIC(config)#do show running-configuration
 #!
+#hostname SONIC
 #ipv6 anycast-address enable
 #login concurrent-session limit 5
