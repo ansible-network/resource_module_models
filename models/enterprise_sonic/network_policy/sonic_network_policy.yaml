@@ -1,0 +1,67 @@
+---
+GENERATOR_VERSION: '1.0'
+NETWORK_OS: sonic
+RESOURCE: network_policy
+COPYRIGHT: Copyright 2025 Dell Inc. or its subsidiaries. All Rights Reserved.
+DOCUMENTATION: |
+    module: sonic_network_policy
+    version_added: 3.1.0
+    notes:
+      - Tested against Enterprise SONiC Distribution by Dell Technologies.
+      - Supports C(check_mode).
+    short_description: Manage network policy configuration on SONiC
+    description:
+      - This module provides configuration management of network policy for devices running SONiC
+    author: S. Talabi (@stalabi1)
+    options:
+      config:
+        description:
+          - List of network policy configurations
+        type: list
+        elements: dict
+        suboptions:
+          number:
+            description:
+              - Network policy number, range 1-128
+            type: int
+            required: true
+          applications:
+            description:
+              - List of network policy application configurations
+            type: list
+            elements: dict
+            suboptions:
+              app_type:
+                description:
+                  - Media type of the application
+                type: str
+                choices: ['voice', 'voice_signaling']
+                required: true
+              vlan_id:
+                description:
+                  - VLAN identifier, range 1-4094
+                type: int
+              tagged:
+                description:
+                  - Indicates that the application is using a tagged VLAN
+                type: bool
+              priority:
+                description:
+                  - Priority of VLAN, range 0-7
+                type: int
+              dscp:
+                description:
+                  - DSCP value of VLAN, range 0-63
+                type: int
+      state:
+        description:
+          - The state of the configuration after module completion
+        type: str
+        choices: ['merged', 'deleted', 'replaced', 'overridden']
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
