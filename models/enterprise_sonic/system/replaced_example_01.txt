@@ -1,9 +1,9 @@
-# Using deleted
+# Using replaced
 #
 # Before state:
 # -------------
 #!
-#SONIC(config)#do show running-configuration
+#sonic(config)#do show running-configuration
 #!
 #ip anycast-mac-address aa:bb:cc:dd:ee:ff
 #ip anycast-address enable
@@ -11,20 +11,20 @@
 #interface-naming standard
 #login concurrent-session limit 4
 
-    - name: Delete specified configuration.
+    - name: Replace System configuration.
       sonic_system:
         config:
           hostname: SONIC
-          interface_naming: standard
           anycast_address:
             ipv6: true
-          concurrent_session_limit: 4
-        state: deleted
+          concurrent_session_limit: 5
+        state: replaced
 
 # After state:
 # ------------
 #!
-#sonic(config)#do show running-configuration
+#SONIC(config)#do show running-configuration
 #!
-#ip anycast-mac-address aa:bb:cc:dd:ee:ff
-#ip anycast-address enable
+#hostname SONIC
+#ipv6 anycast-address enable
+#login concurrent-session limit 5

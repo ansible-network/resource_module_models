@@ -1,0 +1,32 @@
+# Using replaced
+#
+# Before state:
+# -------------
+#!
+#sonic(config)#do show running-configuration
+#!
+#ip anycast-mac-address aa:bb:cc:dd:ee:ff
+#interface-naming standard
+#login concurrent-session limit 5
+
+    - name: Replace system device configuration.
+      sonic_system:
+        config:
+          hostname: sonic
+          interface_naming: standard
+          anycast_address:
+            ipv6: true
+            ipv4: true
+          load_share_hash_algo: JENKINS_HASH_HI
+        state: replaced
+
+# After state:
+# ------------
+#!
+#sonic(config)#do show running-configuration
+#!
+#ip anycast-address enable
+#ipv6 anycast-address enable
+#interface-naming standard
+#ip load-share hash algorithm JENKINS_HASH_HI
+
