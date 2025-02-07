@@ -1,0 +1,32 @@
+# Using "merged" state
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration
+# (No network policy configuration present)
+
+- name: Merge network policy configuration
+  dellemc.enterprise_sonic.sonic_network_policy:
+    config:
+      - number: 1
+        applications:
+          - app_type: voice
+            vlan_id: 2
+            priority: 1
+            dscp: 1
+          - app_type: voice_signaling
+            vlan_id: 3
+            tagged: false
+            dscp: 50
+    state: merged
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration
+# !
+# network-policy profile 1
+#  voice vlan 2 cos 1 dscp 1
+#  voice-signaling vlan 3 untagged dscp 50
+# !

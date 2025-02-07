@@ -1,0 +1,40 @@
+# Using "replaced" state
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration
+# !
+# network-policy profile 1
+#  voice vlan 2 cos 1 dscp 1
+#  voice-signaling vlan 3 untagged dscp 50
+# !
+# network-policy profile 2
+#  voice vlan 100 cos 7 dscp 12
+#  voice-signaling vlan 400 cos 7 dscp 45
+# !
+
+- name: Replace network policy configuration
+  dellemc.enterprise_sonic.sonic_network_policy:
+    config:
+      - number: 1
+        applications:
+          - app_type: voice
+            vlan_id: 1
+            tagged: true
+            priority: 0
+            dscp: 0
+    state: replaced
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration
+# !
+# network-policy profile 1
+#  voice vlan 1 cos 0 dscp 0
+# !
+# network-policy profile 2
+#  voice vlan 100 cos 7 dscp 12
+#  voice-signaling vlan 400 cos 7 dscp 45
+# !
