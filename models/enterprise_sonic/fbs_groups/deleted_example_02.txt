@@ -1,0 +1,28 @@
+# Using "deleted" state
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration pbf next-hop-group
+# !
+# pbf next-hop-group hop1 type ip
+#   entry 1 next-hop 1.1.1.1 vrf VrfReg1 non-recursive
+# !
+# sonic# show running-configuration pbf replication-group
+# !
+# pbf replication-group rep1 type ipv6
+#   description xyz
+# !
+
+- name: Delete FBS groups configuration
+  dellemc.enterprise_sonic.sonic_fbs_groups:
+    config:
+    state: deleted
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration pbf next-hop-group
+# (No 'pbf next-hop-group' configuration present)
+# sonic# show running-configuration pbf replication-group
+# (No 'pbf replication-group' configuration present)
