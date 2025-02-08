@@ -1,0 +1,60 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration interface
+# !
+# interface Eth1/1
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  no ipv6 nd suppress-ra
+#  ipv6 nd ra-hop-limit 10
+#  ipv6 nd ra-interval 180
+#  ipv6 nd min-ra-interval 60
+#  ipv6 nd ra-lifetime 360
+#  ipv6 nd ra-retrans-interval 30000
+#  ipv6 nd dnssl test.com 3600
+#  ipv6 nd rdnss 100::100 3600
+#  ipv6 nd rdnss 100::200 7200
+# !
+# interface Eth1/2
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  no ipv6 nd suppress-ra
+#  ipv6 nd adv-interval-option
+#  ipv6 nd router-preference low
+#  ipv6 nd prefix 1000:0:0:1000::/64 86400 86400 off-link no-autoconfig
+# !
+
+- name: Delete all IPv6 Router Advertisement configurations for interface Eth1/1
+  dellemc.enterprise_sonic.sonic_ipv6_router_advertisement:
+    config:
+      - name: 'Eth1/1'
+    state: deleted
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration interface
+# !
+# interface Eth1/1
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+# !
+# interface Eth1/2
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  no ipv6 nd suppress-ra
+#  ipv6 nd adv-interval-option
+#  ipv6 nd router-preference low
+#  ipv6 nd prefix 1000:0:0:1000::/64 86400 86400 off-link no-autoconfig
+# !
