@@ -1,0 +1,27 @@
+# Using parsed
+
+# File: parsed.cfg
+# ----------------
+#
+# l2vpn evpn
+#  replication-type ingress
+#  router-id Loopback1
+#  default-gateway advertise
+#  route-target auto vni
+
+- name: Parse the commands for provided configuration
+  cisco.ios.ios_evpn_global:
+    running_config: "{{ lookup('file', 'parsed.cfg') }}"
+    state: parsed
+
+# Task Output:
+# ------------
+#
+# parsed:
+#     replication_type: ingress
+#     route_target:
+#       auto:
+#         vni: true
+#     router_id: Loopback1
+#     default_gateway:
+#       advertise: true

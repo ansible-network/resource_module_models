@@ -1,0 +1,40 @@
+
+# Before state:
+# -------------
+# l2vpn evpn
+#  replication-type static
+#  router-id Loopback1
+#  default-gateway advertise
+- name: Merge provided configuration with device configuration
+  cisco.ios.ios_evpn_global:
+    config:
+        replication_type: ingress
+        route_target:
+          auto:
+            vni: true
+        default_gateway:
+          advertise: false
+        ip:
+          local_learning:
+            disable: true
+        flooding_suppression:
+          address_resolution:
+            disable: false
+    state: merged
+# Commands Fired:
+# ---------------
+#   "commands": [
+#       "l2vpn evpn",
+#       "no default-gateway advertise",
+#       "replication-type ingress",
+#       "route-target auto vni",
+#       "ip local-learning disable",
+#   ]
+
+# After state:
+# ------------
+# l2vpn evpn
+#  replication-type ingress
+#  router-id Loopback1
+#  ip local-learning disable
+#  route-target auto vni
