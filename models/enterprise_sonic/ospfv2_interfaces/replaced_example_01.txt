@@ -1,0 +1,97 @@
+# Using replaced
+
+# Before state:
+# -------------
+#
+#sonic# show running-configuration interface
+#!
+#interface Eth1/1
+# ip ospf area 2.2.2.2
+# ip ospf bfd
+# ip ospf bfd profile profile1
+# ip ospf cost 20
+# ip ospf dead-interval 40
+# ip ospf hello-interval 10
+# ip ospf mtu-ignore
+# ip ospf network broadcast
+# ip ospf priority 20
+# ip ospf authentication message-digest 10.10.120.1
+# ip ospf authentication-key U2FsdGVkX1+ozJSEI69XJb2KR9Pu1Sa3Ou6ujTRalbQ= encrypted 10.10.120.1
+# ip ospf dead-interval minimal hello-multiplier 5 10.10.120.1
+#!
+#interface Eth1/2
+#!
+#interface Eth1/3
+# ip ospf bfd
+# ip ospf network point-to-point
+# ip ospf area 3.3.3.3 10.19.120.2
+# ip ospf authentication message-digest 10.19.120.2
+# ip ospf authentication-key U2FsdGVkX19HqGCcf2pzGur9MDnb0VzLNRvoFij3Os0= encrypted 10.19.120.2
+# ip ospf dead-interval minimal hello-multiplier 5 10.19.120.2
+#!
+#sonic#
+
+  - name: Replace the OSPFv2_interface configurations
+    sonic_ospfv2_interfaces:
+      config:
+        - name: 'Eth1/3'
+          ospf_attributes:
+            - area_id: '2.2.2.2'
+              cost: 30
+              priority: 20
+              hello_interval: 10
+              dead_interval: 40
+              mtu_ignore: True
+            - address: '10.10.120.1'
+              authentication_type: 'null'
+              authentication_key:
+                pwd: 'pass2'
+            - address: '10.19.119.1'
+              authentication_type: 'null'
+              message_digest_keys:
+                - key_id: 10
+                  pwd: 'U2FsdGVkX1/Bq/+x8a3fsBo9ZrAX56ynmPKnRM87kfQ='
+                  encrypted: True
+          bfd:
+            enable: True
+            bfd_profile: 'profile2'
+          network: broadcast
+      state: replaced
+
+# After state:
+# ------------
+#
+#sonic# show running-configuration interface
+#!
+#interface Eth1/1
+# ip ospf area 2.2.2.2
+# ip ospf bfd
+# ip ospf bfd profile profile1
+# ip ospf cost 20
+# ip ospf dead-interval 40
+# ip ospf hello-interval 10
+# ip ospf mtu-ignore
+# ip ospf network broadcast
+# ip ospf priority 20
+# ip ospf authentication message-digest 10.10.120.1
+# ip ospf authentication-key U2FsdGVkX1+ozJSEI69XJb2KR9Pu1Sa3Ou6ujTRalbQ= encrypted 10.10.120.1
+# ip ospf dead-interval minimal hello-multiplier 5 10.10.120.1
+#!
+#interface Eth1/2
+#!
+#interface Eth1/3
+# ip ospf area 2.2.2.2
+# ip ospf bfd
+# ip ospf bfd profile profile2
+# ip ospf cost 30
+# ip ospf dead-interval 40
+# ip ospf hello-interval 10
+# ip ospf mtu-ignore
+# ip ospf network broadcast
+# ip ospf priority 20
+# ip ospf authentication null 10.10.120.1
+# ip ospf authentication-key U2FsdGVkX186k2R2hUXaDloW8hfkApn5Zx5hCQy9usc= encrypted 10.10.120.1
+# ip ospf authentication null 10.19.119.1
+# ip ospf message-digest-key 10 md5 U2FsdGVkX1/Bq/+x8a3fsBo9ZrAX56ynmPKnRM87kfQ= encrypted 10.19.119.1
+#!
+#sonic#
