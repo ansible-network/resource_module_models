@@ -1,0 +1,32 @@
+# Using "deleted" state
+#
+# Before state:
+# -------------
+#
+# sonic# show class-map
+# Class-map class1 match-type fields
+#   Description: xyz
+#   Match:
+#     ethertype 0x8100
+#     src-mac 9a:8b:7c:6d:5e:4f/2a:4b:1c:9b:1e:0f
+#     dst-mac 1a:6c:3c:4f:40:22/26:44:8c:9d:4b:6f
+#     vlan 2
+#     pcp ic
+#   Referenced in flows:
+#
+# Class-map class2 match-type acl
+#   Description: abc
+#   Match:
+#     ip access-group acl1
+#   Referenced in flows:
+
+- name: Delete all FBS classifiers configuration
+  dellemc.enterprise_sonic.sonic_fbs_classifiers:
+    config:
+    state: deleted
+
+# After state:
+# ------------
+#
+# sonic# show class-map
+# (No 'class-map' configuration present)
