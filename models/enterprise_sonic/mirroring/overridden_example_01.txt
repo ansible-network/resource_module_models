@@ -1,0 +1,57 @@
+# Using overridden
+#
+# Before state:
+# -------------
+#
+#sonic(config)# do show mirror-session 
+#ERSPAN Sessions
+#-----------------------------------------------------------------------------------------------------------------------------------------
+#Name                     Status     SRC-IP           DST-IP           GRE    DSCP   TTL    Queue    Policer    SRC-Port         Direction 
+#-----------------------------------------------------------------------------------------------------------------------------------------
+#dell-2                   inactive   200.22.22.22     100.11.11.11                          0                   Ethernet28       both      
+#SPAN Sessions
+#-------------------------------------------------------------------------------
+#Name                     Status     DST-Port         SRC-Port         Direction 
+#-------------------------------------------------------------------------------
+#dell-1                   active     CPU              Ethernet24       both      
+#dell-3                   active     CPU                              
+#
+#  - name: Override mirrot session configuration
+#    sonic_mirroring:
+#      config:
+#        erspan:
+#          - name: dell-2
+#            dst_ip: 32.22.22.12
+#            src_ip: 31.21.21.12
+#            source: Ethernet28
+#            gre: "0x6689"
+#            dscp: 6
+#            ttl: 9
+#            queue: 0
+#            direction: rx
+#          - name: dell-1
+#            dst_ip: 22.22.22.12
+#            src_ip: 21.21.21.12
+#            source: Ethernet28
+#            direction: rx
+#        span:
+#          - name: dell-6
+#            dst_port: CPU
+#            source: Ethernet24
+#            direction: tx
+#      state: overridden
+#
+# After state:
+# ------------
+#sonic(config)# do show mirror-session
+#ERSPAN Sessions
+#-----------------------------------------------------------------------------------------------------------------------------------------
+#Name                     Status     SRC-IP           DST-IP           GRE    DSCP   TTL    Queue    Policer    SRC-Port         Direction
+#-----------------------------------------------------------------------------------------------------------------------------------------
+#dell-1                   inactive   21.21.21.12      22.22.22.12                                               Ethernet28       rx
+#dell-2                   inactive   31.21.21.12      32.22.22.12      0x6689 6      9      0                   Ethernet28       rx
+#SPAN Sessions
+#-------------------------------------------------------------------------------
+#Name                     Status     DST-Port         SRC-Port         Direction
+#-------------------------------------------------------------------------------
+#dell-6                   active     Ethertnet4       Ethernet24       tx

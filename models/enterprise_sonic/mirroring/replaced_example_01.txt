@@ -1,0 +1,58 @@
+# Using replaced
+#
+# Before state:
+# -------------
+#
+#sonic(config)# do show mirror-session 
+#ERSPAN Sessions
+#-----------------------------------------------------------------------------------------------------------------------------------------
+#Name                     Status     SRC-IP           DST-IP           GRE    DSCP   TTL    Queue    Policer    SRC-Port         Direction 
+#-----------------------------------------------------------------------------------------------------------------------------------------
+#dell-2                   inactive   200.22.22.22     100.11.11.11                          0                   Ethernet28       both      
+#SPAN Sessions
+#-------------------------------------------------------------------------------
+#Name                     Status     DST-Port         SRC-Port         Direction 
+#-------------------------------------------------------------------------------
+#dell-1                   active     CPU              Ethernet24       both      
+#dell-3                   active     CPU                              
+#
+#  - name: Replace some configuration
+#    sonic_mirroring:
+#      config:
+#        erspan:
+#          - name: dell-2
+#            dst_ip: 32.22.22.12
+#            src_ip: 31.21.21.12
+#            source: Ethernet28
+#            dscp: 6
+#            gre: "0x6689"
+#            ttl: 9
+#            queue: 0
+#            direction: rx
+#          - name: dell-3
+#            dst_ip: 22.22.22.12
+#            src_ip: 21.21.21.12
+#            source: Ethernet28
+#            direction: rx
+#        span:
+#          - name: dell-1
+#            dst_port: Ethernet4
+#            source: Ethernet24
+#            direction: tx
+#      state: replaced
+#
+# After state:
+# ------------
+#sonic(config)# do show mirror-session
+#ERSPAN Sessions
+#-----------------------------------------------------------------------------------------------------------------------------------------
+#Name                     Status     SRC-IP           DST-IP           GRE    DSCP   TTL    Queue    Policer    SRC-Port         Direction
+#-----------------------------------------------------------------------------------------------------------------------------------------
+#dell-2                   inactive   32.22.22.22      31.11.11.11      0x6689 6      9      0                   Ethernet28       rx
+#dell-3                   inactive   21.21.21.12      22.22.22.12                                               Ethernet28       rx
+#SPAN Sessions
+#-------------------------------------------------------------------------------
+#Name                     Status     DST-Port         SRC-Port         Direction
+#-------------------------------------------------------------------------------
+#dell-1                   active     Ethertnet4       Ethernet24       tx
+#dell-3                   active     CPU
