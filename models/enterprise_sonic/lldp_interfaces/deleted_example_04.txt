@@ -12,6 +12,12 @@
 #  lldp receive
 #  lldp tlv-set management-address ipv4 20.1.1.2
 #  no lldp tlv-select power-management
+#  no lldp tlv-select port-vlan-id
+#  no lldp tlv-select vlan-name
+#  no lldp tlv-select link-aggregation
+#  no lldp tlv-select max-frame-size
+#  lldp vlan-name-tlv allowed Vlan 10,15-20
+#  lldp vlan-name-tlv max-tlv-count 15
 # !
 # interface Ethernet1
 #  mtu 9100
@@ -22,6 +28,12 @@
 #  lldp tlv-set management-address ipv4 10.1.1.2
 #  no lldp med-tlv-select network-policy
 #  no lldp tlv-select power-management
+#  no lldp tlv-select port-vlan-id
+#  no lldp tlv-select vlan-name
+#  no lldp tlv-select link-aggregation
+#  no lldp tlv-select max-frame-size
+#  lldp vlan-name-tlv allowed Vlan 10,15-20
+#  lldp vlan-name-tlv max-tlv-count 15
 # sonic#
 
   - name: Delete all LLDP Interface configuration
