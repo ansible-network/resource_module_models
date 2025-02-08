@@ -1,0 +1,84 @@
+# Using replaced to only replace collectors list with new values
+  # Before state:
+  # config:
+  #   enabled: False
+  #   polling_interval: 50
+  #   collectors:
+  #     - address: 1.1.1.1
+  #       port: 6343
+  #       network_instance: default
+  #   interfaces:
+  #     - name: Ethernet0
+  #       enabled: false
+  #     - name: Ethernet8
+  #       enabled: false
+  #     - name: Ethernet16
+  #       enabled: false
+  #     - name: Ethernet24
+  #       enabled: false
+
+  # Example:
+    - name: "replace collector list with new values, do not touch anything else"
+      sonic_sflow:
+        config:
+          collectors:
+            - address: 1.1.1.2
+              port: 6000
+              network_instance: default
+        state: replaced
+
+  # After state:
+  # config:
+  #   enabled: False
+  #   polling_interval: 50
+  #   collectors:
+  #     - address: 1.1.1.2
+  #       port: 6000
+  #       network_instance: default
+  #   interfaces:
+  #     - name: Ethernet0
+  #       enabled: false
+  #     - name: Ethernet8
+  #       enabled: false
+  #     - name: Ethernet16
+  #       enabled: false
+  #     - name: Ethernet24
+  #       enabled: false
+  # ------
+
+  # Using replaced to only replace listed settings
+  # Before state:
+  # config:
+  #   enabled: False
+  #   polling_interval: 50
+  #   collectors:
+  #     - address: 1.1.1.1
+  #       port: 6343
+  #       network_instance: default
+  #   interfaces:
+  #     - name: Ethernet0
+  #       enabled: false
+  #     - name: Ethernet8
+  #       enabled: false
+  #     - name: Ethernet16
+  #       enabled: false
+  #     - name: Ethernet24
+  #       enabled: false
+
+  # Example:
+    - name: "only replace things specified, do not touch others"
+      sonic_sflow:
+        config:
+          enabled: True
+          interfaces: []
+        state: replaced
+
+  # After state:
+  # config:
+  #   enabled: True
+  #   polling_interval: 50
+  #   collectors:
+  #     - address: 1.1.1.1
+  #       port: 6343
+  #       network_instance: default
+  # -----------
