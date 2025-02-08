@@ -1,0 +1,30 @@
+# Using overridden
+#
+# Before state:
+# -------------
+#
+sonic# show logging servers
+--------------------------------------------------------------------------------
+HOST            PORT      SOURCE-INTERFACE    VRF            MESSGE-TYPE
+--------------------------------------------------------------------------------
+10.11.1.1       616       Ethernet8           -              log
+10.11.1.2       626       Ethernet16          -              event
+
+- name: Replace logging server configuration
+  sonic_logging:
+    config:
+      remote_servers:
+        - host: 10.11.1.2
+          remote_port: 622
+          source_interface: Ethernet24
+          message_type: event
+    state: overridden
+
+# After state:
+# ------------
+#
+sonic# show logging servers
+--------------------------------------------------------------------------------
+HOST            PORT      SOURCE-INTERFACE    VRF            MESSGE-TYPE
+--------------------------------------------------------------------------------
+10.11.1.2       622       Ethernet24          -              event
