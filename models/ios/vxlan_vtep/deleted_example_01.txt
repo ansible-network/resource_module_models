@@ -1,0 +1,31 @@
+# Using state Deleted
+
+# Before state:
+# -------------
+# interface nve1
+#  no ip address
+#  source-interface Loopback2
+#  host-reachability protocol bgp
+#  member vni 10101 mcast-group FF0E:225::101
+#  member vni 10201 mcast-group FF0E:225::102
+
+- name: "Delete VXLAN VTEP interface"
+  cisco.ios.ios_vxlan_vtep:
+    config:
+    - interface: nve1
+    state: deleted
+
+# Commands Fired:
+# ---------------
+#   "commands": [
+#       "interface nve1",
+#       "no source-interface Loopback2",
+#       "no host-reachability protocol bgp",
+#       "no member vni 10101 mcast-group FF0E:225::101",
+#       "no member vni 10201 mcast-group FF0E:225::102"
+#   ],
+
+# After state:
+# -------------
+# interface nve1
+#  no ip address
