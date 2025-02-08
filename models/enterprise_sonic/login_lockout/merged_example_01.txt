@@ -1,0 +1,24 @@
+# Using Merged
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration | grep lockout
+# sonic#
+
+  - name: Modify Login Lockout configurations
+    dellemc.enterprise_sonic.sonic_login_lockout:
+      config:
+              console_exempt: true
+              period: 12
+              max_retries : 5
+      state: merged 
+
+# After State:
+# ------------
+# sonic# show running-configuration | grep lockout
+# !
+# login lockout period 12
+# login lockout max-retries 5
+# login lockout console-exempt
+# !

@@ -1,0 +1,24 @@
+# Using replaced
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration | grep lockout
+# !
+# login lockout period 10
+# login lockout max-retries 2
+# !
+# sonic#
+
+  - name: Modify Login Lockout configurations
+    dellemc.enterprise_sonic.sonic_login_lockout:
+      config: 
+              period: 15
+      state: replaced
+
+# After State:
+# ------------
+# sonic# show running-configuration | grep lockout
+# !
+# login lockout period 15
+# !
