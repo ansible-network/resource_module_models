@@ -1,0 +1,78 @@
+---
+GENERATOR_VERSION: '1.0'
+NETWORK_OS: sonic
+RESOURCE: mac
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved.
+DOCUMENTATION: |
+    module: sonic_mac
+    version_added: "2.1.0"
+    notes:
+      - Tested against Enterprise SONiC Distribution by Dell Technologies.
+      - Supports C(check_mode).
+    short_description: Manage MAC configuration on SONiC
+    description:
+      - This module provides configuration management of MAC for devices running SONiC
+    author: "Shade Talabi (@stalabi1)"
+    options:
+      config:
+        description:
+          - A list of MAC configurations.
+        type: list
+        elements: dict
+        suboptions:
+          vrf_name:
+            description:
+              - Specifies the VRF name.
+            type: str
+            default: 'default'
+          mac:
+            description:
+              - Configuration attributes for MAC.
+            type: dict
+            suboptions:
+              aging_time:
+                description:
+                  - Time in seconds of inactivity before the MAC entry is timed out.
+                type: int
+                default: 600
+              dampening_interval:
+                description:
+                  - Interval for which mac movements are observed before disabling MAC learning on a port.
+                type: int
+                default: 5
+              dampening_threshold:
+                description:
+                  - Number of MAC movements allowed per second before disabling MAC learning on a port.
+                type: int
+                default: 5
+              mac_table_entries:
+                description:
+                  - Configuration attributes for MAC table entries.
+                type: list
+                elements: dict
+                suboptions:
+                  mac_address:
+                    description:
+                      - MAC address for the dynamic or static MAC table entry.
+                    type: str
+                    required: True
+                  vlan_id:
+                    description:
+                      - ID number of VLAN on which the MAC address is present.
+                    type: int
+                    required: True
+                  interface:
+                    description:
+                      - Specifies the interface for the MAC table entry.
+                    type: str
+      state:
+        description:
+          - The state of the configuration after module completion
+        type: str
+        choices: ['merged', 'deleted', 'replaced', 'overridden']
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
