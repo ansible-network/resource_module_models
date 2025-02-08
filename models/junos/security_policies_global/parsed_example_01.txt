@@ -1,0 +1,88 @@
+# Using parsed
+# parsed.cfg
+# ------------
+# <?xml version="1.0" encoding="UTF-8"?>
+# <rpc-reply message-id="urn:uuid:0cadb4e8-5bba-47f4-986e-72906227007f">
+#    <configuration changed-seconds="1590139550" changed-localtime="2020-05-22 09:25:50 UTC">
+#       <version>18.4R1-S2.4</version>
+#         <security>
+#             <policies>
+#                 <traceoptions>
+#                     <no-remote-trace />
+#                     <file>
+#                         <size>10k</size>
+#                         <files>3</files>
+#                         <no-world-readable />
+#                         <match>/[A-Z]*/gm</match>
+#                     </file>
+#                     <flag>
+#                         <name>all</name>
+#                     </flag>
+#                 </traceoptions>
+#                 <default-policy>
+#                     <permit-all />
+#                 </default-policy>
+#                 <policy-rematch>
+#                     <extensive />
+#                 </policy-rematch>
+#                 <policy-stats>
+#                     <system-wide>enable</system-wide>
+#                 </policy-stats>
+#                 <pre-id-default-policy>
+#                     <then>
+#                         <log>
+#                             <session-init />
+#                         </log>
+#                         <session-timeout>
+#                             <icmp>10</icmp>
+#                             <others>10</others>
+#                         </session-timeout>
+#                     </then>
+#                 </pre-id-default-policy>
+#             </policies>
+#         </security>
+#     </configuration>
+# </rpc-reply>
+#
+#
+- name: Parse security policies global running config
+  junipernetworks.junos.junos_security_policies_global:
+    running_config: "{{ lookup('file', './parsed.cfg') }}"
+    state: parsed
+#
+#
+# -------------------------
+# Module Execution Result
+# -------------------------
+#
+#
+# "parsed": {
+#     "default_policy": "permit-all",
+#     "policy_rematch": {
+#         "enable": true,
+#         "extensive": true
+#     },
+#     "policy_stats": {
+#         "enable": true,
+#         "system_wide": true
+#     },
+#     "pre_id_default_policy_action": {
+#         "log": {
+#             "session_init": true
+#         },
+#         "session_timeout": {
+#             "icmp": 10,
+#             "others": 10
+#         }
+#     },
+#     "traceoptions": {
+#         "file": {
+#             "files": 3,
+#             "match": "/[A-Z]*/gm",
+#             "no_world_readable": true,
+#             "size": "10k"
+#         },
+#         "flag": "all",
+#         "no_remote_trace": true
+#     }
+# }
