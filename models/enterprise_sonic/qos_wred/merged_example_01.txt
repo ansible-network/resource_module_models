@@ -1,0 +1,31 @@
+# Using Merged
+#
+# Before state:
+# -------------
+#
+# sonic# show qos wred-policy
+# (No qos wred-policy configuration present)
+
+- name: Merge QoS WRED policy configuration
+  dellemc.enterprise_sonic.sonic_qos_wred:
+    config:
+      - name: profile1
+        ecn: green
+        green:
+          enable: True
+          min_threshold: 1000
+          max_threshold: 5000
+          drop_probability: 25
+    state: merged
+
+# After state:
+# ------------
+#
+# sonic# show qos wred-policy
+# ---------------------------------------------------
+# Policy                 : profile1
+# ---------------------------------------------------
+# ecn                    : ecn_green
+# green-min-threshold    : 1           KBytes
+# green-max-threshold    : 5           KBytes
+# green-drop-probability : 25
