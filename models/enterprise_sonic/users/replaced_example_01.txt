@@ -1,4 +1,4 @@
-# Using merged
+# Using Replaced
 #
 # Before state:
 # -------------
@@ -8,19 +8,21 @@
 # User                              Role(s)
 # ----------------------------------------------------------------------
 # admin                             admin
+# user1                             secadmin
+# user2                             operator
 
-- name: Merge users configurations
+- name: Replace users configurations
   dellemc.enterprise_sonic.sonic_users:
     config:
-      - name: sysadmin
-        role: admin
-        password: admin
-        update_password: always
-      - name: sysoperator
+      - name: user1
         role: operator
-        password: operator
+        password: 123abc
         update_password: always
-    state: merged
+      - name: user2
+        role: netadmin
+        password: 123abc
+        update_password: always
+    state: replaced
 
 # After state:
 # ------------
@@ -30,5 +32,5 @@
 # User                              Role(s)
 # ----------------------------------------------------------------------
 # admin                             admin
-# sysadmin                          admin
-# sysoperator                       operator
+# user1                             operator
+# user2                             netadmin
