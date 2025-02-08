@@ -1,0 +1,66 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+#sonic# show running-configuration vrf Vrf_1
+#!
+#ip vrf Vrf_1
+#sonic# show running-configuration | grep ldap
+#ldap-server port 389
+#ldap-server version 2
+#ldap-server nss-base-passwd password
+#ldap-server nss-initgroups-ignoreusers username1
+#ldap-server nss scope sub
+#ldap-server nss timelimit 15
+#ldap-server nss idle-timelimit 25
+#ldap-server nss nss-base-group group1
+#ldap-server nss nss-base-sudoers sudo1
+#ldap-server pam base admin
+#ldap-server pam binddn CN=example.com
+#ldap-server pam pam-login-attribute loginattrstring
+#ldap-server sudo retry 10
+#ldap-server sudo ssl start_tls
+#ldap-server sudo bind-timelimit 15
+#ldap-server vrf Vrf_1
+#ldap-server host 10.10.10.1 port 1550 priority 5
+#ldap-server host 20.20.20.10 retry 1
+#ldap-server host example.com priority 10 ssl off
+#ldap-server map default-attribute-value attr1 to attr2
+#ldap-server map default-attribute-value attr3 to attr4
+#ldap-server map objectclass attr1 to attr3
+#sonic#
+
+  - name: Delete the LDAP server configurations
+    sonic_ldap:
+      config:
+        - name: "global"
+          servers:
+            - address: "example.com"
+          vrf: "Vrf_1"
+        - name: "nss"
+          idle_timelimit: 25
+          scope: "sub"
+        - name: "sudo"
+      state: deleted
+
+# After State:
+# ------------
+#
+#sonic# show running-configuration | grep ldap
+#ldap-server port 389
+#ldap-server version 2
+#ldap-server nss-base-passwd password
+#ldap-server nss-initgroups-ignoreusers username1
+#ldap-server nss idle-timelimit 25
+#ldap-server nss nss-base-group group1
+#ldap-server nss nss-base-sudoers sudo1
+#ldap-server pam base admin
+#ldap-server pam binddn CN=example.com
+#ldap-server pam pam-login-attribute loginattrstring
+#ldap-server host 10.10.10.1 port 1550 priority 5
+#ldap-server host 20.20.20.10 retry 1
+#ldap-server map default-attribute-value attr1 to attr2
+#ldap-server map default-attribute-value attr3 to attr4
+#ldap-server map objectclass attr1 to attr3
+#sonic#
