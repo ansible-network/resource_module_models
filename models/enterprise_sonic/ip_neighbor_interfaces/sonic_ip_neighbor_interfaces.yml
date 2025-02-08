@@ -1,0 +1,83 @@
+---
+GENERATOR_VERSION: '1.0'
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community',
+        'license': 'Apache 2.0'
+    }
+NETWORK_OS: sonic
+RESOURCE: ip_neighbor_interfaces
+COPYRIGHT: Copyright 2025 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_ip_neighbor_interfaces
+    version_added: '3.1.0'
+    short_description: Manage interface-specific IP neighbor configurations on SONiC
+    description:
+      - This module provides configuration management of interface-specific
+        IP neighbor parameters for devices running SONiC.
+    author: 'Arun Saravanan Balachandran (@ArunSaravananBalachandran)'
+    options:
+      config:
+        description:
+          - Specifies interface-specific IP neighbor configurations.
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            description:
+              - Full name of the interface.
+            type: str
+            required: true
+          ipv4_neighbors:
+            description:
+              - Specifies the static IPv4 neighbors.
+            type: list
+            elements: dict
+            suboptions:
+              ip:
+                description:
+                  - IPv4 address of the neighbor.
+                type: str
+                required: true
+              mac:
+                description:
+                  - MAC address of the neighbor.
+                type: str
+          ipv6_neighbors:
+            description:
+              - Specifies the static IPv6 neighbors.
+            type: list
+            elements: dict
+            suboptions:
+              ip:
+                description:
+                  - IPv6 address of the neighbor.
+                type: str
+                required: true
+              mac:
+                description:
+                  - MAC address of the neighbor.
+                type: str
+      state:
+        description:
+          - The state of the configuration after module completion.
+          - C(merged) - Merges provided interface-specific IP neighbor configuration with on-device configuration.
+          - C(replaced) - Replaces on-device IP neighbor configuration of the specified interfaces with provided configuration.
+          - C(overridden) - Overrides all on-device interface-specific IP neighbor configurations with the provided configuration.
+          - C(deleted) - Deletes on-device interface-specific IP neighbor configuration.
+        type: str
+        choices:
+          - merged
+          - deleted
+          - replaced
+          - overridden
+        default: merged
+EXAMPLES:
+  - merged_example_01.txt
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - deleted_example_03.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
