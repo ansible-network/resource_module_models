@@ -1,0 +1,91 @@
+Parameter,Type,Description
+,"- ccsa-format : circuit id in ccsa format
+- disable : no circuit id",
+[no] remote-id-dhcp,"Parameter type: <Vlan::RemoteIdDhcp>
+Format:
+( customer-id
+| disable
+| physical-id )
+Possible values:
+- customer-id : customer identity as remote id
+- disable : no remote id
+- physical-id : physical line identity as remote id","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+configure the remote id
+sub-option for DHCP option-82"
+[no] relay-id-dhcp,"Parameter type: <Vlan::RelayIdDhcp>
+Format:
+( relay-id
+| disable )
+Possible values:
+- relay-id : System MAC + Physical Id as relay id
+- disable : no relay id","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+configure the relay id sub-option
+for DHCP option-82"
+[no] dhcp-linerate,"Parameter type: <Vlan::Dhcp-linerate>
+Format:
+( notadd
+| addactuallinerate
+| addalllineparameters )
+Possible values:
+- notadd : not add DSL linerate for DHCP
+- addactuallinerate : add DSL actual line up and down rate
+for DHCP
+- addalllineparameters : add all DSL line parameters for
+DHCP","optional parameter with default
+value: ""notadd""
+The parameter is not visible
+during creation.
+configure insertion of the linerate
+for DHCP protocol"
+[no] pppoe-linerate,"Parameter type: <Vlan::Pppoe-linerate>
+Format:
+( notadd
+| addactuallinerate
+| addalllineparameters )
+Possible values:
+- notadd : not add DSL linerate for PPPoE
+- addactuallinerate : add DSL actual line up and down rate
+for PPPoE
+- addalllineparameters : add all DSL line parameters for
+PPPoE","optional parameter with default
+value: ""notadd""
+The parameter is not visible
+during creation.
+configure insertion of the linerate
+for PPPoE protocol (Only
+applicable on DSL LT boards,
+not on GPON LT boards. In case
+both GPON ports and DSL ports
+are configured in one VLAN, the
+pppoe-linerate parameter will
+only be applied on DSL LT
+boards.)"
+[no] dhcpv6-linerate,"Parameter type: <Vlan::Dhcpv6-linerate>
+Format:
+( notadd
+| addactuallinerate
+| addalllineparameters )
+Possible values:
+- notadd : not add DSL linerate for DHCPv6
+- addactuallinerate : add DSL actual line up and down rate
+for DHCPv6
+- addalllineparameters : add all DSL line parameters for
+DHCPv6","optional parameter with default
+value: ""notadd""
+The parameter is not visible
+during creation.
+configure insertion of the linerate
+for DHCPv6 protocol"
+[no] pppoe-l2-encaps,"Parameter type: <Vlan::PppoeAccessEncap>
+Format:
+( notadd
+| add )","optional parameter with default
+value: ""notadd""
+The parameter is not visible
+during creation."

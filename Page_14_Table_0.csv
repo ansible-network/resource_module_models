@@ -1,0 +1,67 @@
+Parameter,Type,Description
+,"Possible values:
+- trusted : trusted port
+- untrusted : untrusted port",DHCPv6 trusted port control
+[no] enterprise-number,"Parameter type: <Vlan::Enterprisenumber>
+Format:
+- enterprise number
+- range: [1...4294967295]","optional parameter with default
+value: ""3561""
+The parameter is not visible
+during creation.
+configure enterprise number for
+DHCPv6 protocol"
+[no] icmpv6-sec-fltr,Parameter type: boolean,"optional parameter
+The parameter is not visible
+during creation.
+enable icmpv6 secure filter"
+[no] in-qos-prof-name,"Parameter type: <Qos::QosIngressProfileName>
+Format:
+( default
+| name : <Qos::IgnoredQosProfileName> )
+Possible values:
+- default : default profile name
+- name : enter profile name to be associated
+Data driven field type
+Possible values are depending on the actual configuration
+and software.
+The currently allowed values can be shown with online-help.","optional parameter with default
+value: ""default""
+QoS ingress profile name"
+[no] ipv4-mcast-ctrl,Parameter type: boolean,"optional parameter
+enable ipv4 multicast control:
+forward ipv4 multicast frames in
+this vlan"
+[no] ipv6-mcast-ctrl,Parameter type: boolean,"optional parameter
+enable ipv6 multicast control:
+forward ipv6 multicast frames in
+this vlan"
+[no] mac-mcast-ctrl,Parameter type: boolean,"optional parameter
+enable mac multicast control:
+forward mac multicast frames in
+this vlan"
+[no] dis-proto-rip,Parameter type: boolean,"optional parameter
+disable RIP-IPv4 protocol"
+[no] proto-ntp,Parameter type: boolean,"optional parameter
+enable ntp protocol"
+[no] dis-ip-antispoof,Parameter type: boolean,"optional parameter
+disable IP anti-spoofing"
+[no] unknown-unicast,Parameter type: boolean,"optional parameter
+enable unknown unicast flooding"
+[no] pt2ptgem-flooding,Parameter type: boolean,"optional parameter
+enable flooding on unicast GEM
+port"
+[no] mac-movement-ctrl,Parameter type: boolean,"optional parameter
+enable mac movement in this
+vlan"
+[no] cvlan4095passthru,"Parameter type: <Vlan::cvlan4095Passthru>
+Format:
+( passthru
+| not-applicable )
+Possible values:
+- passthru : Allow passthru of cvlan 4095 - applicable only
+for SVLANCC","optional parameter with default
+value: ""not-applicable""
+enable C-VLAN 4095 tunneling
+behavior. Only applicable for
+S-VLAN CC forwarder"

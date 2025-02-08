@@ -1,0 +1,90 @@
+Parameter,Type,Description
+[no] remote-id-pppoe,"Parameter type: <Vlan::RemoteIdPppoe>
+Format:
+( disable
+| customer-id
+| physical-id )
+Possible values:
+- disable : no remote id
+- customer-id : customer identity as remote id
+- physical-id : physical line identity as remote id","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+configure the remote id
+sub-option for PPPoE relay tag"
+[no] new-secure-fwd,"Parameter type: <Vlan::NewSecureForward>
+Format:
+( inherit
+| disable
+| enable )
+Possible values:
+- inherit : inherit new-secure-forwarding
+- disable : disable new-secure-forwarding
+- enable : enable new-secure-forwarding","optional parameter with default
+value: ""inherit""
+enable secure forwarding for the
+VLAN (On GPON and L2+ LT
+boards, secure forwarding for
+S+C L2 Forwarders can only be
+controlled at S-VLAN level, not
+individually at S+C-VLAN
+level.)"
+[no] aging-time,"Parameter type: <Vlan::MacAgingTime>
+Format:
+- mac aging time in seconds
+- unit: sec
+- range: [-1,10...1000000]","optional parameter with default
+value: -1
+configure MAC aging time in
+seconds; in case of default,the
+system-level value is applicable."
+[no] l2cp-transparent,Parameter type: boolean,"optional parameter
+enable l2cp-transparent"
+[no] dhcpv6-itf-id,"Parameter type: <Vlan::Dhcpv6InterfaceId>
+Format:
+( disable
+| customer-id
+| physical-id
+| ccsa-format )
+Possible values:
+- disable : no interface id
+- customer-id : customer identity as interface id
+- physical-id : physical line identity as interface id
+- ccsa-format : interface id in ccsa format","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+DHCPv6 interface id control"
+[no] dhcpv6-remote-id,"Parameter type: <Vlan::Dhcpv6RemoteId>
+Format:
+( disable
+| customer-id
+| physical-id )
+Possible values:
+- disable : no interface id
+- customer-id : customer identity as interface id
+- physical-id : physical line identity as interface id","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+DHCPv6 remote id control"
+[no] dhcpv6-relay-id,"Parameter type: <Vlan::Dhcpv6RelayId>
+Format:
+( disable
+| duid-ll )
+Possible values:
+- disable : no dhcpv6 relay-id
+- duid-ll : two octet network hardware type code, followed
+by the link-layer address","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+DHCPv6 relay id control"
+[no] dhcpv6-trst-port,"Parameter type: <Vlan::Dhcpv6TrstPort>
+Format:
+( trusted
+| untrusted )","optional parameter with default
+value: ""untrusted""
+The parameter is not visible
+during creation."

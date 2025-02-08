@@ -1,0 +1,44 @@
+
+# Using replaced
+
+# Before state:
+# -------------
+#
+# DS-LIN-TEST-01>#info configure port pon:1/1/5/1 detail
+configure interface
+#------------------------------------------------------------------------------------------------
+echo "interface"
+#------------------------------------------------------------------------------------------------
+port pon:1/1/5/1
+  admin-up
+  link-updown-trap
+  user "Client"
+  no severity # value=default
+  no port-type # value=uni
+exit
+#------------------------------------------------------------------------------------------------
+
+
+- name: Replace Interfaces Settings
+  isam_interfaces:
+    config:
+      - id: "pon:1/1/5/1"
+        - user: "Client Two"
+    state: replaced
+
+# After state:
+# ------------
+#
+# DS-LIN-TEST-01>#info configure port pon:1/1/5/1 detail
+configure interface
+#------------------------------------------------------------------------------------------------
+echo "interface"
+#------------------------------------------------------------------------------------------------
+port pon:1/1/5/1
+  no admin-up
+  no link-updown-trap
+  user "Client Two"
+  no severity # value=default
+  no port-type # value=uni
+exit
+#------------------------------------------------------------------------------------------------

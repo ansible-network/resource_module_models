@@ -1,0 +1,164 @@
+Parameter,Type,Description
+mode,"Parameter type: <Vlan::SystemMode>
+Format:
+( cross-connect
+| residential-bridge
+| qos-aware
+| layer2-terminated
+| mirror )
+Possible values:
+- cross-connect : crossconnect vlan
+- residential-bridge : residential bridge vlan
+- qos-aware : qos aware vlan
+- layer2-terminated : layer2 terminated vlan
+- mirror : mirror vlan","mandatory parameter
+VLAN mode"
+[no] sntp-proxy,Parameter type: boolean,"optional parameter
+enable SNTP proxy"
+[no] priority,"Parameter type: <Vlan::Priority>
+Format:
+- priority of ethernet frames
+- range: [0...7]","optional parameter with default
+value: 0
+default frame priority"
+[no] vmac-translation,Parameter type: boolean,"optional parameter
+The parameter is not visible
+during creation.
+enable virtual Mac address
+translation"
+[no] vmac-dnstr-filter,Parameter type: boolean,"optional parameter
+The parameter is not visible
+during creation.
+enable virtual Mac source address
+downstream blocking"
+[no] vmac-not-in-opt61[no] new-broadcast,"Parameter type: booleanParameter type: <Vlan::NewStaticBrdcastControl>
+Format:
+( inherit
+| enable
+| disable )
+Possible values:
+- inherit : for S+C VLAN: inherit from S VLAN level if
+existing; for S or C VLAN: inherit from default fixed system
+value (which is disable)
+- enable : new switch broadcast frames
+- disable : new disable broadcast frames","optional parameteroptional parameter with default
+value: ""inherit""
+switch downstream broadcast
+frames (On GPON and L2+ LT
+boards, broadcast control for S+C
+L2 Forwarders can only be
+controlled at S-VLAN level, not
+individually at S+C-VLAN
+level.)"
+[no] protocol-filter,"Parameter type: <Vlan::ProtGroup>
+Format:
+( pass-all
+| pass-pppoe
+| pass-ipoe
+| pass-pppoe-ipoe
+| pass-ipv6oe
+| pass-pppoe-ipv6oe
+| pass-ipoe-ipv6oe
+| pass-pppoe-ipoe-ipv6oe )
+Possible values:
+- pass-all : pass all traffic
+- pass-pppoe : pass traffic of PPPoE protocol group
+- pass-ipoe : pass traffic of IPv4oE protocol group
+- pass-pppoe-ipoe : pass PPPoE and IPv4oE protocol groups
+- pass-ipv6oe : pass traffic of IPv6oE protocol group
+- pass-pppoe-ipv6oe : pass PPPoE and IPv6oE protocol
+groups
+- pass-ipoe-ipv6oe : pass IPv4oE and IPv6oE protocol
+groups
+- pass-pppoe-ipoe-ipv6oe: pass PPPoE, IPv4oE and IPv6oE
+protocol groups","optional parameter with default
+value: ""pass-all""
+control protocol group filters"
+[no] pppoe-relay-tag,"Parameter type: <Vlan::PppoeRelayEnableR3.1>
+Format:
+( true
+| false
+| configurable )
+Possible values:
+- true : pppoe tag with the current fixed format
+- false : no pppoe tag
+- configurable : circuit-id-pppoe and remote-id-pppoe
+controlling format","optional parameter with default
+value: ""false""
+configure the format of the
+PPPoE relay tag"
+[no] dhcp-opt-82,Parameter type: boolean,"obsolete parameter replaced by
+parameter ""dhcp-opt82-ext""
+The parameter is not visible
+during creation.
+enable dhcp option 82 (relay)"
+[no] dhcp-opt82-ext[no] dhcp-opt82-nni,"Parameter type: <Vlan::DhcpOption82Ext>
+Format:
+( enable
+| disable
+| transparent
+| add-or-replaceParameter type: <Vlan::Option82Nni>
+Format:
+( enable
+| disable
+| transparent
+| add-or-replace
+| add-or-forward )
+Possible values:
+- enable : enable dhcp option 82 on NNI Interface(relay)
+- disable : disable dhcp option 82 on NNI Interface(relay)
+- transparent : pass dhcp option 82 transparently if sent by
+client on NNI Interface(relay)
+- add-or-replace : add dhcp option 82 if not present or
+replace the dhcp option 82 if present on NNI Interface(relay)
+- add-or-forward : add dhcp option 82 if not present or
+forward the dhcp option 82 transparently if sent by client on
+NNI Interface(relay)","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+control of DHCP option 82optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+control of DHCP option 82 on
+NNI Interface"
+[no] dhcp-opt82-uplink,"Parameter type: <Vlan::Option82Uplink>
+Format:
+( enable
+| disable
+| transparent
+| add-or-replace
+| add-or-forward )
+Possible values:
+- enable : enable dhcp option 82 on UPLINK
+Interface(relay)
+- disable : disable dhcp option 82 on UPLINK
+Interface(relay)
+- transparent : pass dhcp option 82 transparently if sent by
+client on UPLINK Interface(relay)
+- add-or-replace : add dhcp option 82 if not present or
+replace the dhcp option 82 if present on UPLINK
+Interface(relay)
+- add-or-forward : add dhcp option 82 if not present or
+forward the dhcp option 82 transparently if sent by client on
+UPLINK Interface(relay)","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+control of DHCP option 82 on
+UPLINK Interface"
+[no] circuit-id-dhcp,"Parameter type: <Vlan::CircuitIdDhcp>
+Format:
+( customer-id
+| physical-id
+| ccsa-format
+| disable )
+Possible values:
+- customer-id : customer identity as circuit id
+- physical-id : physical line identity as circuit id","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+configure the circuit id
+sub-option for DHCP option-82"

@@ -1,0 +1,233 @@
+Parameter,Type,Description
+[no] remote-id-dhcp,"Parameter type: <Vlan::RemoteIdDhcp>
+Format:
+( customer-id
+| disable
+| physical-id )
+Possible values:
+- customer-id : customer identity as remote id
+- disable : no remote id
+- physical-id : physical line identity as remote id","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+configure the remote id
+sub-option for DHCP option-82"
+[no] relay-id-dhcp,"Parameter type: <Vlan::RelayIdDhcp>
+Format:
+( relay-id
+| disable )
+Possible values:
+- relay-id : System MAC + Physical Id as relay id
+- disable : no relay id","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+configure the relay id sub-option
+for DHCP option-82"
+[no] dhcp-linerate,"Parameter type: <Vlan::Dhcp-linerate>
+Format:
+( notadd
+| addactuallinerate
+| addalllineparameters )
+Possible values:
+- notadd : not add DSL linerate for DHCP
+- addactuallinerate : add DSL actual line up and down rate
+for DHCP
+- addalllineparameters : add all DSL line parameters for
+DHCP","optional parameter with default
+value: ""notadd""
+The parameter is not visible
+during creation.
+configure insertion of the linerate
+for DHCP protocol"
+[no] pppoe-linerate,"Parameter type: <Vlan::Pppoe-linerate>
+Format:
+( notadd
+| addactuallinerate
+| addalllineparameters )
+Possible values:
+- notadd : not add DSL linerate for PPPoE
+- addactuallinerate : add DSL actual line up and down rate
+for PPPoE
+- addalllineparameters : add all DSL line parameters for
+PPPoE","optional parameter with default
+value: ""notadd""
+The parameter is not visible
+during creation.
+configure insertion of the linerate
+for PPPoE protocol (Only
+applicable on DSL LT boards,
+not on GPON LT boards. In case
+both GPON ports and DSL ports
+are configured in one VLAN, the
+pppoe-linerate parameter will
+only be applied on DSL LT
+boards.)"
+[no] dhcpv6-linerate,"Parameter type: <Vlan::Dhcpv6-linerate>
+Format:
+( notadd
+| addactuallinerate
+| addalllineparameters )
+Possible values:
+- notadd : not add DSL linerate for DHCPv6
+- addactuallinerate : add DSL actual line up and down rate
+for DHCPv6
+- addalllineparameters : add all DSL line parameters for
+DHCPv6","optional parameter with default
+value: ""notadd""
+The parameter is not visible
+during creation.
+configure insertion of the linerate
+for DHCPv6 protocol"
+[no] pppoe-l2-encaps[no] dhcp-l2-encaps,"Parameter type: <Vlan::PppoeAccessEncap>
+Format:
+( notadd
+| add )Parameter type: <Vlan::DhcpAccessEncap>
+Format:
+( notadd
+| add )
+Possible values:
+- notadd : not add access loop encapsulation for DHCP
+- add : add access loop encapsulation for DHCP","optional parameter with default
+value: ""notadd""
+The parameter is not visible
+during creation.optional parameter with default
+value: ""notadd""
+The parameter is not visible
+during creation.
+configure insertion of access loop
+encapsulation sub-option for
+DHCP option 82 (Only
+applicable on DSL and ETH LT
+boards, not on GPON LT boards.
+In case both GPON ports and
+DSL/ETH ports are configured in
+one VLAN, the dhcp-l2-encaps
+parameter will only be applied on
+DSL and ETH LT boards.)"
+[no] dhcpv6-l2-encaps,"Parameter type: <Vlan::Dhcpv6AccessEncap>
+Format:
+( notadd
+| add )
+Possible values:
+- notadd : not add access loop encapsulation for DHCPv6
+- add : add access loop encapsulation for DHCPv6","optional parameter with default
+value: ""notadd""
+The parameter is not visible
+during creation.
+configure insertion of access loop
+encapsulation sub-option for
+DHCPv6 (Only applicable on
+DSL and ETH LT boards, not on
+GPON LT boards. In case both
+GPON ports and DSL/ETH ports
+are configured in one VLAN, the
+dhcpv6-l2-encaps parameter will
+only be applied on DSL and ETH
+LT boards.)"
+[no] l2-encaps1,"Parameter type: <Vlan::AccessLoopEncaps1>
+Format:
+( not-applicable
+| untagged
+| single-tagged
+| dual-tagged )
+Possible values:
+- not-applicable : not applicable
+- untagged : set untag as encapsulation1 value
+- single-tagged : set single-tag as encapsulation1 value
+- dual-tagged : set dual-tag as encapsulation1 value","optional parameter with default
+value: ""not-applicable""
+The parameter is not visible
+during creation.
+configure the encapsulation 1
+value of the access loop
+encapsulation sub-option for
+DHCP option 82, DHCPv6 relay
+tag and PPPoE relay tag"
+[no] pppoer-vlanaware[no] dhcpr-vlanaware,"Parameter type: <Vlan::PppoeRelayVlanAware>
+Format:
+( upto-1-uservlan
+| upto-2-uservlans
+| upto-untag-uservlan
+| system-default )
+Possible values:
+- upto-1-uservlan : user VLAN awareness for untagged andParameter type: <Vlan::DhcpRelayVlanAware>
+Format:
+( upto-1-uservlan
+| upto-2-uservlans
+| upto-untag-uservlan
+| system-default )
+Possible values:
+- upto-1-uservlan : user VLAN awareness for untagged and
+single-tagged packets
+- upto-2-uservlans : user VLAN awareness for untagged,
+single-tagged and dual-tagged packets
+- upto-untag-uservlan : user VLAN awareness for only
+untagged packets
+- system-default : default user VLAN awareness depends on
+the forwarder type and board type","optional parameter with default
+value: ""system-default""
+The parameter is not visible
+during creation.
+configure the number of user
+VLANs that the PPPoE relay
+functionality should be aware ofoptional parameter with default
+value: ""system-default""
+The parameter is not visible
+during creation.
+configure the number of user
+VLANs that the DHCP relay
+functionality should be aware of"
+[no] dhcpv6r-vlanaware,"Parameter type: <Vlan::Dhcpv6RelayVlanAware>
+Format:
+( upto-1-uservlan
+| upto-2-uservlans
+| upto-untag-uservlan
+| system-default )
+Possible values:
+- upto-1-uservlan : user VLAN awareness for untagged and
+single-tagged packets
+- upto-2-uservlans : user VLAN awareness for untagged,
+single-tagged and dual-tagged packets
+- upto-untag-uservlan : user VLAN awareness for only
+untagged packets
+- system-default : default user VLAN awareness depends on
+the forwarder type and board type","optional parameter with default
+value: ""system-default""
+The parameter is not visible
+during creation.
+configure the number of user
+VLANs that the DHCPv6 relay
+functionality should be aware of"
+[no] drly-srv-usr-side,"Parameter type: <Vlan::DRlySrvAtUsrSide>
+Format:
+( enable
+| disable )
+Possible values:
+- enable : enable DHCP(v4/v6) server transparency at the
+user side when DHCP(v4/v6) relay is enabled.
+- disable : disable DHCP(v4/v6) server transparency at the
+user side when DHCP(v4/v6) relay is enabled.","optional parameter with default
+value: ""disable""
+enable DHCP(v4/v6) server
+transparency at the user side
+when DHCP(v4/v6) relay is
+enabled.Only applicable for CC
+forwarder"
+[no] circuit-id-pppoe,"Parameter type: <Vlan::CircuitIdPppoe>
+Format:
+( disable
+| customer-id
+| physical-id
+| ccsa-format )
+Possible values:
+- disable : no circuit id
+- customer-id : customer identity as circuit id
+- physical-id : physical line identity as circuit id
+- ccsa-format : circuit id in ccsa format","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+configure the circuit id
+sub-option for PPPoE relay tag"

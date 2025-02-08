@@ -1,0 +1,21 @@
+Resource Identifier,Type,Description
+(unicast-mac),"Format:
+- mac address (aa:bb:cc:a1:02:03)
+- unit: Byte
+- length: 6",unicast mac address
+vlan-id,"Parameter type: <Network::StackedVlan>
+Format:
+( <Network::UVlanIndex>
+| stacked : <Network::SVlanIndex> :
+<Network::CVlanIndex> )
+Possible values:
+- stacked : stacked vlan identity
+Field type <Network::UVlanIndex>
+- unstacked vlan identity
+- range: [1...4093]
+Field type <Network::SVlanIndex>
+- service vlan identity
+- range: [2...4093]
+Field type <Network::CVlanIndex>
+- customer vlan identity
+- range: [0...4093]",network vlan id
