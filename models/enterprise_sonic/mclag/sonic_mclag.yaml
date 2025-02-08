@@ -108,6 +108,22 @@ DOCUMENTATION: |
                   description: Holds a PortChannel ID.
                   type: str
           type: dict
+        backup_keepalive_source_address:
+          description:
+            - The IPV4 backup-keepalive-source-ip for establishing backup keepalive session.
+          type: str
+        backup_keepalive_peer_address:
+          description:
+            - The IPV4 backup-keepalive-peer-ip for establishing backup keepalive session.
+          type: str
+        backup_keepalive_interval:
+          description:
+            - MCLAG backup keepalive session  interval in secs.
+          type: int
+        backup_keepalive_session_vrf:
+          description:
+            - MCLAG backup keepalive session vrf
+          type: str  
     state:
       description:
         - The state that the configuration should be left in.

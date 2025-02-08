@@ -19,6 +19,10 @@
       delay_restore: 240
       system_mac: '00:00:00:11:11:11'
       gateway_mac: '00:00:00:12:12:12'
+      backup_keepalive_source_address: 3.3.3.3
+      backup_keepalive_session_vrf: mgmt
+      backup_keepalive_peer_address: 4.4.4.4
+      backup_keepalive_interval: 5
       unique_ip:
         vlans:
           - vlan: Vlan4
@@ -50,6 +54,14 @@
 # Mclag System Mac     : 00:00:00:11:11:11
 # Gateway Mac          : 00:00:00:12:12:12
 #
+# Backup Keepalive Session Information:
+# -----------------------------------
+# Session Vrf          : mgmt
+# Session Status       : down
+# Source Address       : 3.3.3.3
+# Peer Address         : 4.4.4.4
+# Keepalive Interval   : 5 secs
+#-----------------------------------
 #
 # Number of MLAG Interfaces:1
 #-----------------------------------------------------------
