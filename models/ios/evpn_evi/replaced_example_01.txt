@@ -1,0 +1,67 @@
+# Using state replaced
+
+# Before state:
+# -------------
+# l2vpn evpn instance 101 vlan-based
+#  encapsulation vxlan
+#  rd 1:1
+#  replication-type ingress
+#  ip local-learning enable
+# !
+# l2vpn evpn instance 102 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+# !
+# l2vpn evpn instance 201 vlan-based
+#  encapsulation vxlan
+#  replication-type static
+# !
+# l2vpn evpn instance 202 vlan-based
+#  encapsulation vxlan
+#  replication-type static
+#  ip local-learning disable
+#  default-gateway advertise enable
+
+- name: Replaces the device configuration with the provided configuration
+  cisco.ios.ios_evpn_evi:
+    config:
+      - evi: 101
+        replication_type: ingress
+        default_gateway:
+          advertise:
+            enable: True
+      - evi: 202
+        replication_type: ingress
+    state: replaced
+
+# Commands Fired:
+# ---------------
+# "commands": [
+#     "l2vpn evpn instance 101 vlan-based",
+#     "default-gateway advertise enable",
+#     "no ip local-learning enable",
+#     "no rd 1:1",
+#     "l2vpn evpn instance 202 vlan-based",
+#     "no default-gateway advertise enable",
+#     "no ip local-learning disable",
+#     "replication-type ingress"
+#     ],
+
+# After state:
+# ------------
+# l2vpn evpn instance 101 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+#  default-gateway advertise enable
+# !
+# l2vpn evpn instance 102 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+# !
+# l2vpn evpn instance 201 vlan-based
+#  encapsulation vxlan
+#  replication-type static
+# !
+# l2vpn evpn instance 202 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
