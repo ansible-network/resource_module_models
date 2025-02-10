@@ -1,0 +1,58 @@
+# Using "replaced" state
+#
+# Before state:
+# -------------
+#
+# sonic# show aaa
+# ---------------------------------------------------------
+# AAA Authentication Information
+# ---------------------------------------------------------
+# failthrough  : True
+# login-method : local, ldap
+# console authentication  : local
+# ---------------------------------------------------------
+# AAA Authorization Information
+# ---------------------------------------------------------
+# login        : local, ldap
+# commands     : local, tacacs+
+# ---------------------------------------------------------
+# AAA Name-Service Information
+# ---------------------------------------------------------
+# group-method    : ldap
+# netgroup-method : local
+# passwd-method   : login
+# shadow-method   : ldap
+# sudoers-method  : local
+
+- name: Replace AAA configuration
+  dellemc.enterprise_sonic.sonic_aaa:
+    config:
+      authentication:
+        console_auth_local: true
+        failthrough: false
+      authorization:
+        commands_auth_method:
+          - local
+      name_service:
+        group:
+          - ldap
+    state: replaced
+
+# After state:
+# ------------
+#
+# sonic# show aaa
+# ---------------------------------------------------------
+# AAA Authentication Information
+# ---------------------------------------------------------
+# failthrough  : False
+# login-method :
+# console authentication  : local
+# ---------------------------------------------------------
+# AAA Authorization Information
+# ---------------------------------------------------------
+# login        : local
+# ---------------------------------------------------------
+# AAA Name-Service Information
+# ---------------------------------------------------------
+# group-method    : ldap

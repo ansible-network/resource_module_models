@@ -1,0 +1,108 @@
+---
+GENERATOR_VERSION: '1.0'
+NETWORK_OS: sonic
+RESOURCE: aaa
+COPYRIGHT: Copyright 2025 Dell Inc. or its subsidiaries. All Rights Reserved.
+DOCUMENTATION: |
+    module: sonic_aaa
+    version_added: 1.1.0
+    notes:
+      - Tested against Enterprise SONiC Distribution by Dell Technologies
+      - Supports C(check_mode)
+    author: Shade Talabi (@stalabi1)
+    short_description: Manage AAA configuration on SONiC
+    description:
+      - This module provides configuration management of AAA for devices running SONiC.
+    options:
+      config:
+        description:
+          - AAA configuration
+          - For all lists in the module, the list items should be specified in order of desired priority.
+          - List items specified first have the highest priority.
+        type: dict
+        suboptions:
+          authentication:
+            description:
+              - AAA authentication configuration
+            type: dict
+            suboptions:
+              auth_method:
+                description:
+                  - Specifies the order of the methods in which to authenticate login
+                  - Any 1 choice may be specified or 2 choices consisting of local and another group may be specified
+                type: list
+                elements: str
+                choices: ['ldap', 'local', 'radius', 'tacacs+']
+              console_auth_local :
+                description:
+                  Enable/disable local authentication on console
+                type: bool
+                default: False
+              failthrough:
+                description:
+                  - Enable/disable failthrough
+                type: bool
+          authorization:
+            description:
+              - AAA authorization configuration
+            type: dict
+            suboptions:
+              commands_auth_method:
+                description:
+                  - Specifies the order of the methods in which to authorize commands
+                type: list
+                elements: str
+                choices: ['local', 'tacacs+']
+              login_auth_method:
+                description:
+                  - Specifies the order of the methods in which to authorize login
+                type: list
+                elements: str
+                choices: ['ldap', 'local']
+          name_service:
+            description:
+              - AAA name-service configuration
+            type: dict
+            suboptions:
+              group:
+                description:
+                  - Name-service source for group method
+                type: list
+                elements: str
+                choices: ['ldap', 'local', 'login']
+              netgroup:
+                description:
+                  - Name-service source for netgroup method
+                type: list
+                elements: str
+                choices: ['ldap', 'local']
+              passwd:
+                description:
+                  - Name-service source for passwd method
+                type: list
+                elements: str
+                choices: ['ldap', 'local', 'login']
+              shadow:
+                description:
+                  - Name-service source for shadow method
+                type: list
+                elements: str
+                choices: ['ldap', 'local', 'login']
+              sudoers:
+                description:
+                  - Name-service source for sudoers method
+                type: list
+                elements: str
+                choices: ['ldap', 'local']
+      state:
+        description:
+          - The state of the configuration after module completion
+        choices: ['merged', 'deleted', 'overridden', 'replaced']
+        default: merged
+        type: str
+EXAMPLES:
+  - deleted_example_01.txt
+  - deleted_example_02.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt  
