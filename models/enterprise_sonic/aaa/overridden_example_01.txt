@@ -1,4 +1,4 @@
-# Using Overridden
+# Using "overridden" state
 #
 # Before state:
 # -------------
@@ -8,7 +8,7 @@
 # AAA Authentication Information
 # ---------------------------------------------------------
 # failthrough  : True
-# login-method : local, ldap, radius, tacacs+
+# login-method : local, ldap
 # console authentication  : local
 # ---------------------------------------------------------
 # AAA Authorization Information
@@ -30,8 +30,8 @@
       authentication:
         auth_method:
           - tacacs+
-        console_auth_local: True
-        failthrough: True
+        console_auth_local: true
+        failthrough: true
     state: overridden
 
 # After state:

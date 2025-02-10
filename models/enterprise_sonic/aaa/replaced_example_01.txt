@@ -1,4 +1,4 @@
-# Using Replaced
+# Using "replaced" state
 #
 # Before state:
 # -------------
@@ -8,7 +8,7 @@
 # AAA Authentication Information
 # ---------------------------------------------------------
 # failthrough  : True
-# login-method : local, ldap, radius, tacacs+
+# login-method : local, ldap
 # console authentication  : local
 # ---------------------------------------------------------
 # AAA Authorization Information
@@ -28,8 +28,8 @@
   dellemc.enterprise_sonic.sonic_aaa:
     config:
       authentication:
-        console_auth_local: True
-        failthrough: False
+        console_auth_local: true
+        failthrough: false
       authorization:
         commands_auth_method:
           - local

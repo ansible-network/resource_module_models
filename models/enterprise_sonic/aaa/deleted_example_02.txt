@@ -1,4 +1,4 @@
-# Using Deleted
+# Using "deleted" state
 #
 # Before state:
 # -------------
@@ -8,7 +8,7 @@
 # AAA Authentication Information
 # ---------------------------------------------------------
 # failthrough  : True
-# login-method : local, ldap, radius, tacacs+
+# login-method : local, ldap
 # console authentication  : local
 # ---------------------------------------------------------
 # AAA Authorization Information
