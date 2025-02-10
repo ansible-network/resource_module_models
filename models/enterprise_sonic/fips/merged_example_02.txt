@@ -1,0 +1,27 @@
+# Using merged
+#
+# Before State:
+# -------------
+#
+# sonic# show fips status
+# !
+# FIPS Mode           : Disabled
+# Crypto Library      : OpenSSL 1.1.1n-fips  15 Mar 2022
+# FIPS Object Module  : DELL OpenSSL FIPS Crypto Module v2.6 July 2021
+# !
+
+- name: Enable FIPS mode
+  dellemc.enterprise_sonic.sonic_fips:
+    config:
+      enable: true
+    state: merged
+
+# After State:
+# ------------
+#
+# sonic# show fips status
+# !
+# FIPS Mode           : Enabled
+# Crypto Library      : OpenSSL 1.1.1n-fips  15 Mar 2022
+# FIPS Object Module  : DELL OpenSSL FIPS Crypto Module v2.6 July 2021
+# !

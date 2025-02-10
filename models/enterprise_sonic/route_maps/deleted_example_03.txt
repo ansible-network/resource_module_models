@@ -28,6 +28,7 @@
 #  set local-preference 635
 #  set origin egp
 #  set weight 93471
+#  set tag 65
 # !
 # route-map rm3 deny 285
 #  match evpn route-type macip
@@ -47,7 +48,7 @@
 # ------------
 - name: Delete all route map configuration
   dellemc.enterprise_sonic.sonic_route_maps:
-     config:
+     config: []
      state: deleted
 
 # After state:

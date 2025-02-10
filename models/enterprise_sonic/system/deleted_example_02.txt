@@ -9,6 +9,7 @@
 #ip anycast-address enable
 #ipv6 anycast-address enable
 #interface-naming standard
+#login concurrent-session limit 4
 
     - name: Delete all system related configs in device configuration.
       sonic_system:

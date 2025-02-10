@@ -1,0 +1,78 @@
+# Using Deleted
+#
+# Before state:
+# -------------
+#
+# sonic# show ip rest
+#
+# Log level is 6
+# Port is 443, disabled
+# Request limit is 100
+# Read timeout is 60 seconds
+# Client authentication mode is password
+# Security profile is profile1
+# API timeout is 120 seconds
+# vrf is mgmt
+# Cipher suite is ecdhe-ecdsa-with-aes-128-gcm-SHA256,ecdhe-ecdsa-with-aes-256-gcm-SHA384
+#
+# sonic# show ip telemetry
+#
+# Log level is 10
+# JWT valid is 300 seconds
+# JWT refresh is 80 seconds
+# Port is 1234
+# Client authentication mode is cert,jwt
+# Security profile is profile2
+# API timeout is 45 seconds
+# vrf is mgmt
+
+- name: Delete mgmt servers configuration
+  dellemc.enterprise_sonic.sonic_mgmt_servers:
+    config:
+      rest:
+        api_timeout: 120
+        client_auth: password
+        log_level: 6
+        port: 443
+        read_timeout: 60
+        req_limit: 100
+        security_profile: profile1
+        shutdown: True
+        vrf: mgmt
+        cipher_suite: ecdhe-ecdsa-with-aes-256-gcm-SHA384,ecdhe-ecdsa-with-aes-128-gcm-SHA256
+      telemetry:
+        api_timeout: 45
+        client_auth: cert,jwt
+        jwt_refresh: 80
+        jwt_valid: 300
+        log_level: 10
+        port: 1234
+        security_profile: profile2
+        vrf: mgmt
+    state: deleted
+
+# After state:
+# ------------
+#
+# sonic# show ip rest
+#
+# Log level is 0
+# Port is 443
+# Request limit is not-set
+# Read timeout is 15 seconds
+# Client authentication mode is password,jwt
+# Security profile is not-set
+# API timeout is 900 seconds
+# vrf is not-set
+# Cipher suite is ecdhe-ecdsa-with-aes-256-gcm-SHA384,ecdhe-ecdsa-with-chacha20-poly1305-SHA256,ecdhe-ecdsa-with-aes-128-gcm-SHA256
+#
+# sonic# show ip telemetry
+#
+# Log level is 0
+# JWT valid is 3600 seconds
+# JWT refresh is 900 seconds
+# Port is 8080
+# Client authentication mode is password,jwt
+# Security profile is not-set
+# API timeout is 0 seconds
+# vrf is not-set

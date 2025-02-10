@@ -1,0 +1,38 @@
+# Using merged
+#
+# Before State:
+# -------------
+#
+# sonic# show ip dhcp snooping
+# !
+# DHCP snooping is Disabled
+# DHCP snooping source MAC verification is Disabled
+# DHCP snooping is enabled on the following VLANs: 
+# DHCP snooping trusted interfaces: 
+# !
+
+- name: Configure DHCPv4 snooping global settings
+  dellemc.enterprise_sonic.sonic_dhcp_snooping:
+    config:
+      afis:
+        - afi: ipv4
+          enabled: true
+          vlans:
+            - 1-3
+            - 5
+          verify_mac: true
+          trusted:
+            - intf_number: 8
+              intf_type: Ethernet
+    state: merged
+
+# After State:
+# ------------
+#
+# sonic# show ip dhcp snooping
+# !
+# DHCP snooping is Enabled
+# DHCP snooping source MAC verification is Enabled
+# DHCP snooping is enabled on the following VLANs: 1 2 3 5 
+# DHCP snooping trusted interfaces: Ethernet8 
+# !

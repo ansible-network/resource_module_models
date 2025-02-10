@@ -9,14 +9,16 @@
 #ip anycast-address enable
 #ipv6 anycast-address enable
 #interface-naming standard
+#login concurrent-session limit 4
 
-    - name: Merge provided configuration with device configuration.
+    - name: Delete specified configuration.
       sonic_system:
         config:
           hostname: SONIC
           interface_naming: standard
           anycast_address:
             ipv6: true
+          concurrent_session_limit: 4
         state: deleted
 
 # After state:

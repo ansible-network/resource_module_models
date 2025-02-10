@@ -1,5 +1,5 @@
 # Using "overridden" state to override all existing configuration with new
-# configuration. (Restore the "after" state from "merged_example_02.txt".)
+# configuration. (Restore previous configuration.)
 #
 # Before state:
 # ------------
@@ -44,17 +44,20 @@
            comm_list_delete: bgp_comm_list2
            community:
              community_number:
-               - 35:58
-               - 79:150
-               - 308:650
-               - 45:736
-             local_as: true
-             no_export: true
-             no_peer: true
-             additive: true
+               - "35:58"
+               - "79:150"
+               - "308:650"
+               - "45:736"
+             community_attributes:
+               - local_as
+               - no_export
+               - no_peer
+               - additive
            extcommunity:
-             rt: 30:40
-             soo: 10.73.14.9:78
+             rt:
+               - "30:40"
+             soo:
+               - "10.73.14.9:78"
            ip_next_hop: 10.48.16.18
            ipv6_next_hop:
              global_addr: 30::30
@@ -63,6 +66,7 @@
              rtt_action: add
            origin: egp
            weight: 93471
+           tag: 65
        - map_name: rm1
          action: deny
          sequence_num: 3047
@@ -103,7 +107,8 @@
            source_protocol: bgp
          set:
            community:
-             no_advertise: true
+             community_attributes:
+               - no_advertise
            metric:
              rtt_action: set
            origin: igp
@@ -154,6 +159,7 @@
 #  set local-preference 635
 #  set origin egp
 #  set weight 93471
+#  set tag 65
 # !
 # route-map rm1 deny 3047
 #  match as-path bgp_as3

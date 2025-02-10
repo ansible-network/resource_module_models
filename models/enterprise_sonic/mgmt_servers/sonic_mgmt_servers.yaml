@@ -1,0 +1,146 @@
+---
+GENERATOR_VERSION: '1.0'
+NETWORK_OS: sonic
+RESOURCE: mgmt_servers
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_mgmt_servers
+    version_added: 2.5.0
+    notes:
+    - Tested against Enterprise SONiC Distribution by Dell Technologies.
+    - Supports C(check_mode).
+    short_description: Manage management servers configuration on SONiC
+    description:
+      - This module provides configuration management of management servers for devices running SONiC
+    author: "Shade Talabi (@stalabi1)"
+    options:
+      config:
+        description:
+          - Management servers configuration
+        type: dict
+        suboptions:
+          rest:
+            description:
+              REST server configuration
+            type: dict
+            suboptions:
+              api_timeout:
+                description:
+                  - Maximum time in seconds the REST server will wait for a REST API request-response cycle to complete
+                  - Range 0-4294967295
+                type: int
+                default: 900
+              client_auth:
+                description:
+                  - Client authentication methods list
+                  - Specify as a comma separated list. Options for list are password, jwt, cert, and none.
+                type: str
+                default: password,jwt
+              log_level:
+                description:
+                  - Log level of REST server, range 0-255
+                type: int
+                default: 0
+              port:
+                description:
+                  - Port that the REST server listens on, range 0-65535
+                type: int
+                default: 443
+              read_timeout:
+                description:
+                  - Maximum time in seconds the REST server will wait for an HTTP request-response cycle to complete
+                  - Range 0-4294967295
+                type: int
+                default: 15
+              req_limit:
+                description:
+                  - Maximum number of concurrent requests that the client can make to the REST server
+                  - Range 0-4294967295
+                type: int
+              security_profile:
+                description:
+                  - Name of security profile
+                type: str
+              shutdown:
+                description:
+                  - Enables/disables REST server from listening on the port
+                type: bool
+              vrf:
+                description:
+                  - Name of VRF
+                type: str
+                choices:
+                  - mgmt
+              cipher_suite:
+                description:
+                  - Cipher suites used for TLS connection with the clients
+                  - Specify as a comma separated list.
+                  -   Options are ecdhe-ecdsa-with-aes-256-gcm-SHA384,
+                  -   ecdhe-ecdsa-with-chacha20-poly1305-SHA256 and
+                  -   ecdhe-ecdsa-with-aes-128-gcm-SHA256.
+                type: str
+                default: ecdhe-ecdsa-with-aes-256-gcm-SHA384,ecdhe-ecdsa-with-chacha20-poly1305-SHA256,ecdhe-ecdsa-with-aes-128-gcm-SHA256
+          telemetry:
+            description:
+              - Telemetry server configuration
+            type: dict
+            suboptions:
+              api_timeout:
+                description:
+                  - Maximum time in seconds the telemetry server will wait for a gNMI request-response cycle to complete
+                  - Range 0-4294967295
+                type: int
+                default: 0
+              client_auth:
+                description:
+                  - Client authentication methods list
+                  - Specify as a comma separated list. Options for list are password, jwt, cert, and none.
+                type: str
+                default: password,jwt
+              jwt_refresh:
+                description:
+                  - Duration of time in seconds before JWT expires and can be refreshed
+                  - Range 0-4294967295
+                type: int
+                default: 900
+              jwt_valid:
+                description:
+                  - Duration of time in seconds for which JWT is valid on the telemetry server
+                  - Range 0-4294967295
+                type: int
+                default: 3600
+              log_level:
+                description:
+                  - Log level of telemetry server, range 0-255
+                type: int
+                default: 0
+              port:
+                description:
+                  - Port that the telemetry server listens on, range 0-65535
+                type: int
+                default: 8080
+              security_profile:
+                description:
+                  - Name of security profile
+                type: str
+              vrf:
+                description:
+                  - Name of VRF
+                type: str
+                choices:
+                  - mgmt
+      state:
+        description:
+          - The state of the configuration after module completion.
+        type: str
+        choices:
+          - merged
+          - deleted
+          - overridden
+          - replaced
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt

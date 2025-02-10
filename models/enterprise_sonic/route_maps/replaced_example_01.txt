@@ -34,6 +34,7 @@
 #  set local-preference 635
 #  set origin egp
 #  set weight 93471
+#  set tag 65
 # ------------
 - name: Replace a list
   dellemc.enterprise_sonic.sonic_route_maps:
@@ -44,8 +45,8 @@
          set:
            community:
              community_number:
-               - 15:30
-               - 26:54
+               - "15:30"
+               - "26:54"
      state: replaced
 
 # After state:
@@ -82,3 +83,4 @@
 #  set local-preference 635
 #  set origin egp
 #  set weight 93471
+#  set tag 65

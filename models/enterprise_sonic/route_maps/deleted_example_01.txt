@@ -34,6 +34,7 @@
 #  set local-preference 635
 #  set origin egp
 #  set weight 93471
+#  set tag 65
 # ------------
 - name: Delete selected route map configuration
   dellemc.enterprise_sonic.sonic_route_maps:
@@ -52,10 +53,12 @@
            as_path_prepend: 188,257
            community:
              community_number:
-               - 35:58
-             local_as: true
+               - "35:58"
+             community_attributes:
+               - local_as
            extcommunity:
-             rt: 30:40
+             rt:
+               - "30:40"
      state: deleted
 
 # After state:
@@ -86,3 +89,4 @@
 #  set local-preference 635
 #  set origin egp
 #  set weight 93471
+#  set tag 65

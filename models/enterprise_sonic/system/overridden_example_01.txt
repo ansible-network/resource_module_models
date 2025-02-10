@@ -1,0 +1,31 @@
+# Using overridden
+#
+# Before state:
+# -------------
+#!
+#sonic(config)#do show running-configuration
+#!
+#ipv6 anycast-address enable
+#login concurrent-session limit 5
+
+    - name: Override System configuration.
+      sonic_system:
+        config:
+      	  hostname: SONIC
+          interface_naming: standard
+          anycast_address:
+            ipv4: true
+            mac_address: bb:aa:cc:dd:ee:ff
+          concurrent_session_limit: 4
+        state: overridden
+
+# After state:
+# ------------
+#!
+#SONIC(config)#do show running-configuration
+#!
+#hostname SONIC
+#ip anycast-mac-address bb:aa:cc:dd:ee:ff
+#ip anycast-address enable
+#interface-naming standard
+#login concurrent-session limit 4

@@ -1,11 +1,10 @@
----
 author:
   - Sagar Paul (@KB-perByte)
 description:
   - This module provides declarative management of SNMP server on Cisco IOS devices.
 module: ios_snmp_server
 notes:
-  - Tested against Cisco IOSv Version 15.6.
+  - Tested against Cisco IOSXE Version 17.3 on CML.
   - This module works with connection C(network_cli).
 options:
   config:
@@ -397,6 +396,41 @@ options:
           energywise:
             description: Enable SNMP energywise traps
             type: bool
+          envmon:
+            description: Allow envmon related traps
+            suboptions:
+              fan:
+                description: Enable SNMP envmon fan traps
+                suboptions:
+                  shutdown:
+                    description: Enable SNMP environmental monitor shutdown traps
+                    type: bool
+                  enable:
+                    description: Enable/disable fan traps
+                    type: bool
+                  status:
+                    description: Enable SNMP environmental status change traps
+                    type: bool
+                  supply:
+                    description: Enable SNMP environmental monitor supply traps
+                    type: bool
+                  temperature:
+                    description: Enable SNMP environmental monitor temperature traps
+                    type: bool
+                type: dict
+              shutdown:
+                description: Enable SNMP environmental monitor shutdown traps
+                type: bool
+              status:
+                description: Enable SNMP environmental status change traps
+                type: bool
+              supply:
+                description: Enable SNMP environmental monitor supply traps
+                type: bool
+              temperature:
+                description: Enable SNMP environmental monitor temperature traps
+                type: bool
+            type: dict
           ethernet:
             description: Allow ethernet traps
             suboptions:
@@ -813,5 +847,5 @@ options:
       - The states I(replaced) and I(overridden) have identical
         behaviour for this module.
     type: str
-short_description: snmp_server resource module
+short_description: Resource module to configure snmp server.
 version_added: 2.6.0

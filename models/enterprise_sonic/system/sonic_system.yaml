@@ -50,14 +50,26 @@ DOCUMENTATION: |
               description:
                 - Specifies the mac anycast-address
               type: str
+        concurrent_session_limit:
+          description:
+            - Specifies limit on number of concurrent sessions
+            - Range 1-12
+          type: int
     state:
       description:
         - Specifies the operation to be performed on the system parameters configured on the device.
         - In case of merged, the input configuration will be merged with the existing system configuration on the device.
         - In case of deleted the existing system configuration will be removed from the device.
       default: merged
-      choices: ['merged', 'deleted']
+      choices:
+        - merged
+        - deleted
+        - overridden
+        - replaced
 EXAMPLES:
   - deleted_example_01.txt
   - deleted_example_02.txt
   - merged_example_01.txt
+  - replaced_example_01.txt
+  - replaced_example_02.txt
+  - overridden_example_01.txt

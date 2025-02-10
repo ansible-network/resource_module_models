@@ -28,6 +28,7 @@
 #  set local-preference 635
 #  set origin egp
 #  set weight 93471
+#  set tag 65
 # !
 # route-map rm1 deny 3047
 #  match as-path bgp_as3
@@ -62,15 +63,12 @@
 #  match source-protocol static
 #  set metric -rtt
 # ------------
-- name: Delete a route map or route map subset
+- name: Delete a route map subset or a route map
   dellemc.enterprise_sonic.sonic_route_maps:
      config:
        - map_name: rm1
-         action: deny
          sequence_num: 3047
        - map_name: rm2
-         action: permit
-         sequence_num: 100
      state: deleted
 
 # After state:
@@ -101,6 +99,7 @@
 #  set local-preference 635
 #  set origin egp
 #  set weight 93471
+#  set tag 65
 # !
 # route-map rm3 deny 285
 #  match evpn route-type macip

@@ -1,0 +1,33 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+# sonic# show ip dhcp snooping
+# !
+# DHCP snooping is Enabled
+# DHCP snooping source MAC verification is Enabled
+# DHCP snooping is enabled on the following VLANs: 1 2 3 5 
+# DHCP snooping trusted interfaces: Ethernet8 
+# !
+
+- name: Disable DHCPv4 snooping on some VLANs
+  dellemc.enterprise_sonic.sonic_dhcp_snooping:
+    config:
+      afis:
+        - afi: ipv4
+          vlans:
+            - 3
+            - 5
+    state: deleted
+
+# After State:
+# ------------
+#
+# sonic# show ip dhcp snooping
+# !
+# DHCP snooping is Enabled
+# DHCP snooping source MAC verification is Enabled
+# DHCP snooping is enabled on the following VLANs: 1 2
+# DHCP snooping trusted interfaces: 
+# !
