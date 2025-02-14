@@ -13,7 +13,7 @@
       user:
         - name: user2
           auth:
-            auth_type: sha
+            auth_type: sha2-256
             key: shakey5
           priv:
             priv_type: aes
