@@ -15,14 +15,15 @@
 #  no dcbx tlv-select ets-reco
 
 
-  - name: Delete and set default DCBx Interface configurations
-    dellemc.enterprise_sonic.sonic_dcbx_interfaces:
+  - name: Modify DCBx Interface configurations
+    dellemc.enterprise_sonic.sonic_dcbx:
       config:
+        interfaces:
         - name: Ethernet0
-          enabled: False 
-          pfc_tlv_enabled: False 
-          ets_configuration_tlv_enabled: False 
-          ets_recommendation_tlv_enabled: False 
+            enabled: True 
+            pfc_tlv_enabled: True 
+            ets_configuration_tlv_enabled: True 
+            ets_recommendation_tlv_enabled: True 
       state: deleted 
 
 # After State:

@@ -16,10 +16,11 @@
 
 
   - name: Delete and set default DCBx Interface configurations
-    dellemc.enterprise_sonic.sonic_dcbx_interfaces:
+    dellemc.enterprise_sonic.sonic_dcbx:
       config:
-        - name: Ethernet0
-          pfc_tlv_enabled: False
+        interfaces:
+          - name: Ethernet0
+            pfc_tlv_enabled: False
       state: deleted 
 
 # After State:
