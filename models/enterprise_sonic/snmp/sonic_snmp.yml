@@ -93,6 +93,9 @@ DOCUMENTATION: |
                     choices:
                       - md5
                       - sha
+                      - sha2-256
+                      - sha2-512
+                      - sha2-384
                   key: 
                     description: 
                       - Authentication key
@@ -283,5 +286,6 @@ EXAMPLES:
   - deleted_example_02.txt
   - merged_example_01.txt
   - merged_example_02.txt
+  - merged_example_03.txt
   - replaced_example_01.txt
   - overridden_example_01.txt
