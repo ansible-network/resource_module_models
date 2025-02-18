@@ -1,0 +1,84 @@
+# Using merged
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration interface
+# !
+# interface Eth1/1
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+# !
+# interface Eth1/2
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  no ipv6 nd suppress-ra
+#  ipv6 nd prefix 1000:0:0:1000::/64 86400 86400 off-link no-autoconfig
+# !
+
+- name: Add IPv6 Router Advertisement configurations
+  dellemc.enterprise_sonic.sonic_ipv6_router_advertisement:
+    config:
+      - name: 'Eth1/1'
+        suppress: false
+        router_preference: high
+        ra_interval: 180
+        min_ra_interval: 60
+        ra_lifetime: 360
+        ra_retrans_interval: 30000
+        ra_hop_limit: 10
+        dnssl:
+          - dnssl_name: 'test.com'
+            valid_lifetime: 3600
+        rdnss:
+          - address: 100::100
+          - address: 100::200
+      - name: 'Eth1/2'
+        adv_interval_option: true
+        ra_fast_retrans: false
+        reachable_time: 7200000
+        ra_prefixes:
+          - prefix: 1000:0:0:2000::/64
+            valid_lifetime: 86400
+            preferred_lifetime: 86400
+            off_link: true
+            no_autoconfig: true
+    state: merged
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration interface
+# !
+# interface Eth1/1
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  no ipv6 nd suppress-ra
+#  ipv6 nd ra-hop-limit 10
+#  ipv6 nd ra-interval 180
+#  ipv6 nd min-ra-interval 60
+#  ipv6 nd ra-lifetime 360
+#  ipv6 nd ra-retrans-interval 30000
+#  ipv6 nd router-preference high
+#  ipv6 nd dnssl test.com 3600
+#  ipv6 nd rdnss 100::100
+#  ipv6 nd rdnss 100::200
+# !
+# interface Eth1/2
+#  mtu 9100
+#  speed 400000
+#  fec RS
+#  no shutdown
+#  no ipv6 nd suppress-ra
+#  no ipv6 nd ra-fast-retrans
+#  ipv6 nd adv-interval-option
+#  ipv6 nd reachable-time 1200000
+#  ipv6 nd prefix 1000:0:0:1000::/64 86400 86400 off-link no-autoconfig
+#  ipv6 nd prefix 1000:0:0:2000::/64 86400 86400 off-link no-autoconfig
+# !
