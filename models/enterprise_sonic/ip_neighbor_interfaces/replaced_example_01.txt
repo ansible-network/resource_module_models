@@ -1,0 +1,40 @@
+# Using replaced
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration interface Vlan 10 | grep "arp|neighbor"
+#  ip arp 10.1.1.3 00:01:02:03:33:55
+#  ip arp 10.1.1.4 00:01:02:03:44:55
+#  ipv6 neighbor 10::2 00:01:02:03:04:22
+#  ipv6 neighbor 10::3 00:01:02:03:04:33
+# sonic# show running-configuration interface Vlan 20 | grep "arp|neighbor"
+#  ip arp 20.1.1.4 00:01:02:03:22:44
+#  ip arp 20.1.1.5 00:01:02:03:22:55
+#  ipv6 neighbor 20::2 00:01:02:03:22:22
+#  ipv6 neighbor 20::3 00:01:02:03:22:33
+# sonic#
+
+- name: Replace interface IP neighbor configurations for interface Vlan 10
+  dellemc.enterprise_sonic.sonic_ip_neighbor_interfaces:
+    config:
+      - name: 'Vlan10'
+        ipv4_neighbors:
+          - ip: '10.1.1.11'
+            mac: '00:01:02:03:04:11'
+          - ip: '10.1.1.12'
+      mac: '00:01:02:03:04:12'
+    state: replaced
+
+# After State:
+# ------------
+#
+# sonic# show running-configuration interface Vlan 10 | grep "arp|neighbor"
+#  ip arp 10.1.1.11 00:01:02:03:04:11
+#  ip arp 10.1.1.12 00:01:02:03:04:12
+# sonic# show running-configuration interface Vlan 20 | grep "arp|neighbor"
+#  ip arp 20.1.1.4 00:01:02:03:22:44
+#  ip arp 20.1.1.5 00:01:02:03:22:55
+#  ipv6 neighbor 20::2 00:01:02:03:22:22
+#  ipv6 neighbor 20::3 00:01:02:03:22:33
+# sonic#
