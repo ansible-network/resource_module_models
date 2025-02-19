@@ -1,0 +1,21 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration | grep dcbx
+# !
+# dcbx enable
+# !
+
+  - name: Delete DCBX mode configuration
+    dellemc.enterprise_sonic.sonic_dcbx:
+      config:
+        global:
+            enable: true
+      state: deleted
+
+# After State:
+# ------------
+# sonic# show running-configuration | grep dcbx
+# sonic#

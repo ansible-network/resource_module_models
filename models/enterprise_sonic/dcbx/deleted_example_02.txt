@@ -1,0 +1,37 @@
+# Using Merged
+#
+# Before State:
+# -------------
+# sonic# show running-configuration interface Ethernet 24 
+# !
+# interface Ethernet24
+#  mtu 9100
+#  speed 25000
+#  unreliable-los auto
+#  no shutdown
+#  no dcbx enable
+#  no dcbx tlv-select pfc
+#  no dcbx tlv-select ets-conf
+#  no dcbx tlv-select ets-reco
+
+
+  - name: Delete and set default DCBx Interface configurations
+    dellemc.enterprise_sonic.sonic_dcbx:
+      config:
+        interfaces:
+          - name: Ethernet0
+            pfc_tlv_enabled: False
+      state: deleted 
+
+# After State:
+# ------------
+# sonic# show running-configuration interface Etherneti 24
+# !
+# interface Ethernet24
+#  mtu 9100
+#  speed 25000
+#  unreliable-los auto
+#  no shutdown
+#  no dcbx enable
+#  no dcbx tlv-select ets-conf
+#  no dcbx tlv-select ets-reco
