@@ -1,0 +1,47 @@
+# Using Overridden
+# Before state:
+# -------------
+#
+# sonic# show qos scheduler-policy
+# Scheduler Policy: policy1
+#   Queue: 0
+#              type: dwrr
+#              weight: 10
+#              meter-type: packets
+#              cir: 32000       Pps
+#              cbs: 30000       Packets
+#              pir: 40000       Pps
+#              pbs: 35000       Packets
+#   Queue: 1
+#              type: dwrr
+#              weight: 14
+#              meter-type: packets
+
+- name: Override QoS scheduler configurations
+  dellemc.enterprise_sonic.sonic_qos_scheduler:
+    config:
+      - name: policy2
+        schedulers:
+          - sequence: 0
+            scheduler_type: wrr
+            weight: 5
+            meter_type: bytes
+            cir: 50000
+            pir: 60000
+            cbs: 800000
+            pbs: 900000
+    state: overridden
+
+# After state:
+# ------------
+#
+# sonic# show qos scheduler-policy
+# Scheduler Policy: policy2
+#   Queue: 0
+#              type: wrr
+#              weight: 5
+#              meter-type: bytes
+#              cir: 50          Kbps
+#              cbs: 800000      Bytes
+#              pir: 60          Kbps
+#              pbs: 900000      Bytes

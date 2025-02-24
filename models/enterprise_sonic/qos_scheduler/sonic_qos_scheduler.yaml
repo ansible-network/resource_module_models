@@ -1,0 +1,95 @@
+---
+GENERATOR_VERSION: '1.0'
+NETWORK_OS: sonic
+RESOURCE: qos_scheduler
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_qos_scheduler
+    version_added: "2.5.0"
+    short_description: Manage QoS scheduler configuration on SONiC
+    description:
+      - This module provides configuration management of QoS scheduler for devices running SONiC
+    author: "Shade Talabi (@stalabi1)"
+    options:
+      config:
+        description:
+          - QoS scheduler configuration
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            description:
+              - Name of scheduler policy
+            type: str
+            required: True
+          schedulers:
+            description:
+              - Schedulers configuration for the scheduler policy
+            type: list
+            elements: dict
+            suboptions:
+              sequence:
+                description:
+                  - Sequence number of the scheduler
+                  - Range 0-7 for interface queues
+                  - Range 0-47 for CPU queues
+                  - Specify 255 for port queues
+                type: int
+                required: True
+              scheduler_type:
+                description:
+                  - Specifies the type of scheduler
+                  - Strict priority scheduling cannot be configured with weight
+                type: str
+                choices:
+                  - dwrr
+                  - wrr
+                  - strict
+              weight:
+                description:
+                  - Weight of the scheduler
+                  - Range 1-100
+                type: int
+              meter_type:
+                description:
+                  - Metering method used by the scheduler
+                type: str
+                choices:
+                  - packets
+                  - bytes
+              cir:
+                description:
+                  - Commited information rate measured in bps
+                  - Range 0-400000000000
+                type: int
+              pir:
+                description:
+                  - Peak information rate measured in bps
+                  - Range 0-400000000000, must be greater than or equal to cir
+                type: int
+              cbs:
+                description:
+                  - Committed burst size measured in bytes
+                  - Range 0-125000000
+                type: int
+              pbs:
+                description:
+                  - Excess burst size measured in bytes
+                  - Range 0-125000000
+                type: int
+      state:
+        description:
+          - The state of the configuration after module completion
+        type: str
+        choices:
+          - merged
+          - deleted
+          - replaced
+          - overridden
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt
+
