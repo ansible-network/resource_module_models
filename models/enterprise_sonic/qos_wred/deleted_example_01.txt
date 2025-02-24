@@ -1,0 +1,41 @@
+# Using deleted
+#
+# Before state:
+# -------------
+#
+# sonic# show qos wred-policy
+# ---------------------------------------------------
+# Policy                 : profile1
+# ---------------------------------------------------
+# ecn                    : ecn_green
+# green-min-threshold    : 1           KBytes
+# green-max-threshold    : 5           KBytes
+# green-drop-probability : 25
+# ---------------------------------------------------
+# Policy                 : profile2
+# ---------------------------------------------------
+# ecn                    : ecn_green
+# green-min-threshold    : 3           KBytes
+# green-max-threshold    : 9           KBytes
+# green-drop-probability : 75
+
+- name: Delete QoS WRED policy configuration
+  dellemc.enterprise_sonic.sonic_qos_wred:
+    config:
+      - name: profile1
+      - name: profile2
+        green:
+          enable: False
+          min_threshold: 3000
+          max_threshold: 9000
+    state: deleted
+
+# After state:
+# ------------
+#
+# sonic# show qos wred-policy
+# ---------------------------------------------------
+# Policy                 : profile2
+# ---------------------------------------------------
+# ecn                    : ecn_green
+# green-drop-probability : 75

@@ -1,0 +1,30 @@
+# Using Replaced
+#
+# Before state:
+# -------------
+#
+# sonic# show qos wred-policy
+# ---------------------------------------------------
+# Policy                 : profile1
+# ---------------------------------------------------
+# ecn                    : ecn_green
+# green-min-threshold    : 1           KBytes
+# green-max-threshold    : 5           KBytes
+# green-drop-probability : 25
+
+- name: Replace QoS WRED policy configuration
+  dellemc.enterprise_sonic.sonic_qos_wred:
+    config:
+      - name: profile1
+        green:
+          drop_probability: 75
+    state: replaced
+
+# After state:
+# ------------
+#
+# sonic# show qos wred-policy
+# ---------------------------------------------------
+# Policy                 : profile1
+# ---------------------------------------------------
+# green-drop-probability : 75

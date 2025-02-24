@@ -1,0 +1,72 @@
+---
+GENERATOR_VERSION: '1.0'
+NETWORK_OS: sonic
+RESOURCE: qos_wred
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_qos_wred
+    version_added: 2.5.0
+    notes:
+    - Tested against Enterprise SONiC Distribution by Dell Technologies.
+    - Supports C(check_mode).
+    short_description: Manage QoS WRED profiles configuration on SONiC
+    description:
+      - This module provides configuration management of QoS WRED profiles for devices running SONiC
+    author: "Shade Talabi (@stalabi1)"
+    options:
+      config:
+        description:
+          - QoS WRED profile configuration
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            description:
+              - Name of the WRED profile
+            type: str
+            required: True
+          ecn:
+            description:
+              - ECN setting for colored packets
+            type: str
+            choices:
+              - green
+          green:
+            description:
+              - WRED configuration for green packets
+            type: dict
+            suboptions:
+              enable:
+                description:
+                  - Enable or disable WRED for green packets
+                type: bool
+              min_threshold:
+                description:
+                  - Minimum threshold set for green packets in bytes
+                  - Range 1000-12480000
+                type: int
+              max_threshold:
+                description:
+                  - Maximum threshold set for green packets in bytes
+                  - Range 1000-12480000
+                type: int
+              drop_probability:
+                description:
+                  - Drop probablity percentage rate for green packets
+                  - Range 0-100
+                type: int
+      state:
+        description:
+          - The state of the configuration after module completion.
+        type: str
+        choices:
+          - merged
+          - deleted
+          - overridden
+          - replaced
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
+  - overridden_example_01.txt
+  - replaced_example_01.txt

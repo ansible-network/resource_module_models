@@ -1,0 +1,37 @@
+# Using Overridden
+#
+# Before state:
+# -------------
+#
+# sonic# show qos wred-policy
+# ---------------------------------------------------
+# Policy                 : profile1
+# ---------------------------------------------------
+# ecn                    : ecn_green
+# green-min-threshold    : 1           KBytes
+# green-max-threshold    : 5           KBytes
+# green-drop-probability : 25
+
+- name: Override QoS WRED policy configuration
+  dellemc.enterprise_sonic.sonic_qos_wred:
+    config:
+      - name: profile2
+        ecn: green
+        green:
+          enable: False
+          min_threshold: 3000
+          max_threshold: 9000
+          drop_probability: 75
+    state: overridden
+
+# After state:
+# ------------
+#
+# sonic# show qos wred-policy
+# ---------------------------------------------------
+# Policy                 : profile2
+# ---------------------------------------------------
+# ecn                    : ecn_green
+# green-min-threshold    : 3           KBytes
+# green-max-threshold    : 9           KBytes
+# green-drop-probability : 75
