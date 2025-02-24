@@ -1,0 +1,65 @@
+module: iosxr_vrf_interfaces
+short_description: Resource module to configure VRF interfaces.
+description: This module configures and manages the VRF configuration in interface on IOS XR platforms.
+version_added: 10.3.0
+author: Sagar Paul (@KB-perByte)
+notes:
+  - Tested against Cisco IOS-XR 7.2.2.
+  - This module works with connection C(network_cli).
+options:
+  config:
+    description: A list of VRF interfaces options.
+    type: list
+    elements: dict
+    suboptions:
+      name:
+        description:
+          - Full name of the interface excluding any logical unit number,
+            i.e. GigabitEthernet0/1.
+        type: str
+        required: true
+      vrf_name:
+        description:
+          - Vrf that is to be added to the interface.
+        type: str
+        required: true
+  running_config:
+    description:
+      - This option is used only with state I(parsed).
+      - The value of this option should be the output received from the IOS
+        device by executing the command B(sh running-config interface).
+      - The state I(parsed) reads the configuration from C(running_config)
+        option and transforms it into Ansible structured data as per the
+        resource module's argspec and the value is then returned in the
+        I(parsed) key within the result.
+    type: str
+  state:
+    description:
+      - The state the configuration should be left in
+      - The states I(rendered), I(gathered) and I(parsed) does not perform any
+        change on the device.
+      - The state I(rendered) will transform the configuration in C(config)
+        option to platform specific CLI commands which will be returned in the
+        I(rendered) key within the result. For state I(rendered) active
+        connection to remote host is not required.
+      - The state I(gathered) will fetch the running configuration from device
+        and transform it into structured data in the format as per the resource
+        module argspec and the value is returned in the I(gathered) key within
+        the result.
+      - The state I(parsed) reads the configuration from C(running_config)
+        option and transforms it into JSON format as per the resource module
+        parameters and the value is returned in the I(parsed) key within the
+        result. The value of C(running_config) option should be the same format
+        as the output of command I(show running-config | include ip route|ipv6
+        route) executed on device. For state I(parsed) active connection to
+        remote host is not required.
+    type: str
+    choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      - gathered
+      - rendered
+      - parsed
+    default: merged
