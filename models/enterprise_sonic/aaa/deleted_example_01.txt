@@ -1,0 +1,60 @@
+# Using "deleted" state
+#
+# Before state:
+# -------------
+#
+# sonic# show aaa
+# ---------------------------------------------------------
+# AAA Authentication Information
+# ---------------------------------------------------------
+# failthrough  : True
+# login-method : local, ldap
+# console authentication  : local
+# ---------------------------------------------------------
+# AAA Authorization Information
+# ---------------------------------------------------------
+# login        : local, ldap
+# commands     : local, tacacs+
+# ---------------------------------------------------------
+# AAA Name-Service Information
+# ---------------------------------------------------------
+# group-method    : ldap
+# netgroup-method : local
+# passwd-method   : login
+# shadow-method   : ldap
+# sudoers-method  : local
+
+- name: Delete AAA individual attributes
+  dellemc.enterprise_sonic.sonic_aaa:
+    config:
+      authentication:
+        auth_method:
+          - local
+          - ldap
+        console_auth_local: true
+        failthrough: true
+      authorization:
+        commands_auth_method:
+          - local
+          - tacacs+
+        login_auth_method:
+          - local
+          - ldap
+      name_service:
+        group:
+          - ldap
+        netgroup:
+          - local
+        passwd:
+          - login
+        shadow:
+          - ldap
+        sudoers:
+          - local
+    state: deleted
+
+# After state:
+# ------------
+#
+# sonic# show aaa
+# (No AAA configuration present)
