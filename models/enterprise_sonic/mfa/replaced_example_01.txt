@@ -1,0 +1,30 @@
+# Using replaced
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration mfa
+# mfa key-seed U2FsdGVkX1/caD7u0ZGRnb981G2DKyML/Gvyfexsurg= encrypted
+# mfa rsa-server host rsaserver.che-lab.it port 1030 client-id sonicdevtest.che-lab.it client-key U2FsdGVkX1+xnsxfUrqCvBQg0KkPUm11R8Vpn2cXLHCWzL59k3Jm4/OrRiMOemPJccnEa8sMuynOAaySpHkaMOePtpedW0aApp+qicIF2Hz32LR4vB07b7OSx7OaEZBj encrypted connection-timeout 16 read-timeout 129
+
+
+  - name: Replace specified mfa rsa-server configuration
+    dellemc.enterprise_sonic.sonic_mfa:
+      config:
+        rsa_servers:
+          - hostname: 'rsaserver.che-lab.it'
+            server_port: 1050
+            client_id: 'sonicdevtest.che-lab.it'
+            client_key: 'aplr05825jshusp80699scuv62u5l3lu63wxf66b0y883w92677ac0c9m0lwv6o8'
+            client_key_encrypted: true
+            connection_timeout: 29
+            read_timeout: 149
+      state: replaced
+
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration mfa
+# mfa key-seed U2FsdGVkX1/caD7u0ZGRnb981G2DKyML/Gvyfexsurg= encrypted
+# mfa rsa-server host rsaserver.che-lab.it port 1050 client-id sonicdevtest.che-lab.it client-key U2FsdGVkX1/b1Tjka6pWv1BjwGd1I8cfjXxBIIJ6ZK/JaZpGgPbNAnw6WmdstRWJz49A+bymj6gJfkGjbzlWQhGCGi4VofPStOdNktqDcIyk33AaDkO+awkzyi7HRxcB encrypted connection-timeout 29 read-timeout 149

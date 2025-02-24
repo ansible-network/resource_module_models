@@ -1,0 +1,32 @@
+# Using overridden
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration mfa
+# mfa key-seed U2FsdGVkX1/caD7u0ZGRnb981G2DKyML/Gvyfexsurg= encrypted
+# mfa client-secret U2FsdGVkX1+WlquxtZRbsgQhfS1lQBFbJKflxGAp6S3u+Ox5Hi+O16NmprjMVb3HQn1pNSgaaa0Cz1MHeTfDWhFR0WqdENbLU2PqkiRDHv0iVfl72xNPzhnGeO01kAu0 encrypted
+# mfa security-profile mSecurityProfile
+# mfa rsa-server security-profile rSecProfile
+# mfa rsa-server host sonicrsaserver.che-lab.it port 1030 client-id sonic.che-lab.it client-key U2FsdGVkX18QFJoB9dp8GJN92eP79FGOZDLgQakBmAasGYX77p6PtiiAfS/nGoOb2uEocUkryc+BLLYsg+Wz0gO+c1QsIbIhXk5Pt+aECoVgoFQ9QpxO9od9cTik+3Ot encrypted connection-timeout 29 read-timeout 149
+#
+# sonic# show running-configuration | grep "cac-piv"
+# aaa cac-piv cert-user user-principal-name
+# aaa cac-piv cert-user-match 10digit-username
+# aaa cac-piv security-profile cSecurityProfile
+
+
+  - name: Override device configuration of mfa with provided configuration
+    dellemc.enterprise_sonic.sonic_mfa:
+      config:
+        cac_piv_global:
+          cert_username_match: 'first-name'
+      state: overridden
+
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration | grep "cac-piv"
+# aaa cac-piv cert-user-match first-name
+
