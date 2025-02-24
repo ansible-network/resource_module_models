@@ -1,0 +1,4 @@
+Resource Identifier,Type,Description
+(profile-idx),"Format:
+- a unique index value for the priority regeneration profile
+- range: [11...32]",A unique profile index

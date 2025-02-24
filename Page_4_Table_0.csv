@@ -1,0 +1,7 @@
+Parameter,Type,Description
+host-id,"Parameter type: <Vlan::vmacUniqueHostID>
+Format:
+- A unique host Id within an EMAN connected to the same
+IP edges. Maximum supported value in GPON is 65535.
+- range: [1...524287]","optional parameter
+Value of vMac unique host ID."

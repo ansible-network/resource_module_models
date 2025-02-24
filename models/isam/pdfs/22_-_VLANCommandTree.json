@@ -1,0 +1,836 @@
+[
+    {
+        "text": "CommandTree ",
+        "font_details": [
+            {
+                "font": "Helvetica-Bold",
+                "flags": "sans, proportional, bold",
+                "size": 15.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            61.19900131225586,
+            186.0950164794922,
+            170.3839874267578,
+            206.75001525878906
+        ],
+        "page": 1
+    },
+    {
+        "text": "----configure ",
+        "font_details": [
+            {
+                "font": "Times-Bold",
+                "flags": "serifed, proportional, bold",
+                "size": 10.0,
+                "color": "#ff0000"
+            }
+        ],
+        "position": [
+            61.19900131225586,
+            214.57000732421875,
+            115.06900787353516,
+            228.42001342773438
+        ],
+        "page": 1
+    },
+    {
+        "text": "----vlan ",
+        "font_details": [
+            {
+                "font": "Times-Bold",
+                "flags": "serifed, proportional, bold",
+                "size": 10.0,
+                "color": "#ff0000"
+            }
+        ],
+        "position": [
+            79.1989974975586,
+            225.3800048828125,
+            110.85900115966797,
+            239.23001098632812
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]broadcast-frames ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            97.1989974975586,
+            236.17001342773438,
+            191.04901123046875,
+            249.510009765625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-priority-policy ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            97.1989974975586,
+            247.17001342773438,
+            161.3590087890625,
+            260.510009765625
+        ],
+        "page": 1
+    },
+    {
+        "text": "----vmac-address-format ",
+        "font_details": [
+            {
+                "font": "Times-Bold",
+                "flags": "serifed, proportional, bold",
+                "size": 10.0,
+                "color": "#ff0000"
+            }
+        ],
+        "position": [
+            97.1989974975586,
+            258.19000244140625,
+            202.1590118408203,
+            272.0400085449219
+        ],
+        "page": 1
+    },
+    {
+        "text": "-host-id ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            268.9800109863281,
+            148.80899047851562,
+            282.32000732421875
+        ],
+        "page": 1
+    },
+    {
+        "text": "----[no]id ",
+        "font_details": [
+            {
+                "font": "Times-Bold",
+                "flags": "serifed, proportional, bold",
+                "size": 10.0,
+                "color": "#ff0000"
+            }
+        ],
+        "position": [
+            97.1989974975586,
+            280.0,
+            138.57901000976562,
+            293.8500061035156
+        ],
+        "page": 1
+    },
+    {
+        "text": "-(vlanid) ",
+        "font_details": [
+            {
+                "font": "Times-Bold",
+                "flags": "serifed, proportional, bold",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            290.80999755859375,
+            154.36900329589844,
+            304.6600036621094
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]name ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            301.6000061035156,
+            161.84901428222656,
+            314.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-mode ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            312.6000061035156,
+            143.24900817871094,
+            325.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]sntp-proxy ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            323.6000061035156,
+            183.51901245117188,
+            336.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]priority ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            334.6000061035156,
+            170.1890106201172,
+            347.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]vmac-translation ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            345.6000061035156,
+            207.39901733398438,
+            358.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]vmac-dnstr-filter ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            356.6000061035156,
+            207.9490203857422,
+            369.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]vmac-not-in-opt61 ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            367.6000061035156,
+            215.17901611328125,
+            380.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]new-broadcast ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            378.6000061035156,
+            198.4990234375,
+            391.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]protocol-filter ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            389.6000061035156,
+            196.2890167236328,
+            402.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]pppoe-relay-tag ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            400.6000061035156,
+            203.4990234375,
+            413.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "X [no]dhcp-opt-82 ",
+        "font_details": [
+            {
+                "font": "Times-Bold",
+                "flags": "serifed, proportional, bold",
+                "size": 10.0,
+                "color": "#0000ff"
+            },
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            411.6000061035156,
+            192.95899963378906,
+            425.5400085449219
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]dhcp-opt82-ext ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            422.6000061035156,
+            201.2890167236328,
+            435.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]dhcp-opt82-nni ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            433.6000061035156,
+            201.84901428222656,
+            446.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]dhcp-opt82-uplink ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            444.6000061035156,
+            214.62901306152344,
+            457.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]circuit-id-dhcp ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            455.6000061035156,
+            199.6190185546875,
+            468.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]remote-id-dhcp ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            466.6000061035156,
+            201.83901977539062,
+            479.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]relay-id-dhcp ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            477.6000061035156,
+            194.05902099609375,
+            490.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]dhcp-linerate ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            488.6000061035156,
+            192.9490203857422,
+            501.94000244140625
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]pppoe-linerate ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            499.6000061035156,
+            197.9490203857422,
+            512.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]dhcpv6-linerate ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            510.6000061035156,
+            202.9490203857422,
+            523.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]pppoe-l2-encaps ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            521.5999755859375,
+            206.27902221679688,
+            534.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]dhcp-l2-encaps ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            532.5999755859375,
+            201.27902221679688,
+            545.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]dhcpv6-l2-encaps ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            543.5999755859375,
+            211.27902221679688,
+            556.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]l2-encaps1 ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            554.5999755859375,
+            183.50901794433594,
+            567.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]pppoer-vlanaware ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            565.5999755859375,
+            212.3790283203125,
+            578.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]dhcpr-vlanaware ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            576.5999755859375,
+            207.3790283203125,
+            589.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]dhcpv6r-vlanaware ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            587.5999755859375,
+            217.3790283203125,
+            600.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]drly-srv-usr-side ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            598.5999755859375,
+            206.83901977539062,
+            611.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]circuit-id-pppoe ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            609.5999755859375,
+            204.6190185546875,
+            622.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]remote-id-pppoe ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            620.5999755859375,
+            206.83901977539062,
+            633.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]new-secure-fwd ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            631.5999755859375,
+            204.59902954101562,
+            644.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]aging-time ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            642.5999755859375,
+            183.51901245117188,
+            655.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]l2cp-transparent ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            653.5999755859375,
+            205.1690216064453,
+            666.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]dhcpv6-itf-id ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            664.5999755859375,
+            192.95901489257812,
+            677.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]dhcpv6-remote-id ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            675.5999755859375,
+            211.83901977539062,
+            688.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]dhcpv6-relay-id ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            686.5999755859375,
+            204.05902099609375,
+            699.9400024414062
+        ],
+        "page": 1
+    },
+    {
+        "text": "-[no]dhcpv6-trst-port ",
+        "font_details": [
+            {
+                "font": "Times-Roman",
+                "flags": "serifed, proportional",
+                "size": 10.0,
+                "color": "#000000"
+            }
+        ],
+        "position": [
+            115.1989974975586,
+            697.5999755859375,
+            205.17901611328125,
+            710.9400024414062
+        ],
+        "page": 1
+    }
+]

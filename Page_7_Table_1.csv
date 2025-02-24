@@ -1,0 +1,40 @@
+Parameter,Type,Description
+[no] name,"Parameter type: <Vlan::AdminString>
+Format:
+- char string
+- length: x<=80","optional parameter with default
+value: """"
+VLAN name"
+mode,"Parameter type: <Vlan::SystemMode>
+Format:
+( cross-connect
+| residential-bridge
+| qos-aware
+| layer2-terminated
+| mirror )
+Possible values:
+- cross-connect : crossconnect vlan
+- residential-bridge : residential bridge vlan
+- qos-aware : qos aware vlan
+- layer2-terminated : layer2 terminated vlan
+- mirror : mirror vlan","mandatory parameter
+VLAN mode"
+[no] sntp-proxy,Parameter type: boolean,"optional parameter
+enable SNTP proxy"
+[no] priority,"Parameter type: <Vlan::Priority>
+Format:
+- priority of ethernet frames
+- range: [0...7]","optional parameter with default
+value: 0
+default frame priority"
+[no] vmac-translation,Parameter type: boolean,"optional parameter
+The parameter is not visible
+during creation.
+enable virtual Mac address
+translation"
+[no] vmac-dnstr-filter,Parameter type: boolean,"optional parameter
+The parameter is not visible
+during creation.
+enable virtual Mac source address
+downstream blocking"
+[no] vmac-not-in-opt61,Parameter type: boolean,optional parameter

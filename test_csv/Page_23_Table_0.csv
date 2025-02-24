@@ -1,0 +1,6 @@
+Resource Identifier,Type,Description
+protocol-group,"Parameter type: <Vlan::GroupId>
+Format:
+( pppoe
+| ipoe
+| ipv6oe )",protocol group

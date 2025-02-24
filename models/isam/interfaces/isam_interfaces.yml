@@ -1,0 +1,139 @@
+module: isam_interfaces
+version_added: 2.9
+short_description: 'Manages interface attributes of Nokia ISAM MSAN devices.'
+description: 'This module manages interface attributes of Nokia ISAM MSAN devices'
+author: Jan Kuehnemund
+notes:
+- 'Tested against Nokia ISAM with OS Version R6.2.04m'
+options:
+  config:
+    description: A dictionary of options for interface ports
+    type: list
+    elements: dict
+    suboptions:
+      port:
+        type: dict
+        description: This command allows the operator to configure interface management parameters.
+        suboptions:
+          id:
+            type: str
+            description: 
+            - configure a specific interface port
+          admin_up:
+            type: bool
+            description: 
+            - If the interface has been activated administratevly
+          link_state_trap:
+            type: str
+            description:
+            - If link-up/link-down traps should be activated or disabled
+            choices:
+            - enable
+            - disable
+            - no-value
+            default: no-value
+          link_updown_trap:
+            type: bool
+            description:
+            - If up/down state changes of the interface should be trapped     
+          severity:
+            type: str
+            description:
+            - How the 
+            choices:
+            - indetermiante
+            - warning
+            - minor
+            - major
+            - critical
+            - no-alarms
+            - default
+            - no-value
+            default: no-value
+          port_type:
+            description:
+            - The Type of port this port should be configured as
+            type: str
+            choices:
+            - uni
+            - nni
+            - hc-uni
+            - uplink
+            default: uni
+      atm_pvc:
+        type: dict
+        description: This command allows the operator to configure extended interface management parameters.
+        suboptions:
+          pvc_index:
+            type: string
+            description: the ATM PVC interface index
+            required: true
+          customer_id:
+            type: string
+            description: 
+            - optional parameter with default value "available" 
+            - the customer ID of the customer to which this PVC belongs.
+            default: "available"
+      alarm:
+        type: dict
+        description: This command allows the operator to configure the default severity for an alarm on this type of interface.
+        suboptions:
+          interface_type:
+            type: str            
+            description: index of the IANA ifType
+            required: true
+          default_severity:            
+          type: string
+            description: 
+            - optional parameter with default value "major" 
+            - set minimum severity for alarm to be reported.
+            choices:
+            - inderteminate
+            - warning
+            - minor
+            - major
+            - critical
+            default: "major"
+      statistics:
+        type: dict
+        description: This command allows the operator to configure sliding-window traffic statistics on related interface.
+        suboptions:
+          port:
+            type: str
+            description: the interface index
+            required: true
+          sliding_win_stats:            
+          type: bool
+            description: 
+            - optional parameter 
+            - enable sliding-window traffic statistics on related interface.
+            default: false
+      cage:
+        type: dict
+        description: 
+        - "This command allows the operator to configure SLOT cage mode:" 
+        - "• The slot index of the cage"
+        - "• The number of the sfp cage"
+        - "• The index of rssi profile which would be configured on cage."
+        suboptions:
+          position:
+            type: int
+            description: 
+            - the physical cage position
+            required: true
+          operational_mode:
+            type: string
+            short_description:
+            - optional parameter
+            - oper-mode of the cage
+  state:
+    description:
+    - The state the configuration should be left in
+    type: str
+    choices:
+    - merged
+    - replaced
+    - overridden
+    - deleted
+    default: merged
+

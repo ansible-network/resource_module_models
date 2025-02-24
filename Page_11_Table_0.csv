@@ -1,0 +1,86 @@
+Parameter,Type,Description
+,"Possible values:
+- notadd : not add access loop encapsulation for PPPoE
+- add : add access loop encapsulation for PPPoE","configure insertion of access loop
+encapsulation sub-option for
+PPPoE relay tag (Only applicable
+on DSL and ETH LT boards, not
+on GPON LT boards. In case
+both GPON ports and DSL/ETH
+ports are configured in one
+VLAN, the pppoe-l2-encaps
+parameter will only be applied on
+DSL and ETH LT boards.)"
+[no] dhcp-l2-encaps,"Parameter type: <Vlan::DhcpAccessEncap>
+Format:
+( notadd
+| add )
+Possible values:
+- notadd : not add access loop encapsulation for DHCP
+- add : add access loop encapsulation for DHCP","optional parameter with default
+value: ""notadd""
+The parameter is not visible
+during creation.
+configure insertion of access loop
+encapsulation sub-option for
+DHCP option 82 (Only
+applicable on DSL and ETH LT
+boards, not on GPON LT boards.
+In case both GPON ports and
+DSL/ETH ports are configured in
+one VLAN, the dhcp-l2-encaps
+parameter will only be applied on
+DSL and ETH LT boards.)"
+[no] dhcpv6-l2-encaps,"Parameter type: <Vlan::Dhcpv6AccessEncap>
+Format:
+( notadd
+| add )
+Possible values:
+- notadd : not add access loop encapsulation for DHCPv6
+- add : add access loop encapsulation for DHCPv6","optional parameter with default
+value: ""notadd""
+The parameter is not visible
+during creation.
+configure insertion of access loop
+encapsulation sub-option for
+DHCPv6 (Only applicable on
+DSL and ETH LT boards, not on
+GPON LT boards. In case both
+GPON ports and DSL/ETH ports
+are configured in one VLAN, the
+dhcpv6-l2-encaps parameter will
+only be applied on DSL and ETH
+LT boards.)"
+[no] l2-encaps1,"Parameter type: <Vlan::AccessLoopEncaps1>
+Format:
+( not-applicable
+| untagged
+| single-tagged
+| dual-tagged )
+Possible values:
+- not-applicable : not applicable
+- untagged : set untag as encapsulation1 value
+- single-tagged : set single-tag as encapsulation1 value
+- dual-tagged : set dual-tag as encapsulation1 value","optional parameter with default
+value: ""not-applicable""
+The parameter is not visible
+during creation.
+configure the encapsulation 1
+value of the access loop
+encapsulation sub-option for
+DHCP option 82, DHCPv6 relay
+tag and PPPoE relay tag"
+[no] pppoer-vlanaware,"Parameter type: <Vlan::PppoeRelayVlanAware>
+Format:
+( upto-1-uservlan
+| upto-2-uservlans
+| upto-untag-uservlan
+| system-default )
+Possible values:
+- upto-1-uservlan : user VLAN awareness for untagged and","optional parameter with default
+value: ""system-default""
+The parameter is not visible
+during creation.
+configure the number of user
+VLANs that the PPPoE relay
+functionality should be aware of"

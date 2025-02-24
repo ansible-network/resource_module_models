@@ -1,0 +1,73 @@
+Parameter,Type,Description
+,"| add-or-forward )
+Possible values:
+- enable : enable dhcp option 82 (relay)
+- disable : disable dhcp option 82 (relay)
+- transparent : pass dhcp option 82 transparently if sent by
+client (relay)
+- add-or-replace : add dhcp option 82 if not present or
+replace the dhcp option 82 if present (relay)
+- add-or-forward : add dhcp option 82 if not present or
+forward the dhcp option 82 transparently if sent by client
+(relay)",
+[no] dhcp-opt82-nni,"Parameter type: <Vlan::Option82Nni>
+Format:
+( enable
+| disable
+| transparent
+| add-or-replace
+| add-or-forward )
+Possible values:
+- enable : enable dhcp option 82 on NNI Interface(relay)
+- disable : disable dhcp option 82 on NNI Interface(relay)
+- transparent : pass dhcp option 82 transparently if sent by
+client on NNI Interface(relay)
+- add-or-replace : add dhcp option 82 if not present or
+replace the dhcp option 82 if present on NNI Interface(relay)
+- add-or-forward : add dhcp option 82 if not present or
+forward the dhcp option 82 transparently if sent by client on
+NNI Interface(relay)","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+control of DHCP option 82 on
+NNI Interface"
+[no] dhcp-opt82-uplink,"Parameter type: <Vlan::Option82Uplink>
+Format:
+( enable
+| disable
+| transparent
+| add-or-replace
+| add-or-forward )
+Possible values:
+- enable : enable dhcp option 82 on UPLINK
+Interface(relay)
+- disable : disable dhcp option 82 on UPLINK
+Interface(relay)
+- transparent : pass dhcp option 82 transparently if sent by
+client on UPLINK Interface(relay)
+- add-or-replace : add dhcp option 82 if not present or
+replace the dhcp option 82 if present on UPLINK
+Interface(relay)
+- add-or-forward : add dhcp option 82 if not present or
+forward the dhcp option 82 transparently if sent by client on
+UPLINK Interface(relay)","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+control of DHCP option 82 on
+UPLINK Interface"
+[no] circuit-id-dhcp,"Parameter type: <Vlan::CircuitIdDhcp>
+Format:
+( customer-id
+| physical-id
+| ccsa-format
+| disable )
+Possible values:
+- customer-id : customer identity as circuit id
+- physical-id : physical line identity as circuit id","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+configure the circuit id
+sub-option for DHCP option-82"

@@ -1,0 +1,20 @@
+Resource Identifier,Type,Description
+(port),"Format:
+( vlan-port : <Eqpt::RackId> / <Eqpt::ShelfId> /
+<Eqpt::SlotId> / <Eqpt::PortId> : <Eqpt::VpiId> :
+<Eqpt::VciId> : <Eqpt::UnstackedVlan>
+| vlan-port : <Eqpt::RackId> / <Eqpt::ShelfId> /
+<Eqpt::SlotId> / <Eqpt::PortId> : <Eqpt::UnstackedVlan>
+| vlan-port : <Eqpt::RackId> / <Eqpt::ShelfId> /
+<Eqpt::SlotId> / <Eqpt::PortId> : <Eqpt::VpiId> :
+<Eqpt::VciId> : stacked : <Eqpt::SVlan> : <Eqpt::CVlan>
+| vlan-port : <Eqpt::RackId> / <Eqpt::ShelfId> /
+<Eqpt::SlotId> / <Eqpt::PortId> : stacked : <Eqpt::SVlan> :
+<Eqpt::CVlan>
+| vlan-port : <Eqpt::RackId> / <Eqpt::ShelfId> /
+<Eqpt::SlotId> / <Eqpt::PonId> / <Eqpt::OntId> /
+<Eqpt::OntSlotId> / <Eqpt::OntPortId> : stacked :
+<Eqpt::SVlan> : <Eqpt::CVlan>
+| vlan-port : <Eqpt::RackId> / <Eqpt::ShelfId> /
+<Eqpt::SlotId> / <Eqpt::PonId> / <Eqpt::OntId> /
+<Eqpt::OntSlotId> / <Eqpt::OntPortId> :",vlan port

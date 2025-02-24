@@ -1,0 +1,81 @@
+Parameter,Type,Description
+,"single-tagged packets
+- upto-2-uservlans : user VLAN awareness for untagged,
+single-tagged and dual-tagged packets
+- upto-untag-uservlan : user VLAN awareness for only
+untagged packets
+- system-default : default user VLAN awareness depends on
+the forwarder type and board type",
+[no] dhcpr-vlanaware,"Parameter type: <Vlan::DhcpRelayVlanAware>
+Format:
+( upto-1-uservlan
+| upto-2-uservlans
+| upto-untag-uservlan
+| system-default )
+Possible values:
+- upto-1-uservlan : user VLAN awareness for untagged and
+single-tagged packets
+- upto-2-uservlans : user VLAN awareness for untagged,
+single-tagged and dual-tagged packets
+- upto-untag-uservlan : user VLAN awareness for only
+untagged packets
+- system-default : default user VLAN awareness depends on
+the forwarder type and board type","optional parameter with default
+value: ""system-default""
+The parameter is not visible
+during creation.
+configure the number of user
+VLANs that the DHCP relay
+functionality should be aware of"
+[no] dhcpv6r-vlanaware,"Parameter type: <Vlan::Dhcpv6RelayVlanAware>
+Format:
+( upto-1-uservlan
+| upto-2-uservlans
+| upto-untag-uservlan
+| system-default )
+Possible values:
+- upto-1-uservlan : user VLAN awareness for untagged and
+single-tagged packets
+- upto-2-uservlans : user VLAN awareness for untagged,
+single-tagged and dual-tagged packets
+- upto-untag-uservlan : user VLAN awareness for only
+untagged packets
+- system-default : default user VLAN awareness depends on
+the forwarder type and board type","optional parameter with default
+value: ""system-default""
+The parameter is not visible
+during creation.
+configure the number of user
+VLANs that the DHCPv6 relay
+functionality should be aware of"
+[no] drly-srv-usr-side,"Parameter type: <Vlan::DRlySrvAtUsrSide>
+Format:
+( enable
+| disable )
+Possible values:
+- enable : enable DHCP(v4/v6) server transparency at the
+user side when DHCP(v4/v6) relay is enabled.
+- disable : disable DHCP(v4/v6) server transparency at the
+user side when DHCP(v4/v6) relay is enabled.","optional parameter with default
+value: ""disable""
+enable DHCP(v4/v6) server
+transparency at the user side
+when DHCP(v4/v6) relay is
+enabled.Only applicable for CC
+forwarder"
+[no] circuit-id-pppoe,"Parameter type: <Vlan::CircuitIdPppoe>
+Format:
+( disable
+| customer-id
+| physical-id
+| ccsa-format )
+Possible values:
+- disable : no circuit id
+- customer-id : customer identity as circuit id
+- physical-id : physical line identity as circuit id
+- ccsa-format : circuit id in ccsa format","optional parameter with default
+value: ""disable""
+The parameter is not visible
+during creation.
+configure the circuit id
+sub-option for PPPoE relay tag"

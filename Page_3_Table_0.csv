@@ -1,0 +1,14 @@
+Parameter,Type,Description
+[no] broadcast-frames,Parameter type: boolean,"optional parameter
+broadcasting of frames is
+configurable per vlan"
+priority-policy,"Parameter type: <Vlan::PriorityMap>
+Format:
+( vlan-specific
+| port-default )
+Possible values:
+- vlan-specific : the priority of the vlan
+- port-default : the default priority of the port","optional parameter
+specifies how to deal with
+ethernet priority of the upstream
+frames"

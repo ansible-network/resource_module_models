@@ -1,0 +1,307 @@
+Argument spec
+^^^^^^^^^^^^^
+
+The ``argument_spec`` provided to ``AnsibleModule`` defines the supported arguments for a module, as well as their type, defaults and more.
+
+Example ``argument_spec``:
+
+.. code-block:: python
+
+    module = AnsibleModule(argument_spec=dict(
+        top_level=dict(
+            type='dict',
+            options=dict(
+                second_level=dict(
+                    default=True,
+                    type='bool',
+                )
+            )
+        )
+    ))
+
+This section will discuss the behavioral attributes for arguments:
+
+:type:
+
+  ``type`` allows you to define the type of the value accepted for the argument. The default value for ``type`` is ``str``. Possible values are:
+
+  * str
+  * list
+  * dict
+  * bool
+  * int
+  * float
+  * path
+  * raw
+  * jsonarg
+  * json
+  * bytes
+  * bits
+
+  The ``raw`` type, performs no type validation or type casting, and maintains the type of the passed value.
+
+:elements:
+
+  ``elements`` works in combination with ``type`` when ``type='list'``. ``elements`` can then be defined as ``elements='int'`` or any other type, indicating that each element of the specified list should be of that type.
+
+:default:
+
+  The ``default`` option allows sets a default value for the argument for the scenario when the argument is not provided to the module. When not specified, the default value is ``None``.
+
+:fallback:
+
+  ``fallback`` accepts a ``tuple`` where the first argument is a callable (function) that will be used to perform the lookup, based on the second argument. The second argument is a list of values to be accepted by the callable.
+
+  The most common callable used is ``env_fallback`` which will allow an argument to optionally use an environment variable when the argument is not supplied.
+
+  Example:
+
+  .. code-block:: python
+
+      username=dict(fallback=(env_fallback, ['ANSIBLE_NET_USERNAME']))
+
+:choices:
+
+  ``choices`` accepts a list of choices that the argument will accept. The types of ``choices`` should match the ``type``.
+
+:required:
+
+  ``required`` accepts a boolean, either ``True`` or ``False`` that indicates that the argument is required. When not specified, ``required`` defaults to ``False``. This should not be used in combination with ``default``.
+
+:no_log:
+
+  ``no_log`` accepts a boolean, either ``True`` or ``False``, that indicates explicitly whether or not the argument value should be masked in logs and output.
+
+  .. note::
+     In the absence of ``no_log``, if the parameter name appears to indicate that the argument value is a password or passphrase (such as "admin_password"), a warning will be shown and the value will be masked in logs but **not** output. To disable the warning and masking for parameters that do not contain sensitive information, set ``no_log`` to ``False``.
+
+:aliases:
+
+  ``aliases`` accepts a list of alternative argument names for the argument, such as the case where the argument is ``name`` but the module accepts ``aliases=['pkg']`` to allow ``pkg`` to be interchangeably with ``name``
+
+:options:
+
+  ``options`` implements the ability to create a sub-argument_spec, where the sub options of the top level argument are also validated using the attributes discussed in this section. The example at the top of this section demonstrates use of ``options``. ``type`` or ``elements`` should be ``dict`` is this case.
+
+:apply_defaults:
+
+  ``apply_defaults`` works alongside ``options`` and allows the ``default`` of the sub-options to be applied even when the top-level argument is not supplied.
+
+  In the example of the ``argument_spec`` at the top of this section, it would allow ``module.params['top_level']['second_level']`` to be defined, even if the user does not provide ``top_level`` when calling the module.
+
+:removed_in_version:
+
+  ``removed_in_version`` indicates which version of ansible-core or a collection a deprecated argument will be removed in. Mutually exclusive with ``removed_at_date``, and must be used with ``removed_from_collection``.
+
+  Example:
+
+  .. code-block:: python
+
+      option = {
+        'type': 'str',
+        'removed_in_version': '2.0.0',
+        'removed_from_collection': 'testns.testcol',
+      },
+
+:removed_at_date:
+
+  ``removed_at_date`` indicates that a deprecated argument will be removed in a minor ansible-core release or major collection release after this date. Mutually exclusive with ``removed_in_version``, and must be used with ``removed_from_collection``.
+
+  Example:
+
+  .. code-block:: python
+
+      option = {
+        'type': 'str',
+        'removed_at_date': '2020-12-31',
+        'removed_from_collection': 'testns.testcol',
+      },
+
+:removed_from_collection:
+
+  Specifies which collection (or ansible-core) deprecates this deprecated argument. Specify ``ansible.builtin`` for ansible-core, or the collection's name (format ``foo.bar``). Must be used with ``removed_in_version`` or ``removed_at_date``.
+
+:deprecated_aliases:
+
+  Deprecates aliases of this argument. Must contain a list or tuple of dictionaries having some the following keys:
+
+  :name:
+
+    The name of the alias to deprecate. (Required.)
+
+  :version:
+
+    The version of ansible-core or the collection this alias will be removed in. Either ``version`` or ``date`` must be specified.
+
+  :date:
+
+    The a date after which a minor release of ansible-core or a major collection release will no longer contain this alias.. Either ``version`` or ``date`` must be specified.
+
+  :collection_name:
+
+    Specifies which collection (or ansible-core) deprecates this deprecated alias. Specify ``ansible.builtin`` for ansible-core, or the collection's name (format ``foo.bar``). Must be used with ``version`` or ``date``.
+
+  Examples:
+
+  .. code-block:: python
+
+      option = {
+        'type': 'str',
+        'aliases': ['foo', 'bar'],
+        'depecated_aliases': [
+          {
+            'name': 'foo',
+            'version': '2.0.0',
+            'collection_name': 'testns.testcol',
+          },
+          {
+            'name': 'foo',
+            'date': '2020-12-31',
+            'collection_name': 'testns.testcol',
+          },
+        ],
+      },
+
+
+:mutually_exclusive:
+
+  If ``options`` is specified, ``mutually_exclusive`` refers to the sub-options described in ``options`` and behaves as in :ref:`argument_spec_dependencies`.
+
+:required_together:
+
+  If ``options`` is specified, ``required_together`` refers to the sub-options described in ``options`` and behaves as in :ref:`argument_spec_dependencies`.
+
+:required_one_of:
+
+  If ``options`` is specified, ``required_one_of`` refers to the sub-options described in ``options`` and behaves as in :ref:`argument_spec_dependencies`.
+
+:required_if:
+
+  If ``options`` is specified, ``required_if`` refers to the sub-options described in ``options`` and behaves as in :ref:`argument_spec_dependencies`.
+
+:required_by:
+
+  If ``options`` is specified, ``required_by`` refers to the sub-options described in ``options`` and behaves as in :ref:`argument_spec_dependencies`.
+
+
+
+
+
+
+
+
+Documentation fields
+--------------------
+
+All fields in the ``DOCUMENTATION`` block are lower-case. All fields are required unless specified otherwise:
+
+:module:
+
+  * The name of the module.
+  * Must be the same as the filename, without the ``.py`` extension.
+
+:short_description:
+
+  * A short description which is displayed on the :ref:`list_of_collections` page and ``ansible-doc -l``.
+  * The ``short_description`` is displayed by ``ansible-doc -l`` without any category grouping,
+    so it needs enough detail to explain the module's purpose without the context of the directory structure in which it lives.
+  * Unlike ``description:``, ``short_description`` should not have a trailing period/full stop.
+
+:description:
+
+  * A detailed description (generally two or more sentences).
+  * Must be written in full sentences, in other words, with capital letters and periods/full stops.
+  * Shouldn't mention the module name.
+  * Make use of multiple entries rather than using one long paragraph.
+  * Don't quote complete values unless it is required by YAML.
+
+:version_added:
+
+  * The version of Ansible when the module was added.
+  * This is a string, and not a float, for example, ``version_added: '2.1'``.
+  * In collections, this must be the collection version the module was added to, not the Ansible version. For example, ``version_added: 1.0.0``.
+
+:author:
+
+  * Name of the module author in the form ``First Last (@GitHubID)``.
+  * Use a multi-line list if there is more than one author.
+  * Don't use quotes as it should not be required by YAML.
+
+:deprecated:
+
+  * Marks modules that will be removed in future releases. See also :ref:`module_lifecycle`.
+
+:options:
+
+  * Options are often called `parameters` or `arguments`. Because the documentation field is called `options`, we will use that term.
+  * If the module has no options (for example, it's a ``_facts`` module), all you need is one line: ``options: {}``.
+  * If your module has options (in other words, accepts arguments), each option should be documented thoroughly. For each module option, include:
+
+  :option-name:
+
+    * Declarative operation (not CRUD), to focus on the final state, for example `online:`, rather than `is_online:`.
+    * The name of the option should be consistent with the rest of the module, as well as other modules in the same category.
+    * When in doubt, look for other modules to find option names that are used for the same purpose, we like to offer consistency to our users.
+
+  :description:
+
+    * Detailed explanation of what this option does. It should be written in full sentences.
+    * The first entry is a description of the option itself; subsequent entries detail its use, dependencies, or format of possible values.
+    * Should not list the possible values (that's what ``choices:`` is for, though it should explain what the values do if they aren't obvious).
+    * If an option is only sometimes required, describe the conditions. For example, "Required when I(state=present)."
+    * Mutually exclusive options must be documented as the final sentence on each of the options.
+
+  :required:
+
+    * Only needed if ``true``.
+    * If missing, we assume the option is not required.
+
+  :default:
+
+    * If ``required`` is false/missing, ``default`` may be specified (assumed 'null' if missing).
+    * Ensure that the default value in the docs matches the default value in the code.
+    * The default field must not be listed as part of the description, unless it requires additional information or conditions.
+    * If the option is a boolean value, you can use any of the boolean values recognized by Ansible
+      (such as ``true``/``false`` or ``yes``/``no``).  Document booleans as ``true``/``false`` for consistency and compatibility with ansible-lint.
+
+  :choices:
+
+    * List of option values.
+    * Should be absent if empty.
+
+  :type:
+
+    * Specifies the data type that option accepts, must match the ``argspec``.
+    * If an argument is ``type='bool'``, this field should be set to ``type: bool`` and no ``choices`` should be specified.
+    * If an argument is ``type='list'``, ``elements`` should be specified.
+
+  :elements:
+
+    * Specifies the data type for list elements in case ``type='list'``.
+
+  :aliases:
+    * List of optional name aliases.
+    * Generally not needed.
+
+  :version_added:
+
+    * Only needed if this option was extended after initial Ansible release, in other words, this is greater than the top level `version_added` field.
+    * This is a string, and not a float, for example, ``version_added: '2.3'``.
+    * In collections, this must be the collection version the option was added to, not the Ansible version. For example, ``version_added: 1.0.0``.
+
+  :suboptions:
+
+    * If this option takes a dict or list of dicts, you can define the structure here.
+    * See :ansplugin:`azure.azcollection.azure_rm_securitygroup#module`, :ansplugin:`azure.azcollection.azure_rm_azurefirewall#module`, and :ansplugin:`openstack.cloud.baremetal_node_action#module` for examples.
+
+:requirements:
+
+  * List of requirements (if applicable).
+  * Include minimum versions.
+
+:seealso:
+
+  * A list of references to other modules, documentation or Internet resources
+  * In Ansible 2.10 and later, references to modules must use  the FQCN or ``ansible.builtin`` for modules in ``ansible-core``.
+  * Plugin references are supported since ansible-core 2.15.
+  * A reference can be one of the following formats:

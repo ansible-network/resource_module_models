@@ -1,0 +1,57 @@
+Parameter,Type,Description
+forward-port,"Parameter type: <Itf::UserPortItf>
+Format:
+( <Eqpt::RackId> / <Eqpt::ShelfId> / <Eqpt::SlotId> /
+<Eqpt::PortId> : <Eqpt::VpiId> : <Eqpt::VciId>
+| <Eqpt::RackId> / <Eqpt::ShelfId> / <Eqpt::SlotId> /
+<Eqpt::PortId>
+| <Eqpt::RackId> / <Eqpt::ShelfId> / <Eqpt::SlotId> /
+<Eqpt::PonId> / <Eqpt::OntId> / <Eqpt::OntSlotId> /
+<Eqpt::OntPortId>
+| <Eqpt::RackId> / <Eqpt::ShelfId> / <Eqpt::SlotId> /
+<Eqpt::PonId> / <Eqpt::OntId> / voip
+| <Eqpt::RackId> / <Eqpt::ShelfId> / <Eqpt::SlotId> /
+<Eqpt::PonId> / <Eqpt::OntId> / vuni
+| <Eqpt::RackId> / <Eqpt::ShelfId> / <Eqpt::SlotId> /
+<Eqpt::PonId> / <Eqpt::OntId> / <Eqpt::LLId>
+| ng2 : <Eqpt::ChannelGroupId> /
+<Eqpt::SubChannelGroupId> / <Eqpt::Ng2OntId> /
+<Eqpt::Ng2OntSlotId> / <Eqpt::Ng2OntPortId>
+| ng2 : <Eqpt::ChannelGroupId> /
+<Eqpt::SubChannelGroupId> / <Eqpt::Ng2OntId> / vuni )
+Possible values:
+- ng2 : ngpon2 style identification
+Field type <Eqpt::RackId>
+- the rack number
+Field type <Eqpt::ShelfId>
+- the shelf number
+Field type <Eqpt::SlotId>
+- the LT slot number
+Field type <Eqpt::PortId>
+- the port number
+Field type <Eqpt::VpiId>
+- atm VPI
+Field type <Eqpt::VciId>
+- atm VCI
+Field type <Eqpt::ChannelGroupId>
+- the channel group identifier
+Field type <Eqpt::SubChannelGroupId>
+- the subchannel group identifier
+Field type <Eqpt::PonId>
+- the PON identifier
+Field type <Eqpt::OntId>
+- the ONT identifier
+Field type <Eqpt::Ng2OntId>
+- the NG2 ONT identifier
+Possible values:
+- voip : virtual uni identifier
+obsolete alternative replaced by vuni
+- vuni : virtual uni identifier
+Possible values:
+- vuni : virtual NGPON2 uni identifier
+Field type <Eqpt::OntSlotId>
+- the ONT SLOT identifier
+Field type <Eqpt::OntPortId>
+- the ONT PORT identifier
+Field type <Eqpt::Ng2OntSlotId>","mandatory parameter
+forward bridge port"
