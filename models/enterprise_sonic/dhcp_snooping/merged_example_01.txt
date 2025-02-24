@@ -15,15 +15,13 @@
   dellemc.enterprise_sonic.sonic_dhcp_snooping:
     config:
       afis:
-        - afi: ipv4
+        - afi: 'ipv4'
           enabled: true
-          vlans:
-            - 1-3
-            - 5
           verify_mac: true
+          vlans: ['1', '2', '3', '5']
           trusted:
-            - intf_number: 8
-              intf_type: Ethernet
+            - intf_type: 'Ethernet'
+              intf_number: '8'
     state: merged
 
 # After State:

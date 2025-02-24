@@ -15,10 +15,10 @@
   dellemc.enterprise_sonic.sonic_dhcp_snooping:
     config:
       afis:
-        - afi: ipv4
+        - afi: 'ipv4'
           vlans:
-            - 3
-            - 5
+            - '3'
+            - '5'
     state: deleted
 
 # After State:
