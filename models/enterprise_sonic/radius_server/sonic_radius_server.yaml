@@ -51,6 +51,7 @@ DOCUMENTATION: |
           description:
             - Specifies the timeout of the radius server.
           type: int
+          default: 5
         retransmit:
           description:
             - Specifies the re-transmit value of the radius server.
@@ -90,6 +91,7 @@ DOCUMENTATION: |
                   description:
                     - Specifies the port of the radius server host.
                   type: int
+                  default: 1812
                 timeout:
                   description:
                     - Specifies the timeout of the radius server host.
@@ -112,8 +114,10 @@ DOCUMENTATION: |
         - In case of merged, the input mode configuration will be merged with the existing radius server configuration on the device.
         - In case of deleted the existing radius server mode configuration will be removed from the device.
       default: merged
-      choices: ['merged', 'deleted']
+      choices: ['merged', 'replaced', 'overridden', 'deleted']
 EXAMPLES:
   - deleted_example_01.txt
   - deleted_example_02.txt
   - merged_example_01.txt
+  - replaced_example_01.txt
+  - overridden_example_01.txt
