@@ -1,0 +1,27 @@
+# Using Merged
+#
+# Before State:
+# -------------
+#
+#sonic# show running-configuration mirror-session
+#!
+#mirror-session mirror1
+# destination CPU direction both
+
+  - name: Modify mirror configurations
+    sonic_mirroring:
+      config:
+        name: "mirror1"
+        destination:
+          destination_name: "Eth1/1"
+          direction:
+            choices:"tx"
+      state: merged
+#
+# After State:
+# -------------
+#
+#sonic# show running-configuration mirror-session
+#!
+#mirror-session mirror1
+# destination Eth1/1 direction tx
