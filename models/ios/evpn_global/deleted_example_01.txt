@@ -1,0 +1,24 @@
+# Using state Deleted
+
+# Before state:
+# -------------
+# l2vpn evpn
+#  replication-type static
+#  flooding-suppression address-resolution disable
+#  router-id Loopback2
+#  default-gateway advertise
+
+- name: Delete EVPN global
+  cisco.ios.ios_evpn_global:
+    config:
+    state: deleted
+
+# Commands Fired:
+# ---------------
+#  "commands": [
+#      "no l2vpn evpn"
+#      ]
+
+# After state:
+# -------------
+#

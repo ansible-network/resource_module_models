@@ -1,0 +1,18 @@
+# Using Rendered
+
+- name: Rendered the provided configuration with the existing running configuration
+  cisco.ios.ios_evpn_global:
+    config:
+        replication_type: static
+        route_target:
+          auto:
+            vni: true
+    state: rendered
+
+# Task Output:
+# ------------
+#
+# rendered:
+# - l2vpn evpn
+# - replication-type static
+# - route-target auto vni
