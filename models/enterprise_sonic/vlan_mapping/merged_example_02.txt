@@ -1,0 +1,47 @@
+# Using merged
+#
+# Before state:
+# -------------
+#
+sonic# show interface vlan-mappings
+sonic# show interface vlan-mappings dot1q-tunnel
+--------------------------------------------------------------------
+Name            Vlan                     dot1q-tunnel Vlan  Priority
+--------------------------------------------------------------------
+Ethernet4       360-366,392              2755               3
+
+  - name: Merge vlan translation configuration
+    sonic_vlan_mapping:
+      config:
+        - name: Ethernet8
+          mapping:
+          - service_vlan: 2567
+            vlan_translation:
+              match_double_tags:
+                - inner_vlan: 600
+                  outer_vlan: 610
+                - inner_vlan: 601
+                  outer_vlan: 611
+                  priority: 1
+                - inner_vlan: 602
+                  outer_vlan: 612
+                  priority: 2
+      state: merged
+#
+# After state:
+# ------------
+#
+sonic# show interface vlan-mappings
+Flags: M - Multi-tag
+---------------------------------------------------------
+Name            Outer  Inner  Mapped Vlan  Priority Flags
+---------------------------------------------------------
+Ethernet8       610    600    2567         -        -
+Ethernet8       611    601    2567         1        -
+Ethernet8       612    602    2567         2        -
+
+sonic# show interface vlan-mappings dot1q-tunnel
+--------------------------------------------------------------------
+Name            Vlan                     dot1q-tunnel Vlan  Priority
+--------------------------------------------------------------------
+Ethernet4       360-366,392              2755               3
