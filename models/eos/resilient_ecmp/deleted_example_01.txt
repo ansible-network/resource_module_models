@@ -1,0 +1,36 @@
+# Using deleted
+
+Before State
+-------------
+arista-eos-switch#show run | inc hardware fib ecmp resilience
+ip hardware fib ecmp resilience 10.10.30.0/28 capacity 32 redundancy 4
+ip hardware fib ecmp resilience 10.10.10.0/24 capacity 32 redundancy 4
+ip hardware fib ecmp resilience 10.10.40.0/24 capacity 32 redundancy 4
+ip hardware fib ecmp resilience 10.10.50.0/28 capacity 32 redundancy 4
+ipv6 hardware fib ecmp resilience 2001:db8:1:1::/64 capacity 32 redundancy 4
+ipv6 hardware fib ecmp resilience 2001:db8:4:4::/64 capacity 32 redundancy 4
+ipv6 hardware fib ecmp resilience 2001:db8:5:5:6:6:6:6/128 capacity 32 redundancy 4
+arista-eos-switch#
+
+- name: Delete Resilient ECMP Configurations
+  arista.eos.eos_resilient_ecmp:
+    config:
+      - afi: ipv4
+        routes:
+          - dest: 10.10.10.0/24
+            capacity: 32
+            redundancy: 4
+          - dest: 10.10.40.0/24
+            capacity: 32
+            redundancy: 4
+    state: deleted
+
+After State
+-----------
+arista-eos-switch#show run | inc hardware fib ecmp resilience
+ip hardware fib ecmp resilience 10.10.30.0/28 capacity 32 redundancy 4
+ip hardware fib ecmp resilience 10.10.50.0/28 capacity 32 redundancy 4
+ipv6 hardware fib ecmp resilience 2001:db8:1:1::/64 capacity 32 redundancy 4
+ipv6 hardware fib ecmp resilience 2001:db8:4:4::/64 capacity 32 redundancy 4
+ipv6 hardware fib ecmp resilience 2001:db8:5:5:6:6:6:6/128 capacity 32 redundancy 4
+arista-eos-switch#
