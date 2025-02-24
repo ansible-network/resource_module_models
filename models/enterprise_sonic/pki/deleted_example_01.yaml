@@ -1,0 +1,35 @@
+# Using "deleted" state to remove configuration
+#
+# Before state:
+# ------------
+#
+# sonic# show running-configuration | grep crypto
+# crypto trust-store default-ts ca-cert CA2
+# crypto security-profile rest
+# crypto security-profile trust-store rest default-ts
+# crypto security-profile certificate rest host
+# crypto security-profile ocsp-list rest http://example.com/ocsp
+#
+---
+- name: PKI Delete Test
+  hosts: datacenter
+  gather_facts: true
+  connection: httpapi
+  collections:
+    - dellemc.enterprise_sonic
+  tasks:
+    - name: Remove trust-store from security-profile
+      sonic_pki:
+        config:
+          security-profiles:
+            - profile-name: rest
+              trust-store: default-ts
+        state: deleted
+# After state:
+# ------------
+#
+# sonic# show running-configuration | grep crypto
+# crypto trust-store default-ts ca-cert CA2
+# crypto security-profile rest
+# crypto security-profile certificate rest host
+# crypto security-profile ocsp-list rest http://example.com/ocsp
