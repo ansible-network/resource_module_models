@@ -1,0 +1,47 @@
+# Using replaced
+#
+# Before state:
+# -------------
+#
+#sonic(config)# do show tacacs-server
+#---------------------------------------------------------
+#TACACS Global Configuration
+#---------------------------------------------------------
+#source-interface  : Ethernet12
+#timeout           : 10
+#auth-type         : pap
+#key configured    : Yes
+#--------------------------------------------------------------------------------------
+#HOST                 AUTH-TYPE    KEY-CONFIG PORT       PRIORITY   TIMEOUT    VRF
+#--------------------------------------------------------------------------------------
+#1.2.3.4              pap          No         49         1          5          default
+#
+- name: Replace tacacs configurations
+  sonic_tacacs_server:
+    config:
+      auth_type: pap
+      key: pap
+      source_interface: Ethernet12
+      timeout: 10
+      servers:
+        - host:
+            name: 1.2.3.4
+            auth_type: mschap
+            key: 1234
+    state: replaced
+#
+# After state:
+# ------------
+#
+#sonic(config)# do show tacacs-server
+#---------------------------------------------------------
+#TACACS Global Configuration
+#---------------------------------------------------------
+#source-interface  : Ethernet12
+#timeout           : 10
+#auth-type         : pap
+#key configured    : Yes
+#--------------------------------------------------------------------------------------
+#HOST                 AUTH-TYPE    KEY-CONFIG PORT       PRIORITY   TIMEOUT    VRF
+#--------------------------------------------------------------------------------------
+#1.2.3.4              mschap       Yes        49         1          5          default
