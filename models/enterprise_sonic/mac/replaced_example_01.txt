@@ -1,0 +1,43 @@
+# Using replaced
+#
+# Before state:
+# -------------
+#
+# sonic# show mac dampening
+# MAC Move Dampening Threshold : 30
+# MAC Move Dampening Interval  : 20
+# sonic# show running-configuration | grep mac
+# mac address-table 00:00:5e:00:53:af Vlan1 Ethernet20
+# mac address-table 00:33:33:33:33:33 Vlan2 Ethernet24
+# mac address-table 00:00:4e:00:24:af Vlan3 Ethernet28
+# mac address-table aging-time 50
+
+  - name: Replace MAC configurations
+    dellemc.enterprise_sonic.sonic_mac:
+    config:
+      - vrf_name: 'default'
+        mac:
+          aging_time: 45
+          dampening_interval: 30
+          dampening_threshold: 60
+          mac_table_entries:
+            - mac_address: '00:00:5e:00:53:af'
+              vlan_id: 3
+              interface: 'Ethernet24'
+            - mac_address: '00:44:44:44:44:44'
+              vlan_id: 2
+              interface: 'Ethernet20'
+    state: replaced
+
+# After state:
+# ------------
+#
+# sonic# show mac dampening
+# MAC Move Dampening Threshold : 60
+# MAC Move Dampening Interval  : 30
+# sonic# show running-configuration | grep mac
+# mac address-table 00:00:5e:00:53:af Vlan3 Ethernet24
+# mac address-table 00:33:33:33:33:33 Vlan2 Ethernet24
+# mac address-table 00:00:4e:00:24:af Vlan3 Ethernet28
+# mac address-table 00:44:44:44:44:44 Vlan2 Ethernet20
+# mac address-table aging-time 45
