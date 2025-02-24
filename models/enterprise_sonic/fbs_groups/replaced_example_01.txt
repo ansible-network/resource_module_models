@@ -1,0 +1,55 @@
+# Using "replaced" state
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration pbf next-hop-group
+# !
+# pbf next-hop-group hop1 type ip
+#   description abc
+#   entry 1 next-hop 1.1.1.1 vrf VrfReg1 non-recursive
+# !
+# pbf next-hop-group hop2 type ipv6
+#   description abc
+#   entry 5 next-hop 3::3 vrf default non-recursive
+# !
+# sonic# show running-configuration pbf replication-group
+# !
+# pbf replication-group rep1 type ipv6
+#   description xyz
+#   entry 2 next-hop 1::1 vrf VrfReg2 overlay single-copy
+# !
+
+- name: Replace FBS groups configuration
+  dellemc.enterprise_sonic.sonic_fbs_groups:
+    config:
+      next_hop_groups:
+        - group_name: hop2
+          group_description: xyz
+          group_type: ipv4
+          next_hops:
+            - entry_id: 1
+              ip_address: 1.1.1.1
+              network_instance: VrfReg1
+              next_hop_type: recursive
+    state: replaced
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration pbf next-hop-group
+# !
+# pbf next-hop-group hop1 type ip
+#   description abc
+#   entry 1 next-hop 1.1.1.1 vrf VrfReg1 non-recursive
+# !
+# pbf next-hop-group hop2 type ipv4
+#   description xyz
+#   entry 1 next-hop 1.1.1.1 vrf VrfReg1 recursive
+# !
+# sonic# show running-configuration pbf replication-group
+# !
+# pbf replication-group rep1 type ipv6
+#   description xyz
+#   entry 2 next-hop 1::1 vrf VrfReg2 overlay single-copy
+# !
