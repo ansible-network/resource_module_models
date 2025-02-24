@@ -11,6 +11,9 @@
 #  no shutdown
 #  lldp receive
 #  lldp tlv-set management-address ipv4 20.1.1.1
+#  lldp vlan-name-tlv allowed Vlan 10,15-20
+#  lldp vlan-name-tlv max-tlv-count 15
+ 
 # !
 # interface Ethernet1
 #  mtu 9100
@@ -19,6 +22,8 @@
 #  no shutdown
 #  lldp transmit
 #  lldp tlv-set management-address ipv4 21.1.1.1
+#  lldp vlan-name-tlv allowed Vlan 10,15-20
+#  lldp vlan-name-tlv max-tlv-count 15
 # !
 # sonic#
 
@@ -39,6 +44,8 @@
 #  no shutdown
 #  lldp receive
 #  lldp tlv-set management-address ipv4 20.1.1.1
+#  lldp vlan-name-tlv allowed Vlan 10,15-20
+#  lldp vlan-name-tlv max-tlv-count 15
 # !
 # interface Ethernet1
 #  mtu 9100
