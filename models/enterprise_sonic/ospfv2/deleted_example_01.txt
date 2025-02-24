@@ -1,0 +1,94 @@
+# Using deleted
+
+# Before state:
+# -------------
+#
+#sonic# show running-configuration ospf
+#router ospf vrf Vrf_1
+# max-metric router-lsa external-lsa all 2
+# passive-interface default
+# timers throttle spf 50 20 10
+# timers throttle lsa all 300
+# redistribute bgp metric 15 metric-type 2 route-map RMAP
+# no passive-interface Eth1/1 2.2.2.2
+# no passive-interface Eth1/2 2.2.2.2
+#!
+#router ospf
+# ospf router-id 20.20.20.20
+# distance 30
+# distance ospf external 20
+# write-multiplier 20
+# area 2.2.2.2
+# area 3.3.3.3
+# network 12.12.12.12/24 area 2.2.2.2
+# network 13.13.13.13/24 area 3.3.3.3
+# passive-interface Eth1/2 3.3.3.3
+# passive-interface Eth1/3
+#!
+#sonic#
+#sonic# show running-configuration vrf Vrf_1
+#!
+#ip vrf Vrf_1
+#sonic# show running-configuration ip prefix-list
+#!
+#ip prefix-list PRF_LIST seq 1 permit 1.1.1.1/24
+#ip prefix-list PRF_LIST2 seq 1 permit 1.1.1.1/24
+#sonic# show running-configuration route-map
+#!
+#route-map RMAP permit 1
+#sonic#
+
+  - name: Delete the OSPFv2 configurations
+    sonic_ospf:
+      config:
+        - vrf_name: 'default'
+          network:
+            - address_prefix: "13.13.13.13/24"
+              area_id: "3.3.3.3"
+          router_id: "20.20.20.20"
+          distance:
+            external: 20
+          default_passive: false
+          passive_interface:
+            interfaces:
+              - interface: 'Eth1/3'
+          redistribute:
+            - protocol: "bgp"
+              metric: 15
+              metric_type: 2
+              route_map: "RMAP"
+        - vrf_name: "Vrf_1"
+          timers:
+            throttle_spf:
+            delay_time: 50
+            initial_hold_time: 20
+            maximum_hold_time: 10
+          max_metric:
+            external_lsa_all:
+              enable: true
+              max_metric_value: 2
+          non_passive_interface:
+            interfaces:
+              - interface: "Eth1/2"
+                addresses:
+                  - address: "2.2.2.2"
+      state: deleted
+
+# After state:
+# ------------
+#
+#sonic# show running-configuration ospf
+#router ospf vrf Vrf_1
+# passive-interface default
+# timers throttle lsa all 300
+# no passive-interface Eth1/1 2.2.2.2
+# no passive-interface Eth1/2 2.2.2.2
+#!
+#router ospf
+# distance 30
+# write-multiplier 20
+# area 2.2.2.2
+# network 12.12.12.12/24 area 2.2.2.2
+# passive-interface Eth1/2 3.3.3.3
+#!
+#sonic#
