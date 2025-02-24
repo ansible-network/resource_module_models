@@ -2,10 +2,6 @@
 
 # Before state:
 # -------------
-# interface PortChannel 10
-# !
-# interface PortChannel 12
-# !
 # interface Eth1/10
 #  channel-group 10
 #  mtu 9100
@@ -17,6 +13,15 @@
 #  mtu 9100
 #  speed 100000
 #  no shutdown
+# !
+# interface PortChannel10
+#  no shutdown
+#  !
+#  evpn ethernet-segment auto-lacp
+#  df-preference 2222
+# !
+# interface PortChannel 12
+#
 
 - name: Deletes all LAGs and LAG attributes of all interfaces.
   sonic_lag_interfaces:
