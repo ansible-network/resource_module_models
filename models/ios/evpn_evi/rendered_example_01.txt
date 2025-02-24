@@ -1,0 +1,23 @@
+# Using Rendered
+
+- name: Rendered the provided configuration with the existing running configuration
+  cisco.ios.ios_evpn_evi:
+    config:
+      - evi: 101
+        replication_type: ingress
+        default_gateway:
+          advertise:
+            enable: True
+      - evi: 202
+        replication_type: ingress
+    state: rendered
+
+# Task Output:
+# ------------
+#
+# rendered:
+# - l2vpn evpn instance 101 vlan-based
+# - default-gateway advertise enable
+# - replication-type ingress
+# - l2vpn evpn instance 202 vlan-based
+# - replication-type ingress

@@ -1,0 +1,33 @@
+# Using parsed
+
+# File: parsed.cfg
+# ----------------
+#
+# l2vpn evpn instance 101 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+#  default-gateway advertise enable
+# !
+# l2vpn evpn instance 102 vlan-based
+#  encapsulation vxlan
+#  replication-type ingress
+# !
+
+- name: Parse the commands for provided configuration
+  cisco.ios.ios_evpn_evi:
+    running_config: "{{ lookup('file', 'parsed.cfg') }}"
+    state: parsed
+
+# Task Output:
+# ------------
+#
+# parsed:
+#   - evi: 101
+#     encapsulation: vxlan
+#     replication_type: ingress
+#     default_gateway:
+#       advertise:
+#         enable: true
+#   - evi: 102
+#     encapsulation: vxlan
+#     replication_type: ingress
