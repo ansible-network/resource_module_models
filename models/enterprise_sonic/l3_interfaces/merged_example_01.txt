@@ -27,9 +27,13 @@
 #                  secondary: True
 #            ipv6:
 #              enabled: true
+#              dad: ENABLE
+#              autoconf: True 
 #              addresses:
 #                - address: 83::1/16
 #                - address: 84::1/16
+#                - address: 85::/64
+#                  eui64: True             
 #          - name: Ethernet24
 #            ipv4:
 #              addresses:
@@ -55,7 +59,10 @@
 # ip address 84.1.1.1/16 secondary
 # ipv6 address 83::1/16
 # ipv6 address 84::1/16
+# ipv6 address 85::/64 eui-64
 # ipv6 enable
+# ipv6 address autoconfig
+# ipv6 nd dad enable
 #!
 #interface Ethernet24
 # mtu 9100
