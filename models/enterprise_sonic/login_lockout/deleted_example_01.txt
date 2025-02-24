@@ -1,0 +1,25 @@
+# Using deleted
+#
+# Before State:
+# -------------
+#
+# sonic# show running-configuration | grep lockout
+# !
+# login lockout period 12
+# login lockout max-retries 5
+# !
+
+  - name: Delete Login Lockout configurations
+    dellemc.enterprise_sonic.sonic_login_lockout:
+      config:
+        period: 12
+        max_retries : 5
+      state: deleted
+
+# After State:
+# ------------
+# sonic# show running-configuration | grep lockout
+# !
+# login lockout console-exempt
+# !
+# sonic#
