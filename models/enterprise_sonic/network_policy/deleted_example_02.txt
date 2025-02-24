@@ -1,0 +1,29 @@
+# Using "deleted" state
+#
+# Before state:
+# -------------
+#
+# sonic# show running-configuration
+# !
+# network-policy profile 1
+#  voice vlan 2 cos 1 dscp 1
+#  voice-signaling vlan 3 untagged dscp 50
+# !
+# network-policy profile 2
+#  voice vlan 100 cos 7 dscp 12
+#  voice-signaling vlan 400 cos 7 dscp 45
+# !
+# network-policy profile 3
+#  voice-signaling vlan 80 cos 6 dscp 32
+# !
+
+- name: Delete all network policy configuration
+  dellemc.enterprise_sonic.sonic_network_policy:
+    config:
+    state: deleted
+
+# After state:
+# ------------
+#
+# sonic# show running-configuration
+# (No network policy configuration present)
