@@ -1,0 +1,39 @@
+# Using overridden
+#
+# Before state:
+# -------------
+#
+show ip vrf
+VRF-NAME            INTERFACES
+----------------------------------------------------------------
+Vrfcheck1
+Vrfcheck2
+Vrfcheck3           Ethernet60
+                    Ethernet64
+
+- name: Overridden VRF configuration
+  sonic_vrfs:
+    config:
+      - name: Vrfcheck1
+        members:
+          interfaces:
+            - name: Ethernet24
+            - name: Ethernet28
+      - name: Vrfcheck3
+        members:
+          interfaces:
+            - name: Ethernet12
+            - name: Ethernet52
+    state: overridden
+
+# After state:
+# ------------
+#
+show ip vrf
+VRF-NAME            INTERFACES
+----------------------------------------------------------------
+Vrfcheck1           Ethernet24
+                    Ethernet28
+Vrfcheck2
+Vrfcheck3           Ethernet12
+                    Ethernet52
