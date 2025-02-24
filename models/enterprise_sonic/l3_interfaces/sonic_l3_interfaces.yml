@@ -9,7 +9,7 @@ ANSIBLE_METADATA: |
     }
 NETWORK_OS: sonic
 RESOURCE: l3_interfaces
-COPYRIGHT: Copyright 2020 Dell Inc. or its subsidiaries. All Rights Reserved
+COPYRIGHT: Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved
 DOCUMENTATION: |
     module: sonic_l3_interfaces
     version_added: "2.10"
@@ -18,8 +18,6 @@ DOCUMENTATION: |
       - This module provides configuration management of IPv4 and IPv6 parameters
         on Ethernet interfaces of devices running SONiC
     author: "Kumaraguru Narayanan (@nkumaraguru)"
-    notes:
-      - Tested against Enterprise SONiC, release 3.0.2
     options:
       config:
         description:
@@ -80,8 +78,13 @@ DOCUMENTATION: |
         choices:
           - merged
           - deleted
+          - replaced
+          - overridden
         default: merged
 EXAMPLES:
   - deleted_example_01.txt
   - deleted_example_02.txt
   - merged_example_01.txt
+  - replaced_example_01.txt
+  - replaced_example_02.txt
+  - overridden_example_01.txt

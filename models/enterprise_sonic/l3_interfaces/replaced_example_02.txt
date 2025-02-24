@@ -1,36 +1,55 @@
 # Using replaced
-
+#
 # Before state:
 # -------------
 #
-#rno-dctor-1ar01c01sw02# show runningconfiguration all
-#{
-#  ...
-#  "INTERFACE": {
-#     ...
-#     "Ethernet112|5.1.1.1/16": {},
-#     "Ethernet112|6.1.1.1/16": {},
-#     "Ethernet112|3333::1/64": {},
-#     "Ethernet112|4444::1/64": {},
-#     ...
-#   },
-#  ...
-#}
-
-- name: Replace with empty l3 interfaces on a ethernet
-  sonic_l3_interfaces:
-    config:
-      - name: Ethernet112
-    state: replaced
+#rno-dctor-1ar01c01sw02# show running-configuration interface
+#!
+#interface Ethernet20
+# mtu 9100
+# speed 100000
+# shutdown
+# ip address 83.1.1.1/16
+# ip address 84.1.1.1/16 secondary
+# ipv6 address 83::1/16
+# ipv6 address 84::1/16
+# ipv6 enable
+#!
+#interface Ethernet24
+# mtu 9100
+# speed 100000
+# shutdown
+# ip address 91.1.1.1/16
+# ipv6 address 90::1/16
+# ipv6 address 91::1/16
+# ipv6 address 92::1/16
+# ipv6 address 93::1/16
+#!
+#
+#
+     - name: Replace l3 interface
+       sonic_l3_interfaces:
+         config:
+           - name: Ethernet20
+         state: replaced
 
 # After state:
 # ------------
 #
-#rno-dctor-1ar01c01sw02# show runningconfiguration all
-#{
-#  ...
-#  "INTERFACE": {
-#     ...
-#   },
-#  ...
-#}
+#rno-dctor-1ar01c01sw02# show running-configuration interface
+#!
+#interface Ethernet20
+# mtu 9100
+# speed 100000
+# shutdown
+#!
+#interface Ethernet24
+# mtu 9100
+# speed 100000
+# shutdown
+# ip address 91.1.1.1/16
+# ipv6 address 90::1/16
+# ipv6 address 91::1/16
+# ipv6 address 92::1/16
+# ipv6 address 93::1/16
+#!
