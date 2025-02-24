@@ -1,0 +1,140 @@
+---
+GENERATOR_VERSION: '1.0'
+NETWORK_OS: sonic
+RESOURCE: qos_interfaces
+COPYRIGHT: Copyright 2024 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+    module: sonic_qos_interfaces
+    version_added: 2.5.0
+    notes:
+    - Tested against Enterprise SONiC Distribution by Dell Technologies.
+    - Supports C(check_mode).
+    short_description: Manage QoS interfaces configuration on SONiC
+    description:
+      - This module provides configuration management of QoS interfaces for devices running SONiC
+    author: "Shade Talabi (@stalabi1)"
+    options:
+      config:
+        description:
+          - QoS interfaces configuration
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            description:
+              - Name of the interface
+            type: str
+            required: True
+          queues:
+            description:
+              - Queue configuration
+            type: list
+            elements: dict
+            suboptions:
+              id:
+                description:
+                  - Queue identification
+                  - Range 0-7 for interface queues, range 0-47 for CPU queues
+                type: int
+                required: True
+              wred_profile:
+                description:
+                  - Name of the WRED profile
+                type: str
+          scheduler_policy:
+            description:
+              - Name of scheduler policy to be applied to traffic on the interface
+            type: str
+          qos_maps:
+            description:
+              - QoS maps interface configuration
+            type: dict
+            suboptions:
+              dscp_fwd_group:
+                description:
+                  - DSCP to forwarding group map associated with the interface
+                type: str
+              dot1p_fwd_group:
+                description:
+                  - DOT1P to forwarding group map associated with the interface
+                type: str
+              fwd_group_dscp:
+                description:
+                  - Forwarding group to DSCP map associated with the interface
+                type: str
+              fwd_group_dot1p:
+                description:
+                  - Forwarding group to DOT1P map associated with the interface
+                type: str
+              fwd_group_queue:
+                description:
+                  - Forwarding group to queue map associated with the interface
+                type: str
+              fwd_group_pg:
+                description:
+                  - Forwading group to priority group map associated with the interface
+                type: str
+              pfc_priority_queue:
+                description:
+                  - PFC priority to queue map associated with the interface
+                type: str
+              pfc_priority_pg:
+                description:
+                  - PFC priority to priority group map associated with the interface
+                type: str
+          pfc:
+            description:
+              - PFC configuration
+            type: dict
+            suboptions:
+              asymmetric:
+                description:
+                  - Enable or disable asymmetric PFC on the interface
+                type: bool
+                default: False
+              priorities:
+                description:
+                  - PFC priorities configuration
+                type: list
+                elements: dict
+                suboptions:
+                  dot1p:
+                    description:
+                      - DOT1P value, range 0-7
+                      - Maxium of 2 priorities supported
+                    type: int
+                    required: True
+                  enable:
+                    description:
+                      - Enable or disable the priority
+                    type: bool
+                    default: False
+              watchdog_action:
+                description:
+                  - PFC watchdog storm action
+                type: str
+                choices:
+                  - drop
+                  - forward
+                  - alert
+                default: drop
+              watchdog_detect_time:
+                description:
+                  - PFC watchdog detection time in milliseconds, range 100-5000
+                type: int
+              watchdog_restore_time:
+                description:
+                  - PFC watchdog restoration time milliseconds, range 100-60000
+                type: int
+      state:
+        description:
+          - The state of the configuration after module completion
+          - Replaced and overridden states are not supported for this module due to configuration constraints
+        type: str
+        choices:
+          - merged
+          - deleted
+        default: merged
+EXAMPLES:
+  - deleted_example_01.txt
+  - merged_example_01.txt
