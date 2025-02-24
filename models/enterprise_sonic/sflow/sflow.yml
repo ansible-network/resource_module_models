@@ -1,0 +1,81 @@
+NETWORK_OS: sonic
+RESOURCE: sflow
+ANSIBLE_METADATA: |
+    {
+        'metadata_version': '1.1',
+        'status': ['preview'],
+        'supported_by': 'community'
+    }
+COPYRIGHT: Copyright 2023 Dell Inc. or its subsidiaries. All Rights Reserved
+DOCUMENTATION: |
+  module: sonic_sflow
+  description: This module provides configuration for sflow sampling on devices running SONiC
+  version_added: "2.3.0"
+  short_description: configure sflow settings on SONiC
+  author: "Xiao Han (@Xiao_Han2)"
+  options:
+    config:
+      description:
+        - Defines configuration and operational state data related to data plane traffic sampling based on sflow.
+      type: dict
+      suboptions:
+        enabled:
+          type: bool
+          description: Enables or disables sflow sampling for the device.
+        polling_interval:
+          type: int
+          description:
+            - sflow polling interval.
+            - must be 0 or in range 5-300
+        agent:
+          type: str
+          description: The Agent interface
+        sampling_rate:
+          type: int
+          description:
+            - Sets global packet sampling rate.
+            - Intended rate is 1 over this setting's value packets.
+        collectors:
+          description: Configuration data for sflow collectors.
+          type: list
+          elements: dict
+          suboptions:
+            address:
+              type: str
+              description: IP address of the sflow collector.
+              required: true
+            port:
+              type: int
+              description: UDP port number for the sflow collector.
+              default: 6343
+            network_instance:
+              type: str
+              description: Reference to the network instance used to reach the sflow collector
+              default: "default"
+        interfaces:
+          description: Configuration data for sflow data on interfaces.
+          type: list
+          elements: dict
+          suboptions:
+            name:
+              required: true
+              type: str
+              description: Reference to the interface
+            enabled:
+              type: bool
+              description: If sflow is globally enabled, enables or disables sflow on the interface
+            sampling_rate:
+              type: int
+              description: Override the global sampling rate for this interface
+    state:
+      description:
+      - The state the configuration should be left in
+      type: str
+      choices:
+      - merged
+      - replaced
+      - overridden
+      - deleted
+      default: merged
+
+EXAMPLES: [deleted_examples.txt, merged_examples.txt, overridden_examples.txt, replaced_examples.txt]
