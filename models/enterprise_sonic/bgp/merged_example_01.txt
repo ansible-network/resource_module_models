@@ -40,6 +40,10 @@
 #            med:
 #              confed: True
 #              missing_as_worst: True
+#        - bgp_as: 655362
+#          log_neighbor_changes: True
+#          vrf_name: 'VrfCheck3'
+#          as_notation: "asdot+"
 #      state: merged
 #
 # After state:
@@ -55,6 +59,10 @@
 # bestpath as-path ignore
 # bestpath med missing-as-worst confed
 # bestpath compare-routerid
+#!
+#router bgp 10.2 vrf VrfCheck3
+# log-neighbor-changes
+# as-notation asdot+
 #!
 #router bgp 4
 # router-id 10.2.2.4
